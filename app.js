@@ -341,7 +341,7 @@ async function writeClipboard(text) {
 }
 
 window.copyAiHandoffLink = async () => {
-  const link = `${window.location.origin}/ai-handoff`;
+  const link = `${window.location.origin}${window.location.pathname}#/ai-handoff`;
   const input = document.querySelector("#aiHandoffLink");
   const status = document.querySelector("#aiHandoffStatus");
   if (input) input.value = link;
@@ -498,7 +498,21 @@ function openRequestedView() {
   let view = "";
   
   if (hash) {
-    if (hash === "#/" || hash === "#/mission-control") {
+    const hashRouteMap = {
+      "#/agents": "agents",
+      "#/agent-engine": "agents",
+      "#/jarvis-lab": "jarvisLab",
+      "#/life-os": "lifeOS",
+      "#/agent-builder-factory": "agentBuilderFactory",
+      "#/project-update": "projectUpdate",
+      "#/settings": "settings",
+      "#/rk-tracker": "rkTracker",
+      "#/berkshire-1965": "berkshire",
+      "#/life-habitat": "lifeHabitat"
+    };
+    if (hashRouteMap[hash]) {
+      view = hashRouteMap[hash];
+    } else if (hash === "#/" || hash === "#/mission-control") {
       view = "command";
     } else if (hash === "#/agent-engine") {
       view = "agents";
@@ -2037,9 +2051,9 @@ function renderSignalsIntelligence() {
   const signalSources = intelligenceSources.filter((source) => source.placement.includes("signals")).slice(0, 10);
   const candidates = rkWatchlist.filter((item) => ["Candidate", "Promoted", "Watch"].includes(item.signalStatus)).slice(0, 6);
   const legacyBridge = window.location.pathname === "/market-command"
-    ? `<section class="legacy-bridge"><h2>Market Command is now consolidated into Signals.</h2><a href="/signals">Open Signals</a></section>`
+    ? `<section class="legacy-bridge"><h2>Market Command is now consolidated into Signals.</h2><a href="#/signals">Open Signals</a></section>`
     : window.location.pathname === "/signal-engine"
-      ? `<section class="legacy-bridge"><h2>Signal Engine is now consolidated into Signals.</h2><a href="/signals">Open Signals</a></section>`
+      ? `<section class="legacy-bridge"><h2>Signal Engine is now consolidated into Signals.</h2><a href="#/signals">Open Signals</a></section>`
       : "";
   els.signalsIntelligence.innerHTML = `
     ${legacyBridge}
@@ -2069,11 +2083,11 @@ function renderSignalsIntelligence() {
     </section>
     <section class="intelligence-split">
       <div class="panel">
-        <div class="panel-head"><div><p class="eyebrow">RK Tracker Watchlist Candidates</p><h2>Signal Leaderboard</h2></div><a class="text-link" href="/rk-tracker">Open tracker</a></div>
+        <div class="panel-head"><div><p class="eyebrow">RK Tracker Watchlist Candidates</p><h2>Signal Leaderboard</h2></div><a class="text-link" href="#/rk-tracker">Open tracker</a></div>
         <div class="tracker-table compact">${renderTrackerRows(candidates)}</div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><p class="eyebrow">Historical Pattern</p><h2>Berkshire 1965 Turnaround Signal</h2></div><a class="text-link" href="/berkshire-1965">Study</a></div>
+        <div class="panel-head"><div><p class="eyebrow">Historical Pattern</p><h2>Berkshire 1965 Turnaround Signal</h2></div><a class="text-link" href="#/berkshire-1965">Study</a></div>
         <div class="pattern-list">
           ${["Debt decreasing", "Working capital increasing", "Share count decreasing", "Inventory improving", "Operating income improving", "Dead assets being sold", "Cost reduction discussed", "Quality investment underway"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
         </div>
@@ -2267,7 +2281,7 @@ function renderAgentSourceMap(items) {
     ["CEO B", "reviews all agent outputs and decides what matters today."],
     ["Bookmark Cleaner", "imports Chrome bookmarks, removes duplicates, classifies sources, and builds review queues."],
   ];
-  return `<section class="vault-panel agent-source-map"><div class="panel-head"><div><p class="eyebrow">Agent Source Map</p><h2>Who Owns What</h2></div><a class="text-link" href="/agents">Open Agents</a></div>${agents.map(([name, role]) => {
+  return `<section class="vault-panel agent-source-map"><div class="panel-head"><div><p class="eyebrow">Agent Source Map</p><h2>Who Owns What</h2></div><a class="text-link" href="#/agents">Open Agents</a></div>${agents.map(([name, role]) => {
     const owned = items.filter((item) => item.connectedAgent === name);
     return `<article><h3>${escapeHtml(name)}</h3><p>${escapeHtml(role)}</p><span>${owned.length} sources</span><small>${escapeHtml(owned[0]?.nextAction || "No linked source yet.")}</small></article>`;
   }).join("")}</section>`;
@@ -2570,7 +2584,7 @@ function renderBerkshirePage() {
     <section class="wealth-board">
       ${["Diagnose", "Clean Up", "Improve Operations", "Allocate Capital", "Archive Lessons"].map((column, index) => `<article><span>0${index + 1}</span><h3>${column}</h3><p>${escapeHtml(berkshirePlaybook(column))}</p></article>`).join("")}
     </section>
-    <section class="quick-action-dock"><a href="${escapeHtml(berkshire1965.sourceUrl)}" target="_blank" rel="noopener noreferrer">Open Original Report</a><a href="/archive">Send Lessons to Archive</a><a href="/founder">Add to Founder Playbook</a><a href="/agents">Create Agent Tasks</a></section>
+    <section class="quick-action-dock"><a href="${escapeHtml(berkshire1965.sourceUrl)}" target="_blank" rel="noopener noreferrer">Open Original Report</a><a href="#/archive">Send Lessons to Archive</a><a href="#/founder">Add to Founder Playbook</a><a href="#/agents">Create Agent Tasks</a></section>
   `;
 }
 
@@ -3755,7 +3769,7 @@ function renderAlertsPage() {
 
 function renderLifeHabitatPage() {
   if (!els.lifeHabitatContent) return;
-  els.lifeHabitatContent.innerHTML = `<section class="command-hero"><div><p class="eyebrow">Legacy Route Bridge</p><h2>Life Habitat</h2><p>Life Habitat is preserved as a bridge. The current work routes personal memory, private bookmarks, founder identity, and archive lessons through Bookmarks and Archive.</p></div><div class="quick-action-dock"><a href="/bookmarks">Open Bookmarks</a><a href="/archive">Open Archive</a><a href="/founder">Open Founder</a></div></section>`;
+  els.lifeHabitatContent.innerHTML = `<section class="command-hero"><div><p class="eyebrow">Legacy Route Bridge</p><h2>Life Habitat</h2><p>Life Habitat is preserved as a bridge. The current work routes personal memory, private bookmarks, founder identity, and archive lessons through Bookmarks and Archive.</p></div><div class="quick-action-dock"><a href="#/bookmarks">Open Bookmarks</a><a href="#/archive">Open Archive</a><a href="#/founder">Open Founder</a></div></section>`;
 }
 
 function renderDataPortabilityPanel() {
@@ -3934,7 +3948,7 @@ function renderMissionBoardPanel() {
       <div class="mission-columns">${Object.entries(taskGroups).map(([group, items]) => `<article><h3>${escapeHtml(group)}</h3>${items.map((item) => `<p>${escapeHtml(item)}</p>`).join("")}</article>`).join("")}</div>
       <div class="panel-head"><div><p class="eyebrow">Roadmap</p><h2>Integration Status</h2></div><span class="pill">No fake live systems</span></div>
       <div class="integration-card-grid">${integrations.map(([name, status]) => `<article><span class="status-badge research">${escapeHtml(status)}</span><h3>${escapeHtml(name)}</h3><p>All advanced integrations require security review, backend/provider setup, and CEO B approval before activation.</p></article>`).join("")}</div>
-      <div class="game-action-row"><a href="/project-update">Open Project Update</a><button type="button" onclick="navigator.clipboard?.writeText(window.location.origin + '/project-update')">Copy Project Update Link</button><a href="/ai-handoff">Open AI Handoff</a><button type="button" onclick="window.copyHandoffText?.()">Copy AI Handoff Text</button></div>
+      <div class="game-action-row"><a href="#/project-update">Open Project Update</a><button type="button" onclick="navigator.clipboard?.writeText(window.location.origin + window.location.pathname + '#/project-update')">Copy Project Update Link</button><a href="#/ai-handoff">Open AI Handoff</a><button type="button" onclick="window.copyHandoffText?.()">Copy AI Handoff Text</button></div>
     </section>
   `;
 }
@@ -4057,7 +4071,7 @@ function renderJarvisCommandConsole() {
         <button type="button" class="primary" onclick="window.classifyJarvisCommand?.()">Classify Command</button>
         <button type="button" onclick="window.clearJarvisHistory?.()">Clear History</button>
         <button type="button" onclick="window.copyJarvisResult?.()">Copy Result</button>
-        <a id="jarvisRouteLink" href="/archive">Open Suggested Route</a>
+        <a id="jarvisRouteLink" href="#/archive">Open Suggested Route</a>
       </div>
       <div id="jarvisCommandOutput" class="jarvis-output"><p class="muted">No command classified yet. Try: "organize my bookmarks" or "show market risks".</p></div>
       <div id="jarvisHistory" class="jarvis-history"></div>
@@ -4110,7 +4124,7 @@ function renderLifeOSPage() {
       <div class="lifeos-flow">
         ${["Website = command center", "Archive = memory", "Agents = workers", "Jarvis Lab = command interface", "OpenClaw = gateway research", "jarvis-mlx = Mac offline brain research", "OpenJarvis = local-first architecture research", "Phone/iPad/Mac/Desktop = future device roles"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
       </div>
-      <div class="quick-action-dock"><a href="/jarvis-lab">Open Jarvis Lab</a><a href="/archive">Open Archive</a><a href="/agents">Open Agents</a><a href="/vision-map">Open Vision Map</a><a href="/staging">Open Staging</a></div>
+      <div class="quick-action-dock"><a href="#/jarvis-lab">Open Jarvis Lab</a><a href="#/archive">Open Archive</a><a href="#/agents">Open Agents</a><a href="#/vision-map">Open Vision Map</a><a href="#/staging">Open Staging</a></div>
     </section>
   `;
 }
@@ -4370,8 +4384,8 @@ function renderProjectUpdatePage() {
         <button type="button" onclick="window.copyHandoffText?.()">Copy AI Handoff</button>
         <button type="button" onclick="window.copyProjectSummary?.()">Copy Project Update Summary</button>
         <button type="button" onclick="navigator.clipboard?.writeText('https://github.com/Burberrry/pickaxe-capital-command-center')">Copy GitHub Repo Link</button>
-        <a href="/ai-handoff">Open AI Handoff</a>
-        <a href="/staging">Open Staging Mission Board</a>
+        <a href="#/ai-handoff">Open AI Handoff</a>
+        <a href="#/staging">Open Staging Mission Board</a>
       </div>
     </section>
     <section class="route-status-board panel">
@@ -4382,7 +4396,7 @@ function renderProjectUpdatePage() {
       <article class="panel"><div class="panel-head"><div><p class="eyebrow">Current Market Focus</p><h2>Urgent Watchlist Only</h2></div><span class="pill">No random tickers</span></div><div class="watchlist-chip-grid">${canonicalWatchlistSymbols().map((symbol) => `<span>${escapeHtml(symbol)}</span>`).join("")}</div><p class="muted">Manual/static watchlist. No fake live prices, no recommendations, no execution.</p></article>
       <article class="panel"><div class="panel-head"><div><p class="eyebrow">Manual workflow</p><h2>Quantum Brain Council</h2></div><span class="pill">Not connected</span></div>${renderQuantumBrainSummary()}</article>
       <article class="panel"><div class="panel-head"><div><p class="eyebrow">Future Adapter / Research</p><h2>Voice + Apple Ecosystem</h2></div><span class="pill">Manual now</span></div>${renderAppleVoiceSummary()}</article>
-      <article class="panel"><div class="panel-head"><div><p class="eyebrow">Prototype</p><h2>Agent Builder Factory</h2></div><span class="pill">LocalStorage</span></div><p>Customize voxel-style Pickaxe agents, assign roles/habitats/tasks/statuses, save locally, and send changes to CEO B Review.</p><a href="/agent-builder-factory">Open Agent Builder Factory</a></article>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">Prototype</p><h2>Agent Builder Factory</h2></div><span class="pill">LocalStorage</span></div><p>Customize voxel-style Pickaxe agents, assign roles/habitats/tasks/statuses, save locally, and send changes to CEO B Review.</p><a href="#/agent-builder-factory">Open Agent Builder Factory</a></article>
     </section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">Deployment readiness</p><h2>Public Review Path</h2></div><span class="pill">Setup</span></div><ol><li>Push project to private GitHub repo.</li><li>Deploy preview using Vercel, Netlify, GitHub Pages, or another static host.</li><li>Share deployed /project-update or /ai-handoff URL with ChatGPT.</li><li>Keep PROJECT_STATUS.md and NEXT_STEPS.md updated every session.</li></ol><p class="muted">Localhost links only open on B's Mac.</p></section>
   `;
@@ -4987,7 +5001,7 @@ function renderCompletionTracker(mode = "full") {
       <div class="completion-area-grid">
         ${areas.map((area) => renderTrackerArea(area, compact)).join("")}
       </div>
-      ${compact ? `<a class="completion-open-link" href="/staging">Edit full tracker on Staging</a>` : renderTrackerEditor(tracker)}
+      ${compact ? `<a class="completion-open-link" href="#/staging">Edit full tracker on Staging</a>` : renderTrackerEditor(tracker)}
     </section>
   `;
 }
@@ -5193,7 +5207,7 @@ function renderArchiveOverview(payload) {
             <p class="eyebrow">Priority folders</p>
             <h2>Preserved Tree Hotspots</h2>
           </div>
-          <a class="text-link" href="/app/archive/tree">Open tree</a>
+          <a class="text-link" href="#/archive/tree">Open tree</a>
         </div>
         <div class="archive-folder-list">
           ${(payload.topFolders || []).map((folder) => `
@@ -6039,8 +6053,8 @@ function renderAgentWorldOS() {
           <h2>Pickaxe Capital Command Center</h2>
           <p>One vision. Three layers. Pickaxe Capital is the public command brand, AI Habitat OS is the operating system, and CEO B is the command layer that reviews, ranks, and decides. Demo/local activity only until real telemetry is connected.</p>
           <div class="game-action-row">
-            <a href="/vision-map">Explore Hierarchy</a>
-            <a href="/staging">System Overview</a>
+            <a href="#/vision-map">Explore Hierarchy</a>
+            <a href="#/staging">System Overview</a>
             <button type="button" onclick="window.runAgentCycle?.()">Run Diagnostics</button>
           </div>
           <div class="signal-badges"><span>Strategy-game UI</span><span>Local Missions</span><span>CEO B Review Stack</span><span>No Fake Live Agents</span></div>
@@ -6064,8 +6078,8 @@ function renderAgentWorldOS() {
       <section class="world-control-strip">
         ${["all", "active", "completed", "pending-ceo", "demo-live-gap"].map((filter) => `<button type="button" class="${state.worldFilter === filter ? "active" : ""}" onclick="window.setWorldFilter?.('${filter}')">${escapeHtml(worldFilterLabel(filter))}</button>`).join("")}
         <button type="button" onclick="window.toggleWorldLegend?.()">${state.showWorldLegend ? "Hide" : "Show"} Map Legend</button>
-        <a href="/vision-map">Open Vision Map</a>
-        <a href="/archive">Open Archive</a>
+        <a href="#/vision-map">Open Vision Map</a>
+        <a href="#/archive">Open Archive</a>
       </section>
 
       <section class="world-layout">
@@ -6147,7 +6161,7 @@ function renderWorldHierarchyCard(title, subtitle, copy, unitClass) {
         <h3>${escapeHtml(title)}</h3>
         <p>${escapeHtml(copy)}</p>
       </div>
-      <a href="/vision-map">Explore</a>
+      <a href="#/vision-map">Explore</a>
     </article>
   `;
 }
