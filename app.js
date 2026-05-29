@@ -867,18 +867,18 @@ function renderRiskRulesPage() {
         All option alerts are filtered through the following rules before entering CEO B Review. Any violations will automatically flag or reject the setup.
       </p>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        \${rules.map(rule => `
+        ${rules.map(rule => `
           <div class="p-4 bg-[#121417] border border-[#1f242d] hover:border-blue/50 transition-colors flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-3">
-                <span class="text-[11px] font-bold text-white uppercase">\${escapeHtml(rule.name)}</span>
-                <span class="px-1.5 py-0.5 text-[9px] font-bold \${rule.type === 'Automatic Reject' ? 'bg-red/20 text-red border border-red/40' : 'bg-amber/20 text-amber border border-amber/40'} uppercase tracking-wider">\${escapeHtml(rule.type)}</span>
+                <span class="text-[11px] font-bold text-white uppercase">${escapeHtml(rule.name)}</span>
+                <span class="px-1.5 py-0.5 text-[9px] font-bold ${rule.type === 'Automatic Reject' ? 'bg-red/20 text-red border border-red/40' : 'bg-amber/20 text-amber border border-amber/40'} uppercase tracking-wider">${escapeHtml(rule.type)}</span>
               </div>
-              <p class="text-[11px] text-[#909399] leading-relaxed mb-4 font-sans">\${escapeHtml(rule.description)}</p>
+              <p class="text-[11px] text-[#909399] leading-relaxed mb-4 font-sans">${escapeHtml(rule.description)}</p>
             </div>
             <div class="pt-3 border-t border-[#1f242d] flex items-center justify-between text-[10px]">
               <span class="text-[#606266]">System Gate:</span>
-              <span class="text-green uppercase font-bold">\${escapeHtml(rule.status)}</span>
+              <span class="text-green uppercase font-bold">${escapeHtml(rule.status)}</span>
             </div>
           </div>
         `).join("")}
@@ -903,10 +903,10 @@ function renderCompliancePage() {
         To remain compliant with financial regulations, the Pickaxe Capital / AI Habitat OS operates as a private educational sandbox. Review the permanent disclosures below:
       </p>
       <div class="space-y-4 max-w-4xl">
-        \${disclosures.map(disc => `
+        ${disclosures.map(disc => `
           <div class="p-4 bg-[#121417] border-l-2 border-amber bg-gradient-to-r from-amber/5 to-transparent">
-            <h4 class="text-xs font-bold text-white uppercase mb-2 tracking-wider">\${escapeHtml(disc.title)}</h4>
-            <p class="text-xs text-[#909399] leading-relaxed font-sans">\${escapeHtml(disc.text)}</p>
+            <h4 class="text-xs font-bold text-white uppercase mb-2 tracking-wider">${escapeHtml(disc.title)}</h4>
+            <p class="text-xs text-[#909399] leading-relaxed font-sans">${escapeHtml(disc.text)}</p>
           </div>
         `).join("")}
       </div>
@@ -928,19 +928,19 @@ async function renderAiHandoffPage() {
     }
   } catch (err) {
     const session = sharedHabitatData.buildCompletionTracker?.latestSession || {};
-    const rulesStr = (sharedHabitatData.riskRules || []).map(r => `- \${r.name}: \${r.description}`).join("\n");
+    const rulesStr = (sharedHabitatData.riskRules || []).map(r => `- ${r.name}: ${r.description}`).join("\n");
     handoffText = [
       "# Pickaxe Capital / AI Habitat OS - Deployed AI Handoff (Static Fallback)",
-      `Generated at: \${new Date().toISOString()}`,
+      `Generated at: ${new Date().toISOString()}`,
       "Target Environment: GitHub Pages Static Site",
       `Active Routes: /#/mission-control, /#/agent-engine, /#/signals, /#/alerts, /#/risk-rules, /#/data-sources, /#/compliance, /#/archive, /#/bookmarks, /#/staging`,
       "",
       "## Current Session Status",
-      `Files Changed: \${JSON.stringify(session.filesChanged || [])}`,
+      `Files Changed: ${JSON.stringify(session.filesChanged || [])}`,
       "Features Added:",
-      (session.featuresAdded || []).map(f => `- \${f}`).join("\n"),
+      (session.featuresAdded || []).map(f => `- ${f}`).join("\n"),
       "Bugs Fixed:",
-      (session.bugsFixed || []).map(b => `- \${b}`).join("\n"),
+      (session.bugsFixed || []).map(b => `- ${b}`).join("\n"),
       "",
       "## Compliance Disclosures",
       "- Research-only static prototype. Not financial advice.",
@@ -969,7 +969,7 @@ async function renderAiHandoffPage() {
         Copy this raw markdown output to feed into ChatGPT, Claude, Gemini, or Grok to instantly brief them on the workspace state.
       </p>
       <div class="relative">
-        <textarea id="handoffRawTextarea" readonly class="w-full h-[400px] p-4 bg-[#121417] border border-[#1f242d] text-[#c0c4cc] rounded font-mono text-xs focus:outline-none focus:border-blue/50">\${escapeHtml(handoffText)}</textarea>
+        <textarea id="handoffRawTextarea" readonly class="w-full h-[400px] p-4 bg-[#121417] border border-[#1f242d] text-[#c0c4cc] rounded font-mono text-xs focus:outline-none focus:border-blue/50">${escapeHtml(handoffText)}</textarea>
       </div>
     </div>
   `;
