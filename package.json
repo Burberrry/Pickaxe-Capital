@@ -1,0 +1,11 @@
+{
+  "name": "pickaxe-capital-market-habitat",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "build": "node --check server.mjs && node --check public/app.js && node --check public/habitat-data.js && node scripts/check-project.mjs",
+    "check:project": "node scripts/check-project.mjs"
+  }
+}
