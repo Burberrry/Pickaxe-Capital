@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pickaxe Capital AI Habitat OS</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #020305, #080d16 60%, #030406);
+    }
+    .os-container {
+      display: grid;
+      grid-template-columns: 294px 1fr;
+      min-height: 100vh;
+    }
+    .os-main {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow-y: auto;
+    }
+    .agent-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 12px;
+      margin-bottom: 8px;
+    }
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+    .mini-agent-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(11, 17, 24, 0.8);
+      font-size: 11px;
+      line-height: 1.4;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .mini-agent-card:hover {
+      border-color: var(--blue);
+      transform: translateY(-2px);
+    }
+    .mini-agent-card h4 {
+      margin: 0 0 4px;
+      font-size: 13px;
+      color: #fff;
+    }
+    .mini-agent-card span {
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 9px;
+    }
+    .map-split {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 16px;
+      height: 480px;
+    }
+    .map-panel {
+      position: relative;
+      background: #05080c;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .legend-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .node-label {
+      position: absolute;
+      background: rgba(15, 23, 36, 0.95);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 10px;
+      font-family: monospace;
+      color: #dfe7f2;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      transform: translate(-50%, -50%);
+      transition: border-color 0.2s ease;
+    }
+    .node-label:hover {
+      border-color: var(--gold);
+      z-index: 100;
+    }
+    .node-label.active-node {
+      border-color: var(--green);
+      box-shadow: 0 0 10px var(--green-soft);
+    }
+    .mission-form {
+      display: grid;
+      gap: 10px;
+    }
+    .mission-form textarea {
+      width: 100%;
+      height: 80px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,0.3);
+      color: #fff;
+      font-family: inherit;
+      resize: none;
+    }
+    .mission-result {
+      max-height: 220px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 11px;
+      background: #020304;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+    }
+    .glow-line {
+      stroke-dasharray: 8;
+      animation: dash 30s linear infinite;
+    }
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -1000;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="os-container">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">⛏</div>
+        <div>
+          <strong>Pickaxe Capital</strong>
+          <span>AI Habitat OS</span>
+        </div>
+      </div>
+      <nav>
+        <a href="/"><span>Command HQ</span><small>Main app</small></a>
+        <a href="/agent-os.html" class="active"><span>AI Habitat OS</span><small>Agent OS</small></a>
+      </nav>
+      <div class="side-card command-lock">
+        <div class="mini-row"><span class="badge gold">CEO B</span><span class="live-dot">Manual</span></div>
+        <p>The Shah decision layer regulates all promotions. Real-time simulated mission planners running locally.</p>
+      </div>
+    </aside>
+
+    <main class="os-main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">COMMAND DECK • AGENTS MATRIX ACTIVE</p>
+          <h1>AI Habitat OS Dashboard</h1>
+        </div>
+        <div class="top-actions" id="systemMetrics">
+          <!-- Populated dynamically -->
+        </div>
+      </header>
+
+      <section class="ticker-strip">
+        <span>MANUAL ROUTING VERIFIED</span>
+        <span>NO AUTOMATIC TRADING</span>
+        <span>GITHUB WRITE SECURED</span>
+        <span>MEMBER OF THE SHAH COUNCIL</span>
+      </section>
+
+      <!-- Agent Cards Row -->
+      <section class="agent-grid" id="agentsContainer">
+        <!-- Populated dynamically -->
+      </section>
+
+      <!-- Center Route Map and Legend -->
+      <div class="map-split">
+        <!-- Route Map Node Panel -->
+        <section class="map-panel" id="mapPanel">
+          <svg style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" id="svgLines">
+            <!-- Connection lines drawn dynamically -->
+          </svg>
+          <div id="nodesContainer" style="position: absolute; inset: 0;">
+            <!-- Nodes drawn dynamically -->
+          </div>
+        </section>
+
+        <!-- Right Side Control and Legend -->
+        <div class="legend-panel">
+          <section class="panel" style="flex: 1;">
+            <div class="panel-title">
+              <div>
+                <p class="eyebrow">Simulate route planning</p>
+                <h3>Mission Dispatch</h3>
+              </div>
+              <span class="badge gold">CEO B REVIEW</span>
+            </div>
+            <div class="mission-form">
+              <textarea id="missionGoal" placeholder="Type a mission goal, e.g.: 'Deploy the new risk Sentinel alerts' or 'Audit options liquidity parameters'"></textarea>
+              <button class="primary" id="runMissionBtn">Run Agent Mission</button>
+            </div>
+            <div style="margin-top: 12px;">
+              <h4 style="font-size: 11px; margin-bottom: 6px; text-transform: uppercase; color: var(--muted);">Latest Mission Outcome:</h4>
+              <div class="mission-result" id="missionResult">
+                <span class="muted">Awaiting goal dispatch. No active mission running.</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-title">
+              <div>
+                <p class="eyebrow">Active networks</p>
+                <h3>Route Legend</h3>
+              </div>
+            </div>
+            <div class="agent-table" id="legendContainer">
+              <!-- Populated dynamically -->
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- Bottom History Logs -->
+      <section class="grid two">
+        <div class="panel">
+          <div class="panel-title">
+            <div>
+              <p class="eyebrow">Stored alerts history</p>
+              <h3>Intelligence Memory log</h3>
+            </div>
+          </div>
+          <div class="stack" id="memoryContainer" style="max-height: 240px; overflow-y: auto;">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">
+            <div>
+              <p class="eyebrow">Recent activity feed</p>
+              <h3>Ecosystem Operations</h3>
+            </div>
+          </div>
+          <div class="stack" id="activityContainer" style="max-height: 240px; overflow-y: auto;">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./agent-os.js"></script>
+</body>
+</html>

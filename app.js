@@ -481,6 +481,7 @@ function setView(view) {
     riskRules: "Risk Rules",
     compliance: "Compliance Disclosures",
     aiHandoff: "AI Handoff",
+    aiHabitatOS: "AI Habitat OS",
   };
   els.pageTitle.textContent = titles[view] || "Pickaxe Capital";
   if (view === "signals") loadSignals();
@@ -508,7 +509,8 @@ function openRequestedView() {
       "#/settings": "settings",
       "#/rk-tracker": "rkTracker",
       "#/berkshire-1965": "berkshire",
-      "#/life-habitat": "lifeHabitat"
+      "#/life-habitat": "lifeHabitat",
+      "#/ai-habitat-os": "aiHabitatOS"
     };
     if (hashRouteMap[hash]) {
       view = hashRouteMap[hash];
