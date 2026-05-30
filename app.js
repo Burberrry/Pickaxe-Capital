@@ -484,12 +484,13 @@ function setView(view) {
     const sameFounderMode = view !== "founder" || node.dataset.founderMode === state.founderMode;
     const route = node.dataset.route;
     const sameHash = route && route.includes("#") && window.location.hash === route.substring(route.indexOf("#"));
+    const agentAlias = route && (route.includes("#/agent-engine") || route.includes("#/agents")) && (window.location.hash === "#/agent-engine" || window.location.hash === "#/agents");
     const founderAlias = route === "/founder" && window.location.pathname === "/about-founder";
     const ceoAlias = route === "/ceo-b-profile" && window.location.pathname === "/app/ceo-b";
     const archiveAlias = route === "/archive" && window.location.pathname.startsWith("/app/archive");
     const signalsAlias = route === "/signals" && window.location.pathname === "/signal-engine";
     const marketAlias = route === "/signals" && window.location.pathname === "/market-command";
-    const routeMatches = !route || route === window.location.pathname || sameHash || founderAlias || ceoAlias || archiveAlias || signalsAlias || marketAlias || (route === "/" && window.location.pathname === "/");
+    const routeMatches = !route || route === window.location.pathname || sameHash || agentAlias || founderAlias || ceoAlias || archiveAlias || signalsAlias || marketAlias || (route === "/" && window.location.pathname === "/");
     node.classList.toggle("active", sameView && sameFounderMode && routeMatches);
   });
   const titles = {
@@ -536,7 +537,7 @@ function openRequestedView() {
   if (hash) {
     if (hash === "#/" || hash === "#/mission-control") {
       view = "command";
-    } else if (hash === "#/agent-engine") {
+    } else if (hash === "#/agent-engine" || hash === "#/agents") {
       view = "agents";
     } else if (hash === "#/signals") {
       view = "signals";
