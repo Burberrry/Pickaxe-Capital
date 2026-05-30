@@ -78,20 +78,29 @@ node scripts/update-readme.mjs
 - `/ceo-b-profile`
 - `/bookmarks`
 
-### Current Safe Checkpoint
+### Current State
 
-- Build passes.
-- Required routes return 200.
-- `/jarvis-lab` and `/life-os` are optional prototypes, not live systems.
-- Staging includes a Recovery / Stabilization truth panel.
+- `/agents` is fully integrated with the AI Habitat OS operating layer, review stacks, and active mission boards.
+- `/vision-map` is wired dynamically into the Review and Mission pipelines. Node and agent drawers support stateful actions that push task and review items. Selected agent markers support highlights.
+- `/bookmarks` supports manual intake and Chrome/X bookmark batch analy
 
 ### Next Priority
 
-1. Browser-only visual QA at normal zoom.
-2. Inspect `/vision-map`, `/agents`, `/archive`, `/jarvis-lab`, and `/life-os`.
-3. Reduce clutter and oversized sections.
-4. Keep advanced systems labeled prototype, research, or future adapter.
-5. Do not add new routes or live integrations until the visual foundation is approved.
+1. **Jarvis command console improvements**: Connect Jarvis command console to agent missions and archives more deeply.
+2. **Dedicated /device-hub**: Add a dedicated `/device-hub` layout only after `/life-os` is stable.
+
+### Non-Negotiable Build Rules
+
+- Never delete working pages without asking.
+- Do not rebuild from scratch unless explicitly asked.
+- Do not duplicate pages; merge duplicate ideas into the stronger page.
+- Reuse components before creating new ones.
+- No duplicate data/component/page concepts.
+- Mock data must be labeled.
+- No fake live integrations.
+- No scraping or bypassing protected sites.
+- Use safe external-source fallbacks.
+- Keep design dark, premium, cyberpunk, readable, and Pickaxe Capital branded.
 
 <!-- PICKAXE-AUTO-UPDATE:END -->
 

@@ -29,12 +29,10 @@
 
 ## Files Changed This Session
 
-- `public/index.html`
 - `public/app.js`
-- `public/habitat-data.js`
+- `app.js`
 - `PROJECT_STATUS.md`
-- `/Users/b/.gemini/antigravity/brain/4c82907f-458f-4405-8892-4d9ed31e6aa6/walkthrough.md`
-- `/Users/b/.gemini/antigravity/brain/4c82907f-458f-4405-8892-4d9ed31e6aa6/perfection_roadmap.md`
+- `NEXT_STEPS.md`
 
 ## Build Command
 
@@ -77,13 +75,34 @@
 
 ## Current Session Upgrade
 
-- Verified Obsidian is working and contains the Pickaxe vault structure, Welcome note, Start Here note, operating prompt, templates, bookmarks inbox, archive, agents, and decisions notes.
-- Created a focused Antigravity handoff file so Antigravity can continue finishing the project without re-explaining the architecture.
-- Added an Obsidian note for the Antigravity project handoff.
-- Confirmed Antigravity is installed on this Mac.
-- Added `Codex transfer to antigravity.md` as the one-file transfer document in `/Users/b/Documents/April 18 2028`.
-- Added a plain-text transfer copy at `/Users/b/Documents/April 18 2028/Codex transfer to antigravity.txt` and `/Users/b/Desktop/Codex transfer to antigravity.txt`.
-- Turned Obsidian into an active operating desk for the goal: open the goal center, capture links/thoughts, process bookmarks, promote archive items, create decisions, and assign agent tasks.
+- Upgraded the **Jarvis Command Console** (`#/jarvis-lab`) with stateful local command router capabilities, classification, force re-classification, and placeholder templates.
+- Connected the Jarvis command console to active local pipelines: Agent Mission Queue (`pickaxeMissionQueue`/`pickaxeAgentOps`), CEO B Review Desk (`pickaxeReviewQueue`), Archive Vault (`pickaxeArchiveVault`), Alert Rules (`pickaxeAlertRules`), and Staging Tasks (`pickaxeCompletionTracker`).
+- Added owner agent assignment for dispatched agent tasks and automated mission status updates.
+- Added persistent command log history tracked in `localStorage.pickaxe_jarvis_command_history`.
+- Integrated a Staging checklist item for "Jarvis command routing" under the CEO B Review Workflow with an initial "In Progress" status.
+- Added explicit safety disclosures stating Jarvis is a local prototype command router that does not execute system/device actions, place trades, or call live APIs.
+- Fixed a bracket syntax error in `public/app.js` and synced all modified files from `public/` to the workspace root.
+- Upgraded the `#/app/alerts` route into a dedicated **Alert Rules Center** for reviewing, configuring, simulating, and dispatching research-only alert rules.
+- Expanded the local alert rules registry to seed 7 default rules representing all requested categories (*Market Gate*, *Options Flow Idea*, *Risk Warning*, *Source Watch*, *Build Task*, *Life/Admin Reminder*, *AI Research Packet*).
+- Added stateful local actions to the rules registry: Enable/Disable toggles, Duplicate rule, Delete rule, and Reset demo rules (saving dynamically to `localStorage.pickaxeAlertRules`).
+- Implemented a **Rule Configuration Editor** card to dynamically add new rules to the registry with customizable category, condition, source, risk level, confidence, owner agent, status label, and recommended next action.
+- Added a local-only **Simulate Check** action that updates individual rule execution status (cycling among simulated pass, needs review, or no trigger) with simulated timestamp logs.
+- Wired pipeline integrations for alert rules:
+  - **CEO B Review Stack**: Click "Send to CEO B Review" to dispatch alert packets to the main review desk queue (`pickaxeReviewQueue`).
+  - **Agent Mission Queue**: Click "Send to Agent Mission Queue" to dispatch task/mission cards directly to corresponding agent mission boards (`pickaxeMissionQueue` & `pickaxeAgentOps`).
+  - **Archive Vault**: Click "Archive rule" to save a rule summary to the Archive vault (`pickaxeArchiveVault`) before removing the rule from the active registry.
+- Rendered fallback section for approved manual review trade memos from option alerts state to maintain historical backward compatibility.
+- Implemented a custom cyberpunk toast notification helper (`showNotification`) at the top of the codebase to prevent ReferenceErrors and provide slick UI success flashes.
+
+- Designed and implemented a local-first **Data Portability / Backup JSON system** in the Backup & Restore cockpit on the Staging page (`#/staging`).
+- Created the **Export System Backup** action, compiling all 11 Pickaxe browser state keys (`localStorage`) into a structured JSON payload containing timestamp and source system metadata.
+- Configured backup files to download using a timestamped layout: `pickaxe-capital-backup-YYYY-MM-DD-HHMM.json`.
+- Implemented the **Import System Backup** file scanner, reading uploaded JSON files and generating a detailed **Restore Preview** UI panel.
+- The **Restore Preview** panel lists the backup creation time, source system, detected state keys, and specific item counts per key, prompting with a distinct verification warning before data is replaced.
+- Integrated the **Confirm Restore & Apply** and **Cancel Restore** actions, storing import activity timestamps in `localStorage.pickaxeBackupMetadata` and forcing a reload to refresh state.
+- Implemented **Backup Health cards** displaying real-time item counts for local alerts, review stack, mission queue, archive vault sources, bookmarks, and last activity logs.
+- Added explicit data safety copy: “This backup stays on this device unless you manually move the JSON file. No data is uploaded.”
+- Kept root files perfectly mirrored with the active `public/` folder runtime equivalents.
 
 - Removed stale quota/billing warnings after the user added credits.
 - Updated `/signals` AI status copy to say the AI research layer is ready when connected and rules-based review remains available if model output is unavailable.
@@ -205,6 +224,22 @@
 5. Update this file before stopping.
 
 ## Next Small Task
+
+- Prepare clean adapter interfaces for external API feeds (market data, option flows, geopolitics).
+
+## Latest Session - 2026-05-30 (Alert Rules Center Upgrade)
+
+- **Changed Files:** `public/app.js`, `app.js`, `PROJECT_STATUS.md`, `NEXT_STEPS.md`
+- **Features & Compatibility Added:**
+  - Upgraded the alerts page (`#/app/alerts` or `#/alerts`) into a fully functional, stateful **Alert Rules Center**.
+  - Seeded 7 rules representing all requested categories (*Market Gate*, *Options Flow Idea*, *Risk Warning*, *Source Watch*, *Build Task*, *Life/Admin Reminder*, *AI Research Packet*).
+  - Implemented local rule actions (Enable/Disable toggle, Send to CEO B Review stack, Send to Agent Mission board, Archive, Duplicate, Delete, and Reset seeds).
+  - Built an interactive **Rule Configuration Editor** card allowing manual rule registration.
+  - Coded a local **Simulate Check** button cycling simulated rule trigger statuses.
+  - Implemented a custom cyberpunk toast notification helper (`showNotification`) at the top of the codebase.
+- **Verification Performed:**
+  - Build validation (`node scripts/build.mjs`) and project structure check (`node scripts/check-project.mjs`) passed cleanly.
+  - Active routes (`/`, `/agents`, `/vision-map`, `/archive`, `/staging`, `/app/alerts`) loaded and verified in local server.
 
 ## Latest Session - 2026-05-30 (AI Habitat OS Verification)
 
@@ -437,3 +472,44 @@ Verify and test live Chrome HTML file upload in browser under `/bookmarks` view,
 - Wired promotion actions: Vault (Archive Vault), Signal (Signals Candidate), Review (CEO B Review Queue), and Ignore (remove from list).
 - Added CSS styles for catalog tabs and trust level badges to `public/styles.css`.
 - Successfully validated that both `node scripts/check-project.mjs` and `node scripts/build.mjs` compile and pass project checks without errors.
+
+## Real-World Adapter UI Integration - 2026-05-30
+
+- Prepared clean, frontend-safe vs backend-only integration interfaces without connecting any live/paid APIs.
+- Built a stateful `renderAdapterRegistrySection` component displaying:
+  - Adapter Name & Category.
+  - Current Status (Mock, Manual, Local, Adapter Ready, Connected, Error).
+  - Current Fallback/Behavior.
+  - Future connection env vars (names only, no secrets).
+  - Supported methods, execution scope (Client Safe vs. Server Only), safety notes, and CEO B next review action.
+- Mirrored the adapter registry list directly to `public/app.js` routing views.
+- **Source Hub Integration**: Integrated full registry list of 6 adapters below the Providers matrix.
+- **Signals Integration**: Filtered and displayed Market Data and Options Flow status cards below the Signals board.
+- **Agents Integration**: Associated owner agents with respective categories and rendered the full registry deck at the bottom of the dashboard layout.
+- **Staging Integration**: Rendered an Adapter Readiness Diagnostics summary counting totals, ready, connected, client-safe, and backend-only adapters along with AI Review & GitHub status cards.
+- **Safety Disclosures**: Appended strict compliance disclaimers verifying no broker connections, no auto-trading, and no fake connected states.
+
+## Adapter Integration Verification
+
+- `/Applications/Codex.app/Contents/Resources/node scripts/build.mjs` passed.
+- `/Applications/Codex.app/Contents/Resources/node scripts/check-project.mjs` passed.
+- `/Applications/Codex.app/Contents/Resources/node scripts/update-readme.mjs` passed.
+
+## Staging QA Command Center - 2026-05-30
+
+- Upgraded `#/staging` into a stronger build-completion and visual QA command center.
+- Added separate checklist categories for **Builder Habitat**, **Risk Habitat**, **Signal Habitat**, **Archive Habitat**, **Adapter Readiness**, **Data Backup / Portability**, and **CEO B Review Workflow** containing 14 default seeded audit checks.
+- Implemented stateful local storage tracking for checklist items, saving updates directly to `localStorage.pickaxeCompletionTracker`.
+- Coded a **Progress Summary Card** strip displaying totals, passed items, blocked modules, high-priority open counts, overall progress percentages, and dynamic next best action instructions.
+- Implemented an interactive **Habitat Verification Matrix** tracking visual/functional criteria: UI Tested, Local Actions, Data Persistence, Adapter Labels, Empty States, and Mobile/Overflow (saving updates to `localStorage.pickaxeCoverageMatrix`).
+- Integrated a **CEO B Handoff Panel** calculating overall readiness, identifying specific blockers, recommending the next high-priority target route to inspect, and showing a `DEMO-READY` vs. `NEEDS TESTING` badge.
+- Added a safe **Reset Demo QA Data** toggle that restores both checklist and coverage matrices back to default factory seeds cleanly.
+- Resolved Action Center checklist toggle logic and separated database stats rendering from the completion tracker reset flow.
+- Fully synchronized root `app.js` and `habitat-data.js` files with `public/` folder runtime versions.
+
+## Staging QA Command Center Verification
+
+- `/Applications/Codex.app/Contents/Resources/node scripts/build.mjs` passed.
+- `/Applications/Codex.app/Contents/Resources/node scripts/check-project.mjs` passed.
+- `/Applications/Codex.app/Contents/Resources/node scripts/update-readme.mjs` passed.
+

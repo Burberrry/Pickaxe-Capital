@@ -595,26 +595,41 @@ window.PickaxeHabitatData = {
     { id: "founder-decision-cleanup", title: "Founder Decision: Clean before scale", type: "Founder Decision", sourceHabitat: "Founder OS", sourceWebsite: "CEO B", relatedAgent: "CEO B / Wealth Alchemist", summary: "Apply Berkshire cleanup logic to websites, agents, archives, investments, and personal execution.", tags: ["founder", "cleanup", "scale"], confidence: 90, valueScore: 94, status: "CEO B Review", lesson: "Compounding starts when drag is removed.", nextAction: "Add to founder operating rules.", sourceRoute: "/founder", reviewDate: "local/mock" },
   ],
   buildCompletionTracker: {
-    lastUpdated: "2026-05-29",
+    lastUpdated: "2026-05-30",
     areas: [
-      { id: "homepage", name: "Homepage", status: "In Progress", completion: 78, priority: "High", notes: "Hero, live/demo state visual labels, and compact next-action panels are active." },
-      { id: "agents", name: "Agents Page", status: "In Progress", completion: 85, priority: "High", notes: "AI Habitat board, local task system, and review drawer are fully functional. Workable agents run task simulation." },
-      { id: "archive", name: "Archive", status: "In Progress", completion: 82, priority: "High", notes: "Vault metrics, search/filters, bookmark import analyzer, and local promotion pipelines are active." },
-      { id: "vision-map", name: "Vision Map", status: "In Progress", completion: 82, priority: "Medium", notes: "Drawer actions for nodes/agents are fully wired into review stacks and local checklists. Persistent selected agent highlights added." },
-      { id: "checklist", name: "Checklist System", status: "In Progress", completion: 75, priority: "High", notes: "Saves locally; Action Center correctly parses and displays approved CEO B missions." },
-      { id: "live-data", name: "Live Data Connectors", status: "Needs Setup", completion: 25, priority: "High", notes: "API keys/connectors need setup. Demo data is clearly labeled." },
-      { id: "design", name: "Design Polish", status: "In Progress", completion: 72, priority: "Medium", notes: "Premium Obsidian/Bloomberg aesthetic. Sidebar navigation and margins consolidated." },
-      { id: "validation", name: "Validation", status: "In Progress", completion: 80, priority: "High", notes: "Node build and project checker scripts pass. All core routes return 200." },
+      { id: "visual-map-integration", name: "Visual Map command-center integration", group: "Builder Habitat", status: "Passed", completion: 100, priority: "High", owner: "Builder Agent / System Brain", notes: "Visual nodes and route connections match requirements.", nextAction: "Monitor layout for overflow at standard resolutions." },
+      { id: "voxel-character-engine", name: "Voxel/Block character engine", group: "Builder Habitat", status: "Passed", completion: 100, priority: "Medium", owner: "Builder Agent", notes: "Lightweight CSS characters rendered cleanly on agents map.", nextAction: "None." },
+      
+      { id: "ceo-b-alerts-center", name: "CEO B Alert Rules Center", group: "Risk Habitat", status: "Passed", completion: 100, priority: "High", owner: "Risk Agent", notes: "Allows full rule definition, simulation check, duplication and archiving.", nextAction: "Deploy mock tests under custom rules." },
+      { id: "risk-rejection-gates", name: "Risk rejection gates enforcement", group: "Risk Habitat", status: "In Progress", completion: 80, priority: "High", owner: "Risk Agent", notes: "Automatic rejection filters for bad bid/ask spreads are wired.", nextAction: "Hook alerts to custom webhook checks later." },
+      
+      { id: "watchlist-candidates-scan", name: "Urgent watchlist candidates scan", group: "Signal Habitat", status: "Passed", completion: 100, priority: "High", owner: "Signal Scout", notes: "Scan leaderboard renders watchlist status correctly.", nextAction: "Review catalog thesis notes." },
+      { id: "signals-workbench-filters", name: "One-page Signals workbench filters", group: "Signal Habitat", status: "Passed", completion: 100, priority: "Medium", owner: "Signal Scout", notes: "Allows text searching and status filtering.", nextAction: "Audit search latency with large sets." },
+      
+      { id: "archive-vault-storage", name: "Archive Vault local storage", group: "Archive Habitat", status: "Passed", completion: 100, priority: "High", owner: "Archive Keeper", notes: "Mined links are persisted in localStorage.", nextAction: "Backup vault periodically." },
+      { id: "bookmarks-importer-parser", name: "Chrome HTML bookmarks import parser", group: "Archive Habitat", status: "Passed", completion: 100, priority: "High", owner: "Archive Keeper", notes: "Netscape parser reads folder trees in-browser with search filters.", nextAction: "Integrate remote API fetcher in Phase 3." },
+      
+      { id: "alpaca-polygon-adapter", name: "Alpaca/Polygon Market Data Adapter", group: "Adapter Readiness", status: "Ready", completion: 50, priority: "High", owner: "Signal Scout", notes: "Interface prepared. Needs Polygon/Alpaca credentials.", nextAction: "Configure dev environment secrets." },
+      { id: "tradier-whales-adapter", name: "Tradier/Unusual Whales Options Flow Adapter", group: "Adapter Readiness", status: "Blocked", completion: 30, priority: "High", owner: "Flow Hunter", notes: "Needs Unusual Whales developer contract approval.", nextAction: "Contact provider support." },
+      
+      { id: "system-export-json", name: "System Export to JSON", group: "Data Backup / Portability", status: "Passed", completion: 100, priority: "High", owner: "System Brain", notes: "Compiles all 11 state keys into a clean downloadable file.", nextAction: "Test cross-platform restore validation." },
+      { id: "restore-verification", name: "Restore verification and previews", group: "Data Backup / Portability", status: "Passed", completion: 100, priority: "High", owner: "System Brain", notes: "Shows file date, system name, and item count before overwrite.", nextAction: "Confirm reload integrity after restore." },
+      
+      { id: "ceo-b-review-stack", name: "CEO B Review Stack Actions", group: "CEO B Review Workflow", status: "Passed", completion: 100, priority: "High", owner: "CEO B", notes: "Supports approve, reject, archive, and send to agent.", nextAction: "Verify dynamic counts on Staging." },
+      { id: "manual-execution-disclaimers", name: "Manual execution disclaimers", group: "CEO B Review Workflow", status: "Passed", completion: 100, priority: "High", owner: "Compliance Guard", notes: "Clear disclaimer copy warning no auto-trading or broker connections.", nextAction: "Enforce compliance checklist rules." },
+      { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["public/app.js", "public/agent-os.html", "app.js", "agent-os.html", "PROJECT_STATUS.md", "public/habitat-data.js", "habitat-data.js"],
+      filesChanged: ["public/app.js", "app.js", "public/habitat-data.js", "habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
       featuresAdded: [
-        "Verified AI Habitat OS integration endpoints (/#/ai-habitat-os, /agent-os.html).",
-        "Added route alias #/agents to resolve to the Agents view in app.js.",
-        "Fixed absolute navigation links in agent-os.html to use relative paths and target='_top' to support GitHub Pages subfolder hosting and prevent iframe nesting."
+        "Upgraded the Jarvis Command Console on #/jarvis-lab with stateful local classification and dispatching.",
+        "Integrated Jarvis command router with CEO B Review Queue, Agent Mission Queue, Archive Vault, Alert Rule ideas, and Staging Tasks.",
+        "Added safe local command preview, force re-classify option, empty state indicators, and safety/prototype labels.",
+        "Configured target owner agent selection for dispatched agent missions (Signal Scout, Flow Hunter, etc.).",
+        "Logged all dispatches to pickaxe_jarvis_command_history and rendered a stateful log history dashboard."
       ],
       bugsFixed: [
-        "Fixed #/agents route support and fixed external layout breakouts within the embedded agent OS iframe."
+        "Resolved an unclosed bracket SyntaxError in renderAlertsPage that blocked the local app build."
       ],
       validationCommand: "/Applications/Codex.app/Contents/Resources/node scripts/build.mjs",
       validationResult: "Build validation and project checker pass cleanly.",
@@ -622,7 +637,7 @@ window.PickaxeHabitatData = {
         "Live data connectors require backend/API setup",
         "Real agent telemetry is not connected"
       ],
-      nextRecommendedTask: "Connect more widgets and chart views as outlined in perfection roadmap."
+      nextRecommendedTask: "Push the latest Pickaxe Capital / AI Habitat OS work to GitHub and verify the live GitHub Pages site."
     },
   },
   marketWatchlist: [
@@ -812,5 +827,91 @@ window.PickaxeHabitatData = {
     "NextIntelligence --brief",
     "SECURE LINK ESTABLISHED WITH CEO B..."
   ],
+  adapterRegistry: [
+    {
+      name: "Alpaca / Polygon Market Data Adapter",
+      category: "Market Data",
+      status: "Adapter Ready",
+      requiredCredentials: ["POLYGON_API_KEY", "ALPACA_API_KEY", "ALPACA_API_SECRET"],
+      supportedMethods: [
+        "getQuotes(symbols)",
+        "getHistoricalBars(symbol, resolution, limit)",
+        "getMarketStatus()"
+      ],
+      currentFallbackBehavior: "Loads static/mock values from canonical watchlist (default marketWatchlist in habitat-data.js).",
+      safetyNotes: "Read-only data feed. Credentials must be isolated on the backend server environment variables. This adapter does not place trades or access brokerage cash balances.",
+      frontendSafe: false
+    },
+    {
+      name: "Tradier / Unusual Whales Options Flow Adapter",
+      category: "Options Flow",
+      status: "Adapter Ready",
+      requiredCredentials: ["TRADIER_ACCESS_TOKEN", "UNUSUAL_WHALES_API_KEY"],
+      supportedMethods: [
+        "getOptionChains(symbol)",
+        "getUnusualSweeps(limit)",
+        "getOptionGreeks(symbol, contract)"
+      ],
+      currentFallbackBehavior: "Pulls manual review trade memos and default options packets from localStorage (pickaxeOptionAlerts).",
+      safetyNotes: "Options scanning data requires heavy client bandwidth. Credentials must live backend-side. No automated orders are allowed from sweeps.",
+      frontendSafe: false
+    },
+    {
+      name: "NetBlocks / News RSS / Flightradar Risk Adapter",
+      category: "News / Geopolitics / Risk Events",
+      status: "Adapter Ready",
+      requiredCredentials: ["NETBLOCKS_API_KEY", "NEWSAPI_ORG_KEY"],
+      supportedMethods: [
+        "getGlobalDisruptions()",
+        "searchRiskEvents(query)",
+        "getAviationIncidents()"
+      ],
+      currentFallbackBehavior: "Returns NetBlocks stubs, Berkshire historical studies, and simulated risk sentinel outputs.",
+      safetyNotes: "Geopolitical threat feeds contain noise. All items require manual verification by CEO B before moving to command desks.",
+      frontendSafe: false
+    },
+    {
+      name: "Local HTML Bookmark Miner / API Reader",
+      category: "Bookmark Intelligence",
+      status: "Local",
+      requiredCredentials: ["X_API_BEARER_TOKEN", "X_API_CLIENT_ID", "X_API_CLIENT_SECRET"],
+      supportedMethods: [
+        "parseBookmarksHtml(htmlString)",
+        "fetchXBookmarksLive()",
+        "deduplicateBookmarks(list)"
+      ],
+      currentFallbackBehavior: "Processes bookmark exports locally via FileReader in-browser. No database uploads.",
+      safetyNotes: "Reads user-supplied bookmarks HTML files. Runs in-memory. Zero network traffic. Future live X sync requires client credentials.",
+      frontendSafe: true
+    },
+    {
+      name: "Gemini / OpenAI / Anthropic AI Review Adapter",
+      category: "AI Model Review",
+      status: "Adapter Ready",
+      requiredCredentials: ["GEMINI_API_KEY", "OPENAI_API_KEY", "ANTHROPIC_API_KEY"],
+      supportedMethods: [
+        "generateBrief(prompt, context)",
+        "reviewSignalPacket(packet)",
+        "extractArchiveInsights(item)"
+      ],
+      currentFallbackBehavior: "Uses rules-based static parser (e.g. check-project checklist validation, rules-based alerts filtering).",
+      safetyNotes: "Never hardcode AI developer keys in client bundle. All requests must go through backend proxy scripts. Fallback to local heuristic checks when quota or connection is unavailable.",
+      frontendSafe: false
+    },
+    {
+      name: "GitHub Repository Status Adapter",
+      category: "GitHub/Project Status",
+      status: "Local",
+      requiredCredentials: ["GITHUB_PAT_TOKEN", "GITHUB_REPO_OWNER", "GITHUB_REPO_NAME"],
+      supportedMethods: [
+        "runBuildCheckLocal()",
+        "getRepoIssues()",
+        "getLatestCommits()"
+      ],
+      currentFallbackBehavior: "Loads build completion percentages and changed files logs from static public/habitat-data.js properties.",
+      safetyNotes: "Local script trigger must restrict shell access to authorized directories. GitHub API calls are rate-limited.",
+      frontendSafe: false
+    }
+  ]
 };
 

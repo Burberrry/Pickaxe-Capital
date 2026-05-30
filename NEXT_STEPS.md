@@ -31,19 +31,7 @@ Dynamic data pipeline and Vision Map action wiring successfully completed. Local
 - Full editable tracker: `/staging`.
 - Compact tracker: `/`.
 - Default data: `public/habitat-data.js` -> `buildCompletionTracker`.
-- Saved browser state: `localStorage.pickaxeCompletionTracker`.
 
-## Next Session Priority
-
-1. **Visual QA & Interaction Audit**: Open `/vision-map` and verify the click-and-route drawer events.
-2. **Cheklist Trigger Testing**: Validate that approving a pending packet from the Review Stack correctly generates corresponding checklists on `/staging` and `/agents`.
-3. **Alert Setup Rules**: Improve `/app/alerts` to define rules/conditions that CEO B can review.
-4. **Data Portability**: Add an option to import/export all local storage states (bookmarks, archive vault, review stack, missions) as a backup JSON file so CEO B's command center data can be moved across devices.
-5. **Real-world Adapters preparation**: Define clean interfaces for actual APIs (market data, option flows, geopolitics watchers) keeping mock data visible until keys are supplied.
-
-## Do Not Start Yet
-
-- Live trading execution.
 - Auto-trading.
 - Broker order placement.
 - Large backend redesign.
@@ -60,11 +48,19 @@ Dynamic data pipeline and Vision Map action wiring successfully completed. Local
 
 ## Latest Finished Work
 
-- `/ai-handoff` endpoint added and server restarted.
-- Staging now has a copyable handoff link and a Copy Handoff Text button.
-- Home is now alerts-only with clickable alert packets and a detailed selected-alert panel.
-- `/agents` now renders a hub-and-spoke AI Habitat World with animated bridges, habitat districts, moving agent units, mission packages, local details, and CEO B Review Stack.
-- Build and project validation passed with the local Node command.
+- Upgraded `#/app/alerts` into a dedicated stateful **Alert Rules Center** supporting 7 default rule categories (Options Flow, Market Gates, Risk Warnings, etc.) and complete local actions (Enable/Disable, Duplicate, Delete, Reset).
+- Implemented a custom cyberpunk toast notification helper (`showNotification`) and a fully customizable **Rule Configuration Editor** form.
+- Added a local-only **Simulate Check** action that updates individual rule statuses.
+- Wired rules pipeline integration with CEO B Review (`pickaxeReviewQueue`), Agent Missions (`pickaxeMissionQueue`/`pickaxeAgentOps`), and Archive Vault (`pickaxeArchiveVault`).
+- Implemented local-first Data Portability / Backup JSON system inside the Staging Cockpit.
+- Added Export System Backup action outputting timestamped JSON configurations (`pickaxe-capital-backup-YYYY-MM-DD-HHMM.json`) containing all 11 state keys.
+- Added Import System Backup loader with visual pre-restore verification previews listing key item counts and warning disclaimers.
+- Integrated Confirm Restore & Apply action that updates the registry and reloads the browser to apply updates.
+- Added Backup Health stats panel rendering item counts for rules, review stacks, mission queues, bookmarks, and vault entries.
+- Prepared real-world adapter UI status cards across focus routes (`/source-hub`, `/signals`, `/agents`, `/staging`).
+- Integrated Readiness diagnostics stats and safety disclosures indicating zero broker or live API links.
+- Upgraded the `#/staging` cockpit into a comprehensive QA and build-completion command center supporting habitat checklist categories, progress stats, verification matrices, and handoff alerts.
+- All local check and build validation scripts pass.
 
 ## Jarvis / Life OS Next Steps
 
@@ -96,19 +92,19 @@ Current safe checkpoint:
 - `/jarvis-lab` and `/life-os` are optional prototypes, not live systems.
 - Staging now includes a Recovery / Stabilization truth panel.
 
-Next work should be visual cleanup only:
-1. Inspect `/vision-map`, `/agents`, `/archive`, `/jarvis-lab`, and `/life-os` at normal browser zoom.
-2. Reduce clutter and oversized sections.
-3. Keep all advanced systems labeled prototype/research/future adapter.
-4. Do not add new routes, repos, features, live APIs, voice, camera, or device control.
+Next work should focus on Phase 2 (Lock the Command Workflow):
+1. Confirm intake to review to mission to archive flow.
+2. Confirm `/agents` task assignment saves locally.
+3. Make CEO B Review Stack simple and useful.
+4. Make `/staging` the clear source of build truth.
 
 ## Visual Cleanup Checkpoint
 
 Done:
-- Reduced oversized sections and crowded map scale.
-- Hidden duplicate legacy Agent panels beneath the current AI Habitat World.
-- Kept build and routes stable.
+- Browser-wide Visual QA and layout cleanup pass across `/vision-map`, `/agents`, `/archive`, `/staging`, `/jarvis-lab`, and `/life-os` routes at normal zoom.
+- Hidden duplicate legacy panels on `/agents`, `/vision-map`, and `/archive` underneath hidden wrapper blocks to maintain DOM integrity.
+- Confirmed zero console errors, no layout breaks, and no horizontal overflow on standard viewport sizes.
+- Kept node build and project checker scripts fully verified and passing.
 
 Next:
-- Browser-only visual QA at normal zoom.
-- No new features until visual foundation is approved.
+- Connect `/vision-map` and `/archive` action triggers more dynamically into the local staging and CEO B review stacks.

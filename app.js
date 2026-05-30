@@ -31,9 +31,77 @@ const state = {
   importedBmsCategoryFilter: "all",
   importedBmsTrustFilter: "all",
   importedBmsDupOnly: false,
+  backupPreview: null,
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
+
+function showNotification(message, type = "success") {
+  console.log(`[Notification] ${message}`);
+  let container = document.getElementById("toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "toast-container";
+    container.style.position = "fixed";
+    container.style.bottom = "20px";
+    container.style.right = "20px";
+    container.style.zIndex = "99999";
+    container.style.display = "flex";
+    container.style.flexDirection = "column";
+    container.style.gap = "8px";
+    container.style.pointerEvents = "none";
+    document.body.appendChild(container);
+  }
+  
+  const toast = document.createElement("div");
+  toast.style.pointerEvents = "auto";
+  toast.style.padding = "10px 16px";
+  toast.style.background = "#0e1012";
+  toast.style.border = "1px solid var(--green, #42d9c8)";
+  if (type === "error") {
+    toast.style.border = "1px solid var(--red, #f75656)";
+  } else if (type === "warning") {
+    toast.style.border = "1px solid var(--amber, #ffbe4d)";
+  }
+  toast.style.borderRadius = "4px";
+  toast.style.color = "#c0c4cc";
+  toast.style.fontFamily = "monospace";
+  toast.style.fontSize = "11px";
+  toast.style.boxShadow = "0 4px 12px rgba(0,0,0,0.5)";
+  toast.style.minWidth = "200px";
+  toast.style.maxWidth = "350px";
+  toast.style.opacity = "0";
+  toast.style.transform = "translateY(10px)";
+  toast.style.transition = "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)";
+  
+  const esc = (str) => String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  
+  toast.innerHTML = `
+    <div style="display: flex; align-items: start; gap: 8px;">
+      <span style="color: ${type === 'error' ? 'var(--red, #f75656)' : type === 'warning' ? 'var(--amber, #ffbe4d)' : 'var(--green, #42d9c8)'}; font-weight: bold;">[${type.toUpperCase()}]</span>
+      <div style="flex: 1; line-height: 1.3;">${esc(message)}</div>
+    </div>
+  `;
+  
+  container.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.opacity = "1";
+    toast.style.transform = "translateY(0)";
+  }, 10);
+  
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(-10px)";
+    setTimeout(() => {
+      toast.remove();
+      if (container.children.length === 0) {
+        container.remove();
+      }
+    }, 300);
+  }, 3500);
+}
+window.showNotification = showNotification;
 
 function isStaticMode() {
   return window.location.hostname.includes("github.io") || window.location.protocol === "file:";
@@ -2313,6 +2381,191 @@ function renderVisionDashboardPanel(title, value, detail) {
   return `<article><span class="label">${escapeHtml(title)}</span><strong>${escapeHtml(String(value))}</strong><p>${escapeHtml(detail)}</p></article>`;
 }
 
+function renderAdapterRegistrySection(categories = null) {
+  const registry = (sharedHabitatData && sharedHabitatData.adapterRegistry) ? sharedHabitatData.adapterRegistry : [];
+  const filtered = categories 
+    ? registry.filter(a => categories.some(cat => a.category.toLowerCase().includes(cat.toLowerCase())))
+    : registry;
+  
+  if (filtered.length === 0) return "";
+
+  function getAdapterOwnerAgent(category) {
+    if (category.toLowerCase().includes("market data")) return "Signal Scout";
+    if (category.toLowerCase().includes("options flow")) return "Flow Hunter";
+    if (category.toLowerCase().includes("news") || category.toLowerCase().includes("risk")) return "News Raven";
+    if (category.toLowerCase().includes("bookmark")) return "Bookmark Miner";
+    if (category.toLowerCase().includes("github") || category.toLowerCase().includes("project")) return "System Brain";
+    if (category.toLowerCase().includes("ai model")) return "Research Agent / CEO B";
+    return "System Brain";
+  }
+
+  function getCeoAction(adapterName) {
+    if (adapterName.includes("Market")) return "Review watchlist data structure & verify Polygon/Alpaca rate limits.";
+    if (adapterName.includes("Options")) return "Audit Sweeps threshold definitions before routing blocks to alerts desk.";
+    if (adapterName.includes("Risk")) return "Sanitize threat severity keywords to block false positive outages.";
+    if (adapterName.includes("Bookmark")) return "Validate local FileReader schema parser against HTML updates.";
+    if (adapterName.includes("AI Review")) return "Review prompt system templates for Gemini / Claude risk validation desks.";
+    if (adapterName.includes("GitHub")) return "Inspect local check-project.mjs terminal feedback loops.";
+    return "Verify credentials format and API quota thresholds.";
+  }
+
+  return `
+    <div class="mt-8 border border-[#1f242d] bg-[#0c0d0e] rounded p-4 font-mono text-[#c0c4cc]">
+      <div class="flex items-center justify-between border-b border-[#1f242d] pb-3 mb-4 select-none">
+        <div>
+          <span class="text-[9px] text-[#8c9099] uppercase tracking-wider font-bold">Pickaxe Integration Architecture</span>
+          <h3 class="text-xs font-bold text-white uppercase tracking-tight">Active & Future Adapters Registry</h3>
+        </div>
+        <span class="px-2 py-0.5 border border-purple-500/30 bg-purple-500/10 text-purple-400 text-[9px] uppercase font-bold rounded">Integrations Deck</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        ${filtered.map(adapter => {
+          let statusColor = "text-slate-400 border-slate-700 bg-slate-800/20";
+          if (adapter.status === "Mock") statusColor = "text-slate-300 border-slate-600 bg-slate-700/20";
+          else if (adapter.status === "Manual") statusColor = "text-amber border-amber/30 bg-amber/5";
+          else if (adapter.status === "Local") statusColor = "text-cyan border-cyan/30 bg-cyan/5";
+          else if (adapter.status === "Adapter Ready") statusColor = "text-purple-400 border-purple-500/20 bg-purple-500/5";
+          else if (adapter.status === "Connected") statusColor = "text-green border-green/30 bg-green/5";
+          else if (adapter.status === "Error") statusColor = "text-red border-red/30 bg-red/5";
+
+          const envVars = adapter.requiredCredentials && adapter.requiredCredentials.length > 0 
+            ? adapter.requiredCredentials.map(v => `<code class="text-amber text-[9px] bg-amber/5 border border-amber/20 px-1 py-0.2 rounded-sm">${escapeHtml(v)}</code>`).join(" ")
+            : `<span class="text-[#606266] italic">None required</span>`;
+
+          const methods = Array.isArray(adapter.supportedMethods)
+            ? adapter.supportedMethods.map(m => `<li class="text-[10px] text-[#a0a5b0]">${escapeHtml(m)}</li>`).join("")
+            : typeof adapter.supportedMethods === 'object'
+              ? Object.entries(adapter.supportedMethods).map(([mName, mDesc]) => `<li class="text-[10.5px] text-[#b0b5c0]"><strong class="text-[#42d9c8] font-bold font-mono">${escapeHtml(mName)}()</strong>: <span class="text-[#a0a5b0]">${escapeHtml(mDesc)}</span></li>`).join("")
+              : `<li class="text-[#606266] italic">No methods defined</li>`;
+
+          const owner = getAdapterOwnerAgent(adapter.category);
+          const ceoAction = getCeoAction(adapter.name);
+
+          return `
+            <article class="p-3 border border-[#1f242d] bg-[#090a0c]/80 hover:border-slate-700 hover:shadow-[0_0_10px_rgba(66,217,200,0.05)] transition-all duration-300 flex flex-col justify-between rounded-sm">
+              <div>
+                <div class="flex items-start justify-between gap-2 mb-2 border-b border-[#141820]/60 pb-1.5">
+                  <div>
+                    <h4 class="text-[11.5px] font-bold text-white font-mono tracking-tight">${escapeHtml(adapter.name)}</h4>
+                    <span class="text-[8.5px] text-[#606266] uppercase font-bold tracking-wider">${escapeHtml(adapter.category)}</span>
+                  </div>
+                  <span class="px-1.5 py-0.2 border text-[8px] font-bold rounded-sm uppercase tracking-wider shrink-0 ${statusColor}">
+                    ${escapeHtml(adapter.status)}
+                  </span>
+                </div>
+
+                <div class="mb-3 text-[10.5px] text-[#909399] leading-relaxed">
+                  <strong class="text-white">Current Behavior:</strong> ${escapeHtml(adapter.currentFallbackBehavior || adapter.fallbackBehavior || "")}
+                </div>
+
+                <div class="mb-3">
+                  <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-1">Supported Interface Methods</span>
+                  <ul class="list-none space-y-1 pl-1">
+                    ${methods}
+                  </ul>
+                </div>
+
+                <div class="mb-3">
+                  <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-1">Future Connection Credentials (Env Vars)</span>
+                  <div class="flex flex-wrap gap-1 mt-1">
+                    ${envVars}
+                  </div>
+                </div>
+
+                <div class="mb-3 bg-black/20 p-2 border border-[#1f242d] rounded-sm text-[10.5px] leading-relaxed text-slate-300">
+                  <strong class="text-amber uppercase text-[9px] tracking-wider block mb-0.5">CEO B Review Action:</strong>
+                  ${escapeHtml(ceoAction)}
+                </div>
+              </div>
+
+              <div class="border-t border-[#141820] pt-2.5 mt-2 flex flex-col gap-1 text-[9px] text-[#8c9099]">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full ${adapter.frontendSafe ? 'bg-cyan' : 'bg-amber'}"></span>
+                    <span>Scope: <strong class="text-white">${adapter.frontendSafe ? 'Client Safe (Frontend)' : 'Server Only (Backend)'}</strong></span>
+                  </div>
+                  <div>
+                    <span>Owner: <strong class="text-[#42d9c8] font-bold">${escapeHtml(owner)}</strong></span>
+                  </div>
+                </div>
+                <div class="text-[#606266] italic mt-1" title="${escapeHtml(adapter.safetyNotes || adapter.safety || '')}">
+                  ⚠️ Safety: ${escapeHtml(adapter.safetyNotes || adapter.safety || '')}
+                </div>
+              </div>
+            </article>
+          `;
+        }).join("")}
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-[#1f242d] flex flex-wrap justify-between items-center gap-2 text-[9px] text-[#606266]">
+        <span>🔒 Pickaxe Security: No broker execution. No auto-trading. No hidden API keys. No fake connected status.</span>
+        <span class="italic text-right">Adapters are prepared interfaces only. They do not call live providers until credentials and backend connections are added.</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderAdapterStagingSummary() {
+  const registry = (sharedHabitatData && sharedHabitatData.adapterRegistry) ? sharedHabitatData.adapterRegistry : [];
+  const total = registry.length;
+  const ready = registry.filter(a => a.status === "Adapter Ready").length;
+  const local = registry.filter(a => a.status === "Local").length;
+  const manual = registry.filter(a => a.status === "Manual").length;
+  const mock = registry.filter(a => a.status === "Mock").length;
+  const connected = registry.filter(a => a.status === "Connected").length;
+  const error = registry.filter(a => a.status === "Error").length;
+  const backendOnly = registry.filter(a => !a.frontendSafe).length;
+  const frontendSafe = registry.filter(a => a.frontendSafe).length;
+  
+  return `
+    <section class="panel bg-[#0c0d0e] border border-[#1f242d] p-4 rounded-sm font-mono mt-4">
+      <div class="panel-head border-b border-[#1f242d] pb-2 mb-3 flex justify-between items-center">
+        <div>
+          <p class="eyebrow">Ecosystem Integration Status</p>
+          <h2 class="text-xs font-bold text-white uppercase tracking-wider">Adapter Readiness Diagnostics</h2>
+        </div>
+        <span class="pill bg-purple-950/40 text-purple-400 border border-purple-900/30">QA Checklist Gate</span>
+      </div>
+      
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center mb-4">
+        <div class="bg-black/30 border border-[#1f242d] p-2">
+          <strong class="text-white block text-sm font-bold font-mono">\${total}</strong>
+          <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Total Adapters</span>
+        </div>
+        <div class="bg-black/30 border border-[#1f242d] p-2">
+          <strong class="text-purple-400 block text-sm font-bold font-mono">\${ready}</strong>
+          <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Adapter Ready</span>
+        </div>
+        <div class="bg-black/30 border border-[#1f242d] p-2">
+          <strong class="text-green block text-sm font-bold font-mono">\${connected}</strong>
+          <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Connected</span>
+        </div>
+        <div class="bg-black/30 border border-[#1f242d] p-2">
+          <strong class="text-cyan block text-sm font-bold font-mono">\${frontendSafe}</strong>
+          <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Client-Safe</span>
+        </div>
+        <div class="bg-black/30 border border-[#1f242d] p-2">
+          <strong class="text-amber block text-sm font-bold font-mono">\${backendOnly}</strong>
+          <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Backend-Only</span>
+        </div>
+      </div>
+      
+      <div class="bg-slate-950/60 border border-slate-900 p-3 rounded-sm text-[11px] leading-relaxed text-[#909399]">
+        <div class="flex items-center gap-2 text-white font-bold mb-1 uppercase text-[10.5px]">
+          <span>📋 Next Connection Step:</span>
+        </div>
+        <p>Verify environment variables (<code class="text-amber">POLYGON_API_KEY</code>, <code class="text-amber">TRADIER_ACCESS_TOKEN</code>, etc.) are provisioned on the secure hosting environment. Test stubs locally in sandbox mode. Execute final visual review before routing alerts to CEO B Review Desk.</p>
+        
+        <div class="mt-3 pt-2.5 border-t border-[#1a1f29] flex flex-wrap gap-x-4 gap-y-1.5 text-[9px] text-[#606266] italic font-mono uppercase">
+          <span>⚠️ Adapters are prepared interfaces only. They do not call live providers until credentials and backend connections are added.</span>
+          <span>🔒 No broker execution. No auto-trading. No hidden API keys. No fake connected status.</span>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function renderSourceHubPage() {
   if (!els.sourceHubContent) return;
   const sources = Array.isArray(sharedHabitatData.dataSources) ? sharedHabitatData.dataSources : [];
@@ -2381,6 +2634,8 @@ function renderSourceHubPage() {
           To maintain security compliance, the frontend application layer does not store or accept secret API keys. All integrations requiring developer credentials operate using backend server stubs. Any future live environment deployment must use server-side environmental variables.
         </p>
       </div>
+      
+      ${renderAdapterRegistrySection()}
     </div>
   `;
 }
@@ -2453,6 +2708,8 @@ function renderSignalsIntelligence() {
       ${renderPipeline("Risk Rejection Flow", ["Hype", "Bad Spread", "Weak Catalyst", "Unclear Invalidation", "Rejected Idea"])}
       ${renderPipeline("X Bookmark Signal Candidates", ["User Import", "Ticker Detection", "Agent Review", "Signal Candidate"])}
     </section>
+    
+    ${renderAdapterRegistrySection(["Market Data", "Options Flow"])}
   `;
 }
 
@@ -3087,6 +3344,72 @@ window.sendBookmarkToCeoReview = (bookmarkId) => {
   renderBookmarksPage();
 };
 
+window.promoteBookmarkToAgentTask = (bookmarkId) => {
+  const bookmarks = getBookmarksState();
+  const bm = bookmarks.find((b) => b.id === bookmarkId);
+  if (!bm) return;
+  
+  const agentNames = [
+    "Signal Scout", "News Raven", "Risk Sentinel", "Archive Keeper",
+    "Wealth Alchemist", "Task Smith", "System Brain"
+  ];
+  const agentListText = agentNames.map((name, index) => `${index + 1}. ${name}`).join("\n");
+  const input = prompt(`Choose agent to assign this bookmark task to:\n${agentListText}\n\nEnter number or name:`, "4");
+  if (input === null) return;
+  
+  let selectedAgent = "Archive Keeper";
+  const num = parseInt(input.trim());
+  if (!isNaN(num) && num >= 1 && num <= agentNames.length) {
+    selectedAgent = agentNames[num - 1];
+  } else {
+    const matched = agentNames.find(name => name.toLowerCase().includes(input.trim().toLowerCase()));
+    if (matched) selectedAgent = matched;
+  }
+  
+  addSharedMissionItem({
+    title: `Analyze: ${bm.title}`,
+    owner: selectedAgent,
+    source: "Bookmarks / Agent Tasks",
+    priority: "High",
+    nextAction: bm.notes || `Examine bookmark: ${bm.url}`
+  });
+  
+  const remaining = bookmarks.filter((b) => b.id !== bookmarkId);
+  setBookmarksState(remaining);
+  addWorldEvent(`Assigned bookmark task "${bm.title}" to ${selectedAgent}.`);
+  renderBookmarksPage();
+};
+
+window.promoteImportedToAgentTask = (url, title, folderPath, category) => {
+  const agentNames = [
+    "Signal Scout", "News Raven", "Risk Sentinel", "Archive Keeper",
+    "Wealth Alchemist", "Task Smith", "System Brain"
+  ];
+  const agentListText = agentNames.map((name, index) => `${index + 1}. ${name}`).join("\n");
+  const input = prompt(`Choose agent to assign this bookmark task to:\n${agentListText}\n\nEnter number or name:`, "4");
+  if (input === null) return;
+  
+  let selectedAgent = "Archive Keeper";
+  const num = parseInt(input.trim());
+  if (!isNaN(num) && num >= 1 && num <= agentNames.length) {
+    selectedAgent = agentNames[num - 1];
+  } else {
+    const matched = agentNames.find(name => name.toLowerCase().includes(input.trim().toLowerCase()));
+    if (matched) selectedAgent = matched;
+  }
+  
+  addSharedMissionItem({
+    title: `Analyze: ${title || domainFromUrl(url)}`,
+    owner: selectedAgent,
+    source: "Imported Bookmarks / Agent Tasks",
+    priority: "High",
+    nextAction: `Examine imported bookmark from ${folderPath}. URL: ${url}`
+  });
+  
+  addWorldEvent(`Assigned imported bookmark task "${title || domainFromUrl(url)}" to ${selectedAgent}.`);
+  renderBookmarksPage();
+};
+
 window.deleteLocalBookmark = (bookmarkId) => {
   const bookmarks = getBookmarksState();
   const remaining = bookmarks.filter((b) => b.id !== bookmarkId);
@@ -3246,6 +3569,7 @@ function renderMinedTab(bookmarks) {
                     <button type="button" onclick="window.promoteBookmarkToArchive('${escapeHtml(bm.id)}')">Vault</button>
                     <button type="button" onclick="window.promoteBookmarkToSignals('${escapeHtml(bm.id)}')">Signal</button>
                     <button type="button" onclick="window.sendBookmarkToCeoReview('${escapeHtml(bm.id)}')">Review</button>
+                    <button type="button" onclick="window.promoteBookmarkToAgentTask('${escapeHtml(bm.id)}')">Task</button>
                     <button type="button" class="delete-btn" onclick="window.deleteLocalBookmark('${escapeHtml(bm.id)}')">Delete</button>
                   </div>
                 </td>
@@ -3462,6 +3786,7 @@ function renderImportedTab() {
                         <button type="button" onclick="window.promoteImportedToArchive('${escapeHtml(bm.url)}', '${escapeHtml(bm.title)}', '${escapeHtml(bm.folderPath)}', '${escapeHtml(bm.category)}')">Vault</button>
                         <button type="button" onclick="window.promoteImportedToSignals('${escapeHtml(bm.url)}', '${escapeHtml(bm.title)}', '${escapeHtml(bm.folderPath)}', '${escapeHtml(bm.category)}')">Signal</button>
                         <button type="button" onclick="window.sendImportedToCeoReview('${escapeHtml(bm.url)}', '${escapeHtml(bm.title)}', '${escapeHtml(bm.folderPath)}', '${escapeHtml(bm.category)}')">Review</button>
+                        <button type="button" onclick="window.promoteImportedToAgentTask('${escapeHtml(bm.url)}', '${escapeHtml(bm.title)}', '${escapeHtml(bm.folderPath)}', '${escapeHtml(bm.category)}')">Task</button>
                         <button type="button" class="delete-btn" onclick="window.ignoreImportedBookmark('${escapeHtml(bm.url)}')">Ignore</button>
                       </div>
                     </td>
@@ -3901,10 +4226,125 @@ function getAlertRules() {
     console.error("Failed to parse alert rules:", e);
   }
   const seeds = [
-    { id: "rule-1", ticker: "AAPL", triggerType: "Flow Spike", condition: "Option Volume > 2.0x average volume & Calls > Puts", priority: "High", agentName: "Flow Hunter", active: true },
-    { id: "rule-2", ticker: "NetBlocks", triggerType: "Service Outage", condition: "Major network disruption detected in region", priority: "Critical", agentName: "Risk Sentinel", active: true },
-    { id: "rule-3", ticker: "BTC", triggerType: "Price Alert", condition: "Crossover EMA 200 on 4H chart", priority: "High", agentName: "Signal Scout", active: true },
-    { id: "rule-4", ticker: "SPY", triggerType: "Breakout Watch", condition: "Price breakout above daily range resistance", priority: "Medium", agentName: "Macro Watcher", active: false }
+    {
+      id: "rule-1",
+      name: "AAPL Unusual Options Sweep",
+      ticker: "AAPL",
+      category: "Options Flow Idea",
+      triggerType: "Flow Spike",
+      condition: "Option Volume > 2.0x average volume & Calls > Puts",
+      source: "Options Flow Index Proxy",
+      statusLabel: "Demo",
+      confidence: 85,
+      riskLevel: "Medium",
+      priority: "High",
+      agentName: "Flow Hunter",
+      lastChecked: "Never checked",
+      ceoAction: "Send to CEO B Review",
+      active: true
+    },
+    {
+      id: "rule-2",
+      name: "SPY Market Cap Gate Monitor",
+      ticker: "SPY",
+      category: "Market Gate",
+      triggerType: "Price Breakout",
+      condition: "Price breakout above daily range resistance level",
+      source: "Consolidated Feed Adapter",
+      statusLabel: "Local",
+      confidence: 90,
+      riskLevel: "High",
+      priority: "High",
+      agentName: "Macro Watcher",
+      lastChecked: "Never checked",
+      ceoAction: "Send to Agent Mission Queue",
+      active: true
+    },
+    {
+      id: "rule-3",
+      name: "NetBlocks Service Disruption",
+      ticker: "NetBlocks",
+      category: "Risk Warning",
+      triggerType: "Service Outage",
+      condition: "Major network disruption detected in region",
+      source: "Global Web Status Watch",
+      statusLabel: "Mock",
+      confidence: 95,
+      riskLevel: "Critical",
+      priority: "Critical",
+      agentName: "Risk Sentinel",
+      lastChecked: "Never checked",
+      ceoAction: "Archive rule",
+      active: true
+    },
+    {
+      id: "rule-4",
+      name: "DXY Fed Breakout Watch",
+      ticker: "DXY",
+      category: "Source Watch",
+      triggerType: "Price Alert",
+      condition: "US Dollar Index breakout above 105",
+      source: "Federal Reserve RSS Feed",
+      statusLabel: "Adapter Ready",
+      confidence: 78,
+      riskLevel: "Medium",
+      priority: "Medium",
+      agentName: "News Raven",
+      lastChecked: "Never checked",
+      ceoAction: "Duplicate rule",
+      active: false
+    },
+    {
+      id: "rule-5",
+      name: "Build Script Integrity Check",
+      ticker: "Pickaxe App",
+      category: "Build Task",
+      triggerType: "System Script",
+      condition: "Local node build validation or project check scripts fail",
+      source: "Local Git Hooks",
+      statusLabel: "Local",
+      confidence: 100,
+      riskLevel: "Low",
+      priority: "Medium",
+      agentName: "Task Smith",
+      lastChecked: "Never checked",
+      ceoAction: "Send to Agent Mission Queue",
+      active: true
+    },
+    {
+      id: "rule-6",
+      name: "CEO Strategy Review Synthesis",
+      ticker: "CEO B Desk",
+      category: "Life/Admin Reminder",
+      triggerType: "Task Reminder",
+      condition: "Synthesize weekly open research packets and portfolio status",
+      source: "CEO Calendar Proxy",
+      statusLabel: "Manual",
+      confidence: 100,
+      riskLevel: "Low",
+      priority: "Low",
+      agentName: "System Brain",
+      lastChecked: "Never checked",
+      ceoAction: "Send to CEO B Review",
+      active: true
+    },
+    {
+      id: "rule-7",
+      name: "Berkshire Capital Allocation Rule",
+      ticker: "Berkshire 1965",
+      category: "AI Research Packet",
+      triggerType: "Research Extraction",
+      condition: "Extract cash conversion turnaround metrics from archives",
+      source: "Berkshire Turnaround Case Study",
+      statusLabel: "Connected",
+      confidence: 72,
+      riskLevel: "Low",
+      priority: "Low",
+      agentName: "Archive Keeper",
+      lastChecked: "Never checked",
+      ceoAction: "Send to Agent Mission Queue",
+      active: false
+    }
   ];
   try {
     localStorage.setItem("pickaxeAlertRules", JSON.stringify(seeds));
@@ -3920,57 +4360,50 @@ function setAlertRules(rules) {
   }
 }
 
-function renderAlertRuleItem(rule) {
-  const activeClass = rule.active ? "rule-active" : "rule-disabled";
-  const glowDot = rule.active ? `<span class="health-pulse-dot" style="background-color: var(--green); box-shadow: 0 0 8px var(--green); border-radius: 50%; width: 8px; height: 8px; display: inline-block; margin-right: 6px;"></span>` : `<span class="health-pulse-dot" style="background-color: var(--muted); border-radius: 50%; width: 8px; height: 8px; display: inline-block; margin-right: 6px;"></span>`;
-  
-  return `
-    <article class="alert-rule-card ${activeClass}" style="border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; background: var(--panel-2); display: flex; flex-direction: column; gap: 8px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div style="display: flex; align-items: center;">
-          ${glowDot}
-          <strong>${escapeHtml(rule.ticker)} • ${escapeHtml(rule.triggerType)}</strong>
-        </div>
-        <span class="priority-badge ${escapeHtml(rule.priority.toLowerCase())}" style="font-size: 11px; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05);">${escapeHtml(rule.priority)}</span>
-      </div>
-      <p style="margin: 0; font-size: var(--font-base);">${escapeHtml(rule.condition)}</p>
-      <div style="display: flex; justify-content: space-between; align-items: center; font-size: var(--font-small); color: var(--muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px; margin-top: 4px;">
-        <span>Agent: <strong>${escapeHtml(rule.agentName)}</strong></span>
-        <div style="display: flex; gap: 8px;">
-          <button type="button" style="font-size: 11px; padding: 2px 8px;" onclick="window.testAlertRule('${escapeHtml(rule.id)}')">Test Trigger</button>
-          <button type="button" style="font-size: 11px; padding: 2px 8px;" onclick="window.toggleAlertRule('${escapeHtml(rule.id)}')">${rule.active ? "Disable" : "Enable"}</button>
-          <button type="button" style="font-size: 11px; padding: 2px 8px; border-color: rgba(255,0,0,0.2);" onclick="window.deleteAlertRule('${escapeHtml(rule.id)}')">Delete</button>
-        </div>
-      </div>
-    </article>
-  `;
-}
-
 window.submitAlertRuleForm = (event) => {
   event.preventDefault();
-  const ticker = document.querySelector("#alertTicker")?.value.trim().toUpperCase() || "";
-  const triggerType = document.querySelector("#alertTriggerType")?.value || "Price Breakout";
-  const condition = document.querySelector("#alertCondition")?.value.trim() || "";
-  const priority = document.querySelector("#alertPriority")?.value || "Medium";
-  const agentName = document.querySelector("#alertAgent")?.value || "Signal Scout";
+  const name = document.querySelector("#ruleName")?.value.trim() || "New Rule";
+  const category = document.querySelector("#ruleCategory")?.value || "Market Gate";
+  const condition = document.querySelector("#ruleCondition")?.value.trim() || "";
+  const source = document.querySelector("#ruleSource")?.value.trim() || "Manual Feed";
+  const riskLevel = document.querySelector("#ruleRisk")?.value || "Medium";
+  const confidence = parseInt(document.querySelector("#ruleConfidence")?.value || "80", 10);
+  const agentName = document.querySelector("#ruleAgent")?.value || "Signal Scout";
+  const statusLabel = document.querySelector("#ruleStatusLabel")?.value || "Local";
+  const ceoAction = document.querySelector("#ruleCeoAction")?.value || "Send to CEO B Review";
   
-  if (!ticker || !condition) return;
+  if (!condition) {
+    showNotification("Rule condition is required.", "error");
+    return;
+  }
   
   const rules = getAlertRules();
   const newRule = {
     id: `rule-${Date.now()}`,
-    ticker,
-    triggerType,
+    name,
+    ticker: name.slice(0, 10).toUpperCase(),
+    category,
+    triggerType: category,
     condition,
-    priority,
+    source,
+    riskLevel,
+    priority: riskLevel,
+    confidence,
     agentName,
-    active: true
+    statusLabel,
+    ceoAction,
+    active: true,
+    lastChecked: "Never checked"
   };
   
   rules.unshift(newRule);
   setAlertRules(rules);
   renderAlertsPage();
-  addWorldEvent(`Created alert rule for "${ticker}" assigned to ${agentName}.`);
+  addWorldEvent(`Created alert rule "${name}" assigned to ${agentName}.`);
+  showNotification(`Rule "${name}" created successfully!`);
+  
+  const form = document.querySelector("#ruleEditorForm");
+  if (form) form.reset();
 };
 
 window.toggleAlertRule = (id) => {
@@ -3980,7 +4413,8 @@ window.toggleAlertRule = (id) => {
     rule.active = !rule.active;
     setAlertRules(rules);
     renderAlertsPage();
-    addWorldEvent(`${rule.active ? "Enabled" : "Disabled"} alert rule for "${rule.ticker}".`);
+    addWorldEvent(`${rule.active ? "Enabled" : "Disabled"} alert rule for "${rule.name || rule.ticker}".`);
+    showNotification(`Rule "${rule.name || rule.ticker}" is now ${rule.active ? 'enabled' : 'disabled'}`);
   }
 };
 
@@ -3991,125 +4425,485 @@ window.deleteAlertRule = (id) => {
   setAlertRules(remaining);
   renderAlertsPage();
   if (rule) {
-    addWorldEvent(`Deleted alert rule for "${rule.ticker}".`);
+    addWorldEvent(`Deleted alert rule for "${rule.name || rule.ticker}".`);
+    showNotification(`Deleted rule "${rule.name || rule.ticker}"`);
   }
 };
 
-window.testAlertRule = (id) => {
+window.duplicateAlertRule = (id) => {
+  const rules = getAlertRules();
+  const rule = rules.find(r => r.id === id);
+  if (!rule) return;
+  
+  const copy = {
+    ...rule,
+    id: `rule-${Date.now()}`,
+    name: `${rule.name} (Copy)`,
+    active: true,
+    lastChecked: "Never checked"
+  };
+  
+  rules.unshift(copy);
+  setAlertRules(rules);
+  renderAlertsPage();
+  addWorldEvent(`Duplicated alert rule "${rule.name}".`);
+  showNotification(`Duplicated rule "${rule.name}"`);
+};
+
+window.resetAlertRules = () => {
+  localStorage.removeItem("pickaxeAlertRules");
+  const rules = getAlertRules();
+  renderAlertsPage();
+  addWorldEvent("Reset alert rules to default demo rules.");
+  showNotification("Alert rules reset to defaults.");
+};
+
+window.simulateAlertRuleCheck = (id) => {
+  const rules = getAlertRules();
+  const rule = rules.find(r => r.id === id);
+  if (!rule) return;
+  
+  const options = ["Simulated pass", "Needs review", "No trigger"];
+  const randVal = options[Math.floor(Math.random() * options.length)];
+  const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  
+  rule.lastChecked = `${randVal} (${time}) [Simulated Local Only]`;
+  setAlertRules(rules);
+  renderAlertsPage();
+  addWorldEvent(`Simulated alert rule check for "${rule.name || rule.ticker}": ${randVal}`);
+  showNotification(`Simulation result for "${rule.name || rule.ticker}": ${randVal}`, randVal === 'Needs review' ? 'warning' : 'success');
+};
+
+window.sendRuleToReview = (id) => {
   const rules = getAlertRules();
   const rule = rules.find(r => r.id === id);
   if (!rule) return;
   
   const reviewItem = {
     id: `alert-review-${Date.now()}`,
-    title: `Alert Triggered: ${rule.ticker} - ${rule.triggerType}`,
-    source: "Alerts Center",
+    title: `Rule Check: ${rule.name || rule.ticker}`,
+    source: `Alerts Center / ${rule.category}`,
     owner: rule.agentName,
     status: "Pending Decision",
-    priority: rule.priority,
-    output: `[Trigger Hit] Condition reached: "${rule.condition}". Checked by Agent ${rule.agentName}. Action required: Verify setup on trading desk.`
+    priority: rule.riskLevel || rule.priority || "Medium",
+    output: `[Rule Triggered] Category: ${rule.category}. Condition: "${rule.condition}". Risk: ${rule.riskLevel}. Confidence: ${rule.confidence}%. Source: ${rule.source}. Recommended action: ${rule.ceoAction}.`,
+    confidence: rule.confidence
   };
   
   addSharedReviewItem(reviewItem);
-  if (state.activeView === "alerts") renderAlertsPage();
+  showNotification(`Sent "${rule.name || rule.ticker}" to CEO B Review stack!`);
+  renderAlertsPage();
+};
+
+window.sendRuleToMission = (id) => {
+  const rules = getAlertRules();
+  const rule = rules.find(r => r.id === id);
+  if (!rule) return;
+  
+  const taskId = `task-${Date.now()}`;
+  const taskText = `Execute research verification for rule "${rule.name || rule.ticker}": Condition "${rule.condition}" on Source "${rule.source}". Action prompt: ${rule.ceoAction}.`;
+  
+  let missions = [];
+  try {
+    const val = localStorage.getItem("pickaxeMissionQueue");
+    if (val) missions = JSON.parse(val);
+  } catch(e) {}
+  if (!Array.isArray(missions)) missions = [];
+  
+  const nextMission = {
+    id: taskId,
+    title: `Task dispatch: ${rule.agentName}`,
+    description: taskText,
+    habitat: "Global Risk Habitat",
+    priority: rule.riskLevel || rule.priority || "High",
+    assignedAgents: [rule.agentName],
+    collaborationChain: ["CEO B", rule.agentName, "Staging"],
+    status: "working",
+    progress: 40,
+    output: `Dispatched task from alert rule: ${taskText}`,
+    confidence: rule.confidence,
+    destination: "CEO B",
+    reviewStatus: "In Progress",
+    source: "/#/app/alerts",
+    owner: rule.agentName,
+    nextAction: rule.ceoAction || "Execute manual verification checks."
+  };
+  
+  missions.unshift(nextMission);
+  localStorage.setItem("pickaxeMissionQueue", JSON.stringify(missions.slice(0, 30)));
+  
+  const ops = getAgentOpsState();
+  const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  ops.tasks.unshift({
+    id: taskId,
+    agentId: rule.agentName.toLowerCase().replace(/\s+/g, '-'),
+    agentName: rule.agentName,
+    action: "dispatched task",
+    status: "active",
+    time,
+    text: taskText,
+    habitat: "Global Risk Habitat"
+  });
+  ops.events.unshift({
+    id: `event-${Date.now()}`,
+    time,
+    agentId: "ceo-b-os",
+    agentName: "CEO B",
+    message: `Dispatched local task from Alert Rule to ${rule.agentName}: ${rule.name || rule.ticker}`
+  });
+  setAgentOpsState(ops);
+  
+  showNotification(`Created local mission task for ${rule.agentName}!`);
+  renderAlertsPage();
+};
+
+window.archiveAlertRule = (id) => {
+  const rules = getAlertRules();
+  const rule = rules.find(r => r.id === id);
+  if (!rule) return;
+  
+  const vaultState = getArchiveVaultState();
+  const newArchiveItem = {
+    id: `archive-rule-${Date.now()}`,
+    title: `Alert Rule: ${rule.name || rule.ticker}`,
+    url: `#/app/alerts`,
+    domain: "Alert Rules Center",
+    type: "rule",
+    topic: "Alert Rule Archive",
+    category: rule.category || "Market Gate",
+    habitat: "Global Risk Habitat",
+    status: "archived",
+    priority: rule.riskLevel || rule.priority || "medium",
+    connectedAgent: rule.agentName || "Risk Sentinel",
+    summary: `[Category: ${rule.category}] Condition: "${rule.condition}" | Source: "${rule.source}" | Confidence: ${rule.confidence}% | Risk: ${rule.riskLevel}`,
+    whySaved: "CEO B explicit alert rule archive instruction.",
+    nextAction: "None. Archived in vault.",
+    tags: ["alert-rule", "archived"],
+    dateAdded: new Date().toISOString().slice(0, 10),
+    lastReviewed: new Date().toISOString().slice(0, 10)
+  };
+  vaultState.parsedLinks = [newArchiveItem, ...(vaultState.parsedLinks || [])];
+  setArchiveVaultState(vaultState);
+  
+  const remaining = rules.filter(r => r.id !== id);
+  setAlertRules(remaining);
+  
+  renderAlertsPage();
+  addWorldEvent(`Archived alert rule: ${rule.name || rule.ticker}`);
+  showNotification(`Archived rule "${rule.name || rule.ticker}" to Vault!`);
+};
+
+window.testAlertRule = (id) => {
+  window.sendRuleToReview(id);
 };
 
 function renderAlertsPage() {
   if (!els.alertsContent) return;
-  const alerts = getOptionAlertsState();
-  const approvedAlerts = alerts.filter(a => a.status === "approved manual review" || a.status.includes("approved"));
   
+  const rules = getAlertRules();
+  const optionAlerts = getOptionAlertsState();
+  const approvedAlerts = optionAlerts.filter(a => a.status === "approved manual review" || a.status.includes("approved"));
+  
+  const agents = [
+    "Flow Hunter", "Macro Watcher", "Risk Sentinel", "News Raven", 
+    "Task Smith", "System Brain", "Archive Keeper", "Signal Scout", 
+    "Wealth Alchemist", "Story Teller", "Auto Update Agent", 
+    "Bookmark Miner", "Vision Sentinel"
+  ];
+  
+  const categories = [
+    "Market Gate", "Options Flow Idea", "Risk Warning", 
+    "Source Watch", "Build Task", "Life/Admin Reminder", 
+    "AI Research Packet"
+  ];
+  
+  const statusLabels = [
+    "Demo", "Mock", "Manual", "Local", "Adapter Ready", "Connected"
+  ];
+
   els.alertsContent.innerHTML = `
     <div class="p-6 bg-[#0a0b0c] text-xs font-mono text-[#c0c4cc]">
+      <!-- Header -->
       <div class="flex items-center justify-between border-b border-[#1f242d] pb-4 mb-6">
         <div>
-          <p class="text-[10px] text-amber uppercase tracking-wider">CEO B Approved Alerts</p>
-          <h2 class="text-lg font-bold text-white uppercase tracking-tight">Manual Review Trade Memos</h2>
+          <p class="text-[10px] text-amber uppercase tracking-wider">CEO B Alert Rules Center</p>
+          <h2 class="text-lg font-bold text-white uppercase tracking-tight">Alert Rules Registry & Simulator</h2>
         </div>
-        <span class="px-2 py-1 bg-emerald-950/40 text-emerald-400 text-[10px] font-bold border border-emerald-900/30 uppercase tracking-widest">Manual Execution Pending</span>
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-1 bg-black/40 text-slate-400 text-[10px] font-bold border border-[#1f242d] uppercase tracking-widest">
+            Rules Count: ${rules.length}
+          </span>
+          <button onclick="window.resetAlertRules()" class="px-2 py-1 bg-red/10 text-red hover:bg-red/20 text-[10px] font-bold border border-red/30 uppercase tracking-widest transition-colors">
+            Reset Demo Rules
+          </button>
+        </div>
       </div>
       
-      <!-- Warning Banner -->
+      <!-- Warning Banner / Safety Copy -->
       <div class="p-4 bg-amber-950/20 border border-amber-900/40 text-amber-400 text-xs mb-6 rounded-sm flex items-start gap-3">
         <span class="w-2 h-2 bg-amber-500 rounded-full shrink-0 mt-1.5 animate-pulse"></span>
-        <div>
-          <strong class="font-sans block mb-1">IMPORTANT RISK DISCLOSURE:</strong>
+        <div class="flex-1">
+          <strong class="font-sans block mb-1">IMPORTANT RESEARCH-ONLY DISCLOSURE:</strong>
           <p class="font-sans leading-relaxed text-[11px]">
-            “Research-only demo packet. Not financial advice. No broker execution occurs inside this website.” All setups require external review and manual trade execution.
+            Alerts are research workflow prompts only. They do not place trades, execute orders, or provide financial advice.
           </p>
+          <div class="flex flex-wrap gap-4 text-[#909399] font-mono text-[10px] mt-2 pt-2 border-t border-amber-900/20">
+            <div><span class="text-[#606266] uppercase font-bold mr-1">Status:</span><span class="text-green font-bold">Local</span></div>
+            <div><span class="text-[#606266] uppercase font-bold mr-1">Storage:</span><span class="text-white">Browser localStorage</span></div>
+            <div><span class="text-[#606266] uppercase font-bold mr-1">Backend:</span><span class="text-red font-bold">Not connected</span></div>
+          </div>
         </div>
       </div>
-      
-      <div class="space-y-6">
-        ${approvedAlerts.length === 0 ? `
-          <div class="p-8 text-center border border-dashed border-slate-800 bg-[#0d0e10]/50 rounded-sm">
-            <p class="text-[#606266] italic text-xs font-sans">No CEO B approved manual-review alerts found. Go to Signals or Mission Control to approve signal candidates.</p>
+
+      <!-- Main Layout Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Left Dashboard Panel -->
+        <div class="col-span-2 space-y-4">
+          <div class="panel-head mb-2 flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Alert Rules Dashboard</h3>
+            <span class="text-slate-500 text-[10px]">${rules.filter(r => r.active).length} Active / ${rules.filter(r => !r.active).length} Disabled</span>
           </div>
-        ` : approvedAlerts.map(alert => `
-          <div class="p-5 bg-[#0e1012] border border-[#1f242d] hover:border-slate-700 transition-colors rounded-sm relative overflow-hidden flex flex-col gap-4">
-            <!-- Left color strip -->
-            <div class="absolute top-0 left-0 w-[3px] h-full bg-amber-500"></div>
+
+          ${rules.length === 0 ? `
+            <div class="p-12 text-center border border-dashed border-[#1f242d] bg-[#0d0e10]/50 rounded-sm space-y-4">
+              <p class="text-[#606266] italic text-xs font-sans">No alert rules found in the local registry.</p>
+              <div class="flex gap-2 justify-center">
+                <button onclick="window.resetAlertRules()" class="px-3 py-1.5 bg-green/10 text-green border border-green/30 text-[10px] uppercase font-bold tracking-wider hover:bg-green/20 transition-colors">
+                  Create Demo Rules
+                </button>
+                <a href="#ruleName" class="px-3 py-1.5 bg-blue/10 text-blue border border-blue/30 text-[10px] uppercase font-bold tracking-wider hover:bg-blue/20 transition-colors" onclick="document.getElementById('ruleName')?.focus();">
+                  Create New Rule
+                </a>
+              </div>
+            </div>
+          ` : `
+            <div class="space-y-4">
+              ${rules.map(rule => {
+                const isActive = rule.active;
+                const activeBorder = isActive ? 'border-[#1f242d] hover:border-slate-600' : 'border-dashed border-[#1f242d] opacity-60';
+                const statusColor = rule.statusLabel === 'Connected' ? 'text-emerald-400 border-emerald-900/30 bg-emerald-950/30' : 
+                                    rule.statusLabel === 'Adapter Ready' ? 'text-blue-400 border-blue-900/30 bg-blue-950/30' : 
+                                    rule.statusLabel === 'Demo' ? 'text-purple-400 border-purple-900/30 bg-purple-950/30' :
+                                    rule.statusLabel === 'Mock' ? 'text-amber-400 border-amber-900/30 bg-amber-950/30' : 'text-slate-400 border-slate-900 bg-slate-950/30';
+                
+                const riskColor = rule.riskLevel === 'Critical' ? 'text-red font-bold' : 
+                                  rule.riskLevel === 'High' ? 'text-red/80' : 
+                                  rule.riskLevel === 'Medium' ? 'text-amber' : 'text-green';
+
+                const glowDot = isActive ? `<span class="w-1.5 h-1.5 bg-green rounded-full shrink-0 animate-pulse"></span>` : `<span class="w-1.5 h-1.5 bg-slate-600 rounded-full shrink-0"></span>`;
+
+                return `
+                  <div class="p-4 bg-[#0e1012] border ${activeBorder} rounded-sm relative overflow-hidden flex flex-col gap-3 transition-all">
+                    <div class="absolute top-0 left-0 w-[3px] h-full ${isActive ? 'bg-[#42d9c8]' : 'bg-slate-700'}"></div>
+                    
+                    <div class="flex justify-between items-start border-b border-[#1f242d] pb-2">
+                      <div class="flex items-center gap-2">
+                        ${glowDot}
+                        <strong class="text-white font-sans text-xs">${escapeHtml(rule.name || rule.ticker)}</strong>
+                        <span class="px-1.5 py-0.2 bg-black/40 text-[#909399] border border-[#1f242d] text-[8px] uppercase font-mono">${escapeHtml(rule.category)}</span>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <span class="px-1.5 py-0.2 border text-[8px] font-bold uppercase tracking-wider ${statusColor}">${escapeHtml(rule.statusLabel)}</span>
+                        <span class="text-slate-500 text-[10px] font-mono">${escapeHtml(rule.agentName)}</span>
+                      </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-[10px] font-mono">
+                      <div>
+                        <span class="text-[#606266] uppercase text-[8px] block">Condition</span>
+                        <p class="text-slate-300 font-sans leading-snug mt-0.5">${escapeHtml(rule.condition)}</p>
+                      </div>
+                      <div class="grid grid-cols-2 gap-2 bg-black/15 p-2 border border-slate-950">
+                        <div>
+                          <span class="text-[#606266] uppercase text-[8px] block">Source</span>
+                          <span class="text-slate-400 block truncate" title="${escapeHtml(rule.source || 'Unknown')}">${escapeHtml(rule.source || "Unknown")}</span>
+                        </div>
+                        <div>
+                          <span class="text-[#606266] uppercase text-[8px] block">Confidence</span>
+                          <span class="text-[#42d9c8] font-bold block">${rule.confidence}%</span>
+                        </div>
+                        <div>
+                          <span class="text-[#606266] uppercase text-[8px] block">Risk Level</span>
+                          <span class="${riskColor} font-bold block">${escapeHtml(rule.riskLevel || rule.priority || "Medium")}</span>
+                        </div>
+                        <div>
+                          <span class="text-[#606266] uppercase text-[8px] block">Next Action</span>
+                          <span class="text-amber block truncate" title="${escapeHtml(rule.ceoAction || 'CEO Review')}">${escapeHtml(rule.ceoAction || "CEO Review")}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-black/40 p-2 border border-[#1f242d] text-[10px] font-mono">
+                      <div>
+                        <span class="text-[#606266] uppercase text-[8px]">Simulation Status:</span>
+                        <strong class="${rule.lastChecked && rule.lastChecked.includes('pass') ? 'text-green' : rule.lastChecked && rule.lastChecked.includes('review') ? 'text-amber' : 'text-slate-400'} ml-1">
+                          ${escapeHtml(rule.lastChecked || "Never checked")}
+                        </strong>
+                      </div>
+                      <button onclick="window.simulateAlertRuleCheck('${escapeHtml(rule.id)}')" class="px-2 py-0.5 bg-blue-950/40 text-[#42d9c8] hover:bg-blue-950/80 border border-[#42d9c8]/30 hover:border-[#42d9c8] text-[9px] uppercase font-bold transition-all">
+                        Simulate Check
+                      </button>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 justify-between border-t border-[#1f242d] pt-2 mt-1">
+                      <div class="flex gap-2">
+                        <button onclick="window.toggleAlertRule('${escapeHtml(rule.id)}')" class="bg-black/50 text-[#c0c4cc] border border-[#1f242d] hover:border-slate-500 text-[9px] px-2.5 py-1 uppercase font-bold transition-colors">
+                          ${isActive ? "Disable" : "Enable"}
+                        </button>
+                        <button onclick="window.duplicateAlertRule('${escapeHtml(rule.id)}')" class="bg-black/50 text-[#c0c4cc] border border-[#1f242d] hover:border-slate-500 text-[9px] px-2.5 py-1 uppercase font-bold transition-colors">
+                          Duplicate
+                        </button>
+                        <button onclick="window.deleteAlertRule('${escapeHtml(rule.id)}')" class="bg-black/50 text-red/60 border border-[#1f242d] hover:border-red/40 text-[9px] px-2.5 py-1 uppercase font-bold transition-colors">
+                          Delete
+                        </button>
+                      </div>
+                      <div class="flex gap-2">
+                        <button onclick="window.sendRuleToReview('${escapeHtml(rule.id)}')" class="bg-amber-950/20 text-amber hover:bg-amber-950/40 border border-amber-900/40 hover:border-amber text-[9px] px-2.5 py-1 uppercase font-bold transition-all">
+                          Send to Review
+                        </button>
+                        <button onclick="window.sendRuleToMission('${escapeHtml(rule.id)}')" class="bg-blue-950/20 text-[#42d9c8] hover:bg-blue-950/40 border border-[#42d9c8]/30 hover:border-[#42d9c8] text-[9px] px-2.5 py-1 uppercase font-bold transition-all">
+                          Send to Agent
+                        </button>
+                        <button onclick="window.archiveAlertRule('${escapeHtml(rule.id)}')" class="bg-slate-900 text-slate-400 hover:text-white border border-[#1f242d] hover:border-slate-500 text-[9px] px-2.5 py-1 uppercase font-bold transition-all">
+                          Archive Rule
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          `}
+        </div>
+
+        <!-- Right Rule Editor Panel -->
+        <div class="col-span-1 space-y-4">
+          <div class="p-5 bg-[#0e1012] border border-[#1f242d] rounded-sm">
+            <div class="border-b border-[#1f242d] pb-3 mb-4">
+              <p class="text-[9px] text-amber uppercase tracking-wider">Configure New Registry Item</p>
+              <h3 class="text-sm font-bold text-white uppercase tracking-tight">Rule Configuration Editor</h3>
+            </div>
             
-            <div class="flex flex-wrap justify-between items-start gap-4 border-b border-slate-900 pb-3">
+            <form id="ruleEditorForm" onsubmit="window.submitAlertRuleForm(event)" class="space-y-3 font-mono text-[10px]">
               <div>
-                <span class="text-[8px] text-slate-500 uppercase tracking-wider block font-mono">Approved Memo // ${escapeHtml(alert.strategy)}</span>
-                <h3 class="text-sm font-bold text-white tracking-tight font-sans mt-0.5">${escapeHtml(alert.symbol)} - ${escapeHtml(alert.company)}</h3>
+                <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Rule Name</label>
+                <input id="ruleName" required placeholder="e.g. BTC Golden Cross Watch" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono" />
               </div>
-              <div class="flex items-center gap-3">
-                <span class="px-2 py-0.5 bg-emerald-950/30 text-emerald-400 border border-emerald-900/30 text-[9px] uppercase tracking-wider font-bold">APPROVED MANUAL REVIEW</span>
-                <span class="text-slate-500 text-[10px]">${escapeHtml(alert.date || "2026-05-29")}</span>
-              </div>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-black/25 p-3 border border-slate-950 text-[11px]">
-              <div><span class="text-slate-500 text-[8px] block uppercase">Contract</span><strong class="text-white">${escapeHtml(alert.contract)}</strong></div>
-              <div><span class="text-slate-500 text-[8px] block uppercase">Current Price</span><strong class="text-slate-300">${escapeHtml(alert.currentPrice)}</strong></div>
-              <div><span class="text-slate-500 text-[8px] block uppercase">Contract Value</span><strong class="text-slate-300">${escapeHtml(alert.contractPrice)}</strong></div>
-              <div><span class="text-slate-500 text-[8px] block uppercase">Strategy Code</span><strong class="text-amber">${escapeHtml(alert.strategy)}</strong></div>
-            </div>
-            
-            <div class="space-y-3">
+              
               <div>
-                <span class="text-slate-500 text-[8px] block uppercase font-bold">Thesis</span>
-                <p class="text-slate-300 leading-relaxed text-[11px] font-sans">${escapeHtml(alert.thesis)}</p>
+                <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Category</label>
+                <select id="ruleCategory" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono">
+                  ${categories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("")}
+                </select>
               </div>
+
               <div>
-                <span class="text-slate-500 text-[8px] block uppercase font-bold">Catalyst</span>
-                <p class="text-slate-300 leading-relaxed text-[11px] font-sans">${escapeHtml(alert.catalyst)}</p>
+                <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Condition Text</label>
+                <textarea id="ruleCondition" required placeholder="e.g. 50-day SMA crosses above 200-day SMA on 1D chart" rows="2" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-sans"></textarea>
               </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+              <div>
+                <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Data Source Watch</label>
+                <input id="ruleSource" required placeholder="e.g. Binance API Stub / Market Feed" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono" />
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
                 <div>
-                  <span class="text-slate-500 text-[8px] block uppercase font-bold">Risk Gate</span>
-                  <p class="text-red-400 leading-relaxed text-[11px] font-sans">${escapeHtml(alert.riskNotes)}</p>
+                  <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Risk Level</label>
+                  <select id="ruleRisk" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono">
+                    <option value="Low">Low</option>
+                    <option value="Medium" selected>Medium</option>
+                    <option value="High">High</option>
+                    <option value="Critical">Critical</option>
+                  </select>
                 </div>
                 <div>
-                  <span class="text-slate-500 text-[8px] block uppercase font-bold">Liquidity Check</span>
-                  <p class="text-emerald-400 leading-relaxed text-[11px] font-sans">${escapeHtml(alert.spreadQuality)}</p>
+                  <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Status Label</label>
+                  <select id="ruleStatusLabel" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono">
+                    ${statusLabels.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join("")}
+                  </select>
                 </div>
               </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <span class="text-slate-500 text-[8px] block uppercase font-bold">Invalidation Boundary</span>
-                  <p class="text-red-400/90 leading-relaxed text-[11px] font-sans">${escapeHtml(alert.invalidation)}</p>
+
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <label class="text-[#909399] uppercase tracking-wider block text-[9px]">Confidence</label>
+                  <span id="ruleConfidenceVal" class="text-green font-bold">80%</span>
                 </div>
-                <div>
-                  <span class="text-slate-500 text-[8px] block uppercase font-bold">Manual Review Status</span>
-                  <p class="text-slate-300 leading-relaxed text-[11px] font-sans">Human verification complete. Checked by CEO B.</p>
-                </div>
+                <input id="ruleConfidence" type="range" min="0" max="100" value="80" oninput="const val = document.getElementById('ruleConfidenceVal'); if (val) val.innerText = this.value + '%';" class="w-full h-1 bg-[#1f242d] rounded-lg appearance-none cursor-pointer accent-[#42d9c8]" />
               </div>
-            </div>
-            
-            <div class="bg-black/30 p-2.5 border border-slate-900 text-[9px] text-slate-500 leading-relaxed font-mono">
-              <strong class="text-slate-400 block mb-1 uppercase text-[8px]">Archive Trail & Integrity Matrix:</strong>
-              ${(alert.reason || []).map(r => `<div>&bull; ${escapeHtml(r)}</div>`).join("")}
-            </div>
-            
-            <div class="flex gap-2 justify-end border-t border-slate-900 pt-3 mt-1">
-              <button onclick="window.changeSignalStatus('${escapeHtml(alert.id)}', 'watch only')" class="bg-slate-900 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:border-slate-500 transition-colors text-[9px] px-3 py-1.5 uppercase font-bold">Move back to Archive / Watch</button>
-            </div>
+
+              <div>
+                <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Owner Agent</label>
+                <select id="ruleAgent" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono">
+                  ${agents.map(a => `<option value="${escapeHtml(a)}">${escapeHtml(a)}</option>`).join("")}
+                </select>
+              </div>
+
+              <div>
+                <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">CEO B Recommended Next Action</label>
+                <input id="ruleCeoAction" required value="Send to CEO B Review" placeholder="e.g. Verify thesis & check Webull liquidity" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono" />
+              </div>
+
+              <div class="pt-2">
+                <button type="submit" class="w-full bg-[#121417] text-white hover:text-black hover:bg-[#42d9c8] border border-[#1f242d] hover:border-[#42d9c8] py-2 uppercase font-bold tracking-wider tracking-widest transition-all">
+                  Register Alert Rule
+                </button>
+              </div>
+            </form>
           </div>
-        `).join("")}
+        </div>
+
       </div>
+
+      <!-- Historical Approved Manual Review Memos Section -->
+      ${approvedAlerts.length > 0 ? `
+        <div class="mt-8 border-t border-[#1f242d] pt-6">
+          <div class="flex items-center justify-between border-b border-[#1f242d] pb-2 mb-4">
+            <div>
+              <p class="text-[9px] text-[#909399] uppercase tracking-wider">Historical Audit Logs</p>
+              <h3 class="text-sm font-bold text-white uppercase tracking-tight">CEO B Approved Option Trade Memos</h3>
+            </div>
+            <span class="px-2 py-0.5 bg-emerald-950/40 text-emerald-400 border border-emerald-900/30 text-[9px] uppercase tracking-wider font-bold">Manual Trade Pending</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            ${approvedAlerts.map(alert => `
+              <div class="p-4 bg-[#0e1012] border border-[#1f242d] rounded-sm relative overflow-hidden flex flex-col gap-3">
+                <div class="absolute top-0 left-0 w-[2px] h-full bg-emerald-500"></div>
+                <div class="flex justify-between items-start text-[10px]">
+                  <div>
+                    <strong class="text-white block font-sans">${escapeHtml(alert.symbol)} - ${escapeHtml(alert.company)}</strong>
+                    <span class="text-[8px] text-slate-500 uppercase tracking-wider block font-mono">Approved Memo // ${escapeHtml(alert.strategy)}</span>
+                  </div>
+                  <span class="text-slate-500 text-[10px]">${escapeHtml(alert.date || "2026-05-29")}</span>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-2 bg-black/25 p-2 border border-slate-950 text-[10px] font-mono">
+                  <div><span class="text-slate-500 text-[8px] block uppercase">Contract</span><strong class="text-slate-300 block truncate font-bold">${escapeHtml(alert.contract)}</strong></div>
+                  <div><span class="text-slate-500 text-[8px] block uppercase">Price</span><strong class="text-slate-300 block font-bold">${escapeHtml(alert.currentPrice)}</strong></div>
+                  <div><span class="text-slate-500 text-[8px] block uppercase">Value</span><strong class="text-slate-300 block font-bold">${escapeHtml(alert.contractPrice)}</strong></div>
+                </div>
+
+                <div class="text-[10px] space-y-1">
+                  <div>
+                    <span class="text-slate-500 text-[8px] block uppercase font-bold">Thesis</span>
+                    <p class="text-slate-300 font-sans leading-snug">${escapeHtml(alert.thesis)}</p>
+                  </div>
+                </div>
+
+                <div class="flex justify-end border-t border-slate-900 pt-2">
+                  <button onclick="window.changeSignalStatus('${escapeHtml(alert.id)}', 'watch only')" class="bg-slate-900 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:border-slate-500 transition-colors text-[9px] px-2 py-1 uppercase font-bold">
+                    Demote to Watch / Archive
+                  </button>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      ` : ''}
+
     </div>
   `;
 }
@@ -4120,6 +4914,50 @@ function renderLifeHabitatPage() {
 }
 
 function renderDataPortabilityPanel() {
+  const getCount = (key) => {
+    try {
+      const val = localStorage.getItem(key);
+      if (val) {
+        const parsed = JSON.parse(val);
+        return Array.isArray(parsed) ? parsed.length : Object.keys(parsed).length;
+      }
+    } catch(e) {}
+    return 0;
+  };
+
+  const reviewCount = getSharedQueue("pickaxeReviewQueue").length;
+  const missionCount = getSharedQueue("pickaxeMissionQueue").length;
+  const archiveCount = getEffectiveArchiveVaultItems().length;
+  const alertRulesCount = getAlertRules().length;
+  const bookmarksCount = getSharedQueue("pickaxeBookmarks").length;
+  
+  const keys = [
+    "pickaxeBookmarks",
+    "pickaxeOperatingAgents",
+    "pickaxeMissionQueue",
+    "pickaxeReviewQueue",
+    "pickaxeWorldState",
+    "pickaxeCompletionTracker",
+    "pickaxeAlertRules",
+    "pickaxeActionCenter",
+    "pickaxe_jarvis_command_history",
+    "pickaxeArchiveVault",
+    "pickaxeOptionAlerts"
+  ];
+  const localDataExists = keys.some(key => localStorage.getItem(key) !== null);
+
+  let lastActivity = "No export/import recorded.";
+  try {
+    const meta = JSON.parse(localStorage.getItem("pickaxeBackupMetadata") || "{}");
+    if (meta.lastExport && meta.lastImport) {
+      lastActivity = `Export: ${new Date(meta.lastExport).toLocaleDateString()} • Import: ${new Date(meta.lastImport).toLocaleDateString()}`;
+    } else if (meta.lastExport) {
+      lastActivity = `Last Export: ${new Date(meta.lastExport).toLocaleDateString()}`;
+    } else if (meta.lastImport) {
+      lastActivity = `Last Import: ${new Date(meta.lastImport).toLocaleDateString()}`;
+    }
+  } catch(e) {}
+
   return `
     <section class="panel data-portability-panel" style="margin-top: var(--section-gap);">
       <div class="panel-head">
@@ -4129,15 +4967,89 @@ function renderDataPortabilityPanel() {
         </div>
         <span class="pill">Local Storage Only</span>
       </div>
-      <p>Export all command center state keys (bookmarks, archive vault, review queue, missions, alerts, history) as a single JSON backup file, or upload a JSON backup file to import and restore the environment.</p>
-      <div class="game-action-row" style="margin-top: 14px; gap: 12px; align-items: center; display: flex; flex-wrap: wrap;">
-        <button type="button" class="primary" onclick="window.exportSystemBackup()">Export System Backup</button>
-        <div class="file-import-wrapper" style="display: inline-flex; align-items: center; gap: 8px;">
-          <input type="file" id="systemBackupFile" accept=".json" style="display: none;" onchange="window.importSystemBackup(event)" />
-          <button type="button" onclick="document.getElementById('systemBackupFile').click()">Import System Backup</button>
+      
+      <!-- Truth/Safety Copy & Status Badge Info -->
+      <div class="p-3 bg-black/40 border border-[#1f242d] rounded-sm text-[10px] space-y-1.5 mb-4 font-sans">
+        <div class="flex flex-wrap gap-4 text-slate-400 font-mono">
+          <div><span class="text-[#606266] uppercase font-bold mr-1">Status:</span><span class="text-green font-bold">Local</span></div>
+          <div><span class="text-[#606266] uppercase font-bold mr-1">Storage:</span><span class="text-white">Browser localStorage</span></div>
+          <div><span class="text-[#606266] uppercase font-bold mr-1">Backend:</span><span class="text-red font-bold">Not connected</span></div>
         </div>
-        <button type="button" class="danger" style="border-color: rgba(255,0,0,0.4);" onclick="window.resetSystemData()">Reset All Data</button>
+        <p class="text-slate-500 leading-snug">
+          This backup stays on this device unless you manually move the JSON file. No data is uploaded or processed on external servers.
+        </p>
       </div>
+
+      <!-- Backup Health Panel -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 text-[10px]">
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm">
+          <span class="text-[#606266] text-[8px] uppercase block">Local Data</span>
+          <strong class="text-white font-bold block">${localDataExists ? 'Detected' : 'Empty'}</strong>
+        </div>
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm">
+          <span class="text-[#606266] text-[8px] uppercase block">Review Packets</span>
+          <strong class="text-amber font-bold block">${reviewCount} items</strong>
+        </div>
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm">
+          <span class="text-[#606266] text-[8px] uppercase block">Mission Tasks</span>
+          <strong class="text-cyan-400 font-bold block">${missionCount} items</strong>
+        </div>
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm">
+          <span class="text-[#606266] text-[8px] uppercase block">Archive Sources</span>
+          <strong class="text-purple-400 font-bold block">${archiveCount} items</strong>
+        </div>
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm">
+          <span class="text-[#606266] text-[8px] uppercase block">Alert Rules</span>
+          <strong class="text-yellow-400 font-bold block">${alertRulesCount} items</strong>
+        </div>
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm">
+          <span class="text-[#606266] text-[8px] uppercase block">Bookmarks</span>
+          <strong class="text-blue-400 font-bold block">${bookmarksCount} items</strong>
+        </div>
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm col-span-2">
+          <span class="text-[#606266] text-[8px] uppercase block">Last Backup / Restore Activity</span>
+          <strong class="text-slate-300 font-bold block truncate text-[9.5px]">${lastActivity}</strong>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="game-action-row" style="gap: 12px; align-items: center; display: flex; flex-wrap: wrap;">
+        <button type="button" class="primary bg-slate-900 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:border-slate-500 transition-colors py-1 px-3.5 uppercase font-bold tracking-wider rounded-sm text-[10px]" onclick="window.exportSystemBackup()">Export System Backup</button>
+        <div class="file-import-wrapper" style="display: inline-flex; align-items: center; gap: 8px;">
+          <input type="file" id="systemBackupFileInput" accept=".json" style="display: none;" onchange="window.previewSystemBackup(event)" />
+          <button type="button" class="bg-slate-900 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:border-slate-500 transition-colors py-1 px-3.5 uppercase font-bold tracking-wider rounded-sm text-[10px]" onclick="document.getElementById('systemBackupFileInput').click()">Import System Backup</button>
+        </div>
+        <button type="button" class="danger bg-red-950/20 text-red border border-red/30 hover:bg-red/35 transition-colors py-1 px-3.5 uppercase font-bold tracking-wider rounded-sm text-[10px]" onclick="window.resetSystemData()">Reset All Data</button>
+      </div>
+
+      <!-- Restore Preview UI Section -->
+      ${state.backupPreview ? `
+        <div class="mt-4 p-3 bg-[#17110c] border border-amber/30 rounded-sm text-[10px] space-y-2 text-left">
+          <div class="flex items-center justify-between border-b border-amber/20 pb-1 mb-1 font-mono">
+            <h3 class="text-amber uppercase font-bold tracking-wider text-[10.5px]">Backup File Restore Preview</h3>
+            <span class="px-1.5 py-0.2 bg-amber/10 text-amber border border-amber/20 text-[8px] uppercase font-bold rounded-sm animate-pulse">Verification Required</span>
+          </div>
+          <p class="text-slate-400 leading-snug font-sans">
+            <strong>WARNING:</strong> Confirming this restore will overwrite your current browser data for the keys listed below. This action cannot be undone.
+          </p>
+          <div class="grid grid-cols-2 gap-2 bg-black/40 p-2 border border-slate-900 text-[9.5px] font-mono">
+            <div><span class="text-slate-500">Backup Generated:</span> <strong class="text-white">${escapeHtml(state.backupPreview.metadata?.timestamp || "Unknown Date")}</strong></div>
+            <div><span class="text-slate-500">Source Project:</span> <strong class="text-white">${escapeHtml(state.backupPreview.metadata?.system || "Pickaxe Capital")}</strong></div>
+          </div>
+          <div class="space-y-1 max-h-[120px] overflow-y-auto pr-1">
+            <strong class="text-[#606266] uppercase text-[8.5px] block font-bold mt-1 font-mono">Included State Keys & Item Counts:</strong>
+            ${Object.entries(state.backupPreview.payload || {}).map(([key, val]) => {
+              const count = Array.isArray(val) ? val.length : (val && typeof val === 'object') ? Object.keys(val).length : 1;
+              return `<div class="flex justify-between border-b border-slate-900/40 pb-0.5"><span class="text-slate-400 font-mono">${escapeHtml(key)}</span><span class="text-cyan-400 font-bold">${count} items</span></div>`;
+            }).join("")}
+          </div>
+          <div class="flex gap-2 justify-end pt-2 border-t border-amber/25 mt-1.5">
+            <button type="button" class="bg-red-950/20 text-red border border-red/30 hover:bg-red/35 py-1 px-3.5 uppercase font-bold rounded-sm tracking-wider" onclick="window.cancelBackupRestore()">Cancel Restore</button>
+            <button type="button" class="bg-green/20 text-green border border-green/30 hover:bg-green/35 py-1 px-3.5 uppercase font-bold rounded-sm tracking-wider" onclick="window.confirmBackupRestore()">Confirm Restore & Apply</button>
+          </div>
+        </div>
+      ` : ""}
+
       <div id="dataPortabilityStatus" style="margin-top: 10px; font-size: var(--font-small); color: var(--green);"></div>
     </section>
   `;
@@ -4153,62 +5065,162 @@ window.exportSystemBackup = () => {
     "pickaxeCompletionTracker",
     "pickaxeAlertRules",
     "pickaxeActionCenter",
-    "pickaxe_jarvis_command_history"
+    "pickaxe_jarvis_command_history",
+    "pickaxeArchiveVault",
+    "pickaxeOptionAlerts"
   ];
-  const backup = {};
+  const payload = {};
   keys.forEach(key => {
     try {
       const val = localStorage.getItem(key);
-      if (val) backup[key] = JSON.parse(val);
+      if (val) payload[key] = JSON.parse(val);
     } catch (e) {
       console.error(`Failed to export ${key}:`, e);
     }
   });
+
+  const timestamp = new Date().toISOString();
+  const backup = {
+    metadata: {
+      timestamp,
+      system: "Pickaxe Capital / AI Habitat OS",
+      version: "1.0.0"
+    },
+    payload
+  };
+
   const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
+  
+  const now = new Date();
+  const YYYY = now.getFullYear();
+  const MM = String(now.getMonth() + 1).padStart(2, '0');
+  const DD = String(now.getDate()).padStart(2, '0');
+  const HH = String(now.getHours()).padStart(2, '0');
+  const mm = String(now.getMinutes()).padStart(2, '0');
+  const filename = `pickaxe-capital-backup-${YYYY}-${MM}-${DD}-${HH}${mm}.json`;
+
   const a = document.createElement("a");
   a.href = url;
-  a.download = `pickaxe-capital-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+
+  try {
+    const activity = JSON.parse(localStorage.getItem("pickaxeBackupMetadata") || "{}");
+    activity.lastExport = timestamp;
+    localStorage.setItem("pickaxeBackupMetadata", JSON.stringify(activity));
+  } catch(err) {}
+
   const status = document.getElementById("dataPortabilityStatus");
   if (status) {
     status.style.color = "var(--green)";
-    status.textContent = "System backup downloaded successfully.";
+    status.textContent = `Backup file [${filename}] generated and downloaded successfully.`;
   }
+  
+  renderStagingAdvanced();
 };
 
-window.importSystemBackup = (event) => {
+window.previewSystemBackup = (event) => {
   const file = event.target.files[0];
   if (!file) return;
   const reader = new FileReader();
   reader.onload = (e) => {
     try {
       const backup = JSON.parse(e.target.result);
-      let importedCount = 0;
-      Object.entries(backup).forEach(([key, value]) => {
-        localStorage.setItem(key, JSON.stringify(value));
-        importedCount++;
-      });
+      if (!backup || typeof backup !== "object") {
+        throw new Error("Invalid backup JSON format");
+      }
+      
+      let metadata = backup.metadata || { timestamp: "Legacy Backup (No date metadata)", system: "Pickaxe Capital", version: "1.0.0" };
+      let payload = backup.payload || backup;
+
+      const keys = Object.keys(payload);
+      const hasPickaxeKeys = keys.some(k => k.startsWith("pickaxe"));
+      if (!hasPickaxeKeys) {
+        throw new Error("No Pickaxe state keys detected in file");
+      }
+
+      state.backupPreview = {
+        metadata,
+        payload
+      };
+
       const status = document.getElementById("dataPortabilityStatus");
       if (status) {
         status.style.color = "var(--green)";
-        status.textContent = `Successfully imported ${importedCount} state keys. Reloading page to apply updates...`;
+        status.textContent = "Backup preview loaded. Please review warnings and confirm restore below.";
       }
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
+      
+      renderStagingAdvanced();
     } catch (err) {
+      console.error(err);
       const status = document.getElementById("dataPortabilityStatus");
       if (status) {
         status.style.color = "var(--red)";
-        status.textContent = `Import failed: Invalid backup file format.`;
+        status.textContent = `Import preview failed: ${err.message || 'Invalid JSON format'}`;
       }
     }
   };
+  reader.onerror = () => {
+    const status = document.getElementById("dataPortabilityStatus");
+    if (status) {
+      status.style.color = "var(--red)";
+      status.textContent = "Import failed: File read error.";
+    }
+  };
   reader.readAsText(file);
+};
+
+window.cancelBackupRestore = () => {
+  state.backupPreview = null;
+  const status = document.getElementById("dataPortabilityStatus");
+  if (status) {
+    status.style.color = "var(--amber)";
+    status.textContent = "Backup restore canceled.";
+  }
+  renderStagingAdvanced();
+};
+
+window.confirmBackupRestore = () => {
+  if (!state.backupPreview) return;
+  try {
+    const payload = state.backupPreview.payload;
+    let importedCount = 0;
+    Object.entries(payload).forEach(([key, value]) => {
+      localStorage.setItem(key, JSON.stringify(value));
+      importedCount++;
+    });
+
+    const timestamp = new Date().toISOString();
+    try {
+      const activity = JSON.parse(localStorage.getItem("pickaxeBackupMetadata") || "{}");
+      activity.lastImport = timestamp;
+      localStorage.setItem("pickaxeBackupMetadata", JSON.stringify(activity));
+    } catch(err) {}
+
+    state.backupPreview = null;
+    const status = document.getElementById("dataPortabilityStatus");
+    if (status) {
+      status.style.color = "var(--green)";
+      status.textContent = `Successfully restored ${importedCount} state keys. Reloading page to apply updates...`;
+    }
+    
+    addWorldEvent(`Restored system backup state containing ${importedCount} keys.`);
+    
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+  } catch (err) {
+    console.error(err);
+    const status = document.getElementById("dataPortabilityStatus");
+    if (status) {
+      status.style.color = "var(--red)";
+      status.textContent = `Restore execution failed: ${err.message}`;
+    }
+  }
 };
 
 window.resetSystemData = () => {
@@ -4222,7 +5234,9 @@ window.resetSystemData = () => {
     "pickaxeCompletionTracker",
     "pickaxeAlertRules",
     "pickaxeActionCenter",
-    "pickaxe_jarvis_command_history"
+    "pickaxe_jarvis_command_history",
+    "pickaxeArchiveVault",
+    "pickaxeOptionAlerts"
   ];
   keys.forEach(key => localStorage.removeItem(key));
   const status = document.getElementById("dataPortabilityStatus");
@@ -4249,6 +5263,9 @@ function renderStagingAdvanced() {
       <div class="panel-head"><div><p class="eyebrow">Advanced QA</p><h2>Low-Usage Build Checklist</h2></div><span class="pill">Mock vs Live separated</span></div>
       <div class="qa-grid">${checks.map((check) => `<label><input type="checkbox" ${check.includes("PROJECT_STATUS") ? "" : "checked"} /> ${escapeHtml(check)}</label>`).join("")}</div>
     </section>
+    
+    ${renderAdapterStagingSummary()}
+    ${renderAdapterRegistrySection(["AI Model Review", "GitHub/Project Status"])}
   `;
 }
 
@@ -4406,21 +5423,63 @@ function renderJarvisLabPage() {
 }
 
 function renderJarvisCommandConsole() {
+  const examples = [
+    "Send NVDA AI chip thesis to Signal Scout",
+    "Archive this idea about DXY risk",
+    "Create review packet for options flow watch",
+    "Assign Bookmark Miner to process saved links",
+    "Send build task to System Brain",
+    "Create CEO B review note for market gate"
+  ];
+
   return `
     <section class="jarvis-console panel">
-      <div class="panel-head"><div><p class="eyebrow">Local browser prototype</p><h2>CEO B Typed Command Console</h2></div><span class="pill">No backend execution</span></div>
-      <p>Type commands now. Voice and camera come later, only with explicit user permission.</p>
-      <textarea id="jarvisCommandInput" placeholder="Type a command for CEO B..."></textarea>
-      <div class="jarvis-examples">
-        ${["organize my bookmarks", "show market risks", "send this to Archive Miner", "prepare Jarvis voice later"].map((text) => `<button type="button" onclick="window.fillJarvisCommand?.('${escapeHtml(text)}')">${escapeHtml(text)}</button>`).join("")}
+      <div class="panel-head select-none">
+        <div>
+          <p class="eyebrow">Local browser prototype command router</p>
+          <h2>CEO B Typed Command Console</h2>
+        </div>
+        <span class="pill bg-slate-900 border border-[#1f242d] text-[#8c9099] text-[9.5px]">Local Prototype</span>
       </div>
-      <div class="game-action-row">
-        <button type="button" class="primary" onclick="window.classifyJarvisCommand?.()">Classify Command</button>
-        <button type="button" onclick="window.clearJarvisHistory?.()">Clear History</button>
-        <button type="button" onclick="window.copyJarvisResult?.()">Copy Result</button>
-        <a id="jarvisRouteLink" href="#/archive">Open Suggested Route</a>
+      
+      <div class="mb-4 text-[#909399] text-[11px] leading-relaxed select-none">
+        📋 <strong class="text-amber">Safety & Scope Disclosure:</strong> Jarvis Lab is a local prototype command router. It does not execute system commands, control devices, trade, or call live APIs. All dispatch actions process data locally in this browser database.
       </div>
-      <div id="jarvisCommandOutput" class="jarvis-output"><p class="muted">No command classified yet. Try: "organize my bookmarks" or "show market risks".</p></div>
+      
+      <div class="space-y-1 mb-3">
+        <span class="text-[#606266] text-[8.5px] uppercase font-bold tracking-wider font-mono block select-none">Type Command or Instruction</span>
+        <textarea id="jarvisCommandInput" 
+          placeholder="Type a command for CEO B... e.g. Send NVDA AI chip thesis to Signal Scout" 
+          class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] p-3 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[11px] font-sans h-16 resize-none"
+          oninput="window.previewJarvisCommand?.()"></textarea>
+      </div>
+
+      <div class="space-y-1 mb-4 select-none">
+        <span class="text-[#606266] text-[8.5px] uppercase font-bold tracking-wider font-mono block">Example Commands (Click to load)</span>
+        <div class="jarvis-examples grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+          ${examples.map((text) => `
+            <button type="button" 
+              class="bg-slate-950 text-[#8c9099] border border-slate-900 hover:border-slate-800 hover:text-white px-2 py-1 text-left text-[10px] rounded-sm transition-all truncate" 
+              onclick="window.fillJarvisCommand?.('${escapeHtml(text)}')">
+              ${escapeHtml(text)}
+            </button>
+          `).join("")}
+        </div>
+      </div>
+      
+      <div class="flex gap-2 mb-4 select-none">
+        <button type="button" class="bg-blue/20 text-[#42d9c8] border border-[#42d9c8]/30 hover:bg-blue/30 px-3 py-1 uppercase font-bold text-[9.5px] rounded-sm transition-colors" onclick="window.previewJarvisCommand?.()">Force Re-Classify</button>
+        <button type="button" class="bg-red/10 text-red border border-red/30 hover:bg-red/10 px-3 py-1 uppercase font-bold text-[9.5px] rounded-sm transition-colors" onclick="window.clearJarvisHistory?.()">Clear History</button>
+      </div>
+
+      <div id="jarvisCommandPreviewDock" class="mb-4">
+        <div class="jarvis-output text-center p-6 border border-[#1f242d] bg-[#0c0d0e]/60 rounded-sm select-none">
+          <p class="muted font-mono text-[11px] leading-relaxed">
+            Type a command in the console above to preview classifications and configure local dispatch targets.
+          </p>
+        </div>
+      </div>
+
       <div id="jarvisHistory" class="jarvis-history"></div>
     </section>
   `;
@@ -4958,213 +6017,414 @@ function getJarvisHistory() {
 function setJarvisHistory(history) {
   try {
     localStorage.setItem("pickaxe_jarvis_command_history", JSON.stringify((history || []).slice(0, 20)));
-  } catch {
-    // History is optional.
-  }
+  } catch {}
 }
 
 function classifyJarvisText(text) {
-  const value = String(text || "").toLowerCase();
-  const safety = "Prototype only. No backend execution, no system commands, no microphone/camera auto-start, and user approval required.";
-  const rules = [
-    [/archive|link|bookmark|source|research|repo/, "archive_search", "/archive", "Archive Miner", safety],
-    [/agent|worker|habitat|mission|task/, "agent_task", "/agents", "Habitat Builder", safety],
-    [/market|stock|futures|chart|gold|trading|ticker/, "market_watch", "/vision-map", "Signal Smith", "Research only; no broker execution."],
-    [/war|outage|earthquake|world|risk|netblocks|osiris/, "world_monitor", "/vision-map", "Risk Sentinel", safety],
-    [/codex|build|route|bug|website|deploy/, "website_build", "/staging", "Builder Agent", safety],
-    [/voice|talk|listen|microphone|jarvis|claw|openclaw|nemoclaw/, "voice_future", "/jarvis-lab", "Command Architect", "No background listening. Voice/Claw controls remain future adapters until explicit permission exists."],
-    [/camera|see|visual|video|screen/, "vision_future", "/jarvis-lab", "Vision Sentinel", "No hidden camera. Camera preview later requires explicit click and permission."],
-    [/ipad|phone|mac|device|control/, "device_future", "/life-os", "Device Marshal", "No device control until authentication, pairing, and security review exist."],
-  ];
-  const match = rules.find(([regex]) => regex.test(value));
-  return match
-    ? { intent: match[1], route: match[2], agent: match[3], safetyNote: match[4], status: "Prototype only" }
-    : { intent: "unknown", route: "/archive", agent: "CEO B", safetyNote: safety, status: "Prototype only" };
-}
-
-function executeJarvisCommand(command, result) {
-  const value = command.trim();
-  const lower = value.toLowerCase();
+  const val = String(text || "").trim();
+  const lower = val.toLowerCase();
   
-  const mineMatch = value.match(/^(?:mine|bookmark|save|add bookmark)\s+(https?:\/\/\S+)(?:\s+(.+))?$/i);
-  if (mineMatch) {
-    const url = mineMatch[1];
-    const notes = mineMatch[2] || "Mined via Jarvis typed command console.";
-    const title = domainFromUrl(url);
-    const res = window.addLocalBookmark(url, title, notes, "General Bookmark");
-    if (res.ok) {
-      return {
-        executed: true,
-        summary: `Mined bookmark successfully: ${title}`,
-        trace: [
-          `[Jarvis Console] Recognizing URL from command...`,
-          `[Jarvis Console] Matching intent: mine_source`,
-          `[Bookmark Miner] Classifying target: ${url}`,
-          `[Bookmark Miner] Saving bookmark: "${title}" to Local Storage database.`,
-          `[System Brain] Database updated. Event logged: Mined new bookmark.`
-        ]
-      };
-    } 
-  }
-
-  const assignMatch = value.match(/^(?:assign|task|run mission)\s+([A-Za-z\s]+?)\s+(?:to\s+)?(.+)$/i);
-  if (assignMatch) {
-    const agentQuery = assignMatch[1].trim();
-    const taskText = assignMatch[2].trim();
-    const agent = operatingAgents.find(a => a.name.toLowerCase().includes(agentQuery.toLowerCase()) || a.id.toLowerCase().includes(agentQuery.toLowerCase()));
-    if (agent && agent.id !== "ceo-b-os") {
-      const mission = addSharedMissionItem({
-        title: `Jarvis Task: ${taskText.slice(0, 36)}${taskText.length > 36 ? '...' : ''}`,
-        owner: agent.name,
-        source: "Jarvis Lab",
-        priority: "High",
-        nextAction: taskText
-      });
-      let opAgents = getOperatingAgentsState();
-      const matchAgent = opAgents.find(a => a.id === agent.id);
-      if (matchAgent) {
-        matchAgent.status = "Active Execution";
-        matchAgent.progress = 15;
-        matchAgent.currentTask = `Executing: ${taskText}`;
-        setOperatingAgentsState(opAgents);
-      }
-      return {
-        executed: true,
-        summary: `Assigned task to ${agent.name}: "${taskText}"`,
-        trace: [
-          `[Jarvis Console] Command classified: agent_task`,
-          `[Jarvis Console] Target worker: ${agent.name}`,
-          `[System Brain] Mapping workflow dependency: ${agent.name} -> ${taskText}`,
-          `[Task Smith] Created local mission card "${mission.title}" in pickaxeMissionQueue.`,
-          `[${agent.name}] Status changed: Idle -> Active Execution. Progress initiated at 15%.`,
-          `[${agent.name}] Ticking execution loop in background.`
-        ]
-      };
+  let category = "Unknown / Needs Manual Review";
+  let agent = "CEO B Review";
+  let route = "#/jarvis-lab";
+  let priority = "Medium";
+  let title = "Jarvis Command";
+  let nextAction = "Review and decide next step.";
+  let confidence = 70;
+  
+  if (lower.includes("nvda") && lower.includes("signal scout")) {
+    category = "Agent Mission";
+    agent = "Signal Scout";
+    route = "#/signals";
+    title = "NVDA AI chip thesis";
+    nextAction = "Process NVDA AI chip thesis scout report.";
+    confidence = 95;
+  } else if (lower.includes("dxy") && lower.includes("archive")) {
+    category = "Archive Note";
+    agent = "Archive Keeper";
+    route = "#/archive";
+    title = "DXY risk idea";
+    nextAction = "Store DXY risk note in vault.";
+    confidence = 90;
+  } else if (lower.includes("options flow") && lower.includes("review")) {
+    category = "CEO B Review Packet";
+    agent = "Flow Hunter";
+    route = "#/staging";
+    title = "Options flow watch packet";
+    nextAction = "CEO B to approve options flow watch parameters.";
+    confidence = 92;
+  } else if (lower.includes("bookmark miner") && lower.includes("process")) {
+    category = "Bookmark Processing";
+    agent = "Bookmark Miner";
+    route = "#/bookmarks";
+    title = "Process saved links";
+    nextAction = "Parse and categorize new bookmark links.";
+    confidence = 95;
+  } else if (lower.includes("build task") && lower.includes("system brain")) {
+    category = "Build Task";
+    agent = "System Brain";
+    route = "#/staging";
+    title = "System Brain build task";
+    nextAction = "Verify module integrations and build scripts.";
+    confidence = 95;
+  } else if (lower.includes("market gate") && lower.includes("review")) {
+    category = "CEO B Review Packet";
+    agent = "Risk Sentinel";
+    route = "#/staging";
+    title = "Market gate review note";
+    nextAction = "Review market gate validation rules.";
+    confidence = 90;
+  } else {
+    if (lower.includes("archive") || lower.includes("vault") || lower.includes("save")) {
+      category = "Archive Note";
+      agent = "Archive Keeper";
+      route = "#/archive";
+      title = val.slice(0, 40) + (val.length > 40 ? "..." : "");
+      nextAction = "Archiving command content.";
+      confidence = 80;
+    } else if (lower.includes("task") || lower.includes("mission") || lower.includes("assign")) {
+      category = "Agent Mission";
+      agent = "Task Smith";
+      route = "#/agents";
+      title = "Assigned Task: " + val.slice(0, 30);
+      nextAction = "Execute assigned mission.";
+      confidence = 82;
+    } else if (lower.includes("review") || lower.includes("approve") || lower.includes("packet")) {
+      category = "CEO B Review Packet";
+      agent = "CEO B Review";
+      route = "#/staging";
+      title = "Review: " + val.slice(0, 30);
+      nextAction = "Inspect packet and authorize deployment.";
+      confidence = 85;
+    } else if (lower.includes("alert") || lower.includes("rule") || lower.includes("trigger")) {
+      category = "Alert Rule Idea";
+      agent = "Risk Sentinel";
+      route = "#/app/alerts";
+      title = "Alert Rule: " + val.slice(0, 30);
+      nextAction = "Configure risk alert scout parameters.";
+      confidence = 80;
+    } else if (lower.includes("build") || lower.includes("staging") || lower.includes("check")) {
+      category = "Build Task";
+      agent = "System Brain";
+      route = "#/staging";
+      title = "Build Task: " + val.slice(0, 30);
+      nextAction = "Perform integration validation check.";
+      confidence = 80;
+    } else if (lower.includes("signal") || lower.includes("scout") || lower.includes("research")) {
+      category = "Signal Research";
+      agent = "Signal Scout";
+      route = "#/signals";
+      title = "Signal Scout: " + val.slice(0, 30);
+      nextAction = "Perform technical scan of ticker.";
+      confidence = 78;
+    } else if (lower.includes("bookmark") || lower.includes("link") || lower.includes("import")) {
+      category = "Bookmark Processing";
+      agent = "Bookmark Miner";
+      route = "#/bookmarks";
+      title = "Bookmarks: " + val.slice(0, 30);
+      nextAction = "Deduplicate and promote bookmarks.";
+      confidence = 85;
+    } else if (lower.includes("life") || lower.includes("admin") || lower.includes("daily")) {
+      category = "Life/Admin Note";
+      agent = "Story Teller";
+      route = "#/life-os";
+      title = "Life Note: " + val.slice(0, 30);
+      nextAction = "Update CEO B command briefing logs.";
+      confidence = 80;
     }
   }
 
-  const alertMatch = value.match(/^(?:alert|create alert|rule)\s+(\w+)\s+(.+)$/i);
-  if (alertMatch) {
-    const ticker = alertMatch[1].toUpperCase();
-    const condition = alertMatch[2];
-    const rules = getAlertRules();
-    const newRule = {
-      id: `rule-${Date.now()}`,
-      ticker,
-      triggerType: "Price Breakout",
-      condition,
-      priority: "High",
-      agentName: "Signal Scout",
-      active: true
-    };
-    rules.unshift(newRule);
-    setAlertRules(rules);
-    return {
-      executed: true,
-      summary: `Created alert rule for ${ticker}: ${condition}`,
-      trace: [
-        `[Jarvis Console] Command classified: alert_setup`,
-        `[Signal Scout] Initializing rules observer for: ${ticker}`,
-        `[Signal Scout] Storing alert condition: "${condition}"`,
-        `[System Brain] Alert rules engine registry updated (localStorage.pickaxeAlertRules).`,
-        `[Jarvis Console] Alert active. Monitoring active ticker threshold...`
-      ]
-    };
+  const agentsList = ["Signal Scout", "Flow Hunter", "Risk Sentinel", "News Raven", "Bookmark Miner", "Archive Keeper", "System Brain", "Task Smith", "Story Teller", "CEO B Review"];
+  const matchedAgent = agentsList.find(a => lower.includes(a.toLowerCase()));
+  if (matchedAgent) {
+    agent = matchedAgent;
   }
-
-  if (["diagnose", "diagnostics", "check", "health", "status"].includes(lower)) {
-    const healthText = els.healthText?.textContent || "Routes verified • static prototype";
-    const reviewsCount = getWorldReviewStack().length;
-    const missionsCount = getSharedQueue("pickaxeMissionQueue").length;
-    return { 
-      executed: true,
-      summary: `Diagnostics Completed: Systems Nominal`,
-      trace: [
-        `[Jarvis Console] Diagnostic scan started. Checking systems...`,
-        `[System Brain] Routing status: ${healthText}`,
-        `[Archive Keeper] Vault summary queried: 31,500+ records, deduplication active.`,
-        `[Task Smith] Board load: ${missionsCount} tasks registered.`,
-        `[CEO B Layer] Review queue load: ${reviewsCount} approvals pending.`,
-        `[Jarvis Console] Overall System Status: Nominal. Local environment active.`
-      ]
-    };
-  }
-
-  return { executed: false };
-}
-
-function renderJarvisResult(result, command, execRes = {}) {
-  let traceMarkup = "";
-  if (execRes.executed) {
-    traceMarkup = `
-      <div class="jarvis-trace-log" style="margin-top: 14px; border-left: 2px solid var(--green); padding-left: 12px; font-family: monospace; font-size: var(--font-small); background: rgba(73, 242, 143, 0.03); padding-top: 8px; padding-bottom: 8px; border-radius: 0 var(--radius) var(--radius) 0;">
-        <span class="label" style="color: var(--green); margin-bottom: 6px; display: inline-block;">Command Execution Trace</span>
-        ${execRes.trace.map(line => `<p style="margin: 3px 0; color: #d0cbb8;">${escapeHtml(line)}</p>`).join("")}
-      </div>
-    `;
-  }
-  return `
-    <article style="border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; background: var(--panel-2);">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <span class="status-badge ${execRes.executed ? 'success' : 'prototype'}">${execRes.executed ? 'Executed Local Action' : 'Prototype only'}</span>
-        <strong style="color: var(--teal);">${escapeHtml(result.intent)}</strong>
-      </div>
-      <p style="margin: 4px 0;"><strong>Command:</strong> ${escapeHtml(command)}</p>
-      <p style="margin: 4px 0;"><strong>Suggested Route:</strong> <a href="${escapeHtml(result.route)}" style="color: var(--teal); text-decoration: underline;">${escapeHtml(result.route)}</a></p>
-      <p style="margin: 4px 0;"><strong>Connected Agent:</strong> ${escapeHtml(result.agent)}</p>
-      <p style="margin: 4px 0; font-size: var(--font-small); color: var(--muted);"><strong>Safety & Scope:</strong> ${escapeHtml(result.safetyNote)}</p>
-      ${traceMarkup}
-    </article>
-  `;
-}
-
-function renderJarvisHistory() {
-  const holder = document.querySelector("#jarvisHistory");
-  if (!holder) return;
-  const history = getJarvisHistory();
-  holder.innerHTML = `
-    <div class="panel-head">
-      <div>
-        <p class="eyebrow">Saved locally</p>
-        <h2>Command History</h2>
-      </div>
-      <span class="pill">${history.length} commands</span>
-    </div>
-    ${history.length ? history.map((entry) => `
-      <article style="border: 1px solid rgba(255,255,255,0.04); padding: 10px; margin-bottom: 8px; border-radius: var(--radius); background: rgba(255,255,255,0.01); display: flex; flex-direction: column; gap: 4px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <strong>${escapeHtml(entry.intent)}</strong>
-          <span style="font-size: var(--font-small); color: ${entry.executed ? "var(--green)" : "var(--muted)"};">
-            ${entry.executed ? "Executed" : "Classified"}
-          </span>
-        </div>
-        <span style="font-family: monospace; font-size: var(--font-small); color: var(--muted);">&gt; ${escapeHtml(entry.command)}</span>
-        <small style="font-size: 11px;">Agent: ${escapeHtml(entry.agent)} • Route: ${escapeHtml(entry.route)}</small>
-      </article>
-    `).join("") : `<p class="muted">No saved commands yet.</p>`}
-  `;
+  
+  return { category, agent, route, priority, title, nextAction, confidence };
 }
 
 window.fillJarvisCommand = (text) => {
   const input = document.querySelector("#jarvisCommandInput");
-  if (input) input.value = text;
+  if (input) {
+    input.value = text;
+    window.previewJarvisCommand?.();
+  }
+};
+
+window.previewJarvisCommand = () => {
+  const input = document.querySelector("#jarvisCommandInput");
+  const dock = document.querySelector("#jarvisCommandPreviewDock");
+  if (!input || !dock) return;
+  const command = input.value.trim();
+  if (!command) {
+    dock.innerHTML = `
+      <div class="jarvis-output text-center p-6 border border-[#1f242d] bg-[#0c0d0e]/60 rounded-sm select-none">
+        <p class="muted font-mono text-[11px] leading-relaxed">
+          Type a command in the console above to preview classifications and configure local dispatch targets.
+        </p>
+      </div>
+    `;
+    return;
+  }
+  
+  const result = classifyJarvisText(command);
+  const categories = [
+    "Agent Mission",
+    "CEO B Review Packet",
+    "Archive Note",
+    "Alert Rule Idea",
+    "Build Task",
+    "Signal Research",
+    "Bookmark Processing",
+    "Life/Admin Note",
+    "Unknown / Needs Manual Review"
+  ];
+  
+  const agents = [
+    "Signal Scout",
+    "Flow Hunter",
+    "Risk Sentinel",
+    "News Raven",
+    "Bookmark Miner",
+    "Archive Keeper",
+    "System Brain",
+    "Task Smith",
+    "Story Teller",
+    "CEO B Review"
+  ];
+  
+  dock.innerHTML = `
+    <div class="dispatch-config-card border border-[#1f242d] bg-[#0c0d0e]/80 p-4 rounded-sm space-y-4 font-mono text-xs">
+      <div class="flex justify-between items-center border-b border-[#1f242d] pb-2 select-none">
+        <div>
+          <span class="label text-[9px] uppercase tracking-wider text-[#42d9c8]">Classification Preview</span>
+          <h3 class="text-white text-xs uppercase font-bold tracking-tight">Dispatch Configuration</h3>
+        </div>
+        <span class="pill bg-slate-900 border border-[#1f242d] text-[#8c9099] text-[9.5px]">Local Sandbox Router</span>
+      </div>
+
+      <!-- Parameter Config Form -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px]">
+        <div class="space-y-1">
+          <span class="text-[#606266] text-[8.5px] uppercase block select-none">Inferred Category</span>
+          <select id="jarvisPreviewCategory" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] px-2 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px]" onchange="window.updateJarvisPreviewParams()">
+            ${categories.map(cat => `<option value="${cat}" ${cat === result.category ? "selected" : ""}>${cat}</option>`).join("")}
+          </select>
+        </div>
+
+        <div class="space-y-1">
+          <span class="text-[#606266] text-[8.5px] uppercase block select-none">Target Agent / Role</span>
+          <select id="jarvisPreviewAgent" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] px-2 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px]" onchange="window.updateJarvisPreviewParams()">
+            ${agents.map(ag => `<option value="${ag}" ${ag === result.agent ? "selected" : ""}>${ag}</option>`).join("")}
+          </select>
+        </div>
+
+        <div class="space-y-1">
+          <span class="text-[#606266] text-[8.5px] uppercase block select-none">Suggested Route</span>
+          <input id="jarvisPreviewRoute" type="text" value="${escapeHtml(result.route)}" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] px-2 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px]" onchange="window.updateJarvisPreviewParams()" />
+        </div>
+
+        <div class="space-y-1">
+          <div class="flex justify-between items-center select-none">
+            <span class="text-[#606266] text-[8.5px] uppercase block">Confidence</span>
+            <span id="jarvisPreviewConfidenceLabel" class="text-[9.5px] text-[#42d9c8] font-bold">${result.confidence}%</span>
+          </div>
+          <input id="jarvisPreviewConfidence" type="range" min="0" max="100" value="${result.confidence}" class="accent-[#42d9c8] cursor-pointer w-full" oninput="window.updateJarvisPreviewParams()" />
+        </div>
+      </div>
+
+      <!-- Editable Payload Fields -->
+      <div class="space-y-3 pt-2 border-t border-[#1f242d]/60">
+        <div class="grid grid-cols-3 gap-2">
+          <div class="col-span-2 space-y-1">
+            <span class="text-[#606266] text-[8.5px] uppercase block select-none">Task Title / Brief Summary</span>
+            <input id="jarvisPreviewTitle" type="text" value="${escapeHtml(result.title)}" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] px-2 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px]" onchange="window.updateJarvisPreviewParams()" />
+          </div>
+          <div class="space-y-1">
+            <span class="text-[#606266] text-[8.5px] uppercase block select-none">Priority</span>
+            <select id="jarvisPreviewPriority" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] px-2 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px] font-mono" onchange="window.updateJarvisPreviewParams()">
+              <option ${result.priority === "High" ? "selected" : ""}>High</option>
+              <option ${result.priority === "Medium" ? "selected" : ""}>Medium</option>
+              <option ${result.priority === "Low" ? "selected" : ""}>Low</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <span class="text-[#606266] text-[8.5px] uppercase block select-none">Recommended Next Action</span>
+          <input id="jarvisPreviewNextAction" type="text" value="${escapeHtml(result.nextAction)}" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] px-2 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px]" onchange="window.updateJarvisPreviewParams()" />
+        </div>
+
+        <div class="space-y-1">
+          <span class="text-[#606266] text-[8.5px] uppercase block select-none">In-Depth Thesis Note / Payload Text</span>
+          <textarea id="jarvisPreviewNotes" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] p-2 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px] h-14 resize-none font-sans" onchange="window.updateJarvisPreviewParams()">${escapeHtml(command)}</textarea>
+        </div>
+      </div>
+
+      <!-- Dispatch Buttons Grid -->
+      <div class="pt-3 border-t border-[#1f242d]/80 space-y-2 select-none">
+        <span class="text-[#606266] text-[8.5px] uppercase block mb-1">Select Dispatch Pipeline</span>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <button type="button" class="bg-blue/20 text-[#42d9c8] border border-[#42d9c8]/30 hover:bg-blue/30 px-2 py-1.5 uppercase font-bold text-[9px] rounded-sm transition-colors tracking-wide" onclick="window.dispatchJarvisCommand('agent')">
+            Deploy to Agent Queue
+          </button>
+          <button type="button" class="bg-purple-500/20 text-purple-400 border border-purple-500/30 hover:bg-purple-500/30 px-2 py-1.5 uppercase font-bold text-[9px] rounded-sm transition-colors tracking-wide" onclick="window.dispatchJarvisCommand('review')">
+            Queue for CEO B Review
+          </button>
+          <button type="button" class="bg-green/10 text-green border border-green/30 hover:bg-green/20 px-2 py-1.5 uppercase font-bold text-[9px] rounded-sm transition-colors tracking-wide" onclick="window.dispatchJarvisCommand('archive')">
+            Commit to Archive Vault
+          </button>
+          <button type="button" class="bg-amber-500/10 text-amber border border-amber-500/30 hover:bg-amber-500/20 px-2 py-1.5 uppercase font-bold text-[9px] rounded-sm transition-colors tracking-wide" onclick="window.dispatchJarvisCommand('alert')">
+            Save as Alert Idea
+          </button>
+          <button type="button" class="bg-red/10 text-red border border-red/30 hover:bg-red/20 px-2 py-1.5 uppercase font-bold text-[9px] rounded-sm transition-colors tracking-wide" onclick="window.dispatchJarvisCommand('build')">
+            Save as Build Task
+          </button>
+          <button type="button" class="bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 px-2 py-1.5 uppercase font-bold text-[9px] rounded-sm transition-colors tracking-wide" onclick="window.dispatchJarvisCommand('history')">
+            History Log Only
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+window.updateJarvisPreviewParams = () => {
+  const confidenceInput = document.querySelector("#jarvisPreviewConfidence");
+  const confidenceLabel = document.querySelector("#jarvisPreviewConfidenceLabel");
+  if (confidenceInput && confidenceLabel) {
+    confidenceLabel.textContent = `${confidenceInput.value}%`;
+  }
+};
+
+window.dispatchJarvisCommand = (destination) => {
+  const input = document.querySelector("#jarvisCommandInput");
+  const command = input?.value?.trim() || "";
+  if (!command) return;
+
+  const category = document.querySelector("#jarvisPreviewCategory")?.value || "Unknown / Needs Manual Review";
+  const agent = document.querySelector("#jarvisPreviewAgent")?.value || "CEO B Review";
+  const route = document.querySelector("#jarvisPreviewRoute")?.value || "#/jarvis-lab";
+  const confidence = document.querySelector("#jarvisPreviewConfidence")?.value || "70";
+  const title = document.querySelector("#jarvisPreviewTitle")?.value || "Jarvis Command";
+  const priority = document.querySelector("#jarvisPreviewPriority")?.value || "Medium";
+  const nextAction = document.querySelector("#jarvisPreviewNextAction")?.value || "Review and decide next step.";
+  const notes = document.querySelector("#jarvisPreviewNotes")?.value || command;
+
+  if (destination === "agent") {
+    const mission = addSharedMissionItem({
+      title: title,
+      owner: agent,
+      source: "Jarvis Lab",
+      priority: priority,
+      nextAction: nextAction,
+      notes: notes
+    });
+    
+    let opAgents = getOperatingAgentsState();
+    const matchAgent = opAgents.find(a => a.name.toLowerCase().includes(agent.toLowerCase()) || a.id.toLowerCase().includes(agent.toLowerCase()));
+    if (matchAgent) {
+      matchAgent.status = "Active Execution";
+      matchAgent.progress = 15;
+      matchAgent.currentTask = `Executing: ${nextAction}`;
+      setOperatingAgentsState(opAgents);
+    }
+    showNotification(`Deployed task "${title}" to ${agent}'s Mission Queue.`);
+  } 
+  else if (destination === "review") {
+    addSharedReviewItem({
+      title: title,
+      source: "Jarvis Lab",
+      owner: agent,
+      status: "In Progress",
+      priority: priority,
+      output: notes,
+      confidence: Number(confidence)
+    });
+    showNotification(`Queued packet "${title}" on CEO B Review stack.`);
+  } 
+  else if (destination === "archive") {
+    const vaultState = getArchiveVaultState();
+    const newArchiveItem = {
+      id: `archive-jarvis-${Date.now()}`,
+      title: title,
+      url: `#/jarvis-lab`,
+      domain: "Jarvis Command Router",
+      type: "command_dispatch",
+      topic: "Jarvis Classified Command",
+      category: category,
+      habitat: "Jarvis Lab",
+      status: "archived",
+      priority: priority.toLowerCase(),
+      connectedAgent: agent,
+      summary: notes,
+      whySaved: "CEO B explicit command router dispatch.",
+      nextAction: nextAction,
+      tags: ["jarvis-lab", "dispatched"],
+      dateAdded: new Date().toISOString().slice(0, 10),
+      lastReviewed: new Date().toISOString().slice(0, 10)
+    };
+    vaultState.parsedLinks = [newArchiveItem, ...(vaultState.parsedLinks || [])];
+    setArchiveVaultState(vaultState);
+    showNotification(`Committed "${title}" to Archive Vault.`);
+  } 
+  else if (destination === "alert") {
+    const rules = getAlertRules();
+    const newRule = {
+      id: `rule-${Date.now()}`,
+      ticker: "JARVIS-RULE",
+      triggerType: "Price Breakout",
+      condition: notes.slice(0, 120),
+      priority: priority,
+      agentName: agent,
+      active: true
+    };
+    rules.unshift(newRule);
+    setAlertRules(rules);
+    showNotification(`Created Alert Rule Idea for ${agent}.`);
+  } 
+  else if (destination === "build") {
+    const tracker = getCompletionTrackerState();
+    tracker.areas.push({
+      id: `tracker-jarvis-${Date.now()}`,
+      name: title,
+      group: "CEO B Review Workflow",
+      status: "In Progress",
+      completion: 0,
+      priority: priority,
+      owner: agent,
+      notes: notes,
+      nextAction: nextAction
+    });
+    setCompletionTrackerState(tracker);
+    showNotification(`Registered staging build task "${title}".`);
+  } 
+  else if (destination === "history") {
+    showNotification("Saved command to Jarvis history log.");
+  }
+
+  const history = getJarvisHistory();
+  history.unshift({
+    command: command,
+    intent: category,
+    route: route,
+    agent: agent,
+    status: "Dispatched",
+    destination: destination,
+    time: new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString(),
+    nextAction: nextAction,
+    executed: true
+  });
+  setJarvisHistory(history);
+
+  if (input) input.value = "";
+  window.previewJarvisCommand?.();
+  renderJarvisHistory();
+  renderStaticIntelligencePages();
 };
 
 window.classifyJarvisCommand = () => {
-  const input = document.querySelector("#jarvisCommandInput");
-  const output = document.querySelector("#jarvisCommandOutput");
-  const link = document.querySelector("#jarvisRouteLink");
-  const command = input?.value?.trim() || "";
-  if (!command || !output) return;
-  const result = classifyJarvisText(command);
-  const execRes = executeJarvisCommand(command, result);
-  output.innerHTML = renderJarvisResult(result, command, execRes);
-  if (link) link.href = result.route;
-  const history = getJarvisHistory();
-  history.unshift({ command, ...result, executed: execRes.executed, time: new Date().toISOString() });
-  setJarvisHistory(history);
-  renderJarvisHistory();
-  if (input && execRes.executed) input.value = "";
+  window.previewJarvisCommand?.();
 };
 
 window.clearJarvisHistory = () => {
@@ -5173,9 +6433,56 @@ window.clearJarvisHistory = () => {
 };
 
 window.copyJarvisResult = () => {
-  const output = document.querySelector("#jarvisCommandOutput");
-  return writeClipboard(output?.innerText || "No Jarvis command classified yet.");
+  const input = document.querySelector("#jarvisCommandInput");
+  return writeClipboard(input?.value || "No command entered yet.");
 };
+
+function renderJarvisHistory() {
+  const holder = document.querySelector("#jarvisHistory");
+  if (!holder) return;
+  const history = getJarvisHistory();
+  holder.innerHTML = `
+    <div class="panel-head border-t border-[#1f242d] pt-4 mt-4 select-none">
+      <div>
+        <p class="eyebrow">Local command registry</p>
+        <h2 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Jarvis Command History</h2>
+      </div>
+      <span class="pill bg-slate-900 border border-[#1f242d] text-[#8c9099] text-[9.5px]">${history.length} logged</span>
+    </div>
+    
+    <div class="space-y-2 mt-3 font-mono text-[11px]">
+      ${history.length ? history.map((entry) => {
+        const destLabel = {
+          agent: "Agent Queue",
+          review: "CEO B Review",
+          archive: "Archive Vault",
+          alert: "Alert Rules",
+          build: "Build/Staging Task",
+          history: "History Log Only"
+        }[entry.destination] || entry.destination || "Logged";
+
+        const badgeClass = entry.destination === "history" ? "text-slate-500 border-slate-800 bg-slate-900/30" : "text-[#42d9c8] border-[#42d9c8]/30 bg-[#42d9c8]/5";
+        
+        return `
+          <article class="p-3 border border-[#1f242d] bg-[#0c0d0e]/60 rounded-sm">
+            <div class="flex justify-between items-start gap-2 mb-1.5 pb-1 border-b border-[#141820]/40">
+              <div>
+                <strong class="text-white text-[11.5px] block font-sans">${escapeHtml(entry.intent)}</strong>
+                <span class="text-[8.5px] text-[#606266] uppercase">Route: ${escapeHtml(entry.route)} • Agent: ${escapeHtml(entry.agent)}</span>
+              </div>
+              <span class="px-1.5 py-0.2 border text-[8px] font-bold rounded-sm uppercase tracking-wider ${badgeClass}">${escapeHtml(destLabel)}</span>
+            </div>
+            <p class="text-slate-300 font-sans text-[11px] leading-relaxed mb-2">&gt; ${escapeHtml(entry.command)}</p>
+            <div class="grid grid-cols-2 gap-2 text-[9px] text-[#8c9099] border-t border-[#141820]/30 pt-1.5">
+              <span>Time: <strong class="text-[#c0c4cc] font-sans">${escapeHtml(entry.time)}</strong></span>
+              <span>Next: <strong class="text-amber font-sans">${escapeHtml(entry.nextAction || "None")}</strong></span>
+            </div>
+          </article>
+        `;
+      }).join("") : `<p class="muted select-none text-center py-4">No saved commands in local database history yet.</p>`}
+    </div>
+  `;
+}
 
 function renderPipeline(title, steps) {
   return `<article class="pipeline-card"><h3>${escapeHtml(title)}</h3><div>${steps.map((step) => `<span>${escapeHtml(step)}</span>`).join("")}</div></article>`;
@@ -5319,6 +6626,39 @@ function renderActionItem(item) {
   `;
 }
 
+function renderActionPreviewItem(item) {
+  return `
+    <label class="action-preview-item ${item.completed ? "completed" : ""}">
+      <input type="checkbox" data-action-id="${escapeHtml(item.id)}" ${item.completed ? "checked" : ""} />
+      <span><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.priority)} • ${escapeHtml(item.page)}</small></span>
+    </label>
+  `;
+}
+
+function handleChecklistToggle(event) {
+  const input = event.target.closest("input[data-action-id]");
+  if (!input) return;
+  const saved = getActionState();
+  if (input.checked) saved[input.dataset.actionId] = true;
+  else delete saved[input.dataset.actionId];
+  setActionState(saved);
+  
+  // Update pickaxeMissionQueue status if it is a dynamic mission
+  const missionId = input.dataset.actionId;
+  const missions = getSharedQueue("pickaxeMissionQueue");
+  const mission = missions.find(m => m.id === missionId);
+  if (mission) {
+    mission.status = input.checked ? "Completed" : "active";
+    setSharedQueue("pickaxeMissionQueue", missions);
+  }
+  
+  renderActionCenter();
+  renderStaticIntelligencePages();
+  renderHomeCommandCenter();
+  renderAgentsPage();
+  renderAgentWorldOS();
+}
+
 function cloneTrackerDefaults() {
   return JSON.parse(JSON.stringify(buildCompletionTracker || { areas: [], latestSession: {} }));
 }
@@ -5360,47 +6700,375 @@ function calculateTrackerOverall(areas) {
   return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
 }
 
+function getCoverageMatrixState() {
+  let saved = null;
+  try {
+    saved = JSON.parse(localStorage.getItem("pickaxeCoverageMatrix") || "null");
+  } catch {
+    saved = null;
+  }
+  if (saved && typeof saved === "object" && Object.keys(saved).length > 0) {
+    return saved;
+  }
+  const defaults = {
+    "Builder Habitat": { ui: true, actions: true, persistence: true, adapter: true, empty: true, mobile: true },
+    "Risk Habitat": { ui: true, actions: true, persistence: true, adapter: true, empty: true, mobile: false },
+    "Signal Habitat": { ui: true, actions: true, persistence: true, adapter: true, empty: false, mobile: true },
+    "Archive Habitat": { ui: true, actions: true, persistence: true, adapter: true, empty: true, mobile: true }
+  };
+  localStorage.setItem("pickaxeCoverageMatrix", JSON.stringify(defaults));
+  return defaults;
+}
+
+window.toggleCoverageMatrix = (habitat, field) => {
+  const matrix = getCoverageMatrixState();
+  if (matrix[habitat]) {
+    matrix[habitat][field] = !matrix[habitat][field];
+  }
+  localStorage.setItem("pickaxeCoverageMatrix", JSON.stringify(matrix));
+  renderStaticIntelligencePages();
+};
+
+function renderHabitatCoverageMatrix() {
+  const matrix = getCoverageMatrixState();
+  const habitats = ["Builder Habitat", "Risk Habitat", "Signal Habitat", "Archive Habitat"];
+  const fields = [
+    { key: "ui", label: "UI Tested" },
+    { key: "actions", label: "Local Actions" },
+    { key: "persistence", label: "Data Persistence" },
+    { key: "adapter", label: "Adapter Labels" },
+    { key: "empty", label: "Empty States" },
+    { key: "mobile", label: "Mobile / Overflow" }
+  ];
+
+  return `
+    <section class="panel bg-[#0c0d0e] border border-[#1f242d] p-4 rounded-sm font-mono mt-4">
+      <div class="panel-head border-b border-[#1f242d] pb-2 mb-3 flex justify-between items-center select-none">
+        <div>
+          <p class="eyebrow">Visual QA Diagnostics</p>
+          <h2 class="text-xs font-bold text-white uppercase tracking-wider">Habitat Verification Matrix</h2>
+        </div>
+        <span class="pill bg-cyan-950/40 text-cyan-400 border border-cyan-900/30">Visual & Logic Checks</span>
+      </div>
+      
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse border border-slate-900 font-mono text-[11px] leading-relaxed select-none">
+          <thead>
+            <tr class="bg-[#121417] text-slate-400 border-b border-slate-900">
+              <th class="p-3 font-bold uppercase tracking-wider">Habitat Node</th>
+              ${fields.map(f => `<th class="p-3 font-bold uppercase tracking-wider text-center">${escapeHtml(f.label)}</th>`).join("")}
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-900 bg-[#0c0d0e]/60">
+            ${habitats.map(hab => {
+              const rowData = matrix[hab] || { ui: false, actions: false, persistence: false, adapter: false, empty: false, mobile: false };
+              return `
+                <tr class="hover:bg-[#121417]/50 transition-colors">
+                  <td class="p-3 font-bold text-white font-sans">${escapeHtml(hab)}</td>
+                  ${fields.map(f => {
+                    const checked = rowData[f.key];
+                    return `
+                      <td class="p-3 text-center">
+                        <input type="checkbox" 
+                          ${checked ? "checked" : ""} 
+                          onclick="window.toggleCoverageMatrix('${escapeHtml(hab)}', '${escapeHtml(f.key)}')" 
+                          class="cursor-pointer accent-[#42d9c8]"
+                        />
+                      </td>
+                    `;
+                  }).join("")}
+                </tr>
+              `;
+            }).join("")}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  `;
+}
+
+function renderCeoHandoffBrief(tracker) {
+  const areas = tracker.areas || [];
+  const readyItems = areas.filter(a => a.status === "Ready").map(a => a.name);
+  const blockedItems = areas.filter(a => a.status === "Blocked").map(a => a.name);
+  const readyCount = readyItems.length;
+  const blockedCount = blockedItems.length;
+  
+  const readyText = readyCount > 0 
+    ? readyItems.slice(0, 3).join(", ") + (readyCount > 3 ? ` (+${readyCount - 3} more)` : "")
+    : "No new modules marked Ready. All completed tasks are Passed.";
+    
+  const blockedText = blockedCount > 0
+    ? blockedItems.slice(0, 3).join(", ") + (blockedCount > 3 ? ` (+${blockedCount - 3} more)` : "")
+    : "Zero critical blockers detected in integration interfaces.";
+
+  const openHigh = areas.filter(a => a.priority === "High" && a.status !== "Passed");
+  const nextTarget = openHigh[0] 
+    ? `${openHigh[0].name} (Category: ${openHigh[0].group})`
+    : "No open High-priority tasks. Monitor live adapter connections.";
+
+  const nextInspectRoute = openHigh[0]
+    ? (openHigh[0].group.includes("Signal") ? "#/signals" 
+       : openHigh[0].group.includes("Risk") ? "#/app/alerts" 
+       : openHigh[0].group.includes("Archive") ? "#/archive" 
+       : "#/staging")
+    : "#/staging";
+
+  const isDemoReady = blockedCount === 0 && areas.filter(a => a.status === "Passed").length >= 8;
+  const readinessLabel = isDemoReady 
+    ? `<span class="px-2 py-0.5 border border-green/30 bg-green/10 text-green font-bold uppercase rounded text-[9.5px]">DEMO-READY</span>`
+    : `<span class="px-2 py-0.5 border border-amber/30 bg-amber/10 text-amber font-bold uppercase rounded text-[9.5px]">NEEDS TESTING</span>`;
+
+  return `
+    <section class="panel bg-[#0d0f11] border border-[#1f242d] p-4 rounded-sm font-mono mt-4">
+      <div class="panel-head border-b border-[#1f242d] pb-2 mb-3 flex justify-between items-center select-none">
+        <div>
+          <p class="eyebrow">Command Authorization</p>
+          <h2 class="text-xs font-bold text-white uppercase tracking-wider">CEO B Deployment Handoff Brief</h2>
+        </div>
+        ${readinessLabel}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-[11px] leading-relaxed">
+        <div class="space-y-2">
+          <div>
+            <strong class="text-green uppercase text-[9px] tracking-wider block">Ready for Review:</strong>
+            <p class="text-slate-300">${escapeHtml(readyText)}</p>
+          </div>
+          <div>
+            <strong class="text-red uppercase text-[9px] tracking-wider block">Blocked Modules:</strong>
+            <p class="text-slate-300">${escapeHtml(blockedText)}</p>
+          </div>
+        </div>
+        
+        <div class="space-y-2 border-t md:border-t-0 md:border-l border-[#1f242d] pt-2 md:pt-0 md:pl-4">
+          <div>
+            <strong class="text-amber uppercase text-[9px] tracking-wider block">Priority Review Target:</strong>
+            <p class="text-slate-300">${escapeHtml(nextTarget)}</p>
+          </div>
+          <div class="flex items-center justify-between gap-2 pt-1">
+            <div>
+              <strong class="text-[#42d9c8] uppercase text-[9px] tracking-wider block">Next Route Inspection:</strong>
+              <code class="text-white bg-slate-900 border border-[#1f242d] px-1.5 py-0.2 rounded-sm text-[9.5px]">${escapeHtml(nextInspectRoute)}</code>
+            </div>
+            <a href="${escapeHtml(nextInspectRoute)}" class="bg-blue/20 text-[#42d9c8] border border-[#42d9c8]/30 hover:bg-blue/30 px-2 py-0.5 uppercase font-bold text-[9px] rounded-sm transition-colors tracking-wide shrink-0">Open Route</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 pt-3.5 border-t border-[#1f242d] text-[9.5px] text-[#606266] italic leading-snug">
+        📋 Note for CEO B: This brief compiles active local checklist records. Live integration stubs represent code readiness only; no broker orders can execute from this interface.
+      </div>
+    </section>
+  `;
+}
+
+function renderTrackerProgressSummary(areas) {
+  const total = areas.length;
+  const passed = areas.filter(a => a.status === "Passed").length;
+  const blocked = areas.filter(a => a.status === "Blocked").length;
+  const highPriorityOpen = areas.filter(a => a.priority === "High" && a.status !== "Passed").length;
+  const overall = calculateTrackerOverall(areas);
+
+  const openHigh = areas.filter(a => a.priority === "High" && a.status !== "Passed");
+  const nextActionText = openHigh[0]
+    ? `Address ${openHigh[0].name} (Category: ${openHigh[0].group}).`
+    : "Review adapter env parameters or expand tests coverage.";
+
+  return `
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-center mb-4 select-none font-mono">
+      <div class="bg-[#0c0d0e] border border-[#1f242d] p-3 rounded-sm">
+        <strong class="text-white block text-sm font-bold font-mono">${total}</strong>
+        <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Checklist Items</span>
+      </div>
+      <div class="bg-[#0c0d0e] border border-[#1f242d] p-3 rounded-sm">
+        <strong class="text-green block text-sm font-bold font-mono">${passed}</strong>
+        <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Passed Items</span>
+      </div>
+      <div class="bg-[#0c0d0e] border border-[#1f242d] p-3 rounded-sm">
+        <strong class="text-red block text-sm font-bold font-mono">${blocked}</strong>
+        <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Blocked Items</span>
+      </div>
+      <div class="bg-[#0c0d0e] border border-[#1f242d] p-3 rounded-sm">
+        <strong class="text-amber block text-sm font-bold font-mono">${highPriorityOpen}</strong>
+        <span class="text-[#606266] text-[8.5px] uppercase block mt-1">High-Priority Open</span>
+      </div>
+      <div class="bg-[#0c0d0e] border border-[#1f242d] p-3 rounded-sm">
+        <strong class="text-[#42d9c8] block text-sm font-bold font-mono">${overall}%</strong>
+        <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Overall Progress</span>
+      </div>
+      
+      <div class="col-span-2 md:col-span-5 bg-[#090a0c] border border-[#1f242d] p-2.5 text-left text-[10.5px] leading-relaxed flex items-center justify-between gap-3 text-slate-300 rounded-sm">
+        <div>
+          <strong class="text-[#42d9c8] uppercase text-[9px] tracking-wider font-bold block mb-0.5">Recommended Next Action:</strong>
+          <span>${escapeHtml(nextActionText)}</span>
+        </div>
+        <span class="px-2 py-0.5 border border-purple-500/20 bg-purple-500/5 text-purple-400 text-[8px] font-bold rounded-sm uppercase tracking-wider shrink-0 animate-pulse">Diagnostics Guided</span>
+      </div>
+    </div>
+  `;
+}
+
 function renderCompletionTracker(mode = "full") {
   const tracker = getCompletionTrackerState();
   const overall = calculateTrackerOverall(tracker.areas);
   const compact = mode === "compact";
-  const areas = compact ? tracker.areas.slice(0, 4) : tracker.areas;
+  
+  if (compact) {
+    const areas = tracker.areas.slice(0, 4);
+    return `
+      <section class="completion-tracker compact">
+        <div class="completion-head">
+          <div>
+            <p class="eyebrow">Build Completion Tracker</p>
+            <h2>${overall}% Overall Completion</h2>
+            <p>One central progress system for finished work, broken items, setup needs, Codex changes, and next actions. Edits save locally in this browser.</p>
+          </div>
+          <div class="completion-ring" style="--pct:${overall}"><strong>${overall}%</strong><span>overall</span></div>
+        </div>
+        <div class="completion-area-grid">
+          ${areas.map((area) => renderTrackerArea(area, compact)).join("")}
+        </div>
+        <a class="completion-open-link" href="#/staging">Edit full tracker on Staging</a>
+      </section>
+    `;
+  }
+
+  const areasByGroup = {};
+  tracker.areas.forEach(area => {
+    const groupName = area.group || "General Areas";
+    if (!areasByGroup[groupName]) areasByGroup[groupName] = [];
+    areasByGroup[groupName].push(area);
+  });
+
+  const categoriesOrder = [
+    "Builder Habitat",
+    "Risk Habitat",
+    "Signal Habitat",
+    "Archive Habitat",
+    "Adapter Readiness",
+    "Data Backup / Portability",
+    "CEO B Review Workflow",
+    "General Areas"
+  ];
+
+  const groupedHtml = categoriesOrder.map(groupName => {
+    const list = areasByGroup[groupName];
+    if (!list || list.length === 0) return "";
+    return `
+      <div class="mb-6 border-b border-[#141820] pb-6">
+        <div class="flex items-center gap-2 mb-3.5 select-none font-mono">
+          <span class="w-1.5 h-3 bg-[#42d9c8] rounded-sm"></span>
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider">${escapeHtml(groupName)}</h3>
+          <span class="px-1.5 py-0.2 bg-slate-900 border border-[#1f242d] text-[#8c9099] text-[8.5px] rounded-sm shrink-0">${list.length} tasks</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          ${list.map(area => renderTrackerArea(area, false)).join("")}
+        </div>
+      </div>
+    `;
+  }).join("");
+
   return `
-    <section class="completion-tracker ${compact ? "compact" : ""}">
+    <section class="completion-tracker">
       <div class="completion-head">
         <div>
-          <p class="eyebrow">Build Completion Tracker</p>
-          <h2>${overall}% Overall Completion</h2>
+          <p class="eyebrow">Ecosystem Integration Status</p>
+          <h2>${overall}% Overall QA Score</h2>
           <p>One central progress system for finished work, broken items, setup needs, Codex changes, and next actions. Edits save locally in this browser.</p>
         </div>
         <div class="completion-ring" style="--pct:${overall}"><strong>${overall}%</strong><span>overall</span></div>
       </div>
-      <div class="completion-area-grid">
-        ${areas.map((area) => renderTrackerArea(area, compact)).join("")}
+      
+      ${renderTrackerProgressSummary(tracker.areas)}
+      ${renderCeoHandoffBrief(tracker)}
+      ${renderHabitatCoverageMatrix()}
+      
+      <div class="mt-6 border border-[#1f242d] bg-[#0c0d0e] p-4 rounded-sm">
+        <div class="border-b border-[#1f242d] pb-2.5 mb-4 flex justify-between items-center select-none">
+          <div>
+            <p class="eyebrow">Staged Modules Checklist</p>
+            <h2 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Habitat Completion Checklist</h2>
+          </div>
+          <span class="pill bg-amber-950/20 text-amber border border-amber/30 uppercase text-[8.5px]">Audited Nodes</span>
+        </div>
+        
+        <div class="completion-grouped-sections">
+          ${groupedHtml}
+        </div>
       </div>
-      ${compact ? `<a class="completion-open-link" href="#/staging">Edit full tracker on Staging</a>` : renderTrackerEditor(tracker)}
+
+      ${renderTrackerEditor(tracker)}
     </section>
   `;
 }
 
 function renderTrackerArea(area, compact = false) {
+  const displayGroup = area.group || "General Areas";
+  const displayOwner = area.owner || "Unassigned Agent";
+  const displayNextAction = area.nextAction || "None specified.";
+
   return `
-    <article class="tracker-area-card" data-tracker-id="${escapeHtml(area.id)}">
-      <div class="tracker-area-top">
-        <h3>${escapeHtml(area.name)}</h3>
-        <span class="tracker-badge ${statusClass(area.status)}">${escapeHtml(area.status)}</span>
-      </div>
-      <div class="tracker-progress"><span style="width:${Number(area.completion || 0)}%"></span></div>
-      <small>${Number(area.completion || 0)}% • ${escapeHtml(area.priority || "Medium")} priority</small>
-      <p>${escapeHtml(area.notes || "")}</p>
-      ${compact ? "" : `
-        <div class="tracker-edit-row">
-          <input type="range" min="0" max="100" value="${Number(area.completion || 0)}" oninput="window.updateTrackerArea('${escapeHtml(area.id)}', 'completion', this.value)" />
-          <select onchange="window.updateTrackerArea('${escapeHtml(area.id)}', 'status', this.value)">${trackerStatuses().map((status) => `<option ${status === area.status ? "selected" : ""}>${status}</option>`).join("")}</select>
-          <select onchange="window.updateTrackerArea('${escapeHtml(area.id)}', 'priority', this.value)">${["High", "Medium", "Low"].map((priority) => `<option ${priority === area.priority ? "selected" : ""}>${priority}</option>`).join("")}</select>
+    <article class="tracker-area-card border border-[#1f242d] bg-[#0c0d0e]/60 hover:border-slate-700 transition-all p-3 flex flex-col justify-between rounded-sm" data-tracker-id="${escapeHtml(area.id)}">
+      <div>
+        <div class="tracker-area-top flex justify-between items-start gap-2 mb-2 border-b border-[#141820]/60 pb-1.5">
+          <div>
+            <h3 class="text-[11.5px] font-bold text-white font-mono tracking-tight">${escapeHtml(area.name)}</h3>
+            <span class="text-[8px] text-[#606266] uppercase font-bold tracking-wider font-mono">${escapeHtml(displayGroup)} • ${escapeHtml(displayOwner)}</span>
+          </div>
+          <span class="tracker-badge px-1.5 py-0.2 border text-[8px] font-bold rounded-sm uppercase tracking-wider shrink-0 ${statusClass(area.status)}">${escapeHtml(area.status)}</span>
         </div>
-        <textarea onchange="window.updateTrackerArea('${escapeHtml(area.id)}', 'notes', this.value)">${escapeHtml(area.notes || "")}</textarea>
-        <div class="tracker-actions"><button type="button" onclick="window.finishTrackerArea('${escapeHtml(area.id)}')">Mark Finished</button><button type="button" onclick="window.deleteTrackerArea('${escapeHtml(area.id)}')">Delete</button></div>
+        <div class="tracker-progress h-1 bg-slate-900 overflow-hidden mb-2 rounded-sm"><span class="h-full bg-[#42d9c8] block" style="width:${Number(area.completion || 0)}%"></span></div>
+        <div class="flex justify-between items-center text-[9px] text-[#909399] mb-2 font-mono">
+          <span>Completion: <strong class="text-white">${Number(area.completion || 0)}%</strong></span>
+          <span>Priority: <strong class="text-white uppercase">${escapeHtml(area.priority || "Medium")}</strong></span>
+        </div>
+        <p class="text-[10px] text-[#909399] leading-relaxed mb-3 font-sans">${escapeHtml(area.notes || "")}</p>
+        
+        <div class="mb-3 bg-black/25 p-2 border border-[#1f242d] rounded-sm text-[10px] leading-relaxed text-[#c0c4cc]">
+          <strong class="text-[#42d9c8] uppercase text-[8px] tracking-wider block mb-0.5">Next Action:</strong>
+          ${escapeHtml(displayNextAction)}
+        </div>
+      </div>
+      
+      ${compact ? "" : `
+        <div class="tracker-edit-row border-t border-[#141820] pt-2.5 mt-1 space-y-2 text-[9px] text-[#8c9099] font-mono">
+          <div class="flex items-center justify-between gap-2">
+            <span>Range:</span>
+            <input type="range" min="0" max="100" value="${Number(area.completion || 0)}" class="w-2/3 accent-[#42d9c8] cursor-pointer" oninput="window.updateTrackerArea('${escapeHtml(area.id)}', 'completion', this.value)" />
+          </div>
+          
+          <div class="grid grid-cols-2 gap-2">
+            <div class="flex items-center gap-1.5">
+              <span>Status:</span>
+              <select class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] text-[9.5px] px-1 py-0.5 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full font-mono" onchange="window.updateTrackerArea('${escapeHtml(area.id)}', 'status', this.value)">
+                ${trackerStatuses().map((status) => `<option ${status === area.status ? "selected" : ""}>${status}</option>`).join("")}
+              </select>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span>Priority:</span>
+              <select class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] text-[9.5px] px-1 py-0.5 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full font-mono" onchange="window.updateTrackerArea('${escapeHtml(area.id)}', 'priority', this.value)">
+                ${["High", "Medium", "Low"].map((priority) => `<option ${priority === area.priority ? "selected" : ""}>${priority}</option>`).join("")}
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-1.5 pt-1.5">
+            <div class="flex items-center justify-between gap-1">
+              <span>Next Action:</span>
+              <input type="text" value="${escapeHtml(displayNextAction)}" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] text-[9.5px] px-2 py-0.5 focus:outline-none focus:border-[#42d9c8] rounded-sm w-3/4 font-mono" onchange="window.updateTrackerArea('${escapeHtml(area.id)}', 'nextAction', this.value)" />
+            </div>
+            <div class="flex items-center justify-between gap-1">
+              <span>Notes:</span>
+              <textarea class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] text-[9.5px] p-1.5 focus:outline-none focus:border-[#42d9c8] rounded-sm w-3/4 font-sans h-8 resize-y" onchange="window.updateTrackerArea('${escapeHtml(area.id)}', 'notes', this.value)">${escapeHtml(area.notes || "")}</textarea>
+            </div>
+          </div>
+          
+          <div class="tracker-actions pt-2 flex justify-between gap-2 border-t border-[#141820]/40">
+            <button type="button" class="bg-green/10 text-green border border-green/30 hover:bg-green/20 px-2 py-0.5 uppercase font-bold rounded-sm transition-colors text-[8.5px]" onclick="window.finishTrackerArea('${escapeHtml(area.id)}')">Mark Passed</button>
+            <button type="button" class="bg-red/10 text-red border border-red/30 hover:bg-red/10 px-2 py-0.5 uppercase font-bold rounded-sm transition-colors text-[8.5px]" onclick="window.deleteTrackerArea('${escapeHtml(area.id)}')">Delete</button>
+          </div>
+        </div>
       `}
     </article>
   `;
@@ -5408,80 +7076,106 @@ function renderTrackerArea(area, compact = false) {
 
 function renderTrackerEditor(tracker) {
   const session = tracker.latestSession || {};
+  const groups = [
+    "Builder Habitat",
+    "Risk Habitat",
+    "Signal Habitat",
+    "Archive Habitat",
+    "Adapter Readiness",
+    "Data Backup / Portability",
+    "CEO B Review Workflow",
+    "General Areas"
+  ];
   return `
-    <section class="tracker-editor-grid">
-      <article class="latest-session-card">
-        <span class="label">Latest Codex Session</span>
-        <h3>${escapeHtml(tracker.lastUpdated || "Not saved yet")}</h3>
+    <section class="tracker-editor-grid select-none font-mono">
+      <article class="latest-session-card bg-[#0c0d0e] border border-[#1f242d] p-3 rounded-sm">
+        <span class="label uppercase text-[8.5px] text-[#606266] font-bold block mb-1">Latest Codex Session</span>
+        <h3 class="text-xs font-bold text-white mb-2">${escapeHtml(tracker.lastUpdated || "Not saved yet")}</h3>
         ${renderSessionList("Files changed", session.filesChanged)}
         ${renderSessionList("Features added", session.featuresAdded)}
         ${renderSessionList("Bugs fixed", session.bugsFixed)}
         ${renderSessionList("Remaining problems", session.remainingProblems)}
-        <p><b>Validation:</b> ${escapeHtml(session.validationCommand || "Not recorded")}</p>
-        <p><b>Result:</b> ${escapeHtml(session.validationResult || "Not recorded")}</p>
-        <p><b>Next:</b> ${escapeHtml(session.nextRecommendedTask || "Choose next task.")}</p>
+        <p class="text-[10px] text-[#909399] leading-snug mt-2"><b>Validation:</b> ${escapeHtml(session.validationCommand || "Not recorded")}</p>
+        <p class="text-[10px] text-[#909399] leading-snug"><b>Result:</b> ${escapeHtml(session.validationResult || "Not recorded")}</p>
+        <p class="text-[10px] text-[#909399] leading-snug"><b>Next:</b> ${escapeHtml(session.nextRecommendedTask || "Choose next task.")}</p>
       </article>
-      <article class="tracker-add-card">
-        <span class="label">Add Tracker Item</span>
-        <input id="trackerNewName" placeholder="New area or issue title" />
-        <select id="trackerNewStatus">${trackerStatuses().map((status) => `<option>${status}</option>`).join("")}</select>
-        <select id="trackerNewPriority"><option>High</option><option>Medium</option><option>Low</option></select>
-        <textarea id="trackerNewNotes" placeholder="Notes / what needs to happen"></textarea>
-        <button type="button" onclick="window.addTrackerItem()">Add item</button>
-        <button type="button" onclick="window.resetCompletionTracker()">Reset demo tracker data</button>
+      
+      <article class="tracker-add-card bg-[#0c0d0e] border border-[#1f242d] p-3 rounded-sm text-[10.5px] space-y-3">
+        <span class="label uppercase text-[8.5px] text-[#606266] font-bold block mb-1">Add Checklist Item</span>
+        
+        <div class="grid grid-cols-2 gap-2">
+          <div class="space-y-1">
+            <span class="text-[#606266] text-[8.5px] uppercase block">Item Title</span>
+            <input id="trackerNewName" placeholder="New area or issue title" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] px-2 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px]" />
+          </div>
+          <div class="space-y-1">
+            <span class="text-[#606266] text-[8.5px] uppercase block">Owner Agent / Habitat</span>
+            <input id="trackerNewOwner" placeholder="e.g. Risk Agent" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] px-2 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px]" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2">
+          <div class="space-y-1">
+            <span class="text-[#606266] text-[8.5px] uppercase block">Category Group</span>
+            <select id="trackerNewGroup" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] px-2 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px] font-mono">
+              ${groups.map(g => `<option value="${escapeHtml(g)}">${escapeHtml(g)}</option>`).join("")}
+            </select>
+          </div>
+          <div class="space-y-1">
+            <span class="text-[#606266] text-[8.5px] uppercase block">Status</span>
+            <select id="trackerNewStatus" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] px-2 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px] font-mono">
+              ${trackerStatuses().map((status) => `<option>${status}</option>`).join("")}
+            </select>
+          </div>
+          <div class="space-y-1">
+            <span class="text-[#606266] text-[8.5px] uppercase block">Priority</span>
+            <select id="trackerNewPriority" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] px-2 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px] font-mono">
+              <option>High</option>
+              <option>Medium</option>
+              <option>Low</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <span class="text-[#606266] text-[8.5px] uppercase block">Recommended Next Action</span>
+          <input id="trackerNewNextAction" placeholder="Actionable instruction..." class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] px-2 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px]" />
+        </div>
+
+        <div class="space-y-1">
+          <span class="text-[#606266] text-[8.5px] uppercase block">Detailed Notes</span>
+          <textarea id="trackerNewNotes" placeholder="Notes / what needs to happen..." class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] p-2 focus:outline-none focus:border-[#42d9c8] rounded-sm w-full text-[10px] h-12 resize-none font-sans"></textarea>
+        </div>
+
+        <div class="flex gap-2 pt-1.5 border-t border-[#1f242d]/60 text-[9px]">
+          <button type="button" class="bg-blue/20 text-[#42d9c8] border border-[#42d9c8]/30 hover:bg-blue/30 px-3 py-1 uppercase font-bold rounded-sm transition-colors" onclick="window.addTrackerItem()">Add Item</button>
+          <button type="button" class="bg-red/10 text-red border border-red/30 hover:bg-red/10 px-3 py-1 uppercase font-bold rounded-sm transition-colors" onclick="window.resetCompletionTracker()">Reset Demo QA Data</button>
+        </div>
+        <p class="text-[8.5px] text-[#606266] italic leading-tight">Warning: resetting clears all local edits and interactive matrices back to factory default seeds.</p>
       </article>
     </section>
   `;
 }
 
-function renderSessionList(label, items = []) {
-  return `<div class="session-list"><strong>${escapeHtml(label)}</strong>${(items || []).map((item) => `<span>${escapeHtml(item)}</span>`).join("") || "<span>None recorded</span>"}</div>`;
-}
-
 function trackerStatuses() {
-  return ["Finished", "In Progress", "Needs Setup", "Broken", "Demo Only", "Next", "Blocked"];
+  return ["Not Started", "In Progress", "Blocked", "Ready", "Passed"];
 }
 
 function statusClass(status = "") {
-  return String(status).toLowerCase().replaceAll(" ", "-");
-}
-
-function renderActionPreviewItem(item) {
-  return `
-    <label class="action-preview-item ${item.completed ? "completed" : ""}">
-      <input type="checkbox" data-action-id="${escapeHtml(item.id)}" ${item.completed ? "checked" : ""} />
-      <span><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.priority)} • ${escapeHtml(item.page)}</small></span>
-    </label>
-  `;
-}
-
-function handleChecklistToggle(event) {
-  const input = event.target.closest("input[data-action-id]");
-  if (!input) return;
-  const saved = getActionState();
-  if (input.checked) saved[input.dataset.actionId] = true;
-  else delete saved[input.dataset.actionId];
-  setActionState(saved);
-  
-  // Update pickaxeMissionQueue status if it is a dynamic mission
-  const missionId = input.dataset.actionId;
-  const missions = getSharedQueue("pickaxeMissionQueue");
-  const mission = missions.find(m => m.id === missionId);
-  if (mission) {
-    mission.status = input.checked ? "Completed" : "active";
-    setSharedQueue("pickaxeMissionQueue", missions);
-  }
-  
-  renderActionCenter();
-  renderStaticIntelligencePages();
-  renderHomeCommandCenter();
+  const norm = String(status).toLowerCase().replaceAll(" ", "-");
+  if (norm === "passed" || norm === "finished") return "text-green border-green/30 bg-green/5";
+  if (norm === "ready") return "text-purple-400 border-purple-500/20 bg-purple-500/5";
+  if (norm === "in-progress") return "text-blue border-blue/30 bg-blue/5";
+  if (norm === "blocked") return "text-red border-red/30 bg-red/5";
+  if (norm === "not-started") return "text-slate-500 border-slate-800 bg-slate-900/30";
+  return "text-slate-500 border-slate-800 bg-slate-900/30";
 }
 
 window.updateTrackerArea = (id, field, value) => {
   const tracker = getCompletionTrackerState();
   tracker.areas = tracker.areas.map((area) => area.id === id ? {
     ...area,
-    [field]: field === "completion" ? Number(value) : value,
+    [field]: (field === "completion" || field === "progress") ? Number(value) : value,
   } : area);
   setCompletionTrackerState(tracker);
   renderStaticIntelligencePages();
@@ -5490,7 +7184,7 @@ window.updateTrackerArea = (id, field, value) => {
 
 window.finishTrackerArea = (id) => {
   const tracker = getCompletionTrackerState();
-  tracker.areas = tracker.areas.map((area) => area.id === id ? { ...area, status: "Finished", completion: 100 } : area);
+  tracker.areas = tracker.areas.map((area) => area.id === id ? { ...area, status: "Passed", completion: 100 } : area);
   setCompletionTrackerState(tracker);
   renderStaticIntelligencePages();
   renderHomeCommandCenter();
@@ -5511,10 +7205,13 @@ window.addTrackerItem = () => {
   tracker.areas.push({
     id: `tracker-${Date.now()}`,
     name,
-    status: document.querySelector("#trackerNewStatus")?.value || "Next",
+    group: document.querySelector("#trackerNewGroup")?.value || "General Areas",
+    status: document.querySelector("#trackerNewStatus")?.value || "Not Started",
     completion: 0,
     priority: document.querySelector("#trackerNewPriority")?.value || "Medium",
+    owner: document.querySelector("#trackerNewOwner")?.value.trim() || "System Brain",
     notes: document.querySelector("#trackerNewNotes")?.value.trim() || "New tracker item.",
+    nextAction: document.querySelector("#trackerNewNextAction")?.value.trim() || "No next action specified."
   });
   setCompletionTrackerState(tracker);
   renderStaticIntelligencePages();
@@ -5523,6 +7220,7 @@ window.addTrackerItem = () => {
 
 window.resetCompletionTracker = () => {
   localStorage.removeItem("pickaxeCompletionTracker");
+  localStorage.removeItem("pickaxeCoverageMatrix");
   renderStaticIntelligencePages();
   renderHomeCommandCenter();
 };
@@ -5536,13 +7234,15 @@ function renderArchiveStats(stats) {
     ["Max depth", stats.maxFolderDepth],
     ["Local file links", stats.localFileLinks],
   ];
-  els.archiveStats.innerHTML = rows.map(([label, value]) => `
-    <article>
-      <span>${escapeHtml(label)}</span>
-      <strong>${Number(value || 0).toLocaleString()}</strong>
-      <small>Archive database</small>
-    </article>
-  `).join("");
+  if (els.archiveStats) {
+    els.archiveStats.innerHTML = rows.map(([label, value]) => `
+      <article>
+        <span>${escapeHtml(label)}</span>
+        <strong>${Number(value || 0).toLocaleString()}</strong>
+        <small>Archive database</small>
+      </article>
+    `).join("");
+  }
 }
 
 function renderArchiveOverview(payload) {
@@ -6608,81 +8308,151 @@ function renderAgentWorldOS() {
         <aside class="panel right-panel bg-[#0c0d0e] border border-[#1f242d] p-3 flex flex-col gap-3 rounded-sm overflow-y-auto max-h-[700px] lg:max-h-[690px]">
           <div class="flex flex-col gap-3 font-mono">
             
-            <!-- Section: Profile Header -->
-            <div class="border-b border-[#1f242d] pb-2">
-              <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block">Agent Dossier</span>
-              <h2 class="text-[12px] font-bold text-white uppercase truncate">${escapeHtml(selectedAgent.name)}</h2>
-              <span class="text-[9px] text-cyan-400 font-bold uppercase tracking-wider block">${escapeHtml(selectedAgent.title)}</span>
-            </div>
+            <!-- Section: Profile Header / Dossier Selector -->
+            ${selectedAgent.id === "ceo-b" ? `
+              <div class="border-b border-[#1f242d] pb-2">
+                <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block">Command Authority</span>
+                <h2 class="text-[12px] font-bold text-white uppercase">CEO B Review Desk</h2>
+                <span class="text-[9px] text-amber font-bold uppercase tracking-wider block">Decision Layer & Review Queue</span>
+              </div>
 
-            <!-- Section: Core Specs -->
-            <div class="grid grid-cols-2 gap-2 bg-black/40 p-2 border border-[#1f242d] text-[10px]">
-              <div>
-                <span class="text-[#606266] text-[8px] uppercase block">Branch</span>
-                <span class="text-white font-bold block truncate">${escapeHtml(selectedAgent.department)}</span>
-              </div>
-              <div>
-                <span class="text-[#606266] text-[8px] uppercase block">Rank / Level</span>
-                <span class="text-amber font-bold block">LV. ${selectedAgent.level || 15}</span>
-              </div>
-              <div>
-                <span class="text-[#606266] text-[8px] uppercase block">Status</span>
-                <span class="text-green font-bold block uppercase flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full bg-green animate-pulse shrink-0"></span>
-                  ${escapeHtml(selectedAgent.status)}
-                </span>
-              </div>
-              <div>
-                <span class="text-[#606266] text-[8px] uppercase block">Confidence</span>
-                <span class="text-cyan-400 font-bold block">${selectedAgent.confidence}%</span>
-              </div>
-            </div>
-
-            <!-- Section: Inputs / Outputs -->
-            <div class="bg-[#121417] p-2 border border-[#1f242d] text-[9.5px] leading-relaxed">
-              <div class="truncate"><strong class="text-[#606266]">INPUTS:</strong> <span class="text-[#c0c4cc]">${escapeHtml(selectedAgent.inputs)}</span></div>
-              <div class="truncate"><strong class="text-[#606266]">OUTPUTS:</strong> <span class="text-[#c0c4cc]">${escapeHtml(selectedAgent.outputs)}</span></div>
-            </div>
-
-            <!-- Section: Tasks & Actions -->
-            <div class="space-y-1.5 text-[10px]">
-              <div>
-                <span class="text-[#606266] text-[8px] uppercase block font-bold tracking-wider">Habitat Pod</span>
-                <p class="text-white truncate">${escapeHtml(selectedAgent.habitat)}</p>
-              </div>
-              <div>
-                <span class="text-[#606266] text-[8px] uppercase block font-bold tracking-wider">Current Objective</span>
-                <p class="text-slate-300 leading-snug">${escapeHtml(selectedAgent.task)}</p>
-              </div>
-              <div>
-                <span class="text-[#606266] text-[8px] uppercase block font-bold tracking-wider">Next Action</span>
-                <p class="text-slate-300 leading-snug">${escapeHtml(selectedAgent.nextAction)}</p>
-              </div>
-              <div class="bg-red-950/20 border border-red-900/30 p-2 text-red-400 text-[9.5px] flex items-start gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-red mt-1 shrink-0"></span>
+              <!-- Specs -->
+              <div class="grid grid-cols-2 gap-2 bg-black/40 p-2 border border-[#1f242d] text-[10px]">
                 <div>
-                  <strong class="text-[8px] uppercase block tracking-wider font-bold">Risk Gate Sentinel Flag</strong>
-                  <span>${escapeHtml(selectedAgent.riskFlag)}</span>
+                  <span class="text-[#606266] text-[8px] uppercase block">Authority</span>
+                  <span class="text-white font-bold block truncate">Founder Overseer</span>
+                </div>
+                <div>
+                  <span class="text-[#606266] text-[8px] uppercase block">Queue Size</span>
+                  <span class="text-amber font-bold block">${reviewStack.length} items pending</span>
                 </div>
               </div>
-            </div>
 
-            <!-- Section: Active Mission -->
-            <div class="border-t border-[#1f242d] pt-2 mt-1">
-              <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-1">Active Habitat Mission</span>
-              ${renderSelectedAgentMission(selectedAgent)}
-            </div>
+              <!-- Review Queue stack items list -->
+              <div class="space-y-3">
+                <span class="text-[9px] text-amber uppercase font-bold tracking-wider block mb-1">CEO B PENDING ITEMS</span>
+                ${reviewStack.length === 0 ? `
+                  <div class="p-3 border border-dashed border-[#1f242d] rounded-sm text-center">
+                    <p class="text-[#606266] italic text-[9.5px] mb-2">Review queue is empty. Signals are fully processed.</p>
+                    <p class="text-[#909399] text-[8.5px] leading-snug">Generate new review ideas on the <a href="#/signals" class="text-blue hover:underline font-bold">Signals</a> page or trigger node alerts on the <a href="#/vision-map" class="text-blue hover:underline font-bold">Vision Map</a>.</p>
+                  </div>
+                ` : reviewStack.map(item => `
+                  <div class="p-2 bg-[#121417]/60 border border-[#1f242d] rounded-sm text-[10px] space-y-2">
+                    <div class="flex justify-between items-center text-[8px]">
+                      <span class="text-cyan-400 font-bold uppercase">${escapeHtml(item.habitat || item.source || "System")}</span>
+                      <span class="px-1.5 py-0.2 bg-red/10 text-red border border-red/20 text-[7.5px] uppercase font-bold rounded-sm">${escapeHtml(item.priority || "Medium")}</span>
+                    </div>
+                    <div>
+                      <strong class="text-white block text-[10px] leading-snug">${escapeHtml(item.title)}</strong>
+                      <p class="text-[#909399] leading-relaxed mt-1 text-[9px]">${escapeHtml(item.output)}</p>
+                    </div>
+                    <div class="text-[8px] text-[#606266]">
+                      <span>Source Agent: ${escapeHtml(item.agents ? item.agents.join(", ") : (item.owner || "CEO B"))}</span>
+                    </div>
+                    
+                    <!-- Simplified CEO B Actions -->
+                    <div class="grid grid-cols-2 gap-1 pt-1.5 border-t border-[#1f242d] text-[8px]">
+                      <button type="button" class="bg-green/10 text-green border border-green/30 hover:bg-green/20 py-1 uppercase font-bold rounded-sm transition-colors" onclick="window.reviewStackAction('approved', '${escapeHtml(item.id)}')">Approve</button>
+                      <button type="button" class="bg-red/10 text-red border border-red/30 hover:bg-red/20 py-1 uppercase font-bold rounded-sm transition-colors" onclick="window.reviewStackAction('rejected', '${escapeHtml(item.id)}')">Reject</button>
+                      
+                      <!-- Assign to Agent Option -->
+                      <div class="col-span-2 mt-1">
+                        <div class="flex gap-1">
+                          <select id="assign-agent-select-${item.id}" class="bg-black/60 border border-[#1f242d] text-[#c0c4cc] text-[9px] px-1.5 py-1 focus:outline-none focus:border-[#42d9c8] rounded-sm font-mono flex-1">
+                            <option value="">-- Send to Agent --</option>
+                            ${habitatAgents.filter(a => a.id !== 'ceo-b').map(a => `<option value="${a.id}">${escapeHtml(a.name)} (${escapeHtml(a.department)})</option>`).join("")}
+                          </select>
+                          <button type="button" class="bg-blue/20 text-[#42d9c8] border border-[#42d9c8]/30 hover:bg-blue/30 px-2 py-1 uppercase font-bold rounded-sm transition-colors shrink-0" onclick="const sel = document.getElementById('assign-agent-select-${item.id}'); if(sel && sel.value) { window.reviewStackAction('send-to-agent', '${escapeHtml(item.id)}', sel.value); } else { showNotification('Select an agent first'); }">Send</button>
+                        </div>
+                      </div>
 
-            <!-- Section: Interactive Dispatch Form -->
-            <div class="border-t border-[#1f242d] pt-2 mt-1">
-              <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-1">Dispatch Agent Mission Task</span>
-              <textarea id="agentMissionTaskInput" placeholder="Tell ${escapeHtml(selectedAgent.name)} what to work on next. Saves locally to Staging." class="w-full bg-black/60 border border-[#1f242d] text-[#42d9c8] text-[10px] p-2 focus:outline-none focus:border-[#42d9c8] h-12 resize-none rounded-sm font-mono"></textarea>
-              <div class="flex gap-2 mt-1.5 justify-end">
-                <a href="${escapeHtml(selectedAgent.route)}" class="bg-slate-900 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:border-slate-500 transition-colors text-[9px] px-2.5 py-1 uppercase font-bold tracking-wider flex items-center justify-center rounded-sm">Open Route</a>
-                <button type="button" class="bg-blue/20 text-[#42d9c8] border border-[#42d9c8]/30 hover:bg-blue/30 transition-colors text-[9px] px-2.5 py-1 uppercase font-bold tracking-wider rounded-sm" onclick="window.dispatchAgentTask('${escapeHtml(selectedAgent.id)}')">Dispatch Task</button>
+                      <button type="button" class="col-span-2 mt-1 bg-purple-500/10 text-[#a855f7] border border-[#a855f7]/30 hover:bg-purple-500/20 py-1 uppercase font-bold rounded-sm transition-colors" onclick="window.reviewStackAction('archived', '${escapeHtml(item.id)}')">Archive Item</button>
+                    </div>
+                  </div>
+                `).join("")}
               </div>
-              <div id="dispatchStatus" class="text-[9px] text-green mt-1"></div>
-            </div>
+
+              <!-- Manual Warning Disclosure -->
+              <div class="mt-4 pt-3 border-t border-[#1f242d] text-[8px] text-[#606266] leading-snug">
+                <strong class="text-[#909399] uppercase block tracking-wider mb-0.5">Prototype Command Note</strong>
+                <span>All approvals, dispatches, rejections, and assignments are stored locally in the browser. Financial trading requires manual setup and execution inside third-party brokers (e.g. Webull).</span>
+              </div>
+            ` : `
+              <div class="border-b border-[#1f242d] pb-2">
+                <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block">Agent Dossier</span>
+                <h2 class="text-[12px] font-bold text-white uppercase truncate">${escapeHtml(selectedAgent.name)}</h2>
+                <span class="text-[9px] text-cyan-400 font-bold uppercase tracking-wider block">${escapeHtml(selectedAgent.title)}</span>
+              </div>
+
+              <!-- Section: Core Specs -->
+              <div class="grid grid-cols-2 gap-2 bg-black/40 p-2 border border-[#1f242d] text-[10px]">
+                <div>
+                  <span class="text-[#606266] text-[8px] uppercase block">Branch</span>
+                  <span class="text-white font-bold block truncate">${escapeHtml(selectedAgent.department)}</span>
+                </div>
+                <div>
+                  <span class="text-[#606266] text-[8px] uppercase block">Rank / Level</span>
+                  <span class="text-amber font-bold block">LV. ${selectedAgent.level || 15}</span>
+                </div>
+                <div>
+                  <span class="text-[#606266] text-[8px] uppercase block">Status</span>
+                  <span class="text-green font-bold block uppercase flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green animate-pulse shrink-0"></span>
+                    ${escapeHtml(selectedAgent.status)}
+                  </span>
+                </div>
+                <div>
+                  <span class="text-[#606266] text-[8px] uppercase block">Confidence</span>
+                  <span class="text-cyan-400 font-bold block">${selectedAgent.confidence}%</span>
+                </div>
+              </div>
+
+              <!-- Section: Inputs / Outputs -->
+              <div class="bg-[#121417] p-2 border border-[#1f242d] text-[9.5px] leading-relaxed">
+                <div class="truncate"><strong class="text-[#606266]">INPUTS:</strong> <span class="text-[#c0c4cc]">${escapeHtml(selectedAgent.inputs)}</span></div>
+                <div class="truncate"><strong class="text-[#606266]">OUTPUTS:</strong> <span class="text-[#c0c4cc]">${escapeHtml(selectedAgent.outputs)}</span></div>
+              </div>
+
+              <!-- Section: Tasks & Actions -->
+              <div class="space-y-1.5 text-[10px]">
+                <div>
+                  <span class="text-[#606266] text-[8px] uppercase block font-bold tracking-wider">Habitat Pod</span>
+                  <p class="text-white truncate">${escapeHtml(selectedAgent.habitat)}</p>
+                </div>
+                <div>
+                  <span class="text-[#606266] text-[8px] uppercase block font-bold tracking-wider">Current Objective</span>
+                  <p class="text-slate-300 leading-snug">${escapeHtml(selectedAgent.task)}</p>
+                </div>
+                <div>
+                  <span class="text-[#606266] text-[8px] uppercase block font-bold tracking-wider">Next Action</span>
+                  <p class="text-slate-300 leading-snug">${escapeHtml(selectedAgent.nextAction)}</p>
+                </div>
+                <div class="bg-red-950/20 border border-red-900/30 p-2 text-red-400 text-[9.5px] flex items-start gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-red mt-1 shrink-0"></span>
+                  <div>
+                    <strong class="text-[8px] uppercase block tracking-wider font-bold">Risk Gate Sentinel Flag</strong>
+                    <span>${escapeHtml(selectedAgent.riskFlag)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section: Active Mission -->
+              <div class="border-t border-[#1f242d] pt-2 mt-1">
+                <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-1">Active Habitat Mission</span>
+                ${renderSelectedAgentMission(selectedAgent)}
+              </div>
+
+              <!-- Section: Interactive Dispatch Form -->
+              <div class="border-t border-[#1f242d] pt-2 mt-1">
+                <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-1">Dispatch Agent Mission Task</span>
+                <textarea id="agentMissionTaskInput" placeholder="Tell ${escapeHtml(selectedAgent.name)} what to work on next. Saves locally to Staging." class="w-full bg-black/60 border border-[#1f242d] text-[#42d9c8] text-[10px] p-2 focus:outline-none focus:border-[#42d9c8] h-12 resize-none rounded-sm font-mono"></textarea>
+                <div class="flex gap-2 mt-1.5 justify-end">
+                  <a href="${escapeHtml(selectedAgent.route)}" class="bg-slate-900 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:border-slate-500 transition-colors text-[9px] px-2.5 py-1 uppercase font-bold tracking-wider flex items-center justify-center rounded-sm">Open Route</a>
+                  <button type="button" class="bg-blue/20 text-[#42d9c8] border border-[#42d9c8]/30 hover:bg-blue/30 transition-colors text-[9px] px-2.5 py-1 uppercase font-bold tracking-wider rounded-sm" onclick="window.dispatchAgentTask('${escapeHtml(selectedAgent.id)}')">Dispatch Task</button>
+                </div>
+                <div id="dispatchStatus" class="text-[9px] text-green mt-1"></div>
+              </div>
+            `}
 
           </div>
         </aside>
@@ -6766,38 +8536,58 @@ function renderAgentWorldOS() {
         </div>
 
       </footer>
-
+      
+      ${renderAdapterRegistrySection()}
     </section>
-  \`;
+  `;
 }
 
 function renderSelectedAgentMission(agent) {
-  const missions = habitatWorld.missions || [];
-  const match = missions.find(m => m.assignedAgents.includes(agent.name) || m.habitat.toLowerCase().replace(/\\s+/g, "-") === agent.habitat.toLowerCase().replace(/\\s+/g, "-")) || missions[0];
-  if (!match) return \`<p class="text-[#606266] italic text-[9.5px]">No active mission assigned to this habitat.</p>\`;
+  const missions = getEffectiveWorldMissions();
+  // Try to find a mission assigned specifically to this agent
+  let match = missions.find(m => m.assignedAgents && m.assignedAgents.includes(agent.name));
+  // If not found, try to find a mission in the agent's habitat
+  if (!match) {
+    match = missions.find(m => m.habitat && m.habitat.toLowerCase().replace(/\s+/g, "-") === agent.habitat.toLowerCase().replace(/\s+/g, "-"));
+  }
+  // Fallback to the first mission in the same habitat/system
+  if (!match) {
+    match = missions.find(m => m.habitat && (m.habitat.toLowerCase().includes("command") || m.habitat.toLowerCase().includes("habitat")));
+  }
+  // General fallback
+  if (!match) match = missions[0];
+
+  if (!match) {
+    return `
+      <div class="p-3 border border-dashed border-[#1f242d] rounded-sm text-center">
+        <p class="text-[#606266] italic text-[9.5px] mb-1">No active mission assigned to this agent.</p>
+        <p class="text-[#909399] text-[8.5px]">Use the dispatch form below to assign a custom mission task.</p>
+      </div>
+    `;
+  }
   
-  return \`
+  return `
     <div class="bg-[#121417]/40 border border-[#1f242d] p-2 rounded-sm text-[10px]">
       <div class="flex justify-between items-center mb-1 text-[8.5px] text-[#606266] uppercase font-mono">
-        <span>\${escapeHtml(match.habitat)}</span>
-        <span class="text-amber font-bold font-mono">\${escapeHtml(match.priority)}</span>
+        <span>${escapeHtml(match.habitat)}</span>
+        <span class="text-amber font-bold font-mono">${escapeHtml(match.priority)}</span>
       </div>
-      <strong class="text-white block leading-snug mb-1 font-sans text-[10.5px]">\${escapeHtml(match.title)}</strong>
-      <p class="text-[#909399] leading-snug mb-2 font-sans">\${escapeHtml(match.description)}</p>
+      <strong class="text-white block leading-snug mb-1 font-sans text-[10.5px]">${escapeHtml(match.title)}</strong>
+      <p class="text-[#909399] leading-snug mb-2 font-sans">${escapeHtml(match.description || match.output)}</p>
       
       <div class="space-y-1 mb-2">
-        <div class="flex justify-between text-[8px] text-[#606266]"><span>MISSION COMPLETED</span><span>\${match.progress}%</span></div>
+        <div class="flex justify-between text-[8px] text-[#606266]"><span>MISSION COMPLETED</span><span>${match.progress}%</span></div>
         <div class="w-full bg-slate-950 h-1 border border-slate-900 rounded-full overflow-hidden">
-          <div class="bg-cyan-500 h-full" style="width: \${match.progress}%"></div>
+          <div class="bg-cyan-500 h-full" style="width: ${match.progress}%"></div>
         </div>
       </div>
       
       <div class="text-[9px] text-[#606266] leading-tight pt-1.5 border-t border-[#1f242d]">
         <strong class="text-[8px] block uppercase mb-0.5">COLLABORATION CHAIN:</strong>
-        <span class="font-mono text-[8.5px] text-[#42d9c8]">\${escapeHtml(match.collaborationChain.join(" ➔ "))}</span>
+        <span class="font-mono text-[8.5px] text-[#42d9c8]">${escapeHtml((match.collaborationChain || ["CEO B", agent.name, "Staging"]).join(" ➔ "))}</span>
       </div>
     </div>
-  \`;
+  `;
 }
 
 window.selectWorldAgent = (agentId) => {
@@ -6826,7 +8616,7 @@ window.dispatchAgentTask = (agentId) => {
   
   const agent = habitatAgents.find(a => a.id === agentId);
   const targetSymbol = state.selectedSymbol || "SPY";
-  const taskId = \`task-dispatch-\${Date.now()}\`;
+  const taskId = `task-dispatch-${Date.now()}`;
   
   // 1. Save to Action Center / Staging (pickaxeActionCenter in localStorage)
   let savedState = {};
@@ -6847,7 +8637,7 @@ window.dispatchAgentTask = (agentId) => {
   
   const nextMission = {
     id: taskId,
-    title: \`Task dispatch: \${agent ? agent.name : "Agent"}\`,
+    title: `Task dispatch: ${agent ? agent.name : "Agent"}`,
     description: taskText,
     habitat: agent ? agent.habitat : "Market Habitat",
     priority: agent ? agent.priority || "High" : "High",
@@ -6855,7 +8645,7 @@ window.dispatchAgentTask = (agentId) => {
     collaborationChain: ["CEO B", agent ? agent.name : "Agent", "Staging"],
     status: "working",
     progress: 45,
-    output: \`Dispatched task: \${taskText}\`,
+    output: `Dispatched task: ${taskText}`,
     confidence: 88,
     destination: "CEO B",
     reviewStatus: "In Progress",
@@ -6881,11 +8671,11 @@ window.dispatchAgentTask = (agentId) => {
     habitat: agent ? agent.habitat : "AI Habitat"
   });
   ops.events.unshift({
-    id: \`event-\${Date.now()}\`,
+    id: `event-${Date.now()}`,
     time,
     agentId: "ceo-b-os",
     agentName: "CEO B",
-    message: \`Dispatched local task to \${agent ? agent.name : "Agent"}: \${taskText.slice(0, 45)}\${taskText.length > 45 ? "..." : ""}\`
+    message: `Dispatched local task to ${agent ? agent.name : "Agent"}: ${taskText.slice(0, 45)}${taskText.length > 45 ? "..." : ""}`
   });
   setAgentOpsState(ops);
   
@@ -6955,7 +8745,7 @@ function renderWorldAgents(habitats) {
 function renderWorldAgentRoster(habitats) {
   const agents = habitats.flatMap((habitat) => (habitat.agents || []).slice(0, 2).map((name) => ({ name, habitat }))).slice(0, 10);
   return agents.map((agent, index) => {
-    const mission = (habitatWorld.missions || []).find((item) => (item.assignedAgents || []).includes(agent.name)) || {};
+    const mission = getEffectiveWorldMissions().find((item) => (item.assignedAgents || []).includes(agent.name)) || {};
     return `
       <button class="world-agent-card ${state.selectedWorldAgentName === agent.name ? "selected" : ""}" type="button" onclick="window.selectWorldAgent?.('${escapeHtml(agent.name)}', '${escapeHtml(agent.habitat.id)}')">
         <div class="pixel-agent-figure unit-${(index % 6) + 1}"><b></b></div>
@@ -6970,7 +8760,7 @@ function renderWorldAgentRoster(habitats) {
 }
 
 function renderWorldDetailPanel(habitat, mission, agentName) {
-  const agentMission = (habitatWorld.missions || []).find((item) => (item.assignedAgents || []).includes(agentName)) || mission || {};
+  const agentMission = getEffectiveWorldMissions().find((item) => (item.assignedAgents || []).includes(agentName)) || mission || {};
   return `
     <section class="world-detail">
       <p class="eyebrow">Selected Habitat</p>
@@ -7171,7 +8961,7 @@ window.selectWorldAgent = (agentName, habitatId) => {
 
 window.selectWorldMission = (missionId) => {
   state.selectedMissionId = missionId;
-  const mission = (habitatWorld.missions || []).find((item) => item.id === missionId);
+  const mission = getEffectiveWorldMissions().find((item) => item.id === missionId);
   if (mission?.habitat) state.selectedHabitatId = mission.habitat;
   if (mission?.assignedAgents?.[0]) state.selectedWorldAgentName = mission.assignedAgents[0];
   renderAgentWorldOS();
@@ -7197,17 +8987,20 @@ window.worldAction = (action, missionId) => {
   window.operatingAgentAction?.(`mission ${action}`, "ceo-b-os");
 };
 
-window.reviewStackAction = (action, reviewId) => {
+window.reviewStackAction = (action, reviewId, targetAgentId = null) => {
   const worldState = getWorldState();
   const stack = getWorldReviewStack();
   const item = stack.find((entry) => entry.id === reviewId);
   if (!item) return;
+
+  const time = new Date().toLocaleTimeString();
+
   if (action === "approved") {
     worldState.reviewStack = stack.filter((entry) => entry.id !== reviewId);
-    worldState.wins = [{ ...item, status: "Approved", time: new Date().toLocaleTimeString() }, ...(worldState.wins || [])];
+    worldState.wins = [{ ...item, status: "Approved", time }, ...(worldState.wins || [])];
     
     // Automatically generate a mission task for the approved item
-    const agentName = item.agents?.[0] || "Task Smith";
+    const agentName = item.agents?.[0] || item.owner || "Task Smith";
     addSharedMissionItem({
       title: `Execute: ${item.title}`,
       owner: agentName,
@@ -7215,24 +9008,82 @@ window.reviewStackAction = (action, reviewId) => {
       priority: item.priority || "High",
       nextAction: item.output || "Execute approved plan."
     });
-  } else if (action === "archived") {
+    addWorldEvent(`CEO B approved: ${item.title}`);
+  } else if (action === "rejected") {
     worldState.reviewStack = stack.filter((entry) => entry.id !== reviewId);
-    worldState.archived = [{ ...item, status: "Archived", time: new Date().toLocaleTimeString() }, ...(worldState.archived || [])];
+    addWorldEvent(`CEO B rejected: ${item.title}`);
+  } else if (action === "send-to-agent") {
+    const agent = habitatAgents.find(a => a.id === targetAgentId) || habitatAgents[0];
+    const agentName = agent ? agent.name : "Task Smith";
+    
+    // Add to mission queue
+    addSharedMissionItem({
+      id: `mission-dispatched-${Date.now()}`,
+      title: `Execute: ${item.title}`,
+      owner: agentName,
+      source: item.habitat || "CEO B Command",
+      priority: item.priority || "High",
+      nextAction: item.output || "Execute approved plan."
+    });
+    
+    // Add to agent ops tasks
+    const ops = getAgentOpsState();
+    ops.tasks.unshift({
+      id: `task-dispatch-${Date.now()}`,
+      agentId: agent.id,
+      agentName: agentName,
+      action: "assigned mission",
+      status: "active",
+      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      text: item.output || item.title,
+      habitat: agent.habitat || "AI Habitat"
+    });
+    setAgentOpsState(ops);
+
+    worldState.reviewStack = stack.filter((entry) => entry.id !== reviewId);
+    addWorldEvent(`CEO B assigned review item "${item.title}" to ${agentName}.`);
+  } else if (action === "archived") {
+    // Archive: save to pickaxeArchiveVault
+    const vaultState = getArchiveVaultState();
+    const newArchiveItem = {
+      id: `archive-review-${Date.now()}`,
+      title: item.title,
+      url: `#/agents?agent=ceo-b`,
+      domain: "CEO B Review",
+      type: "review",
+      topic: "CEO B Approved Review Item",
+      category: "Archive / Tracker",
+      habitat: item.habitat || "CEO B Command",
+      status: "archived",
+      priority: item.priority || "medium",
+      connectedAgent: item.agents?.[0] || item.owner || "CEO B",
+      summary: item.output || "CEO B Review Stack archived item.",
+      whySaved: "CEO B explicit archive instruction.",
+      nextAction: "None. Archived in vault.",
+      tags: ["ceo-b-review", "archived"],
+      dateAdded: new Date().toISOString().slice(0, 10),
+      lastReviewed: new Date().toISOString().slice(0, 10)
+    };
+    vaultState.parsedLinks = [newArchiveItem, ...(vaultState.parsedLinks || [])];
+    setArchiveVaultState(vaultState);
+
+    worldState.reviewStack = stack.filter((entry) => entry.id !== reviewId);
+    worldState.archived = [{ ...item, status: "Archived", time }, ...(worldState.archived || [])];
+    addWorldEvent(`CEO B archived review item: ${item.title}`);
   } else {
     worldState.reviewStack = stack.map((entry) => entry.id === reviewId ? { ...entry, status: action } : entry);
   }
+
   worldState.events = [`${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} • CEO B review stack: ${item.title} -> ${action}`, ...(worldState.events || [])];
   setWorldState(worldState);
   
   // ALSO update pickaxeReviewQueue in localStorage to remain synchronized!
   const sharedQueue = getSharedQueue("pickaxeReviewQueue");
-  if (action === "approved" || action === "archived") {
-    setSharedQueue("pickaxeReviewQueue", sharedQueue.filter((entry) => entry.id !== reviewId));
-  } else {
-    setSharedQueue("pickaxeReviewQueue", sharedQueue.map((entry) => entry.id === reviewId ? { ...entry, status: action } : entry));
-  }
+  setSharedQueue("pickaxeReviewQueue", sharedQueue.filter((entry) => entry.id !== reviewId));
 
   window.operatingAgentAction?.(`review stack ${action}`, "ceo-b-os");
+  showNotification(`Review item: ${action}`);
+  renderAgentsPage();
 };
 
 function renderAgentGameNode(agentName, x, y, role, tone) {
