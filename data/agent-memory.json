@@ -1,0 +1,202 @@
+{
+  "missions": [
+    {
+      "id": "MP-1587",
+      "timestamp": "2026-05-30T04:51:20.628Z",
+      "goal": "Audit options liquidity parameters using model and data formulas",
+      "activeRoutes": [
+        {
+          "name": "Intelligence Route",
+          "color": "green",
+          "path": [
+            "eye-monitor",
+            "research-ideas",
+            "filter-gateway",
+            "ai-models",
+            "bookmarks-alerts",
+            "ceo-b-hq"
+          ]
+        },
+        {
+          "name": "Feedback Route",
+          "color": "white",
+          "path": [
+            "trading-floor",
+            "qa",
+            "memory-archive",
+            "brain-learning",
+            "filter-gateway",
+            "ceo-b-hq"
+          ]
+        },
+        {
+          "name": "Oversight Route",
+          "color": "blue",
+          "path": [
+            "ceo-b-hq",
+            "eye-monitor",
+            "agents-network",
+            "trading-floor",
+            "brain-learning",
+            "ceo-b-hq"
+          ]
+        },
+        {
+          "name": "Support Route",
+          "color": "gold",
+          "path": [
+            "saved-data",
+            "formula-engine",
+            "code-builder",
+            "agents-network",
+            "trading-floor"
+          ]
+        }
+      ],
+      "agentFindings": {
+        "Research Agent": "Identified key sector parameters and compiled TTT data metrics for: \"Audit options liquidity parameters using model and data formulas\".",
+        "Risk Agent": "Guarded execution limits. Confirmed that no actual trades will be placed.",
+        "Memory Agent": "Preserved mission logs and archived parameters in agent-memory.json.",
+        "QA Agent": "Verified file checkpoints, routes health index, and build checks.",
+        "Strategy Agent": "Standing by to support mission goal: \"Audit options liquidity parameters using model and data formulas\".",
+        "Recon Agent": "Standing by to support mission goal: \"Audit options liquidity parameters using model and data formulas\".",
+        "Trading Agent": "Analyzed liquidity placeholders and confirmed spread quality thresholds."
+      },
+      "riskGate": "No live execution connected. Webull execution remains separate and manual.",
+      "ceoBDecision": "pending",
+      "nextBuildStep": "Configure backend adapters to support manual review signals.",
+      "nextActions": [
+        "Verify nodes active states in the visual map legend",
+        "CEO B manual review required before coding decisions"
+      ]
+    },
+    {
+      "id": "MP-2753",
+      "timestamp": "2026-05-30T04:50:52.514Z",
+      "goal": "Build CEO B mission packet for the AI Habitat OS",
+      "activeRoutes": [
+        {
+          "name": "Intelligence Route",
+          "color": "green",
+          "path": [
+            "eye-monitor",
+            "research-ideas",
+            "filter-gateway",
+            "ai-models",
+            "bookmarks-alerts",
+            "ceo-b-hq"
+          ]
+        },
+        {
+          "name": "Feedback Route",
+          "color": "white",
+          "path": [
+            "trading-floor",
+            "qa",
+            "memory-archive",
+            "brain-learning",
+            "filter-gateway",
+            "ceo-b-hq"
+          ]
+        },
+        {
+          "name": "Oversight Route",
+          "color": "blue",
+          "path": [
+            "ceo-b-hq",
+            "eye-monitor",
+            "agents-network",
+            "trading-floor",
+            "brain-learning",
+            "ceo-b-hq"
+          ]
+        },
+        {
+          "name": "Implementation Route",
+          "color": "red",
+          "path": [
+            "ceo-b-hq",
+            "prompts-decisions",
+            "agents-network",
+            "trading-floor",
+            "code-builder",
+            "qa",
+            "ceo-b-hq"
+          ]
+        }
+      ],
+      "agentFindings": {
+        "Research Agent": "Identified key sector parameters and compiled TTT data metrics for: \"Build CEO B mission packet for the AI Habitat OS\".",
+        "Risk Agent": "Guarded execution limits. Confirmed that no actual trades will be placed.",
+        "Memory Agent": "Preserved mission logs and archived parameters in agent-memory.json.",
+        "QA Agent": "Verified file checkpoints, routes health index, and build checks.",
+        "Strategy Agent": "Standing by to support mission goal: \"Build CEO B mission packet for the AI Habitat OS\".",
+        "Recon Agent": "Standing by to support mission goal: \"Build CEO B mission packet for the AI Habitat OS\".",
+        "Builder Agent": "Staged build templates for files related to: \"Build CEO B mission packet for the AI Habitat OS\"."
+      },
+      "riskGate": "No live execution connected. Webull execution remains separate and manual.",
+      "ceoBDecision": "pending",
+      "nextBuildStep": "Implement specific modules to support \"Build CEO B mission packet for the AI Habitat OS\".",
+      "nextActions": [
+        "Verify nodes active states in the visual map legend",
+        "CEO B manual review required before coding decisions"
+      ]
+    }
+  ],
+  "alerts": [
+    {
+      "id": "ALT-356",
+      "ticker": "MISSION",
+      "direction": "OS",
+      "strategy": "mission_brief",
+      "expiry": "2026-05-30",
+      "strike": "Audit options liquidity parameters using model and data formulas",
+      "estimatedMid": "Planned",
+      "spreadQuality": "Pass",
+      "volume": "N/A",
+      "openInterest": "N/A",
+      "impliedVolatility": "N/A",
+      "delta": "N/A",
+      "theta": "N/A",
+      "thesis": "Mission MP-1587 launched successfully. Active routes: Intelligence Route, Feedback Route, Oversight Route, Support Route.",
+      "catalyst": "Goal: Audit options liquidity parameters using model and data formulas",
+      "invalidation": "Mission fails if manual verification finds discrepancies.",
+      "targetScenario": "Manual review of planned routes.",
+      "riskNotes": [
+        "No live execution connected. Webull execution remains separate and manual."
+      ],
+      "confidence": 85,
+      "status": "ceo_review",
+      "ceoBDecision": "pending",
+      "disclaimer": "Simulated research mission memo."
+    },
+    {
+      "id": "ALT-920",
+      "ticker": "MISSION",
+      "direction": "OS",
+      "strategy": "mission_brief",
+      "expiry": "2026-05-30",
+      "strike": "Build CEO B mission packet for the AI Habitat OS",
+      "estimatedMid": "Planned",
+      "spreadQuality": "Pass",
+      "volume": "N/A",
+      "openInterest": "N/A",
+      "impliedVolatility": "N/A",
+      "delta": "N/A",
+      "theta": "N/A",
+      "thesis": "Mission MP-2753 launched successfully. Active routes: Intelligence Route, Feedback Route, Oversight Route, Implementation Route.",
+      "catalyst": "Goal: Build CEO B mission packet for the AI Habitat OS",
+      "invalidation": "Mission fails if manual verification finds discrepancies.",
+      "targetScenario": "Manual review of planned routes.",
+      "riskNotes": [
+        "No live execution connected. Webull execution remains separate and manual."
+      ],
+      "confidence": 85,
+      "status": "ceo_review",
+      "ceoBDecision": "pending",
+      "disclaimer": "Simulated research mission memo."
+    }
+  ],
+  "decisions": [],
+  "lessons": []
+}

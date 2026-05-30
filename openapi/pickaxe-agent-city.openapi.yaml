@@ -1,0 +1,56 @@
+openapi: 3.0.3
+info:
+  title: Pickaxe Agent City / AI Habitat OS API
+  version: 1.0.0
+  description: API endpoints for running missions, tracking status, and reading memory.
+paths:
+  /api/status:
+    get:
+      summary: Retrieve system health status
+      responses:
+        '200':
+          description: OK
+  /api/routes:
+    get:
+      summary: Retrieve active route configurations
+      responses:
+        '200':
+          description: OK
+  /api/memory:
+    get:
+      summary: Retrieve stored agent memories
+      responses:
+        '200':
+          description: OK
+  /api/mission:
+    post:
+      summary: Dispatch a new agent mission goal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                goal:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /api/github/issue:
+    post:
+      summary: Create a GitHub issue (read-only unless write allowed)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+      responses:
+        '200':
+          description: OK

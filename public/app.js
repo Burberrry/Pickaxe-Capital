@@ -86,12 +86,17 @@ function layout(content, currentPath) {
     ["/risk-rules", "Risk Rules", "Gates"],
     ["/data-sources", "Data Sources", "Adapters"],
     ["/compliance", "Compliance", "Policy"],
-    ["/archive", "Archive", "Memory"]
-  ].map(([href, label, micro]) => `
-    <a class="${currentPath === href ? "active" : ""}" href="${link(href)}" aria-label="Navigate to ${label}">
-      <span>${sanitize(label)}</span><small>${sanitize(micro)}</small>
-    </a>
-  `).join("");
+    ["/archive", "Archive", "Memory"],
+    ["/agent-os.html", "AI Habitat OS", "Agent OS"]
+  ].map(([href, label, micro]) => {
+    const isActive = currentPath === href || (href === "/agent-os.html" && window.location.pathname.endsWith("/agent-os.html"));
+    const finalHref = href.startsWith("/") && href.endsWith(".html") ? href : link(href);
+    return `
+      <a class="${isActive ? "active" : ""}" href="${finalHref}" aria-label="Navigate to ${label}">
+        <span>${sanitize(label)}</span><small>${sanitize(micro)}</small>
+      </a>
+    `;
+  }).join("");
 
   const c = getCounts();
   return `
