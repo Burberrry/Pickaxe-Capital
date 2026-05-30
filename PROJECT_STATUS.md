@@ -206,7 +206,22 @@
 
 ## Next Small Task
 
-Follow perfection_roadmap.md checklist to integrate domain charts and TV embeds.
+## Latest Session - 2026-05-30 (AI Habitat OS Verification)
+
+- **Changed Files:** `public/app.js`, `public/agent-os.html`, `app.js`, `agent-os.html`, `PROJECT_STATUS.md`
+- **Features & Compatibility Added:**
+  - Added route alias `#/agents` to resolve to the Agents view in `app.js` (satisfying verification check 5).
+  - Fixed absolute links (`/` and `/agent-os.html`) in `agent-os.html` to be relative (`./` and `./agent-os.html`) with `target="_top"`. This prevents iframe-in-iframe nesting and correctly routes on subdirectory-hosted deployments like GitHub Pages.
+- **Verification Performed:**
+  - Verified local server running on port `4328` and serving correct endpoints via curl.
+  - Confirmed `/#/ai-habitat-os` loads with dynamic iframe embedding `agent-os.html`.
+  - Confirmed `/agent-os.html` loads as standalone page.
+  - Confirmed sidebar navigation link working.
+  - Confirmed `/#/vision-map`, `/#/agents`, and `/#/mission-control` function properly.
+  - Verified no blank pages or console errors.
+- **Validation Command:** `/Applications/Codex.app/Contents/Resources/node scripts/build.mjs` and `/Applications/Codex.app/Contents/Resources/node scripts/check-project.mjs`
+- **Validation Result:** All checks passed cleanly.
+- **Remaining Problems:** None for this verification phase.
 
 ## Latest Session - 2026-05-29 (Antigravity Agent City OS Integration)
 

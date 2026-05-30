@@ -607,18 +607,17 @@ window.PickaxeHabitatData = {
       { id: "validation", name: "Validation", status: "In Progress", completion: 80, priority: "High", notes: "Node build and project checker scripts pass. All core routes return 200." },
     ],
     latestSession: {
-      filesChanged: ["public/index.html", "public/app.js", "public/agent-os.html", "public/agent-os.js", "index.html", "app.js", "agent-os.html", "agent-os.js", "PROJECT_STATUS.md", "public/habitat-data.js", "package.json"],
+      filesChanged: ["public/app.js", "public/agent-os.html", "app.js", "agent-os.html", "PROJECT_STATUS.md", "public/habitat-data.js", "habitat-data.js"],
       featuresAdded: [
-        "Integrated Pickaxe Agent City / AI Habitat OS visual map dashboard into the main website navigation rail as item '13 AI Habitat OS'.",
-        "Implemented standalone route /agent-os.html and hash route #/ai-habitat-os embedding the dashboard as an iframe.",
-        "Coded client-side static fallbacks in agent-os.js so that routes planning and memory logs work completely offline on GitHub Pages.",
-        "Synchronized and copied the public files to the root directory for direct GitHub Pages deployment."
+        "Verified AI Habitat OS integration endpoints (/#/ai-habitat-os, /agent-os.html).",
+        "Added route alias #/agents to resolve to the Agents view in app.js.",
+        "Fixed absolute navigation links in agent-os.html to use relative paths and target='_top' to support GitHub Pages subfolder hosting and prevent iframe nesting."
       ],
       bugsFixed: [
-        "Fixed template string interpolation bug in agent-os.html so that titles render statically."
+        "Fixed #/agents route support and fixed external layout breakouts within the embedded agent OS iframe."
       ],
       validationCommand: "/Applications/Codex.app/Contents/Resources/node scripts/build.mjs",
-      validationResult: "Build validation passed. All stats, paths, and metadata checkers return nominal status.",
+      validationResult: "Build validation and project checker pass cleanly.",
       remainingProblems: [
         "Live data connectors require backend/API setup",
         "Real agent telemetry is not connected"
