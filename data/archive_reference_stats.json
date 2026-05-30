@@ -1,0 +1,160 @@
+{
+  "total_bookmark_links": 31504,
+  "unique_urls": 31399,
+  "duplicate_url_entries": 105,
+  "folders_subfolders": 913,
+  "max_folder_depth": 9,
+  "local_file_links": 26,
+  "top_domains": [
+    [
+      "twitter.com",
+      22354
+    ],
+    [
+      "instagram.com",
+      1950
+    ],
+    [
+      "google.com",
+      933
+    ],
+    [
+      "youtube.com",
+      478
+    ],
+    [
+      "x.com",
+      381
+    ],
+    [
+      "investopedia.com",
+      293
+    ],
+    [
+      "tradingview.com",
+      208
+    ],
+    [
+      "newtraderu.com",
+      101
+    ],
+    [
+      "barchart.com",
+      99
+    ],
+    [
+      "unusualwhales.com",
+      95
+    ],
+    [
+      "zerohedge.com",
+      93
+    ],
+    [
+      "investing.com",
+      92
+    ],
+    [
+      "webull.com",
+      51
+    ],
+    [
+      "finance.yahoo.com",
+      51
+    ],
+    [
+      "reddit.com",
+      46
+    ],
+    [
+      "nasdaq.com",
+      46
+    ],
+    [
+      "interactivebrokers.com",
+      45
+    ],
+    [
+      "sec.gov",
+      42
+    ],
+    [
+      "trendspider.com",
+      41
+    ],
+    [
+      "fintel.io",
+      40
+    ],
+    [
+      "whalewisdom.com",
+      39
+    ],
+    [
+      "en.wikipedia.org",
+      37
+    ],
+    [
+      "finviz.com",
+      36
+    ],
+    [
+      "seekingalpha.com",
+      36
+    ],
+    [
+      "webullapp.com",
+      34
+    ]
+  ],
+  "top_categories": [
+    [
+      "Social / Narrative Intelligence",
+      25296
+    ],
+    [
+      "GeoMacro / War / Oil",
+      4513
+    ],
+    [
+      "Market Data / Trading Tools",
+      1090
+    ],
+    [
+      "Unknown / Needs Review",
+      170
+    ],
+    [
+      "Options Flow / Options Education",
+      146
+    ],
+    [
+      "Research / Filings / Bear Case",
+      143
+    ],
+    [
+      "AI / Build / Automation",
+      72
+    ],
+    [
+      "Local Reference",
+      26
+    ],
+    [
+      "Education / Strategy Vault",
+      26
+    ],
+    [
+      "Crypto / On-chain",
+      11
+    ],
+    [
+      "Prediction Markets",
+      7
+    ],
+    [
+      "Life / Ideas / Personal Research",
+      4
+    ]
+  ]
+}

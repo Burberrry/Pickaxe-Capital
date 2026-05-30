@@ -1,119 +1,68 @@
-# AGENTS.md
+# Pickaxe Capital / AI Habitat OS Rules
 
-## Project Truth
+This project is Pickaxe Capital / AI Habitat OS.
 
-This is a static Node website with a modular ES6 architecture.
+## Core Concept
 
-### Active Files
+- The website is a premium dark cyberpunk AI civilization system.
+- It has two separate habitats: Market Habitat and Life Habitat.
+- CEO B connects both habitats as the founder decision layer.
+- CEO B does not replace the founder. CEO B organizes, reviews, ranks, and prepares decisions.
 
-**Backend:**
-- `server.mjs` - HTTP server with security headers, caching, and styled 404
+## Page Priorities
 
-**Frontend (Modular Architecture):**
-- `public/index.html` - Entry point
-- `public/app.js` - Main orchestrator
-- `public/habitat-data.js` - Static data
-- `public/styles.css` - Design system
+- `/vision-map` is the main command center and homepage.
+- `/signals` is the single market intelligence page. Legacy `/market-command` and `/signal-engine` bridge into it.
+- `/source-hub` is the external intelligence source cockpit.
+- `/archive` is the compounding intelligence vault.
+- `/rk-tracker` is the Roaring Kitty / DFV-inspired watchlist tracker.
+- `/berkshire-1965` is the historical case study page.
+- `/bookmarks` includes Chrome bookmark and X Bookmark Intelligence workflows.
+- `/agents` shows owners, tasks, progress, responsibilities, and activity.
+- `/jarvis-lab` is the typed CEO B command prototype and Jarvis research stack.
+- `/life-os` is the Pickaxe Life OS overview for Archive, Agents, Jarvis, OpenClaw research, and future device roles.
+- `/app/alerts` is the planned trigger and alerts center.
+- `/founder` combines founder identity and CEO B.
+- `/staging` is A-Z build, QA, source-health checks, and status.
+- `/ai-handoff` is the copy/paste context endpoint for ChatGPT/Codex. It is generated locally from `AGENTS.md`, `PROJECT_STATUS.md`, and `NEXT_STEPS.md`.
 
-**Frontend Modules** (in `public/modules/`):
-- `state.js` - State management, localStorage persistence, recovery
-- `router.js` - Route registration and navigation
-- `actions.js` - Event handlers for user interactions
-- `components.js` - All render functions for each page
-- `utils.js` - Utilities: sanitization, escaping, helpers
+## Engineering Rules
 
-## Architecture
+- Never delete working pages without asking.
+- Do not rebuild from scratch unless explicitly asked.
+- Do not duplicate pages; merge duplicate ideas into the stronger page.
+- Reuse components before creating new ones.
+- No duplicate data/component/page concepts.
+- Mock data must be labeled.
+- No fake live integrations.
+- No scraping or bypassing protected sites.
+- Use safe external-source fallbacks.
+- Keep design dark, premium, cyberpunk, readable, and Pickaxe Capital branded.
+- Prefer reusable components and shared data files.
+- Do not hardcode repeated agent data inside pages when it can live in a shared data layer.
+- Keep animations performant with CSS transforms and opacity.
+- Keep pages readable and organized.
+- No API keys in frontend code.
+- No auto-trading or broker order placement.
+- External Jarvis/OpenClaw/OpenJarvis/JARVIS research repos are inspiration only. Do not copy them into this site or turn this project into a fork.
+- Voice, camera, device control, and local assistant gateway work must remain explicit-permission/future-adapter until implemented safely.
 
-```
-┌─ public/app.js (orchestrator)
-├─ modules/state.js (state + localStorage)
-├─ modules/router.js (routing engine)
-├─ modules/actions.js (event wiring)
-├─ modules/components.js (page renderers)
-└─ modules/utils.js (sanitization + helpers)
-```
+## Verification Rules
 
-All state mutations are centralized in `state.js`.
-All rendering is centralized in `components.js`.
-All routing logic is in `router.js`.
-All HTML sanitization happens in `utils.js`.
+- After meaningful changes, run the build.
+- Update `PROJECT_STATUS.md` after each session.
+- Update the Build Completion Tracker before finishing every Codex session.
+- The tracker lives on `/staging` as the full editable version and on `/` as a compact command-center panel.
+- Tracker edits save in localStorage under `pickaxeCompletionTracker`; default data lives in `public/habitat-data.js` as `buildCompletionTracker`.
+- Every future Codex session must record changed files, features added, bugs fixed, validation command used, validation result, remaining problems, and next recommended task.
+- Every future Codex session should make sure `/ai-handoff` still works after server changes, because the user uses it to hand current website context to other AI tools.
+- In this environment, `npm` may be unavailable. If so, run:
+  `/Applications/Codex.app/Contents/Resources/node --run build`
+- Verify these routes before handoff:
+  `/`, `/agents`, `/vision-map`, `/archive`, `/staging`, `/founder`, `/ceo-b-profile`, `/jarvis-lab`, `/life-os`.
 
-## Routes
+## Current Reality
 
-- `/` → Home (command center overview)
-- `/mission-control` → CEO B command core
-- `/agent-engine` → Agent pipeline status
-- `/signals` → Research workbench
-- `/alerts` → Approved research memos
-- `/risk-rules` → Risk gates documentation
-- `/data-sources` → Data adapters
-- `/compliance` → Compliance disclosures
-- `/archive` → Rejected packets
-
-## Safety Rules for Agents
-
-- ✅ **Do not add API keys to frontend code.** All keys belong in backend proxies.
-- ✅ **Do not add auto-trading.** CEO B approval means manual human review only.
-- ✅ **Do not claim live integrations unless they exist.** Keep "Demo", "Future Adapter", or "Manual Review" labels honest.
-- ✅ **Keep all option/market packets research-only.** Disclaimer language is enforced by Compliance Guard.
-- ✅ **CEO B approval means internal manual review.** Not investment adviser approval.
-- ✅ **Sanitize all user-facing values.** Use `sanitize()` from utils.js for any dynamic content.
-- ✅ **Validate habitat data on startup.** The app halts if PICKAXE_DATA is corrupted.
-- ✅ **Recover from localStorage corruption.** State recovery is automatic and safe.
-
-## Data Validation
-
-Before any render:
-- All strings are passed through `sanitize()` to prevent injection
-- All alerts are validated against schema on app start
-- All localStorage reads are wrapped in try/catch
-- All render functions have error boundaries via `safeRender()`
-
-## LocalStorage
-
-Keys:
-- `pickaxe.alerts` - Array of alert packets
-- `pickaxe.checklist` - Array of checklist items
-- `pickaxe.version` - Version field for future migrations (currently 1)
-
-Recovery:
-- If localStorage is corrupted, the app auto-resets to defaults and logs a warning
-- No user data is lost; defaults are restored
-
-## No Breaking Changes
-
-✅ All existing routes work
-✅ All dashboard counts still work
-✅ CEO B Review workflow unchanged
-✅ Archive and Risk rejection unchanged
-✅ LocalStorage behavior preserved
-✅ GitHub Pages deployment compatible
-✅ Localhost dev server compatible
-
-## Deployment
-
-**Local:**
-```bash
-npm install
-npm start
-```
-Open `http://localhost:4328`
-
-**GitHub Pages:**
-Simply push to `main`. GitHub Actions will deploy the `public/` folder automatically (if configured).
-
-Alternatively, manually build and push to `gh-pages` branch.
-
-## Testing Checklist
-
-Before merging any changes:
-- [ ] All sidebar links load without errors
-- [ ] Dashboard counts update correctly when approving/rejecting packets
-- [ ] Mission Control checklist toggles and persists
-- [ ] Signals page loads all packets
-- [ ] Alert memo rendering is correct
-- [ ] Risk Reject sends packet to Archive
-- [ ] CEO B Approve moves packet to Alerts
-- [ ] LocalStorage survives browser refresh
-- [ ] No console errors on any route
-- [ ] No API keys or secrets in frontend code
+- The active app is served by `server.mjs`.
+- The `src/` Astro files exist as upgrade/source references, but the current running site is the static Node app in `public/`.
+- Live data and AI agent telemetry are not fully connected yet.

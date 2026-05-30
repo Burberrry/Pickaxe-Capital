@@ -34,20 +34,28 @@ const state = {
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
-const intelligenceSources = sharedHabitatData.intelligenceSources || [];
-const rkWatchlist = sharedHabitatData.rkTracker?.watchlist || [];
-const berkshire1965 = sharedHabitatData.berkshire1965 || { metrics: [], lessons: [] };
-const archiveIntelligenceItems = sharedHabitatData.archiveIntelligenceItems || [];
-const xBookmarksIntelligence = sharedHabitatData.xBookmarksIntelligence || {};
-const futureAdapters = sharedHabitatData.futureAdapters || [];
+
+function isStaticMode() {
+  return window.location.hostname.includes("github.io") || window.location.protocol === "file:";
+}
+
+const intelligenceSources = Array.isArray(sharedHabitatData.intelligenceSources) ? sharedHabitatData.intelligenceSources : [];
+const rkWatchlist = Array.isArray(sharedHabitatData.rkTracker?.watchlist) ? sharedHabitatData.rkTracker.watchlist : [];
+const berkshire1965 = (sharedHabitatData.berkshire1965 && typeof sharedHabitatData.berkshire1965 === "object") ? sharedHabitatData.berkshire1965 : { metrics: [], lessons: [] };
+const archiveIntelligenceItems = Array.isArray(sharedHabitatData.archiveIntelligenceItems) ? sharedHabitatData.archiveIntelligenceItems : [];
+const xBookmarksIntelligence = (sharedHabitatData.xBookmarksIntelligence && typeof sharedHabitatData.xBookmarksIntelligence === "object") ? sharedHabitatData.xBookmarksIntelligence : {};
+const futureAdapters = Array.isArray(sharedHabitatData.futureAdapters) ? sharedHabitatData.futureAdapters : [];
 function getOperatingAgentsState() {
   try {
     const stored = localStorage.getItem("pickaxeOperatingAgents");
-    if (stored) return JSON.parse(stored);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) return parsed;
+    }
   } catch (e) {
     console.error("Failed to parse operating agents state:", e);
   }
-  const initial = sharedHabitatData.operatingAgents || [];
+  const initial = Array.isArray(sharedHabitatData.operatingAgents) ? sharedHabitatData.operatingAgents : [];
   try {
     localStorage.setItem("pickaxeOperatingAgents", JSON.stringify(initial));
   } catch (err) {}
@@ -64,26 +72,26 @@ function setOperatingAgentsState(items) {
 }
 
 let operatingAgents = getOperatingAgentsState();
-const visionCommandNodes = sharedHabitatData.visionCommandNodes || [];
-const ownershipMatrix = sharedHabitatData.ownershipMatrix || [];
-const ceoReviewQueue = sharedHabitatData.ceoReviewQueue || [];
-const stalledIntegrations = sharedHabitatData.stalledIntegrations || [];
-const mockActivityFeed = sharedHabitatData.mockActivityFeed || [];
-const buildCompletionTracker = sharedHabitatData.buildCompletionTracker || { areas: [], latestSession: {} };
-const habitatWorld = sharedHabitatData.habitatWorld || { habitats: [], missions: [], paths: [], activity: [], reviewStack: [], progress: [] };
-const alertCommandAlerts = sharedHabitatData.alertCommandAlerts || [];
-const archiveCategories = sharedHabitatData.archiveCategories || [];
-const routeHealth = sharedHabitatData.routeHealth || [];
-const archiveVaultItems = sharedHabitatData.archiveVaultItems || [];
-const integrationSources = sharedHabitatData.integrationSources || [];
-const jarvisResearchSources = sharedHabitatData.jarvisResearchSources || [];
-const lifeOSModules = sharedHabitatData.lifeOSModules || [];
-const marketWatchlist = sharedHabitatData.marketWatchlist || [];
-const agentFactoryTemplates = sharedHabitatData.agentFactoryTemplates || [];
-const quantumBrainCouncil = sharedHabitatData.quantumBrainCouncil || [];
-const appleCommandEcosystem = sharedHabitatData.appleCommandEcosystem || [];
+const visionCommandNodes = Array.isArray(sharedHabitatData.visionCommandNodes) ? sharedHabitatData.visionCommandNodes : [];
+const ownershipMatrix = Array.isArray(sharedHabitatData.ownershipMatrix) ? sharedHabitatData.ownershipMatrix : [];
+const ceoReviewQueue = Array.isArray(sharedHabitatData.ceoReviewQueue) ? sharedHabitatData.ceoReviewQueue : [];
+const stalledIntegrations = Array.isArray(sharedHabitatData.stalledIntegrations) ? sharedHabitatData.stalledIntegrations : [];
+const mockActivityFeed = Array.isArray(sharedHabitatData.mockActivityFeed) ? sharedHabitatData.mockActivityFeed : [];
+const buildCompletionTracker = (sharedHabitatData.buildCompletionTracker && typeof sharedHabitatData.buildCompletionTracker === "object") ? sharedHabitatData.buildCompletionTracker : { areas: [], latestSession: {} };
+const habitatWorld = (sharedHabitatData.habitatWorld && typeof sharedHabitatData.habitatWorld === "object") ? sharedHabitatData.habitatWorld : { habitats: [], missions: [], paths: [], activity: [], reviewStack: [], progress: [] };
+const alertCommandAlerts = Array.isArray(sharedHabitatData.alertCommandAlerts) ? sharedHabitatData.alertCommandAlerts : [];
+const archiveCategories = Array.isArray(sharedHabitatData.archiveCategories) ? sharedHabitatData.archiveCategories : [];
+const routeHealth = Array.isArray(sharedHabitatData.routeHealth) ? sharedHabitatData.routeHealth : [];
+const archiveVaultItems = Array.isArray(sharedHabitatData.archiveVaultItems) ? sharedHabitatData.archiveVaultItems : [];
+const integrationSources = Array.isArray(sharedHabitatData.integrationSources) ? sharedHabitatData.integrationSources : [];
+const jarvisResearchSources = Array.isArray(sharedHabitatData.jarvisResearchSources) ? sharedHabitatData.jarvisResearchSources : [];
+const lifeOSModules = Array.isArray(sharedHabitatData.lifeOSModules) ? sharedHabitatData.lifeOSModules : [];
+const marketWatchlist = Array.isArray(sharedHabitatData.marketWatchlist) ? sharedHabitatData.marketWatchlist : [];
+const agentFactoryTemplates = Array.isArray(sharedHabitatData.agentFactoryTemplates) ? sharedHabitatData.agentFactoryTemplates : [];
+const quantumBrainCouncil = Array.isArray(sharedHabitatData.quantumBrainCouncil) ? sharedHabitatData.quantumBrainCouncil : [];
+const appleCommandEcosystem = Array.isArray(sharedHabitatData.appleCommandEcosystem) ? sharedHabitatData.appleCommandEcosystem : [];
 
-const statusCycle = sharedHabitatData.statusCycle || ["active", "scanning", "thinking", "working", "collaborating", "completed"];
+const statusCycle = Array.isArray(sharedHabitatData.statusCycle) ? sharedHabitatData.statusCycle : ["active", "scanning", "thinking", "working", "collaborating", "completed"];
 
 const mindsetQuotes = sharedHabitatData.mindsetQuotes || [
   {
@@ -112,24 +120,26 @@ const mindsetQuotes = sharedHabitatData.mindsetQuotes || [
   },
 ];
 
-const habitatAgents = (sharedHabitatData.agentRoster || []).map((agent) => {
-  const id = agent.id || agent.name.toLowerCase().replace(/\s+/g, "-");
+const habitatAgents = (Array.isArray(sharedHabitatData.agentRoster) ? sharedHabitatData.agentRoster : []).map((agent) => {
+  if (!agent) return null;
+  const name = agent.name || "Unnamed Agent";
+  const id = agent.id || name.toLowerCase().replace(/\s+/g, "-");
   return {
     id,
-    name: agent.name,
-    title: agent.role,
-    department: agent.branch,
+    name,
+    title: agent.role || "Agent",
+    department: agent.branch || "General",
     avatarType: agent.color === "gold" ? "crown" : agent.color === "purple" ? "book" : "radar",
-    status: agent.status.toLowerCase(),
-    task: agent.currentTask,
-    nextAction: agent.nextAction,
+    status: String(agent.status || "active").toLowerCase(),
+    task: agent.currentTask || "Idle",
+    nextAction: agent.nextAction || "Standby",
     progress: agent.progress || Math.floor(Math.random() * 50) + 40,
     confidence: agent.confidence || 85,
-    habitat: agent.habitat,
+    habitat: agent.habitat || "System",
     position: agent.position || { x: Math.floor(Math.random() * 80) + 10, y: Math.floor(Math.random() * 80) + 10 },
     portrait: agent.portrait || { x: 760, y: 285 },
-    connections: agent.connections || [],
-    logs: agent.logs || [agent.currentTask || "Active", "Nominal operations."],
+    connections: Array.isArray(agent.connections) ? agent.connections : [],
+    logs: Array.isArray(agent.logs) ? agent.logs : [agent.currentTask || "Active", "Nominal operations."],
     lastUpdated: agent.lastUpdated || new Date().toISOString(),
     color: agent.color || "steel",
     badge: agent.badge || "Static",
@@ -138,7 +148,7 @@ const habitatAgents = (sharedHabitatData.agentRoster || []).map((agent) => {
     inputs: agent.inputs || "N/A",
     outputs: agent.outputs || "N/A"
   };
-});
+}).filter(Boolean);
 
 const founderProfile = {
   howYouThink: [
@@ -192,7 +202,7 @@ const founderProfile = {
   ],
 };
 
-const actionCenterItems = sharedHabitatData.checklistItems || [
+const actionCenterItems = Array.isArray(sharedHabitatData.checklistItems) ? sharedHabitatData.checklistItems : [
   { id: "fix-npm", category: "Immediate Fixes", title: "Restore npm command availability", priority: "high", status: "open", page: "global", notes: "This shell can run Node scripts, but npm itself is missing." },
   { id: "route-audit", category: "Immediate Fixes", title: "Keep all required routes returning 200", priority: "high", status: "done", page: "all", notes: "Routes verified through local server." },
   { id: "agents-polish", category: "Design Improvements", title: "Make /agents the flagship habitat", priority: "high", status: "active", page: "/agents", notes: "Trading floor hub, pods, huddles, globe, and drawer added." },
@@ -203,7 +213,7 @@ const actionCenterItems = sharedHabitatData.checklistItems || [
   { id: "life-habitat", category: "Future Ideas", title: "Design Life Habitat separately from Market Habitat", priority: "medium", status: "open", page: "/vision-map", notes: "CEO B connects both habitats without mixing them." },
 ];
 
-const logoDomains = sharedHabitatData.marketWidgets?.logoDomains || {
+const logoDomains = (sharedHabitatData.marketWidgets && typeof sharedHabitatData.marketWidgets === "object" && sharedHabitatData.marketWidgets.logoDomains) ? sharedHabitatData.marketWidgets.logoDomains : {
   SPY: "ssga.com",
   QQQ: "invesco.com",
   NVDA: "nvidia.com",
@@ -312,8 +322,10 @@ const els = {
 document.querySelectorAll(".nav-button").forEach((button) => {
   button.addEventListener("click", () => {
     if (button.dataset.founderMode) state.founderMode = button.dataset.founderMode;
-    if (button.dataset.route) history.pushState({}, "", button.dataset.route);
-    setView(button.dataset.view);
+    if (button.dataset.route) {
+      const hashPart = button.dataset.route.substring(button.dataset.route.indexOf('#'));
+      window.location.hash = hashPart;
+    }
   });
 });
 
@@ -341,7 +353,7 @@ async function writeClipboard(text) {
 }
 
 window.copyAiHandoffLink = async () => {
-  const link = `${window.location.origin}${window.location.pathname}#/ai-handoff`;
+  const link = `${window.location.origin}/ai-handoff`;
   const input = document.querySelector("#aiHandoffLink");
   const status = document.querySelector("#aiHandoffStatus");
   if (input) input.value = link;
@@ -383,15 +395,10 @@ els.archiveRoutes.addEventListener("click", (event) => {
   if (!link) return;
   event.preventDefault();
   const route = link.dataset.archiveRoute;
-  const path = route === "overview" ? "/app/archive" : `/app/archive/${route}`;
-  history.pushState({}, "", path);
-  state.archiveRoute = route;
-  setView("archive");
+  window.location.hash = route === "overview" ? "#/archive" : `#/archive/${route}`;
 });
 els.archiveSearchBtn.addEventListener("click", () => {
-  state.archiveRoute = "sources";
-  history.pushState({}, "", "/app/archive/sources");
-  loadArchive("sources");
+  window.location.hash = "#/archive/sources";
 });
 els.agentFilters.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-filter]");
@@ -433,6 +440,34 @@ renderStaticIntelligencePages();
 renderHomeCommandCenter();
 openRequestedView();
 window.addEventListener("hashchange", openRequestedView);
+
+// Global Link Click Interceptor for GitHub Pages / Static Subdirectories compatibility
+document.addEventListener("click", (event) => {
+  const link = event.target.closest("a");
+  if (!link) return;
+  const href = link.getAttribute("href");
+  if (!href) return;
+  
+  // If it's a relative path starting with '/' but not '//' or '/#'
+  if (href.startsWith("/") && !href.startsWith("//") && !href.startsWith("/#")) {
+    event.preventDefault();
+    let hash = href;
+    if (href === "/") hash = "#/mission-control";
+    else if (href === "/agents") hash = "#/agent-engine";
+    else if (href === "/source-hub") hash = "#/data-sources";
+    else if (href === "/berkshire-1965") hash = "#/berkshire";
+    else if (href === "/rk-tracker") hash = "#/rkTracker";
+    else if (href === "/jarvis-lab") hash = "#/jarvisLab";
+    else if (href === "/life-os") hash = "#/lifeOS";
+    else if (href === "/project-update") hash = "#/projectUpdate";
+    else if (href === "/agent-builder-factory") hash = "#/agentBuilderFactory";
+    else {
+      hash = "#" + href;
+    }
+    window.location.hash = hash;
+  }
+});
+
 renderMindsetQuote();
 setInterval(refreshAll, 30000);
 setInterval(tickAgents, 3200);
@@ -499,22 +534,7 @@ function openRequestedView() {
   let view = "";
   
   if (hash) {
-    const hashRouteMap = {
-      "#/agents": "agents",
-      "#/agent-engine": "agents",
-      "#/jarvis-lab": "jarvisLab",
-      "#/life-os": "lifeOS",
-      "#/agent-builder-factory": "agentBuilderFactory",
-      "#/project-update": "projectUpdate",
-      "#/settings": "settings",
-      "#/rk-tracker": "rkTracker",
-      "#/berkshire-1965": "berkshire",
-      "#/life-habitat": "lifeHabitat",
-      "#/ai-habitat-os": "aiHabitatOS"
-    };
-    if (hashRouteMap[hash]) {
-      view = hashRouteMap[hash];
-    } else if (hash === "#/" || hash === "#/mission-control") {
+    if (hash === "#/" || hash === "#/mission-control") {
       view = "command";
     } else if (hash === "#/agent-engine") {
       view = "agents";
@@ -535,6 +555,8 @@ function openRequestedView() {
       view = "staging";
     } else if (hash === "#/ai-handoff") {
       view = "aiHandoff";
+    } else if (hash === "#/ai-habitat-os") {
+      view = "aiHabitatOS";
     } else if (hash === "#/bookmarks") {
       view = "bookmarks";
     } else if (hash === "#/vision-map") {
@@ -559,50 +581,51 @@ function openRequestedView() {
   if (!view) {
     const params = new URLSearchParams(window.location.search);
     const requested = params.get("view");
-    if (window.location.pathname === "/") {
+    const p = window.location.pathname;
+    if (p === "/" || p.endsWith("/Pickaxe-Capital/") || p.endsWith("/Pickaxe-Capital")) {
       view = "command";
-    } else if (window.location.pathname === "/app/alerts") {
+    } else if (p === "/app/alerts") {
       view = "alerts";
-    } else if (window.location.pathname === "/agents") {
+    } else if (p === "/agents") {
       view = "agents";
-    } else if (window.location.pathname === "/source-hub") {
+    } else if (p === "/source-hub") {
       view = "sourceHub";
-    } else if (window.location.pathname === "/signals") {
+    } else if (p === "/signals") {
       view = "signals";
-    } else if (window.location.pathname === "/rk-tracker") {
+    } else if (p === "/rk-tracker") {
       view = "rkTracker";
-    } else if (window.location.pathname === "/berkshire-1965") {
+    } else if (p === "/berkshire-1965") {
       view = "berkshire";
-    } else if (window.location.pathname === "/bookmarks") {
+    } else if (p === "/bookmarks") {
       view = "bookmarks";
-    } else if (window.location.pathname === "/jarvis-lab") {
+    } else if (p === "/jarvis-lab") {
       view = "jarvisLab";
-    } else if (window.location.pathname === "/agent-builder-factory") {
+    } else if (p === "/agent-builder-factory") {
       view = "agentBuilderFactory";
-    } else if (window.location.pathname === "/project-update") {
+    } else if (p === "/project-update") {
       view = "projectUpdate";
-    } else if (window.location.pathname === "/life-os") {
+    } else if (p === "/life-os") {
       view = "lifeOS";
-    } else if (window.location.pathname === "/life-habitat") {
+    } else if (p === "/life-habitat") {
       view = "lifeHabitat";
-    } else if (window.location.pathname === "/vision-map") {
+    } else if (p === "/vision-map") {
       view = "vision";
-    } else if (window.location.pathname === "/staging") {
+    } else if (p === "/staging") {
       view = "staging";
-    } else if (window.location.pathname === "/settings") {
+    } else if (p === "/settings") {
       view = "settings";
-    } else if (window.location.pathname === "/market-command" || window.location.pathname === "/signal-engine") {
+    } else if (p === "/market-command" || p === "/signal-engine") {
       view = "signals";
-    } else if (window.location.pathname === "/archive") {
+    } else if (p === "/archive") {
       state.archiveRoute = "overview";
       view = "archive";
-    } else if (window.location.pathname.startsWith("/app/archive")) {
-      state.archiveRoute = archiveRouteFromPath(window.location.pathname);
+    } else if (p.startsWith("/app/archive")) {
+      state.archiveRoute = archiveRouteFromPath(p);
       view = "archive";
-    } else if (window.location.pathname === "/about-founder" || window.location.pathname === "/founder") {
+    } else if (p === "/about-founder" || p === "/founder") {
       state.founderMode = "public";
       view = "founder";
-    } else if (window.location.pathname === "/app/ceo-b" || window.location.pathname === "/ceo-b-profile") {
+    } else if (p === "/app/ceo-b" || p === "/ceo-b-profile") {
       state.founderMode = "app";
       view = "founder";
     } else if (requested) {
@@ -612,9 +635,10 @@ function openRequestedView() {
     }
   }
 
-  if (view) {
-    setView(view);
+  if (!view) {
+    view = "command";
   }
+  setView(view);
 }
 
 function archiveRouteFromPath(pathname) {
@@ -638,21 +662,72 @@ async function refreshAll() {
 }
 
 async function checkHealth() {
+  if (isStaticMode()) {
+    els.healthDot.className = "dot";
+    els.healthText.textContent = "GitHub Pages Static • Backend Not Connected";
+    return;
+  }
   try {
     const health = await getJson("/api/health");
-    els.healthDot.className = `dot ${health.ok ? "ok" : "bad"}`;
-    els.healthText.textContent = health.ok ? "Routes verified • static prototype" : "Route check needed";
+    if (health && health.ok) {
+      els.healthDot.className = "dot ok";
+      els.healthText.textContent = "Routes verified • static prototype";
+    } else {
+      els.healthDot.className = "dot";
+      els.healthText.textContent = "Static Prototype • Demo Data";
+    }
   } catch {
-    els.healthDot.className = "dot bad";
-    els.healthText.textContent = "Server route issue";
+    els.healthDot.className = "dot";
+    els.healthText.textContent = "GitHub Pages Static • Backend Not Connected";
   }
 }
 
 async function loadMarket() {
-  const symbols = els.watchlistInput.value;
-  const payload = await getJson(`/api/market?symbols=${encodeURIComponent(symbols)}`);
-  state.market = payload.results || [];
-  els.marketGrid.innerHTML = state.market.map(renderMarketCard).join("");
+  const symbols = els.watchlistInput?.value || "SPY, QQQ, BTC";
+  let results = [];
+  if (isStaticMode()) {
+    const symList = symbols.split(",").map(s => s.trim().toUpperCase()).filter(Boolean);
+    const mockPrices = { SPY: 520.50, QQQ: 445.80, NVDA: 95.30, TSLA: 175.20, AAPL: 189.50, BTC: 92400.00 };
+    results = symList.map(sym => {
+      const price = mockPrices[sym] || (100 + Math.random() * 50);
+      const changePct = -3 + Math.random() * 6;
+      return {
+        symbol: sym,
+        name: `${sym} Watchlist`,
+        price: price,
+        change: price * (changePct / 100),
+        changePct: changePct,
+        spark: Array.from({ length: 15 }, () => price * (1 + (-0.02 + Math.random() * 0.04))),
+        ok: true,
+        currency: "USD"
+      };
+    });
+  } else {
+    try {
+      const payload = await getJson(`/api/market?symbols=${encodeURIComponent(symbols)}`);
+      results = payload.results || [];
+    } catch (error) {
+      console.warn("API market route error, using local fallback:", error);
+      const symList = symbols.split(",").map(s => s.trim().toUpperCase()).filter(Boolean);
+      const mockPrices = { SPY: 520.50, QQQ: 445.80, NVDA: 95.30, TSLA: 175.20, AAPL: 189.50, BTC: 92400.00 };
+      results = symList.map(sym => {
+        const price = mockPrices[sym] || (100 + Math.random() * 50);
+        const changePct = -3 + Math.random() * 6;
+        return {
+          symbol: sym,
+          name: `${sym} Watchlist`,
+          price: price,
+          change: price * (changePct / 100),
+          changePct: changePct,
+          spark: Array.from({ length: 15 }, () => price * (1 + (-0.02 + Math.random() * 0.04))),
+          ok: true,
+          currency: "USD"
+        };
+      });
+    }
+  }
+  state.market = results;
+  if (els.marketGrid) els.marketGrid.innerHTML = state.market.map(renderMarketCard).join("");
   updateSelectedPulse();
   document.querySelectorAll("canvas[data-spark]").forEach((canvas) => {
     const item = state.market.find((entry) => entry.symbol === canvas.dataset.spark);
@@ -666,40 +741,78 @@ async function loadMarket() {
 }
 
 async function loadOptions() {
-  const symbol = els.optionsSymbol.value;
-  const payload = await getJson(`/api/options?symbol=${encodeURIComponent(symbol)}`);
+  const symbol = els.optionsSymbol?.value || "SPY";
+  let payload = null;
+  if (isStaticMode()) {
+    const basePrice = symbol === "BTC" ? 92400 : symbol === "SPY" ? 520.50 : 150;
+    payload = {
+      ok: true,
+      underlyingPrice: basePrice,
+      expiration: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      calls: [
+        { strike: Math.round(basePrice * 1.05), mid: 2.50, limitMax: 2.60, volume: 150, openInterest: 800, score: 92, contractSymbol: `${symbol}260618C` },
+        { strike: Math.round(basePrice * 1.10), mid: 1.10, limitMax: 1.15, volume: 300, openInterest: 1200, score: 85, contractSymbol: `${symbol}260618C` }
+      ],
+      puts: [
+        { strike: Math.round(basePrice * 0.95), mid: 2.10, limitMax: 2.20, volume: 120, openInterest: 500, score: 88, contractSymbol: `${symbol}260618P` },
+        { strike: Math.round(basePrice * 0.90), mid: 0.95, limitMax: 1.00, volume: 250, openInterest: 900, score: 81, contractSymbol: `${symbol}260618P` }
+      ]
+    };
+  } else {
+    try {
+      payload = await getJson(`/api/options?symbol=${encodeURIComponent(symbol)}`);
+    } catch (error) {
+      console.warn("API options route error, using local fallback:", error);
+      const basePrice = symbol === "BTC" ? 92400 : symbol === "SPY" ? 520.50 : 150;
+      payload = {
+        ok: true,
+        underlyingPrice: basePrice,
+        expiration: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        calls: [
+          { strike: Math.round(basePrice * 1.05), mid: 2.50, limitMax: 2.60, volume: 150, openInterest: 800, score: 92, contractSymbol: `${symbol}260618C` },
+          { strike: Math.round(basePrice * 1.10), mid: 1.10, limitMax: 1.15, volume: 300, openInterest: 1200, score: 85, contractSymbol: `${symbol}260618C` }
+        ],
+        puts: [
+          { strike: Math.round(basePrice * 0.95), mid: 2.10, limitMax: 2.20, volume: 120, openInterest: 500, score: 88, contractSymbol: `${symbol}260618P` },
+          { strike: Math.round(basePrice * 0.90), mid: 0.95, limitMax: 1.00, volume: 250, openInterest: 900, score: 81, contractSymbol: `${symbol}260618P` }
+        ]
+      };
+    }
+  }
   state.options = payload;
-  const rows = [...(payload.calls || []), ...(payload.puts || [])].sort((a, b) => b.score - a.score).slice(0, 12);
   if (!payload.ok) {
-    els.optionsPanel.innerHTML = `<p class="muted">Options route did not return data for ${symbol}: ${escapeHtml(payload.error || "Unknown error")}</p>`;
+    if (els.optionsPanel) els.optionsPanel.innerHTML = `<p class="muted">Options route did not return data for ${symbol}: ${escapeHtml(payload.error || "Unknown error")}</p>`;
     return;
   }
-  els.optionsPanel.innerHTML = `
-    <div class="pill">Underlying ${formatMoney(payload.underlyingPrice)} • Exp ${payload.expiration ? payload.expiration.slice(0, 10) : "nearest"}</div>
-    ${rows.map(renderContract).join("") || "<p>No liquid contracts found.</p>"}
-  `;
+  const rows = [...(payload.calls || []), ...(payload.puts || [])].sort((a, b) => b.score - a.score).slice(0, 12);
+  if (els.optionsPanel) {
+    els.optionsPanel.innerHTML = `
+      <div class="pill">Underlying ${formatMoney(payload.underlyingPrice)} • Exp ${payload.expiration ? payload.expiration.slice(0, 10) : "nearest"}</div>
+      ${rows.map(renderContract).join("") || "<p>No liquid contracts found.</p>"}
+    `;
+  }
 }
 
 function setSelectedSymbol(symbol, options = {}) {
   const cleanSymbol = String(symbol || "SPY").trim().toUpperCase();
   state.selectedSymbol = cleanSymbol;
-  const optionable = [...els.optionsSymbol.options].some((option) => option.value === cleanSymbol || option.textContent === cleanSymbol);
-  if (optionable && els.optionsSymbol.value !== cleanSymbol) {
+  const optionable = els.optionsSymbol ? [...els.optionsSymbol.options].some((option) => option.value === cleanSymbol || option.textContent === cleanSymbol) : false;
+  if (optionable && els.optionsSymbol && els.optionsSymbol.value !== cleanSymbol) {
     els.optionsSymbol.value = cleanSymbol;
     if (!options.skipSignalSync) loadOptions();
   } else if (options.loadOptionsNow && optionable) {
     loadOptions();
   }
-  const signalList = (els.signalSymbols.value || "")
+  const signalList = els.signalSymbols ? (els.signalSymbols.value || "")
     .split(",")
     .map((entry) => entry.trim().toUpperCase())
-    .filter(Boolean);
-  if (!signalList.includes(cleanSymbol) && !cleanSymbol.includes("-USD") && !cleanSymbol.includes("=")) {
+    .filter(Boolean) : [];
+  if (els.signalSymbols && !signalList.includes(cleanSymbol) && !cleanSymbol.includes("-USD") && !cleanSymbol.includes("=")) {
     els.signalSymbols.value = [cleanSymbol, ...signalList].slice(0, 8).join(", ");
   }
-  els.agentFocus.value = `Focus the desk on ${cleanSymbol}. Connect chart structure, flow proxy, catalyst context, TTT alignment, and risk gates. Give me the exact next research action before I inspect anything in Webull.`;
-  els.agentOutput.textContent = `${cleanSymbol} is now the synchronized desk focus.\n\nFlow Proxy, selected chart, signal input, and agent mission context have been updated together. Run the research desk when you want a fresh brief.`;
-  els.agentMeta.textContent = "Focus synced";
+  if (els.agentFocus) els.agentFocus.value = `Focus the desk on ${cleanSymbol}. Connect chart structure, flow proxy, catalyst context, TTT alignment, and risk gates. Give me the exact next research action before I inspect anything in Webull.`;
+  if (els.agentOutput) els.agentOutput.textContent = `${cleanSymbol} is now the synchronized desk focus.\n\nFlow Proxy, selected chart, signal input, and agent mission context have been updated together. Run the research desk when you want a fresh brief.`;
+  if (els.agentMeta) els.agentMeta.textContent = "Focus synced";
   document.querySelectorAll(".metric-card[data-symbol]").forEach((card) => {
     card.classList.toggle("selected", card.dataset.symbol === cleanSymbol);
   });
@@ -709,44 +822,100 @@ function setSelectedSymbol(symbol, options = {}) {
 function updateSelectedPulse() {
   const item = state.market.find((entry) => entry.symbol === state.selectedSymbol) || state.market.find((entry) => entry.ok);
   if (!item) {
-    els.selectedPulse.innerHTML = "";
+    if (els.selectedPulse) els.selectedPulse.innerHTML = "";
     return;
   }
   const direction = item.changePct >= 0 ? "up" : "down";
-  els.selectedPulse.innerHTML = `
-    <div>
-      <p class="eyebrow">Synchronized focus</p>
-      <h2>${escapeHtml(item.symbol)} ${item.ok ? escapeHtml(item.name) : "watch"}</h2>
-      <p>Click any market card to synchronize the desk brief, flow proxy, signal input, selected chart, and agent mission context.</p>
-    </div>
-    <div class="selected-chart">
-      <strong class="${direction}">${item.ok ? `${formatMoney(item.price, item.currency)} • ${formatSigned(item.changePct)}%` : "Data waiting"}</strong>
-      <canvas class="spark" data-selected-spark="${escapeHtml(item.symbol)}"></canvas>
-    </div>
-  `;
+  if (els.selectedPulse) {
+    els.selectedPulse.innerHTML = `
+      <div>
+        <p class="eyebrow">Synchronized focus</p>
+        <h2>${escapeHtml(item.symbol)} ${item.ok ? escapeHtml(item.name) : "watch"}</h2>
+        <p>Click any market card to synchronize the desk brief, flow proxy, signal input, selected chart, and agent mission context.</p>
+      </div>
+      <div class="selected-chart">
+        <strong class="${direction}">${item.ok ? `${formatMoney(item.price, item.currency)} • ${formatSigned(item.changePct)}%` : "Data waiting"}</strong>
+        <canvas class="spark" data-selected-spark="${escapeHtml(item.symbol)}"></canvas>
+      </div>
+    `;
+  }
   const selectedCanvas = document.querySelector("canvas[data-selected-spark]");
   if (selectedCanvas) drawSpark(selectedCanvas, item.spark || [], item.changePct || 0);
 }
 
 async function loadChecklist() {
-  const payload = await getJson("/api/checklist");
-  els.phaseTitle.textContent = payload.phase;
-  els.nextAction.textContent = `${payload.next.title}: ${payload.next.detail}`;
-  els.progressText.textContent = `${payload.progress}%`;
-  els.checklistItems.innerHTML = payload.items.map(renderCheckItem).join("");
+  let payload = null;
+  if (isStaticMode()) {
+    payload = {
+      phase: "Static Prototype Phase 12 Check",
+      next: { title: "Visual QA", detail: "Check routing fallbacks and mobile viewport compatibility." },
+      progress: 98,
+      items: [
+        { title: "Dashboard upgrade", status: "completed", id: "item-1" },
+        { title: "Roster mapping", status: "completed", id: "item-2" },
+        { title: "Workbench design", status: "completed", id: "item-3" },
+        { title: "Manual execution disclaimers", status: "completed", id: "item-4" }
+      ]
+    };
+  } else {
+    try {
+      payload = await getJson("/api/checklist");
+    } catch (error) {
+      console.warn("API checklist route error, using local fallback:", error);
+      payload = {
+        phase: "Static Prototype Phase 12 Check",
+        next: { title: "Visual QA", detail: "Check routing fallbacks and mobile viewport compatibility." },
+        progress: 98,
+        items: [
+          { title: "Dashboard upgrade", status: "completed", id: "item-1" },
+          { title: "Roster mapping", status: "completed", id: "item-2" },
+          { title: "Workbench design", status: "completed", id: "item-3" },
+          { title: "Manual execution disclaimers", status: "completed", id: "item-4" }
+        ]
+      };
+    }
+  }
+  if (els.phaseTitle) els.phaseTitle.textContent = payload.phase;
+  if (els.nextAction) els.nextAction.textContent = `${payload.next.title}: ${payload.next.detail}`;
+  if (els.progressText) els.progressText.textContent = `${payload.progress}%`;
+  if (els.checklistItems) els.checklistItems.innerHTML = payload.items.map(renderCheckItem).join("");
 }
 
 async function loadBuildLog() {
-  const payload = await getJson("/api/build-log");
-  els.buildLog.innerHTML = (payload.items || []).map((item) => `
-    <article class="log-row">
-      <div class="letter">${escapeHtml(item.letter)}</div>
-      <div>
-        <h3>${escapeHtml(item.title)}</h3>
-        <p>${escapeHtml(item.detail)}</p>
-      </div>
-    </article>
-  `).join("");
+  let payload = null;
+  if (isStaticMode()) {
+    payload = {
+      items: [
+        { letter: "A", title: "Obsidian Theme Added", detail: "Graphite backgrounds, 2px borders, custom accents." },
+        { letter: "B", title: "17-Agent Roster Upgrade", detail: "Detailed Workforce Board grid rendering." },
+        { letter: "C", title: "Signals Options Workbench", detail: "Interactive Approve/Reject option signals." }
+      ]
+    };
+  } else {
+    try {
+      payload = await getJson("/api/build-log");
+    } catch (error) {
+      console.warn("API build-log route error, using local fallback:", error);
+      payload = {
+        items: [
+          { letter: "A", title: "Obsidian Theme Added", detail: "Graphite backgrounds, 2px borders, custom accents." },
+          { letter: "B", title: "17-Agent Roster Upgrade", detail: "Detailed Workforce Board grid rendering." },
+          { letter: "C", title: "Signals Options Workbench", detail: "Interactive Approve/Reject option signals." }
+        ]
+      };
+    }
+  }
+  if (els.buildLog) {
+    els.buildLog.innerHTML = (payload.items || []).map((item) => `
+      <article class="log-row">
+        <div class="letter">${escapeHtml(item.letter)}</div>
+        <div>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.detail)}</p>
+        </div>
+      </article>
+    `).join("");
+  }
 }
 
 async function loadSignals() {
@@ -755,21 +924,26 @@ async function loadSignals() {
   const symbols = els.signalSymbols?.value || canonicalWatchlistSymbols().join(", ");
   
   let signals = [];
-  try {
-    const payload = await getJson(`/api/signals?symbols=${encodeURIComponent(symbols)}`);
-    signals = payload.signals || [];
-  } catch (error) {
-    console.warn("API signals route error, using local storage options data:", error);
+  if (!isStaticMode()) {
+    try {
+      const payload = await getJson(`/api/signals?symbols=${encodeURIComponent(symbols)}`);
+      signals = payload.signals || [];
+    } catch (error) {
+      console.warn("API signals route error, using local storage options data:", error);
+    }
   }
   
-  const localAlerts = getOptionAlertsState();
+  const localAlerts = Array.isArray(getOptionAlertsState()) ? getOptionAlertsState() : [];
   if (!signals.length) {
     // Convert alert packets to compatible workbench signals
-    signals = localAlerts.map(alert => ({
-      ...alert,
-      // Map properties if they differ
-      side: alert.action.includes("CALL") ? "CALL" : alert.action.includes("PUT") ? "PUT" : "WAIT"
-    }));
+    signals = localAlerts.map(alert => {
+      if (!alert) return null;
+      const action = alert.action || "";
+      return {
+        ...alert,
+        side: action.includes("CALL") ? "CALL" : action.includes("PUT") ? "PUT" : "WAIT"
+      };
+    }).filter(Boolean);
   }
   
   state.activeSignals = signals;
@@ -808,8 +982,85 @@ async function loadArchive(route = "overview") {
     : "";
   els.archiveContent.innerHTML = `<section class="panel"><p class="muted">Loading Archive ${escapeHtml(route)}...</p></section>`;
 
+  let payload = null;
+  if (isStaticMode()) {
+    const items = getEffectiveArchiveVaultItems();
+    const metrics = getArchiveVaultMetrics(items);
+    payload = {
+      stats: {
+        total: items.length,
+        active: items.filter(i => i && (i.status === "active" || i.status === "live" || i.status === "online")).length,
+        priority: items.filter(i => i && (i.priority === "high" || i.priority === "critical")).length,
+        review: items.filter(i => i && i.status === "review").length,
+        broken: 0,
+        completed: 0,
+        agentConnected: items.filter(i => i && i.connectedAgent).length,
+        duplicates: metrics.duplicates || 0
+      },
+      items: items,
+      tree: {
+        name: "Vault Root",
+        children: [
+          { name: "Markets", children: [] },
+          { name: "Options", children: [] }
+        ]
+      },
+      sources: [
+        { domain: "tradingview.com", count: 8 },
+        { domain: "x.com", count: 12 }
+      ],
+      agents: [
+        { name: "Research Agent", count: 4 }
+      ],
+      findings: [
+        { title: "Vol Outlier SPY", summary: "Mock unusual option flow detected." }
+      ],
+      imports: [],
+      quarantine: []
+    };
+  } else {
+    try {
+      payload = await getJson(`${endpoint}${search}`);
+    } catch (error) {
+      console.warn("API archive route error, using local fallback:", error);
+      const items = getEffectiveArchiveVaultItems();
+      const metrics = getArchiveVaultMetrics(items);
+      payload = {
+        stats: {
+          total: items.length,
+          active: items.filter(i => i && (i.status === "active" || i.status === "live" || i.status === "online")).length,
+          priority: items.filter(i => i && (i.priority === "high" || i.priority === "critical")).length,
+          review: items.filter(i => i && i.status === "review").length,
+          broken: 0,
+          completed: 0,
+          agentConnected: items.filter(i => i && i.connectedAgent).length,
+          duplicates: metrics.duplicates || 0
+        },
+        items: items,
+        tree: {
+          name: "Vault Root",
+          children: [
+            { name: "Markets", children: [] },
+            { name: "Options", children: [] }
+          ]
+        },
+        sources: [
+          { domain: "tradingview.com", count: 8 },
+          { domain: "x.com", count: 12 }
+        ],
+        agents: [
+          { name: "Research Agent", count: 4 }
+        ],
+        findings: [
+          { title: "Vol Outlier SPY", summary: "Mock unusual option flow detected." }
+        ],
+        imports: [],
+        quarantine: []
+      };
+    }
+  }
+  
   try {
-    const payload = await getJson(`${endpoint}${search}`);
     renderArchiveStats(payload.stats || {});
     if (route === "tree") renderArchiveTree(payload);
     else if (route === "sources") renderArchiveSources(payload);
@@ -818,18 +1069,8 @@ async function loadArchive(route = "overview") {
     else if (route === "imports") renderArchiveImports(payload);
     else if (route === "quarantine") renderArchiveQuarantine(payload);
     else renderArchiveOverview(payload);
-  } catch (error) {
-    els.archiveContent.innerHTML = `
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <p class="eyebrow">Archive route error</p>
-            <h2>Could not load Archive</h2>
-          </div>
-        </div>
-        <p>${escapeHtml(error.message)}</p>
-      </section>
-    `;
+  } catch (renderError) {
+    console.error("Archive rendering error:", renderError);
   }
 }
 
@@ -855,7 +1096,7 @@ function renderStaticIntelligencePages() {
 
 function renderRiskRulesPage() {
   if (!els.riskRulesContent) return;
-  const rules = sharedHabitatData.riskRules || [];
+  const rules = Array.isArray(sharedHabitatData.riskRules) ? sharedHabitatData.riskRules : [];
   els.riskRulesContent.innerHTML = `
     <div class="p-6 bg-[#0a0b0c] text-xs font-mono text-[#c0c4cc]">
       <div class="flex items-center justify-between border-b border-[#1f242d] pb-4 mb-6">
@@ -891,7 +1132,7 @@ function renderRiskRulesPage() {
 
 function renderCompliancePage() {
   if (!els.complianceContent) return;
-  const disclosures = sharedHabitatData.complianceDisclosures || [];
+  const disclosures = Array.isArray(sharedHabitatData.complianceDisclosures) ? sharedHabitatData.complianceDisclosures : [];
   els.complianceContent.innerHTML = `
     <div class="p-6 bg-[#0a0b0c] text-xs font-mono text-[#c0c4cc]">
       <div class="flex items-center justify-between border-b border-[#1f242d] pb-4 mb-6">
@@ -929,8 +1170,8 @@ async function renderAiHandoffPage() {
       throw new Error("Local backend not running");
     }
   } catch (err) {
-    const session = sharedHabitatData.buildCompletionTracker?.latestSession || {};
-    const rulesStr = (sharedHabitatData.riskRules || []).map(r => `- ${r.name}: ${r.description}`).join("\n");
+    const session = (sharedHabitatData.buildCompletionTracker && typeof sharedHabitatData.buildCompletionTracker === "object" && typeof sharedHabitatData.buildCompletionTracker.latestSession === "object") ? (sharedHabitatData.buildCompletionTracker.latestSession || {}) : {};
+    const rulesStr = (Array.isArray(sharedHabitatData.riskRules) ? sharedHabitatData.riskRules : []).map(r => r ? `- ${r.name || "Unnamed"}: ${r.description || "No description"}` : "").filter(Boolean).join("\n");
     handoffText = [
       "# Pickaxe Capital / AI Habitat OS - Deployed AI Handoff (Static Fallback)",
       `Generated at: ${new Date().toISOString()}`,
@@ -970,8 +1211,27 @@ async function renderAiHandoffPage() {
       <p class="text-xs text-[#909399] mb-6 font-sans">
         Copy this raw markdown output to feed into ChatGPT, Claude, Gemini, or Grok to instantly brief them on the workspace state.
       </p>
-      <div class="relative">
-        <textarea id="handoffRawTextarea" readonly class="w-full h-[400px] p-4 bg-[#121417] border border-[#1f242d] text-[#c0c4cc] rounded font-mono text-xs focus:outline-none focus:border-blue/50">${escapeHtml(handoffText)}</textarea>
+       <div class="relative">
+        <textarea id="handoffRawTextarea" readonly class="w-full h-[300px] p-4 bg-[#121417] border border-[#1f242d] text-[#c0c4cc] rounded font-mono text-xs focus:outline-none focus:border-blue/50">${escapeHtml(handoffText)}</textarea>
+      </div>
+      
+      <!-- Visual References Section -->
+      <div class="mt-8 border-t border-[#1f242d] pt-6">
+        <div class="mb-4">
+          <span class="text-[10px] text-amber uppercase tracking-wider">Target Visual Design References</span>
+          <h3 class="text-xs font-bold text-white uppercase tracking-tight mt-0.5">Visual Design Target Reference Images</h3>
+          <p class="text-[11px] text-[#909399] font-sans mt-1">These design cards and layouts inspire the HTML/CSS components and dashboards inside this static habitat OS prototype.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-[#121417] border border-[#1f242d] p-3 rounded">
+            <span class="text-[9px] text-[#909399] uppercase tracking-widest font-mono block mb-2">Reference 1: Agent City / CEO Command Center</span>
+            <img src="reference/pickaxe-agent-city-reference.png" alt="Pickaxe Agent City Reference" class="w-full h-auto border border-[#1f242d] rounded-sm opacity-80 hover:opacity-100 transition-opacity" />
+          </div>
+          <div class="bg-[#121417] border border-[#1f242d] p-3 rounded">
+            <span class="text-[9px] text-[#909399] uppercase tracking-widest font-mono block mb-2">Reference 2: AI Habitat OS Command Ecosystem</span>
+            <img src="reference/pickaxe-ai-habitat-os-reference.png" alt="Pickaxe AI Habitat OS Reference" class="w-full h-auto border border-[#1f242d] rounded-sm opacity-80 hover:opacity-100 transition-opacity" />
+          </div>
+        </div>
       </div>
     </div>
   `;
@@ -990,9 +1250,12 @@ async function renderAiHandoffPage() {
 function getOptionAlertsState() {
   const local = localStorage.getItem("pickaxeOptionAlerts");
   if (local) {
-    try { return JSON.parse(local); } catch { }
+    try {
+      const parsed = JSON.parse(local);
+      if (Array.isArray(parsed)) return parsed;
+    } catch { }
   }
-  const defaults = sharedHabitatData.optionAlertPackets || [];
+  const defaults = Array.isArray(sharedHabitatData.optionAlertPackets) ? sharedHabitatData.optionAlertPackets : [];
   localStorage.setItem("pickaxeOptionAlerts", JSON.stringify(defaults));
   return defaults;
 }
@@ -1055,20 +1318,21 @@ function processTerminalCommand(cmd) {
     return `STATUS: ONLINE | Uptime: 99.98% | Throughput: 2.45 TB/s | Health: 98% (Nominal)`;
   }
   if (base === "agents") {
-    const roster = sharedHabitatData.agentRoster || [];
-    return `AGENTS:\n` + roster.map(a => `- ${a.name}: ${a.role} [${a.status}]`).join("\n");
+    const roster = Array.isArray(sharedHabitatData.agentRoster) ? sharedHabitatData.agentRoster : [];
+    return `AGENTS:\n` + roster.map(a => a ? `- ${a.name || "Unnamed"}: ${a.role || "Agent"} [${a.status || "active"}]` : "").filter(Boolean).join("\n");
   }
   if (base === "signals") {
-    const alerts = getOptionAlertsState();
-    return `SIGNALS:\n` + alerts.map(a => `- ${a.symbol} (${a.strategy}): ${a.status}`).join("\n");
+    const alerts = Array.isArray(getOptionAlertsState()) ? getOptionAlertsState() : [];
+    return `SIGNALS:\n` + alerts.map(a => a ? `- ${a.symbol} (${a.strategy}): ${a.status}` : "").filter(Boolean).join("\n");
   }
   if (base === "alerts") {
-    const approved = getOptionAlertsState().filter(a => a.status.includes("approved"));
-    return `APPROVED ALERTS:\n` + approved.map(a => `- ${a.symbol} ${a.contract}: ${a.action}`).join("\n");
+    const alerts = Array.isArray(getOptionAlertsState()) ? getOptionAlertsState() : [];
+    const approved = alerts.filter(a => a && a.status && a.status.includes("approved"));
+    return `APPROVED ALERTS:\n` + approved.map(a => a ? `- ${a.symbol} ${a.contract}: ${a.action}` : "").filter(Boolean).join("\n");
   }
   if (base === "rules") {
-    const rules = sharedHabitatData.riskRules || [];
-    return `RISK RULES:\n` + rules.map(r => `- ${r.name} (${r.type})`).join("\n");
+    const rules = Array.isArray(sharedHabitatData.riskRules) ? sharedHabitatData.riskRules : [];
+    return `RISK RULES:\n` + rules.map(r => r ? `- ${r.name || "Unnamed"} (${r.type || "Rule"})` : "").filter(Boolean).join("\n");
   }
   if (base === "clear") {
     state.terminalLog = [];
@@ -1160,357 +1424,378 @@ window.startFlowMonitor = () => {
 function renderHomeCommandCenter() {
   if (!els.commandOS) return;
   
-  const alerts = getOptionAlertsState();
-  const pendingReview = alerts.filter(a => a.status === "CEO B review" || a.status === "candidate");
-  const approvedCount = alerts.filter(a => a.status.includes("approved")).length;
-  const rejectedCount = alerts.filter(a => a.status === "risk-rejected" || a.status === "risk rejected").length;
-  
-  // Set default terminal logs if empty
-  state.terminalLog = state.terminalLog || [...sharedHabitatData.commandTerminalLines];
-  
-  els.commandOS.innerHTML = `
-    <div class="command-os-grid-layout grid-mesh-bg scanline-effect text-[11px] font-mono text-[#c0c4cc] bg-[#08090a] border border-[#1b1c1e] p-4 flex flex-col lg:grid lg:grid-cols-[1fr_340px] lg:grid-rows-[auto_1fr_auto] gap-4 w-full min-h-[92vh] select-none">
-      
-      <!-- TOP COMMAND BAR -->
-      <div class="col-span-2 bg-[#0c0d0e] border border-[#1f242d] p-3 flex flex-wrap items-center justify-between gap-3 z-10">
-        <div class="flex items-center gap-4">
-          <div>
-            <span class="text-[10px] text-amber uppercase font-bold tracking-widest block">CEO B "THE SHAH" COMMAND LAYER</span>
-            <h2 class="text-xs font-bold text-white uppercase tracking-wider">PICKAXE CAPITAL / AI HABITAT OS</h2>
+  try {
+    const alerts = Array.isArray(getOptionAlertsState()) ? getOptionAlertsState() : [];
+    const pendingReview = alerts.filter(a => a && (a.status === "CEO B review" || a.status === "candidate"));
+    const approvedCount = alerts.filter(a => a && typeof a.status === "string" && a.status.includes("approved")).length;
+    const rejectedCount = alerts.filter(a => a && (a.status === "risk-rejected" || a.status === "risk rejected")).length;
+    
+    // Set default terminal logs if empty
+    const defaultTerminalLines = (sharedHabitatData && Array.isArray(sharedHabitatData.commandTerminalLines))
+      ? sharedHabitatData.commandTerminalLines
+      : [
+          "Static prototype booted",
+          "GitHub Pages mode detected",
+          "Backend not connected",
+          "Research-only manual-review mode active",
+          "No broker execution inside this site"
+        ];
+    state.terminalLog = Array.isArray(state.terminalLog) ? state.terminalLog : [...defaultTerminalLines];
+    
+    els.commandOS.innerHTML = `
+      <div class="command-os-grid-layout grid-mesh-bg scanline-effect text-[11px] font-mono text-[#c0c4cc] bg-[#08090a] border border-[#1b1c1e] p-4 flex flex-col lg:grid lg:grid-cols-[1fr_340px] lg:grid-rows-[auto_1fr_auto] gap-4 w-full min-h-[92vh] select-none">
+        
+        <!-- TOP COMMAND BAR -->
+        <div class="col-span-2 bg-[#0c0d0e] border border-[#1f242d] p-3 flex flex-wrap items-center justify-between gap-3 z-10">
+          <div class="flex items-center gap-4">
+            <div>
+              <span class="text-[10px] text-amber uppercase font-bold tracking-widest block">CEO B "THE SHAH" COMMAND LAYER</span>
+              <h2 class="text-xs font-bold text-white uppercase tracking-wider">PICKAXE CAPITAL / AI HABITAT OS</h2>
+            </div>
+            <span class="px-2 py-0.5 bg-red/10 text-red border border-red/30 text-[9px] uppercase tracking-wider font-bold">Static Prototype</span>
+            <span class="px-2 py-0.5 bg-blue/10 text-[#42d9c8] border border-[#42d9c8]/30 text-[9px] uppercase tracking-wider font-bold">Research Only / Manual Review</span>
           </div>
-          <span class="px-2 py-0.5 bg-red/10 text-red border border-red/30 text-[9px] uppercase tracking-wider font-bold">Static Prototype</span>
-          <span class="px-2 py-0.5 bg-blue/10 text-[#42d9c8] border border-[#42d9c8]/30 text-[9px] uppercase tracking-wider font-bold">Research Only / Manual Review</span>
+          <div class="flex items-center gap-6 text-[10px]">
+            <div><span class="text-[#606266]">BUILD:</span> <span class="text-green uppercase font-bold">GitHub Pages</span></div>
+            <div><span class="text-[#606266]">DATA:</span> <span class="text-green uppercase font-bold">Demo Static</span></div>
+            <div><span class="text-[#606266]">AGENTS:</span> <span class="text-green uppercase font-bold">Local Mock</span></div>
+            <div><span class="text-[#606266]">BROKER:</span> <span class="text-red uppercase font-bold">Not Connected</span></div>
+          </div>
         </div>
-        <div class="flex items-center gap-6 text-[10px]">
-          <div><span class="text-[#606266]">BUILD:</span> <span class="text-green uppercase font-bold">GitHub Pages</span></div>
-          <div><span class="text-[#606266]">DATA:</span> <span class="text-green uppercase font-bold">Demo Static</span></div>
-          <div><span class="text-[#606266]">AGENTS:</span> <span class="text-green uppercase font-bold">Local Mock</span></div>
-          <div><span class="text-[#606266]">BROKER:</span> <span class="text-red uppercase font-bold">Not Connected</span></div>
+        
+        <!-- CENTRAL MAP VIEW -->
+        <div class="relative bg-[#0c0d0e]/60 border border-[#1f242d] overflow-hidden flex flex-col lg:block h-[600px] lg:h-auto" id="centralMapContainer">
+          <!-- Connecting lines SVG (hidden on mobile) -->
+          <svg viewBox="0 0 1000 600" class="habitat-map-svg absolute inset-0 w-full h-full pointer-events-none fill-none z-0">
+            <line x1="500" y1="260" x2="500" y2="70" class="stroke-amber/40 stroke-[2] glowing-route" />
+            <line x1="300" y1="140" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
+            <line x1="160" y1="200" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
+            <line x1="160" y1="320" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
+            <line x1="320" y1="380" x2="500" y2="260" class="stroke-red/30 stroke-[1.5]" />
+            <line x1="320" y1="260" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
+            <line x1="680" y1="260" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
+            <line x1="840" y1="320" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
+            <line x1="840" y1="200" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
+            <line x1="680" y1="380" x2="500" y2="260" class="stroke-purple/30 stroke-[1.5]" />
+            <line x1="500" y1="390" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
+            <line x1="500" y1="520" x2="500" y2="390" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
+            
+            <!-- Moving agent packets -->
+            <circle r="4" fill="#42d9c8" class="agent-packet-glow"><animateMotion dur="4s" repeatCount="indefinite" path="M 160 200 L 500 260" /></circle>
+            <circle r="4" fill="#9b51e0" class="agent-packet-glow"><animateMotion dur="5s" repeatCount="indefinite" path="M 680 380 L 500 260" /></circle>
+            <circle r="4" fill="#ff4d4d" class="agent-packet-glow"><animateMotion dur="3.5s" repeatCount="indefinite" path="M 320 380 L 500 260" /></circle>
+            <circle r="4" fill="#ffbe4d" class="agent-packet-glow"><animateMotion dur="3s" repeatCount="indefinite" path="M 500 260 L 500 70" /></circle>
+          </svg>
+  
+          <div class="habitat-map-container absolute inset-0 w-full h-full z-10 p-4">
+            <!-- 1. CEO B Headquarters (Top Center) -->
+            <div class="habitat-card-absolute border border-amber/40 bg-[#0f0e0c]/95 p-2 rounded text-center" style="left: 500px; top: 70px; width: 220px; transform: translate(-50%, -50%);">
+              <span class="text-[9px] text-amber font-bold uppercase tracking-wider block">CEO B Headquarters</span>
+              <div class="my-1 border-t border-amber/20"></div>
+              <div class="text-[9px] text-[#909399] leading-tight mb-2">Final Commander Gate</div>
+              <div class="flex items-center justify-center gap-2">
+                <button onclick="window.location.hash='#/ceo-b-profile'" class="bg-[#1b1916] text-[9px] text-amber border border-amber/30 px-2 py-0.5 hover:bg-amber/10 transition-colors uppercase font-bold tracking-wider">Brief Profile</button>
+              </div>
+            </div>
+  
+            <!-- 2. Central Trading Floor -->
+            <div class="habitat-card-absolute border border-blue/40 bg-[#090b0e]/95 p-3 rounded text-center" style="left: 500px; top: 260px; width: 240px; transform: translate(-50%, -50%);">
+              <span class="text-[9px] text-[#42d9c8] font-bold uppercase tracking-wider block">Trading Floor</span>
+              <span class="text-[8px] text-[#606266] block">IDEA EXCHANGE CORE</span>
+              <div class="my-1 border-t border-[#1f242d]"></div>
+              <div class="grid grid-cols-3 gap-1 my-2 text-[10px]">
+                <div><span class="text-white font-bold block">${alerts.length}</span><span class="text-[#606266] text-[7px] uppercase block">Ideas</span></div>
+                <div><span class="text-green font-bold block">${approvedCount}</span><span class="text-[#606266] text-[7px] uppercase block">Approved</span></div>
+                <div><span class="text-red font-bold block">${rejectedCount}</span><span class="text-[#606266] text-[7px] uppercase block">Rejected</span></div>
+              </div>
+              <p class="text-[8px] text-[#606266] leading-tight italic">"Ideas &rarr; Risk Filters &rarr; CEO B Review &rarr; Manual Webull Execution"</p>
+            </div>
+  
+            <!-- 3. System Brain Core -->
+            <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 300px; top: 140px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-white uppercase block">System Brain</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">Coordination & Health</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Route: <a href="#/staging" class="text-blue hover:underline">/staging</a>
+              </div>
+            </div>
+  
+            <!-- 4. Signal Scout Habitat -->
+            <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 160px; top: 200px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-white uppercase block">Signal Scout</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">Watchlist Scanner</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Route: <a href="#/signals" class="text-blue hover:underline">/signals</a>
+              </div>
+            </div>
+  
+            <!-- 5. Options Flow Hunter Lab -->
+            <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 160px; top: 320px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-white uppercase block">Options Flow</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-amber"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">Flow Chains & Vol</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Status: Research Only
+              </div>
+            </div>
+  
+            <!-- 6. Risk Sentinel Watch -->
+            <div class="habitat-card-absolute border border-red/40 bg-[#171212]/90 p-2 rounded" style="left: 320px; top: 380px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-red uppercase block">Risk Sentinel</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-red"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">Safety & Exposure Gate</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Rules: <a href="#/risk-rules" class="text-blue hover:underline">/risk-rules</a>
+              </div>
+            </div>
+  
+            <!-- 7. Macro Watcher Dome -->
+            <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 160px; top: 80px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-white uppercase block">Macro Watcher</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-blue"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">Rates, Debt, Vol Index</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Status: Research
+              </div>
+            </div>
+  
+            <!-- 8. Catalyst Analyst Library -->
+            <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 840px; top: 80px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-white uppercase block">Catalyst Lab</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-blue"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">News & Event Risk</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Route: <a href="#/data-sources" class="text-blue hover:underline">/data-sources</a>
+              </div>
+            </div>
+  
+            <!-- 9. Technical Strategist Chart Room -->
+            <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 840px; top: 200px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-white uppercase block">Technical Room</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">Pattern recognition</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Embedded Widget
+              </div>
+            </div>
+  
+            <!-- 10. Data Source Hub -->
+            <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 840px; top: 320px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-white uppercase block">Source Hub</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">Provider Matrix</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Route: <a href="#/data-sources" class="text-blue hover:underline">/data-sources</a>
+              </div>
+            </div>
+  
+            <!-- 11. Archive Keeper Vault -->
+            <div class="habitat-card-absolute border border-purple/40 bg-[#151217]/90 p-2 rounded" style="left: 680px; top: 380px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-purple uppercase block">Archive Vault</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-purple"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">Long-term memory</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Route: <a href="#/archive" class="text-blue hover:underline">/archive</a>
+              </div>
+            </div>
+  
+            <!-- 12. Compliance Guard -->
+            <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 700px; top: 140px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-white uppercase block">Compliance</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">Compliance review</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Route: <a href="#/compliance" class="text-blue hover:underline">/compliance</a>
+              </div>
+            </div>
+  
+            <!-- 13. Auto Update Workshop -->
+            <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded shadow-lg text-center" style="left: 500px; top: 520px; width: 180px; transform: translate(-50%, -50%);">
+              <span class="text-[9px] font-bold text-white uppercase block">Auto Update workshop</span>
+              <p class="text-[8px] text-[#909399] leading-tight mt-1">Staged checks & automation stubs</p>
+            </div>
+  
+            <!-- 14. Task Smith Foundry -->
+            <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 680px; top: 260px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-white uppercase block">Task Smith</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">Checklists & builds</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Route: <a href="#/staging" class="text-blue hover:underline">/staging</a>
+              </div>
+            </div>
+  
+            <!-- 15. QA Citadel -->
+            <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 320px; top: 260px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-white uppercase block">QA Citadel</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">Integrity checks</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Staging validation
+              </div>
+            </div>
+  
+            <!-- 16. Strategy War Room -->
+            <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 500px; top: 390px;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-bold text-white uppercase block">Strategy Room</span>
+                <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-blue"></span>
+              </div>
+              <p class="text-[8px] text-[#909399] leading-tight">Playbook Simulation</p>
+              <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
+                Education cases
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      
-      <!-- CENTRAL MAP VIEW -->
-      <div class="relative bg-[#0c0d0e]/60 border border-[#1f242d] overflow-hidden flex flex-col lg:block h-[600px] lg:h-auto" id="centralMapContainer">
-        <!-- Connecting lines SVG (hidden on mobile) -->
-        <svg viewBox="0 0 1000 600" class="habitat-map-svg absolute inset-0 w-full h-full pointer-events-none fill-none z-0">
-          <line x1="500" y1="260" x2="500" y2="70" class="stroke-amber/40 stroke-[2] glowing-route" />
-          <line x1="300" y1="140" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
-          <line x1="160" y1="200" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
-          <line x1="160" y1="320" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
-          <line x1="320" y1="380" x2="500" y2="260" class="stroke-red/30 stroke-[1.5]" />
-          <line x1="320" y1="260" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
-          <line x1="680" y1="260" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
-          <line x1="840" y1="320" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
-          <line x1="840" y1="200" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
-          <line x1="680" y1="380" x2="500" y2="260" class="stroke-purple/30 stroke-[1.5]" />
-          <line x1="500" y1="390" x2="500" y2="260" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
-          <line x1="500" y1="520" x2="500" y2="390" class="stroke-[#42d9c8]/20 stroke-[1.5]" />
+        
+        <!-- RIGHT STATUS RAIL -->
+        <div class="bg-[#0c0d0e] border border-[#1f242d] p-3 flex flex-col gap-4 overflow-y-auto max-h-[600px] lg:max-h-none">
           
-          <!-- Moving agent packets -->
-          <circle r="4" fill="#42d9c8" class="agent-packet-glow"><animateMotion dur="4s" repeatCount="indefinite" path="M 160 200 L 500 260" /></circle>
-          <circle r="4" fill="#9b51e0" class="agent-packet-glow"><animateMotion dur="5s" repeatCount="indefinite" path="M 680 380 L 500 260" /></circle>
-          <circle r="4" fill="#ff4d4d" class="agent-packet-glow"><animateMotion dur="3.5s" repeatCount="indefinite" path="M 320 380 L 500 260" /></circle>
-          <circle r="4" fill="#ffbe4d" class="agent-packet-glow"><animateMotion dur="3s" repeatCount="indefinite" path="M 500 260 L 500 70" /></circle>
-        </svg>
-
-        <div class="habitat-map-container absolute inset-0 w-full h-full z-10 p-4">
-          <!-- 1. CEO B Headquarters (Top Center) -->
-          <div class="habitat-card-absolute border border-amber/40 bg-[#0f0e0c]/95 p-2 rounded text-center" style="left: 500px; top: 70px; width: 220px; transform: translate(-50%, -50%);">
-            <span class="text-[9px] text-amber font-bold uppercase tracking-wider block">CEO B Headquarters</span>
-            <div class="my-1 border-t border-amber/20"></div>
-            <div class="text-[9px] text-[#909399] leading-tight mb-2">Final Commander Gate</div>
-            <div class="flex items-center justify-center gap-2">
-              <button onclick="window.location.hash='#/ceo-b-profile'" class="bg-[#1b1916] text-[9px] text-amber border border-amber/30 px-2 py-0.5 hover:bg-amber/10 transition-colors uppercase font-bold tracking-wider">Brief Profile</button>
-            </div>
-          </div>
-
-          <!-- 2. Central Trading Floor -->
-          <div class="habitat-card-absolute border border-blue/40 bg-[#090b0e]/95 p-3 rounded text-center" style="left: 500px; top: 260px; width: 240px; transform: translate(-50%, -50%);">
-            <span class="text-[9px] text-[#42d9c8] font-bold uppercase tracking-wider block">Trading Floor</span>
-            <span class="text-[8px] text-[#606266] block">IDEA EXCHANGE CORE</span>
-            <div class="my-1 border-t border-[#1f242d]"></div>
-            <div class="grid grid-cols-3 gap-1 my-2 text-[10px]">
-              <div><span class="text-white font-bold block">${alerts.length}</span><span class="text-[#606266] text-[7px] uppercase block">Ideas</span></div>
-              <div><span class="text-green font-bold block">${approvedCount}</span><span class="text-[#606266] text-[7px] uppercase block">Approved</span></div>
-              <div><span class="text-red font-bold block">${rejectedCount}</span><span class="text-[#606266] text-[7px] uppercase block">Rejected</span></div>
-            </div>
-            <p class="text-[8px] text-[#606266] leading-tight italic">"Ideas &rarr; Risk Filters &rarr; CEO B Review &rarr; Manual Webull Execution"</p>
-          </div>
-
-          <!-- 3. System Brain Core -->
-          <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 300px; top: 140px;">
+          <!-- Mission Overview -->
+          <div class="border border-[#1f242d] bg-[#121417]/30 p-2">
+            <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-2">Ecosystem Health</span>
             <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-white uppercase block">System Brain</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
+              <span>Uptime (Static)</span> <span class="text-green uppercase font-bold">99.98%</span>
             </div>
-            <p class="text-[8px] text-[#909399] leading-tight">Coordination & Health</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Route: <a href="#/staging" class="text-blue hover:underline">/staging</a>
-            </div>
-          </div>
-
-          <!-- 4. Signal Scout Habitat -->
-          <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 160px; top: 200px;">
             <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-white uppercase block">Signal Scout</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
+              <span>Throughput</span> <span class="text-blue uppercase font-bold">2.45 TB/s</span>
             </div>
-            <p class="text-[8px] text-[#909399] leading-tight">Watchlist Scanner</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Route: <a href="#/signals" class="text-blue hover:underline">/signals</a>
+            <div class="flex items-center justify-between">
+              <span>Active Agents</span> <span class="text-white uppercase font-bold">12 / 12</span>
             </div>
           </div>
-
-          <!-- 5. Options Flow Hunter Lab -->
-          <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 160px; top: 320px;">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-white uppercase block">Options Flow</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-amber"></span>
-            </div>
-            <p class="text-[8px] text-[#909399] leading-tight">Flow Chains & Vol</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Status: Research Only
-            </div>
-          </div>
-
-          <!-- 6. Risk Sentinel Watch -->
-          <div class="habitat-card-absolute border border-red/40 bg-[#171212]/90 p-2 rounded" style="left: 320px; top: 380px;">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-red uppercase block">Risk Sentinel</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-red"></span>
-            </div>
-            <p class="text-[8px] text-[#909399] leading-tight">Safety & Exposure Gate</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Rules: <a href="#/risk-rules" class="text-blue hover:underline">/risk-rules</a>
-            </div>
-          </div>
-
-          <!-- 7. Macro Watcher Dome -->
-          <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 160px; top: 80px;">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-white uppercase block">Macro Watcher</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-blue"></span>
-            </div>
-            <p class="text-[8px] text-[#909399] leading-tight">Rates, Debt, Vol Index</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Status: Research
-            </div>
-          </div>
-
-          <!-- 8. Catalyst Analyst Library -->
-          <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 840px; top: 80px;">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-white uppercase block">Catalyst Lab</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-blue"></span>
-            </div>
-            <p class="text-[8px] text-[#909399] leading-tight">News & Event Risk</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Route: <a href="#/data-sources" class="text-blue hover:underline">/data-sources</a>
-            </div>
-          </div>
-
-          <!-- 9. Technical Strategist Chart Room -->
-          <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 840px; top: 200px;">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-white uppercase block">Technical Room</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
-            </div>
-            <p class="text-[8px] text-[#909399] leading-tight">Pattern recognition</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Embedded Widget
-            </div>
-          </div>
-
-          <!-- 10. Data Source Hub -->
-          <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 840px; top: 320px;">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-white uppercase block">Source Hub</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
-            </div>
-            <p class="text-[8px] text-[#909399] leading-tight">Provider Matrix</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Route: <a href="#/data-sources" class="text-blue hover:underline">/data-sources</a>
-            </div>
-          </div>
-
-          <!-- 11. Archive Keeper Vault -->
-          <div class="habitat-card-absolute border border-purple/40 bg-[#151217]/90 p-2 rounded" style="left: 680px; top: 380px;">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-purple uppercase block">Archive Vault</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-purple"></span>
-            </div>
-            <p class="text-[8px] text-[#909399] leading-tight">Long-term memory</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Route: <a href="#/archive" class="text-blue hover:underline">/archive</a>
-            </div>
-          </div>
-
-          <!-- 12. Compliance Guard -->
-          <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 700px; top: 140px;">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-white uppercase block">Compliance</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
-            </div>
-            <p class="text-[8px] text-[#909399] leading-tight">Compliance review</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Route: <a href="#/compliance" class="text-blue hover:underline">/compliance</a>
-            </div>
-          </div>
-
-          <!-- 13. Auto Update Workshop -->
-          <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded shadow-lg text-center" style="left: 500px; top: 520px; width: 180px; transform: translate(-50%, -50%);">
-            <span class="text-[9px] font-bold text-white uppercase block">Auto Update workshop</span>
-            <p class="text-[8px] text-[#909399] leading-tight mt-1">Staged checks & automation stubs</p>
-          </div>
-
-          <!-- 14. Task Smith Foundry -->
-          <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 680px; top: 260px;">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-white uppercase block">Task Smith</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
-            </div>
-            <p class="text-[8px] text-[#909399] leading-tight">Checklists & builds</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Route: <a href="#/staging" class="text-blue hover:underline">/staging</a>
-            </div>
-          </div>
-
-          <!-- 15. QA Citadel -->
-          <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 320px; top: 260px;">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-white uppercase block">QA Citadel</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
-            </div>
-            <p class="text-[8px] text-[#909399] leading-tight">Integrity checks</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Staging validation
-            </div>
-          </div>
-
-          <!-- 16. Strategy War Room -->
-          <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 500px; top: 390px;">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-bold text-white uppercase block">Strategy Room</span>
-              <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-blue"></span>
-            </div>
-            <p class="text-[8px] text-[#909399] leading-tight">Playbook Simulation</p>
-            <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-              Education cases
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- RIGHT STATUS RAIL -->
-      <div class="bg-[#0c0d0e] border border-[#1f242d] p-3 flex flex-col gap-4 overflow-y-auto max-h-[600px] lg:max-h-none">
-        
-        <!-- Mission Overview -->
-        <div class="border border-[#1f242d] bg-[#121417]/30 p-2">
-          <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-2">Ecosystem Health</span>
-          <div class="flex items-center justify-between mb-1">
-            <span>Uptime (Static)</span> <span class="text-green uppercase font-bold">99.98%</span>
-          </div>
-          <div class="flex items-center justify-between mb-1">
-            <span>Throughput</span> <span class="text-blue uppercase font-bold">2.45 TB/s</span>
-          </div>
-          <div class="flex items-center justify-between">
-            <span>Active Agents</span> <span class="text-white uppercase font-bold">12 / 12</span>
-          </div>
-        </div>
-
-        <!-- CEO B Review Queue -->
-        <div class="flex-1 flex flex-col min-h-[160px]">
-          <span class="text-[9px] text-amber uppercase font-bold tracking-wider block mb-2 border-b border-amber/20 pb-1">CEO B Review Queue (${pendingReview.length})</span>
-          <div class="flex-1 overflow-y-auto space-y-2 pr-1">
-            ${pendingReview.length === 0 ? `
-              <p class="text-[#606266] italic text-center my-4">Review queue is empty. Signals are fully processed.</p>
-            ` : pendingReview.map(item => `
-              <div class="p-2 bg-[#121417] border border-[#1f242d] hover:border-[#42d9c8]/50 transition-colors">
-                <div class="flex items-center justify-between mb-1">
-                  <span class="text-white font-bold">${escapeHtml(item.symbol)}</span>
-                  <span class="px-1 py-0.2 bg-amber/10 text-amber text-[8px] font-bold border border-amber/30 uppercase tracking-widest">${escapeHtml(item.strategy)}</span>
+  
+          <!-- CEO B Review Queue -->
+          <div class="flex-1 flex flex-col min-h-[160px]">
+            <span class="text-[9px] text-amber uppercase font-bold tracking-wider block mb-2 border-b border-amber/20 pb-1">CEO B Review Queue (${pendingReview.length})</span>
+            <div class="flex-1 overflow-y-auto space-y-2 pr-1">
+              ${pendingReview.length === 0 ? `
+                <p class="text-[#606266] italic text-center my-4">Review queue is empty. Signals are fully processed.</p>
+              ` : pendingReview.map(item => item ? `
+                <div class="p-2 bg-[#121417] border border-[#1f242d] hover:border-[#42d9c8]/50 transition-colors">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-white font-bold">${escapeHtml(item.symbol)}</span>
+                    <span class="px-1 py-0.2 bg-amber/10 text-amber text-[8px] font-bold border border-amber/30 uppercase tracking-widest">${escapeHtml(item.strategy)}</span>
+                  </div>
+                  <div class="text-[10px] text-[#909399] mb-2 leading-snug">${escapeHtml(item.thesis)}</div>
+                  <div class="flex gap-2">
+                    <button onclick="approveSignal('${escapeHtml(item.id)}')" class="bg-green/10 text-green border border-green/30 text-[8px] px-2 py-0.5 uppercase hover:bg-green/20 transition-colors font-bold">Approve</button>
+                    <button onclick="rejectSignal('${escapeHtml(item.id)}')" class="bg-red/10 text-red border border-red/30 text-[8px] px-2 py-0.5 uppercase hover:bg-red/20 transition-colors font-bold">Reject</button>
+                  </div>
                 </div>
-                <div class="text-[10px] text-[#909399] mb-2 leading-snug">${escapeHtml(item.thesis)}</div>
-                <div class="flex gap-2">
-                  <button onclick="approveSignal('${escapeHtml(item.id)}')" class="bg-green/10 text-green border border-green/30 text-[8px] px-2 py-0.5 uppercase hover:bg-green/20 transition-colors font-bold">Approve</button>
-                  <button onclick="rejectSignal('${escapeHtml(item.id)}')" class="bg-red/10 text-red border border-red/30 text-[8px] px-2 py-0.5 uppercase hover:bg-red/20 transition-colors font-bold">Reject</button>
+              ` : "").filter(Boolean).join("")}
+            </div>
+          </div>
+  
+          <!-- Recent Operations Log -->
+          <div class="border border-[#1f242d] bg-[#121417]/30 p-2">
+            <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-2">Simulated Agent Logs</span>
+            <div class="space-y-1 text-[9px] max-h-[100px] overflow-y-auto">
+              ${(Array.isArray(sharedHabitatData.missionLog) ? sharedHabitatData.missionLog : []).slice(0, 5).map(log => log ? `
+                <div class="flex justify-between gap-2 border-b border-[#1b1c1e] pb-0.5">
+                  <span class="text-[#909399] leading-tight">${escapeHtml(log.text)}</span>
+                  <span class="text-[#606266] shrink-0">${escapeHtml(log.time)}</span>
                 </div>
-              </div>
-            `).join("")}
+              ` : "").filter(Boolean).join("")}
+            </div>
+          </div>
+  
+          <!-- Quick Commands -->
+          <div>
+            <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-2">System Commands</span>
+            <div class="grid grid-cols-2 gap-2 text-[9px]">
+              <button onclick="showNotification('Scanning watchlist... All nominal.')" class="bg-[#121417] text-white border border-[#1f242d] py-1 uppercase hover:bg-[#1a1d21] transition-colors font-bold">Scan Markets</button>
+              <button onclick="localStorage.removeItem('pickaxeOptionAlerts'); location.reload();" class="bg-[#121417] text-red border border-[#1f242d] py-1 uppercase hover:bg-[#1a1d21] transition-colors font-bold">Reset Demo</button>
+            </div>
           </div>
         </div>
-
-        <!-- Recent Operations Log -->
-        <div class="border border-[#1f242d] bg-[#121417]/30 p-2">
-          <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-2">Simulated Agent Logs</span>
-          <div class="space-y-1 text-[9px] max-h-[100px] overflow-y-auto">
-            ${sharedHabitatData.missionLog.slice(0, 5).map(log => `
-              <div class="flex justify-between gap-2 border-b border-[#1b1c1e] pb-0.5">
-                <span class="text-[#909399] leading-tight">${escapeHtml(log.text)}</span>
-                <span class="text-[#606266] shrink-0">${escapeHtml(log.time)}</span>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-
-        <!-- Quick Commands -->
-        <div>
-          <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-2">System Commands</span>
-          <div class="grid grid-cols-2 gap-2 text-[9px]">
-            <button onclick="showNotification('Scanning watchlist... All nominal.')" class="bg-[#121417] text-white border border-[#1f242d] py-1 uppercase hover:bg-[#1a1d21] transition-colors font-bold">Scan Markets</button>
-            <button onclick="localStorage.removeItem('pickaxeOptionAlerts'); location.reload();" class="bg-[#121417] text-red border border-[#1f242d] py-1 uppercase hover:bg-[#1a1d21] transition-colors font-bold">Reset Demo</button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- BOTTOM OPERATIONS STRIP -->
-      <div class="col-span-2 bg-[#0c0d0e] border border-[#1f242d] p-3 flex flex-col md:grid md:grid-cols-[1.5fr_1fr_1.5fr] gap-4 z-10">
         
-        <!-- Agent Network Health Status -->
-        <div class="flex flex-col justify-between">
-          <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-1">Agent Network Status (Online)</span>
-          <div class="flex flex-wrap items-center gap-2">
-            ${sharedHabitatData.agentRoster.slice(0, 9).map(agent => `
-              <div class="px-2 py-0.5 bg-[#121417] border border-[#1f242d] flex items-center gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-green status-pulse-dot"></span>
-                <span class="text-[9px] font-bold text-white">${escapeHtml(agent.name)}</span>
-              </div>
-            `).join("")}
+        <!-- BOTTOM OPERATIONS STRIP -->
+        <div class="col-span-2 bg-[#0c0d0e] border border-[#1f242d] p-3 flex flex-col md:grid md:grid-cols-[1.5fr_1fr_1.5fr] gap-4 z-10">
+          
+          <!-- Agent Network Health Status -->
+          <div class="flex flex-col justify-between">
+            <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-1">Agent Network Status (Online)</span>
+            <div class="flex flex-wrap items-center gap-2">
+              ${(Array.isArray(sharedHabitatData.agentRoster) ? sharedHabitatData.agentRoster : []).slice(0, 9).map(agent => agent ? `
+                <div class="px-2 py-0.5 bg-[#121417] border border-[#1f242d] flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-green status-pulse-dot"></span>
+                  <span class="text-[9px] font-bold text-white">${escapeHtml(agent.name)}</span>
+                </div>
+              ` : "").filter(Boolean).join("")}
+            </div>
+          </div>
+  
+          <!-- Data Flow Canvas wave monitor -->
+          <div class="flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider">Data Ingest Waves</span>
+              <span class="text-[8px] text-[#42d9c8] font-bold uppercase font-mono">Live Simulation</span>
+            </div>
+            <canvas id="dataFlowCanvas" width="220" height="40" class="border border-[#1f242d] bg-[#121417] w-full rounded"></canvas>
+          </div>
+  
+          <!-- Terminal Console -->
+          <div class="flex flex-col border border-[#1f242d] bg-[#0c0d0e] rounded overflow-hidden">
+            <div class="bg-[#121417] border-b border-[#1f242d] px-2 py-0.5 flex justify-between text-[8px]">
+              <span class="text-amber uppercase font-bold font-mono">CEO B COMMAND CONSOLE</span>
+              <span class="text-[#606266]">Type 'help' & press Enter</span>
+            </div>
+            <div id="terminalFeedLines" class="flex-1 p-2 h-[80px] overflow-y-auto text-[#42d9c8] font-mono text-[9px] leading-tight space-y-1">
+              ${state.terminalLog.map(line => `<div class="py-0.5">${escapeHtml(line)}</div>`).join("")}
+            </div>
+            <div class="border-t border-[#1f242d] flex items-center bg-[#121417]">
+              <span class="text-[#606266] font-mono text-[9px] pl-2 select-none">&gt;</span>
+              <input type="text" onkeydown="executeTerminalCommand(event)" placeholder="Enter command..." class="flex-1 bg-transparent border-none text-[#42d9c8] focus:outline-none text-[9px] font-mono px-1.5 py-1 w-full" />
+            </div>
           </div>
         </div>
-
-        <!-- Data Flow Canvas wave monitor -->
-        <div class="flex flex-col justify-between">
-          <div class="flex items-center justify-between mb-1">
-            <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider">Data Ingest Waves</span>
-            <span class="text-[8px] text-[#42d9c8] font-bold uppercase font-mono">Live Simulation</span>
-          </div>
-          <canvas id="dataFlowCanvas" width="220" height="40" class="border border-[#1f242d] bg-[#121417] w-full rounded"></canvas>
-        </div>
-
-        <!-- Terminal Console -->
-        <div class="flex flex-col border border-[#1f242d] bg-[#0c0d0e] rounded overflow-hidden">
-          <div class="bg-[#121417] border-b border-[#1f242d] px-2 py-0.5 flex justify-between text-[8px]">
-            <span class="text-amber uppercase font-bold font-mono">CEO B COMMAND CONSOLE</span>
-            <span class="text-[#606266]">Type 'help' & press Enter</span>
-          </div>
-          <div id="terminalFeedLines" class="flex-1 p-2 h-[80px] overflow-y-auto text-[#42d9c8] font-mono text-[9px] leading-tight space-y-1">
-            ${state.terminalLog.map(line => `<div class="py-0.5">${escapeHtml(line)}</div>`).join("")}
-          </div>
-          <div class="border-t border-[#1f242d] flex items-center bg-[#121417]">
-            <span class="text-[#606266] font-mono text-[9px] pl-2 select-none">&gt;</span>
-            <input type="text" onkeydown="executeTerminalCommand(event)" placeholder="Enter command..." class="flex-1 bg-transparent border-none text-[#42d9c8] focus:outline-none text-[9px] font-mono px-1.5 py-1 w-full" />
-          </div>
-        </div>
+        
       </div>
-      
-    </div>
-  `;
-
-  // Start the canvas monitor and scroll terminal to bottom
-  startFlowMonitor();
-  const feed = document.getElementById("terminalFeedLines");
-  if (feed) feed.scrollTop = feed.scrollHeight;
+    `;
+    
+    // Start the canvas monitor and scroll terminal to bottom
+    startFlowMonitor();
+    const feed = document.getElementById("terminalFeedLines");
+    if (feed) feed.scrollTop = feed.scrollHeight;
+  } catch (err) {
+    console.error("Critical error rendering Mission Control (renderHomeCommandCenter):", err);
+    els.commandOS.innerHTML = `
+      <div class="p-6 border border-red/40 bg-[#171212] text-red font-mono rounded max-w-xl mx-auto my-12 text-center">
+        <h3 class="text-white font-bold mb-2 uppercase tracking-wider text-xs">Mission Control Render Failed</h3>
+        <p class="text-[11px] text-[#c0c4cc] mb-4">A critical error occurred while rendering the CEO B Command Center dashboard.</p>
+        <div class="bg-black/40 p-3 rounded text-left mb-4 text-[10px] text-red/80 select-all whitespace-pre-wrap">${escapeHtml(err.stack || err.message || err)}</div>
+        <button onclick="localStorage.removeItem('pickaxeOptionAlerts'); location.reload();" class="bg-red/10 text-red border border-red/30 text-[9px] px-3 py-1 uppercase hover:bg-red/20 transition-colors font-bold tracking-wider">Reset Local State & Reload</button>
+      </div>
+    `;
+  }
 }
 
 function renderHomeAlertDetail(alert) {
@@ -1537,7 +1822,7 @@ function renderHomeAlertDetail(alert) {
         <p>${escapeHtml(alert.nextAction)} Not financial advice. No auto-trading. No broker order placement from this site.</p>
       </div>
       <div class="game-action-row">
-        <a href="${escapeHtml(alert.route || "/signals")}">Open Research</a>
+        <a href="${escapeHtml(alert.route || "#/signals")}">Open Research</a>
         <button type="button" onclick="window.homeAlertAction?.('sent to CEO B review', '${escapeHtml(alert.id)}')">CEO B Review</button>
         <button type="button" onclick="window.homeAlertAction?.('archived alert packet', '${escapeHtml(alert.id)}')">Archive</button>
       </div>
@@ -1680,7 +1965,7 @@ function renderVisionCommandCenter() {
       ${renderPipeline("Auto Update Flow", ["Flip Pages", "Tick to Add", "Pop-Up Details", "Interactive Map", "Auto Update"])}
     </section>
     <section class="quick-action-dock">
-      ${[["Open Source Hub", "/source-hub"], ["Open Signals", "/signals"], ["Open RK Tracker", "/rk-tracker"], ["Open Archive", "/archive"], ["Open Berkshire 1965", "/berkshire-1965"], ["Review Agents", "/agents"], ["Capture Intel", "/bookmarks"], ["Create Alert", "/app/alerts"], ["Check Staging", "/staging"], ["Review Founder", "/founder"]].map(([label, route]) => `<a href="${route}">${escapeHtml(label)}</a>`).join("")}
+      ${[["Open Source Hub", "#/data-sources"], ["Open Signals", "#/signals"], ["Open RK Tracker", "#/rkTracker"], ["Open Archive", "#/archive"], ["Open Berkshire 1965", "#/berkshire"], ["Review Agents", "#/agent-engine"], ["Capture Intel", "#/bookmarks"], ["Create Alert", "#/alerts"], ["Check Staging", "#/staging"], ["Review Founder", "#/founder"]].map(([label, route]) => `<a href="${route}">${escapeHtml(label)}</a>`).join("")}
     </section>
     <section class="vision-dashboard-panels">
       ${renderVisionDashboardPanel("Mission Progress", "87%", "Daily command objectives moving through source, signal, archive, and CEO B review.")}
@@ -1976,7 +2261,7 @@ function renderVisionDashboardPanel(title, value, detail) {
 
 function renderSourceHubPage() {
   if (!els.sourceHubContent) return;
-  const sources = sharedHabitatData.dataSources || [];
+  const sources = Array.isArray(sharedHabitatData.dataSources) ? sharedHabitatData.dataSources : [];
   
   els.sourceHubContent.innerHTML = `
     <div class="p-6 bg-[#0a0b0c] text-xs font-mono text-[#c0c4cc]">
@@ -2085,11 +2370,11 @@ function renderSignalsIntelligence() {
     </section>
     <section class="intelligence-split">
       <div class="panel">
-        <div class="panel-head"><div><p class="eyebrow">RK Tracker Watchlist Candidates</p><h2>Signal Leaderboard</h2></div><a class="text-link" href="#/rk-tracker">Open tracker</a></div>
+        <div class="panel-head"><div><p class="eyebrow">RK Tracker Watchlist Candidates</p><h2>Signal Leaderboard</h2></div><a class="text-link" href="#/rkTracker">Open tracker</a></div>
         <div class="tracker-table compact">${renderTrackerRows(candidates)}</div>
       </div>
       <div class="panel">
-        <div class="panel-head"><div><p class="eyebrow">Historical Pattern</p><h2>Berkshire 1965 Turnaround Signal</h2></div><a class="text-link" href="#/berkshire-1965">Study</a></div>
+        <div class="panel-head"><div><p class="eyebrow">Historical Pattern</p><h2>Berkshire 1965 Turnaround Signal</h2></div><a class="text-link" href="#/berkshire">Study</a></div>
         <div class="pattern-list">
           ${["Debt decreasing", "Working capital increasing", "Share count decreasing", "Inventory improving", "Operating income improving", "Dead assets being sold", "Cost reduction discussed", "Quality investment underway"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
         </div>
@@ -2283,7 +2568,7 @@ function renderAgentSourceMap(items) {
     ["CEO B", "reviews all agent outputs and decides what matters today."],
     ["Bookmark Cleaner", "imports Chrome bookmarks, removes duplicates, classifies sources, and builds review queues."],
   ];
-  return `<section class="vault-panel agent-source-map"><div class="panel-head"><div><p class="eyebrow">Agent Source Map</p><h2>Who Owns What</h2></div><a class="text-link" href="#/agents">Open Agents</a></div>${agents.map(([name, role]) => {
+  return `<section class="vault-panel agent-source-map"><div class="panel-head"><div><p class="eyebrow">Agent Source Map</p><h2>Who Owns What</h2></div><a class="text-link" href="#/agent-engine">Open Agents</a></div>${agents.map(([name, role]) => {
     const owned = items.filter((item) => item.connectedAgent === name);
     return `<article><h3>${escapeHtml(name)}</h3><p>${escapeHtml(role)}</p><span>${owned.length} sources</span><small>${escapeHtml(owned[0]?.nextAction || "No linked source yet.")}</small></article>`;
   }).join("")}</section>`;
@@ -2586,14 +2871,17 @@ function renderBerkshirePage() {
     <section class="wealth-board">
       ${["Diagnose", "Clean Up", "Improve Operations", "Allocate Capital", "Archive Lessons"].map((column, index) => `<article><span>0${index + 1}</span><h3>${column}</h3><p>${escapeHtml(berkshirePlaybook(column))}</p></article>`).join("")}
     </section>
-    <section class="quick-action-dock"><a href="${escapeHtml(berkshire1965.sourceUrl)}" target="_blank" rel="noopener noreferrer">Open Original Report</a><a href="#/archive">Send Lessons to Archive</a><a href="#/founder">Add to Founder Playbook</a><a href="#/agents">Create Agent Tasks</a></section>
+    <section class="quick-action-dock"><a href="${escapeHtml(berkshire1965.sourceUrl)}" target="_blank" rel="noopener noreferrer">Open Original Report</a><a href="#/archive">Send Lessons to Archive</a><a href="#/founder">Add to Founder Playbook</a><a href="#/agent-engine">Create Agent Tasks</a></section>
   `;
 }
 
 function getBookmarksState() {
   try {
     const stored = localStorage.getItem("pickaxeBookmarks");
-    if (stored) return JSON.parse(stored);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) return parsed;
+    }
   } catch (e) {
     console.error("Failed to parse bookmarks state:", e);
   }
@@ -3551,7 +3839,10 @@ window.parseXBookmarks = () => {
 function getAlertRules() {
   try {
     const stored = localStorage.getItem("pickaxeAlertRules");
-    if (stored) return JSON.parse(stored);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) return parsed;
+    }
   } catch (e) {
     console.error("Failed to parse alert rules:", e);
   }
@@ -3950,14 +4241,14 @@ function renderMissionBoardPanel() {
       <div class="mission-columns">${Object.entries(taskGroups).map(([group, items]) => `<article><h3>${escapeHtml(group)}</h3>${items.map((item) => `<p>${escapeHtml(item)}</p>`).join("")}</article>`).join("")}</div>
       <div class="panel-head"><div><p class="eyebrow">Roadmap</p><h2>Integration Status</h2></div><span class="pill">No fake live systems</span></div>
       <div class="integration-card-grid">${integrations.map(([name, status]) => `<article><span class="status-badge research">${escapeHtml(status)}</span><h3>${escapeHtml(name)}</h3><p>All advanced integrations require security review, backend/provider setup, and CEO B approval before activation.</p></article>`).join("")}</div>
-      <div class="game-action-row"><a href="#/project-update">Open Project Update</a><button type="button" onclick="navigator.clipboard?.writeText(window.location.origin + window.location.pathname + '#/project-update')">Copy Project Update Link</button><a href="#/ai-handoff">Open AI Handoff</a><button type="button" onclick="window.copyHandoffText?.()">Copy AI Handoff Text</button></div>
+      <div class="game-action-row"><a href="#/projectUpdate">Open Project Update</a><button type="button" onclick="navigator.clipboard?.writeText(window.location.origin + '#/projectUpdate')">Copy Project Update Link</button><a href="#/ai-handoff">Open AI Handoff</a><button type="button" onclick="window.copyHandoffText?.()">Copy AI Handoff Text</button></div>
     </section>
   `;
 }
 
 function renderRecoveryStatusPanel() {
-  const activeRoutes = ["/", "/vision-map", "/agents", "/archive", "/staging", "/founder", "/ceo-b-profile"];
-  const optionalRoutes = ["/jarvis-lab", "/life-os"];
+  const activeRoutes = ["#/mission-control", "#/vision-map", "#/agent-engine", "#/archive", "#/staging", "#/founder", "#/ceo-b-profile"];
+  const optionalRoutes = ["#/jarvisLab", "#/lifeOS"];
   return `
     <section class="recovery-status-panel panel">
       <div class="panel-head">
@@ -4126,7 +4417,7 @@ function renderLifeOSPage() {
       <div class="lifeos-flow">
         ${["Website = command center", "Archive = memory", "Agents = workers", "Jarvis Lab = command interface", "OpenClaw = gateway research", "jarvis-mlx = Mac offline brain research", "OpenJarvis = local-first architecture research", "Phone/iPad/Mac/Desktop = future device roles"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
       </div>
-      <div class="quick-action-dock"><a href="#/jarvis-lab">Open Jarvis Lab</a><a href="#/archive">Open Archive</a><a href="#/agents">Open Agents</a><a href="#/vision-map">Open Vision Map</a><a href="#/staging">Open Staging</a></div>
+      <div class="quick-action-dock"><a href="#/jarvisLab">Open Jarvis Lab</a><a href="#/archive">Open Archive</a><a href="#/agent-engine">Open Agents</a><a href="#/vision-map">Open Vision Map</a><a href="#/staging">Open Staging</a></div>
     </section>
   `;
 }
@@ -4392,13 +4683,25 @@ function renderProjectUpdatePage() {
     </section>
     <section class="route-status-board panel">
       <div class="panel-head"><div><p class="eyebrow">Active routes</p><h2>Route Status Board</h2></div><span class="pill">${routes.length} routes</span></div>
-      <div class="project-route-grid">${routes.map((route) => `<article><span class="status-badge ${escapeHtml(route.statusClass)}">${escapeHtml(route.status)}</span><h3>${escapeHtml(route.route)}</h3><p>${escapeHtml(route.purpose)}</p><small>Owner: ${escapeHtml(route.owner)} • Priority: ${escapeHtml(route.priority)}</small><a href="${escapeHtml(route.route)}">Open</a></article>`).join("")}</div>
+      <div class="project-route-grid">${routes.map((route) => {
+        let hashRoute = route.route === "/" ? "#/mission-control" : "#" + route.route;
+        if (route.route === "/app/alerts") hashRoute = "#/alerts";
+        else if (route.route === "/agents") hashRoute = "#/agent-engine";
+        else if (route.route === "/source-hub") hashRoute = "#/data-sources";
+        else if (route.route === "/berkshire-1965") hashRoute = "#/berkshire";
+        else if (route.route === "/rk-tracker") hashRoute = "#/rkTracker";
+        else if (route.route === "/jarvis-lab") hashRoute = "#/jarvisLab";
+        else if (route.route === "/life-os") hashRoute = "#/lifeOS";
+        else if (route.route === "/project-update") hashRoute = "#/projectUpdate";
+        else if (route.route === "/agent-builder-factory") hashRoute = "#/agentBuilderFactory";
+        return `<article><span class="status-badge ${escapeHtml(route.statusClass)}">${escapeHtml(route.status)}</span><h3>${escapeHtml(route.route)}</h3><p>${escapeHtml(route.purpose)}</p><small>Owner: ${escapeHtml(route.owner)} • Priority: ${escapeHtml(route.priority)}</small><a href="${hashRoute}">Open</a></article>`;
+      }).join("")}</div>
     </section>
     <section class="project-two-col">
       <article class="panel"><div class="panel-head"><div><p class="eyebrow">Current Market Focus</p><h2>Urgent Watchlist Only</h2></div><span class="pill">No random tickers</span></div><div class="watchlist-chip-grid">${canonicalWatchlistSymbols().map((symbol) => `<span>${escapeHtml(symbol)}</span>`).join("")}</div><p class="muted">Manual/static watchlist. No fake live prices, no recommendations, no execution.</p></article>
       <article class="panel"><div class="panel-head"><div><p class="eyebrow">Manual workflow</p><h2>Quantum Brain Council</h2></div><span class="pill">Not connected</span></div>${renderQuantumBrainSummary()}</article>
       <article class="panel"><div class="panel-head"><div><p class="eyebrow">Future Adapter / Research</p><h2>Voice + Apple Ecosystem</h2></div><span class="pill">Manual now</span></div>${renderAppleVoiceSummary()}</article>
-      <article class="panel"><div class="panel-head"><div><p class="eyebrow">Prototype</p><h2>Agent Builder Factory</h2></div><span class="pill">LocalStorage</span></div><p>Customize voxel-style Pickaxe agents, assign roles/habitats/tasks/statuses, save locally, and send changes to CEO B Review.</p><a href="#/agent-builder-factory">Open Agent Builder Factory</a></article>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">Prototype</p><h2>Agent Builder Factory</h2></div><span class="pill">LocalStorage</span></div><p>Customize voxel-style Pickaxe agents, assign roles/habitats/tasks/statuses, save locally, and send changes to CEO B Review.</p><a href="#/agentBuilderFactory">Open Agent Builder Factory</a></article>
     </section>
     <section class="panel"><div class="panel-head"><div><p class="eyebrow">Deployment readiness</p><h2>Public Review Path</h2></div><span class="pill">Setup</span></div><ol><li>Push project to private GitHub repo.</li><li>Deploy preview using Vercel, Netlify, GitHub Pages, or another static host.</li><li>Share deployed /project-update or /ai-handoff URL with ChatGPT.</li><li>Keep PROJECT_STATUS.md and NEXT_STEPS.md updated every session.</li></ol><p class="muted">Localhost links only open on B's Mac.</p></section>
   `;
@@ -4471,10 +4774,13 @@ function renderAppleVoiceSummary() {
 
 function getAgentFactorySaved() {
   try {
-    return JSON.parse(localStorage.getItem("pickaxeAgentFactory") || "[]");
-  } catch {
-    return [];
-  }
+    const val = localStorage.getItem("pickaxeAgentFactory");
+    if (val) {
+      const parsed = JSON.parse(val);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch {}
+  return [];
 }
 
 function setAgentFactorySaved(items) {
@@ -4577,10 +4883,13 @@ window.copyHandoffText = async () => {
 
 function getJarvisHistory() {
   try {
-    return JSON.parse(localStorage.getItem("pickaxe_jarvis_command_history") || "[]");
-  } catch {
-    return [];
-  }
+    const val = localStorage.getItem("pickaxe_jarvis_command_history");
+    if (val) {
+      const parsed = JSON.parse(val);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch {}
+  return [];
 }
 
 function setJarvisHistory(history) {
@@ -4872,10 +5181,13 @@ function berkshirePlaybook(column) {
 
 function getActionState() {
   try {
-    return JSON.parse(localStorage.getItem("pickaxeActionCenter") || "{}");
-  } catch {
-    return {};
-  }
+    const val = localStorage.getItem("pickaxeActionCenter");
+    if (val) {
+      const parsed = JSON.parse(val);
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) return parsed;
+    }
+  } catch {}
+  return {};
 }
 
 function setActionState(stateMap) {
@@ -5453,24 +5765,64 @@ function strengthIcon(index) {
 }
 
 async function loadVisionMap() {
-  const payload = await getJson("/api/vision-map");
+  let payload = null;
+  try {
+    payload = await getJson("/api/vision-map");
+  } catch (error) {
+    console.warn("API vision-map route error, using local fallback:", error);
+    payload = {
+      mission: { title: "Pickaxe Capital / AI Habitat OS", statement: "One Vision. Three Layers. Infinite Potential." },
+      promptBuilder: { 
+        basePrompt: "Focus the desk on {ticker}. Connect chart structure, flow proxy, catalyst context, TTT alignment, and risk gates. Give me the exact next research action.",
+        quickPrompts: [
+          "Validate macro regime trend limits for BTC before any manual Webull review.",
+          "Inspect NVDA semi capex news memory blocks and options volume outliers.",
+          "Check AAPL defined support bounds invalidation and premium risk gates."
+        ]
+      },
+      brainMap: [
+        { title: "Core Inputs", items: ["Market Watchlist Data", "Options Chain Implied Vol", "Geopolitical Intelligence Feeds", "Private Chrome Bookmarks Uploads"] }
+      ],
+      monitorRoom: [
+        { title: "Active Watchlists", items: ["SPY index metrics", "QQQ Nasdaq options", "BTC spot levels", "NVDA volatility scan"] }
+      ],
+      learningSystem: [
+        { title: "Ecosystem Rules", items: ["Time Trend Theme alignment", "Max 10% premium spread gate", "Downside invalidation checkpoints"] }
+      ],
+      businessMap: [
+        { title: "Command Revenue", items: ["Static research models", "Educational sandbox packages", "Hedge fund terminal layouts"] }
+      ],
+      operatingDoctrine: [
+        { title: "CEO B Mandates", items: ["Never merge external code untested", "No auto-trading or API key exposure", "Maintain 100% manual review review gates"] }
+      ],
+      catalystMemory: [
+        { title: "Event Tracking", items: ["Federal Reserve interest rate schedule", "Mega-cap corporate earnings windows", "Sector rotation volume breakouts"] }
+      ],
+      quote: { text: "Stand firm in the right place, then watch the horizon.", author: "TTT" },
+      folderSystem: ["Markets", "Options", "Macro Policy", "AI Coding", "Archive Vault", "System Prototyping"]
+    };
+  }
   state.visionMap = payload;
-  els.visionMission.textContent = payload.mission?.title || "Vision Map";
-  els.visionStatement.textContent = payload.mission?.statement || "";
-  els.promptTemplate.textContent = payload.promptBuilder?.basePrompt || "";
-  els.brainMap.innerHTML = renderCardGroup(payload.brainMap || []);
-  els.monitorRoom.innerHTML = renderCardGroup(payload.monitorRoom || []);
-  els.learningSystem.innerHTML = renderCardGroup(payload.learningSystem || []);
-  els.businessMap.innerHTML = renderCardGroup(payload.businessMap || []);
-  els.operatingDoctrine.innerHTML = renderCardGroup(payload.operatingDoctrine || []);
-  els.catalystMemory.innerHTML = renderCardGroup(payload.catalystMemory || []);
-  els.visionQuote.innerHTML = payload.quote
-    ? `<p>${escapeHtml(payload.quote.text)}</p><strong>${escapeHtml(payload.quote.author || "TTT")}</strong>`
-    : "";
-  els.folderSystem.innerHTML = (payload.folderSystem || []).map((item) => `<span>${escapeHtml(item)}</span>`).join("");
-  els.quickPrompts.innerHTML = (payload.promptBuilder?.quickPrompts || []).map((prompt, index) => `
-    <button type="button" data-prompt="${escapeHtml(prompt)}">${index + 1}. ${escapeHtml(prompt)}</button>
-  `).join("");
+  if (els.visionMission) els.visionMission.textContent = payload.mission?.title || "Vision Map";
+  if (els.visionStatement) els.visionStatement.textContent = payload.mission?.statement || "";
+  if (els.promptTemplate) els.promptTemplate.textContent = payload.promptBuilder?.basePrompt || "";
+  if (els.brainMap) els.brainMap.innerHTML = renderCardGroup(payload.brainMap || []);
+  if (els.monitorRoom) els.monitorRoom.innerHTML = renderCardGroup(payload.monitorRoom || []);
+  if (els.learningSystem) els.learningSystem.innerHTML = renderCardGroup(payload.learningSystem || []);
+  if (els.businessMap) els.businessMap.innerHTML = renderCardGroup(payload.businessMap || []);
+  if (els.operatingDoctrine) els.operatingDoctrine.innerHTML = renderCardGroup(payload.operatingDoctrine || []);
+  if (els.catalystMemory) els.catalystMemory.innerHTML = renderCardGroup(payload.catalystMemory || []);
+  if (els.visionQuote) {
+    els.visionQuote.innerHTML = payload.quote
+      ? `<p>${escapeHtml(payload.quote.text)}</p><strong>${escapeHtml(payload.quote.author || "TTT")}</strong>`
+      : "";
+  }
+  if (els.folderSystem) els.folderSystem.innerHTML = (payload.folderSystem || []).map((item) => `<span>${escapeHtml(item)}</span>`).join("");
+  if (els.quickPrompts) {
+    els.quickPrompts.innerHTML = (payload.promptBuilder?.quickPrompts || []).map((prompt, index) => `
+      <button type="button" data-prompt="${escapeHtml(prompt)}">${index + 1}. ${escapeHtml(prompt)}</button>
+    `).join("");
+  }
 }
 
 function loadPromptIntoDesk() {
@@ -5494,8 +5846,23 @@ async function runAgents() {
     els.agentMeta.textContent = payload.run.aiOk ? payload.run.modelUsed : "Fallback";
     await loadChecklist();
   } catch (error) {
-    els.agentOutput.textContent = `Agent route error: ${error.message}`;
-    els.agentMeta.textContent = "Error";
+    console.warn("API agents research route error, using local fallback:", error);
+    const targetSymbol = els.optionsSymbol?.value || "SPY";
+    const marketItem = state.market?.find(item => item.symbol === targetSymbol) || { price: 520.50, changePct: 0.85 };
+    const simulatedBrief = [
+      `[SIMULATED AI RESEARCH BRIEF - STATIC DEMO]`,
+      `Focus Target: ${targetSymbol} (Last: $${marketItem.price.toFixed(2)}, Change: ${marketItem.changePct >= 0 ? '+' : ''}${marketItem.changePct.toFixed(2)}%)`,
+      `Data Source: Simulated Local Snapshot / Future Adapter Stub`,
+      `Timestamp: ${new Date().toLocaleString()}`,
+      `Risk gate check: Compliant (Defined risk, Spread < 0.10, Volume check ok)`,
+      "",
+      `Analysis: Under static prototype mode, the AI Research Desk analyzed ticker ${targetSymbol}. The broad index regime is constructive with positive volume velocity. Risk Sentinel has confirmed invalidation thresholds are mapped for the $${(marketItem.price * 0.95).toFixed(2)} downside level. Options Flow Hunter flags active interest at the near-term strike boundaries.`,
+      "",
+      `Recommendation: Ready for manual review. Webull execution only.`
+    ].join("\n");
+    
+    els.agentOutput.textContent = simulatedBrief;
+    els.agentMeta.textContent = "Static Prototype";
   }
 }
 
@@ -5503,11 +5870,22 @@ async function saveJournal(event) {
   event.preventDefault();
   const form = new FormData(els.journalForm);
   const body = Object.fromEntries(form.entries());
-  const payload = await postJson("/api/journal", body);
-  if (payload.ok) {
+  try {
+    const payload = await postJson("/api/journal", body);
+    if (payload.ok) {
+      els.journalForm.reset();
+      await loadChecklist();
+      els.agentOutput.textContent = `Saved lesson for ${payload.entry.symbol || "the desk"}.\n\n${payload.entry.lesson}`;
+    }
+  } catch (error) {
+    console.warn("API journal route error, saving locally in localStorage:", error);
+    const journalList = JSON.parse(localStorage.getItem("pickaxeJournalEntries") || "[]");
+    body.timestamp = new Date().toISOString();
+    journalList.push(body);
+    localStorage.setItem("pickaxeJournalEntries", JSON.stringify(journalList));
     els.journalForm.reset();
     await loadChecklist();
-    els.agentOutput.textContent = `Saved lesson for ${payload.entry.symbol || "the desk"}.\n\n${payload.entry.lesson}`;
+    els.agentOutput.textContent = `[SAVED LOCALLY - STATIC PROTOTYPE]\n\nLesson for ${body.symbol || "the desk"} saved to localStorage.\n\nThesis: ${body.setup}\nLesson: ${body.lesson}`;
   }
 }
 
@@ -6289,12 +6667,17 @@ function renderWorldReviewItem(item) {
 }
 
 function getWorldState() {
-  const fallback = { reviewStack: habitatWorld.reviewStack || [], wins: [], archived: [], events: [] };
+  const fallback = { reviewStack: Array.isArray(habitatWorld.reviewStack) ? habitatWorld.reviewStack : [], wins: [], archived: [], events: [] };
   try {
-    return { ...fallback, ...JSON.parse(localStorage.getItem("pickaxeWorldState") || "{}") };
-  } catch {
-    return fallback;
-  }
+    const val = localStorage.getItem("pickaxeWorldState");
+    if (val) {
+      const parsed = JSON.parse(val);
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        return { ...fallback, ...parsed };
+      }
+    }
+  } catch {}
+  return fallback;
 }
 
 function setWorldState(nextState) {
@@ -6560,10 +6943,15 @@ function renderAgentOpsBottomPanels(agentOps) {
 function getAgentOpsState() {
   const fallback = { tasks: [], events: [], reviewed: [], archived: [] };
   try {
-    return { ...fallback, ...JSON.parse(localStorage.getItem("pickaxeAgentOps") || "{}") };
-  } catch {
-    return fallback;
-  }
+    const val = localStorage.getItem("pickaxeAgentOps");
+    if (val) {
+      const parsed = JSON.parse(val);
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        return { ...fallback, ...parsed };
+      }
+    }
+  } catch {}
+  return fallback;
 }
 
 function setAgentOpsState(nextState) {

@@ -1,12 +1,14 @@
 {
-  "name": "pickaxe-capital-market-habitat",
+  "name": "pickaxe-capital-command-center",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "node server.mjs",
     "start": "node server.mjs",
-    "build": "node --check server.mjs && node --check public/app.js && node --check public/habitat-data.js && node scripts/check-project.mjs",
-    "check:project": "node scripts/check-project.mjs",
+    "check:project": "node --check server.mjs && node --check public/app.js && node scripts/check-project.mjs",
+    "import:bookmarks": "node scripts/import-bookmarks.mjs",
+    "build": "node scripts/build.mjs",
     "agent": "node scripts/run-mission.mjs",
     "agent:server": "node scripts/agent-server.mjs",
     "check:agents": "node --check scripts/agent-server.mjs && node --check scripts/run-mission.mjs && node --check src/agent-ecosystem/config.mjs && node --check src/agent-ecosystem/route-engine.mjs && node --check src/agent-ecosystem/memory-store.mjs && node --check src/agent-ecosystem/openai-client.mjs && node --check src/agent-ecosystem/github-tools.mjs"

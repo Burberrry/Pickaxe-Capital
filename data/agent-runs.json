@@ -1,0 +1,79 @@
+[
+  {
+    "id": "5b3203f5-048c-4d1f-9ef3-445856dbafab",
+    "createdAt": "2026-05-25T05:00:25.688Z",
+    "focus": "Smoke test: give a concise desk brief.",
+    "symbols": [
+      "SPY",
+      "QQQ",
+      "NVDA",
+      "TSLA",
+      "BTC-USD"
+    ],
+    "optionsSymbol": "SPY",
+    "aiOk": false,
+    "modelUsed": "local-fallback",
+    "report": "Desk Pulse: Rules-based review was active because model output was unavailable. Market data was still live, so this was a rules-based desk brief.\n\nHighest Priority Watchlist: TSLA +1.95%, NVDA -1.90%, QQQ +0.42%, BTC-USD +0.42%, SPY +0.39%\n\nOptions Flow Proxy Read: CALL 750 vol 65467 OI 8094; CALL 747 vol 60149 OI 1837; CALL 748 vol 59362 OI 1217; PUT 715 vol 37319 OI 54117; PUT 735 vol 44521 OI 13128\n\nRisk Gates: Only study liquid names, reject wide spreads, define invalidation before entry, cap risk per idea, and journal the thesis before action.\n\nMistake To Avoid Today: Do not turn a market opinion into oversized options exposure without volume, catalyst, and invalidation lining up.\n\nNext 3 Actions: Run the scan again near liquidity windows. Pick one ticker for deep review. Write the planned trade and the reason not to take it.\n\nConviction Score: 5/10 - live data was present, with rules-based review used for this saved run."
+  },
+  {
+    "id": "3539646b-e21d-4f49-b875-f8cb9eafb877",
+    "createdAt": "2026-05-25T05:01:08.490Z",
+    "focus": "Scan the watchlist for options-quality setups. Prioritize liquidity, unusual movement, catalyst context, and risk gates. Tell me what to study next.",
+    "symbols": [
+      "SPY",
+      "QQQ",
+      "NVDA",
+      "TSLA",
+      "AAPL",
+      "MSTR",
+      "COIN",
+      "BTC-USD",
+      "ETH-USD",
+      "EURUSD=X",
+      "GC=F",
+      "CL=F"
+    ],
+    "optionsSymbol": "SPY",
+    "aiOk": false,
+    "modelUsed": "local-fallback",
+    "report": "Desk Pulse: Rules-based review was active because model output was unavailable. Market data was still live, so this was a rules-based desk brief.\n\nHighest Priority Watchlist: COIN -4.43%, MSTR -3.01%, TSLA +1.95%, NVDA -1.90%, AAPL +1.26%\n\nOptions Flow Proxy Read: CALL 750 vol 65467 OI 8094; CALL 747 vol 60149 OI 1837; CALL 748 vol 59362 OI 1217; PUT 715 vol 37319 OI 54117; PUT 735 vol 44521 OI 13128\n\nRisk Gates: Only study liquid names, reject wide spreads, define invalidation before entry, cap risk per idea, and journal the thesis before action.\n\nMistake To Avoid Today: Do not turn a market opinion into oversized options exposure without volume, catalyst, and invalidation lining up.\n\nNext 3 Actions: Run the scan again near liquidity windows. Pick one ticker for deep review. Write the planned trade and the reason not to take it.\n\nConviction Score: 5/10 - live data was present, with rules-based review used for this saved run."
+  },
+  {
+    "id": "20ea5248-ef2b-4ca1-a110-63a7ca576bf7",
+    "createdAt": "2026-05-25T05:01:38.907Z",
+    "focus": "Final smoke test.",
+    "symbols": [
+      "SPY",
+      "QQQ",
+      "NVDA"
+    ],
+    "optionsSymbol": "SPY",
+    "aiOk": false,
+    "modelUsed": "local-fallback",
+    "report": "Desk Pulse: Rules-based review was active because model output was unavailable. Market data was still live, so this was a rules-based desk brief.\n\nHighest Priority Watchlist: NVDA -1.90%, QQQ +0.42%, SPY +0.39%\n\nOptions Flow Proxy Read: CALL 750 vol 65467 OI 8094; CALL 747 vol 60149 OI 1837; CALL 748 vol 59362 OI 1217; PUT 715 vol 37319 OI 54117; PUT 735 vol 44521 OI 13128\n\nRisk Gates: Only study liquid names, reject wide spreads, define invalidation before entry, cap risk per idea, and journal the thesis before action.\n\nMistake To Avoid Today: Do not turn a market opinion into oversized options exposure without volume, catalyst, and invalidation lining up.\n\nNext 3 Actions: Run the scan again near liquidity windows. Pick one ticker for deep review. Write the planned trade and the reason not to take it.\n\nConviction Score: 5/10 - live data was present, with rules-based review used for this saved run."
+  },
+  {
+    "id": "b9c56ec3-d8e9-4522-8b59-4cd6acd00b9a",
+    "createdAt": "2026-05-25T05:26:33.942Z",
+    "focus": "Scan the watchlist for options-quality setups. Prioritize liquidity, unusual movement, catalyst context, and risk gates. Tell me what to study next.",
+    "symbols": [
+      "SPY"
+    ],
+    "optionsSymbol": "SPY",
+    "aiOk": false,
+    "modelUsed": "local-fallback",
+    "report": "Desk Pulse: Rules-based review was active because model output was unavailable. Market data was still live, so this was a rules-based desk brief.\n\nHighest Priority Watchlist: SPY +0.39%\n\nOptions Flow Proxy Read: CALL 750 vol 65467 OI 8094; CALL 747 vol 60149 OI 1837; CALL 748 vol 59362 OI 1217; PUT 715 vol 37319 OI 54117; PUT 735 vol 44521 OI 13128\n\nRisk Gates: Only study liquid names, reject wide spreads, define invalidation before entry, cap risk per idea, and journal the thesis before action.\n\nMistake To Avoid Today: Do not turn a market opinion into oversized options exposure without volume, catalyst, and invalidation lining up.\n\nNext 3 Actions: Run the scan again near liquidity windows. Pick one ticker for deep review. Write the planned trade and the reason not to take it.\n\nConviction Score: 5/10 - live data was present, with rules-based review used for this saved run."
+  },
+  {
+    "id": "90b7d10a-29ee-4508-be2e-a3cdcf7f697c",
+    "createdAt": "2026-05-25T05:29:45.146Z",
+    "focus": "Scan the watchlist for options-quality setups. Prioritize liquidity, unusual movement, catalyst context, and risk gates. Tell me what to study next.",
+    "symbols": [
+      "SPY"
+    ],
+    "optionsSymbol": "QQQ",
+    "aiOk": false,
+    "modelUsed": "local-fallback",
+    "report": "Desk Pulse: Rules-based review was active because model output was unavailable. Market data was still live, so this was a rules-based desk brief.\n\nHighest Priority Watchlist: SPY +0.39%\n\nOptions Flow Proxy Read: CALL 720 vol 39946 OI 2488; PUT 684 vol 34450 OI 30215; PUT 695 vol 31846 OI 30962; PUT 705 vol 30491 OI 16133; PUT 685 vol 28603 OI 16522\n\nRisk Gates: Only study liquid names, reject wide spreads, define invalidation before entry, cap risk per idea, and journal the thesis before action.\n\nMistake To Avoid Today: Do not turn a market opinion into oversized options exposure without volume, catalyst, and invalidation lining up.\n\nNext 3 Actions: Run the scan again near liquidity windows. Pick one ticker for deep review. Write the planned trade and the reason not to take it.\n\nConviction Score: 5/10 - live data was present, with rules-based review used for this saved run."
+  }
+]

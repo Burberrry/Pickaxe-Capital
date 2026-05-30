@@ -1,0 +1,207 @@
+[
+  {
+    "letter": "A",
+    "title": "Ambition Captured",
+    "detail": "Turned the April 18 2028 vision into a personal trading command center focused on options, live data, agents, learning, and disciplined execution."
+  },
+  {
+    "letter": "B",
+    "title": "Baseline Project",
+    "detail": "Created a clean local website project inside the exact April 18 2028 folder so this can stay your long-running workspace."
+  },
+  {
+    "letter": "C",
+    "title": "Credentials",
+    "detail": "Created a secure OpenAI API key named April 18 2028 Codex and saved it locally in .env.local without exposing the secret."
+  },
+  {
+    "letter": "D",
+    "title": "Data Routes",
+    "detail": "Added server routes for market snapshots, intraday sparkline data, and options-chain snapshots."
+  },
+  {
+    "letter": "E",
+    "title": "Execution Checklist",
+    "detail": "Built an auto-updating checklist that decides what needs attention based on data health, agent runs, journaling, risk controls, and market process."
+  },
+  {
+    "letter": "F",
+    "title": "Feedback Loop",
+    "detail": "Added local memory files for agent runs, lessons, and trade journal entries so the system can learn from outcomes over time."
+  },
+  {
+    "letter": "G",
+    "title": "Google Docs Context",
+    "detail": "Used your Google Docs notes about options agents, live data APIs, self-improving agent habitats, and trader command centers as project direction."
+  },
+  {
+    "letter": "H",
+    "title": "Human Control",
+    "detail": "Kept trade execution manual. The site produces research, checklists, and journals first, because survival and review come before automation."
+  },
+  {
+    "letter": "I",
+    "title": "Interface",
+    "detail": "Designed a trader-first UI with dense data, quick scanning, agent cards, watchlist controls, market pulse, and clear process status."
+  },
+  {
+    "letter": "J",
+    "title": "Journal",
+    "detail": "Added a trade journal form so every thesis, emotion, mistake, win, and lesson can become training data for future agents."
+  },
+  {
+    "letter": "K",
+    "title": "Knowledge Seed",
+    "detail": "Seeded the system with risk-first and options-edge lessons based on the project notes."
+  },
+  {
+    "letter": "L",
+    "title": "Live Refresh",
+    "detail": "Made the dashboard refresh market and checklist data on a timer so it behaves like a command center instead of a static page."
+  },
+  {
+    "letter": "M",
+    "title": "Market Coverage",
+    "detail": "Included stocks, ETFs, crypto, and forex symbols in the default watchlist: SPY, QQQ, NVDA, TSLA, AAPL, MSTR, COIN, BTC-USD, ETH-USD, EURUSD=X, GC=F, and CL=F."
+  },
+  {
+    "letter": "N",
+    "title": "No Heavy Dependencies",
+    "detail": "Built the first version without package-manager dependencies so it runs immediately on this machine."
+  },
+  {
+    "letter": "O",
+    "title": "Options Focus",
+    "detail": "Added an options page panel that looks for high-volume, high-open-interest calls and puts for the selected ticker."
+  },
+  {
+    "letter": "P",
+    "title": "Psychology",
+    "detail": "Added checklist and journal fields for emotional state, invalidation, and post-trade lessons because psychology is part of the trading system."
+  },
+  {
+    "letter": "Q",
+    "title": "Quality Gates",
+    "detail": "Added process gates for max risk, liquidity, spread discipline, invalidation, catalyst, and journaling."
+  },
+  {
+    "letter": "R",
+    "title": "Research Agents",
+    "detail": "Created an AI research route that can synthesize market data, option flow proxies, lessons, and your watchlist into a structured desk brief."
+  },
+  {
+    "letter": "S",
+    "title": "Storage",
+    "detail": "Stored runs and journal entries locally in JSON files so the first version has persistence without needing a database account."
+  },
+  {
+    "letter": "T",
+    "title": "Trader Tone",
+    "detail": "Made the product feel like a working trading desk: concise cards, high contrast, risk-first language, and no marketing landing page."
+  },
+  {
+    "letter": "U",
+    "title": "Upgrade Path",
+    "detail": "Left clear upgrade lanes for Polygon, Unusual Whales, Alpaca, Supabase, broker paper trading, and 24/7 cloud agents."
+  },
+  {
+    "letter": "V",
+    "title": "Verification",
+    "detail": "Added health routes and will run the app locally to verify the dashboard, API routes, and AI route behavior."
+  },
+  {
+    "letter": "W",
+    "title": "Workflow",
+    "detail": "Organized the site into three pages: Command Center, Checklist, and Build Log."
+  },
+  {
+    "letter": "X",
+    "title": "Extensibility",
+    "detail": "Kept the backend modular so new agents, data sources, and broker integrations can be added without redesigning the whole app."
+  },
+  {
+    "letter": "Y",
+    "title": "Your System",
+    "detail": "Made the agent process revolve around your repeatable trading behavior: observe, filter, form thesis, size risk, execute carefully, review honestly, improve."
+  },
+  {
+    "letter": "Z",
+    "title": "Zero-to-Run",
+    "detail": "Included a run script so the site can start locally with one command."
+  },
+  {
+    "letter": "Z+",
+    "title": "Handwritten Vision Map",
+    "detail": "Read IMG_2335.heic and converted the board into a Vision Map page with brain-map modules, prompt builder, monitor-room categories, learning system, business map, folder system, and updated checklist context."
+  },
+  {
+    "letter": "S+",
+    "title": "Webull Signal Engine",
+    "detail": "Added a Signals page and backend option-idea generator. The website now produces research alerts with exact contracts to inspect in Webull, entry zones, invalidation, targets, and risk gates, while keeping all buying and selling outside the website."
+  },
+  {
+    "letter": "A++",
+    "title": "Agent Habitat OS",
+    "detail": "Added a living Agent Operations page with CEO B, specialist departments, animated collaboration paths, activity feed, progress, confidence, filters, and detail panels using simple mock data ready for real telemetry later."
+  },
+  {
+    "letter": "M+",
+    "title": "Master Context Memory",
+    "detail": "Created separated project memory docs for master context, UI language, CEO B, signal engine, vision map architecture, alert story system, product direction, system architecture, and coding rules."
+  },
+  {
+    "letter": "T+",
+    "title": "Ticker Synchronization",
+    "detail": "Made market cards clickable so a symbol like QQQ synchronizes selected chart focus, Flow Proxy, signal watchlist, and Desk Brief mission context together."
+  },
+  {
+    "letter": "H+",
+    "title": "Habitat UI Upgrade",
+    "detail": "Rebuilt the Agents page toward the AI Habitat OS reference with a KPI strip, habitat clock, CEO B command tower, richer agent stations, animated runners, data packets, live operations feed, and final CEO B research synthesis."
+  },
+  {
+    "letter": "C+",
+    "title": "Character Habitat Assets",
+    "detail": "Added the provided AI Habitat reference image as a live environment backdrop and character source for the Agents page, including station portraits, runner portraits, and CEO B tower portrait while keeping the habitat interactive."
+  },
+  {
+    "letter": "R+",
+    "title": "Agent Habitat Redo",
+    "detail": "Redid the Agents page with contained Pickaxe Capital Habitat OS branding, a quote-style command band, blended habitat stage background, compact workforce overview, live activity feed, Options Flow Desk snapshot, and CEO B routing while preserving the working character habitat."
+  },
+  {
+    "letter": "H++",
+    "title": "Habitat Command Layer",
+    "detail": "Improved the main Agent Habitat section with a selected-agent HUD, clickable Flow/Risk/Signal/News/CEO system modules, animated scan sweep, drone traffic, orbit rings, and stronger data-lane motion so the habitat feels like an active AI operations floor."
+  },
+  {
+    "letter": "G+",
+    "title": "Signals-Only Guardrail",
+    "detail": "Added the Signals + Research Only mode reminder to the execution checklist so the daily process confirms the website produces alerts and ideas only while all buying and selling stays manual in Webull."
+  },
+  {
+    "letter": "W+",
+    "title": "Webull Verification Step",
+    "detail": "Added a checklist step requiring the user to verify the exact contract, bid/ask, volume, open interest, spread, and underlying level in Webull before making any manual decision."
+  },
+  {
+    "letter": "L+",
+    "title": "New Pickaxe Capital Logo",
+    "detail": "Added the new Pickaxe Capital logo asset and updated the website brand placements, including the main sidebar and Agent Habitat brand mark."
+  },
+  {
+    "letter": "I+",
+    "title": "Browser Tab Icon",
+    "detail": "Set the Pickaxe Capital logo as the website favicon and Apple touch icon so the browser tab shows the company mark instead of the default globe."
+  },
+  {
+    "letter": "AR",
+    "title": "Archive Knowledge Mine",
+    "detail": "Installed the Codex handoff pack, added the Pickaxe brand asset, imported the Chrome bookmark export into Archive tables, preserved the full folder tree and duplicate URL locations, marked local file links for quarantine, added Archive routes, and wired the sidebar to Archive."
+  },
+  {
+    "letter": "CB",
+    "title": "CEO B Founder Profile",
+    "detail": "Added the Founder Profile feature with public /about-founder and app /app/ceo-b routes, editable profile copy, strengths, blind spots, vibe check bars, ideal environment, final score, and the Pickaxe Capital north-star goal."
+  }
+]

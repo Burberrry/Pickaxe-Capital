@@ -1,0 +1,187 @@
+{
+  "source": {
+    "title": "IMG_2335 handwritten blueprint",
+    "path": "/Users/b/Desktop/IMG_2335.heic",
+    "capturedIntoSiteAt": "2026-05-25T00:00:00.000Z",
+    "note": "Converted from the handwritten project board into structured website modules."
+  },
+  "mission": {
+    "title": "Build app and website",
+    "statement": "Build an app and website that can do nonstop research for the stock market and business so the user can work toward starting capital.",
+    "operatingMode": "Hierarchy: ideas become folders, prompts, research, dashboards, checklists, journals, and agent memory."
+  },
+  "brainMap": [
+    {
+      "title": "Stock Market Options",
+      "items": ["options chains", "SPY", "QQQ", "key levels", "risk management", "trading journal"]
+    },
+    {
+      "title": "Projects",
+      "items": ["folders", "saved bookmarks", "reference playbooks", "plugins", "Google Docs", "Google Chrome"]
+    },
+    {
+      "title": "Research Signals",
+      "items": ["insider buying", "unusual activity", "Congress trades", "13F filings", "IPOs", "earnings"]
+    },
+    {
+      "title": "AI Build Stack",
+      "items": ["prompt", "website", "AI Codex plugins", "R&D develop", "terminal", "GitHub", "Google Chrome"]
+    },
+    {
+      "title": "Devices And Inputs",
+      "items": ["live camera", "Mac mini", "iPad", "iPhone", "MacBook", "image-to-research capture"]
+    }
+  ],
+  "promptBuilder": {
+    "title": "Research Prompt Template",
+    "basePrompt": "Research {ticker} / {company}. Include ticker and company name, market cap, relation to SPY, monitor-room context, war and health crisis risk, sports and events, fun facts and formulas, data and theories, human nature, psychology, social media, weather, forex exchange, Costco-style sales trend read, time, trend, and theme. End with key levels, risk, and the next action.",
+    "requiredFields": [
+      "ticker",
+      "company name",
+      "market cap",
+      "SPY comparison",
+      "monitor room",
+      "war and health crisis",
+      "sports and events",
+      "fun facts and formulas",
+      "data and theories",
+      "human nature",
+      "psychology",
+      "social media",
+      "weather",
+      "forex exchange",
+      "time",
+      "trend",
+      "theme"
+    ],
+    "quickPrompts": [
+      "SPY market overview with Fear and Greed, key levels, options flow proxy, and risk gates.",
+      "Find unusual activity, insider buying, Congress trades, 13F changes, IPOs, and earnings catalysts for my watchlist.",
+      "Build a monitor-room brief: market overview, signals, indicators, risk management, news, AI, ETF categories, crypto, metals, and real estate.",
+      "Study one trader playbook today: Ripster EMA cloud, LuxAlgo, indicators, key levels, psychology, and journal mistakes.",
+      "Business research brief: Coinbase, Kalshi, Polymarket, Costco sales trend, import/export, Iran and USA opportunities, assets and liabilities."
+    ]
+  },
+  "monitorRoom": [
+    {
+      "title": "Market Overview",
+      "items": ["SPY", "QQQ", "market cap", "Fear and Greed", "signals", "key levels"]
+    },
+    {
+      "title": "Event Catalysts",
+      "items": ["IPO", "13F", "earnings", "war crisis", "health crisis", "sports and events"]
+    },
+    {
+      "title": "Trading Tools",
+      "items": ["Ripster EMA cloud", "LuxAlgo", "indicators", "risk management", "trading journal"]
+    },
+    {
+      "title": "Information Edge",
+      "items": ["insider info", "social media", "news AI", "ETF category", "Gemini", "Codex"]
+    },
+    {
+      "title": "Prediction Markets",
+      "items": ["Coinbase", "Kalshi", "Polymarket", "forex exchange", "weather"]
+    },
+    {
+      "title": "Alternative Assets",
+      "items": ["metals", "crypto", "real estate", "limited supply equals value", "Pokemon and cars", "watches"]
+    }
+  ],
+  "learningSystem": [
+    {
+      "title": "Learn And Study",
+      "items": ["human nature", "psychology", "formula and theories", "Chinese astrology", "Persian sayings", "daily tasks"]
+    },
+    {
+      "title": "Mental Models",
+      "items": ["law of average", "Marcus Aurelius", "routine", "continuous learning", "why", "life"]
+    },
+    {
+      "title": "Business Foundations",
+      "items": ["budget", "goals", "business", "review goals", "taxes", "assets and liabilities"]
+    },
+    {
+      "title": "Personal Database",
+      "items": ["hobbies", "plans", "people", "consumer goods", "2026", "reference playbooks"]
+    }
+  ],
+  "businessMap": [
+    {
+      "title": "TTT Main Brand",
+      "items": ["Time", "Trend", "Theme", "Pickaxe Capital intelligence", "premium execution standards"]
+    },
+    {
+      "title": "Import And Export",
+      "items": ["how to buy and sell for profit", "how to import and export", "Iran and USA", "assets and liability"]
+    },
+    {
+      "title": "Opportunity Categories",
+      "items": ["metals", "crypto", "real estate", "cars", "watches", "consumer goods"]
+    },
+    {
+      "title": "Marketplaces",
+      "items": ["Coinbase", "Kalshi", "Polymarket", "prediction markets", "exchange rates"]
+    },
+    {
+      "title": "Revenue Streams",
+      "items": ["websites and apps", "outsourced clothes and goods", "research products", "physical ventures", "business operations"]
+    }
+  ],
+  "operatingDoctrine": [
+    {
+      "title": "AI Habitat OS",
+      "items": ["synchronized agents", "living operations floor", "CEO B oversight", "mock data now", "real telemetry later"]
+    },
+    {
+      "title": "Engineering Rules",
+      "items": ["think before coding", "simplicity first", "surgical changes", "goal-driven execution", "never overengineer"]
+    },
+    {
+      "title": "TTT Discipline",
+      "items": ["time", "trend", "theme", "put your feet in the right place", "stand firm after confirmation"]
+    },
+    {
+      "title": "Options Survival",
+      "items": ["Webull execution only", "max loss is premium paid", "reject wide spreads", "define invalidation", "journal lessons"]
+    }
+  ],
+  "catalystMemory": [
+    {
+      "title": "Trump Buy-Style Catalyst",
+      "items": ["Apr. 9, 2025 9:37 AM ET", "Truth Social buy-style post", "DJT was the explicit ticker", "treat as catalyst context only"]
+    },
+    {
+      "title": "Political Watchlist Context",
+      "items": ["DJT", "INTC", "AAPL", "JPM", "NVDA", "BA", "TSLA", "MSFT", "DELL", "HPQ", "AMZN"]
+    },
+    {
+      "title": "Catalyst Rule",
+      "items": ["public mentions do not equal trades", "price must confirm", "risk gate must pass", "verify liquidity in Webull"]
+    }
+  ],
+  "quote": {
+    "text": "Be sure to put your feet in the right place, then STAND FIRM.",
+    "author": "TTT"
+  },
+  "folderSystem": [
+    "Google Docs",
+    "Google Chrome bookmarks",
+    "Gov",
+    "Contracts",
+    "Budget",
+    "Goals",
+    "Business",
+    "Review goals",
+    "Taxes",
+    "Hobbies",
+    "Plans",
+    "People",
+    "Consumer goods",
+    "2026",
+    "Warren B",
+    "Ripster",
+    "Reference playbooks",
+    "Plugins"
+  ]
+}

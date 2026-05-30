@@ -1,14 +1,733 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pickaxe Capital Market Habitat</title>
-  <link rel="stylesheet" href="./styles.css" />
-</head>
-<body>
-  <div id="app"></div>
-  <script src="./habitat-data.js"></script>
-  <script type="module" src="./app.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pickaxe Capital</title>
+    <link rel="icon" type="image/png" href="brand/favicon-floating.png" />
+    <link rel="apple-touch-icon" href="brand/pickaxe-capital-logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              teal: 'var(--teal)',
+              blue: 'var(--blue)',
+              amber: 'var(--amber)',
+              green: 'var(--green)',
+              red: 'var(--red)',
+              muted: 'var(--muted)',
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="rail">
+        <a class="brand home-brand" href="#/mission-control" aria-label="Open Pickaxe Capital home">
+          <span class="mark">
+            <img src="brand/pickaxe-capital-logo.png" alt="Pickaxe Capital logo" />
+          </span>
+          <div>
+            <strong>Pickaxe Capital</strong>
+            <small>HOME "Alerts"</small>
+          </div>
+        </a>
+        <nav class="nav">
+          <button class="nav-button" data-view="command" data-route="/#/mission-control"><span>01</span> Mission Control</button>
+          <button class="nav-button" data-view="vision" data-route="/#/vision-map"><span>02</span> Vision Map</button>
+          <button class="nav-button" data-view="agents" data-route="/#/agent-engine"><span>03</span> Agent Engine</button>
+          <button class="nav-button" data-view="signals" data-route="/#/signals"><span>04</span> Signals</button>
+          <button class="nav-button" data-view="alerts" data-route="/#/alerts"><span>05</span> Alerts</button>
+          <button class="nav-button" data-view="riskRules" data-route="/#/risk-rules"><span>06</span> Risk Rules</button>
+          <button class="nav-button" data-view="sourceHub" data-route="/#/data-sources"><span>07</span> Data Sources</button>
+          <button class="nav-button" data-view="compliance" data-route="/#/compliance"><span>08</span> Compliance</button>
+          <button class="nav-button" data-view="archive" data-route="/#/archive"><span>09</span> Archive</button>
+          <button class="nav-button" data-view="bookmarks" data-route="/#/bookmarks"><span>10</span> Bookmarks</button>
+          <button class="nav-button" data-view="staging" data-route="/#/staging"><span>11</span> Staging</button>
+          <button class="nav-button" data-view="aiHandoff" data-route="/#/ai-handoff"><span>12</span> AI Handoff</button>
+          <button class="nav-button" data-view="aiHabitatOS" data-route="/#/ai-habitat-os"><span>13</span> AI Habitat OS</button>
+        </nav>
+        <section class="rail-quote" aria-live="polite">
+          <span class="label">Mindset</span>
+          <p id="rotatingQuote">Be sure you put your feet in the right place, then stand firm.</p>
+          <strong id="rotatingQuoteSource">TTT</strong>
+        </section>
+      </aside>
+
+      <main>
+        <section class="topbar">
+          <div>
+            <p class="eyebrow">Live desk</p>
+            <h1 id="pageTitle">Command Center</h1>
+          </div>
+          <div class="status-strip">
+            <span id="healthDot" class="dot"></span>
+            <span id="healthText">Checking routes...</span>
+          </div>
+        </section>
+
+        <section id="command" class="view active">
+          <div id="commandOS" class="command-os-zone"></div>
+
+          <div class="control-band">
+            <div>
+              <label for="watchlistInput">Watchlist</label>
+              <input id="watchlistInput" value="BTC, SPY, QQQ, TSLA, AAPL, AMD, NVDA, MSFT, AMZN, UVXY, SPX, MESmain, GCmain, SImain, SICmain, CLmain, DXY" />
+            </div>
+            <button id="refreshBtn" class="primary">Refresh Manual Snapshot</button>
+            <button id="runAgentsBtn" class="accent">Run Local Review</button>
+          </div>
+
+          <div class="grid metrics" id="marketGrid"></div>
+
+          <section class="selected-pulse" id="selectedPulse"></section>
+
+          <div class="split">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Options scanner</p>
+                  <h2>Flow Proxy</h2>
+                </div>
+                <select id="optionsSymbol">
+                  <option>SPY</option>
+                  <option>QQQ</option>
+                  <option>NVDA</option>
+                  <option>TSLA</option>
+                  <option>AAPL</option>
+                  <option>BTC</option>
+                  <option>AMD</option>
+                  <option>MSFT</option>
+                  <option>AMZN</option>
+                  <option>UVXY</option>
+                </select>
+              </div>
+              <div id="optionsPanel" class="options-list"></div>
+            </section>
+
+            <section class="panel agent-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">AI agents</p>
+                  <h2>Desk Brief</h2>
+                </div>
+                <span id="agentMeta" class="pill">Waiting</span>
+              </div>
+              <textarea id="agentFocus">Scan the watchlist for options-quality setups. Prioritize liquidity, unusual movement, catalyst context, and risk gates. Tell me what to study next.</textarea>
+              <pre id="agentOutput">Run the research desk to generate the first brief.</pre>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Learning loop</p>
+                <h2>Trade Journal</h2>
+              </div>
+              <span class="pill">Signals become data</span>
+            </div>
+            <form id="journalForm" class="journal-grid">
+              <input name="symbol" placeholder="Symbol" />
+              <input name="setup" placeholder="Signal / thesis" />
+              <input name="mistake" placeholder="Mistake or avoided bad alert" />
+              <input name="emotion" placeholder="Emotion check" />
+              <select name="outcome">
+                <option value="watched">Watched</option>
+                <option value="sent to Webull">Sent to Webull</option>
+                <option value="paper win">Paper win</option>
+                <option value="paper loss">Paper loss</option>
+                <option value="avoided bad trade">Avoided bad trade</option>
+                <option value="live win">Live win</option>
+                <option value="live loss">Live loss</option>
+              </select>
+              <select name="grade">
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+                <option>D</option>
+                <option>F</option>
+              </select>
+              <textarea name="lesson" placeholder="Lesson the agents should remember"></textarea>
+              <button class="primary" type="submit">Save Lesson</button>
+            </form>
+          </section>
+        </section>
+
+        <section id="signals" class="view">
+          <div class="signal-hero">
+            <div>
+              <p class="eyebrow">Webull execution only</p>
+              <h2>Signal Generator</h2>
+              <p>Agents prepare research-only watchlist packets from manual/static inputs. No live feed is connected and Webull remains separate manual execution.</p>
+            </div>
+            <span class="pill">No broker execution</span>
+          </div>
+
+          <section class="key-notes">
+            <div>
+              <p class="eyebrow">Key notes</p>
+              <h2>AI Status</h2>
+            </div>
+            <p><strong>Mode: Signals + Research Only.</strong> The site generates alerts and option ideas. Actual buying and selling stays in Webull. The AI research layer is ready when connected, and the signal engine can still use rules/data-based review whenever model output is unavailable.</p>
+          </section>
+
+          <div class="control-band">
+            <div>
+              <label for="signalSymbols">Signal watchlist</label>
+              <input id="signalSymbols" value="BTC, SPY, QQQ, TSLA, AAPL, AMD, NVDA, MSFT, AMZN, UVXY, SPX, MESmain, GCmain, SImain, SICmain, CLmain, DXY" />
+            </div>
+            <button id="generateSignalsBtn" class="accent">Generate Review Ideas</button>
+          </div>
+
+          <div class="signal-summary" id="signalSummary"></div>
+          <div id="signalGrid" class="signal-grid"></div>
+          <div id="signalsIntelligence" class="intelligence-zone"></div>
+        </section>
+
+        <section id="sourceHub" class="view">
+          <div id="sourceHubContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="staging" class="view">
+          <div class="staging-hero">
+            <div>
+              <p class="eyebrow">Command + Signals separation</p>
+              <h2>Staging</h2>
+              <p>Raw findings, signal candidates, Archive discoveries, and risk checks pass through staging before CEO B sees the final command-level brief.</p>
+            </div>
+            <span class="pill">No auto-trading</span>
+          </div>
+          <section class="ai-handoff-panel" aria-label="AI handoff link">
+            <div class="ai-handoff-copy">
+              <p class="eyebrow">AI handoff link</p>
+              <h2>Copy Current Website Context</h2>
+              <p>Use this local handoff when you want ChatGPT, Codex, or another AI to understand the current Pickaxe Capital website state. Copying the full text is the most reliable option because localhost links only open on this Mac.</p>
+            </div>
+            <div class="ai-handoff-actions">
+              <label for="aiHandoffLink">Local auto-updating context</label>
+              <input id="aiHandoffLink" readonly value="http://localhost:4328/ai-handoff" />
+              <div class="ai-handoff-buttons">
+                <button type="button" class="primary" onclick="window.copyAiHandoffText?.()">Copy Handoff Text</button>
+                <button type="button" onclick="window.copyAiHandoffLink?.()">Copy Link</button>
+                <a href="#/ai-handoff" target="_blank" rel="noopener noreferrer">Open</a>
+              </div>
+              <small id="aiHandoffStatus">Auto-updates from AGENTS.md, PROJECT_STATUS.md, and NEXT_STEPS.md.</small>
+            </div>
+          </section>
+          <div class="staging-grid">
+            <article>
+              <span>00</span>
+              <h3>Signals + Research Only</h3>
+              <p>The site generates alerts and option ideas. Actual buying and selling stays in Webull.</p>
+              <i></i>
+            </article>
+            <article>
+              <span>01</span>
+              <h3>Command Inbox</h3>
+              <p>Only CEO B final research, blockers, and decisions. No noisy signal spam.</p>
+              <i></i>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Signal Review</h3>
+              <p>Raw signals, watchlist moves, and agent findings are reviewed before they graduate.</p>
+              <i></i>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Risk Gate</h3>
+              <p>Omega Vault checks invalidation, downside, confidence, duplicates, and manual Webull review.</p>
+              <i></i>
+            </article>
+            <article>
+              <span>04</span>
+              <h3>Archive Route</h3>
+              <p>Useful but non-urgent research gets saved to Archive instead of cluttering Command.</p>
+              <i></i>
+            </article>
+          </div>
+          <section class="panel action-center-panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Checklist / Action Center</p>
+                <h2>Build Queue</h2>
+              </div>
+              <span class="pill">Saved locally</span>
+            </div>
+            <div id="actionCenter" class="action-center"></div>
+          </section>
+          <div id="stagingAdvanced" class="intelligence-zone"></div>
+        </section>
+
+        <section id="agents" class="view">
+          <div class="agent-hero">
+            <div class="agent-brand-lockup">
+              <span class="agent-brand-mark">
+                <img src="/brand/pickaxe-capital-logo.png" alt="Pickaxe Capital logo" />
+              </span>
+              <div>
+                <p class="eyebrow">Pickaxe Capital Habitat OS</p>
+                <h2>AI Agent Habitat</h2>
+                <p>CEO B’s living workforce of specialized agents for markets, risk, sources, archive memory, bookmarks, tasks, and system improvement. Mock operations run now; real agent telemetry can replace the data later.</p>
+              </div>
+            </div>
+            <div class="habitat-clock">
+              <strong id="habitatClock">--:--:--</strong>
+              <span>Market habitat live</span>
+            </div>
+          </div>
+
+          <div class="habitat-kpis" id="agentStats"></div>
+
+          <div class="agent-filter-row" id="agentFilters">
+            <button class="agent-filter active" data-filter="all">All Agents</button>
+            <button class="agent-filter" data-filter="active">Active</button>
+            <button class="agent-filter" data-filter="thinking">Thinking</button>
+            <button class="agent-filter" data-filter="collaborating">Collaborating</button>
+            <button class="agent-filter" data-filter="completed">Completed</button>
+          </div>
+
+          <section id="agentOperatingSystem" class="agent-os-zone"></section>
+
+          <div class="habitat-shell">
+            <section class="agent-city" id="agentHabitat"></section>
+            <aside class="operations-feed">
+              <section class="agent-drawer" id="agentDrawer"></section>
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Live operations</p>
+                  <h2>Activity Feed</h2>
+                </div>
+                <span id="agentHealth" class="pill">Syncing</span>
+              </div>
+              <div id="agentActivity" class="activity-feed"></div>
+            </aside>
+          </div>
+
+          <section class="agent-overview-panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Agent overview</p>
+                <h2>Workforce Board</h2>
+              </div>
+              <span class="pill">Click agent to inspect</span>
+            </div>
+            <div id="agentOverview" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4"></div>
+          </section>
+
+          <section class="panel agent-checklist-preview">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Action Center Preview</p>
+                <h2>Next Habitat Tasks</h2>
+              </div>
+              <a class="text-link" href="#/staging">Open Staging</a>
+            </div>
+            <div id="agentChecklistPreview" class="agent-checklist-preview-list"></div>
+          </section>
+
+          <div class="agent-bottom-grid">
+            <section class="panel agent-detail" id="agentDetail"></section>
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">CEO B final research</p>
+                  <h2>Command Synthesis</h2>
+                </div>
+                <span class="pill">Updated live</span>
+              </div>
+              <div id="missionProgress" class="mission-progress"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="jarvisLab" class="view">
+          <div id="jarvisLabContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="lifeOS" class="view">
+          <div id="lifeOSContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="agentBuilderFactory" class="view">
+          <div id="agentBuilderFactoryContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="projectUpdate" class="view">
+          <div id="projectUpdateContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="checklist" class="view">
+          <div class="check-hero">
+            <div>
+              <p class="eyebrow">Auto-updating process</p>
+              <h2 id="phaseTitle">Loading...</h2>
+              <p id="nextAction">Checking what matters next.</p>
+            </div>
+            <div class="progress-ring">
+              <strong id="progressText">0%</strong>
+              <span>complete</span>
+            </div>
+          </div>
+          <div id="checklistItems" class="checklist"></div>
+        </section>
+
+        <section id="archive" class="view">
+          <div class="archive-hero">
+            <div class="archive-hero-copy">
+              <img src="brand/pickaxe-capital-logo.png" alt="Pickaxe Capital logo" />
+              <div>
+                <p class="eyebrow">Pickaxe Capital Archive</p>
+                <h2>Knowledge Mine</h2>
+                <p>Chrome bookmarks are preserved as a living research archive. URLs are deduped, folder locations stay intact, and local file links are marked for review instead of deleted.</p>
+              </div>
+            </div>
+            <div class="archive-safety">
+              <strong>Research only</strong>
+              <span>No auto-trading. No auto-betting. No links deleted automatically.</span>
+            </div>
+          </div>
+
+          <div class="archive-routebar" id="archiveRoutes">
+            <a href="#/archive" data-archive-route="overview">Overview</a>
+            <a href="#/archive/tree" data-archive-route="tree">Tree</a>
+            <a href="#/archive/sources" data-archive-route="sources">Sources</a>
+            <a href="#/archive/agents" data-archive-route="agents">Agents</a>
+            <a href="#/archive/findings" data-archive-route="findings">Findings</a>
+            <a href="#/archive/imports" data-archive-route="imports">Imports</a>
+            <a href="#/archive/quarantine" data-archive-route="quarantine">Quarantine</a>
+          </div>
+
+          <div class="archive-stats" id="archiveStats"></div>
+          <div id="archiveIntelligence" class="intelligence-zone"></div>
+
+          <div class="archive-toolbar">
+            <div>
+              <label for="archiveSearch">Find source</label>
+              <input id="archiveSearch" placeholder="Search URLs, titles, domains, categories" />
+            </div>
+            <button id="archiveSearchBtn" class="primary">Search Archive</button>
+          </div>
+
+          <div id="archiveContent" class="archive-content"></div>
+        </section>
+
+        <section id="rkTracker" class="view">
+          <div id="rkTrackerContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="berkshire" class="view">
+          <div id="berkshireContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="bookmarks" class="view">
+          <div id="bookmarksContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="alerts" class="view">
+          <div id="alertsContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="lifeHabitat" class="view">
+          <div id="lifeHabitatContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="riskRules" class="view">
+          <div id="riskRulesContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="compliance" class="view">
+          <div id="complianceContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="aiHandoff" class="view">
+          <div id="aiHandoffContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="founder" class="view founder-profile">
+          <div class="founder-hero">
+            <div class="founder-image-panel">
+              <img class="founder-brand-mark" src="brand/pickaxe-capital-logo.png" alt="Pickaxe Capital logo" />
+              <img class="ceo-b-profile-portrait" src="assets/ceo-b-profile-portrait.png" alt="CEO B profile portrait" />
+              <div>
+                <p class="eyebrow">You in a Nutshell</p>
+                <h2>CEO B</h2>
+                <p>“You don’t ask for attention. You ask for results.”</p>
+              </div>
+            </div>
+            <div class="founder-hero-copy">
+              <p class="eyebrow">The Big Picture</p>
+              <h2>Quietly high-agency.</h2>
+              <h3>Part strategist. Part builder. Part curious optimizer.</h3>
+              <p>You treat AI like leverage, not entertainment. Your prompts are concise, intentional, and outcome-driven. You value clarity, speed, and depth without fluff. You ask the kinds of questions that move projects forward, solve real problems, and sharpen ideas.</p>
+              <div class="founder-principles">
+                <span>Systems over chaos</span>
+                <span>Signal over noise</span>
+                <span>Execution over performance</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="founder-section-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">How you think</p>
+                  <h2>Operating Style</h2>
+                </div>
+              </div>
+              <div id="founderThink" class="founder-card-list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Your strengths</p>
+                  <h2>Signal Traits</h2>
+                </div>
+              </div>
+              <div id="founderStrengths" class="founder-card-list"></div>
+            </section>
+          </div>
+
+          <section class="founder-quote-band">
+            <p>You reveal a lot through what you don’t say. You assume the other side can keep up.</p>
+            <div>
+              <span class="eyebrow">What stands out</span>
+              <strong>You get to the point, skip the fluff, and expect precision. That is rare.</strong>
+            </div>
+          </section>
+
+          <section class="founder-photo-slots">
+            <article><span>01</span><strong>Hero Portrait</strong><small>Founder image slot</small></article>
+            <article><span>02</span><strong>Building Mode</strong><small>Workspace image slot</small></article>
+            <article><span>03</span><strong>Trading Desk</strong><small>Command image slot</small></article>
+            <article><span>04</span><strong>Lifestyle / Vision</strong><small>Future image slot</small></article>
+            <article><span>05</span><strong>Future CEO B</strong><small>North-star image slot</small></article>
+          </section>
+
+          <div class="founder-board">
+            <section class="founder-mini-panel">
+              <p class="eyebrow">You value</p>
+              <div id="founderValues"></div>
+            </section>
+            <section class="founder-mini-panel">
+              <p class="eyebrow">You in action</p>
+              <div id="founderAction"></div>
+            </section>
+            <section class="founder-vibe-card">
+              <p class="eyebrow">Your vibe</p>
+              <h2>Explorer mind.<br />Builder energy.<br />Strategist heart.</h2>
+            </section>
+            <section class="founder-mini-panel">
+              <p class="eyebrow">Potential blind spots</p>
+              <ul id="founderBlindSpots"></ul>
+            </section>
+            <section class="founder-mini-panel gold">
+              <p class="eyebrow">Ideal environment</p>
+              <div id="founderEnvironment"></div>
+            </section>
+          </div>
+
+          <div class="founder-bottom-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">In one line</p>
+                  <h2>You build the playbook while winning the game.</h2>
+                </div>
+              </div>
+              <p>Pickaxe Capital is built around CEO B as the command layer: a founder-led operating system for market intelligence, memory, learning, automation, and strategic decisions.</p>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">The vibe check</p>
+                  <h2>Profile Score</h2>
+                </div>
+                <span class="pill">9/10</span>
+              </div>
+              <div id="founderVibeBars" class="vibe-bars"></div>
+            </section>
+
+            <section class="panel founder-score">
+              <span>Final score</span>
+              <strong>9/10</strong>
+              <p>High-impact human.</p>
+            </section>
+          </div>
+
+          <section class="north-star-goal">
+            <p class="eyebrow">Final Goal</p>
+            <h2>Pickaxe Capital becomes the living intelligence civilization.</h2>
+            <div id="founderNorthStar" class="north-star-grid"></div>
+            <blockquote>“I am commanding a living autonomous intelligence civilization.”</blockquote>
+          </section>
+        </section>
+
+        <section id="vision" class="view">
+          <div id="visionCommandCenter" class="intelligence-zone"></div>
+          <div class="vision-hero legacy-vision-block">
+            <div>
+              <p class="eyebrow">Handwritten board converted</p>
+              <h2 id="visionMission">Loading vision map...</h2>
+              <p id="visionStatement">Reading the structured blueprint.</p>
+            </div>
+            <span class="pill">IMG_2335</span>
+          </div>
+
+          <div class="vision-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Brain map</p>
+                  <h2>Agent Inputs</h2>
+                </div>
+              </div>
+              <div id="brainMap" class="mini-card-grid"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Prompt</p>
+                  <h2>Research Builder</h2>
+                </div>
+                <button id="loadPromptBtn" class="accent">Load Prompt</button>
+              </div>
+              <pre id="promptTemplate" class="prompt-box"></pre>
+              <div id="quickPrompts" class="quick-prompts"></div>
+            </section>
+          </div>
+
+          <div class="vision-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Monitor room</p>
+                  <h2>Research Grid</h2>
+                </div>
+              </div>
+              <div id="monitorRoom" class="mini-card-grid"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Learning</p>
+                  <h2>Study System</h2>
+                </div>
+              </div>
+              <div id="learningSystem" class="mini-card-grid"></div>
+            </section>
+          </div>
+
+          <div class="vision-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Business</p>
+                  <h2>Opportunity Map</h2>
+                </div>
+              </div>
+              <div id="businessMap" class="mini-card-grid"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Folders</p>
+                  <h2>Knowledge Base</h2>
+                </div>
+              </div>
+              <div id="folderSystem" class="tag-cloud"></div>
+            </section>
+          </div>
+
+          <div class="vision-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Operating doctrine</p>
+                  <h2>TTT + CEO B</h2>
+                </div>
+              </div>
+              <div id="operatingDoctrine" class="mini-card-grid"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Catalyst memory</p>
+                  <h2>Public Market Watch</h2>
+                </div>
+              </div>
+              <div id="catalystMemory" class="mini-card-grid"></div>
+            </section>
+          </div>
+
+          <section class="quote-band" id="visionQuote"></section>
+        </section>
+
+        <section id="log" class="view">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Everything built</p>
+                <h2>From A to Z</h2>
+              </div>
+              <span class="pill">Live project ledger</span>
+            </div>
+            <div id="buildLog" class="build-log"></div>
+          </div>
+        </section>
+
+        <section id="settings" class="view">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Settings</p>
+                <h2>System Preferences</h2>
+              </div>
+              <span class="pill">Local only</span>
+            </div>
+            <div class="mini-card-grid">
+              <article class="mini-card">
+                <h3>Execution Safety</h3>
+                <ul>
+                  <li>No auto-trading</li>
+                  <li>No auto-betting</li>
+                  <li>No API keys in frontend</li>
+                </ul>
+              </article>
+              <article class="mini-card">
+                <h3>Live Data Needed</h3>
+                <ul>
+                  <li>Broker read-only data</li>
+                  <li>Options flow provider</li>
+                  <li>Agent telemetry storage</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="aiHabitatOS" class="view" style="width: 100%; height: 100%;">
+          <iframe src="agent-os.html" style="width: 100%; height: calc(100vh - 140px); border: none; background: #020305; border-radius: 18px;"></iframe>
+        </section>
+      </main>
+    </div>
+
+    <script src="habitat-data.js?v=1"></script>
+    <script src="app.js?v=habitat-data-1"></script>
+  </body>
 </html>

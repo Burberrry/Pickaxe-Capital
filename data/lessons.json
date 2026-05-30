@@ -1,0 +1,16 @@
+[
+  {
+    "id": "foundation-risk-first",
+    "createdAt": "2026-05-25T00:00:00.000Z",
+    "source": "project-seed",
+    "lesson": "Every signal must pass liquidity, spread, defined invalidation, position sizing, and journal-readiness checks before it deserves attention.",
+    "score": 9
+  },
+  {
+    "id": "foundation-options-edge",
+    "createdAt": "2026-05-25T00:00:00.000Z",
+    "source": "project-seed",
+    "lesson": "For options, prioritize liquid contracts, clear catalyst context, IV/risk awareness, and a thesis that survives changing data.",
+    "score": 8
+  }
+]
