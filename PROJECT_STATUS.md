@@ -208,6 +208,22 @@
 
 Follow perfection_roadmap.md checklist to integrate domain charts and TV embeds.
 
+## Latest Session - 2026-05-29 (Antigravity Agent City OS Integration)
+
+- **Changed Files:** `package.json`, `public/index.html`, `public/app.js`, `public/agent-os.html`, `public/agent-os.js`, `index.html`, `app.js`, `agent-os.html`, `agent-os.js`, `PROJECT_STATUS.md`, `public/habitat-data.js`
+- **Features Added:**
+  - Integrated Pickaxe Agent City / AI Habitat OS visual map dashboard into the main website navigation rail as item "13 AI Habitat OS".
+  - Implemented standalone route `/agent-os.html` and hash route `#/ai-habitat-os` embedding the dashboard as an iframe.
+  - Coded client-side static fallbacks in `agent-os.js` so that routes planning and memory logs work completely offline on GitHub Pages.
+  - Synchronized and copied the public files to the root directory for direct GitHub Pages deployment.
+- **Bugs Fixed:**
+  - Fixed template string interpolation bug in `agent-os.html` so that titles render statically.
+  - Added click interceptors and aliases for `/ai-habitat-os`.
+- **Validation Command:** `/Applications/Codex.app/Contents/Resources/node scripts/build.mjs` and `/Applications/Codex.app/Contents/Resources/node scripts/check-project.mjs`
+- **Validation Result:** Both build validation checks and project checks pass cleanly.
+- **Remaining Problems:** Live data APIs require credentials.
+- **Next Recommended Task:** Connect more widgets and chart views as outlined in perfection roadmap.
+
 ## Latest Session - 2026-05-29 (Antigravity Concept & Verification)
 
 - Parsed and analyzed local Codex rollout database session logs to align current task context.
