@@ -18,7 +18,11 @@ import {
   renderRiskRules,
   renderDataSources,
   renderCompliance,
-  renderArchive
+  renderArchive,
+  renderVisionMap,
+  renderFounder,
+  renderProjectUpdate,
+  renderBookmarks
 } from "./modules/components.js";
 
 const DATA = window.PICKAXE_DATA;
@@ -60,6 +64,11 @@ registerRoute("/archive", renderArchive);
 registerRoute("/source-hub", renderDataSources); // Alias
 registerRoute("/staging", renderMissionControl); // Alias
 registerRoute("/ai-handoff", renderAgentEngine); // Alias
+registerRoute("/vision-map", renderVisionMap);
+registerRoute("/founder", renderFounder);
+registerRoute("/ceo-b-profile", renderFounder); // Alias
+registerRoute("/project-update", renderProjectUpdate);
+registerRoute("/bookmarks", renderBookmarks);
 
 /**
  * Main layout wrapper

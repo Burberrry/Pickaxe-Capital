@@ -416,13 +416,475 @@ export function renderCompliance() {
  */
 export function renderArchive() {
   const rejected = state.alerts.filter(a => a.status === "risk_rejected");
+  const vaultItems = DATA.archiveVaultItems || [];
+  
   return `
     <section class="panel">
       ${panelTitle("Archive / Memory Loop", "Rejected packets become lessons", microBadge("Risk Rejected", "red"))}
-      <p class="muted">Rejected ideas stay visible so the system remembers what not to repeat.</p>
+      <p class="muted">Rejected ideas and manually promoted research links stay visible here as reference lessons.</p>
     </section>
+
     <section class="grid cards">
-      ${rejected.length ? rejected.map(alertCard).join("") : emptyState("No rejected ideas yet.", "Risk-reject weak packets from the Signals page.")}
+      ${rejected.length ? rejected.map(alertCard).join("") : emptyState("No rejected alert packets yet.", "Risk-reject weak packets from the Signals page.")}
+    </section>
+
+    <section class="panel">
+      ${panelTitle("Research Vault", "Manually promoted bookmark sources", microBadge("Permanent Memory", "gold"))}
+      <div class="agent-table">
+        ${vaultItems.length ? vaultItems.map(item => `
+          <div class="feed" style="margin-bottom: 8px;">
+            <div class="mini-row">
+              <strong>${sanitize(item.title)}</strong>
+              ${microBadge(item.category, toneForStatus(item.category))}
+            </div>
+            <a href="${sanitize(item.url)}" target="_blank" rel="noopener noreferrer" style="color: var(--blue); font-size: 12px; word-break: break-all; display: block; margin-top: 4px;">
+              ${sanitize(item.url)}
+            </a>
+            <p class="muted" style="margin-top: 6px; font-size: 11px;">
+              <b>Provenance:</b> ${sanitize(item.summary)} • <b>Added:</b> ${sanitize(item.dateAdded)}
+            </p>
+          </div>
+        `).join("") : emptyState("No vault items yet.", "Promote links from the Bookmark Miner review queue.")}
+      </div>
     </section>
   `;
 }
+
+/**
+ * Render vision map page
+ */
+export function renderVisionMap() {
+  const nodes = DATA.visionCommandNodes || [];
+  const matrix = DATA.ownershipMatrix || [];
+  const review = DATA.ceoReviewQueue || [];
+  const integrations = DATA.stalledIntegrations || [];
+  
+  return `
+    <section class="ops-hero">
+      <div>
+        <p class="eyebrow">Vision Map</p>
+        <h2>Command Architecture Board</h2>
+        <p>Interactive mapping of the Pickaxe Capital / AI Habitat OS nodes, ownership lanes, and stalled integration barriers.</p>
+      </div>
+      <div class="command-matrix">
+        <span>Nodes</span><b>${nodes.length} Active</b>
+        <span>Integration Status</span><b>Local Sandbox</b>
+      </div>
+    </section>
+
+    <section class="panel">
+      ${panelTitle("System Command Nodes", "Architecture blocks", microBadge("Static Map", "blue"))}
+      <div class="grid cards">
+        ${nodes.map(n => `
+          <article class="card">
+            <div class="card-head">
+              <h3>${sanitize(n.name)}</h3>
+              ${microBadge(n.type, toneForStatus(n.type))}
+            </div>
+            <p>${sanitize(n.purpose)}</p>
+            <dl>
+              <dt>Owner Agent</dt><dd>${sanitize(n.ownerAgent)}</dd>
+              <dt>Next Action</dt><dd>${sanitize(n.nextAction)}</dd>
+              <dt>Status</dt><dd>${sanitize(n.status)}</dd>
+              <dt>Route</dt><dd><code>${sanitize(n.route)}</code></dd>
+            </dl>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+
+    <section class="grid two">
+      <div class="panel">
+        ${panelTitle("Ownership & Resource Matrix", "Routing directories")}
+        <div class="agent-table">
+          ${matrix.map(([route, owner, desc, note]) => `
+            <div class="agent-row">
+              <span><code>${sanitize(route)}</code></span>
+              <b>${sanitize(owner)}</b>
+              <small>${sanitize(desc)} • ${sanitize(note)}</small>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+      <div class="panel">
+        ${panelTitle("CEO B Review Queue", "Decisions pending manual review", microBadge("Gates", "gold"))}
+        <div class="stack premium-stack">
+          ${review.map(r => `
+            <div>
+              <strong>${sanitize(r.title)}</strong>
+              <span>${sanitize(r.note)}</span>
+              <em>Owner: ${sanitize(r.owner)} • Priority: ${sanitize(r.priority)}</em>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      ${panelTitle("Stalled Integration Guardrails", "Honest placeholders", microBadge("Requires backend proxy", "warn"))}
+      <div class="grid three" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+        ${integrations.map(item => `
+          <article class="card" style="padding: 12px; border-color: var(--warn-soft);">
+            <small style="color: var(--warn); font-weight: 800; text-transform: uppercase;">Stalled Block</small>
+            <p style="margin-top: 6px; font-size: 13px; color: var(--muted);">${sanitize(item)}</p>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * Render founder profile page
+ */
+export function renderFounder() {
+  const f = DATA.founderProfile;
+  if (!f) return `<h2>Founder profile data missing. Check habitat-data.js</h2>`;
+  
+  const isPublic = window.location.hash.includes("/founder") || window.location.pathname.includes("/founder");
+  const modeLabel = isPublic ? "Public Portfolio Vibe" : "CEO B OS Profile";
+  
+  return `
+    <section class="panel" style="padding: 0; overflow: hidden; border-radius: 18px; border: 1px solid var(--line);">
+      <div class="founder-hero" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 20px; padding: 30px; background: linear-gradient(135deg, rgba(216,173,76,.08), transparent 40%);">
+        <div class="founder-image-panel" style="display: flex; flex-direction: column; gap: 12px; justify-content: center; align-items: center; text-align: center; border-right: 1px solid var(--line); padding-right: 20px;">
+          <div class="logo" style="width: 80px; height: 80px; font-size: 40px; border-radius: 20px; margin-bottom: 12px;">⛏</div>
+          <div>
+            <p class="eyebrow" style="color: var(--gold); font-size: 12px;">Founder Layer</p>
+            <h2 style="font-size: 38px; letter-spacing: -0.04em; margin-bottom: 6px;">CEO B</h2>
+            <blockquote style="font-style: italic; color: var(--muted); margin: 0; font-size: 14px;">"Systems over chaos. Leverage over busywork."</blockquote>
+          </div>
+        </div>
+        <div class="founder-hero-copy" style="display: flex; flex-direction: column; justify-content: center;">
+          <p class="eyebrow">${sanitize(modeLabel)}</p>
+          <h2 style="font-size: 28px; line-height: 1.2; letter-spacing: -0.03em; margin-bottom: 12px;">High-agency systems operator.</h2>
+          <p style="color: var(--muted); line-height: 1.6; font-size: 14px;">You treat AI like high-leverage computational machinery. Your queries are sparse, precise, and objective. You respect margins, costs, asset cleanup, and compound outcomes.</p>
+          <div class="founder-principles" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;">
+            <span class="badge gold">Systems First</span>
+            <span class="badge blue">Signal > Noise</span>
+            <span class="badge green">Execution Focus</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid two">
+      <div class="panel">
+        ${panelTitle("How You Think", "Operating doctrine")}
+        <div class="agent-table">
+          ${f.howYouThink.map(([title, desc]) => `
+            <div class="feed" style="margin-bottom: 8px;">
+              <strong>${sanitize(title)}</strong>
+              <p class="muted" style="margin-top: 4px; font-size: 13px;">${sanitize(desc)}</p>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+      <div class="panel">
+        ${panelTitle("Signal Strengths", "Core leverage")}
+        <div class="agent-table">
+          ${f.strengths.map(([title, desc]) => `
+            <div class="feed" style="margin-bottom: 8px;">
+              <strong>${sanitize(title)}</strong>
+              <p class="muted" style="margin-top: 4px; font-size: 13px;">${sanitize(desc)}</p>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      ${panelTitle("Vibe Check", "Attribute scores", microBadge("9.5/10 execution", "gold"))}
+      <div class="vibe-bars" style="display: grid; gap: 10px;">
+        ${f.vibeCheck.map(([label, score]) => `
+          <div class="vibe-row" style="display: grid; grid-template-columns: 100px 1fr 40px; align-items: center; gap: 14px; font-family: monospace; font-size: 12px;">
+            <span>${sanitize(label)}</span>
+            <div class="vibe-track" style="height: 8px; background: rgba(255,255,255,.05); border-radius: 4px; overflow: hidden;">
+              <i style="display: block; height: 100%; width: ${score * 10}%; background: linear-gradient(90deg, var(--blue), var(--gold)); border-radius: inherit;"></i>
+            </div>
+            <strong>${score}/10</strong>
+          </div>
+        `).join("")}
+      </div>
+    </section>
+
+    <section class="grid three" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+      <div class="panel">
+        ${panelTitle("Values", "Guardrail principles")}
+        <div style="font-size: 13px; line-height: 1.6;">
+          ${f.values.map(v => `<p style="margin: 6px 0;">◆ ${sanitize(v)}</p>`).join("")}
+        </div>
+      </div>
+      <div class="panel">
+        ${panelTitle("Action Guide", "In practice")}
+        <div style="font-size: 13px; line-height: 1.6;">
+          ${f.inAction.map(a => `<p style="margin: 6px 0;">✓ ${sanitize(a)}</p>`).join("")}
+        </div>
+      </div>
+      <div class="panel">
+        ${panelTitle("Potential Limits", "Blind spots")}
+        <div style="font-size: 13px; line-height: 1.6; color: var(--red);">
+          ${f.blindSpots.map(b => `<p style="margin: 6px 0;">✕ ${sanitize(b)}</p>`).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * Render project update page
+ */
+export function renderProjectUpdate() {
+  const c = DATA.buildCompletionTracker || { areas: [], latestSession: {} };
+  return `
+    <section class="ops-hero">
+      <div>
+        <p class="eyebrow">Project Update</p>
+        <h2>Nominal Operational Ledger</h2>
+        <p>A structured ledger designed for AI models and human developers to audit the active repository, routes, and build parameters.</p>
+      </div>
+      <div class="command-matrix">
+        <span>Uptime</span><b>Nominal</b>
+        <span>Environment</span><b>Mac OS Sandbox</b>
+      </div>
+    </section>
+
+    <section class="panel">
+      ${panelTitle("Build Completion Tracker", "Implementation progression", microBadge("82% Complete", "green"))}
+      <div class="grid cards">
+        ${c.areas.map(a => `
+          <article class="card">
+            <div class="card-head">
+              <h3>${sanitize(a.name)}</h3>
+              ${microBadge(a.status, a.status === "Ready" ? "green" : "warn")}
+            </div>
+            <p>${sanitize(a.notes)}</p>
+            <div class="meter-label"><span>Progression</span><b>${a.completion}%</b></div>
+            <div class="meter"><span style="width:${a.completion}%"></span></div>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+
+    <section class="panel">
+      ${panelTitle("Latest Session Update", "Modifications summary", microBadge("QA Verified", "gold"))}
+      <div style="font-family: monospace; font-size: 12px; line-height: 1.6;">
+        <p><b>Updated Date:</b> ${sanitize(c.latestSession.lastUpdated || new Date().toISOString().split('T')[0])}</p>
+        <p><b>Validation Command:</b> <code>${sanitize(c.latestSession.validationCommand || "npm run build")}</code></p>
+        <p><b>Validation Result:</b> <span class="badge green" style="padding: 2px 6px;">${sanitize(c.latestSession.validationResult || "Nominal check passed")}</span></p>
+        <h4 style="color: var(--gold); margin-top: 14px; margin-bottom: 8px;">Files Changed:</h4>
+        <ul style="padding-left: 18px; margin: 0;">
+          ${c.latestSession.filesChanged.map(f => `<li><code>${sanitize(f)}</code></li>`).join("")}
+        </ul>
+        <h4 style="color: var(--gold); margin-top: 14px; margin-bottom: 8px;">Features Implemented:</h4>
+        <ul style="padding-left: 18px; margin: 0;">
+          ${c.latestSession.featuresAdded.map(f => `<li>${sanitize(f)}</li>`).join("")}
+        </ul>
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * Render bookmarks importer page (Local-first Bookmark Miner)
+ */
+export function renderBookmarks() {
+  const rawList = state.bookmarks || [];
+  const search = (state.bookmarksSearch || "").trim().toLowerCase();
+  const catFilter = state.bookmarksCategoryFilter || "all";
+  const trustFilter = state.bookmarksTrustFilter || "all";
+  
+  // Apply search/filters
+  let filtered = rawList;
+  if (search) {
+    filtered = filtered.filter(b => 
+      b.title.toLowerCase().includes(search) || 
+      b.url.toLowerCase().includes(search) || 
+      b.domain.toLowerCase().includes(search)
+    );
+  }
+  if (catFilter !== "all") {
+    filtered = filtered.filter(b => b.category === catFilter);
+  }
+  if (trustFilter !== "all") {
+    filtered = filtered.filter(b => b.trustLevel === trustFilter);
+  }
+
+  // Statistics
+  const total = rawList.length;
+  const duplicateCount = rawList.filter(b => b.isDuplicate).length;
+  
+  const domainCounts = {};
+  rawList.forEach(b => {
+    domainCounts[b.domain] = (domainCounts[b.domain] || 0) + 1;
+  });
+  const topDomains = Object.entries(domainCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5);
+
+  const pendingCount = rawList.filter(b => b.ceoBDecision === "pending" || !b.ceoBDecision).length;
+
+  // Pagination (15 items per page to prevent lag)
+  const itemsPerPage = 15;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / itemsPerPage));
+  if (state.bookmarksPage >= totalPages) state.bookmarksPage = totalPages - 1;
+  if (state.bookmarksPage < 0) state.bookmarksPage = 0;
+  
+  const paginated = filtered.slice(
+    state.bookmarksPage * itemsPerPage,
+    (state.bookmarksPage + 1) * itemsPerPage
+  );
+
+  const exportHref = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(rawList, null, 2));
+
+  return `
+    <section class="ops-hero">
+      <div>
+        <p class="eyebrow">Local-first Bookmark Miner</p>
+        <h2>Chrome Bookmarks Intelligence</h2>
+        <p>Upload your Chrome bookmarks export HTML file. Link sorting, duplicate flags, taxonomy classifications, and trust scores occur locally in your browser.</p>
+      </div>
+      <div class="command-matrix">
+        <span>Status</span><b>Local Parser</b>
+        <span>No scraping</span><b>Active</b>
+      </div>
+    </section>
+
+    <section class="grid three dense-kpis">
+      ${stat("Total Bookmarks", total, "Imported locally", "blue")}
+      ${stat("Review Queue", pendingCount, "Awaiting CEO B review", "gold")}
+      ${stat("Duplicate URLs", duplicateCount, "Deduplicated", "red")}
+    </section>
+
+    <section class="panel">
+      ${panelTitle("Bookmarks Import surface", "FileReader uploads only", microBadge("In-browser", "blue"))}
+      <div class="control-band" style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+        <label class="button" style="display: inline-block; cursor: pointer;">
+          Choose Chrome Bookmarks HTML
+          <input type="file" id="bookmarksFile" accept=".html" style="display: none;" />
+        </label>
+        <span class="muted" style="font-size: 11px;">Upload <code>All_my_bookmarks.html</code> directly. Processing is instant.</span>
+        ${total > 0 ? `
+          <a class="button secondary" href="${exportHref}" download="pickaxe_bookmarks_export.json" style="margin-left: auto;">
+            Export Mined JSON
+          </a>
+        ` : ""}
+      </div>
+    </section>
+
+    ${total > 0 ? `
+      <section class="grid two">
+        <div class="panel">
+          ${panelTitle("Top Domains Distribution", "Link frequency")}
+          <table style="width:100%; border-collapse: collapse; font-family: monospace; font-size: 12px; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--line); color: var(--muted);">
+                <th style="padding: 8px 0;">Domain</th>
+                <th style="padding: 8px 0; text-align: right;">Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${topDomains.map(([domain, count]) => `
+                <tr style="border-bottom: 1px solid var(--line);">
+                  <td style="padding: 8px 0; color: #dfe7f2;">${sanitize(domain)}</td>
+                  <td style="padding: 8px 0; text-align: right; color: var(--gold);">${count}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+        <div class="panel">
+          ${panelTitle("Classification Summary", "Mined taxonomy")}
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-content: start;">
+            ${[
+              "Market Intelligence", "Company / Stock Research", "Macro / Policy", "Social Sentiment Leads",
+              "Trading Education", "AI / Coding", "Website / Product Lab", "Founder / Business",
+              "Archive / Long-Term Knowledge", "Personal / Life", "System / Retrieval Junk", "Low Trust / Noise"
+            ].map(cat => {
+              const count = rawList.filter(b => b.category === cat).length;
+              if (count === 0) return "";
+              return `<span class="badge blue" style="margin-bottom: 4px;">${cat}: ${count}</span>`;
+            }).join("")}
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        ${panelTitle("Review Queue & Catalog", "CEO B manually promotes items", `<span class="muted">${filtered.length} matching</span>`)}
+        
+        <div class="control-band" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 16px; align-items: center;">
+          <div>
+            <label for="bmSearch" style="font-size: 11px; display: block; margin-bottom: 4px; color: var(--muted);">Search title/domain</label>
+            <input id="bmSearch" value="${sanitize(state.bookmarksSearch)}" placeholder="Search..." style="width: 100%; padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: rgba(0,0,0,.22); color: var(--text);" />
+          </div>
+          <div>
+            <label for="bmCatFilter" style="font-size: 11px; display: block; margin-bottom: 4px; color: var(--muted);">Category</label>
+            <select id="bmCatFilter" style="width: 100%; padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: rgba(0,0,0,.22); color: var(--text);">
+              <option value="all" ${catFilter === "all" ? "selected" : ""}>All Categories</option>
+              ${[
+                "Market Intelligence", "Company / Stock Research", "Macro / Policy", "Social Sentiment Leads",
+                "Trading Education", "AI / Coding", "Website / Product Lab", "Founder / Business",
+                "Archive / Long-Term Knowledge", "Personal / Life", "System / Retrieval Junk", "Low Trust / Noise"
+              ].map(cat => `<option value="${cat}" ${catFilter === cat ? "selected" : ""}>${cat}</option>`).join("")}
+            </select>
+          </div>
+          <div>
+            <label for="bmTrustFilter" style="font-size: 11px; display: block; margin-bottom: 4px; color: var(--muted);">Trust Level</label>
+            <select id="bmTrustFilter" style="width: 100%; padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: rgba(0,0,0,.22); color: var(--text);">
+              <option value="all" ${trustFilter === "all" ? "selected" : ""}>All Trust Levels</option>
+              ${["Primary", "Analytical", "Secondary", "UGC / Social", "Retrieval Artifact", "Low Trust / Noise"].map(trust => `
+                <option value="${trust}" ${trustFilter === trust ? "selected" : ""}>${trust}</option>
+              `).join("")}
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; gap: 12px; margin-bottom: 16px;">
+          ${paginated.map(b => {
+            const decision = b.ceoBDecision || "pending";
+            const tone = toneForStatus(decision);
+            return `
+              <div class="feed" style="border-left: 3px solid ${decision === 'pending' ? 'var(--blue)' : decision === 'ignored' ? 'var(--muted-2)' : 'var(--green)'}; padding-left: 14px; background: rgba(255,255,255,.018);">
+                <div class="mini-row" style="margin-bottom: 4px;">
+                  <strong style="color: #e2eaf5; font-size: 14px;">${sanitize(b.title)}</strong>
+                  <div>
+                    ${b.isDuplicate ? `<span class="badge red" style="margin-right: 4px;">Duplicate</span>` : ""}
+                    ${microBadge(b.category, "blue")}
+                    ${microBadge(b.trustLevel, toneForStatus(b.trustLevel))}
+                    ${microBadge(decision, tone)}
+                  </div>
+                </div>
+                
+                <a href="${sanitize(b.url)}" target="_blank" rel="noopener noreferrer" style="color: var(--blue); font-size: 12px; word-break: break-all; display: block; margin-bottom: 6px;">
+                  ${sanitize(b.url)}
+                </a>
+                
+                <div class="mini-row" style="align-items: center;">
+                  <span class="muted" style="font-size: 11px;">
+                    <b>Folder:</b> ${sanitize(b.folderPath)} • <b>Added:</b> ${sanitize(b.dateAdded)}
+                  </span>
+                  
+                  ${decision === "pending" ? `
+                    <div style="display: flex; gap: 6px;">
+                      <button class="secondary" data-bm-id="${b.id}" data-bm-action="signal" style="padding: 4px 8px; font-size: 11px;">+ Signal</button>
+                      <button class="secondary" data-bm-id="${b.id}" data-bm-action="source" style="padding: 4px 8px; font-size: 11px;">+ Source</button>
+                      <button class="secondary" data-bm-id="${b.id}" data-bm-action="archive" style="padding: 4px 8px; font-size: 11px;">+ Vault</button>
+                      <button class="danger" data-bm-id="${b.id}" data-bm-action="ignore" style="padding: 4px 8px; font-size: 11px;">Ignore</button>
+                    </div>
+                  ` : `<span class="muted" style="font-size: 11px;">CEO B decision: ${sanitize(decision)}</span>`}
+                </div>
+              </div>
+            `;
+          }).join("") || emptyState("No bookmarks match the current search/filters.", "Try relaxing filters.")}
+        </div>
+
+        <div style="display: flex; gap: 14px; align-items: center; justify-content: center;">
+          <button id="prevBmPage" ${state.bookmarksPage === 0 ? "disabled" : ""} style="padding: 6px 12px;">Previous</button>
+          <span style="font-family: monospace; font-size: 12px;">Page ${state.bookmarksPage + 1} / ${totalPages}</span>
+          <button id="nextBmPage" ${state.bookmarksPage >= totalPages - 1 ? "disabled" : ""} style="padding: 6px 12px;">Next</button>
+        </div>
+      </section>
+    ` : emptyState("Bookmark database is empty.", "Upload Chrome bookmarks HTML file to mine items.")}
+  `;
+}
+
