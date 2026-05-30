@@ -7190,7 +7190,7 @@ function renderAgentDrawer(agent) {
     <p>${escapeHtml(agent.task)}</p>
     <div class="drawer-output">
       <span class="label">Last output</span>
-      <p>${escapeHtml(agent.logs.at(-1) || "Awaiting output.")}</p>
+      <p>${escapeHtml(agent.logs[agent.logs.length - 1] || "Awaiting output.")}</p>
     </div>
     <div class="drawer-checklist">
       <span class="label">Related checklist</span>
@@ -7378,9 +7378,9 @@ function renderAgentStats({ activeCount, runningTasks, averageConfidence }) {
 }
 
 function renderFlowDeskSnapshot() {
-  const flow = habitatAgents.find((agent) => agent.id === "flow");
-  const risk = habitatAgents.find((agent) => agent.id === "risk");
-  const signal = habitatAgents.find((agent) => agent.id === "signal-engine");
+  const flow = habitatAgents.find((agent) => agent.id === "options-flow-hunter" || agent.id === "flow" || agent.id === "trading-agent") || habitatAgents[0];
+  const risk = habitatAgents.find((agent) => agent.id === "risk-agent" || agent.id === "risk") || habitatAgents[0];
+  const signal = habitatAgents.find((agent) => agent.id === "market-scout" || agent.id === "signal-engine" || agent.id === "trading-agent") || habitatAgents[0];
   return `
     <section class="flow-snapshot">
       <div>
@@ -7422,9 +7422,9 @@ function renderSystemPerformance() {
 function renderCeoResearchBrief() {
   const selectedSymbol = state.selectedSymbol || "SPY";
   const lead = [...habitatAgents].sort((a, b) => b.confidence + b.progress - (a.confidence + a.progress))[0];
-  const risk = habitatAgents.find((agent) => agent.id === "risk");
-  const flow = habitatAgents.find((agent) => agent.id === "flow");
-  const signal = habitatAgents.find((agent) => agent.id === "signal-engine");
+  const risk = habitatAgents.find((agent) => agent.id === "risk-agent" || agent.id === "risk") || habitatAgents[0];
+  const flow = habitatAgents.find((agent) => agent.id === "options-flow-hunter" || agent.id === "flow" || agent.id === "trading-agent") || habitatAgents[0];
+  const signal = habitatAgents.find((agent) => agent.id === "market-scout" || agent.id === "signal-engine" || agent.id === "trading-agent") || habitatAgents[0];
   const latest = state.activityFeed.slice(0, 4);
   return `
     <div class="ceo-brief">
@@ -7464,7 +7464,7 @@ function seedActivityFeed() {
   state.activityFeed = habitatAgents.slice(0, 8).map((agent) => ({
     time: new Date(agent.lastUpdated).toLocaleTimeString(),
     agent: agent.name,
-    message: agent.logs.at(-1) || agent.task,
+    message: agent.logs[agent.logs.length - 1] || agent.task,
   }));
   return state.activityFeed;
 }
