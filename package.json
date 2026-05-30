@@ -9,6 +9,7 @@
     "check:project": "node --check server.mjs && node --check public/app.js && node scripts/check-project.mjs",
     "import:bookmarks": "node scripts/import-bookmarks.mjs",
     "build": "node scripts/build.mjs",
+    "readme:update": "node scripts/update-readme.mjs",
     "agent": "node scripts/run-mission.mjs",
     "agent:server": "node scripts/agent-server.mjs",
     "check:agents": "node --check scripts/agent-server.mjs && node --check scripts/run-mission.mjs && node --check src/agent-ecosystem/config.mjs && node --check src/agent-ecosystem/route-engine.mjs && node --check src/agent-ecosystem/memory-store.mjs && node --check src/agent-ecosystem/openai-client.mjs && node --check src/agent-ecosystem/github-tools.mjs"
