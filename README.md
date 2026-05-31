@@ -4,16 +4,83 @@ Pickaxe Capital is the public brand. AI Habitat OS is the internal operating sys
 
 This project is a premium dark cyber-finance command center and AI-agent habitat. The immediate goal is to finish a stable, readable, static-first website before adding deeper integrations.
 
-## Current Status
+## 🔗 Live Deployments (GitHub Pages)
 
-- Active app: `server.mjs` serving the static `public/` app.
-- Main route: `#/vision-map`.
-- Priority route: `#/agents`.
-- Build and project checks should pass before each handoff.
-- Mock, local, prototype, and future-adapter features must stay clearly labeled.
-- Keep the project honest: no fake live integrations, no hidden execution, and no protected-site scraping.
+- **Main Cockpit**: [https://burberrry.github.io/Pickaxe-Capital/](https://burberrry.github.io/Pickaxe-Capital/)
+- **Vision Map**: [https://burberrry.github.io/Pickaxe-Capital/#/vision-map](https://burberrry.github.io/Pickaxe-Capital/#/vision-map)
 
-## Quick Start
+---
+
+## 📊 Current Production Status
+
+| Parameter / Milestone | Current Status | Notes |
+| :--- | :--- | :--- |
+| **Static App Runtime** | **Active** | Served locally via `server.mjs` & static on GitHub Pages |
+| **Session 01 (Jarvis & Workflow)** | **Done + Pushed** | Local command router and dispatch pipelines locked |
+| **Session 02 (Visual Upgrade)** | **Done + Pushed** | Obsidian/fintech visually polished, **Commit `7b7968b`** |
+| **GitHub Pages Hosting** | **Live** | Maintained static file mirrors at root |
+| **Real Market Data** | **Future Adapter** | Conceptual providers catalog; no active billing hooks |
+| **Broker / Trade Execution** | **Not Supported** | Local strategy logging only; execution is manual in Webull |
+| **Backend Integration** | **Optional Later** | LocalStorage keys drive state sandbox completely |
+
+---
+
+## 🎯 What This Website Is
+
+A local-first, browser-sandboxed command center for:
+- Market research & options intelligence mapping.
+- Agent task and mission queue routing.
+- CEO B Review desk packets.
+- Simulated alert rule ideation and simulated simulation runs.
+- Chrome/X Bookmarks intake & deduplication.
+- Intelligence Vault archives.
+- System coverage checklists & build status diagnostics.
+
+---
+
+## 🔄 Core Workflow Pipeline
+
+```mermaid
+graph TD
+    A[Signal / Bookmark / Alert / Jarvis / Manual Note] --> B[CEO B Review Queue]
+    B --> C[Agent Mission Queue]
+    C --> D[Archive Vault]
+    D --> E[Staging Truth Dashboard]
+```
+
+Or in text:
+**Signal / Bookmark / Alert / Jarvis / Manual Note** ➔ **CEO B Review Queue** ➔ **Agent Mission Queue** ➔ **Archive Vault** ➔ **Staging Truth Dashboard**
+
+---
+
+## 🛑 What This Website Is Not
+
+- **Not a Brokerage**: It has no trading capability, does not place orders, and does not execute broker APIs.
+- **No System Shell / Device Control**: Jarvis Lab is a browser prototype command router; it cannot execute shell scripts, terminal commands, or pair hardware device commands.
+- **No Web Scraping**: It does not scrape protected sites. Bookmarks utilize offline files loaded via browser `FileReader`.
+- **No Live API Calls**: It does not connect to live market data providers unless a future adapter is explicitly connected.
+- **Frontend Safe**: It does not store or accept private API keys in client-side code.
+
+---
+
+## ⏳ Session Tracker / Milestones
+
+- **[x] 01 — Jarvis Router & Workflow Lock**: Done + pushed.
+- **[x] 02 — Visual Production Upgrade + Options Intelligence Command Center**: Done + pushed (Commit `7b7968b`).
+- **[ ] 03 — Signals / Archive / Bookmarks Deep Functionality**: **Next Priority**.
+- **[ ] 04 — Source Hub Adapter Readiness**: Waiting.
+- **[ ] 05 — Final QA + GitHub Pages Readiness**: Waiting.
+- **[ ] 06 — Device Hub / Life OS**: Later.
+
+---
+
+## 🚀 Next Priority
+
+- **Signals / Archive / Bookmarks Deep Functionality Pass**
+
+---
+
+## 🛠️ Quick Start
 
 ```bash
 git clone https://github.com/Burberrry/Pickaxe-Capital.git
@@ -21,14 +88,9 @@ cd Pickaxe-Capital
 node server.mjs
 ```
 
-Open:
+Open `http://localhost:4328/#/vision-map` or `http://localhost:4328/#/agents` in your browser.
 
-```text
-http://localhost:4328/#/vision-map
-```
-
-Useful checks:
-
+Useful validation scripts:
 ```bash
 node scripts/build.mjs
 node scripts/check-project.mjs
@@ -54,11 +116,7 @@ node scripts/update-readme.mjs
 
 ## Auto-Updating Game Plan
 
-The section below is refreshed from `AGENTS.md`, `PROJECT_STATUS.md`, and `NEXT_STEPS.md` by running:
-
-```bash
-node scripts/update-readme.mjs
-```
+The section below is refreshed from `AGENTS.md`, `PROJECT_STATUS.md`, and `NEXT_STEPS.md` by running `node scripts/update-readme.mjs`.
 
 <!-- PICKAXE-AUTO-UPDATE:START -->
 
@@ -102,72 +160,6 @@ node scripts/update-readme.mjs
 - Keep design dark, premium, cyberpunk, readable, and Pickaxe Capital branded.
 
 <!-- PICKAXE-AUTO-UPDATE:END -->
-
-## Finish Roadmap
-
-### Phase 0 — Protect the Foundation: 0% to 10%
-
-- [ ] Do not start a new app or framework.
-- [ ] Keep `server.mjs` and `public/` as the active runtime.
-- [ ] Keep all working routes alive.
-- [ ] Run build/check before and after meaningful edits.
-- [ ] Update `PROJECT_STATUS.md`, `NEXT_STEPS.md`, and README before stopping.
-
-### Phase 1 — Visual QA and Cleanup: 10% to 25%
-
-- [ ] Test normal browser zoom.
-- [ ] Fix crowded cards, spacing, and oversized sections.
-- [ ] Remove duplicate legacy panels only when safe.
-- [ ] Confirm no console errors.
-- [ ] Confirm no horizontal overflow.
-
-### Phase 2 — Lock the Command Workflow: 25% to 40%
-
-- [ ] Confirm intake to review to mission to archive flow.
-- [ ] Confirm `/agents` task assignment saves locally.
-- [ ] Make CEO B Review Stack simple and useful.
-- [ ] Make `/staging` the clear source of build truth.
-
-### Phase 3 — Alerts and Rules: 40% to 52%
-
-- [ ] Improve `#/app/alerts` with rule cards.
-- [ ] Add condition, source, confidence, risk, and CEO B action fields.
-- [ ] Keep examples clearly labeled as demo until connected.
-- [ ] Add local enable/disable state.
-
-### Phase 4 — Data Portability: 52% to 65%
-
-- [ ] Add export/import JSON for localStorage state.
-- [ ] Include bookmarks, archive, review stack, missions, tracker, and agent tasks.
-- [ ] Add restore preview before overwrite.
-- [ ] Keep it local-first.
-
-### Phase 5 — Adapter Interface Prep: 65% to 75%
-
-- [ ] Define clean interfaces for future data providers.
-- [ ] Add labels: Mock, Manual, Local, Adapter Ready, Connected.
-- [ ] Keep private keys out of frontend code.
-- [ ] Add one real adapter at a time only after the static app is clean.
-
-### Phase 6 — Game Brain / AI Habitat OS: 75% to 85%
-
-- [ ] Write the Game Bible.
-- [ ] Define core loop, agent stats, mission types, risk, upgrades, and progression.
-- [ ] Add save/load first with localStorage.
-- [ ] Make the agent city feel alive without pretending it is fully autonomous.
-
-### Phase 7 — Optional Backend: 85% to 93%
-
-- [ ] Add backend only for private keys, scheduled jobs, persistent storage, or model calls.
-- [ ] Keep static deployment possible when backend is not connected.
-- [ ] Use official APIs only.
-
-### Phase 8 — Polish and Launch: 93% to 100%
-
-- [ ] Final polish for Home, Vision Map, Agents, Archive, and Staging.
-- [ ] Add screenshots or a short walkthrough.
-- [ ] Publish clear local/GitHub Pages instructions.
-- [ ] Keep README and status files updated.
 
 ## Rule for Future AI/Codex/Antigravity Sessions
 
