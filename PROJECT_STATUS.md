@@ -554,4 +554,35 @@ Verify and test live Chrome HTML file upload in browser under `/bookmarks` view,
 - **Local Browser Route Results**: All tested views (`/`, `#/vision-map`, `#/agents`, `#/signals`, `#/staging`, `#/bookmarks`, `#/jarvis-lab`) render their main content successfully with zero console errors.
 - **Remaining Risks**: Live GitHub Pages is a static client-side build and requires mirroring/syncing changes to the root folder.
 
+## Session 03 — Signals / Archive / Bookmarks Deep Functionality Pass - 2026-05-31
+
+- **Changed Files**:
+  - `public/app.js` & `app.js`
+  - `PROJECT_STATUS.md`
+- **Features & Pipelines Added**:
+  - **Option Alerts Workbench (`#/signals`)**:
+    - Upgraded alert lists to read statefully from `localStorage.pickaxeOptionAlerts`.
+    - Wired interaction controls on options alert cards:
+      - *Queue Review*: Dispatches an item to the CEO B review queue (`pickaxeReviewQueue`).
+      - *Assign Task*: Registers a mission in the agent mission queue (`pickaxeMissionQueue`).
+      - *Create Alert Rule*: Appends a corresponding configuration rule in the Alert Rules Center (`pickaxeAlertRules`).
+      - *Archive Note*: Exports and promotes the signal details directly into the Archive Vault (`pickaxeArchiveVault`).
+      - *Add Local Note*: Appends notes statefully using an interactive browser prompt, saving to a unified `pickaxeLocalNotes` state.
+      - *Open Source Hub*: Dynamically changes hash routes to direct the user to `/source-hub`.
+  - **Archive Vault Filtering & Restoration (`#/archive`)**:
+    - Upgraded filter options to include route origin routing and empty search messages.
+    - Wired a *Send back to CEO B Review Queue* action on archived vault cards, enabling items to be sent back to active review pipelines.
+  - **Bookmarks Intake & Dynamic Preview (`#/bookmarks`)**:
+    - Expanded manual single link intake to process comma-separated tags.
+    - Wired focus-safe inputs to trigger a **Local Parsing Preview** mapping domain, duplicate checks, quality level, classification, and tags.
+    - Programmed direct dispatcher button *Send to Bookmark Miner* which routes tasks to the Bookmark Miner agent mission queue.
+  - **Backup telemetry & Strict Key Restores (`#/staging`)**:
+    - Added security validation ensuring only the 12 approved Pickaxe keys are restored from backup payloads.
+    - Added the 12th state key `pickaxeLocalNotes` to reset, export, and telemetry sizing calculations.
+- **Verification Performed**:
+  - Checked javascript compilation check: Passed.
+  - Run build script: `/Applications/Codex.app/Contents/Resources/node scripts/build.mjs` Passed.
+  - Run project checklist: `/Applications/Codex.app/Contents/Resources/node scripts/check-project.mjs` Passed.
+  - Run update readme script: `/Applications/Codex.app/Contents/Resources/node scripts/update-readme.mjs` Passed.
+
 

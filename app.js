@@ -1456,6 +1456,135 @@ window.sendToReview = (alertId) => {
   }
 };
 
+window.queueSignalReview = (alertId) => {
+  const alerts = getOptionAlertsState();
+  const alert = alerts.find(a => a.id === alertId);
+  if (!alert) return;
+  
+  alert.status = "CEO B Review Queue";
+  saveOptionAlertsState(alerts);
+  
+  addSharedReviewItem({
+    id: `review-signal-${alert.id}-${Date.now()}`,
+    title: `Signal: ${alert.symbol} ${alert.action}`,
+    source: "Signals Workbench",
+    owner: "Signal Scout",
+    status: "Waiting for CEO B",
+    priority: alert.confidence > 90 ? "High" : "Medium",
+    output: `Thesis: ${alert.thesis || 'None'}. Strategy: ${alert.strategy || 'None'}. Contract: ${alert.contract || 'None'}. Note: ${alert.localNotes || 'No local notes.'}`
+  });
+  
+  showNotification(`Created CEO B review packet for ${alert.symbol}.`);
+  renderSignalsIntelligence();
+};
+
+window.sendSignalToAgent = (alertId) => {
+  const alerts = getOptionAlertsState();
+  const alert = alerts.find(a => a.id === alertId);
+  if (!alert) return;
+  
+  alert.status = "scouting";
+  saveOptionAlertsState(alerts);
+  
+  addSharedMissionItem({
+    id: `mission-signal-${alert.id}-${Date.now()}`,
+    title: `Signal Scout: Analyze ${alert.symbol} Options`,
+    source: "Signals Workbench",
+    owner: "Signal Scout",
+    status: "In Progress",
+    priority: alert.confidence > 90 ? "High" : "Medium",
+    nextAction: `Verify catalyst "${alert.catalyst || 'None'}" and check technical breakout on chart workspace.`
+  });
+  
+  showNotification(`Assigned scouting mission for ${alert.symbol} to Signal Scout.`);
+  renderSignalsIntelligence();
+};
+
+window.createAlertRuleIdea = (alertId) => {
+  const alerts = getOptionAlertsState();
+  const alert = alerts.find(a => a.id === alertId);
+  if (!alert) return;
+  
+  const rules = getAlertRules();
+  const newRule = {
+    id: `rule-signal-${alert.id}-${Date.now()}`,
+    name: `${alert.symbol} Alert Rule Idea`,
+    ticker: alert.symbol,
+    category: "Options Flow Idea",
+    triggerType: "Volume Spike",
+    condition: `Option Volume > 1.5x average & ${alert.contract} price movement`,
+    source: "Signals Workbench Idea",
+    statusLabel: "Draft Rule",
+    confidence: alert.confidence,
+    riskLevel: alert.confidence > 90 ? "Medium" : "High",
+    priority: "Medium",
+    agentName: "Signal Scout",
+    lastChecked: "Never checked",
+    ceoAction: "Send to CEO B Review",
+    active: true
+  };
+  
+  rules.unshift(newRule);
+  setAlertRules(rules);
+  
+  showNotification(`Created new alert rule idea: ${newRule.name}.`);
+  renderSignalsIntelligence();
+};
+
+window.archiveSignalResearch = (alertId) => {
+  const alerts = getOptionAlertsState();
+  const alert = alerts.find(a => a.id === alertId);
+  if (!alert) return;
+  
+  alert.status = "archived";
+  saveOptionAlertsState(alerts);
+  
+  const vaultState = getArchiveVaultState();
+  const newArchiveItem = {
+    id: `archive-sig-${alert.id}-${Date.now()}`,
+    title: `Research Note: ${alert.symbol} ${alert.company}`,
+    url: `#`,
+    domain: `local-signals`,
+    type: "options",
+    topic: "Options Signal Research",
+    category: "Market Signal",
+    habitat: "Market Habitat",
+    status: "archived",
+    priority: alert.confidence > 90 ? "high" : "medium",
+    connectedAgent: "Archive Keeper",
+    summary: `Thesis: ${alert.thesis}. Catalyst: ${alert.catalyst}. Invalidation: ${alert.invalidation}. Notes: ${alert.localNotes || "No notes added."}`,
+    whySaved: "Archived from Signals workbench.",
+    nextAction: "Observe pattern progression.",
+    tags: ["options", "signals", alert.symbol.toLowerCase()],
+    dateAdded: new Date().toISOString().slice(0, 10),
+    lastReviewed: "not reviewed"
+  };
+  
+  vaultState.parsedLinks = [newArchiveItem, ...(vaultState.parsedLinks || [])];
+  setArchiveVaultState(vaultState);
+  
+  showNotification(`Archived research note for ${alert.symbol}.`);
+  renderSignalsIntelligence();
+};
+
+window.addSignalLocalNote = (alertId) => {
+  const alerts = getOptionAlertsState();
+  const alert = alerts.find(a => a.id === alertId);
+  if (!alert) return;
+  
+  const note = prompt(`Enter local research note for ${alert.symbol}:`, alert.localNotes || "");
+  if (note === null) return;
+  
+  alert.localNotes = note.trim();
+  saveOptionAlertsState(alerts);
+  showNotification(`Local note updated for ${alert.symbol}.`);
+  renderSignalsIntelligence();
+};
+
+window.openSourceHubAdapter = () => {
+  window.location.hash = "#/source-hub";
+};
+
 // Process terminal command
 function processTerminalCommand(cmd) {
   const parts = cmd.toLowerCase().split(" ");
@@ -2696,6 +2825,9 @@ window.filterSourceHub = () => {};
 
 function renderSignalsIntelligence() {
   if (!els.signalsIntelligence) return;
+  state.signalsSearch = state.signalsSearch || "";
+  state.signalsStatus = state.signalsStatus || "all";
+  
   const signalSources = intelligenceSources.filter((source) => source.placement.includes("signals")).slice(0, 10);
   const candidates = rkWatchlist.filter((item) => ["Candidate", "Promoted", "Watch"].includes(item.signalStatus)).slice(0, 6);
   const legacyBridge = window.location.pathname === "/market-command"
@@ -2739,29 +2871,8 @@ function renderSignalsIntelligence() {
             <span class="pc-status-chip manual-review">Manual Review Required</span>
           </div>
           
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            ${(sharedHabitatData.alertCommandAlerts || []).map(alert => `
-              <div class="p-3 bg-[#131720] border border-[#1d242e] rounded-sm relative overflow-hidden flex flex-col justify-between">
-                <div class="absolute top-0 left-0 w-[2.5px] h-full ${alert.action.includes("BUY") ? "bg-green" : "bg-amber"}"></div>
-                <div>
-                  <div class="flex justify-between items-start mb-1.5 select-none">
-                    <div>
-                      <strong class="text-white text-xs block">${escapeHtml(alert.symbol)} // ${escapeHtml(alert.company)}</strong>
-                      <span class="text-[9px] text-slate-400 font-mono">${escapeHtml(alert.contract)}</span>
-                    </div>
-                    <span class="px-1.5 py-0.2 text-[8px] font-bold border ${alert.action.includes("BUY") ? "text-green border-green/30 bg-green/5" : "text-amber border-amber/30 bg-amber/5"} uppercase tracking-wider font-mono">${escapeHtml(alert.action)}</span>
-                  </div>
-                  <p class="text-[11px] text-slate-300 leading-snug font-sans mb-3">${escapeHtml(alert.thesis)}</p>
-                </div>
-                <div class="pt-2 border-t border-[#1d242e] flex justify-between items-center text-[10px]">
-                  <span class="text-slate-500">Confidence: <strong class="text-green font-mono">${alert.confidence}%</strong></span>
-                  <div class="flex gap-1">
-                    <button onclick="window.marketWorkspaceAction?.('chart note to CEO B Review', '${escapeHtml(alert.symbol)}')" class="px-2 py-0.5 bg-black/40 text-amber border border-amber/30 text-[8px] uppercase font-bold hover:bg-black transition-all">Queue Review</button>
-                    <button onclick="window.marketWorkspaceAction?.('signal task', '${escapeHtml(alert.symbol)}')" class="px-2 py-0.5 bg-black/40 text-teal border border-teal/30 text-[8px] uppercase font-bold hover:bg-black transition-all">Assign Task</button>
-                  </div>
-                </div>
-              </div>
-            `).join("")}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="signalsAlertGrid">
+            <!-- Populated dynamically via window.filterSignalsGrid() -->
           </div>
         </div>
 
@@ -2874,15 +2985,15 @@ function renderSignalsIntelligence() {
           <div class="space-y-3 font-mono text-[10.5px]">
             <div>
               <label class="text-[#8a9ba8] block mb-1 text-[9px] uppercase font-bold select-none">Search Query</label>
-              <input id="signalsSearchInput" placeholder="Ticker, catalyst, or keyword..." class="bg-black/50 border border-[#1d242e] text-white text-[11px] p-2 w-full focus:border-teal focus:outline-none" />
+              <input id="signalsSearchInput" placeholder="Ticker, catalyst, or keyword..." value="${escapeHtml(state.signalsSearch)}" oninput="window.handleSignalsSearch(this.value)" class="bg-black/50 border border-[#1d242e] text-white text-[11px] p-2 w-full focus:border-teal focus:outline-none" />
             </div>
             <div>
               <label class="text-[#8a9ba8] block mb-1 text-[9px] uppercase font-bold select-none">Status Filter</label>
-              <select id="signalsStatusSelect" class="bg-black/50 border border-[#1d242e] text-white text-[11px] p-2 w-full focus:border-teal focus:outline-none">
-                <option value="all">All Statuses</option>
-                <option value="candidate">Candidate</option>
-                <option value="watch">Watch Only</option>
-                <option value="promoted">Promoted</option>
+              <select id="signalsStatusSelect" onchange="window.handleSignalsStatusFilter(this.value)" class="bg-black/50 border border-[#1d242e] text-white text-[11px] p-2 w-full focus:border-teal focus:outline-none">
+                <option value="all" ${state.signalsStatus === 'all' ? 'selected' : ''}>All Statuses</option>
+                <option value="candidate" ${state.signalsStatus === 'candidate' ? 'selected' : ''}>Candidate</option>
+                <option value="watch" ${state.signalsStatus === 'watch' ? 'selected' : ''}>Watch Only</option>
+                <option value="promoted" ${state.signalsStatus === 'promoted' ? 'selected' : ''}>Promoted / Reviewed</option>
               </select>
             </div>
           </div>
@@ -2986,10 +3097,136 @@ function renderSignalsIntelligence() {
     
     ${renderAdapterRegistrySection(["Market Data", "Options Flow"])}
   `;
+  window.filterSignalsGrid();
+}
+
+window.handleSignalsSearch = (val) => {
+  state.signalsSearch = val;
+  window.filterSignalsGrid();
+};
+
+window.handleSignalsStatusFilter = (val) => {
+  state.signalsStatus = val;
+  window.filterSignalsGrid();
+};
+
+window.filterSignalsGrid = () => {
+  const grid = document.getElementById("signalsAlertGrid");
+  if (!grid) return;
+  
+  const searchVal = (state.signalsSearch || "").toLowerCase();
+  const statusVal = state.signalsStatus || "all";
+  
+  const alerts = getOptionAlertsState();
+  if (!alerts || !alerts.length) {
+    grid.innerHTML = `
+      <div class="col-span-2 p-8 text-center text-slate-500 bg-[#131720]/40 border border-[#1d242e] rounded-sm select-none">
+        <strong>No signals saved yet</strong>
+        <p class="text-[10px] mt-1 text-slate-600">Reset demo data on the Staging page to restore seeds.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  const filteredAlerts = alerts.filter(alert => {
+    const statusMatches = statusVal === "all" || 
+      (statusVal === "candidate" && (alert.status.toLowerCase() === "candidate" || alert.status.toLowerCase() === "watch only")) ||
+      (statusVal === "watch" && (alert.status.toLowerCase().includes("watch") || alert.status.toLowerCase() === "watch only")) ||
+      (statusVal === "promoted" && (alert.status.toLowerCase().includes("review") || alert.status.toLowerCase().includes("approved")));
+    
+    const searchMatches = !searchVal || 
+      alert.symbol.toLowerCase().includes(searchVal) || 
+      alert.company.toLowerCase().includes(searchVal) || 
+      (alert.contract && alert.contract.toLowerCase().includes(searchVal)) || 
+      (alert.thesis && alert.thesis.toLowerCase().includes(searchVal)) ||
+      (alert.localNotes && alert.localNotes.toLowerCase().includes(searchVal));
+    return statusMatches && searchMatches;
+  });
+  
+  grid.innerHTML = filteredAlerts.map(renderOptionAlertCard).join("") || `
+    <div class="col-span-2 p-6 text-center text-slate-500 bg-[#131720]/40 border border-[#1d242e] rounded-sm select-none">
+      No signals match the current filters.
+    </div>
+  `;
+};
+
+function renderOptionAlertCard(alert) {
+  const actionColor = alert.action.includes("BUY") || alert.action.includes("STRENGTH") ? "text-green" : "text-amber";
+  const actionBorder = alert.action.includes("BUY") || alert.action.includes("STRENGTH") ? "border-green/30 bg-green/5" : "border-amber/30 bg-amber/5";
+  const borderBar = alert.action.includes("BUY") || alert.action.includes("STRENGTH") ? "bg-green" : "bg-amber";
+  const priority = alert.confidence > 90 ? "High" : alert.confidence > 80 ? "Medium" : "Low";
+  const priorityColor = priority === "High" ? "text-red border-red/30 bg-red/5" : "text-slate-400 border-slate-700 bg-slate-800/20";
+  const timestamp = alert.date || new Date().toISOString().slice(0, 10);
+  const tags = ["options", alert.symbol.toLowerCase(), alert.strategy ? alert.strategy.toLowerCase() : "crossover"];
+  
+  return `
+    <div class="p-4 bg-[#131720] border border-[#1d242e] rounded-sm relative overflow-hidden flex flex-col justify-between" data-signal-id="${escapeHtml(alert.id)}">
+      <div class="absolute top-0 left-0 w-[2.5px] h-full ${borderBar}"></div>
+      <div>
+        <!-- Top row: Symbol & Status -->
+        <div class="flex justify-between items-start mb-2 select-none">
+          <div>
+            <strong class="text-white text-sm block font-sans">${escapeHtml(alert.symbol)} // ${escapeHtml(alert.company)}</strong>
+            <span class="text-[10px] text-slate-400 font-mono">${escapeHtml(alert.contract)}</span>
+          </div>
+          <div class="flex flex-col items-end gap-1">
+            <span class="px-1.5 py-0.2 text-[8px] font-bold border ${actionColor} ${actionBorder} uppercase tracking-wider font-mono">${escapeHtml(alert.action)}</span>
+            <span class="text-[8px] px-1 border border-slate-700 bg-slate-900 text-slate-400 uppercase tracking-widest font-mono">${escapeHtml(alert.status || "candidate")}</span>
+          </div>
+        </div>
+        
+        <!-- Metadata rows -->
+        <div class="grid grid-cols-2 gap-2 text-[9px] font-mono mb-2 bg-black/20 p-2 border border-[#1d242e]/60 rounded-sm">
+          <div><span class="text-slate-500">Confidence:</span> <strong class="text-green">${alert.confidence}%</strong></div>
+          <div><span class="text-slate-500">Priority:</span> <span class="px-1 py-0.1 border ${priorityColor} rounded-sm">${priority}</span></div>
+          <div><span class="text-slate-500">Source Type:</span> <strong class="text-teal">Options (Local)</strong></div>
+          <div><span class="text-slate-500">Created:</span> <span class="text-slate-400">${escapeHtml(timestamp)}</span></div>
+        </div>
+
+        <p class="text-[11px] text-slate-300 leading-relaxed font-sans mb-2">${escapeHtml(alert.thesis)}</p>
+        
+        ${alert.reason && alert.reason.length ? `
+          <ul class="text-[10px] text-slate-400 list-disc pl-4 mb-2 space-y-0.5">
+            ${alert.reason.map(r => `<li>${escapeHtml(r)}</li>`).join("")}
+          </ul>
+        ` : ""}
+
+        <!-- Local custom notes -->
+        ${alert.localNotes ? `
+          <div class="p-2 mb-2 bg-[#1b2230] border border-teal/20 text-[10px] text-slate-300 font-sans rounded-sm">
+            <strong class="text-teal font-mono block text-[8px] uppercase select-none">Local Research Note:</strong>
+            ${escapeHtml(alert.localNotes)}
+          </div>
+        ` : ""}
+
+        <!-- Spread quality & Invalidation -->
+        <div class="text-[9px] font-mono text-slate-400 mb-3 space-y-0.5 border-t border-[#1d242e] pt-2">
+          <div><span class="text-slate-500">Spread:</span> ${escapeHtml(alert.spreadQuality || "Tight")}</div>
+          <div><span class="text-slate-500">Invalidation:</span> <strong class="text-red/90">${escapeHtml(alert.invalidation || "None")}</strong></div>
+          <div><span class="text-slate-500">Next Action:</span> <span class="text-slate-300">${escapeHtml(alert.nextAction || "None")}</span></div>
+        </div>
+
+        <div class="tag-row mb-3">
+          ${tags.map(t => `<span class="px-1 py-0.1 bg-black/40 text-slate-500 text-[8px] rounded-sm font-mono">${escapeHtml(t)}</span>`).join("")}
+        </div>
+      </div>
+      
+      <!-- Actions Dock -->
+      <div class="pt-3 border-t border-[#1d242e] grid grid-cols-2 gap-1.5 text-[9px]">
+        <button onclick="window.queueSignalReview('${escapeHtml(alert.id)}')" class="px-2 py-1 bg-black/40 text-amber border border-amber/30 uppercase font-bold hover:bg-black transition-all text-center">Queue Review</button>
+        <button onclick="window.sendSignalToAgent('${escapeHtml(alert.id)}')" class="px-2 py-1 bg-black/40 text-teal border border-teal/30 uppercase font-bold hover:bg-black transition-all text-center">Assign Task</button>
+        <button onclick="window.createAlertRuleIdea('${escapeHtml(alert.id)}')" class="px-2 py-1 bg-black/40 text-violet border border-violet/30 uppercase font-bold hover:bg-black transition-all text-center">Create Rule</button>
+        <button onclick="window.archiveSignalResearch('${escapeHtml(alert.id)}')" class="px-2 py-1 bg-black/40 text-rose border border-rose/30 uppercase font-bold hover:bg-black transition-all text-center">Archive Note</button>
+        <button onclick="window.addSignalLocalNote('${escapeHtml(alert.id)}')" class="px-2 py-1 bg-black/40 text-[#c0c4cc] border border-slate-700 uppercase font-bold hover:bg-black transition-all col-span-2 text-center">Add Local Note</button>
+        <button onclick="window.openSourceHubAdapter()" class="px-2 py-1 bg-black/20 text-slate-500 border border-dashed border-slate-800 uppercase font-bold hover:bg-black hover:text-slate-400 transition-all col-span-2 text-center">Source Hub Adapter</button>
+      </div>
+    </div>
+  `;
 }
 
 function renderArchiveIntelligence() {
   if (!els.archiveIntelligence) return;
+  state.archiveLayout = state.archiveLayout || "detailed";
   const items = getEffectiveArchiveVaultItems();
   const metrics = getArchiveVaultMetrics(items);
   els.archiveIntelligence.innerHTML = `
@@ -3018,14 +3255,20 @@ function renderArchiveIntelligence() {
         ["Duplicate warnings", metrics.duplicates],
       ].map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join("")}
     </section>
-    <section class="vault-toolbar">
-      <input id="vaultSearch" placeholder="Search title, domain, tags, reason, next action..." oninput="window.filterArchiveVault?.()" />
+    <section class="vault-toolbar" style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+      <input id="vaultSearch" placeholder="Search title, domain, tags, reason, next action..." oninput="window.filterArchiveVault?.()" style="flex:2; min-width:200px;" />
       <select id="vaultStatus" onchange="window.filterArchiveVault?.()"><option value="all">All status</option>${uniqueOptions(items, "status")}</select>
       <select id="vaultType" onchange="window.filterArchiveVault?.()"><option value="all">All type</option>${uniqueOptions(items, "type")}</select>
       <select id="vaultHabitat" onchange="window.filterArchiveVault?.()"><option value="all">All habitats</option>${uniqueOptions(items, "habitat")}</select>
       <select id="vaultPriority" onchange="window.filterArchiveVault?.()"><option value="all">All priority</option>${uniqueOptions(items, "priority")}</select>
       <select id="vaultAgent" onchange="window.filterArchiveVault?.()"><option value="all">All agents</option>${uniqueOptions(items, "connectedAgent")}</select>
+      <select id="vaultRoute" onchange="window.filterArchiveVault?.()"><option value="all">All routes</option>${uniqueOptions(items, "route")}</select>
       <select id="vaultSort" onchange="window.filterArchiveVault?.()"><option value="priority">Sort by priority</option><option value="newest">Newest</option><option value="status">Status</option><option value="habitat">Habitat</option><option value="agent">Agent</option></select>
+      
+      <div style="display:flex; gap:6px; margin-left:auto; flex-shrink:0;">
+        <button type="button" class="pc-action-btn secondary text-[10px]" onclick="window.toggleArchiveLayout?.()">Layout: ${state.archiveLayout === 'compact' ? 'Compact' : 'Detailed'}</button>
+        <button type="button" class="pc-action-btn secondary text-[10px]" onclick="window.exportSelectedArchiveJSON?.()">Export Selected</button>
+      </div>
     </section>
     <section class="vault-layout">
       <aside class="vault-left">
@@ -3035,7 +3278,7 @@ function renderArchiveIntelligence() {
       </aside>
       <div>
         <div class="panel-head vault-results-head"><div><p class="eyebrow">Source database</p><h2>Archive Sources</h2></div><span class="pill">Local actions</span></div>
-        <section id="vaultGrid" class="vault-grid">${sortVaultItems(items, "priority").map(renderVaultCard).join("")}</section>
+        <section id="vaultGrid" class="vault-grid">${sortVaultItems(items, "priority").map(renderVaultCard).join("") || `<p class="muted select-none" style="padding:20px; text-align:center;">No archive items yet. Add bookmarks or signals to archive vault to get started.</p>`}</section>
       </div>
     </section>
     ${renderBookmarkImportLab()}
@@ -3163,9 +3406,47 @@ function renderAgentSourceMap(items) {
 function renderVaultCard(item) {
   const target = externalUrl(item.url) ? `target="_blank" rel="noopener noreferrer"` : "";
   const openHref = externalUrl(item.url) ? item.url : "/archive";
+  
+  const vaultState = getArchiveVaultState();
+  const isChecked = vaultState.checkedActions[item.id] ? "checked" : "";
+  
+  if (state.archiveLayout === "compact") {
+    return `
+      <article class="vault-card compact-card" data-vault-id="${escapeHtml(item.id)}" style="padding: 10px 12px; font-size: 11px; display:flex; flex-direction:column; justify-content:space-between; gap:6px; background:#131720; border:1px solid #1d242e; border-radius:2px;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:between; gap:8px;">
+            <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1;">
+              <input type="checkbox" ${isChecked} onchange="window.toggleVaultAction('${escapeHtml(item.id)}', this.checked)" class="vault-select-checkbox" style="cursor:pointer;" />
+              <strong class="text-white text-xs truncate" style="margin: 0; display:block;">${escapeHtml(item.title)}</strong>
+            </div>
+            <div style="display:flex; gap:4px; align-items:center; flex-shrink:0;">
+              <span class="status-badge ${escapeHtml(item.status)}" style="font-size: 8px; padding: 1px 3px;">${escapeHtml(item.status)}</span>
+              <span class="priority-badge ${escapeHtml(item.priority)}" style="font-size: 8px; padding: 1px 3px;">${escapeHtml(item.priority)}</span>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:9px; color:#909399; margin-top:4px; font-family:monospace;">
+            <span>Agent: ${escapeHtml(item.connectedAgent)}</span>
+            <span>Route: ${escapeHtml(item.route || 'local-signals')}</span>
+          </div>
+        </div>
+        <div class="archive-actions" style="display:flex; justify-content:flex-end; gap:6px; margin-top:4px; border-top:1px solid #1d242e; pt-4px; font-size:8px;">
+          <button type="button" onclick="window.archiveVaultAction?.('restore', '${escapeHtml(item.id)}')" class="px-1.5 py-0.5 bg-black/40 text-amber border border-amber/30 hover:bg-black transition-all">Restore Review</button>
+          <button type="button" onclick="window.archiveVaultAction?.('summarize', '${escapeHtml(item.id)}')" class="px-1.5 py-0.5 bg-black/40 text-teal border border-teal/30 hover:bg-black transition-all">Summarize</button>
+          <button type="button" class="delete-btn px-1.5 py-0.5 bg-red-950/20 text-red border border-red/30 hover:bg-red/35 transition-all" onclick="window.archiveVaultAction?.('archived', '${escapeHtml(item.id)}')">Archive</button>
+        </div>
+      </article>
+    `;
+  }
+  
   return `
     <article class="vault-card" data-vault-id="${escapeHtml(item.id)}">
-      <div class="vault-card-top"><span class="status-badge ${escapeHtml(item.status)}">${escapeHtml(item.status)}</span><span class="priority-badge ${escapeHtml(item.priority)}">${escapeHtml(item.priority)}</span></div>
+      <div class="vault-card-top">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <input type="checkbox" ${isChecked} onchange="window.toggleVaultAction('${escapeHtml(item.id)}', this.checked)" class="vault-select-checkbox" style="cursor:pointer;" />
+          <span class="status-badge ${escapeHtml(item.status)}">${escapeHtml(item.status)}</span>
+        </div>
+        <span class="priority-badge ${escapeHtml(item.priority)}">${escapeHtml(item.priority)}</span>
+      </div>
       <h3>${escapeHtml(item.title)}</h3>
       <a class="vault-domain" href="${escapeHtml(openHref)}" ${target}>${escapeHtml(item.domain || item.url)}</a>
       <p>${escapeHtml(item.summary)}</p>
@@ -3173,6 +3454,7 @@ function renderVaultCard(item) {
         <div><dt>Type</dt><dd>${escapeHtml(item.type)}</dd></div>
         <div><dt>Habitat</dt><dd>${escapeHtml(item.habitat)}</dd></div>
         <div><dt>Agent</dt><dd>${escapeHtml(item.connectedAgent)}</dd></div>
+        <div><dt>Route Origin</dt><dd>${escapeHtml(item.route || "local-signals")}</dd></div>
         <div><dt>Last reviewed</dt><dd>${escapeHtml(item.lastReviewed)}</dd></div>
       </dl>
       <div class="vault-reason"><strong>Why saved</strong><span>${escapeHtml(item.whySaved)}</span></div>
@@ -3180,6 +3462,7 @@ function renderVaultCard(item) {
       <div class="tag-row">${(item.tags || []).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
       <div class="archive-actions">
         <a href="${escapeHtml(openHref)}" ${target}>Open Source</a>
+        <button type="button" onclick="window.archiveVaultAction?.('restore', '${escapeHtml(item.id)}')">Restore Review</button>
         <button type="button" onclick="window.archiveVaultAction?.('summarize', '${escapeHtml(item.id)}')">Summarize</button>
         <button type="button" onclick="window.archiveVaultAction?.('checklist', '${escapeHtml(item.id)}')">Turn Into Checklist</button>
         <button type="button" onclick="window.archiveVaultAction?.('extract', '${escapeHtml(item.id)}')">Extract Opportunity</button>
@@ -3189,6 +3472,30 @@ function renderVaultCard(item) {
     </article>
   `;
 }
+
+window.toggleArchiveLayout = () => {
+  state.archiveLayout = state.archiveLayout === "compact" ? "detailed" : "compact";
+  renderArchiveIntelligence();
+};
+
+window.exportSelectedArchiveJSON = () => {
+  const vaultState = getArchiveVaultState();
+  const checkedIds = Object.keys(vaultState.checkedActions).filter(id => vaultState.checkedActions[id]);
+  if (!checkedIds.length) {
+    alert("Please select one or more vault items using the checkboxes to export.");
+    return;
+  }
+  
+  const items = getEffectiveArchiveVaultItems().filter(item => checkedIds.includes(item.id));
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(items, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `pickaxe-selected-archive-${new Date().toISOString().slice(0, 10)}.json`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+  showNotification(`Exported ${items.length} items to JSON.`);
+};
 
 function renderBookmarkImportLab() {
   return `
@@ -3243,17 +3550,20 @@ window.filterArchiveVault = () => {
   const habitat = document.querySelector("#vaultHabitat")?.value || "all";
   const priority = document.querySelector("#vaultPriority")?.value || "all";
   const agent = document.querySelector("#vaultAgent")?.value || "all";
+  const route = document.querySelector("#vaultRoute")?.value || "all";
   const sort = document.querySelector("#vaultSort")?.value || "priority";
+  
   const filtered = getEffectiveArchiveVaultItems().filter((item) => {
-    const haystack = `${item.title} ${item.url} ${item.domain} ${item.type} ${item.topic} ${item.category} ${item.habitat} ${item.status} ${item.priority} ${item.connectedAgent} ${item.summary} ${item.whySaved} ${item.nextAction} ${(item.tags || []).join(" ")}`.toLowerCase();
+    const haystack = `${item.title} ${item.url} ${item.domain} ${item.type} ${item.topic} ${item.category} ${item.habitat} ${item.status} ${item.priority} ${item.connectedAgent} ${item.summary} ${item.whySaved} ${item.nextAction} ${(item.tags || []).join(" ")} ${item.route || ""}`.toLowerCase();
     return haystack.includes(q)
       && (status === "all" || item.status === status)
       && (type === "all" || item.type === type)
       && (habitat === "all" || item.habitat === habitat)
       && (priority === "all" || item.priority === priority)
-      && (agent === "all" || item.connectedAgent === agent);
+      && (agent === "all" || item.connectedAgent === agent)
+      && (route === "all" || (item.route && item.route === route));
   });
-  grid.innerHTML = sortVaultItems(filtered, sort).map(renderVaultCard).join("") || `<p class="muted">No matching archive sources.</p>`;
+  grid.innerHTML = sortVaultItems(filtered, sort).map(renderVaultCard).join("") || `<p class="muted font-mono text-center select-none col-span-2" style="padding: 20px;">No matching archive sources.</p>`;
 };
 
 window.focusVaultItem = (itemId) => {
@@ -3315,6 +3625,23 @@ window.archiveVaultAction = async (action, itemId) => {
       nextAction: item.nextAction || "Examine source and report findings."
     });
     addWorldEvent(`Sent task for "${item.title}" to Agent ${item.connectedAgent}.`);
+  } else if (action === "restore") {
+    const reviewItem = {
+      id: `archive-restore-${item.id}-${Date.now()}`,
+      title: `Restore Archive: ${item.title}`,
+      source: item.habitat || "Archive Vault",
+      owner: item.connectedAgent || "Archive Keeper",
+      status: "Restored / Pending Review",
+      priority: item.priority || "Medium",
+      output: `Restored from Archive. Original summary: ${item.summary}. URL: ${item.url}`
+    };
+    addSharedReviewItem(reviewItem);
+    
+    vaultState.statusOverrides[item.id] = "review";
+    vaultState.actionLog.unshift(`${item.title}: sent to review`);
+    setArchiveVaultState(vaultState);
+    showNotification(`Sent "${item.title}" back to CEO B Review Queue.`);
+    addWorldEvent(`Restored "${item.title}" from Archive to CEO B Review.`);
   } else if (statusMap[action]) {
     vaultState.statusOverrides[itemId] = statusMap[action];
     vaultState.actionLog.unshift(`${item.title}: ${statusMap[action]}`);
@@ -3491,15 +3818,20 @@ function setBookmarksState(items) {
   }
 }
 
-window.addLocalBookmark = (url, title, notes, category) => {
+window.addLocalBookmark = (url, title, notes, category, tagsText = "") => {
   if (!url) return { ok: false, error: "URL is required" };
   const normalized = normalizeUrl(url);
   const bookmarks = getBookmarksState();
   const duplicate = bookmarks.find((bm) => normalizeUrl(bm.url) === normalized);
+  
+  const parsedTags = tagsText.split(",").map(t => t.trim()).filter(Boolean);
+  const tags = parsedTags.length ? parsedTags : ["manual-intake"];
+  
   if (duplicate) {
     duplicate.title = title || duplicate.title;
     duplicate.notes = notes || duplicate.notes;
     duplicate.category = category || duplicate.category;
+    duplicate.tags = tags;
     duplicate.dateAdded = new Date().toISOString();
     setBookmarksState(bookmarks);
     addWorldEvent(`Updated existing bookmark: ${duplicate.title}`);
@@ -3511,6 +3843,7 @@ window.addLocalBookmark = (url, title, notes, category) => {
     title: title || domainFromUrl(url),
     notes: notes || "No notes added.",
     category: category || "General Bookmark",
+    tags,
     dateAdded: new Date().toISOString(),
     status: "Mined"
   };
@@ -3525,22 +3858,25 @@ window.mineSingleBookmark = () => {
   const titleEl = document.querySelector("#bmTitle");
   const catEl = document.querySelector("#bmCategory");
   const notesEl = document.querySelector("#bmNotes");
+  const tagsEl = document.querySelector("#bmTags");
   
   const url = urlEl?.value.trim() || "";
   const title = titleEl?.value.trim() || "";
   const category = catEl?.value || "General Bookmark";
   const notes = notesEl?.value.trim() || "";
+  const tagsText = tagsEl?.value.trim() || "";
   
   if (!url) {
     alert("URL is required to mine a bookmark.");
     return;
   }
   
-  const res = window.addLocalBookmark(url, title, notes, category);
+  const res = window.addLocalBookmark(url, title, notes, category, tagsText);
   if (res.ok) {
     if (urlEl) urlEl.value = "";
     if (titleEl) titleEl.value = "";
     if (notesEl) notesEl.value = "";
+    if (tagsEl) tagsEl.value = "";
     renderBookmarksPage();
   }
 };
@@ -3756,15 +4092,15 @@ function renderBookmarksPage() {
           <div class="single-bm-form">
             <div>
               <label for="bmUrl">URL</label>
-              <input id="bmUrl" placeholder="https://example.com/research-note" />
+              <input id="bmUrl" placeholder="https://example.com/research-note" oninput="window.updateSingleBmPreview?.()" />
             </div>
             <div>
               <label for="bmTitle">Title (Optional)</label>
-              <input id="bmTitle" placeholder="Title or identifier" />
+              <input id="bmTitle" placeholder="Title or identifier" oninput="window.updateSingleBmPreview?.()" />
             </div>
             <div>
               <label for="bmCategory">Category</label>
-              <select id="bmCategory">
+              <select id="bmCategory" onchange="window.updateSingleBmPreview?.()">
                 <option value="Market Signal">Market Signal</option>
                 <option value="Research Source">Research Source</option>
                 <option value="Vault Document">Vault Document</option>
@@ -3772,10 +4108,19 @@ function renderBookmarksPage() {
               </select>
             </div>
             <div>
+              <label for="bmTags">Tags (comma-separated, optional)</label>
+              <input id="bmTags" placeholder="e.g. apple, options, macro" oninput="window.updateSingleBmPreview?.()" />
+            </div>
+            <div>
               <label for="bmNotes">Context / Thesis Notes</label>
-              <textarea id="bmNotes" placeholder="Why is this source valuable? Add notes or trade details..." style="min-height:70px;"></textarea>
+              <textarea id="bmNotes" placeholder="Why is this source valuable? Add notes or trade details..." style="min-height:70px;" oninput="window.updateSingleBmPreview?.()"></textarea>
             </div>
             <button class="primary" type="button" onclick="window.mineSingleBookmark()">Mine Single Link</button>
+            
+            <div id="singleBmPreview" style="margin-top:12px; padding: 10px; background: rgba(0,229,255,0.03); border: 1px dashed rgba(66,217,200,0.2); border-radius: 4px; font-size: 10px; font-family: monospace;">
+              <span style="color: var(--teal); font-weight: bold; text-transform: uppercase; font-size: 9px; display: block; margin-bottom: 4px;">Local Parsing Preview</span>
+              <div id="singleBmPreviewContent" class="text-slate-400">Enter a URL to see local classification...</div>
+            </div>
           </div>
         </div>
         
@@ -3814,47 +4159,196 @@ function renderBookmarksPage() {
 }
 
 function renderMinedTab(bookmarks) {
+  state.minedBmSearch = state.minedBmSearch || "";
+  state.minedBmCategory = state.minedBmCategory || "all";
+  state.minedBmStatus = state.minedBmStatus || "all";
+  
+  if (!bookmarks.length) {
+    return `<div style="padding:20px; text-align:center;"><p class="muted select-none">No bookmarks imported yet.</p></div>`;
+  }
+  
+  const search = state.minedBmSearch.toLowerCase();
+  const category = state.minedBmCategory;
+  const status = state.minedBmStatus;
+  
+  const vaultItems = getEffectiveArchiveVaultItems();
+  
+  const filtered = bookmarks.filter(bm => {
+    if (category !== "all" && bm.category !== category) return false;
+    if (status !== "all" && bm.status !== status) return false;
+    if (search) {
+      const matchText = `${bm.title} ${bm.url} ${bm.notes} ${(bm.tags || []).join(" ")}`.toLowerCase();
+      if (!matchText.includes(search)) return false;
+    }
+    return true;
+  });
+  
   return `
-    <div class="bookmarks-list">
-      ${bookmarks.length ? `
-        <table class="premium-table">
-          <thead>
-            <tr>
-              <th style="width: 35%;">Source & URL</th>
-              <th style="width: 20%;">Category</th>
-              <th style="width: 25%;">Notes</th>
-              <th style="width: 20%;">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${bookmarks.map((bm) => `
+    <div style="padding: 16px; display:flex; flex-direction:column; gap:12px;">
+      <!-- Search & Filter Row for Mined Bookmarks -->
+      <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; background: rgba(255,255,255,0.02); padding: 8px 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06);">
+        <input type="text" id="minedBmSearch" placeholder="Search mined bookmarks..." value="${escapeHtml(state.minedBmSearch)}" oninput="window.handleMinedBmSearch?.(this.value)" style="flex:1; min-width:180px; padding: 5px 8px; font-size:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:white; border-radius:3px;" />
+        
+        <select id="minedBmCategory" onchange="window.handleMinedBmCategory?.(this.value)" style="padding: 5px 8px; font-size:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:white; border-radius:3px;">
+          <option value="all" ${state.minedBmCategory === 'all' ? 'selected' : ''}>All Categories</option>
+          <option value="Market Signal" ${state.minedBmCategory === 'Market Signal' ? 'selected' : ''}>Market Signal</option>
+          <option value="Research Source" ${state.minedBmCategory === 'Research Source' ? 'selected' : ''}>Research Source</option>
+          <option value="Vault Document" ${state.minedBmCategory === 'Vault Document' ? 'selected' : ''}>Vault Document</option>
+          <option value="General Bookmark" ${state.minedBmCategory === 'General Bookmark' ? 'selected' : ''}>General Bookmark</option>
+        </select>
+        
+        <select id="minedBmStatus" onchange="window.handleMinedBmStatus?.(this.value)" style="padding: 5px 8px; font-size:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); color:white; border-radius:3px;">
+          <option value="all" ${state.minedBmStatus === 'all' ? 'selected' : ''}>All Statuses</option>
+          <option value="Mined" ${state.minedBmStatus === 'Mined' ? 'selected' : ''}>Mined</option>
+          <option value="Review" ${state.minedBmStatus === 'Review' ? 'selected' : ''}>Sent to Review</option>
+          <option value="Archived" ${state.minedBmStatus === 'Archived' ? 'selected' : ''}>Archived</option>
+        </select>
+      </div>
+      
+      <div class="bookmarks-list" style="margin-top:0;">
+        ${filtered.length ? `
+          <table class="premium-table">
+            <thead>
               <tr>
-                <td>
-                  <strong>${escapeHtml(bm.title)}</strong>
-                  <a href="${escapeHtml(bm.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(bm.url)}</a>
-                </td>
-                <td>
-                  <span class="status-badge ${bm.category.toLowerCase().replace(/\s+/g, '-')}">${escapeHtml(bm.category)}</span>
-                </td>
-                <td>
-                  <p class="bm-notes-cell" title="${escapeHtml(bm.notes)}">${escapeHtml(bm.notes)}</p>
-                </td>
-                <td>
-                  <div class="bookmarks-action-row">
-                    <button type="button" class="pc-action-btn text-[9px] px-1.5 py-0.5 font-bold rounded-sm" onclick="window.promoteBookmarkToArchive('${escapeHtml(bm.id)}')">Archive Note</button>
-                    <button type="button" class="pc-action-btn secondary text-[9px] px-1.5 py-0.5 font-bold rounded-sm" onclick="window.sendBookmarkToCeoReview('${escapeHtml(bm.id)}')">Send to CEO B Review</button>
-                    <button type="button" class="pc-action-btn secondary text-[9px] px-1.5 py-0.5 font-bold rounded-sm" onclick="window.promoteBookmarkToAgentTask('${escapeHtml(bm.id)}')">Send to Bookmark Miner</button>
-                    <button type="button" class="pc-action-btn risk text-[9px] px-1.5 py-0.5 font-bold rounded-sm" onclick="window.deleteLocalBookmark('${escapeHtml(bm.id)}')">Delete</button>
-                  </div>
-                </td>
+                <th style="width: 30%;">Source & URL</th>
+                <th style="width: 20%;">Categorization</th>
+                <th style="width: 25%;">Notes</th>
+                <th style="width: 25%;">Actions</th>
               </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      ` : `<p class="muted" style="padding:20px; text-align:center;">No bookmarks mined yet. Mine a single link on the left or paste multiple links in the X Bookmark Analyzer.</p>`}
+            </thead>
+            <tbody>
+              ${filtered.map((bm) => {
+                const isVaultDup = vaultItems.some(item => normalizeUrl(item.url) === normalizeUrl(bm.url));
+                const isMinedDup = bookmarks.filter(b => b.id !== bm.id).some(b => normalizeUrl(b.url) === normalizeUrl(bm.url));
+                const duplicateWarning = (isVaultDup || isMinedDup) ? `<span style="background:rgba(255,92,122,0.15); color: var(--red); border: 1px solid rgba(255,92,122,0.3); font-size: 8px; padding: 1px 3px; border-radius: 2px; text-transform: uppercase; margin-left: 6px; font-weight:bold;">⚠️ DUP</span>` : "";
+                
+                const hasNotes = bm.notes && bm.notes.trim() !== "" && bm.notes !== "No notes added.";
+                const hasTags = bm.tags && bm.tags.length > 0 && !bm.tags.includes("manual-intake");
+                let qualityText = "Standard Quality";
+                let qualityColor = "var(--teal)";
+                if (!hasNotes && !hasTags) {
+                  qualityText = "Manual Bookmark Intake";
+                  qualityColor = "orange";
+                } else if (hasNotes && hasTags) {
+                  qualityText = "High Quality (Enriched)";
+                  qualityColor = "var(--green)";
+                }
+                
+                return `
+                  <tr>
+                    <td>
+                      <div style="display:flex; align-items:center; flex-wrap:wrap; gap:2px;">
+                        <strong style="font-size:12px;">${escapeHtml(bm.title)}</strong>
+                        ${duplicateWarning}
+                      </div>
+                      <a href="${escapeHtml(bm.url)}" target="_blank" rel="noopener noreferrer" style="font-size:10px; color:var(--teal); margin-top:2px;">${escapeHtml(bm.url)}</a>
+                      <div class="tag-row" style="display:flex; gap:4px; flex-wrap:wrap; margin-top:4px;">
+                        ${(bm.tags || []).map(t => `<span style="font-size:8px; color:var(--blue); background:rgba(0,149,255,0.05); border:1px solid rgba(0,149,255,0.15); padding:0px 4px; border-radius:2px;">${escapeHtml(t)}</span>`).join("")}
+                      </div>
+                    </td>
+                    <td>
+                      <div style="display:flex; flex-direction:column; gap:4px;">
+                        <span class="status-badge ${bm.category.toLowerCase().replace(/\s+/g, '-')}">${escapeHtml(bm.category)}</span>
+                        <span class="status-badge" style="background: rgba(255,255,255,0.02); color: ${qualityColor}; border: 1px solid ${qualityColor}30; font-size: 8px; padding: 1px 4px; border-radius: 2px; width: fit-content;">${qualityText}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="bm-notes-cell" title="${escapeHtml(bm.notes)}" style="font-size:11px; max-height: 48px; overflow-y:auto;">${escapeHtml(bm.notes)}</p>
+                    </td>
+                    <td>
+                      <div class="bookmarks-action-row" style="display:flex; flex-direction:column; gap:4px;">
+                        <button type="button" class="pc-action-btn text-[9px] px-1.5 py-0.5 font-bold rounded-sm text-center" onclick="window.promoteBookmarkToArchive('${escapeHtml(bm.id)}')">Archive Note</button>
+                        <button type="button" class="pc-action-btn secondary text-[9px] px-1.5 py-0.5 font-bold rounded-sm text-center" onclick="window.sendBookmarkToCeoReview('${escapeHtml(bm.id)}')">Send to CEO B Review</button>
+                        <button type="button" class="pc-action-btn secondary text-[9px] px-1.5 py-0.5 font-bold rounded-sm text-center" onclick="window.sendBookmarkToMiner('${escapeHtml(bm.id)}')">Send to Bookmark Miner</button>
+                        <button type="button" class="pc-action-btn risk text-[9px] px-1.5 py-0.5 font-bold rounded-sm text-center" onclick="window.deleteLocalBookmark('${escapeHtml(bm.id)}')">Delete</button>
+                      </div>
+                    </td>
+                  </tr>
+                `;
+              }).join("")}
+            </tbody>
+          </table>
+        ` : `<p class="muted font-mono text-center select-none" style="padding:20px;">No bookmarks match the current filters.</p>`}
+      </div>
     </div>
   `;
 }
+
+window.handleMinedBmSearch = (val) => {
+  state.minedBmSearch = val;
+  renderBookmarksPage();
+  const searchInput = document.getElementById("minedBmSearch");
+  if (searchInput) {
+    searchInput.focus();
+    const len = searchInput.value.length;
+    searchInput.setSelectionRange(len, len);
+  }
+};
+
+window.handleMinedBmCategory = (val) => {
+  state.minedBmCategory = val;
+  renderBookmarksPage();
+};
+
+window.handleMinedBmStatus = (val) => {
+  state.minedBmStatus = val;
+  renderBookmarksPage();
+};
+
+window.sendBookmarkToMiner = (bookmarkId) => {
+  const bookmarks = getBookmarksState();
+  const bm = bookmarks.find((b) => b.id === bookmarkId);
+  if (!bm) return;
+  
+  addSharedMissionItem({
+    id: `mission-bm-${bm.id}-${Date.now()}`,
+    title: `Analyze Bookmark: ${bm.title}`,
+    owner: "Bookmark Miner",
+    source: "Bookmarks Intake",
+    priority: "Medium",
+    nextAction: bm.notes || `Examine bookmark URL: ${bm.url}`
+  });
+  
+  const remaining = bookmarks.filter((b) => b.id !== bookmarkId);
+  setBookmarksState(remaining);
+  showNotification(`Sent bookmark to Bookmark Miner mission queue.`);
+  addWorldEvent(`Assigned bookmark analysis for "${bm.title}" to Bookmark Miner.`);
+  renderBookmarksPage();
+};
+
+window.updateSingleBmPreview = () => {
+  const url = document.getElementById("bmUrl")?.value.trim() || "";
+  const title = document.getElementById("bmTitle")?.value.trim() || "";
+  const category = document.getElementById("bmCategory")?.value || "General Bookmark";
+  const notes = document.getElementById("bmNotes")?.value.trim() || "";
+  const tagsText = document.getElementById("bmTags")?.value.trim() || "";
+  
+  const contentEl = document.getElementById("singleBmPreviewContent");
+  if (!contentEl) return;
+  
+  if (!url) {
+    contentEl.innerHTML = "Enter a URL to see local classification...";
+    return;
+  }
+  
+  const domain = domainFromUrl(url) || "unknown-domain";
+  const parsedTags = tagsText.split(",").map(t => t.trim()).filter(Boolean);
+  const isDup = getBookmarksState().some(b => normalizeUrl(b.url) === normalizeUrl(url)) || getEffectiveArchiveVaultItems().some(a => normalizeUrl(a.url) === normalizeUrl(url));
+  
+  const qualityText = (!notes && !parsedTags.length) ? "Manual Bookmark Intake" : (notes && parsedTags.length) ? "High Quality (Enriched)" : "Standard Quality";
+  const qualityColor = qualityText.includes("Intake") ? "orange" : qualityText.includes("High") ? "var(--green)" : "var(--teal)";
+  
+  contentEl.innerHTML = `
+    <div style="display:flex; flex-direction:column; gap:4px; text-align:left;">
+      <div><strong>Domain:</strong> <span style="color:var(--text);">${escapeHtml(domain)}</span></div>
+      <div><strong>Duplicate Found:</strong> <span style="color: ${isDup ? 'var(--red)' : 'var(--green)'}; font-weight:bold;">${isDup ? 'Yes (Will update bookmark)' : 'No'}</span></div>
+      <div><strong>Quality Grade:</strong> <span style="color: ${qualityColor}; font-weight:bold;">${qualityText}</span></div>
+      <div><strong>Taxonomy Tag:</strong> <span style="color: var(--text);">${escapeHtml(category)}</span></div>
+      <div><strong>Tags Extracted:</strong> [${parsedTags.length ? parsedTags.map(t => `"${escapeHtml(t)}"`).join(", ") : '"manual-intake"'}]</div>
+      <div style="font-size: 8px; color: var(--muted); border-top:1px solid rgba(255,255,255,0.05); margin-top:4px; pt-4px;">Local FileReader parsing preview only. No external networks contacted.</div>
+    </div>
+  `;
+};
 
 function renderImportedTab() {
   const list = state.importedBookmarks || [];
@@ -5193,7 +5687,9 @@ function renderDataPortabilityPanel() {
       const val = localStorage.getItem(key);
       if (val) {
         const parsed = JSON.parse(val);
-        return Array.isArray(parsed) ? parsed.length : Object.keys(parsed).length;
+        if (Array.isArray(parsed)) return parsed.length;
+        if (key === "pickaxeArchiveVault") return (parsed.parsedLinks || []).length;
+        return Object.keys(parsed).length;
       }
     } catch(e) {}
     return 0;
@@ -5204,6 +5700,9 @@ function renderDataPortabilityPanel() {
   const archiveCount = getEffectiveArchiveVaultItems().length;
   const alertRulesCount = getAlertRules().length;
   const bookmarksCount = getSharedQueue("pickaxeBookmarks").length;
+  const jarvisHistoryCount = getCount("pickaxe_jarvis_command_history");
+  const localNotesCount = getSharedQueue("pickaxeLocalNotes").length;
+  const signalsCount = getOptionAlertsState().length;
   
   const keys = [
     "pickaxeBookmarks",
@@ -5216,7 +5715,8 @@ function renderDataPortabilityPanel() {
     "pickaxeActionCenter",
     "pickaxe_jarvis_command_history",
     "pickaxeArchiveVault",
-    "pickaxeOptionAlerts"
+    "pickaxeOptionAlerts",
+    "pickaxeLocalNotes"
   ];
   const localDataExists = keys.some(key => localStorage.getItem(key) !== null);
 
@@ -5255,32 +5755,44 @@ function renderDataPortabilityPanel() {
       </div>
 
       <!-- Backup Health Panel -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 text-[10px]">
-        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm">
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4 text-[10px]">
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm font-mono">
           <span class="text-[#606266] text-[8px] uppercase block">Local Data</span>
           <strong class="text-white font-bold block">${localDataExists ? 'Detected' : 'Empty'}</strong>
         </div>
-        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm">
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm font-mono">
           <span class="text-[#606266] text-[8px] uppercase block">Review Packets</span>
           <strong class="text-amber font-bold block">${reviewCount} items</strong>
         </div>
-        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm">
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm font-mono">
           <span class="text-[#606266] text-[8px] uppercase block">Mission Tasks</span>
           <strong class="text-cyan-400 font-bold block">${missionCount} items</strong>
         </div>
-        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm">
-          <span class="text-[#606266] text-[8px] uppercase block">Archive Sources</span>
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm font-mono">
+          <span class="text-[#606266] text-[8px] uppercase block">Archive Vault</span>
           <strong class="text-purple-400 font-bold block">${archiveCount} items</strong>
         </div>
-        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm">
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm font-mono">
           <span class="text-[#606266] text-[8px] uppercase block">Alert Rules</span>
           <strong class="text-yellow-400 font-bold block">${alertRulesCount} items</strong>
         </div>
-        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm">
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm font-mono">
           <span class="text-[#606266] text-[8px] uppercase block">Bookmarks</span>
           <strong class="text-blue-400 font-bold block">${bookmarksCount} items</strong>
         </div>
-        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm col-span-2">
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm font-mono">
+          <span class="text-[#606266] text-[8px] uppercase block">Options Signals</span>
+          <strong class="text-emerald font-bold block">${signalsCount} items</strong>
+        </div>
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm font-mono">
+          <span class="text-[#606266] text-[8px] uppercase block">Jarvis History</span>
+          <strong class="text-violet font-bold block">${jarvisHistoryCount} items</strong>
+        </div>
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm font-mono">
+          <span class="text-[#606266] text-[8px] uppercase block">Local Notes</span>
+          <strong class="text-teal font-bold block">${localNotesCount} items</strong>
+        </div>
+        <div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm font-mono">
           <span class="text-[#606266] text-[8px] uppercase block">Last Backup / Restore Activity</span>
           <strong class="text-slate-300 font-bold block truncate text-[9.5px]">${lastActivity}</strong>
         </div>
@@ -5313,8 +5825,27 @@ function renderDataPortabilityPanel() {
           <div class="space-y-1 max-h-[120px] overflow-y-auto pr-1">
             <strong class="text-[#606266] uppercase text-[8.5px] block font-bold mt-1 font-mono">Included State Keys & Item Counts:</strong>
             ${Object.entries(state.backupPreview.payload || {}).map(([key, val]) => {
+              const knownKeys = [
+                "pickaxeBookmarks",
+                "pickaxeOperatingAgents",
+                "pickaxeMissionQueue",
+                "pickaxeReviewQueue",
+                "pickaxeWorldState",
+                "pickaxeCompletionTracker",
+                "pickaxeAlertRules",
+                "pickaxeActionCenter",
+                "pickaxe_jarvis_command_history",
+                "pickaxeArchiveVault",
+                "pickaxeOptionAlerts",
+                "pickaxeLocalNotes"
+              ];
+              const isKnown = knownKeys.includes(key);
               const count = Array.isArray(val) ? val.length : (val && typeof val === 'object') ? Object.keys(val).length : 1;
-              return `<div class="flex justify-between border-b border-slate-900/40 pb-0.5"><span class="text-slate-400 font-mono">${escapeHtml(key)}</span><span class="text-cyan-400 font-bold">${count} items</span></div>`;
+              if (isKnown) {
+                return `<div class="flex justify-between border-b border-slate-900/40 pb-0.5"><span class="text-slate-400 font-mono">${escapeHtml(key)}</span><span class="text-cyan-400 font-bold">${count} items</span></div>`;
+              } else {
+                return `<div class="flex justify-between border-b border-slate-900/40 pb-0.5" style="opacity: 0.6;"><span class="text-red-400 font-mono">${escapeHtml(key)} (Ignored/Invalid)</span><span class="text-slate-500 font-bold">${count} items</span></div>`;
+              }
             }).join("")}
           </div>
           <div class="flex gap-2 justify-end pt-2 border-t border-amber/25 mt-1.5">
@@ -5341,7 +5872,8 @@ window.exportSystemBackup = () => {
     "pickaxeActionCenter",
     "pickaxe_jarvis_command_history",
     "pickaxeArchiveVault",
-    "pickaxeOptionAlerts"
+    "pickaxeOptionAlerts",
+    "pickaxeLocalNotes"
   ];
   const payload = {};
   keys.forEach(key => {
@@ -5462,10 +5994,26 @@ window.confirmBackupRestore = () => {
   if (!state.backupPreview) return;
   try {
     const payload = state.backupPreview.payload;
+    const knownKeys = [
+      "pickaxeBookmarks",
+      "pickaxeOperatingAgents",
+      "pickaxeMissionQueue",
+      "pickaxeReviewQueue",
+      "pickaxeWorldState",
+      "pickaxeCompletionTracker",
+      "pickaxeAlertRules",
+      "pickaxeActionCenter",
+      "pickaxe_jarvis_command_history",
+      "pickaxeArchiveVault",
+      "pickaxeOptionAlerts",
+      "pickaxeLocalNotes"
+    ];
     let importedCount = 0;
     Object.entries(payload).forEach(([key, value]) => {
-      localStorage.setItem(key, JSON.stringify(value));
-      importedCount++;
+      if (knownKeys.includes(key)) {
+        localStorage.setItem(key, JSON.stringify(value));
+        importedCount++;
+      }
     });
 
     const timestamp = new Date().toISOString();
@@ -5510,7 +6058,8 @@ window.resetSystemData = () => {
     "pickaxeActionCenter",
     "pickaxe_jarvis_command_history",
     "pickaxeArchiveVault",
-    "pickaxeOptionAlerts"
+    "pickaxeOptionAlerts",
+    "pickaxeLocalNotes"
   ];
   keys.forEach(key => localStorage.removeItem(key));
   const status = document.getElementById("dataPortabilityStatus");
@@ -5530,12 +6079,18 @@ function renderStagingAdvanced() {
   // Storage Stats Calculator
   const getStorageStats = () => {
     const keys = [
-      { key: "pickaxeReviewQueue", name: "CEO B Review Queue", fallback: "[]" },
+      { key: "pickaxeBookmarks", name: "Bookmarks Intake", fallback: "[]" },
+      { key: "pickaxeOperatingAgents", name: "Operating Agents Matrix", fallback: "[]" },
       { key: "pickaxeMissionQueue", name: "Agent Mission Queue", fallback: "[]" },
-      { key: "pickaxeArchiveVault", name: "Archive Vault (parsed)", fallback: '{"parsedLinks":[]}' },
-      { key: "pickaxeAlertRules", name: "Alert Rules Center", fallback: "[]" },
+      { key: "pickaxeReviewQueue", name: "CEO B Review Queue", fallback: "[]" },
+      { key: "pickaxeWorldState", name: "Habitat World State", fallback: "{}" },
       { key: "pickaxeCompletionTracker", name: "Completion Tracker Areas", fallback: "null" },
-      { key: "pickaxe_jarvis_command_history", name: "Jarvis Command History", fallback: "[]" }
+      { key: "pickaxeAlertRules", name: "Alert Rules Center", fallback: "[]" },
+      { key: "pickaxeActionCenter", name: "Action Center Events", fallback: "[]" },
+      { key: "pickaxe_jarvis_command_history", name: "Jarvis Command History", fallback: "[]" },
+      { key: "pickaxeArchiveVault", name: "Archive Vault (parsed)", fallback: '{"parsedLinks":[]}' },
+      { key: "pickaxeOptionAlerts", name: "Options Signals Intelligence", fallback: "[]" },
+      { key: "pickaxeLocalNotes", name: "Manual Research Notes", fallback: "[]" }
     ];
     
     return keys.map(k => {
