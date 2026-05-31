@@ -170,3 +170,7 @@ The section below is refreshed from `AGENTS.md`, `PROJECT_STATUS.md`, and `NEXT_
 5. Update status files.
 6. Run `node scripts/update-readme.mjs`.
 7. Commit finished work.
+
+## GitHub Pages Deployment
+Last deployment trigger: 2026-05-31T01:25:00-07:00
+
