@@ -41,19 +41,20 @@
           </div>
         </a>
         <nav class="nav">
-          <button class="nav-button" data-view="command" data-route="/#/mission-control"><span>01</span> Mission Control</button>
-          <button class="nav-button" data-view="vision" data-route="/#/vision-map"><span>02</span> Vision Map</button>
-          <button class="nav-button" data-view="agents" data-route="/#/agents"><span>03</span> Agent Engine</button>
-          <button class="nav-button" data-view="signals" data-route="/#/signals"><span>04</span> Signals</button>
-          <button class="nav-button" data-view="alerts" data-route="/#/alerts"><span>05</span> Alerts</button>
-          <button class="nav-button" data-view="riskRules" data-route="/#/risk-rules"><span>06</span> Risk Rules</button>
-          <button class="nav-button" data-view="sourceHub" data-route="/#/data-sources"><span>07</span> Data Sources</button>
-          <button class="nav-button" data-view="compliance" data-route="/#/compliance"><span>08</span> Compliance</button>
-          <button class="nav-button" data-view="archive" data-route="/#/archive"><span>09</span> Archive</button>
-          <button class="nav-button" data-view="bookmarks" data-route="/#/bookmarks"><span>10</span> Bookmarks</button>
-          <button class="nav-button" data-view="staging" data-route="/#/staging"><span>11</span> Staging</button>
-          <button class="nav-button" data-view="aiHandoff" data-route="/#/ai-handoff"><span>12</span> AI Handoff</button>
-          <button class="nav-button" data-view="agents" data-route="/#/ai-habitat-os"><span>13</span> AI Habitat OS</button>
+          <button class="nav-button" data-view="alerts" data-route="/#/alerts"><span style="color: var(--amber); border-color: rgba(212, 175, 55, 0.3);">01</span> Alerts Desk</button>
+          <button class="nav-button" data-view="command" data-route="/#/mission-control"><span style="color: var(--amber); border-color: rgba(212, 175, 55, 0.3);">02</span> Mission Control</button>
+          <button class="nav-button" data-view="vision" data-route="/#/vision-map"><span style="color: var(--amber); border-color: rgba(212, 175, 55, 0.3);">03</span> Vision Map</button>
+          <button class="nav-button" data-view="agents" data-route="/#/agents"><span style="color: var(--amber); border-color: rgba(212, 175, 55, 0.3);">04</span> Agent Engine</button>
+          <button class="nav-button" data-view="signals" data-route="/#/signals"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">05</span> Signals</button>
+          <button class="nav-button" data-view="sourceHub" data-route="/#/source-hub"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">06</span> Source Hub</button>
+          <button class="nav-button" data-view="riskRules" data-route="/#/risk-rules"><span style="color: var(--amber); border-color: rgba(212, 175, 55, 0.3);">07</span> Risk & Rules</button>
+          <button class="nav-button" data-view="learningLedger" data-route="/#/learning-ledger"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">08</span> Learning Ledger</button>
+          <button class="nav-button" data-view="trendRadar" data-route="/#/trend-radar"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">09</span> Trend Radar</button>
+          <button class="nav-button" data-view="archive" data-route="/#/archive"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">10</span> Archive Vault</button>
+          <button class="nav-button" data-view="bookmarks" data-route="/#/bookmarks"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">11</span> Bookmarks</button>
+          <button class="nav-button" data-view="moneyLab" data-route="/#/money-lab"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">12</span> Money Lab</button>
+          <button class="nav-button" data-view="staging" data-route="/#/staging"><span style="color: var(--green); border-color: rgba(0, 230, 118, 0.3);">13</span> Staging / QA</button>
+          <button class="nav-button" data-view="aiHabitatOS" data-route="/#/ai-habitat-os"><span style="color: var(--amber); border-color: rgba(212, 175, 55, 0.3);">14</span> AI Habitat OS</button>
         </nav>
         <section class="rail-quote" aria-live="polite">
           <span class="label">Mindset</span>
@@ -459,6 +460,18 @@
 
         <section id="compliance" class="view">
           <div id="complianceContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="learningLedger" class="view">
+          <div id="learningLedgerContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="trendRadar" class="view">
+          <div id="trendRadarContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="moneyLab" class="view">
+          <div id="moneyLabContent" class="intelligence-zone"></div>
         </section>
 
         <section id="aiHandoff" class="view">

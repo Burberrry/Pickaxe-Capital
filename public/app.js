@@ -386,6 +386,9 @@ const els = {
   riskRulesContent: document.querySelector("#riskRulesContent"),
   complianceContent: document.querySelector("#complianceContent"),
   aiHandoffContent: document.querySelector("#aiHandoffContent"),
+  learningLedgerContent: document.querySelector("#learningLedgerContent"),
+  trendRadarContent: document.querySelector("#trendRadarContent"),
+  moneyLabContent: document.querySelector("#moneyLabContent"),
 };
 
 document.querySelectorAll(".nav-button").forEach((button) => {
@@ -653,6 +656,9 @@ function setView(view) {
     compliance: "Compliance Disclosures",
     aiHandoff: "AI Handoff",
     aiHabitatOS: "AI Habitat OS",
+    learningLedger: "Learning Ledger",
+    trendRadar: "Trend Radar",
+    moneyLab: "Money Lab",
   };
   els.pageTitle.textContent = titles[view] || "Pickaxe Capital";
   try {
@@ -663,7 +669,7 @@ function setView(view) {
     }
     if (view === "signals") loadSignals();
     if (view === "archive") loadArchive(state.archiveRoute);
-    if (["vision", "sourceHub", "signals", "archive", "rkTracker", "berkshire", "bookmarks", "alerts", "lifeHabitat", "staging", "jarvisLab", "lifeOS", "agentBuilderFactory", "projectUpdate", "riskRules", "compliance", "aiHandoff"].includes(view)) renderStaticIntelligencePages();
+    if (["vision", "sourceHub", "signals", "archive", "rkTracker", "berkshire", "bookmarks", "alerts", "lifeHabitat", "staging", "jarvisLab", "lifeOS", "agentBuilderFactory", "projectUpdate", "riskRules", "compliance", "aiHandoff", "learningLedger", "trendRadar", "moneyLab"].includes(view)) renderStaticIntelligencePages();
     if (view === "founder") renderFounderProfile();
     if (view === "agents") renderAgentsPage();
     if (view === "checklist") loadChecklist();
@@ -683,14 +689,14 @@ function openRequestedView() {
   let view = "";
   
   if (hash) {
-    if (hash === "#/" || hash === "#/mission-control") {
+    if (hash === "#/" || hash === "#/alerts") {
+      view = "alerts";
+    } else if (hash === "#/mission-control") {
       view = "command";
-    } else if (hash === "#/agent-engine" || hash === "#/agents" || hash === "#/ai-habitat-os") {
+    } else if (hash === "#/agent-engine" || hash === "#/agents") {
       view = "agents";
     } else if (hash === "#/signals") {
       view = "signals";
-    } else if (hash === "#/alerts") {
-      view = "alerts";
     } else if (hash === "#/risk-rules") {
       view = "riskRules";
     } else if (hash === "#/data-sources" || hash === "#/source-hub") {
@@ -710,6 +716,12 @@ function openRequestedView() {
       view = "bookmarks";
     } else if (hash === "#/vision-map") {
       view = "vision";
+    } else if (hash === "#/learning-ledger") {
+      view = "learningLedger";
+    } else if (hash === "#/trend-radar") {
+      view = "trendRadar";
+    } else if (hash === "#/money-lab") {
+      view = "moneyLab";
     } else if (hash === "#/founder") {
       state.founderMode = "public";
       view = "founder";
@@ -732,7 +744,7 @@ function openRequestedView() {
     const requested = params.get("view");
     const p = window.location.pathname;
     if (p === "/" || p.endsWith("/Pickaxe-Capital/") || p.endsWith("/Pickaxe-Capital")) {
-      view = "command";
+      view = "alerts";
     } else if (p === "/app/alerts") {
       view = "alerts";
     } else if (p === "/agents") {
@@ -785,7 +797,7 @@ function openRequestedView() {
   }
 
   if (!view) {
-    view = "command";
+    view = "alerts";
   }
   setView(view);
 }
@@ -1241,6 +1253,9 @@ function renderStaticIntelligencePages() {
   renderRiskRulesPage();
   renderCompliancePage();
   renderAiHandoffPage();
+  renderLearningLedgerPage();
+  renderTrendRadarPage();
+  renderMoneyLabPage();
 }
 
 function renderRiskRulesPage() {
@@ -1305,6 +1320,537 @@ function renderCompliancePage() {
     </div>
   `;
 }
+
+// Learning Ledger State Helpers
+function getLearningLedgerState() {
+  const local = localStorage.getItem("pickaxeLearningLedger");
+  if (local) {
+    try {
+      const parsed = JSON.parse(local);
+      if (Array.isArray(parsed)) return parsed;
+    } catch {}
+  }
+  const defaults = [
+    { id: "l1", category: "breakout trading", text: "Study breakout momentum setups (Qullamaggie style) using strict volume confirmation. Skip low-vol breakouts.", timestamp: "2026-05-28T10:00:00Z", verified: true },
+    { id: "l2", category: "Options volume and open interest", text: "Option alerts require open interest > 500. Bid-ask spread must be tight (< 10%) to ensure clean entries in Webull.", timestamp: "2026-05-29T12:00:00Z", verified: true },
+    { id: "l3", category: "Ripster EMA Cloud", text: "Look for price compression on the EMA Cloud before breakouts. Use standard 13/34 Clouds for verification.", timestamp: "2026-05-30T14:00:00Z", verified: true },
+    { id: "l4", category: "Marty Schwartz rules", text: "Always trade in direction of the trend. If moving average is pointing up, buy. If pointing down, stand down.", timestamp: "2026-05-30T15:30:00Z", verified: false }
+  ];
+  localStorage.setItem("pickaxeLearningLedger", JSON.stringify(defaults));
+  return defaults;
+}
+
+function saveLearningLedgerState(ledger) {
+  localStorage.setItem("pickaxeLearningLedger", JSON.stringify(ledger));
+}
+
+// Money Lab State Helpers
+function getMoneyLabState() {
+  const local = localStorage.getItem("pickaxeMoneyLab");
+  if (local) {
+    try {
+      const parsed = JSON.parse(local);
+      if (parsed && typeof parsed === "object") return parsed;
+    } catch {}
+  }
+  const defaults = {
+    hustleBoard: [
+      { id: "h1", name: "AI Consulting Setup", difficulty: "Medium", reward: "High", status: "Active" },
+      { id: "h2", name: "E-Commerce Micro-Brand", difficulty: "High", reward: "Medium", status: "Planning" }
+    ],
+    nbaResearch: [
+      { id: "n1", match: "Lakers vs Celtics", thesis: "Celtics visual defense efficiency, Lakers fatigue bounce candidate", status: "Observation Only" }
+    ],
+    sportsSources: [
+      { id: "s1", name: "NBA Injury Report", url: "https://www.nba.com/players/injuries", safety: "Public research" }
+    ],
+    bankroll: { balance: "$2,500.00", limitPerPlay: "$50.00", status: "Guardian Active" },
+    experiments: [
+      { id: "e1", title: "Visual analytics automation template", status: "Success", notes: "Aesthetic dashboards convert 40% higher." }
+    ]
+  };
+  localStorage.setItem("pickaxeMoneyLab", JSON.stringify(defaults));
+  return defaults;
+}
+
+function saveMoneyLabState(labState) {
+  localStorage.setItem("pickaxeMoneyLab", JSON.stringify(labState));
+}
+
+// Page Renderers
+function renderLearningLedgerPage() {
+  if (!els.learningLedgerContent) return;
+  const ledger = getLearningLedgerState();
+  const verifiedLessons = ledger.filter(l => l.verified);
+  const pendingLessons = ledger.filter(l => !l.verified);
+
+  els.learningLedgerContent.innerHTML = `
+    <div class="p-6 bg-[#0c0d0e] text-xs font-mono text-[#c0c4cc]">
+      <!-- Header -->
+      <div class="flex items-center justify-between border-b border-[#1d242e] pb-4 mb-6">
+        <div>
+          <p class="text-[10px] text-amber uppercase tracking-wider">Permanent Memory Library</p>
+          <h2 class="text-lg font-bold text-white uppercase tracking-tight">Learning Ledger</h2>
+          <p class="text-slate-400 font-sans mt-0.5">Show what Pickaxe learned and how agents use that knowledge.</p>
+        </div>
+        <button onclick="window.resetLearningLedger()" class="px-2.5 py-1 bg-red/10 text-red border border-red/30 hover:bg-red/20 text-[9px] uppercase font-bold transition-colors">
+          Reset Memory
+        </button>
+      </div>
+
+      <!-- Disclosures / Chips -->
+      <div class="flex flex-wrap gap-1.5 mb-6">
+        <span class="pc-status-chip research">Static Prototype</span>
+        <span class="pc-status-chip manual-review">Research Only</span>
+        <span class="pc-status-chip local-state">Local First</span>
+      </div>
+
+      <!-- Main Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        
+        <!-- Left: What Pickaxe Learned & Playbooks (8 cols) -->
+        <div class="lg:col-span-8 space-y-5">
+          <!-- Verified Playbook Rules -->
+          <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-3 border-b border-[#1d242e] pb-2">Verified Playbook Rules</h3>
+            <div class="space-y-4">
+              ${verifiedLessons.map(lesson => `
+                <div class="p-3 bg-[#0c0d0e] border border-[#1d242e] rounded-sm relative pl-4">
+                  <div class="absolute top-0 left-0 w-[3px] h-full bg-green"></div>
+                  <div class="flex justify-between items-center text-[10px] mb-1">
+                    <span class="text-teal font-bold uppercase">${escapeHtml(lesson.category)}</span>
+                    <span class="text-slate-500">${new Date(lesson.timestamp).toLocaleDateString()}</span>
+                  </div>
+                  <p class="text-[#c0c4cc] font-sans leading-relaxed text-xs">${escapeHtml(lesson.text)}</p>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <!-- Alert Research Pipeline diagram -->
+          <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-3 border-b border-[#1d242e] pb-2">Options Alert Research Model</h3>
+            <div class="p-4 bg-[#0c0d0e] border border-[#1d242e] rounded-sm text-center leading-relaxed">
+              <div class="flex flex-wrap items-center justify-center gap-1.5 text-[9px] font-mono">
+                <span class="px-2 py-0.5 bg-[#191e29] border border-teal text-[#00e5ff] rounded-sm">Raw Alert</span>
+                <span class="text-slate-600">➔</span>
+                <span class="px-2 py-0.5 bg-[#191e29] border border-teal text-[#00e5ff] rounded-sm">Flow Quality</span>
+                <span class="text-slate-600">➔</span>
+                <span class="px-2 py-0.5 bg-[#191e29] border border-teal text-[#00e5ff] rounded-sm">Open Interest</span>
+                <span class="text-slate-600">➔</span>
+                <span class="px-2 py-0.5 bg-[#191e29] border border-teal text-[#00e5ff] rounded-sm">Greeks/Theta</span>
+                <span class="text-slate-600">➔</span>
+                <span class="px-2 py-0.5 bg-[#191e29] border border-teal text-[#00e5ff] rounded-sm">Trend Check</span>
+                <span class="text-slate-600">➔</span>
+                <span class="px-2 py-0.5 bg-[#191e29] border border-teal text-[#00e5ff] rounded-sm">Catalyst</span>
+                <span class="text-slate-600">➔</span>
+                <span class="px-2 py-0.5 bg-amber/10 border border-amber/30 text-amber rounded-sm font-bold">CEO B Review</span>
+              </div>
+              <small class="block text-slate-500 font-sans mt-3 text-[10px]">The pipeline enforces safety and defined risk checks at each node.</small>
+            </div>
+          </div>
+
+          <!-- Memory Backup / Export -->
+          <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-2">Export / Backup Learning Memory</h3>
+            <p class="text-[#909399] font-sans text-xs mb-4">Export the active ledger array as a JSON block to import on another device.</p>
+            <div class="flex items-center gap-2">
+              <button onclick="window.copyLedgerMemory()" class="bg-[#121417] text-white hover:text-black hover:bg-green border border-[#1d242e] hover:border-green px-4 py-1.5 uppercase font-bold text-[10px] transition-all">
+                Copy JSON Payload
+              </button>
+              <span id="ledgerExportMsg" class="text-green text-[10px] font-bold"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Memory map, rules review (4 cols) -->
+        <div class="lg:col-span-4 space-y-5">
+          <!-- Memory Map -->
+          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-3 pb-1.5 border-b border-[#1d242e]">Agent Memory Map</h3>
+            <div class="space-y-3 font-sans text-[10.5px] text-[#909399]">
+              <div class="flex items-start gap-2">
+                <span class="text-teal font-mono">1.</span>
+                <div>
+                  <strong class="text-slate-300 block">Signal Scout</strong>
+                  <span>Reads breakout logic to filter watchlist relative strength metrics.</span>
+                </div>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-teal font-mono">2.</span>
+                <div>
+                  <strong class="text-slate-300 block">Flow Hunter</strong>
+                  <span>Enforces minimum open interest (>500) and bid-ask spread rules.</span>
+                </div>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-teal font-mono">3.</span>
+                <div>
+                  <strong class="text-slate-300 block">Learning Agent</strong>
+                  <span>Indexes Marty Schwartz and Ripster EMA cloud rules.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending Review Rules -->
+          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-3 pb-1.5 border-b border-[#1d242e]">Lessons Needing CEO B Review</h3>
+            ${pendingLessons.length === 0 ? `
+              <p class="text-slate-500 italic text-[10px]">No pending playbooks waiting for review.</p>
+            ` : pendingLessons.map(lesson => `
+              <div class="p-3 bg-[#0c0d0e] border border-[#1d242e] rounded-sm mb-3">
+                <div class="flex justify-between items-center text-[9px] mb-1">
+                  <span class="text-amber uppercase font-bold">${escapeHtml(lesson.category)}</span>
+                  <span class="text-slate-500 font-mono">Pending</span>
+                </div>
+                <p class="text-slate-300 font-sans text-[11px] mb-3 leading-snug">${escapeHtml(lesson.text)}</p>
+                <div class="flex justify-end">
+                  <button onclick="window.approveLedgerRule('${lesson.id}')" class="px-2 py-0.5 bg-green/10 text-green hover:bg-green/20 border border-green/30 text-[9px] font-bold uppercase transition-colors">
+                    Approve Rule
+                  </button>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  `;
+}
+
+window.resetLearningLedger = () => {
+  localStorage.removeItem("pickaxeLearningLedger");
+  renderLearningLedgerPage();
+  showNotification("Learning Ledger reset to default rules.");
+};
+
+window.approveLedgerRule = (id) => {
+  const ledger = getLearningLedgerState();
+  const rule = ledger.find(l => l.id === id);
+  if (rule) {
+    rule.verified = true;
+    saveLearningLedgerState(ledger);
+    renderLearningLedgerPage();
+    showNotification(`Playbook rule approved: ${rule.category}`);
+  }
+};
+
+window.copyLedgerMemory = () => {
+  const ledger = getLearningLedgerState();
+  const text = JSON.stringify(ledger, null, 2);
+  writeClipboard(text).then(ok => {
+    if (ok) {
+      const msg = document.getElementById("ledgerExportMsg");
+      if (msg) {
+        msg.innerText = "COPIED TO CLIPBOARD!";
+        setTimeout(() => msg.innerText = "", 3000);
+      }
+    }
+  });
+};
+
+function renderTrendRadarPage() {
+  if (!els.trendRadarContent) return;
+  const lastUpdated = new Date().toLocaleTimeString();
+
+  els.trendRadarContent.innerHTML = `
+    <div class="p-6 bg-[#0c0d0e] text-xs font-mono text-[#c0c4cc]">
+      <!-- Header -->
+      <div class="flex items-center justify-between border-b border-[#1d242e] pb-4 mb-6">
+        <div>
+          <p class="text-[10px] text-amber uppercase tracking-wider font-mono">Daily World Pulse Feed</p>
+          <h2 class="text-lg font-bold text-white uppercase tracking-tight">Trend Radar</h2>
+          <p class="text-slate-400 font-sans mt-0.5">Tracks what the world is paying attention to across search, social, news, and markets.</p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <span class="px-2 py-1 bg-[#11141a] border border-[#1d242e] text-[#909399] rounded-sm">Refreshed: ${lastUpdated}</span>
+        </div>
+      </div>
+
+      <!-- Disclosures / Warning -->
+      <div class="p-4 bg-amber-950/20 border border-amber-900/40 text-amber-400 text-xs mb-6 rounded-sm">
+        <strong class="font-sans block mb-1">TREND ACCURACY & INTEGRITY DISCLAIMER:</strong>
+        <p class="font-sans leading-relaxed text-[11px]">
+          Trending status does not equal verified truth. Viral social media traction does not constitute investable criteria. Trend Radar is research only. No auto-trading. No betting advice. CEO B manual review required.
+        </p>
+      </div>
+
+      <!-- Main Columns Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        
+        <!-- Left: Daily pulse boards (8 cols) -->
+        <div class="lg:col-span-8 space-y-5">
+          <!-- Daily World Pulse -->
+          <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-3 border-b border-[#1d242e] pb-2">Daily World Pulse</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-3 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
+                <span class="text-teal font-bold uppercase text-[9px]">Search Trend Watch</span>
+                <ul class="mt-2 space-y-1.5 text-xs font-sans text-slate-300">
+                  <li>🌐 MOVE Index Volatility Spike (+18% searches)</li>
+                  <li>🌐 Hyperliquid Event Contracts (high search momentum)</li>
+                  <li>🌐 BRICS De-dollarization Study Packets</li>
+                </ul>
+              </div>
+              <div class="p-3 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
+                <span class="text-teal font-bold uppercase text-[9px]">Social Trend Watch</span>
+                <ul class="mt-2 space-y-1.5 text-xs font-sans text-slate-300">
+                  <li>🐦 OSINTdefender: Geopolitical movement checks</li>
+                  <li>🐦 X Watchlist: Pelosi portfolio changes discussion</li>
+                  <li>🐦 Unusual options volume in retail leadership tickers</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weekly Trend Board -->
+          <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-3 border-b border-[#1d242e] pb-2">Weekly Trend Board</h3>
+            <div class="space-y-3 font-sans text-xs text-[#c0c4cc]">
+              <div class="p-3 bg-[#0c0d0e] border border-[#1d242e] rounded-sm flex items-center justify-between">
+                <div>
+                  <strong class="text-white block font-sans">US Debt Clock Momentum</strong>
+                  <span class="text-[10px] text-slate-500">Macro focus category • Geopolitics</span>
+                </div>
+                <span class="px-2 py-0.5 bg-red/10 border border-red/30 text-red text-[9px] font-bold font-mono uppercase">High Risk</span>
+              </div>
+              <div class="p-3 bg-[#0c0d0e] border border-[#1d242e] rounded-sm flex items-center justify-between">
+                <div>
+                  <strong class="text-white block font-sans">LuxAlgo & Technical Overlays</strong>
+                  <span class="text-[10px] text-slate-500">Indicator category • Technicals</span>
+                </div>
+                <span class="px-2 py-0.5 bg-teal/10 border border-teal/30 text-teal text-[9px] font-bold font-mono uppercase">Verified</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Market Impact Map -->
+          <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-2 pb-2 border-b border-[#1d242e]">Market Impact Map</h3>
+            <p class="text-slate-400 font-sans text-xs mb-3">Map cultural or geopolitical trends to potential watchlist sectors for manual review in Webull.</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-[10px]">
+              <div class="p-2 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
+                <span class="text-[#606266] block">Trend</span>
+                <strong class="text-white block mt-0.5 truncate">Geopolitics</strong>
+                <span class="text-amber font-mono mt-1 block">Watch Defense</span>
+              </div>
+              <div class="p-2 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
+                <span class="text-[#606266] block">Trend</span>
+                <strong class="text-white block mt-0.5 truncate">CPI Release</strong>
+                <span class="text-teal font-mono mt-1 block">Watch Bonds</span>
+              </div>
+              <div class="p-2 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
+                <span class="text-[#606266] block">Trend</span>
+                <strong class="text-white block mt-0.5 truncate">AI Chips capex</strong>
+                <span class="text-teal font-mono mt-1 block">Watch Semis</span>
+              </div>
+              <div class="p-2 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
+                <span class="text-[#606266] block">Trend</span>
+                <strong class="text-white block mt-0.5 truncate">Crypto inflows</strong>
+                <span class="text-teal font-mono mt-1 block">Watch BTC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: OSINT, review queue (4 cols) -->
+        <div class="lg:col-span-4 space-y-5">
+          <!-- OSINT / News watch -->
+          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-3 pb-1.5 border-b border-[#1d242e]">YouTube & News Watch</h3>
+            <div class="space-y-3 font-sans text-[10px] text-[#909399]">
+              <div class="p-2.5 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
+                <strong class="text-white block mb-0.5">Spectator Index Updates</strong>
+                <span>Monitors real-time macro alerts for manual desk review.</span>
+              </div>
+              <div class="p-2.5 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
+                <strong class="text-white block mb-0.5">OSINT613 Feed stubs</strong>
+                <span>Regional risk assessment logs. Do not automate.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trend Review queue -->
+          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-3 pb-1.5 border-b border-[#1d242e]">CEO B Review Queue</h3>
+            <div class="space-y-3">
+              <div class="p-3 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
+                <span class="text-[9px] text-[#606266] block uppercase">Candidate Trend</span>
+                <strong class="text-slate-300 block font-sans text-xs">MOVE index spikes past 120</strong>
+                <p class="text-slate-500 font-sans text-[10px] mt-1">High bond market volatility has historically impacted mega-cap tech option premiums.</p>
+                <div class="flex justify-end gap-2 mt-3">
+                  <button onclick="window.dismissTrend('move-spike')" class="px-2 py-0.5 bg-black text-slate-500 border border-[#1d242e] hover:border-slate-500 text-[9px] font-bold uppercase transition-colors">
+                    Archive
+                  </button>
+                  <button onclick="window.promoteTrend('move-spike')" class="px-2 py-0.5 bg-green/10 text-green hover:bg-green/20 border border-green/30 text-[9px] font-bold uppercase transition-colors">
+                    Verify
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  `;
+}
+
+window.dismissTrend = (id) => {
+  showNotification(`Trend ${id} dismissed and archived.`);
+};
+
+window.promoteTrend = (id) => {
+  showNotification(`Trend ${id} verified. Study memo created.`);
+};
+
+function renderMoneyLabPage() {
+  if (!els.moneyLabContent) return;
+  const data = getMoneyLabState();
+  const balance = data.bankroll?.balance || "$2,500.00";
+  const limitPerPlay = data.bankroll?.limitPerPlay || "$50.00";
+
+  els.moneyLabContent.innerHTML = `
+    <div class="p-6 bg-[#0c0d0e] text-xs font-mono text-[#c0c4cc]">
+      <!-- Header -->
+      <div class="flex items-center justify-between border-b border-[#1d242e] pb-4 mb-6">
+        <div>
+          <p class="text-[10px] text-amber uppercase tracking-wider font-mono">Operations District // Side-Hustles</p>
+          <h2 class="text-lg font-bold text-white uppercase tracking-tight font-sans">Money Lab</h2>
+          <p class="text-slate-400 font-sans mt-0.5">Track side-hustle ideas, NBA research, sports-market research, and small money experiments.</p>
+        </div>
+        <button onclick="window.resetMoneyLab()" class="px-2.5 py-1 bg-red/10 text-red border border-red/30 hover:bg-red/20 text-[9px] uppercase font-bold transition-colors">
+          Reset Lab State
+        </button>
+      </div>
+
+      <!-- Compliance disclosure warning banner -->
+      <div class="p-4 bg-amber-950/20 border border-amber-900/40 text-amber-400 text-xs mb-6 rounded-sm">
+        <strong class="font-sans block mb-1">MONEY LAB SAFETY CONTRACT:</strong>
+        <p class="font-sans leading-relaxed text-[11px]">
+          This module is 100% separate from Pickaxe trading intelligence. All sport-market research, injury lists, or bankroll metrics are observation notes only. No gambling advice. No guaranteed outcomes. No sportsbook connection. All wagers must stay completely manual, external, and subject to bankroll rules.
+        </p>
+      </div>
+
+      <!-- Main grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        
+        <!-- Left: Hustles and sports research (8 cols) -->
+        <div class="lg:col-span-8 space-y-5">
+          <!-- Side Hustle Board -->
+          <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-3 border-b border-[#1d242e] pb-2">Side Hustle Board</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              ${data.hustleBoard.map(hustle => `
+                <div class="p-3 bg-[#0c0d0e] border border-[#1d242e] rounded-sm relative pl-4">
+                  <div class="absolute top-0 left-0 w-[3px] h-full ${hustle.status === 'Active' ? 'bg-green' : 'bg-amber'}"></div>
+                  <div class="flex justify-between items-center text-[10px] mb-1 font-mono">
+                    <strong class="text-white font-sans">${escapeHtml(hustle.name)}</strong>
+                    <span class="text-slate-500">${escapeHtml(hustle.status)}</span>
+                  </div>
+                  <div class="flex justify-between items-center text-[9px] text-slate-400 mt-2 font-mono border-t border-slate-900 pt-2">
+                    <span>Difficulty: <strong class="text-amber">${escapeHtml(hustle.difficulty)}</strong></span>
+                    <span>Reward: <strong class="text-teal">${escapeHtml(hustle.reward)}</strong></span>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <!-- NBA Research Lab -->
+          <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-3 border-b border-[#1d242e] pb-2">NBA Research Lab</h3>
+            <div class="space-y-3 font-sans text-xs">
+              ${data.nbaResearch.map(match => `
+                <div class="p-3 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
+                  <div class="flex justify-between text-[10px] mb-2 font-mono border-b border-slate-900 pb-1.5">
+                    <strong class="text-white">${escapeHtml(match.match)}</strong>
+                    <span class="text-amber font-bold uppercase">${escapeHtml(match.status)}</span>
+                  </div>
+                  <p class="text-slate-300 font-sans leading-snug">${escapeHtml(match.thesis)}</p>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <!-- Small Experiments Tracker -->
+          <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-2">Fun Experiments Tracker</h3>
+            <div class="space-y-3 font-sans text-xs">
+              ${data.experiments.map(exp => `
+                <div class="p-3 bg-[#0c0d0e] border border-[#1d242e] rounded-sm flex items-center justify-between">
+                  <div>
+                    <strong class="text-slate-200 block">${escapeHtml(exp.title)}</strong>
+                    <span class="text-[9px] text-[#909399] font-mono">${escapeHtml(exp.notes)}</span>
+                  </div>
+                  <span class="px-2 py-0.5 bg-green/10 border border-green/30 text-green text-[9px] font-mono uppercase font-bold rounded-sm">${escapeHtml(exp.status)}</span>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Bankroll guard & review (4 cols) -->
+        <div class="lg:col-span-4 space-y-5">
+          <!-- Bankroll Guardian -->
+          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm border-l-2 border-green/50">
+            <h3 class="text-xs font-bold text-white uppercase mb-3 pb-1.5 border-b border-[#1d242e]">Bankroll Guardian</h3>
+            <div class="space-y-3 font-mono text-[10px]">
+              <div class="flex justify-between">
+                <span class="text-slate-400">Total Balance:</span>
+                <strong class="text-green text-sm font-bold">${balance}</strong>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Limit Per Play:</span>
+                <strong class="text-white font-bold">${limitPerPlay}</strong>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Guardian Status:</span>
+                <span class="text-green font-bold uppercase">${escapeHtml(data.bankroll?.status || "Active")}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sports Source Hub -->
+          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-3 pb-1.5 border-b border-[#1d242e]">Sports Source Hub</h3>
+            <div class="space-y-2.5 font-mono text-[9px] text-[#909399]">
+              ${data.sportsSources.map(source => `
+                <div class="p-2 bg-[#0c0d0e] border border-[#1d242e] rounded-sm flex flex-col gap-1">
+                  <strong class="text-white text-[10px] font-sans">${escapeHtml(source.name)}</strong>
+                  <div class="flex justify-between text-[9px] text-slate-500 font-mono">
+                    <span>${escapeHtml(source.safety)}</span>
+                    <span class="text-[#8a9ba8]">${escapeHtml(source.url)}</span>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <!-- Learning Ledger Link -->
+          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h3 class="text-xs font-bold text-white uppercase mb-2 pb-1.5 border-b border-[#1d242e]">Memory Loop</h3>
+            <p class="text-[#909399] font-sans text-[11px] leading-relaxed mb-3">
+              Did a money experiment fail? Or succeed? Log the details in the Learning Ledger to compound builder intelligence.
+            </p>
+            <a href="#/learning-ledger" class="px-2.5 py-1.5 bg-[#121417] text-white hover:text-black hover:bg-teal border border-[#1d242e] hover:border-teal text-[10px] uppercase font-bold block text-center rounded-sm transition-all">
+              Open Learning Ledger
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  `;
+}
+
+window.resetMoneyLab = () => {
+  localStorage.removeItem("pickaxeMoneyLab");
+  renderMoneyLabPage();
+  showNotification("Money Lab state reset to default metrics.");
+};
 
 async function renderAiHandoffPage() {
   if (!els.aiHandoffContent) return;
@@ -2133,166 +2679,675 @@ window.homeAlertAction = (action, alertId) => {
 
 function renderVisionCommandCenter() {
   if (!els.visionCommandCenter) return;
-  const commandNodes = visionCommandNodes.length ? visionCommandNodes : [];
   
-  let drawerContent = "";
-  if (state.selectedVisionAgentId) {
-    const agent = operatingAgents.find((a) => a.id === state.selectedVisionAgentId);
-    drawerContent = agent ? renderVisionAgentDrawer(agent) : `<p class="muted">Select a command node or agent.</p>`;
-  } else {
-    const selected = commandNodes.find((node) => node.id === state.selectedVisionNodeId) || commandNodes[1] || commandNodes[0];
-    drawerContent = renderVisionNodeDrawer(selected);
+  // Set defaults in state if not present
+  state.selectedVisionLayer = state.selectedVisionLayer || "Core Workflow";
+  state.selectedVisionItemId = state.selectedVisionItemId || "citadel";
+  state.selectedVisionItemType = state.selectedVisionItemType || "node";
+  
+  const lastUpdated = new Date().toLocaleTimeString();
+  
+  // Load counts safely
+  const queueCount = typeof getSharedQueue === "function" ? getSharedQueue("pickaxeReviewQueue").length : 0;
+  const missionCount = typeof getSharedQueue === "function" ? getSharedQueue("pickaxeMissionQueue").length : 0;
+  const archiveCount = typeof getEffectiveArchiveVaultItems === "function" ? getEffectiveArchiveVaultItems().length : 0;
+  const rulesCount = typeof getAlertRules === "function" ? getAlertRules().length : 0;
+  const learningCount = typeof getLearningLedgerState === "function" ? getLearningLedgerState().length : 3;
+  
+  let moneyLabCount = 0;
+  try {
+    const ml = getMoneyLabState();
+    moneyLabCount = (ml.experiments || []).length + (ml.hustleBoard || []).length;
+  } catch {
+    moneyLabCount = 4;
   }
+  
+  const stagingProgress = typeof getCompletionTrackerState === "function" ? (getCompletionTrackerState().progress || 45) : 45;
 
-  const inputNodes = commandNodes.filter((node) => node.type === "Source").slice(0, 7);
-  const pageNodes = commandNodes.filter((node) => node.type === "Page").slice(0, 5);
-  const systemNodes = commandNodes.filter((node) => node.type === "System").slice(0, 4);
-  const agentNodes = operatingAgents.filter((agent) => !["CEO B"].includes(agent.name)).slice(0, 13);
-  const topSources = pickSources(["deitaone-x", "investing-futures", "tradingview-main", "netblocks", "flightradar24", "osiris-map", "us-debt-clock", "x-bookmarks", "berkshire-1965-report"]);
-  els.visionCommandCenter.innerHTML = `
-    <!-- Top Identity & Status Bar -->
-    <div class="mb-4 flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[#1d242e] pb-3 select-none">
-      <div>
-        <span class="text-[9px] font-mono text-amber uppercase tracking-widest font-bold">Pickaxe Capital // AI Habitat OS v2.0</span>
-        <h2 class="text-lg font-bold text-white uppercase tracking-tight font-sans">Vision Map & Command Center</h2>
-      </div>
-      <div class="flex flex-wrap items-center gap-2">
-        <span class="pc-status-chip static">Static UI Map</span>
-        <span class="pc-status-chip local-state">Local State Database</span>
-        <span class="truth-pill">No Live Market Data / No Broker Execution</span>
-      </div>
-    </div>
+  // Layer groups definition to highlight relevant cards and dim others
+  const layers = {
+    "Core Workflow": ["citadel", "alerts", "signals", "sourceHub", "agents", "archive", "riskRules", "staging", "aiHabitatOS", "market-data-terminal", "news-osint-macro", "ai-builder-memory", "personal-private-sources"],
+    "Trade Intelligence": ["citadel", "signals", "alerts", "riskRules", "market-data-terminal", "options-order-flow", "indicators-technicals", "investor-portfolio-trackers"],
+    "Source Universe": ["sourceHub", "market-data-terminal", "options-order-flow", "indicators-technicals", "prediction-event-markets", "news-osint-macro", "investor-portfolio-trackers", "ai-builder-memory", "personal-private-sources"],
+    "Agent Fleet": ["agents", "command-agents", "market-intel-agents", "event-news-agents", "memory-learning-agents", "builder-tools-agents", "money-lab-agents", "investor-portfolio-agents", "short-fraud-agents"],
+    "Learning Memory": ["learningLedger", "archive", "bookmarks", "memory-learning-agents", "indicators-technicals", "ai-builder-memory"],
+    "Trend Radar": ["trendRadar", "news-osint-macro", "prediction-event-markets", "event-news-agents"],
+    "Money Lab": ["moneyLab", "money-lab-agents", "investor-portfolio-trackers"],
+    "Build / QA": ["staging", "aiHabitatOS", "builder-tools-agents"],
+    "Safety Rules": ["riskRules", "citadel", "command-agents"]
+  };
 
-    <!-- Top Terminal KPI Cards -->
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4 select-none">
-      <div class="pc-metric-card" onclick="window.location.hash = '#/staging'" style="cursor: pointer;">
-        <span>Review Queue</span>
-        <strong class="text-amber">${getSharedQueue("pickaxeReviewQueue").length} Packets</strong>
-      </div>
-      <div class="pc-metric-card" onclick="window.location.hash = '#/agents'" style="cursor: pointer;">
-        <span>Mission Board</span>
-        <strong class="text-[#00e5ff]">${getSharedQueue("pickaxeMissionQueue").length} Active</strong>
-      </div>
-      <div class="pc-metric-card" onclick="window.location.hash = '#/archive'" style="cursor: pointer;">
-        <span>Archive Vault</span>
-        <strong class="text-[#a78bfa]">${getEffectiveArchiveVaultItems().length} Saved</strong>
-      </div>
-      <div class="pc-metric-card" onclick="window.location.hash = '#/alerts'" style="cursor: pointer;">
-        <span>Active Rules</span>
-        <strong class="text-[#2979ff]">${getAlertRules().length} Rules</strong>
-      </div>
-      <div class="pc-metric-card" onclick="window.location.hash = '#/staging'" style="cursor: pointer;">
-        <span>Staging QA Matrix</span>
-        <strong class="text-green">${getCompletionTrackerState().areas?.filter(t => t.status === "Passed").length}/${getCompletionTrackerState().areas?.length || 0} Passed</strong>
-      </div>
-    </div>
+  // Node details lookup
+  const nodeDetails = {
+    // Citadel nodes
+    citadel: {
+      name: "CEO B Command Core / Pickaxe Command Citadel",
+      purpose: "Manual approval gate for research packets, alerts, source intelligence, learning entries, trend packets, Money Lab experiments, and agent missions.",
+      owner: "CEO B / The Shah",
+      route: "#/alerts",
+      sources: "All Intake Channels",
+      status: "Active Citadel Guard",
+      safety: "No broker connectivity. CEO B manual approval is required for all outputs.",
+      action: "Review Staging QA briefs."
+    },
+    alerts: {
+      name: "Alerts Desk",
+      purpose: "CEO B review queue for options and watchlist research candidates.",
+      owner: "CEO B Review",
+      route: "#/alerts",
+      sources: "Options Flow, News Raven, Technical Strategist",
+      status: "Active Desk",
+      safety: "Research only. No broker execution. Manual review gate.",
+      action: "Compare alert parameters in Webull."
+    },
+    signals: {
+      name: "Signals Engine",
+      purpose: "Generates directional candidates and watch criteria from free yahoo/cboe stubs.",
+      owner: "Signal Scout",
+      route: "#/signals",
+      sources: "Polygon & Finnhub, Cboe quotes",
+      status: "Sandbox active",
+      safety: "No live data or automated trading. Settings to be verified by CEO B.",
+      action: "Run manual scan snapshot."
+    },
+    sourceHub: {
+      name: "Source Hub",
+      purpose: "Integrates external data providers, matrices, and adapter overrides.",
+      owner: "System Brain",
+      route: "#/source-hub",
+      sources: "Polygon, Tradier, Fred, GDELT, Bookmarks",
+      status: "Adapter matrix loaded",
+      safety: "No credentials committed. Sandbox rules active.",
+      action: "Open env var planner."
+    },
+    agents: {
+      name: "Agent Engine",
+      purpose: "Coordinates workforce fleet tasks, logs, and simulated briefings.",
+      owner: "System Brain",
+      route: "#/agents",
+      sources: "Agent Operating System Logs",
+      status: "Fleet active (simulated)",
+      safety: "No autonomous actions without manual confirmation.",
+      action: "Assign scout to tickers."
+    },
+    learningLedger: {
+      name: "Learning Ledger",
+      purpose: "Long-term playbook storage, study materials, and trader rules.",
+      owner: "Learning Ledger Agent",
+      route: "#/learning-ledger",
+      sources: "Manual entries, journal extracts",
+      status: "Local database active",
+      safety: "Private lessons only. Export regularly.",
+      action: "Study Marty Schwartz rules."
+    },
+    trendRadar: {
+      name: "Trend Radar",
+      purpose: "Tracks global focus metrics across search, social, news, and sports.",
+      owner: "Trend Radar Agent",
+      route: "#/trend-radar",
+      sources: "X Watchlist, Google trends, news filters",
+      status: "World pulse active",
+      safety: "Viral does not mean investable. News verification required.",
+      action: "Verify BRICS headlines."
+    },
+    moneyLab: {
+      name: "Money Lab",
+      purpose: "Side-hustles, NBA injury analysis, and sports-probability research.",
+      owner: "Money Lab Scout",
+      route: "#/money-lab",
+      sources: "Public betting odds, injury reports",
+      status: "Research active",
+      safety: "Separate from trading. No betting execution or wagers.",
+      action: "Scan injury watchlist."
+    },
+    archive: {
+      name: "Archive Vault",
+      purpose: "Parsed Netscape bookmarks, research documents, and history database.",
+      owner: "Archive Keeper",
+      route: "#/archive",
+      sources: "Chrome bookmark import HTML, user clips",
+      status: "31,504 URLs active",
+      safety: "No private URLs committed to public git history.",
+      action: "Filter top domains."
+    },
+    riskRules: {
+      name: "Risk & Rules Gates",
+      purpose: "Hard-coded compliance checklists, spread limits, and liquidity rules.",
+      owner: "Risk Sentinel",
+      route: "#/risk-rules",
+      sources: "Audit rules checklist",
+      status: "Active enforcement",
+      safety: "Blocks copy-trading, betting, or guaranteed-profit wording.",
+      action: "Audit bid-ask spread margins."
+    },
+    staging: {
+      name: "Staging / QA",
+      purpose: "Console health check, route latency monitoring, and QA telemetry.",
+      owner: "Staging QA Sentinel",
+      route: "#/staging",
+      sources: "Console logs, route testing routines",
+      status: "All checks passed",
+      safety: "Always run project-check before committing.",
+      action: "Trigger build check."
+    },
+    aiHabitatOS: {
+      name: "AI Habitat OS City Map",
+      purpose: "Voxel UI framework and living agent community simulator.",
+      owner: "Build Agent",
+      route: "#/ai-habitat-os",
+      sources: "Voxel canvas rendering engine",
+      status: "Sandbox active",
+      safety: "Visual design map only. Free of private configs.",
+      action: "Open interactive panel."
+    },
+    bookmarks: {
+      name: "Bookmarks Pipeline",
+      purpose: "Sanitizes user bookmarks and exports them into structured memory categories.",
+      owner: "Bookmark Miner",
+      route: "#/bookmarks",
+      sources: "Browser bookmark exports",
+      status: "Ready for files",
+      safety: "Sanitizes private URLs before storage. Sanitized labels only.",
+      action: "Import Chrome bookmarks file."
+    },
+    
+    // Source Groups
+    "market-data-terminal": {
+      name: "Market Data / Terminals Source",
+      purpose: "Equity quotes, economic indices, and chart feeds.",
+      owner: "Signal Scout",
+      route: "#/source-hub",
+      sources: "TradingView, Finviz, MOVE Index, Godel Terminal",
+      status: "Adapter Ready",
+      safety: "Read-only access stubs. Verify charts in Webull.",
+      action: "Verify MOVE index."
+    },
+    "options-order-flow": {
+      name: "Options Flow / Order Flow Source",
+      purpose: "Derivative chain volume, sweeps, open interest, and bid-ask spreads.",
+      owner: "Flow Hunter",
+      route: "#/source-hub",
+      sources: "Unusual Whales, Cheddar Flow, Tradytics, Bookmap",
+      status: "Needs Backend",
+      safety: "No broker connection allowed. Options flow is research context only.",
+      action: "Verify unusual premium blocks."
+    },
+    "indicators-technicals": {
+      name: "Indicators / Technicals Source",
+      purpose: "Moving averages, relative strength, and momentum indicators.",
+      owner: "Technical Strategist",
+      route: "#/source-hub",
+      sources: "LuxAlgo, Ripster EMA Cloud, MACD, Stochastic",
+      status: "To Be Verified by CEO B",
+      safety: "Mock indicators settings. Manual verification required.",
+      action: "Plot EMA Clouds."
+    },
+    "prediction-event-markets": {
+      name: "Prediction / Event Markets Source",
+      purpose: "Event contracts and probability signals.",
+      owner: "Prediction Market Scout",
+      route: "#/source-hub",
+      sources: "Polymarket, Kalshi, Hyperliquid event markets",
+      status: "Not Connected",
+      safety: "Event probabilities are sentiment signals, not trade orders.",
+      action: "Audit Polymarket Breaking feed."
+    },
+    "news-osint-macro": {
+      name: "News / OSINT / Macro Source",
+      purpose: "Geopolitical threat feeds, maritime logs, and economic calendars.",
+      owner: "News Raven",
+      route: "#/source-hub",
+      sources: "OSINTdefender, Spectator Index, FlightRadar24, TankerTrackers",
+      status: "Sandbox Active",
+      safety: "Do not automate. News must be verified by CEO B.",
+      action: "Check Spectator Index feed."
+    },
+    "investor-portfolio-trackers": {
+      name: "Investor / Portfolio Trackers Source",
+      purpose: "Autopilot tracking, institutional 13Fs, and politician transaction logs.",
+      owner: "Autopilot Tracker Agent",
+      route: "#/source-hub",
+      sources: "Autopilot @joinautopilot, OpenInsider, Congress filings",
+      status: "Not Connected",
+      safety: "Portfolios are research context only. Do not copy trades.",
+      action: "Review Pelosi-style filings."
+    },
+    "ai-builder-memory": {
+      name: "AI Builder / Memory Stack",
+      purpose: "Workspace code changes, LLM prompts, and local notebooks.",
+      owner: "Build Agent",
+      route: "#/source-hub",
+      sources: "ChatGPT, Antigravity, Obsidian, Claude connectors",
+      status: "Sandbox local",
+      safety: "Do not commit raw chat links or workspace API keys.",
+      action: "Review Antigravity checklists."
+    },
+    "personal-private-sources": {
+      name: "Personal / Private Sources",
+      purpose: "Local Chrome bookmarks and private project notebooks.",
+      owner: "Bookmark Miner",
+      route: "#/source-hub",
+      sources: "iCloud, local files, Gmail/Yahoo manual exports",
+      status: "Private Data — Do Not Commit",
+      safety: "Local manual export only. Never commit private emails or links.",
+      action: "Import local digest."
+    },
 
-    <!-- Quick Launch Command Deck CTAs -->
-    <div class="pc-panel p-3 mb-4 select-none flex flex-wrap items-center justify-between gap-3 bg-[#0d0f13]">
-      <div class="flex items-center gap-2">
-        <span class="w-1.5 h-1.5 bg-[#d4af37] rounded-full animate-ping"></span>
-        <span class="text-[11.5px] font-mono text-slate-400 font-bold uppercase">CEO B Core Navigation Deck:</span>
-      </div>
-      <div class="flex flex-wrap gap-2">
-        <a href="#/agent-engine" class="pc-action-btn secondary">1. Fleet Engine</a>
-        <a href="#/jarvisLab" class="pc-action-btn">2. Jarvis Router</a>
-        <a href="#/signals" class="pc-action-btn secondary">3. Options Workbench</a>
-        <a href="#/staging" class="pc-action-btn">4. Staging QA</a>
-        <a href="#/data-sources" class="pc-action-btn secondary">5. Source Hub</a>
-      </div>
-    </div>
+    // Agent Groups
+    "command-agents": {
+      name: "Command Layer Agents",
+      purpose: "Coordinates command oversight, risk enforcement, and compliance gates.",
+      owner: "CEO B Review, System Brain, Risk Sentinel, Compliance Sentinel",
+      route: "#/agents",
+      sources: "System Brain Core",
+      status: "Active",
+      safety: "Hard decision controls enforced.",
+      action: "Oversight checklist check."
+    },
+    "market-intel-agents": {
+      name: "Market Intelligence Agents",
+      purpose: "Analyzes charts, technical levels, order flow, and derivatives.",
+      owner: "Signal Scout, Flow Hunter, Greeks Calculator, Technical Strategist",
+      route: "#/agents",
+      sources: "Options Flow, Terminals",
+      status: "Simulated",
+      safety: "No automated order placement.",
+      action: "Scan option chain."
+    },
+    "event-news-agents": {
+      name: "Event / News Intelligence Agents",
+      purpose: "Monitors geopolitics, breaking news events, and prediction markets.",
+      owner: "News Raven, Geo Event Watcher, Event Probability Sentinel",
+      route: "#/agents",
+      sources: "News feeds, OSINT channels",
+      status: "Simulated",
+      safety: "Verify news through social verification protocols.",
+      action: "Verify OSINT headlines."
+    },
+    "memory-learning-agents": {
+      name: "Memory / Learning Agents",
+      purpose: "Indexes bookmarks, playbooks, strategy libraries, and memories.",
+      owner: "Bookmark Miner, Archive Keeper, Learning Ledger Agent",
+      route: "#/agents",
+      sources: "Archive database, playbook logs",
+      status: "Simulated",
+      safety: "Sanitize private files before indexing.",
+      action: "Extract playbook parameters."
+    },
+    "builder-tools-agents": {
+      name: "Builder / Tools Agents",
+      purpose: "Maintains code base structure, tests, and deployment health.",
+      owner: "Build Agent, DevOps Scout, Quota Sentinel, Antigravity Operator",
+      route: "#/agents",
+      sources: "GitHub, staging logs",
+      status: "Simulated",
+      safety: "Validate files before commits.",
+      action: "Run build check."
+    },
+    "money-lab-agents": {
+      name: "Money Lab Agents",
+      purpose: "Studies side-hustles, sports research, and odds tracking.",
+      owner: "Hustle Scout, NBA Research Scout, Bankroll Guardian",
+      route: "#/agents",
+      sources: "Injury feeds, experiments ledger",
+      status: "Simulated",
+      safety: "No betting wagers or sportsbook integration.",
+      action: "Calculate bankroll guardian limits."
+    },
+    "investor-portfolio-agents": {
+      name: "Investor / Portfolio Tracking Agents",
+      purpose: "Monitors insider performance, Congress filings, and politician wallets.",
+      owner: "Autopilot Tracker Agent, Pelosi Tracker, Institutional Analyst",
+      route: "#/agents",
+      sources: "Insider transcripts, SEC Edgar",
+      status: "Simulated",
+      safety: "Do not connect brokerage accounts.",
+      action: "Track Congress trades."
+    },
+    "short-fraud-agents": {
+      name: "Short / Fraud / Risk Agents",
+      purpose: "Tracks corporate spin-offs, short seller theses, and wallet liquidity.",
+      owner: "Short Thesis Agent, Corporate Actions Agent, Wallet Tracker",
+      route: "#/agents",
+      sources: "SEC Edgar, wallet scans",
+      status: "Simulated",
+      safety: "Manual validation only.",
+      action: "Audit short interest ratio."
+    }
+  };
 
-    <!-- Main Strategic Map Grid -->
-    <section class="strategic-hub-layout">
-      <aside class="command-input-rail">
-        <p class="eyebrow font-mono font-bold text-slate-400">Input Data Feeds</p>
-        ${inputNodes.map((node) => renderCommandNodeButton(node, "input")).join("")}
-        ${pageNodes.map((node) => renderCommandNodeButton(node, "page")).join("")}
-      </aside>
-      <div class="strategic-command-map border border-[#1d242e] rounded-sm">
-        <span class="flow-arrow flow-left"></span>
-        <span class="flow-arrow flow-right"></span>
-        <span class="flow-arrow flow-bottom"></span>
-        <button class="ceo-overseer" type="button" onclick="window.selectVisionNode('ceo-b-layer')" style="border-radius: var(--radius);">
-          <strong>CEO B Layer</strong>
-          <span>Decision & Approval Desk</span>
-          <small class="font-mono">${getSharedQueue("pickaxeReviewQueue").length} pending review packets • Manual gate only</small>
-        </button>
-        <button class="trading-hub-core" type="button" onclick="window.selectVisionNode('trading-floor')" style="border-radius: var(--radius);">
-          <strong>Intelligence Command Core</strong>
-          <span>Option Flows • News Intel • Archive Playbooks</span>
-          <small class="font-mono text-[9px] text-[#8a9ba8]">Obsidian terminal grid. Click node to review status details.</small>
-        </button>
-        <div class="plugins-access-row">
-          ${systemNodes.map((node) => renderCommandNodeButton(node, "system")).join("")}
+  const selectedItem = nodeDetails[state.selectedVisionItemId] || nodeDetails["citadel"];
+  
+  // Render Layer toggles
+  const layerHtml = Object.keys(layers).map(layerName => {
+    const isSelected = state.selectedVisionLayer === layerName;
+    return `
+      <button onclick="window.selectVisionLayer('${layerName}')" class="px-2.5 py-1 text-[10px] font-bold font-mono transition-all uppercase rounded-sm border ${isSelected ? 'bg-green/10 border-green text-green' : 'bg-black/40 border-[#1d242e] text-slate-400 hover:border-slate-500'}" style="margin: 2px;">
+        ${layerName}
+      </button>
+    `;
+  }).join("");
+
+  // Helper to check if item is highlighted in active layer
+  const isHighlighted = (id) => {
+    const activeList = layers[state.selectedVisionLayer] || [];
+    return activeList.includes(id);
+  };
+
+  const getHighlightClass = (id) => {
+    const active = isHighlighted(id);
+    const selected = state.selectedVisionItemId === id;
+    if (selected) {
+      return "border-green shadow-[0_0_15px_rgba(0,230,118,0.15)] ring-1 ring-green opacity-100";
+    }
+    return active ? "opacity-100 border-teal/40 hover:border-teal" : "opacity-30 border-[#1d242e] scale-95";
+  };
+
+  // Render Source Cards List
+  const sourceGroups = [
+    { id: "market-data-terminal", name: "01. Markets / Terminals", icon: "📊" },
+    { id: "options-order-flow", name: "02. Options / Order Flow", icon: "🐳" },
+    { id: "indicators-technicals", name: "03. Indicators / Technicals", icon: "📈" },
+    { id: "prediction-event-markets", name: "04. Event Markets", icon: "🔮" },
+    { id: "news-osint-macro", name: "05. News / OSINT / Macro", icon: "📰" },
+    { id: "investor-portfolio-trackers", name: "06. Investor portfolios", icon: "💼" },
+    { id: "ai-builder-memory", name: "07. AI Builder Stack", icon: "🧠" },
+    { id: "personal-private-sources", name: "08. Private Link Stack", icon: "🔒" }
+  ];
+
+  const sourceHtml = sourceGroups.map(group => {
+    const highlight = getHighlightClass(group.id);
+    const label = group.id === "personal-private-sources" ? "Private data — do not commit" : "Research Source";
+    return `
+      <div onclick="window.selectVisionMapItem('source', '${group.id}')" class="p-3 bg-[#11141a] border rounded-sm cursor-pointer transition-all flex flex-col gap-1.5 ${highlight}">
+        <div class="flex items-center gap-2">
+          <span class="text-sm shrink-0">${group.icon}</span>
+          <strong class="text-white text-[11px] font-sans truncate">${group.name}</strong>
         </div>
+        <span class="text-[8px] font-mono text-slate-500 uppercase">${label}</span>
       </div>
-      <aside class="command-agent-rail">
-        <p class="eyebrow font-mono font-bold text-slate-400">Agent Network</p>
-        ${agentNodes.map((agent) => {
-          const selectedClass = agent.id === state.selectedVisionAgentId ? " selected" : "";
-          const priorityClass = agent.priority ? agent.priority.toLowerCase() : "medium";
-          return `
-            <button class="agent-mini-node${selectedClass} ${priorityClass} text-left" type="button" onclick="window.selectVisionAgent('${escapeHtml(agent.id)}')">
-              <strong class="text-white block text-[11px]">${escapeHtml(agent.name)}</strong>
-              <span class="text-[9px] text-slate-400 font-mono block truncate">${escapeHtml(agent.habitat)} • ${escapeHtml(agent.status)}</span>
-            </button>
-          `;
-        }).join("")}
-      </aside>
-    </section>
+    `;
+  }).join("");
 
-    <!-- Drawer details & Live Intel strip -->
-    <section class="vision-detail-layout mt-4">
-      <aside class="vision-node-drawer border border-[#1d242e]" id="visionNodeDrawer">${drawerContent}</aside>
-      <aside class="live-intel-strip border border-[#1d242e]">
-        <div class="panel-head mb-3">
+  // Render Core Citadel Map Nodes
+  const citadelNodes = [
+    { id: "citadel", name: "Citadel Core", icon: "🏰", color: "text-amber border-amber/30 bg-amber/5" },
+    { id: "alerts", name: "01 Alerts Desk", icon: "🔔", color: "text-[#d4af37] border-[#d4af37]/20" },
+    { id: "signals", name: "05 Signals", icon: "📡", color: "text-teal border-teal/20" },
+    { id: "sourceHub", name: "06 Source Hub", icon: "🌐", color: "text-teal border-teal/20" },
+    { id: "agents", name: "04 Agent Engine", icon: "🤖", color: "text-amber border-amber/20" },
+    { id: "learningLedger", name: "08 Learning Ledger", icon: "📖", color: "text-teal border-teal/20" },
+    { id: "trendRadar", name: "09 Trend Radar", icon: "🎯", color: "text-teal border-teal/20" },
+    { id: "moneyLab", name: "12 Money Lab", icon: "🧪", color: "text-teal border-teal/20" },
+    { id: "archive", name: "10 Archive Vault", icon: "🗄️", color: "text-teal border-teal/20" },
+    { id: "riskRules", name: "07 Risk & Rules", icon: "🛡️", color: "text-amber border-amber/20" },
+    { id: "staging", name: "13 Staging / QA", icon: "🧪", color: "text-green border-green/20" },
+    { id: "aiHabitatOS", name: "14 AI Habitat OS", icon: "🏙️", color: "text-amber border-amber/20" }
+  ];
+
+  const citadelHtml = citadelNodes.map(node => {
+    const highlight = getHighlightClass(node.id);
+    const isCitadel = node.id === "citadel";
+    const boxSize = isCitadel ? "col-span-2 p-4 bg-gradient-to-r from-amber-950/20 to-transparent" : "p-3 bg-[#0d0f14]";
+    
+    return `
+      <div onclick="window.selectVisionMapItem('node', '${node.id}')" class="border rounded-sm cursor-pointer transition-all flex flex-col justify-between gap-1.5 ${boxSize} ${highlight} ${node.color}">
+        <div class="flex items-center gap-2">
+          <span class="text-sm shrink-0">${node.icon}</span>
+          <strong class="${isCitadel ? 'text-amber text-xs' : 'text-slate-200 text-[10.5px]'} font-sans uppercase font-bold truncate">${node.name}</strong>
+        </div>
+        <span class="text-[8px] font-mono text-[#8a9ba8] opacity-80">${isCitadel ? 'Decision gate: CEO B Review Layer' : 'Citadel Node'}</span>
+      </div>
+    `;
+  }).join("");
+
+  // Render Agent Fleet groups
+  const agentGroups = [
+    { id: "command-agents", name: "Command Layer", icon: "👑" },
+    { id: "market-intel-agents", name: "Market Intelligence", icon: "📊" },
+    { id: "event-news-agents", name: "Event & News Intel", icon: "🛰️" },
+    { id: "memory-learning-agents", name: "Memory & Learning", icon: "📚" },
+    { id: "builder-tools-agents", name: "Builder & Tools", icon: "🔧" },
+    { id: "money-lab-agents", name: "Money Lab Fleet", icon: "🎲" },
+    { id: "investor-portfolio-agents", name: "Investor trackers", icon: "🕵️" },
+    { id: "short-fraud-agents", name: "Short & Fraud Risk", icon: "🔍" }
+  ];
+
+  const agentHtml = agentGroups.map(group => {
+    const highlight = getHighlightClass(group.id);
+    return `
+      <div onclick="window.selectVisionMapItem('agent-group', '${group.id}')" class="p-3 bg-[#11141a] border rounded-sm cursor-pointer transition-all flex flex-col gap-1.5 ${highlight}">
+        <div class="flex items-center gap-2">
+          <span class="text-sm shrink-0">${group.icon}</span>
+          <strong class="text-white text-[11px] font-sans truncate">${group.name}</strong>
+        </div>
+        <span class="text-[8px] font-mono text-slate-500 uppercase">Simulated Fleet</span>
+      </div>
+    `;
+  }).join("");
+
+  // System Truth Panel data
+  const truthHtml = `
+    <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm space-y-3">
+      <div class="border-b border-[#1d242e] pb-2 flex justify-between items-center">
+        <h4 class="text-xs font-bold text-white uppercase tracking-tight">System Truth Control</h4>
+        <span class="px-1.5 py-0.5 bg-red/10 text-red border border-red/30 text-[8px] font-mono font-bold uppercase rounded-sm">Sandbox Mode</span>
+      </div>
+      <div class="space-y-1.5 font-mono text-[9px] text-[#909399]">
+        <div class="flex justify-between"><span>Routes Verified:</span> <strong class="text-green">14 / 14 Passed</strong></div>
+        <div class="flex justify-between"><span>Adapters Connected:</span> <strong class="text-red">0 (Sandbox Active)</strong></div>
+        <div class="flex justify-between"><span>Local Storage:</span> <strong class="text-green">ACTIVE</strong></div>
+        <div class="flex justify-between"><span>Backend Connectivity:</span> <strong class="text-red">Not Connected</strong></div>
+        <div class="flex justify-between"><span>Broker Orders capability:</span> <strong class="text-red">DISABLED</strong></div>
+        <div class="flex justify-between"><span>Sports betting capability:</span> <strong class="text-red">DISABLED</strong></div>
+        <div class="flex justify-between"><span>Copy Trading capability:</span> <strong class="text-red">DISABLED</strong></div>
+        <div class="flex justify-between"><span>Private Data Warning:</span> <strong class="text-amber">ACTIVE</strong></div>
+      </div>
+      <div class="pt-2 border-t border-[#1d242e] text-[8.5px] text-[#606266] leading-relaxed font-sans">
+        “No live provider calls: Active Safe Sandbox. The website operates as a private static research prototype for CEO B.”
+      </div>
+    </div>
+  `;
+
+  // Render detail panel HTML
+  const relatedRouteText = selectedItem.route ? `<a href="${selectedItem.route}" class="text-green hover:underline">${escapeHtml(selectedItem.route)}</a>` : "N/A";
+  const detailPanelHtml = `
+    <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm relative overflow-hidden flex flex-col gap-4 font-mono text-[11px]">
+      <div class="absolute top-0 left-0 w-[4px] h-full bg-[#00e5ff]"></div>
+      
+      <div class="border-b border-[#1d242e] pb-2 flex justify-between items-start">
+        <div>
+          <span class="text-[9px] text-amber uppercase tracking-wider block font-bold">Node Detail Inspector</span>
+          <h4 class="text-sm font-bold text-white uppercase tracking-tight mt-0.5">${escapeHtml(selectedItem.name)}</h4>
+        </div>
+        <span class="px-1.5 py-0.5 bg-black/40 text-slate-400 border border-[#1d242e] text-[9px] uppercase tracking-wider font-bold">${escapeHtml(selectedItem.status || "Simulated")}</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-3">
           <div>
-            <p class="eyebrow">Local Sources</p>
-            <h2 class="text-xs font-bold text-white uppercase">Primary Intel Watch</h2>
+            <span class="text-[#606266] uppercase text-[9px] block">Purpose</span>
+            <p class="text-slate-300 font-sans text-xs mt-0.5 leading-relaxed">${escapeHtml(selectedItem.purpose || "No details recorded.")}</p>
           </div>
-          <span class="pc-status-chip static">Read Only</span>
+          <div>
+            <span class="text-[#606266] uppercase text-[9px] block">Owner Agent / Process</span>
+            <p class="text-slate-300 font-sans text-[11px] mt-0.5">${escapeHtml(selectedItem.owner || "System Brain")}</p>
+          </div>
+          <div>
+            <span class="text-[#606266] uppercase text-[9px] block">Related Route Link</span>
+            <p class="text-slate-300 text-[11px] mt-0.5">${relatedRouteText}</p>
+          </div>
         </div>
-        ${topSources.map(renderCompactSourceCard).join("")}
-      </aside>
-    </section>
 
-    <!-- Bottom Habitat overview & Pipelines -->
-    <section class="vision-habitat-band mt-4">
-      <article class="pc-panel bg-[#0d0f13]">
-        <p class="eyebrow text-amber">Market Habitat</p>
-        <h3 class="text-white text-xs font-bold uppercase mb-2">Options Flow & Indicators</h3>
-        <div class="habitat-chip-grid">
-          ${["Signals", "RK Tracker", "Source Hub", "Market Data", "TradingView", "DeItaone", "US Debt Clock", "Hyperliquid GOLD"].map((item) => `<span class="bg-[#12161f] border border-[#1d242e] text-[10px]">${escapeHtml(item)}</span>`).join("")}
+        <div class="space-y-3 bg-[#0c0d0e] p-3 border border-[#1d242e] rounded-sm">
+          <div>
+            <span class="text-[#606266] uppercase text-[9px] block">Connected Data Sources</span>
+            <p class="text-slate-400 font-sans text-[11px] mt-0.5">${escapeHtml(selectedItem.sources || "Internal data stores / logs.")}</p>
+          </div>
+          <div>
+            <span class="text-[#606266] uppercase text-[9px] block">Active Safety rule</span>
+            <p class="text-[#ff3d00] font-sans text-[11px] mt-0.5 font-bold">${escapeHtml(selectedItem.safety || "Manual CEO B review required.")}</p>
+          </div>
+          <div>
+            <span class="text-[#606266] uppercase text-[9px] block">Recommended Next Action</span>
+            <p class="text-amber font-sans text-[11px] mt-0.5 font-bold">${escapeHtml(selectedItem.action || "Verify news parameters.")}</p>
+          </div>
         </div>
-      </article>
-      <article class="central pc-panel bg-[#0f1115] border-[#d4af37]/30">
-        <p class="eyebrow text-amber">Intelligence Intake Route</p>
-        <h3 class="text-white text-xs font-bold uppercase mb-2">Inputs &gt; Agents &gt; Review &gt; Decisions</h3>
-        <div class="automation-flow font-mono text-[9px] flex flex-wrap gap-1.5 justify-center">
-          ${["Intake Link", "Classify Intent", "Agent Assignment", "Local Dispatch", "Staging Audit", "CEO B Sign-Off"].map((item) => `<span class="bg-[#191e29] border border-[#1d242e] text-[9px] text-[#00e5ff] px-2 py-0.5">${escapeHtml(item)}</span>`).join("")}
-        </div>
-        <small class="block text-slate-500 font-mono mt-2">Truth Check: This dashboard reflects simulated local browser state only.</small>
-      </article>
-      <article class="pc-panel bg-[#0d0f13]">
-        <p class="eyebrow text-violet">Life / Knowledge Habitat</p>
-        <h3 class="text-white text-xs font-bold uppercase mb-2">Permanent Memory &amp; Playbooks</h3>
-        <div class="habitat-chip-grid">
-          ${["Bookmarks", "X Bookmark Intelligence", "Archive", "Berkshire 1965", "Founder", "Tasks", "Alerts", "Staging"].map((item) => `<span class="bg-[#16121f] border border-[#1d242e] text-[10px]">${escapeHtml(item)}</span>`).join("")}
-        </div>
-      </article>
-    </section>
+      </div>
 
-    <section class="pipeline-grid mt-4">
-      ${renderPipeline("External Intelligence Pipeline", ["External Sources", "News Raven / Signal Scout", "Signals + Alerts", "Archive", "CEO B Decision"])}
-      ${renderPipeline("Archive Wealth Loop", ["Capture", "Score", "Learn", "Rule", "Playbook", "Review"])}
-      ${renderPipeline("RK Tracker Pipeline", ["Watchlist", "Scores", "Risk Review", "Signal Candidate", "Archive"])}
-      ${renderPipeline("X Bookmark Intelligence", ["X Bookmarks", "Ticker Detection", "Agent Owner", "Archive/Signals", "Website Improvements"])}
-      ${renderPipeline("Berkshire 1965 Pipeline", ["Historical Report", "Metrics", "Lessons", "Turnaround Playbook", "Founder Rules"])}
-      ${renderPipeline("Auto Update Flow", ["Flip Pages", "Tick to Add", "Pop-Up Details", "Interactive Map", "Auto Update"])}
-    </section>
+      <!-- Action Panel Buttons -->
+      <div class="border-t border-[#1d242e] pt-4 mt-1 flex flex-wrap gap-2">
+        ${selectedItem.route ? `<a href="${selectedItem.route}" class="px-3 py-1.5 bg-green/10 text-green border border-green/30 hover:bg-green/20 text-[10px] uppercase font-bold tracking-wider rounded-sm transition-colors text-center">Open View Route</a>` : ""}
+        <button onclick="window.triggerVisionAction('Send to CEO B Review')" class="px-3 py-1.5 bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] uppercase font-bold text-white transition-all">Send to CEO B Review</button>
+        <button onclick="window.triggerVisionAction('Add to Archive')" class="px-3 py-1.5 bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] uppercase font-bold text-white transition-all">Add to Archive</button>
+        <button onclick="window.triggerVisionAction('Create Alert Idea')" class="px-3 py-1.5 bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] uppercase font-bold text-white transition-all">Create Alert Idea</button>
+        <button onclick="window.triggerVisionAction('Add to Learning Ledger')" class="px-3 py-1.5 bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] uppercase font-bold text-violet transition-all">Add to Learning Ledger</button>
+      </div>
+    </div>
+  `;
+
+  els.visionCommandCenter.innerHTML = `
+    <div class="p-6 bg-[#0c0d0e] text-xs font-mono text-[#c0c4cc]">
+      <!-- Title Header bar -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[#1d242e] pb-4 mb-6 gap-4 select-none">
+        <div>
+          <p class="text-[10px] text-amber uppercase tracking-wider font-mono">Central Command Sentinel</p>
+          <h2 class="text-lg font-bold text-white uppercase tracking-tight">AI Habitat OS Vision Map</h2>
+          <p class="text-[#909399] font-sans mt-0.5 font-normal text-xs">The living map of sources, agents, review gates, memory, alerts, and build status.</p>
+        </div>
+        <div class="flex flex-wrap gap-2 text-[10px] font-mono font-bold shrink-0">
+          <span class="px-2 py-1 bg-[#11141a] border border-[#1d242e] text-[#909399] rounded-sm font-normal">Last Refreshed: ${lastUpdated}</span>
+          <span class="px-2 py-1 bg-[#11141a] border border-[#1d242e] text-[#c0c4cc] rounded-sm uppercase">Checks: 14/14 Live</span>
+        </div>
+      </div>
+
+      <!-- Top status chips -->
+      <div class="flex flex-wrap gap-1.5 mb-6 select-none">
+        <span class="pc-status-chip static">Static Prototype</span>
+        <span class="pc-status-chip research">Research Only</span>
+        <span class="pc-status-chip manual-review">Manual Review Required</span>
+        <span class="pc-status-chip no-broker">No Broker Execution</span>
+        <span class="pc-status-chip no-live-data">No Fake Live Data</span>
+        <span class="pc-status-chip local-state">Local First</span>
+        <span class="pc-status-chip future-adapter">Future Adapters Not Connected</span>
+      </div>
+
+      <!-- Top statistics telemetry cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6 select-none">
+        <div onclick="window.location.hash = '#/alerts'" class="pc-metric-card hover:border-green cursor-pointer transition-colors">
+          <span>Review Queue</span>
+          <strong class="text-amber">${queueCount} Packets</strong>
+        </div>
+        <div onclick="window.location.hash = '#/agents'" class="pc-metric-card hover:border-green cursor-pointer transition-colors">
+          <span>Mission Board</span>
+          <strong class="text-teal">${missionCount} Active</strong>
+        </div>
+        <div onclick="window.location.hash = '#/archive'" class="pc-metric-card hover:border-green cursor-pointer transition-colors">
+          <span>Archive Vault</span>
+          <strong class="text-violet">${archiveCount} Saved</strong>
+        </div>
+        <div onclick="window.location.hash = '#/alerts'" class="pc-metric-card hover:border-green cursor-pointer transition-colors">
+          <span>Alert Rules</span>
+          <strong class="text-[#2979ff]">${rulesCount} Rules</strong>
+        </div>
+        <div onclick="window.location.hash = '#/learning-ledger'" class="pc-metric-card hover:border-green cursor-pointer transition-colors">
+          <span>Learning Ledger</span>
+          <strong class="text-teal">${learningCount} Lessons</strong>
+        </div>
+        <div onclick="window.location.hash = '#/staging'" class="pc-metric-card hover:border-green cursor-pointer transition-colors">
+          <span>Staging QA</span>
+          <strong class="text-green">${stagingProgress}% Passed</strong>
+        </div>
+      </div>
+
+      <!-- Layer toggles row -->
+      <div class="mb-6">
+        <span class="text-[#606266] uppercase text-[9px] tracking-wider font-bold block mb-2 select-none">Strategic Map View Focus</span>
+        <div class="flex flex-wrap bg-[#11141a] p-1.5 border border-[#1d242e] rounded-sm justify-start items-center">
+          ${layerHtml}
+        </div>
+      </div>
+
+      <!-- Main 3-Zone layout grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch mb-6">
+        
+        <!-- Left Column: Source Intake Universe (3 cols) -->
+        <div class="lg:col-span-3 flex flex-col gap-4">
+          <div class="border-b border-[#1d242e] pb-1.5 select-none">
+            <span class="text-[#606266] uppercase text-[9px] tracking-wider font-bold">Source Intake Universe</span>
+          </div>
+          <div class="grid grid-cols-1 gap-3 overflow-y-auto max-h-[60vh] pr-1">
+            ${sourceHtml}
+          </div>
+        </div>
+
+        <!-- Center Column: CEO B Intelligence Core (6 cols) -->
+        <div class="lg:col-span-6 flex flex-col gap-4">
+          <div class="border-b border-[#1d242e] pb-1.5 select-none">
+            <span class="text-[#606266] uppercase text-[9px] tracking-wider font-bold">CEO B Intelligence Core &amp; Citadel Routing</span>
+          </div>
+          
+          <!-- Visual Map Nodes container -->
+          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm flex-1 grid grid-cols-2 sm:grid-cols-3 gap-3 relative select-none">
+            ${citadelHtml}
+            
+            <!-- Flow illustration marker -->
+            <div class="col-span-full border border-dashed border-[#1d242e] p-3 text-center text-[9px] text-[#606266] font-mono mt-2 rounded-sm flex items-center justify-center gap-1.5">
+              <span>Source Universe</span>
+              <span>➔</span>
+              <span>Agent Classification</span>
+              <span>➔</span>
+              <span>Risk Sentinel Gate</span>
+              <span>➔</span>
+              <span>Citadel Core Review</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Agent Fleet & System Truth (3 cols) -->
+        <div class="lg:col-span-3 flex flex-col gap-5">
+          <!-- Agent groups -->
+          <div class="flex flex-col gap-3">
+            <div class="border-b border-[#1d242e] pb-1.5 select-none">
+              <span class="text-[#606266] uppercase text-[9px] tracking-wider font-bold">Agent Fleet Districts</span>
+            </div>
+            <div class="grid grid-cols-1 gap-2.5 overflow-y-auto max-h-[40vh] pr-1">
+              ${agentHtml}
+            </div>
+          </div>
+
+          <!-- System Truth control board -->
+          ${truthHtml}
+        </div>
+
+      </div>
+
+      <!-- Node detail inspector panel -->
+      <div class="mt-2">
+        <div class="border-b border-[#1d242e] pb-1.5 mb-3 select-none">
+          <span class="text-[#606266] uppercase text-[9px] tracking-wider font-bold">Node Detail Inspector Console</span>
+        </div>
+        ${detailPanelHtml}
+      </div>
+
+    </div>
   `;
 }
+
+window.selectVisionLayer = (layerName) => {
+  state.selectedVisionLayer = layerName;
+  renderVisionCommandCenter();
+};
+
+window.selectVisionMapItem = (type, id) => {
+  state.selectedVisionItemType = type;
+  state.selectedVisionItemId = id;
+  renderVisionCommandCenter();
+};
+
+window.triggerVisionAction = (actionLabel) => {
+  showNotification(`Vision Action: ${actionLabel} registered in sandbox.`);
+};
 
 window.selectVisionNode = (nodeId) => {
   state.selectedVisionNodeId = nodeId;
@@ -5512,313 +6567,315 @@ window.testAlertRule = (id) => {
 function renderAlertsPage() {
   if (!els.alertsContent) return;
   
-  const rules = getAlertRules();
   const optionAlerts = getOptionAlertsState();
-  const approvedAlerts = optionAlerts.filter(a => a.status === "approved manual review" || a.status.includes("approved"));
   
-  const agents = [
-    "Flow Hunter", "Macro Watcher", "Risk Sentinel", "News Raven", 
-    "Task Smith", "System Brain", "Archive Keeper", "Signal Scout", 
-    "Wealth Alchemist", "Story Teller", "Auto Update Agent", 
-    "Bookmark Miner", "Vision Sentinel"
-  ];
+  // Set default selected alert if none is selected
+  if (!state.selectedAlertId && optionAlerts.length > 0) {
+    state.selectedAlertId = optionAlerts[0].id;
+  }
   
-  const categories = [
-    "Market Gate", "Options Flow Idea", "Risk Warning", 
-    "Source Watch", "Build Task", "Life/Admin Reminder", 
-    "AI Research Packet"
-  ];
-  
-  const statusLabels = [
-    "Demo", "Mock", "Manual", "Local", "Adapter Ready", "Connected"
-  ];
+  const selectedAlert = optionAlerts.find(a => a.id === state.selectedAlertId) || optionAlerts[0];
+  const lastUpdated = new Date().toLocaleTimeString();
+
+  let leftPaneHtml = "";
+  if (optionAlerts.length === 0) {
+    leftPaneHtml = `<div class="text-[#909399] italic p-4 text-center">No alerts found in queue.</div>`;
+  } else {
+    leftPaneHtml = optionAlerts.map(alert => {
+      const isSelected = alert.id === state.selectedAlertId;
+      const statusColor = alert.status === "Needs CEO B Review" ? "text-amber border-amber/30 bg-amber/5" : "text-teal border-teal/30 bg-teal/5";
+      const badgeDot = alert.status === "Needs CEO B Review" ? "bg-amber" : "bg-teal";
+      
+      return `
+        <div onclick="window.selectAlertCard('${alert.id}')" class="p-4 bg-[#11141a] border ${isSelected ? 'border-green shadow-[0_0_15px_rgba(0,230,118,0.15)]' : 'border-[#1d242e]'} hover:border-teal/50 rounded-sm cursor-pointer transition-all select-none relative flex flex-col gap-2">
+          <div class="absolute top-0 left-0 w-[3px] h-full ${isSelected ? 'bg-green' : 'bg-[#1d242e]'}"></div>
+          <div class="flex justify-between items-start">
+            <div class="flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 ${badgeDot} rounded-full"></span>
+              <strong class="text-white text-xs font-sans tracking-tight">${escapeHtml(alert.symbol)}</strong>
+            </div>
+            <span class="px-1.5 py-0.5 border text-[8px] font-mono font-bold uppercase rounded-sm ${statusColor}">${escapeHtml(alert.status)}</span>
+          </div>
+          <div class="text-[10px] text-slate-400 font-sans line-clamp-2 leading-relaxed">${escapeHtml(alert.researchContext || alert.thesis || "")}</div>
+          <div class="flex justify-between items-center text-[9px] text-[#909399] pt-2 border-t border-[#1d242e] font-mono">
+            <span>Score: <strong class="text-teal font-bold">${alert.confidence}%</strong></span>
+            <span>Next: <strong class="text-amber">${escapeHtml(alert.nextAction || "Watch")}</strong></span>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  let middlePaneHtml = "";
+  if (!selectedAlert) {
+    middlePaneHtml = `<div class="p-8 text-center text-slate-500 italic">Select a candidate setup to view details.</div>`;
+  } else {
+    middlePaneHtml = `
+      <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm flex flex-col gap-4">
+        <!-- Header details -->
+        <div class="border-b border-[#1d242e] pb-3">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-[9px] text-teal uppercase tracking-widest font-mono">${escapeHtml(selectedAlert.strategy || "Options Research")}</p>
+              <h3 class="text-sm font-bold text-white uppercase tracking-tight font-sans mt-0.5">${escapeHtml(selectedAlert.symbol)}: ${escapeHtml(selectedAlert.company)}</h3>
+            </div>
+            <span class="text-[10px] text-[#909399] font-mono">${escapeHtml(selectedAlert.date || "2026-05-29")}</span>
+          </div>
+          <p class="text-[9px] text-[#909399] font-mono mt-1">${escapeHtml(selectedAlert.safetyLabel || "Research Only")}</p>
+        </div>
+
+        <!-- Price matrix -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-[#0c0d0e] p-3 border border-[#1d242e] rounded-sm font-mono text-[10px]">
+          <div>
+            <span class="text-[#606266] uppercase text-[8px] block">Contract Info</span>
+            <strong class="text-white truncate block font-sans" title="${escapeHtml(selectedAlert.contract)}">${escapeHtml(selectedAlert.contract)}</strong>
+          </div>
+          <div>
+            <span class="text-[#606266] uppercase text-[8px] block">Underlying Price</span>
+            <strong class="text-slate-300 block font-bold">${escapeHtml(selectedAlert.currentPrice)}</strong>
+          </div>
+          <div>
+            <span class="text-[#606266] uppercase text-[8px] block">Premium (Mid)</span>
+            <strong class="text-slate-300 block font-bold">${escapeHtml(selectedAlert.contractPrice || "N/A")}</strong>
+          </div>
+          <div>
+            <span class="text-[#606266] uppercase text-[8px] block">Spread Quality</span>
+            <strong class="text-[#00e5ff] block font-bold">${escapeHtml(selectedAlert.spreadQuality || "N/A")}</strong>
+          </div>
+        </div>
+
+        <!-- Details and text boxes -->
+        <div class="space-y-3 text-[10px]">
+          <div>
+            <span class="text-[#606266] uppercase text-[8px] font-bold font-mono">Research Context</span>
+            <p class="text-slate-300 leading-relaxed font-sans">${escapeHtml(selectedAlert.researchContext || selectedAlert.thesis || "No context provided.")}</p>
+          </div>
+          
+          <div>
+            <span class="text-[#606266] uppercase text-[8px] font-bold font-mono">Watch / Validation Criteria</span>
+            <p class="text-[#d4af37] leading-relaxed font-sans">${escapeHtml(selectedAlert.watchCriteria || selectedAlert.entry || "No watch criteria set.")}</p>
+          </div>
+
+          <div>
+            <span class="text-[#606266] uppercase text-[8px] font-bold font-mono">Invalidation Note</span>
+            <p class="text-red leading-relaxed font-sans">${escapeHtml(selectedAlert.invalidationResearchNote || selectedAlert.invalidation || "No invalidation parameters defined.")}</p>
+          </div>
+
+          <div>
+            <span class="text-[#606266] uppercase text-[8px] font-bold font-mono">Risk Sentinel Audit Notes</span>
+            <p class="text-slate-400 leading-relaxed font-sans">${escapeHtml(selectedAlert.riskNotes || "Premium risk only. No automated orders allowed.")}</p>
+          </div>
+        </div>
+
+        <!-- Agent checklist/reasons -->
+        <div class="border-t border-[#1d242e] pt-3">
+          <span class="text-[#606266] uppercase text-[8px] font-bold font-mono block mb-2">Workspace Verification Checklist</span>
+          <ul class="space-y-1.5 text-[10px] text-[#909399] font-sans">
+            ${Array.isArray(selectedAlert.reason) ? selectedAlert.reason.map(r => `
+              <li class="flex items-start gap-2">
+                <span class="text-green select-none shrink-0">✓</span>
+                <span>${escapeHtml(r)}</span>
+              </li>
+            `).join("") : `<li class="italic text-[#606266]">No checklist details recorded.</li>`}
+          </ul>
+        </div>
+
+        <!-- Allowed Actions Buttons Panel -->
+        <div class="border-t border-[#1d242e] pt-4 mt-2">
+          <span class="text-[#606266] uppercase text-[8px] font-bold font-mono block mb-2">Available Actions</span>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Watch')" class="bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] font-mono px-3 py-1.5 uppercase font-bold text-white transition-colors">
+              Watch
+            </button>
+            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Research More')" class="bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] font-mono px-3 py-1.5 uppercase font-bold text-white transition-colors">
+              Research More
+            </button>
+            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Verify News')" class="bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] font-mono px-3 py-1.5 uppercase font-bold text-white transition-colors">
+              Verify News
+            </button>
+            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Send to CEO B Review')" class="bg-amber-950/20 text-amber hover:bg-amber-950/40 border border-amber-900/40 hover:border-amber text-[10px] font-mono px-3 py-1.5 uppercase font-bold transition-all">
+              Send to CEO B Review
+            </button>
+            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Paper Review Only')" class="bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] font-mono px-3 py-1.5 uppercase font-bold text-white transition-colors">
+              Paper Review Only
+            </button>
+            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Add to Learning Ledger')" class="bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] font-mono px-3 py-1.5 uppercase font-bold text-violet transition-colors">
+              Add to Learning Ledger
+            </button>
+            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Archive Research Note')" class="bg-[#1c1214] text-red/80 border border-red/20 hover:border-red hover:bg-[#251518] text-[10px] font-mono px-3 py-1.5 uppercase font-bold transition-all">
+              Archive Research Note
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 
   els.alertsContent.innerHTML = `
-    <div class="p-6 bg-[#0a0b0c] text-xs font-mono text-[#c0c4cc]">
-      <!-- Header -->
-      <div class="flex items-center justify-between border-b border-[#1f242d] pb-4 mb-6">
+    <div class="p-6 bg-[#0c0d0e] text-xs font-mono text-[#c0c4cc]">
+      <!-- Header banner -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[#1d242e] pb-4 mb-6 gap-4">
         <div>
-          <p class="text-[10px] text-amber uppercase tracking-wider">CEO B Alert Rules Center</p>
-          <h2 class="text-lg font-bold text-white uppercase tracking-tight">Alert Rules Registry & Simulator</h2>
+          <p class="text-[10px] text-amber uppercase tracking-wider font-mono">Citadel Intelligence Center</p>
+          <h2 class="text-lg font-bold text-white uppercase tracking-tight">Alerts Desk</h2>
+          <p class="text-[#909399] font-sans mt-0.5">CEO B review queue for research alerts and watchlist intelligence.</p>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="px-2 py-1 bg-black/40 text-slate-400 text-[10px] font-bold border border-[#1f242d] uppercase tracking-widest">
-            Rules Count: ${rules.length}
-          </span>
-          <button onclick="window.resetAlertRules()" class="px-2 py-1 bg-red/10 text-red hover:bg-red/20 text-[10px] font-bold border border-red/30 uppercase tracking-widest transition-colors">
-            Reset Demo Rules
-          </button>
-        </div>
-      </div>
-      
-      <!-- Warning Banner / Safety Copy -->
-      <div class="p-4 bg-amber-950/20 border border-amber-900/40 text-amber-400 text-xs mb-6 rounded-sm flex items-start gap-3">
-        <span class="w-2 h-2 bg-amber-500 rounded-full shrink-0 mt-1.5 animate-pulse"></span>
-        <div class="flex-1">
-          <strong class="font-sans block mb-1">IMPORTANT RESEARCH-ONLY DISCLOSURE:</strong>
-          <p class="font-sans leading-relaxed text-[11px]">
-            Alerts are research workflow prompts only. They do not place trades, execute orders, or provide financial advice.
-          </p>
-          <div class="flex flex-wrap gap-4 text-[#909399] font-mono text-[10px] mt-2 pt-2 border-t border-amber-900/20">
-            <div><span class="text-[#606266] uppercase font-bold mr-1">Status:</span><span class="text-green font-bold">Local</span></div>
-            <div><span class="text-[#606266] uppercase font-bold mr-1">Storage:</span><span class="text-white">Browser localStorage</span></div>
-            <div><span class="text-[#606266] uppercase font-bold mr-1">Backend:</span><span class="text-red font-bold">Not connected</span></div>
-          </div>
+        <div class="flex flex-wrap gap-2 text-[10px] font-mono font-bold shrink-0">
+          <span class="px-2 py-1 bg-[#11141a] border border-[#1d242e] text-[#c0c4cc] rounded-sm uppercase">Queue Count: ${optionAlerts.length}</span>
+          <span class="px-2 py-1 bg-[#11141a] border border-[#1d242e] text-[#909399] rounded-sm font-normal">Last Updated: ${lastUpdated}</span>
+          <button onclick="localStorage.removeItem('pickaxeOptionAlerts'); location.reload();" class="px-2 py-1 bg-red/10 text-red border border-red/30 hover:bg-red/20 text-[9px] uppercase font-bold transition-colors">Reset Queue</button>
         </div>
       </div>
 
-      <!-- Main Layout Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Status Chips bar -->
+      <div class="flex flex-wrap gap-1.5 mb-6">
+        <span class="pc-status-chip research">Research Only</span>
+        <span class="pc-status-chip manual-review">Manual Review Required</span>
+        <span class="pc-status-chip no-broker">No Broker Execution</span>
+        <span class="pc-status-chip no-live-data">No Fake Live Data</span>
+        <span class="pc-status-chip static">Static Prototype</span>
+        <span class="pc-status-chip local-state">Local First</span>
+      </div>
+
+      <!-- 3-Column main layout grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         
-        <!-- Left Dashboard Panel -->
-        <div class="col-span-2 space-y-4">
-          <div class="panel-head mb-2 flex items-center justify-between">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Alert Rules Dashboard</h3>
-            <span class="text-slate-500 text-[10px]">${rules.filter(r => r.active).length} Active / ${rules.filter(r => !r.active).length} Disabled</span>
+        <!-- Left: Alert Queue Cards List (4 cols) -->
+        <div class="lg:col-span-4 space-y-3">
+          <div class="border-b border-[#1d242e] pb-1.5 mb-2">
+            <span class="text-[#606266] uppercase text-[9px] tracking-wider font-bold">Research Alerts Queue</span>
           </div>
-
-          ${rules.length === 0 ? `
-            <div class="p-12 text-center border border-dashed border-[#1f242d] bg-[#0d0e10]/50 rounded-sm space-y-4">
-              <p class="text-[#606266] italic text-xs font-sans">No alert rules found in the local registry.</p>
-              <div class="flex gap-2 justify-center">
-                <button onclick="window.resetAlertRules()" class="px-3 py-1.5 bg-green/10 text-green border border-green/30 text-[10px] uppercase font-bold tracking-wider hover:bg-green/20 transition-colors">
-                  Create Demo Rules
-                </button>
-                <a href="#ruleName" class="px-3 py-1.5 bg-blue/10 text-blue border border-blue/30 text-[10px] uppercase font-bold tracking-wider hover:bg-blue/20 transition-colors" onclick="document.getElementById('ruleName')?.focus();">
-                  Create New Rule
-                </a>
-              </div>
-            </div>
-          ` : `
-            <div class="space-y-4">
-              ${rules.map(rule => {
-                const isActive = rule.active;
-                const activeBorder = isActive ? 'border-[#1f242d] hover:border-slate-600' : 'border-dashed border-[#1f242d] opacity-60';
-                const statusColor = rule.statusLabel === 'Connected' ? 'text-emerald-400 border-emerald-900/30 bg-emerald-950/30' : 
-                                    rule.statusLabel === 'Adapter Ready' ? 'text-blue-400 border-blue-900/30 bg-blue-950/30' : 
-                                    rule.statusLabel === 'Demo' ? 'text-purple-400 border-purple-900/30 bg-purple-950/30' :
-                                    rule.statusLabel === 'Mock' ? 'text-amber-400 border-amber-900/30 bg-amber-950/30' : 'text-slate-400 border-slate-900 bg-slate-950/30';
-                
-                const riskColor = rule.riskLevel === 'Critical' ? 'text-red font-bold' : 
-                                  rule.riskLevel === 'High' ? 'text-red/80' : 
-                                  rule.riskLevel === 'Medium' ? 'text-amber' : 'text-green';
-
-                const glowDot = isActive ? `<span class="w-1.5 h-1.5 bg-green rounded-full shrink-0 animate-pulse"></span>` : `<span class="w-1.5 h-1.5 bg-slate-600 rounded-full shrink-0"></span>`;
-
-                return `
-                  <div class="p-4 bg-[#0e1012] border ${activeBorder} rounded-sm relative overflow-hidden flex flex-col gap-3 transition-all">
-                    <div class="absolute top-0 left-0 w-[3px] h-full ${isActive ? 'bg-[#42d9c8]' : 'bg-slate-700'}"></div>
-                    
-                    <div class="flex justify-between items-start border-b border-[#1f242d] pb-2">
-                      <div class="flex items-center gap-2">
-                        ${glowDot}
-                        <strong class="text-white font-sans text-xs">${escapeHtml(rule.name || rule.ticker)}</strong>
-                        <span class="px-1.5 py-0.2 bg-black/40 text-[#909399] border border-[#1f242d] text-[8px] uppercase font-mono">${escapeHtml(rule.category)}</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="px-1.5 py-0.2 border text-[8px] font-bold uppercase tracking-wider ${statusColor}">${escapeHtml(rule.statusLabel)}</span>
-                        <span class="text-slate-500 text-[10px] font-mono">${escapeHtml(rule.agentName)}</span>
-                      </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-[10px] font-mono">
-                      <div>
-                        <span class="text-[#606266] uppercase text-[8px] block">Condition</span>
-                        <p class="text-slate-300 font-sans leading-snug mt-0.5">${escapeHtml(rule.condition)}</p>
-                      </div>
-                      <div class="grid grid-cols-2 gap-2 bg-black/15 p-2 border border-slate-950">
-                        <div>
-                          <span class="text-[#606266] uppercase text-[8px] block">Source</span>
-                          <span class="text-slate-400 block truncate" title="${escapeHtml(rule.source || 'Unknown')}">${escapeHtml(rule.source || "Unknown")}</span>
-                        </div>
-                        <div>
-                          <span class="text-[#606266] uppercase text-[8px] block">Confidence</span>
-                          <span class="text-[#42d9c8] font-bold block">${rule.confidence}%</span>
-                        </div>
-                        <div>
-                          <span class="text-[#606266] uppercase text-[8px] block">Risk Level</span>
-                          <span class="${riskColor} font-bold block">${escapeHtml(rule.riskLevel || rule.priority || "Medium")}</span>
-                        </div>
-                        <div>
-                          <span class="text-[#606266] uppercase text-[8px] block">Next Action</span>
-                          <span class="text-amber block truncate" title="${escapeHtml(rule.ceoAction || 'CEO Review')}">${escapeHtml(rule.ceoAction || "CEO Review")}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="flex justify-between items-center bg-black/40 p-2 border border-[#1f242d] text-[10px] font-mono">
-                      <div>
-                        <span class="text-[#606266] uppercase text-[8px]">Simulation Status:</span>
-                        <strong class="${rule.lastChecked && rule.lastChecked.includes('pass') ? 'text-green' : rule.lastChecked && rule.lastChecked.includes('review') ? 'text-amber' : 'text-slate-400'} ml-1">
-                          ${escapeHtml(rule.lastChecked || "Never checked")}
-                        </strong>
-                      </div>
-                      <button onclick="window.simulateAlertRuleCheck('${escapeHtml(rule.id)}')" class="px-2 py-0.5 bg-blue-950/40 text-[#42d9c8] hover:bg-blue-950/80 border border-[#42d9c8]/30 hover:border-[#42d9c8] text-[9px] uppercase font-bold transition-all">
-                        Simulate Check
-                      </button>
-                    </div>
-
-                    <div class="flex flex-wrap gap-2 justify-between border-t border-[#1f242d] pt-2 mt-1">
-                      <div class="flex gap-2">
-                        <button onclick="window.toggleAlertRule('${escapeHtml(rule.id)}')" class="bg-black/50 text-[#c0c4cc] border border-[#1f242d] hover:border-slate-500 text-[9px] px-2.5 py-1 uppercase font-bold transition-colors">
-                          ${isActive ? "Disable" : "Enable"}
-                        </button>
-                        <button onclick="window.duplicateAlertRule('${escapeHtml(rule.id)}')" class="bg-black/50 text-[#c0c4cc] border border-[#1f242d] hover:border-slate-500 text-[9px] px-2.5 py-1 uppercase font-bold transition-colors">
-                          Duplicate
-                        </button>
-                        <button onclick="window.deleteAlertRule('${escapeHtml(rule.id)}')" class="bg-black/50 text-red/60 border border-[#1f242d] hover:border-red/40 text-[9px] px-2.5 py-1 uppercase font-bold transition-colors">
-                          Delete
-                        </button>
-                      </div>
-                      <div class="flex gap-2">
-                        <button onclick="window.sendRuleToReview('${escapeHtml(rule.id)}')" class="bg-amber-950/20 text-amber hover:bg-amber-950/40 border border-amber-900/40 hover:border-amber text-[9px] px-2.5 py-1 uppercase font-bold transition-all">
-                          Send to Review
-                        </button>
-                        <button onclick="window.sendRuleToMission('${escapeHtml(rule.id)}')" class="bg-blue-950/20 text-[#42d9c8] hover:bg-blue-950/40 border border-[#42d9c8]/30 hover:border-[#42d9c8] text-[9px] px-2.5 py-1 uppercase font-bold transition-all">
-                          Send to Agent
-                        </button>
-                        <button onclick="window.archiveAlertRule('${escapeHtml(rule.id)}')" class="bg-slate-900 text-slate-400 hover:text-white border border-[#1f242d] hover:border-slate-500 text-[9px] px-2.5 py-1 uppercase font-bold transition-all">
-                          Archive Rule
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                `;
-              }).join("")}
-            </div>
-          `}
+          <div class="space-y-3 max-h-[70vh] overflow-y-auto pr-1">
+            ${leftPaneHtml}
+          </div>
         </div>
 
-        <!-- Right Rule Editor Panel -->
-        <div class="col-span-1 space-y-4">
-          <div class="p-5 bg-[#0e1012] border border-[#1f242d] rounded-sm">
-            <div class="border-b border-[#1f242d] pb-3 mb-4">
-              <p class="text-[9px] text-amber uppercase tracking-wider">Configure New Registry Item</p>
-              <h3 class="text-sm font-bold text-white uppercase tracking-tight">Rule Configuration Editor</h3>
+        <!-- Middle: Selected Alert Packet Detail (5 cols) -->
+        <div class="lg:col-span-5 space-y-3">
+          <div class="border-b border-[#1d242e] pb-1.5 mb-2">
+            <span class="text-[#606266] uppercase text-[9px] tracking-wider font-bold">Active Setup Packet Analyst View</span>
+          </div>
+          ${middlePaneHtml}
+        </div>
+
+        <!-- Right: Risk Checklist, Source Confidence, Safety Rules (3 cols) -->
+        <div class="lg:col-span-3 space-y-5">
+          <!-- Risk Checklist -->
+          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h4 class="text-xs font-bold text-white uppercase mb-3 pb-1.5 border-b border-[#1d242e] tracking-tight">Risk Sentinel Check</h4>
+            <div class="space-y-2.5 font-sans text-[10px] text-[#909399]">
+              <div class="flex items-center gap-2.5">
+                <span class="text-green text-xs">✓</span>
+                <div>
+                  <strong class="text-slate-300 block font-bold">Defined Premium Risk</strong>
+                  <span>Max loss capped at paid contract premium.</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-green text-xs">✓</span>
+                <div>
+                  <strong class="text-slate-300 block font-bold">Volume Validation Check</strong>
+                  <span>OI and volume outliers confirm trade depth.</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-green text-xs">✓</span>
+                <div>
+                  <strong class="text-slate-300 block font-bold">Downside Invalidation Set</strong>
+                  <span>Hard pricing floor exists inside thesis.</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-green text-xs">✓</span>
+                <div>
+                  <strong class="text-slate-300 block font-bold">Manual Execution Isolation</strong>
+                  <span>Order placement occurs externally only.</span>
+                </div>
+              </div>
             </div>
-            
-            <form id="ruleEditorForm" onsubmit="window.submitAlertRuleForm(event)" class="space-y-3 font-mono text-[10px]">
-              <div>
-                <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Rule Name</label>
-                <input id="ruleName" required placeholder="e.g. BTC Golden Cross Watch" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono" />
-              </div>
-              
-              <div>
-                <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Category</label>
-                <select id="ruleCategory" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono">
-                  ${categories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("")}
-                </select>
-              </div>
+          </div>
 
+          <!-- Source Confidence details -->
+          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm">
+            <h4 class="text-xs font-bold text-white uppercase mb-3 pb-1.5 border-b border-[#1d242e] tracking-tight">Source Confidence</h4>
+            <div class="space-y-3 font-mono text-[10px]">
               <div>
-                <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Condition Text</label>
-                <textarea id="ruleCondition" required placeholder="e.g. 50-day SMA crosses above 200-day SMA on 1D chart" rows="2" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-sans"></textarea>
-              </div>
-
-              <div>
-                <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Data Source Watch</label>
-                <input id="ruleSource" required placeholder="e.g. Binance API Stub / Market Feed" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono" />
-              </div>
-
-              <div class="grid grid-cols-2 gap-2">
-                <div>
-                  <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Risk Level</label>
-                  <select id="ruleRisk" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono">
-                    <option value="Low">Low</option>
-                    <option value="Medium" selected>Medium</option>
-                    <option value="High">High</option>
-                    <option value="Critical">Critical</option>
-                  </select>
+                <div class="flex justify-between mb-1">
+                  <span class="text-slate-400">Total Setup Score:</span>
+                  <span class="text-teal font-bold">${selectedAlert ? selectedAlert.confidence : 0}%</span>
                 </div>
-                <div>
-                  <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Status Label</label>
-                  <select id="ruleStatusLabel" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono">
-                    ${statusLabels.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join("")}
-                  </select>
+                <div class="w-full bg-[#0c0d0e] h-1.5 rounded-full overflow-hidden border border-[#1d242e]">
+                  <div class="bg-teal h-full" style="width: ${selectedAlert ? selectedAlert.confidence : 0}%"></div>
                 </div>
               </div>
-
-              <div>
-                <div class="flex justify-between items-center mb-1">
-                  <label class="text-[#909399] uppercase tracking-wider block text-[9px]">Confidence</label>
-                  <span id="ruleConfidenceVal" class="text-green font-bold">80%</span>
-                </div>
-                <input id="ruleConfidence" type="range" min="0" max="100" value="80" oninput="const val = document.getElementById('ruleConfidenceVal'); if (val) val.innerText = this.value + '%';" class="w-full h-1 bg-[#1f242d] rounded-lg appearance-none cursor-pointer accent-[#42d9c8]" />
+              <div class="grid grid-cols-2 gap-3 pt-2 text-[9px] text-[#909399] border-t border-[#1d242e]">
+                <div><span>Signal Scout:</span> <strong class="text-white block font-bold">90%</strong></div>
+                <div><span>Flow Hunter:</span> <strong class="text-white block font-bold">88%</strong></div>
+                <div><span>Risk Sentinel:</span> <strong class="text-white block font-bold">95%</strong></div>
+                <div><span>News Raven:</span> <strong class="text-white block font-bold">84%</strong></div>
               </div>
+            </div>
+          </div>
 
-              <div>
-                <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">Owner Agent</label>
-                <select id="ruleAgent" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono">
-                  ${agents.map(a => `<option value="${escapeHtml(a)}">${escapeHtml(a)}</option>`).join("")}
-                </select>
-              </div>
-
-              <div>
-                <label class="text-[#909399] uppercase tracking-wider block mb-1 text-[9px]">CEO B Recommended Next Action</label>
-                <input id="ruleCeoAction" required value="Send to CEO B Review" placeholder="e.g. Verify thesis & check Webull liquidity" class="bg-black/50 border border-[#1f242d] text-white text-[11px] p-2 w-full focus:border-green focus:outline-none font-mono" />
-              </div>
-
-              <div class="pt-2">
-                <button type="submit" class="w-full bg-[#121417] text-white hover:text-black hover:bg-[#42d9c8] border border-[#1f242d] hover:border-[#42d9c8] py-2 uppercase font-bold tracking-wider tracking-widest transition-all">
-                  Register Alert Rule
-                </button>
-              </div>
-            </form>
+          <!-- Safety Rules Summary -->
+          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm border-l-2 border-red/40 bg-gradient-to-r from-red/5 to-transparent">
+            <h4 class="text-xs font-bold text-white uppercase mb-2 tracking-tight">Active Safe Sandbox</h4>
+            <p class="text-[10px] text-[#909399] font-sans leading-relaxed">
+              No live provider calls: Active Safe Sandbox. The Pickaxe Capital AI Command Center operates inside a safe local-only sandbox. Direct financial execution, sportsbook connectivity, or copy-trading is strictly forbidden.
+            </p>
           </div>
         </div>
 
       </div>
-
-      <!-- Historical Approved Manual Review Memos Section -->
-      ${approvedAlerts.length > 0 ? `
-        <div class="mt-8 border-t border-[#1f242d] pt-6">
-          <div class="flex items-center justify-between border-b border-[#1f242d] pb-2 mb-4">
-            <div>
-              <p class="text-[9px] text-[#909399] uppercase tracking-wider">Historical Audit Logs</p>
-              <h3 class="text-sm font-bold text-white uppercase tracking-tight">CEO B Approved Option Trade Memos</h3>
-            </div>
-            <span class="px-2 py-0.5 bg-emerald-950/40 text-emerald-400 border border-emerald-900/30 text-[9px] uppercase tracking-wider font-bold">Manual Trade Pending</span>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            ${approvedAlerts.map(alert => `
-              <div class="p-4 bg-[#0e1012] border border-[#1f242d] rounded-sm relative overflow-hidden flex flex-col gap-3">
-                <div class="absolute top-0 left-0 w-[2px] h-full bg-emerald-500"></div>
-                <div class="flex justify-between items-start text-[10px]">
-                  <div>
-                    <strong class="text-white block font-sans">${escapeHtml(alert.symbol)} - ${escapeHtml(alert.company)}</strong>
-                    <span class="text-[8px] text-slate-500 uppercase tracking-wider block font-mono">Approved Memo // ${escapeHtml(alert.strategy)}</span>
-                  </div>
-                  <span class="text-slate-500 text-[10px]">${escapeHtml(alert.date || "2026-05-29")}</span>
-                </div>
-                
-                <div class="grid grid-cols-3 gap-2 bg-black/25 p-2 border border-slate-950 text-[10px] font-mono">
-                  <div><span class="text-slate-500 text-[8px] block uppercase">Contract</span><strong class="text-slate-300 block truncate font-bold">${escapeHtml(alert.contract)}</strong></div>
-                  <div><span class="text-slate-500 text-[8px] block uppercase">Price</span><strong class="text-slate-300 block font-bold">${escapeHtml(alert.currentPrice)}</strong></div>
-                  <div><span class="text-slate-500 text-[8px] block uppercase">Value</span><strong class="text-slate-300 block font-bold">${escapeHtml(alert.contractPrice)}</strong></div>
-                </div>
-
-                <div class="text-[10px] space-y-1">
-                  <div>
-                    <span class="text-slate-500 text-[8px] block uppercase font-bold">Thesis</span>
-                    <p class="text-slate-300 font-sans leading-snug">${escapeHtml(alert.thesis)}</p>
-                  </div>
-                </div>
-
-                <div class="flex justify-end border-t border-slate-900 pt-2">
-                  <button onclick="window.changeSignalStatus('${escapeHtml(alert.id)}', 'watch only')" class="bg-slate-900 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:border-slate-500 transition-colors text-[9px] px-2 py-1 uppercase font-bold">
-                    Demote to Watch / Archive
-                  </button>
-                </div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      ` : ''}
-
     </div>
   `;
 }
+
+window.selectAlertCard = (id) => {
+  state.selectedAlertId = id;
+  renderAlertsPage();
+};
+
+window.updateAlertAction = (id, label) => {
+  const alerts = getOptionAlertsState();
+  const alert = alerts.find(a => a.id === id);
+  if (alert) {
+    alert.nextAction = label;
+    if (label === "Archive Research Note") {
+      alert.status = "Archived";
+      const vault = getArchiveVaultState();
+      vault.parsedLinks = vault.parsedLinks || [];
+      vault.parsedLinks.push({
+        id: alert.id || crypto.randomUUID(),
+        title: `${alert.symbol} ${alert.contract} Research Note`,
+        url: alert.route || "#/signals",
+        domain: alert.symbol,
+        category: alert.strategy || "Signals Archive",
+        status: "archived",
+        dateAdded: new Date().toISOString()
+      });
+      setArchiveVaultState(vault);
+      showNotification(`Archived research note for ${alert.symbol}`);
+    } else if (label === "Send to CEO B Review") {
+      alert.status = "Needs CEO B Review";
+      showNotification(`Queued for CEO B Review: ${alert.symbol}`);
+    } else if (label === "Add to Learning Ledger") {
+      const ledger = getLearningLedgerState();
+      ledger.push({
+        id: crypto.randomUUID(),
+        category: alert.strategy || "General",
+        text: alert.researchContext || alert.thesis || "",
+        timestamp: new Date().toISOString()
+      });
+      saveLearningLedgerState(ledger);
+      showNotification(`Saved lesson for ${alert.symbol} to Learning Ledger`);
+    } else {
+      showNotification(`Action updated: ${label} for ${alert.symbol}`);
+    }
+    saveOptionAlertsState(alerts);
+    renderAlertsPage();
+  }
+};
 
 function renderLifeHabitatPage() {
   if (!els.lifeHabitatContent) return;
