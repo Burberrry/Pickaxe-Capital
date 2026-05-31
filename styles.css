@@ -244,9 +244,10 @@ button:hover {
 
 .brand {
   display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 8px 10px;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 14px;
   border: 1px solid rgba(66, 217, 200, 0.18);
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.03);
@@ -265,7 +266,8 @@ button:hover {
 }
 
 .brand strong {
-  font-size: 18px;
+  font-size: 19px;
+  line-height: 1.05;
 }
 
 .brand strong,
@@ -285,20 +287,21 @@ button:hover {
 .mark {
   display: grid;
   place-items: center;
-  width: 56px;
-  height: 56px;
-  flex: 0 0 56px;
-  background: rgba(7, 9, 8, 0.42);
+  width: 108px;
+  height: 108px;
+  flex: 0 0 108px;
+  align-self: center;
+  background: radial-gradient(circle at 50% 42%, rgba(66, 217, 200, 0.1), rgba(7, 9, 8, 0.58) 64%);
   border: 1px solid rgba(66, 217, 200, 0.42);
   color: var(--text);
-  border-radius: 50%;
+  border-radius: 24px;
   font-weight: 900;
   overflow: hidden;
 }
 
 .mark img {
-  width: 92%;
-  height: 92%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   display: block;
 }
