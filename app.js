@@ -425,7 +425,7 @@ async function writeClipboard(text) {
 }
 
 window.copyAiHandoffLink = async () => {
-  const link = `${window.location.origin}/ai-handoff`;
+  const link = `${window.location.origin}/source-hub-staging`;
   const input = document.querySelector("#aiHandoffLink");
   const status = document.querySelector("#aiHandoffStatus");
   if (input) input.value = link;
@@ -441,7 +441,7 @@ function generateLocalHandoffText() {
   const rulesStr = (Array.isArray(sharedHabitatData.riskRules) ? sharedHabitatData.riskRules : []).map(r => r ? `- ${r.name || "Unnamed"}: ${r.description || "No description"}` : "").filter(Boolean).join("\n");
   
   return [
-    "# Pickaxe Capital / AI Habitat OS - Deployed AI Handoff (Static Fallback)",
+    "# Pickaxe Capital / AI Habitat OS - Source Hub / Staging (Static Fallback)",
     `Generated at: ${new Date().toISOString()}`,
     "Target Environment: GitHub Pages Static Site",
     "Active Routes:",
@@ -469,7 +469,7 @@ function generateLocalHandoffText() {
     "## Active Security & Risk Gates",
     rulesStr || "- Wide Bid/Ask Spread\n- Low Open Interest\n- Missing Catalyst\n- IV Crush Exposure\n- CEO B Unapproved Decision Lock",
     "",
-    "## Compliance Disclosures",
+    "## Risk & Rules Disclosures",
     "- Research-only static prototype.",
     "- No live data feeds unless future backend is implemented.",
     "- No broker connection.",
@@ -499,16 +499,16 @@ window.copyAiHandoffText = async () => {
       text = generateLocalHandoffText();
     } else {
       try {
-        const response = await fetch("/ai-handoff", { cache: "no-store" });
+        const response = await fetch("/source-hub-staging", { cache: "no-store" });
         if (!response.ok) throw new Error(`handoff ${response.status}`);
         text = await response.text();
       } catch (err) {
-        console.warn("fetch /ai-handoff failed, using local fallback:", err);
+        console.warn("fetch /source-hub-staging failed, using local fallback:", err);
         text = generateLocalHandoffText();
       }
     }
     await writeClipboard(text);
-    if (status) status.textContent = "Copied full AI handoff text. Paste it into ChatGPT so it can see the current website details.";
+    if (status) status.textContent = "Copied full context text. Paste it into ChatGPT so it can see the current website details.";
   } catch (e) {
     if (status) status.textContent = "Could not copy handoff text. Open the handoff link and copy the page manually.";
   }
@@ -668,9 +668,9 @@ function setView(view) {
     lifeOS: "Pickaxe Life OS",
     projectUpdate: "Project Update",
     log: "A-Z Build Log",
-    riskRules: "Risk Rules",
-    compliance: "Compliance Disclosures",
-    aiHandoff: "AI Handoff",
+    riskRules: "Risk & Rules",
+    compliance: "Risk & Rules Disclosures",
+    aiHandoff: "Source Hub / Staging",
     aiHabitatOS: "AI Habitat OS",
     learningLedger: "Learning Ledger",
     trendRadar: "Trend Radar",
@@ -722,7 +722,7 @@ function openRequestedView() {
       view = "archive";
     } else if (hash === "#/staging") {
       view = "staging";
-    } else if (hash === "#/ai-handoff") {
+    } else if (hash === "#/source-hub-staging" || hash === "#/source-hub-staging") {
       view = "aiHandoff";
     } else if (hash === "#/ai-habitat-os") {
       view = "aiHabitatOS";
@@ -1275,6 +1275,7 @@ function renderStaticIntelligencePages() {
 function renderRiskRulesPage() {
   if (!els.riskRulesContent) return;
   const rules = Array.isArray(sharedHabitatData.riskRules) ? sharedHabitatData.riskRules : [];
+  const disclosures = Array.isArray(sharedHabitatData.complianceDisclosures) ? sharedHabitatData.complianceDisclosures : [];
   els.riskRulesContent.innerHTML = `
     <div class="p-6 bg-[#0a0b0c] text-xs font-mono text-[#c0c4cc]">
       <div class="flex items-center justify-between border-b border-[#1f242d] pb-4 mb-6">
@@ -1287,7 +1288,7 @@ function renderRiskRulesPage() {
       <p class="text-xs text-[#909399] mb-6 font-sans">
         All option alerts are filtered through the following rules before entering CEO B Review. Any violations will automatically flag or reject the setup.
       </p>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         ${rules.map(rule => `
           <div class="p-4 bg-[#121417] border border-[#1f242d] hover:border-blue/50 transition-colors flex flex-col justify-between">
             <div>
@@ -1304,19 +1305,11 @@ function renderRiskRulesPage() {
           </div>
         `).join("")}
       </div>
-    </div>
-  `;
-}
 
-function renderCompliancePage() {
-  if (!els.complianceContent) return;
-  const disclosures = Array.isArray(sharedHabitatData.complianceDisclosures) ? sharedHabitatData.complianceDisclosures : [];
-  els.complianceContent.innerHTML = `
-    <div class="p-6 bg-[#0a0b0c] text-xs font-mono text-[#c0c4cc]">
-      <div class="flex items-center justify-between border-b border-[#1f242d] pb-4 mb-6">
+      <div class="flex items-center justify-between border-b border-[#1f242d] pb-4 mb-6 pt-6">
         <div>
-          <p class="text-[10px] text-amber uppercase tracking-wider">Legal & Compliance Desk</p>
-          <h2 class="text-lg font-bold text-white uppercase tracking-tight">System Compliance Declarations</h2>
+          <p class="text-[10px] text-amber uppercase tracking-wider">Risk & Rules Desk</p>
+          <h2 class="text-lg font-bold text-white uppercase tracking-tight">System Risk & Rules Declarations</h2>
         </div>
         <span class="px-2 py-1 bg-green/20 text-green text-[10px] font-bold border border-green/40 uppercase tracking-widest">Compliant OS</span>
       </div>
@@ -1334,6 +1327,8 @@ function renderCompliancePage() {
     </div>
   `;
 }
+
+function renderCompliancePage() {}
 
 // Learning Ledger State Helpers
 function getLearningLedgerState() {
@@ -1872,7 +1867,7 @@ async function renderAiHandoffPage() {
   let handoffText = "Generating handoff text...";
   
   try {
-    const res = await fetch("/ai-handoff", { cache: "no-store" });
+    const res = await fetch("/source-hub-staging", { cache: "no-store" });
     if (res.ok) {
       handoffText = await res.text();
     } else {
@@ -1882,7 +1877,7 @@ async function renderAiHandoffPage() {
     const session = (sharedHabitatData.buildCompletionTracker && typeof sharedHabitatData.buildCompletionTracker === "object" && typeof sharedHabitatData.buildCompletionTracker.latestSession === "object") ? (sharedHabitatData.buildCompletionTracker.latestSession || {}) : {};
     const rulesStr = (Array.isArray(sharedHabitatData.riskRules) ? sharedHabitatData.riskRules : []).map(r => r ? `- ${r.name || "Unnamed"}: ${r.description || "No description"}` : "").filter(Boolean).join("\n");
     handoffText = [
-      "# Pickaxe Capital / AI Habitat OS - Deployed AI Handoff (Static Fallback)",
+      "# Pickaxe Capital / AI Habitat OS - Source Hub / Staging (Static Fallback)",
       `Generated at: ${new Date().toISOString()}`,
       "Target Environment: GitHub Pages Static Site",
       "Active Routes:",
@@ -1908,7 +1903,7 @@ async function renderAiHandoffPage() {
       "Bugs Fixed:",
       (session.bugsFixed || []).map(b => `- ${b}`).join("\n"),
       "",
-      "## Compliance Disclosures",
+      "## Risk & Rules Disclosures",
       "- Research-only static prototype.",
       "- No live data feeds unless future backend is implemented.",
       "- No broker connection.",
@@ -1967,7 +1962,7 @@ async function renderAiHandoffPage() {
     if (textarea) {
       textarea.select();
       document.execCommand("copy");
-      showNotification("AI Handoff copied to clipboard.");
+      showNotification("Source Hub / Staging context copied to clipboard.");
     }
   };
 }
@@ -7449,7 +7444,7 @@ function renderMissionBoardPanel() {
       "Preserve current AI Habitat OS command-center design", 
       "Finish honesty cleanup from AGENTS.md", 
       "Focus Market Habitat on urgent watchlist only", 
-      "Keep /ai-handoff auto-updating",
+      "Keep /source-hub-staging auto-updating",
       ...localNow
     ],
     Next: ["Connect /vision-map actions to CEO B Review Stack", "Connect /archive card actions to local mission queue", "Improve /signals readability", "Prepare GitHub private backup"],
@@ -7482,7 +7477,7 @@ function renderMissionBoardPanel() {
       <div class="mission-columns">${Object.entries(taskGroups).map(([group, items]) => `<article><h3>${escapeHtml(group)}</h3>${items.map((item) => `<p>${escapeHtml(item)}</p>`).join("")}</article>`).join("")}</div>
       <div class="panel-head"><div><p class="eyebrow">Roadmap</p><h2>Integration Status</h2></div><span class="pill">No fake live systems</span></div>
       <div class="integration-card-grid">${integrations.map(([name, status]) => `<article><span class="status-badge research">${escapeHtml(status)}</span><h3>${escapeHtml(name)}</h3><p>All advanced integrations require security review, backend/provider setup, and CEO B approval before activation.</p></article>`).join("")}</div>
-      <div class="game-action-row"><a href="#/projectUpdate">Open Project Update</a><button type="button" onclick="navigator.clipboard?.writeText(window.location.origin + '#/projectUpdate')">Copy Project Update Link</button><a href="#/ai-handoff">Open AI Handoff</a><button type="button" onclick="window.copyHandoffText?.()">Copy AI Handoff Text</button></div>
+      <div class="game-action-row"><a href="#/projectUpdate">Open Project Update</a><button type="button" onclick="navigator.clipboard?.writeText(window.location.origin + '#/projectUpdate')">Copy Project Update Link</button><a href="#/source-hub-staging">Open AI Handoff</a><button type="button" onclick="window.copyHandoffText?.()">Copy AI Handoff Text</button></div>
     </section>
   `;
 }
@@ -7949,7 +7944,7 @@ function renderProjectUpdatePage() {
       <div class="ceob-briefing-card">
         <span class="label">Local URLs</span>
         <p>Website: http://localhost:4328</p>
-        <p>AI Handoff: http://localhost:4328/ai-handoff</p>
+        <p>AI Handoff: http://localhost:4328/source-hub-staging</p>
         <p>Project Update: http://localhost:4328/project-update</p>
       </div>
     </section>
@@ -7960,7 +7955,7 @@ function renderProjectUpdatePage() {
         <button type="button" onclick="window.copyHandoffText?.()">Copy AI Handoff</button>
         <button type="button" onclick="window.copyProjectSummary?.()">Copy Project Update Summary</button>
         <button type="button" onclick="navigator.clipboard?.writeText('https://github.com/Burberrry/pickaxe-capital-command-center')">Copy GitHub Repo Link</button>
-        <a href="#/ai-handoff">Open AI Handoff</a>
+        <a href="#/source-hub-staging">Open AI Handoff</a>
         <a href="#/staging">Open Staging Mission Board</a>
       </div>
     </section>
@@ -7986,7 +7981,7 @@ function renderProjectUpdatePage() {
       <article class="panel"><div class="panel-head"><div><p class="eyebrow">Future Adapter / Research</p><h2>Voice + Apple Ecosystem</h2></div><span class="pill">Manual now</span></div>${renderAppleVoiceSummary()}</article>
       <article class="panel"><div class="panel-head"><div><p class="eyebrow">Prototype</p><h2>Agent Builder Factory</h2></div><span class="pill">LocalStorage</span></div><p>Customize voxel-style Pickaxe agents, assign roles/habitats/tasks/statuses, save locally, and send changes to CEO B Review.</p><a href="#/agentBuilderFactory">Open Agent Builder Factory</a></article>
     </section>
-    <section class="panel"><div class="panel-head"><div><p class="eyebrow">Deployment readiness</p><h2>Public Review Path</h2></div><span class="pill">Setup</span></div><ol><li>Push project to private GitHub repo.</li><li>Deploy preview using Vercel, Netlify, GitHub Pages, or another static host.</li><li>Share deployed /project-update or /ai-handoff URL with ChatGPT.</li><li>Keep PROJECT_STATUS.md and NEXT_STEPS.md updated every session.</li></ol><p class="muted">Localhost links only open on B's Mac.</p></section>
+    <section class="panel"><div class="panel-head"><div><p class="eyebrow">Deployment readiness</p><h2>Public Review Path</h2></div><span class="pill">Setup</span></div><ol><li>Push project to private GitHub repo.</li><li>Deploy preview using Vercel, Netlify, GitHub Pages, or another static host.</li><li>Share deployed /project-update or /source-hub-staging URL with ChatGPT.</li><li>Keep PROJECT_STATUS.md and NEXT_STEPS.md updated every session.</li></ol><p class="muted">Localhost links only open on B's Mac.</p></section>
   `;
 }
 
@@ -8011,7 +8006,7 @@ function getProjectRoutes() {
     "/market-command": "Signal Scout",
     "/signal-engine": "Signal Scout",
     "/life-habitat": "Archive Keeper",
-    "/ai-handoff": "System Brain",
+    "/source-hub-staging": "System Brain",
     "/project-update": "System Brain",
   };
   const purposes = {
@@ -8022,15 +8017,15 @@ function getProjectRoutes() {
     "/archive": "Intelligence vault",
     "/staging": "Mission board and QA",
     "/project-update": "Human-readable status page",
-    "/ai-handoff": "Plain-text AI handoff",
+    "/source-hub-staging": "Plain-text AI handoff",
   };
   return Object.keys(owners).map((route) => ({
     route,
     owner: owners[route],
     purpose: purposes[route] || (routeHealth.find((item) => item.route === route)?.purpose || "Working route"),
-    status: route.includes("jarvis") || route.includes("life-os") || route.includes("agent-builder") ? "Prototype" : route === "/ai-handoff" ? "Verified" : "Static",
+    status: route.includes("jarvis") || route.includes("life-os") || route.includes("agent-builder") ? "Prototype" : route === "/source-hub-staging" ? "Verified" : "Static",
     statusClass: route.includes("jarvis") || route.includes("life-os") || route.includes("agent-builder") ? "prototype" : "active",
-    priority: ["/", "/vision-map", "/agents", "/archive", "/staging", "/ai-handoff", "/project-update"].includes(route) ? "High" : "Medium",
+    priority: ["/", "/vision-map", "/agents", "/archive", "/staging", "/source-hub-staging", "/project-update"].includes(route) ? "High" : "Medium",
   }));
 }
 
@@ -8142,7 +8137,7 @@ window.copyProjectSummary = async () => {
     "Pickaxe Capital / AI Habitat OS",
     "Static Node app: server.mjs serves public/",
     "Project update: http://localhost:4328/project-update",
-    "AI handoff: http://localhost:4328/ai-handoff",
+    "Source Hub / Staging: http://localhost:4328/source-hub-staging",
     "GitHub target: https://github.com/Burberrry/pickaxe-capital-command-center",
     `Urgent watchlist: ${canonicalWatchlistSymbols().join(", ")}`,
     "No scraping, no auto-trading, no fake live agents, no API keys in frontend.",
@@ -8161,7 +8156,7 @@ window.copyHandoffText = async () => {
       text = generateLocalHandoffText();
     } else {
       try {
-        const response = await fetch("/ai-handoff", { cache: "no-store" });
+        const response = await fetch("/source-hub-staging", { cache: "no-store" });
         text = await response.text();
       } catch (err) {
         text = generateLocalHandoffText();
@@ -10511,7 +10506,7 @@ function renderAgentWorldOS() {
                   "options-flow-hunter": "Options Flow",
                   "trading-agent": "Options Flow",
                   "risk-agent": "Risk / Volatility",
-                  "compliance-guard": "Risk / Volatility",
+                  "risk-sentinel": "Risk / Volatility",
                   "macro-watcher": "News / Macro",
                   "recon-agent": "News / Macro",
                   "catalyst-analyst": "News / Macro",

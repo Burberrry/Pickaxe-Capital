@@ -27,7 +27,7 @@
   {
     "letter": "F",
     "title": "Feedback Loop",
-    "detail": "Added local memory files for agent runs, lessons, and trade journal entries so the system can learn from outcomes over time."
+    "detail": "Added local memory files for agent runs, lessons, and research journal entries so the system can learn from outcomes over time."
   },
   {
     "letter": "G",
@@ -47,7 +47,7 @@
   {
     "letter": "J",
     "title": "Journal",
-    "detail": "Added a trade journal form so every thesis, emotion, mistake, win, and lesson can become training data for future agents."
+    "detail": "Added a research journal form so every thesis, emotion, mistake, win, and lesson can become training data for future agents."
   },
   {
     "letter": "K",
@@ -177,7 +177,7 @@
   {
     "letter": "G+",
     "title": "Signals-Only Guardrail",
-    "detail": "Added the Signals + Research Only mode reminder to the execution checklist so the daily process confirms the website produces alerts and ideas only while all buying and selling stays manual in Webull."
+    "detail": "Added the Signals + Research Only mode reminder to the execution checklist so the daily process confirms the website produces alerts and ideas only while all buying and selling stays manual broker review separate."
   },
   {
     "letter": "W+",

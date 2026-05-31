@@ -206,19 +206,19 @@
             </div>
             <span class="pill">No auto-trading</span>
           </div>
-          <section class="ai-handoff-panel" aria-label="AI handoff link">
+          <section class="ai-handoff-panel" aria-label="Source Hub / Staging link">
             <div class="ai-handoff-copy">
-              <p class="eyebrow">AI handoff link</p>
+              <p class="eyebrow">Source Hub / Staging link</p>
               <h2>Copy Current Website Context</h2>
               <p>Use this local handoff when you want ChatGPT, Codex, or another AI to understand the current Pickaxe Capital website state. Copying the full text is the most reliable option because localhost links only open on this Mac.</p>
             </div>
             <div class="ai-handoff-actions">
               <label for="aiHandoffLink">Local auto-updating context</label>
-              <input id="aiHandoffLink" readonly value="http://localhost:4328/ai-handoff" />
+              <input id="aiHandoffLink" readonly value="http://localhost:4328/source-hub-staging" />
               <div class="ai-handoff-buttons">
                 <button type="button" class="primary" onclick="window.copyAiHandoffText?.()">Copy Handoff Text</button>
                 <button type="button" onclick="window.copyAiHandoffLink?.()">Copy Link</button>
-                <a href="#/ai-handoff" target="_blank" rel="noopener noreferrer">Open</a>
+                <a href="#/source-hub-staging" target="_blank" rel="noopener noreferrer">Open</a>
               </div>
               <small id="aiHandoffStatus">Auto-updates from AGENTS.md, PROJECT_STATUS.md, and NEXT_STEPS.md.</small>
             </div>
@@ -458,9 +458,7 @@
           <div id="riskRulesContent" class="intelligence-zone"></div>
         </section>
 
-        <section id="compliance" class="view">
-          <div id="complianceContent" class="intelligence-zone"></div>
-        </section>
+
 
         <section id="learningLedger" class="view">
           <div id="learningLedgerContent" class="intelligence-zone"></div>

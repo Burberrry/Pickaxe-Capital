@@ -105,11 +105,11 @@ createServer(async (req, res) => {
       return json(res, {
         lessons: await readJson("lessons.json", []),
         runs: (await readJson("agent-runs.json", [])).slice(-20).reverse(),
-        journal: (await readJson("trade-journal.json", [])).slice(-20).reverse(),
+        journal: (await readJson("research-journal.json", [])).slice(-20).reverse(),
       });
     }
 
-    if (url.pathname === "/ai-handoff") {
+    if (url.pathname === "/source-hub-staging") {
       const body = await buildAiHandoff();
       res.writeHead(200, {
         "Content-Type": "text/plain; charset=utf-8",
@@ -165,9 +165,9 @@ createServer(async (req, res) => {
         mistake: cleanText(body.mistake, 240),
         grade: cleanText(body.grade, 20),
       };
-      const journal = await readJson("trade-journal.json", []);
+      const journal = await readJson("research-journal.json", []);
       journal.push(entry);
-      await writeJson("trade-journal.json", journal);
+      await writeJson("research-journal.json", journal);
       if (entry.lesson) {
         const lessons = await readJson("lessons.json", []);
         lessons.push({
@@ -228,14 +228,14 @@ async function buildAiHandoff() {
     }
   }));
   return [
-    "# Pickaxe Capital / AI Habitat OS - AI Handoff",
+    "# Pickaxe Capital / AI Habitat OS - Source Hub / Staging",
     "",
     `Generated locally: ${new Date().toISOString()}`,
     "",
     "Use this handoff to understand the current website state. The active runtime is the static Node app served by server.mjs and public/ files.",
     "",
     "Main local URL: http://localhost:4328/vision-map",
-    "Handoff URL: http://localhost:4328/ai-handoff",
+    "Handoff URL: http://localhost:4328/source-hub-staging",
     "Project update URL: http://localhost:4328/project-update",
     "GitHub repo target: https://github.com/Burberrry/pickaxe-capital-command-center",
     "",
@@ -243,7 +243,7 @@ async function buildAiHandoff() {
     "Active files: server.mjs, public/index.html, public/app.js, public/styles.css, public/habitat-data.js, AGENTS.md, PROJECT_STATUS.md, NEXT_STEPS.md.",
     "Build/check commands: /Applications/Codex.app/Contents/Resources/node --run build and /Applications/Codex.app/Contents/Resources/node --run check:project.",
     "",
-    "Main routes: /, /vision-map, /agents, /agent-builder-factory, /archive, /staging, /project-update, /ai-handoff, /founder, /ceo-b-profile, /jarvis-lab, /life-os, /signals, /source-hub, /rk-tracker, /bookmarks, /berkshire-1965, /app/alerts, /market-command, /signal-engine, /life-habitat.",
+    "Main routes: /, /vision-map, /agents, /agent-builder-factory, /archive, /staging, /project-update, /source-hub-staging, /founder, /ceo-b-profile, /jarvis-lab, /life-os, /signals, /source-hub, /rk-tracker, /bookmarks, /berkshire-1965, /app/alerts, /market-command, /signal-engine, /life-habitat.",
     "",
     "Urgent market watchlist only: BTC, SPY, QQQ, TSLA, AAPL, AMD, NVDA, MSFT, AMZN, UVXY, SPX, MESmain, GCmain, SImain, SICmain, CLmain, DXY. Do not expand the market universe until B approves more symbols.",
     "Market Chart Workspace: manual/prototype QQQ-default workspace, static watchlist, no live feed connected, no trading execution, all actions route to CEO B Review first.",
@@ -253,7 +253,7 @@ async function buildAiHandoff() {
     "Apple Command Ecosystem: iPhone 17 Pro Max, Mac mini, Mac Neo, and iPad Air roles are roadmap/workflow planning only. GitHub should become the source of truth.",
     "",
     "Honest labels: Static, Prototype, Research, Future Adapter, Manual Review, Not Implemented. No scraping, no auto-trading, no fake live agents, no API keys in frontend.",
-    "Localhost warning: localhost links only work on B's Mac. For ChatGPT to open the site directly, deploy the static site and share /project-update or /ai-handoff.",
+    "Localhost warning: localhost links only work on B's Mac. For ChatGPT to open the site directly, deploy the static site and share /project-update or /source-hub-staging.",
     "",
     sections.join("\n\n---\n\n"),
   ].join("\n");
@@ -704,7 +704,7 @@ async function buildChecklistState() {
   const now = new Date();
   const market = await Promise.all(["SPY", "QQQ", "NVDA", "BTC-USD"].map(getMarketSnapshot));
   const runs = await readJson("agent-runs.json", []);
-  const journal = await readJson("trade-journal.json", []);
+  const journal = await readJson("research-journal.json", []);
   const today = now.toISOString().slice(0, 10);
   const hasRunToday = runs.some((r) => r.createdAt?.startsWith(today));
   const hasJournalToday = journal.some((r) => r.createdAt?.startsWith(today));
@@ -717,14 +717,14 @@ async function buildChecklistState() {
       id: "signals-only",
       title: "Confirm signals-only mode",
       status: "done",
-      detail: "This website generates alerts, research, and option ideas only. Actual buying and selling stays manual in Webull.",
+      detail: "This website generates alerts, research, and option ideas only. Research only — no broker execution inside this site.",
       priority: 1,
     },
     {
       id: "risk",
       title: "Set today's risk ceiling",
       status: "due",
-      detail: "Write max daily loss, max contracts, and the one setup you are allowed to send to Webull. No ceiling means no Webull entry.",
+      detail: "Write max daily loss, max contracts, and the one setup you are allowed to send to CEO B Review. No ceiling means no CEO B Review entry.",
       priority: 1,
     },
     {
@@ -750,9 +750,9 @@ async function buildChecklistState() {
     },
     {
       id: "webull-verify",
-      title: "Verify in Webull before action",
+      title: "Verify manually before action",
       status: "due",
-      detail: "If a signal looks good, open Webull and verify the exact contract, bid/ask, volume, open interest, spread, and underlying level before any manual decision.",
+      detail: "If a signal looks good, verify manually the exact contract, bid/ask, volume, open interest, spread, and underlying level before any manual decision.",
       priority: 1,
     },
     {
