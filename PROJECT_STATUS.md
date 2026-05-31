@@ -90,6 +90,15 @@
 
 ## Current Session Upgrade
 
+- Fixed the sidebar home-card Pickaxe Capital logo so the circular mark has a larger fixed footprint and no longer appears cropped.
+- Pointed the browser favicon at the Pickaxe Capital company logo in both root and `public/` HTML.
+- Regenerated `public/brand/favicon-floating.png` as a 96x96 Pickaxe Capital company-logo favicon for legacy/cached references.
+- Synced root/public mirrors for `index.html` and `styles.css`.
+- Validation passed: `node --check public/app.js`, `node --check app.js`, `scripts/build.mjs`, and `scripts/check-project.mjs`.
+- Updated the Build Completion Tracker default latest-session record in `public/habitat-data.js`.
+
+## Previous Session Upgrade
+
 - Upgraded `/`, `#/`, and `#/alerts` into the **Citadel Intelligence Center / Alerts Desk** first page.
 - Added the 20-panel Alerts Desk structure: command header, CEO B queue, active packet, contract/instrument context, research context, validation criteria, invalidation, risk audit, workspace checklist, safe actions, risk check, source confidence, agent commentary, market/catalyst/options context, Learning Ledger link, Archive memory, QA truth panel, and next manual step.
 - Expanded the sidebar to 20 ordered routes, with new future concept pages for Watchlists, Markets Matrix, Options Hub, Catalysts Calendar, Research Desk, and Build / Roadmap.
@@ -97,7 +106,7 @@
 - Updated the GitHub Pages workflow to newer safe action versions while preserving artifact path `"."`.
 - Updated the Build Completion Tracker default latest-session record in `public/habitat-data.js`.
 
-## Previous Session Upgrade
+## Earlier Session Upgrade
 
 - Upgraded the **Jarvis Command Console** (`#/jarvis-lab`) with stateful local command router capabilities, classification, force re-classification, and placeholder templates.
 - Connected the Jarvis command console to active local pipelines: Agent Mission Queue (`pickaxeMissionQueue`/`pickaxeAgentOps`), CEO B Review Desk (`pickaxeReviewQueue`), Archive Vault (`pickaxeArchiveVault`), Alert Rules (`pickaxeAlertRules`), and Staging Tasks (`pickaxeCompletionTracker`).
