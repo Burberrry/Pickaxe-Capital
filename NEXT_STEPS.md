@@ -117,7 +117,8 @@ All requirements for the final AI Habitat OS Command Center pass have been compl
 - All updated assets synced to workspace root.
 
 Next Best Tasks:
-1. **GitHub Pages Deployment**: Deploy the root directory static files to GitHub Pages.
-2. **Local Storage Testing**: Test manual bookmark import and JSON backup restoration on the live site.
-3. **Model Configuration**: Check API key configurations if live LLM summaries are needed.
+1. **GitHub Pages Deployment Fix**: Complete. Custom root deployment workflow is active and verified at commit `2dc65d3`.
+2. **Phase 2 Planning**: Phase 2 research terminal roadmap and wireframe documents have been created under `docs/`.
+3. **Review Wireframes**: CEO B reviews the Phase 2 roadmap and wireframes before initiating any frontend prototype implementation.
+
 

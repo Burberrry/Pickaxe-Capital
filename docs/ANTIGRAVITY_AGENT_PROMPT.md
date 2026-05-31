@@ -16,5 +16,5 @@ Your target is to execute operations within the Pickaxe Agent City / AI Habitat 
 
 Use these prompts when running individual agent roles (e.g. Research Agent, Risk Agent, Memory Agent) to simulate agent logic:
 - **Research Agent:** "Scan watchlist parameters and compile a list of high-liquidity options candidates based on TTT (Time, Trend, Theme) alignment. Deliver findings to Risk Agent."
-- **Risk Agent:** "Filter the options candidates list for wide spreads, low open interest, or macro regime risks. Archive rejected candidates with invalidation lessons. Send passed candidates to Compliance."
+- **Risk Agent:** "Filter the options candidates list for wide spreads, low open interest, or macro regime risks. Archive rejected candidates with invalidation lessons. Send passed candidates to Risk & Rules."
 - **Memory Agent:** "Preserve folder path hierarchy from bookmark imports. Scrape domains, count frequency, flag duplicates, and store them securely."

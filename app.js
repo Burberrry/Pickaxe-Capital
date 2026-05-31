@@ -1265,7 +1265,7 @@ function renderStaticIntelligencePages() {
   renderAgentBuilderFactoryPage();
   renderProjectUpdatePage();
   renderRiskRulesPage();
-  renderCompliancePage();
+
   renderAiHandoffPage();
   renderLearningLedgerPage();
   renderTrendRadarPage();
@@ -1328,7 +1328,7 @@ function renderRiskRulesPage() {
   `;
 }
 
-function renderCompliancePage() {}
+
 
 // Learning Ledger State Helpers
 function getLearningLedgerState() {
@@ -1735,7 +1735,7 @@ function renderMoneyLabPage() {
         </button>
       </div>
 
-      <!-- Compliance disclosure warning banner -->
+      <!-- Risk & Rules disclosure warning banner -->
       <div class="p-4 bg-amber-950/20 border border-amber-900/40 text-amber-400 text-xs mb-6 rounded-sm">
         <strong class="font-sans block mb-1">MONEY LAB SAFETY CONTRACT:</strong>
         <p class="font-sans leading-relaxed text-[11px]">
@@ -2963,7 +2963,7 @@ function renderVisionCommandCenter() {
     "command-agents": {
       name: "Command Layer Agents",
       purpose: "Coordinates command oversight, risk enforcement, and compliance gates.",
-      owner: "CEO B Review, System Brain, Risk Sentinel, Compliance Sentinel",
+      owner: "CEO B Review, System Brain, Risk Sentinel, Risk & Rules Sentinel",
       route: "#/agents",
       sources: "System Brain Core",
       status: "Active",
@@ -3690,7 +3690,7 @@ function renderAdapterRegistrySection(categories = null) {
           const currentStatus = getAdapterStatus(adapter);
           let statusChipClass = "static";
           if (currentStatus === "Mock" || currentStatus === "Static") statusChipClass = "static";
-          else if (currentStatus === "Manual" || currentStatus === "Needs Compliance Review") statusChipClass = "manual-review";
+          else if (currentStatus === "Manual" || currentStatus === "Needs Risk & Rules Review") statusChipClass = "manual-review";
           else if (currentStatus === "Local" || currentStatus === "Prototype") statusChipClass = "local-state";
           else if (currentStatus === "Adapter Ready") statusChipClass = "adapter-ready";
           else if (currentStatus === "Connected") statusChipClass = "mock-ready";
@@ -3884,7 +3884,7 @@ function renderSourceHubPage() {
     { label: "Adapter Ready", meaning: "UI components and data schemas fully prepared", allowed: "Wired local actions and button stubs", forbidden: "Triggering live provider endpoint calls" },
     { label: "Needs Backend", meaning: "Requires server-side proxy to hide API secrets", allowed: "Define connection logic, list environment parameters", forbidden: "Store secret keys directly in client-side code" },
     { label: "Needs API Key", meaning: "Requires user/developer credentials to activate", allowed: "Show placeholder forms, list variables", forbidden: "Hardcode credential values in frontend bundle" },
-    { label: "Needs Compliance Review", meaning: "Awaiting legal, risk, or security audit", allowed: "Study regulatory limits, enforce read-only bounds", forbidden: "Auto-trading or routing orders" },
+    { label: "Needs Risk & Rules Review", meaning: "Awaiting legal, risk, or security audit", allowed: "Study regulatory limits, enforce read-only bounds", forbidden: "Auto-trading or routing orders" },
     { label: "Not Connected", meaning: "Future integration roadmap placeholder only", allowed: "Visualize target agent and route mapping", forbidden: "Pretend sync is active or connected" }
   ];
 
@@ -3929,8 +3929,8 @@ function renderSourceHubPage() {
           </thead>
           <tbody class="divide-y divide-slate-900 bg-[#0c0d0e]/60">
             ${sources.map(source => {
-              const statusColor = source.status === "Local" ? "text-cyan-400" : source.status === "Needs Compliance Review" ? "text-purple-400" : "text-amber-400";
-              const statusBg = source.status === "Local" ? "bg-cyan-950/30 border-cyan-900/30" : source.status === "Needs Compliance Review" ? "bg-purple-950/30 border-purple-900/30" : "bg-amber-950/30 border-amber-900/30";
+              const statusColor = source.status === "Local" ? "text-cyan-400" : source.status === "Needs Risk & Rules Review" ? "text-purple-400" : "text-amber-400";
+              const statusBg = source.status === "Local" ? "bg-cyan-950/30 border-cyan-900/30" : source.status === "Needs Risk & Rules Review" ? "bg-purple-950/30 border-purple-900/30" : "bg-amber-950/30 border-amber-900/30";
               return `
                 <tr class="hover:bg-[#121417]/50 transition-colors">
                   <td class="p-3 font-sans font-bold text-white">${escapeHtml(source.name)}</td>
@@ -3998,7 +3998,7 @@ function renderSourceHubPage() {
       <section class="mt-8 border border-[#1f242d] bg-[#0c0d0e] rounded p-4">
         <div class="flex items-center justify-between border-b border-[#1f242d] pb-3 mb-4 select-none">
           <div>
-            <span class="text-[9px] text-[#8c9099] uppercase tracking-wider font-bold">Governance & Compliance</span>
+            <span class="text-[9px] text-[#8c9099] uppercase tracking-wider font-bold">Governance & Risk / Rules</span>
             <h3 class="text-xs font-bold text-white uppercase tracking-tight">Adapter Status Governance Protocol</h3>
           </div>
           <span class="px-2 py-0.5 border border-purple-500/30 bg-purple-500/10 text-purple-400 text-[9px] uppercase font-bold rounded">Regulatory Index</span>
@@ -4018,7 +4018,7 @@ function renderSourceHubPage() {
               ${glossary.map(g => {
                 let statusChipClass = "static";
                 if (g.label === "Mock" || g.label === "Static") statusChipClass = "static";
-                else if (g.label === "Manual" || g.label === "Needs Compliance Review") statusChipClass = "manual-review";
+                else if (g.label === "Manual" || g.label === "Needs Risk & Rules Review") statusChipClass = "manual-review";
                 else if (g.label === "Local" || g.label === "Prototype") statusChipClass = "local-state";
                 else if (g.label === "Adapter Ready") statusChipClass = "adapter-ready";
                 else if (g.label === "Connected") statusChipClass = "mock-ready";
@@ -7477,7 +7477,7 @@ function renderMissionBoardPanel() {
       <div class="mission-columns">${Object.entries(taskGroups).map(([group, items]) => `<article><h3>${escapeHtml(group)}</h3>${items.map((item) => `<p>${escapeHtml(item)}</p>`).join("")}</article>`).join("")}</div>
       <div class="panel-head"><div><p class="eyebrow">Roadmap</p><h2>Integration Status</h2></div><span class="pill">No fake live systems</span></div>
       <div class="integration-card-grid">${integrations.map(([name, status]) => `<article><span class="status-badge research">${escapeHtml(status)}</span><h3>${escapeHtml(name)}</h3><p>All advanced integrations require security review, backend/provider setup, and CEO B approval before activation.</p></article>`).join("")}</div>
-      <div class="game-action-row"><a href="#/projectUpdate">Open Project Update</a><button type="button" onclick="navigator.clipboard?.writeText(window.location.origin + '#/projectUpdate')">Copy Project Update Link</button><a href="#/source-hub-staging">Open AI Handoff</a><button type="button" onclick="window.copyHandoffText?.()">Copy AI Handoff Text</button></div>
+      <div class="game-action-row"><a href="#/projectUpdate">Open Project Update</a><button type="button" onclick="navigator.clipboard?.writeText(window.location.origin + '#/projectUpdate')">Copy Project Update Link</button><a href="#/source-hub-staging">Open Source Hub / Staging</a><button type="button" onclick="window.copyHandoffText?.()">Copy Source Hub / Staging Text</button></div>
     </section>
   `;
 }
@@ -7944,7 +7944,7 @@ function renderProjectUpdatePage() {
       <div class="ceob-briefing-card">
         <span class="label">Local URLs</span>
         <p>Website: http://localhost:4328</p>
-        <p>AI Handoff: http://localhost:4328/source-hub-staging</p>
+        <p>Source Hub / Staging: http://localhost:4328/source-hub-staging</p>
         <p>Project Update: http://localhost:4328/project-update</p>
       </div>
     </section>
@@ -7952,10 +7952,10 @@ function renderProjectUpdatePage() {
       <div class="panel-head"><div><p class="eyebrow">Share with AI</p><h2>How ChatGPT Should Use This Page</h2></div><span class="pill">Deployment recommended</span></div>
       <p>When B shares this page with ChatGPT, use it to understand the current Pickaxe Capital project state. Preserve the existing design, avoid fake live claims, keep the static Node architecture stable, and route all actions through CEO B Review first.</p>
       <div class="game-action-row">
-        <button type="button" onclick="window.copyHandoffText?.()">Copy AI Handoff</button>
+        <button type="button" onclick="window.copyHandoffText?.()">Copy Source Hub / Staging</button>
         <button type="button" onclick="window.copyProjectSummary?.()">Copy Project Update Summary</button>
         <button type="button" onclick="navigator.clipboard?.writeText('https://github.com/Burberrry/pickaxe-capital-command-center')">Copy GitHub Repo Link</button>
-        <a href="#/source-hub-staging">Open AI Handoff</a>
+        <a href="#/source-hub-staging">Open Source Hub / Staging</a>
         <a href="#/staging">Open Staging Mission Board</a>
       </div>
     </section>

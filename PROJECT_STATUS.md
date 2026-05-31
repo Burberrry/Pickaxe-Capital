@@ -628,3 +628,24 @@ Verify and test live Chrome HTML file upload in browser under `/bookmarks` view,
 - **Verification Performed**:
   - Run all validation and check scripts successfully.
   - Local dev server successfully running at port 4328.
+
+## Session 06 — GitHub Pages Artifact Fix & Phase 2 Planning - 2026-05-31
+
+- **Current State**: Phase 1 deployed / awaiting final visual confirmation.
+- **Pages Workflow**: Custom GitHub Actions root deployment active and verified at commit `2dc65d3`.
+- **Phase 2 Status**: Planning docs only; implementation not started.
+- **Changed Files**:
+  - `docs/PHASE_2_WEBULL_RESEARCH_TERMINAL_ROADMAP.md` (new)
+  - `docs/PHASE_2_WIREFRAMES.md` (new)
+  - `docs/PHASE_2_SAFETY_SPEC.md` (new)
+  - `README.md`
+  - `NEXT_STEPS.md`
+  - `PROJECT_STATUS.md`
+- **Features & Enhancements Added**:
+  - Created Phase 2 Webull-inspired Pickaxe Research Terminal roadmap outlining purposes, routes, and modules.
+  - Designed Phase 2 Wireframes containing 10 ASCII dashboard grids, safety rules, and local storage targets.
+  - Structured Phase 2 Safety Specification defining mandatory allowed/forbidden labels and proxy backend rules.
+  - Cleaned all remaining user-facing stale references to Trade Journal and Compliance.
+- **Verification Performed**:
+  - Ran validation checks locally (`node --check`, `build.mjs`, `check-project.mjs`, `update-readme.mjs`) and confirmed all passed.
+

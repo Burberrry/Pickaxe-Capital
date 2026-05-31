@@ -25,6 +25,12 @@ This project is a premium dark cyber-finance command center and AI-agent habitat
 
 ---
 
+## 🔮 Phase 2 Terminal Roadmap
+
+Phase 2 Webull-inspired Pickaxe Research Terminal is planned as future documentation and wireframes only. It is not implemented yet. Current app remains static-first, research-only, no broker execution, no fake live data.
+
+---
+
 ## 🎯 What This Website Is
 
 A local-first, browser-sandboxed command center for:
