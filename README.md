@@ -20,7 +20,7 @@ This project is a premium dark cyber-finance command center and AI-agent habitat
 | **Session 02 (Visual Upgrade)** | **Done + Pushed** | Obsidian/fintech visually polished, **Commit `7b7968b`** |
 | **GitHub Pages Hosting** | **Live** | Maintained static file mirrors at root |
 | **Real Market Data** | **Future Adapter** | Conceptual providers catalog; no active billing hooks |
-| **Broker / Trade Execution** | **Not Supported** | Local strategy logging only; execution is manual in Webull |
+| **Broker / Trade Execution** | **Not Supported** | Local research logging only; manual broker review stays outside this site |
 | **Backend Integration** | **Optional Later** | LocalStorage keys drive state sandbox completely |
 
 ---
@@ -134,6 +134,7 @@ The section below is refreshed from `AGENTS.md`, `PROJECT_STATUS.md`, and `NEXT_
 ### Working Now
 
 - `/`
+- `#/alerts`
 - `/agents`
 - `/vision-map`
 - `/archive`
@@ -141,9 +142,13 @@ The section below is refreshed from `AGENTS.md`, `PROJECT_STATUS.md`, and `NEXT_
 - `/founder`
 - `/ceo-b-profile`
 - `/bookmarks`
+- `#/watchlists`
+- `#/markets`
+- `#/options`
 
 ### Current State
 
+- `/` and `#/alerts` now open the Citadel Intelligence Center Alerts Desk with a 20-panel CEO B research review dashboard.
 - `/agents` is fully integrated with the AI Habitat OS operating layer, review stacks, and active mission boards.
 - `/vision-map` is wired dynamically into the Review and Mission pipelines. Node and agent drawers support stateful actions that push task and review items. Selected agent markers support highlights.
 - `/bookmarks` supports manual intake and Chrome/X bookmark batch analy
@@ -179,4 +184,3 @@ The section below is refreshed from `AGENTS.md`, `PROJECT_STATUS.md`, and `NEXT_
 
 ## GitHub Pages Deployment
 Last deployment trigger: 2026-05-31T01:25:00-07:00
-

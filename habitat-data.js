@@ -241,7 +241,7 @@ window.PickaxeHabitatData = {
       symbol: "NVDA",
       company: "NVIDIA",
       currentPrice: "$215.33",
-      action: "WATCH CALL",
+      action: "Watch",
       contract: "17 JUL 26 $230 Call",
       contractPrice: "$4.10",
       confidence: 88,
@@ -319,7 +319,7 @@ window.PickaxeHabitatData = {
       "Mission package delivered to CEO B Review Stack.",
     ],
     reviewStack: [
-      { id: "review-aapl", title: "AAPL call alert packet", habitat: "Market Habitat", agents: ["Market Scout", "Options Flow Hunter", "Risk Guard"], confidence: 92, status: "Waiting for CEO B", output: "Demo contract idea: 18 JUN 26 $320 Call at $2.75. Manual Webull review only.", priority: "High" },
+      { id: "review-aapl", title: "AAPL Options Research Packet", habitat: "Market Habitat", agents: ["Market Scout", "Options Flow Hunter", "Risk Guard"], confidence: 92, status: "Waiting for CEO B", output: "Demo contract context: 18 JUN 26 $320 Call at $2.75. Manual CEO B review required; no broker execution inside Pickaxe Capital.", priority: "High" },
       { id: "review-agent-world", title: "Agent Habitat world upgrade", habitat: "Builder Habitat", agents: ["Frontend Builder", "Animation Engineer", "UI Designer"], confidence: 91, status: "In Review", output: "Hub-and-spoke habitat map with local missions, animations, and review actions.", priority: "Critical" },
       { id: "review-archive", title: "Archive cleanup workflow", habitat: "Archive Habitat", agents: ["Archive Miner", "Bookmark Organizer"], confidence: 83, status: "Needs More Data", output: "Bookmark tree is preserved; user import/classification can continue.", priority: "High" },
     ],
@@ -408,7 +408,7 @@ window.PickaxeHabitatData = {
     { id: "global-intel", name: "Global Intel / Markets / World View", type: "Source", ownerAgent: "News Raven / Macro Watcher", route: "/source-hub", status: "Source Ready", purpose: "World-view layer for market, macro, and geopolitical awareness.", currentTask: "Monitor sources without scraping.", nextAction: "Save high-value context to Archive.", relatedSystems: ["Source Hub", "Archive", "Alerts"] },
     { id: "flights", name: "Flights / Global Movement", type: "Source", ownerAgent: "Map Builder", route: "/source-hub", status: "Link Fallback", purpose: "Track movement, logistics, airports, and global risk context.", currentTask: "Use Flightradar24 and map sources as external terminals.", nextAction: "Create planned movement-risk alert.", relatedSystems: ["Flightradar24", "OsirisAI", "Alerts"] },
     { id: "market-data", name: "Market Data / Capital Signals", type: "Source", ownerAgent: "Signal Scout / Macro Watcher", route: "/signals", status: "Mock + Adapter Ready", purpose: "Feed watchlist, signal candidates, macro pressure, and market structure.", currentTask: "Keep signals labeled as mock/delayed where needed.", nextAction: "Connect official providers later.", relatedSystems: ["Signals", "RK Tracker", "Archive"] },
-    { id: "webull", name: "Webull & More", type: "Source", ownerAgent: "Risk Sentinel", route: "/signals", status: "Manual Broker Review Separate", purpose: "Trading remains outside the website; site generates research and alerts only.", currentTask: "Prevent auto-trading assumptions.", nextAction: "Keep manual broker review separate.", relatedSystems: ["Signals", "Risk", "CEO B"] },
+    { id: "broker-review", name: "Broker Research Terminals", type: "Source", ownerAgent: "Risk Sentinel", route: "/signals", status: "Manual Broker Review Separate", purpose: "Financial action remains outside the website; site generates research and alerts only.", currentTask: "Prevent auto-trading assumptions.", nextAction: "Keep manual broker review separate.", relatedSystems: ["Signals", "Risk", "CEO B"] },
     { id: "ai-tools", name: "AI Models & Tools", type: "System", ownerAgent: "System Brain", route: "/agents", status: "Ready / Fallback Safe", purpose: "AI reasoning layer when connected; rules-based review stays available whenever model output is unavailable.", currentTask: "Use local/mock data honestly.", nextAction: "Verify model connection after credit/account changes.", relatedSystems: ["Agents", "Staging", "Archive"] },
     { id: "jarvis-life-os", name: "Jarvis / Life OS Foundation", type: "System", ownerAgent: "Command Architect / Device Marshal", route: "/jarvis-lab", status: "Prototype + Research", purpose: "Connect CEO B, Jarvis Lab, Archive, Agents, OpenClaw Lab, Life OS, future devices, and Staging into one safe command foundation.", currentTask: "Classify typed commands locally and keep future voice/camera/device control research-only.", nextAction: "Use /jarvis-lab for typed commands and /life-os for device roles.", relatedSystems: ["CEO B", "Jarvis Lab", "Archive", "Agents", "OpenClaw Integration Lab", "Life OS", "Staging"] },
     { id: "source-hub", name: "Source Hub", type: "Page", ownerAgent: "News Raven / System Brain", route: "/source-hub", status: "Connected", purpose: "External intelligence cockpit with safe fallbacks and adapter stubs.", currentTask: "Organize sources by category, owner, and embedding policy.", nextAction: "Add source health QA details.", relatedSystems: ["Vision Map", "Signals", "Archive"] },
@@ -595,8 +595,9 @@ window.PickaxeHabitatData = {
     { id: "founder-decision-cleanup", title: "Founder Decision: Clean before scale", type: "Founder Decision", sourceHabitat: "Founder OS", sourceWebsite: "CEO B", relatedAgent: "CEO B / Wealth Alchemist", summary: "Apply Berkshire cleanup logic to websites, agents, archives, investments, and personal execution.", tags: ["founder", "cleanup", "scale"], confidence: 90, valueScore: 94, status: "CEO B Review", lesson: "Compounding starts when drag is removed.", nextAction: "Add to founder operating rules.", sourceRoute: "/founder", reviewDate: "local/mock" },
   ],
   buildCompletionTracker: {
-    lastUpdated: "2026-05-30",
+    lastUpdated: "2026-05-31",
     areas: [
+      { id: "alerts-desk-command-center", name: "Alerts Desk command-center homepage", group: "CEO B Review Workflow", status: "Passed", completion: 100, priority: "Critical", owner: "CEO B / System Brain", notes: "Home route now opens a 20-panel research-only Alerts Desk with safe actions, route chips, and future-page links.", nextAction: "CEO B should review the new first page, then choose Dashboard or Options Hub for Phase 2 prototyping." },
       { id: "visual-map-integration", name: "Visual Map command-center integration", group: "Builder Habitat", status: "Passed", completion: 100, priority: "High", owner: "Builder Agent / System Brain", notes: "Visual nodes and route connections match requirements.", nextAction: "Monitor layout for overflow at standard resolutions." },
       { id: "voxel-character-engine", name: "Voxel/Block character engine", group: "Builder Habitat", status: "Passed", completion: 100, priority: "Medium", owner: "Builder Agent", notes: "Lightweight CSS characters rendered cleanly on agents map.", nextAction: "None." },
       
@@ -620,24 +621,26 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["public/app.js", "app.js", "public/habitat-data.js", "habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
+      filesChanged: ["public/app.js", "app.js", "public/index.html", "index.html", "public/habitat-data.js", "habitat-data.js", ".github/workflows/pages.yml", "README.md", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
       featuresAdded: [
-        "Upgraded the Jarvis Command Console on #/jarvis-lab with stateful local classification and dispatching.",
-        "Integrated Jarvis command router with CEO B Review Queue, Agent Mission Queue, Archive Vault, Alert Rule ideas, and Staging Tasks.",
-        "Added safe local command preview, force re-classify option, empty state indicators, and safety/prototype labels.",
-        "Configured target owner agent selection for dispatched agent missions (Signal Scout, Flow Hunter, etc.).",
-        "Logged all dispatches to pickaxe_jarvis_command_history and rendered a stateful log history dashboard."
+        "Upgraded /, #/, and #/alerts into the Citadel Intelligence Center Alerts Desk homepage.",
+        "Built the required 20-panel research-only dashboard with CEO B Review Queue, packet detail, risk audit, source confidence, learning, archive, QA truth, and next manual step panels.",
+        "Expanded the sidebar to 20 ordered routes and added future concept pages for Watchlists, Markets Matrix, Options Hub, Catalysts Calendar, Research Desk, and Build / Roadmap.",
+        "Cleaned visible alert packet copy to research-only language with manual CEO B review, no broker execution, no auto-trading, no betting execution, no copy-trading, and no fake live data.",
+        "Updated the GitHub Pages workflow action versions while preserving root artifact deployment path."
       ],
       bugsFixed: [
-        "Resolved an unclosed bracket SyntaxError in renderAlertsPage that blocked the local app build."
+        "Removed stale first-page safety wording and Webull-only phrasing from active user-facing surfaces.",
+        "Kept root/public static mirrors aligned for GitHub Pages deployment."
       ],
-      validationCommand: "/Applications/Codex.app/Contents/Resources/node scripts/build.mjs",
-      validationResult: "Build validation and project checker pass cleanly.",
+      validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node scripts/build.mjs; /Applications/Codex.app/Contents/Resources/node scripts/check-project.mjs; /Applications/Codex.app/Contents/Resources/node scripts/update-readme.mjs",
+      validationResult: "Bundled Node syntax checks, build script, project checker, and README updater passed.",
       remainingProblems: [
-        "Live data connectors require backend/API setup",
-        "Real agent telemetry is not connected"
+        "Live data connectors require backend/API setup.",
+        "Real agent telemetry is not connected.",
+        "Phase 2 pages remain polished future concept placeholders until CEO B approves the next prototype."
       ],
-      nextRecommendedTask: "Push the latest Pickaxe Capital / AI Habitat OS work to GitHub and verify the live GitHub Pages site."
+      nextRecommendedTask: "After CEO B approves the new Alerts Desk, prototype one Phase 2 page: Dashboard or Options Hub."
     },
   },
   marketWatchlist: [
@@ -760,16 +763,20 @@ window.PickaxeHabitatData = {
       contractPrice: "$2.75",
       confidence: 92,
       status: "Needs CEO B Review",
-      strategy: "Bull Call Spread",
+      title: "AAPL Options Research Packet",
+      type: "Bull Call Spread Research Context",
+      strategy: "Bull Call Spread Research Context",
       catalyst: "Mega-cap leadership consolidation breakout",
-      researchContext: "Watchlist strength, liquidity gate, and CEO B final review all agree to prepare a Manual broker review separate watch packet.",
-      invalidationResearchNote: "Break below $298 major support level",
+      researchContext: "Watchlist strength, liquidity context, and CEO B review gates indicate this packet is ready for research review only. No broker execution occurs inside Pickaxe Capital.",
+      watchCriteria: "Confirm trend alignment remains intact. Confirm liquidity and spread quality remain acceptable. Confirm no blocking headline or earnings risk. Confirm Risk Sentinel score remains above review threshold. Confirm CEO B manually approves before any external action.",
+      invalidationResearchNote: "Break below key support or loss of liquidity weakens the research case.",
       riskNotes: "Risk is defined to paid premium only. No broker execution occurs inside this site.",
       spreadQuality: "Tight (spread < 0.05)",
       route: "#/signals",
       date: "2026-05-29",
       reason: [
         "Signal Scout marked trend alignment as strong.",
+        "Flow Hunter marked liquidity context as acceptable.",
         "Risk Sentinel found defined premium risk and no broker execution inside this site.",
         "News Raven found no blocking headline in the demo packet.",
         "Archive Keeper attached prior Apple mega-cap playbook notes."
@@ -789,13 +796,15 @@ window.PickaxeHabitatData = {
       id: "nvda-watch-alert",
       symbol: "NVDA",
       company: "NVIDIA Corp.",
-      action: "WATCH CALL",
+      action: "Watch",
       contract: "17 JUL 26 $230 Call",
       currentPrice: "$215.33",
       contractPrice: "$4.10",
       confidence: 88,
       status: "Research Candidate",
-      strategy: "Bear Put Spread",
+      title: "NVDA Liquidity / Trend Review Packet",
+      type: "Options Research Context",
+      strategy: "Options Research Context",
       catalyst: "Semi capex momentum pause check",
       researchContext: "Strong AI/semiconductor theme, but risk gate requires confirmation before CEO B review.",
       invalidationResearchNote: "Crossover of $225 resistance level",
@@ -823,13 +832,15 @@ window.PickaxeHabitatData = {
       id: "spy-gate-alert",
       symbol: "SPY",
       company: "S&P 500 ETF",
-      action: "WAIT",
+      action: "Watch",
       contract: "No contract until TTT confirms",
       currentPrice: "$745.64",
       contractPrice: "N/A",
       confidence: 74,
       status: "Research Candidate",
-      strategy: "Iron Condor",
+      title: "SPY Regime Research Packet",
+      type: "Index Regime Research Context",
+      strategy: "Index Regime Research Context",
       catalyst: "Broad-market regime transition check",
       researchContext: "Trend is constructive, but the system is waiting for Time, Trend, Theme alignment.",
       invalidationResearchNote: "Breakout of SPX 5500 / 5300 ranges",
@@ -857,13 +868,15 @@ window.PickaxeHabitatData = {
       id: "btc-alpha-alert",
       symbol: "BTC",
       company: "Bitcoin",
-      action: "WATCH STRENGTH",
+      action: "Watch",
       contract: "Spot TTT breakout setup",
       currentPrice: "$92,400.00",
       contractPrice: "N/A",
       confidence: 94,
       status: "Needs CEO B Review",
-      strategy: "Spot Breakout",
+      title: "BTC Liquidity / Trend Review Packet",
+      type: "Macro Liquidity Research Context",
+      strategy: "Macro Liquidity Research Context",
       catalyst: "Systemic crypto liquidity crossover breakout",
       researchContext: "BTC crossover of key horizontal resistance with options/spot volume surge.",
       invalidationResearchNote: "Break below $88,000 downside gate",
@@ -916,14 +929,14 @@ window.PickaxeHabitatData = {
     { name: "Gemini & OpenAI API stubs", category: "AI Review / Summarization", agents: "Command Architect", dataType: "Sentiment briefing packets, tags extraction", status: "Adapter Ready", step: "Establish backend proxy to LLM endpoints.", safety: "Never expose AI keys in frontend client bundles.", backend: "Yes" },
     { name: "Chrome & X HTML Import", category: "Bookmarks / Article Intake", agents: "Bookmark Miner", dataType: "HTML Netscape parsing, X link posts", status: "Local", step: "Expand parse rules for RSS/XML feeds.", safety: "Runs locally in-browser via FileReader. Zero network traffic.", backend: "No" },
     { name: "SimilarWeb & COT Reports", category: "Alternative Data Future", agents: "Wealth Alchemist", dataType: "Web traffic data, COT reports", status: "Not Connected", step: "Determine data purchase contracts and licenses.", safety: "Confirm data rights. Visual empty state placeholder only.", backend: "Yes" },
-    { name: "Autopilot Portfolio Tracker", category: "Investor / Portfolio Trackers", agents: "Autopilot Tracker Agent", dataType: "Politician trades, Pelosi portfolios, top insider transactions", status: "Not Connected", step: "Review public trade notifications manually.", safety: "Static research only. Do not connect brokerage accounts, store credentials, or copy trades automatically.", backend: "No" },
+    { name: "Autopilot Portfolio Tracker", category: "Investor / Portfolio Trackers", agents: "Autopilot Tracker Agent", dataType: "Politician trades, Pelosi portfolios, top insider transactions", status: "Not Connected", step: "Review public trade notifications manually.", safety: "Static research only. Do not connect brokerage accounts, store credentials, or mirror external transactions automatically.", backend: "No" },
     { name: "Personal Bookmark & Inbox Stack", category: "Personal / Private Sources", agents: "Bookmark Miner", dataType: "Chrome bookmarks HTML export, Gmail/Yahoo Mail manual digests, custom links", status: "Private Data — Do Not Commit", step: "Manual export recommended. Local file import only. Requires secure backend to process without leaks.", safety: "Zero credentials stored. Private files must never be committed to public code repositories.", backend: "No" }
   ],
   complianceDisclosures: [
     { title: "Research Only Platform", text: "Pickaxe Capital / AI Habitat OS is a static research, strategy, and planning software. It is not an investment adviser, broker-dealer, or exchange." },
     { title: "No Financial Advice", text: "All alerts, signals, data, and agent outputs are for educational and mock simulation purposes only. Nothing here constitutes a recommendation to buy or sell options." },
     { title: "Options Involve Risk", text: "Options trading is highly speculative and involves a high degree of risk. Investors can lose 100% of their premium. Past performance is not indicative of future results." },
-    { title: "Manual External Execution", text: "This website has no capability to place orders, connect to broker APIs, or execute trades. All trades must be reviewed and entered manually in external brokers." },
+    { title: "Manual External Review", text: "This website has no capability to place orders or connect to broker order APIs. All financial decisions require separate manual review outside Pickaxe Capital." },
     { title: "CEO B Decision Layer", text: "CEO B review is a manual human-in-the-loop validation process for strategy logging, not an automated advisory recommendation." }
   ],
   missionLog: [
@@ -1079,4 +1092,3 @@ window.PickaxeHabitatData = {
     }
   ]
 };
-

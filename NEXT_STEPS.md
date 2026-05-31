@@ -1,10 +1,11 @@
 # Pickaxe Capital Next Steps
 
-Dynamic data pipeline and Vision Map action wiring successfully completed. Local Node build validation passes, checking projects passes, and all core routes return 200.
+Alerts Desk command-center homepage upgrade is now the active checkpoint. Local validation is being run with the bundled Codex Node runtime, and the app remains static-first, research-only, and localStorage-backed.
 
 ## Working Now
 
 - `/`
+- `#/alerts`
 - `/agents`
 - `/vision-map`
 - `/archive`
@@ -12,6 +13,12 @@ Dynamic data pipeline and Vision Map action wiring successfully completed. Local
 - `/founder`
 - `/ceo-b-profile`
 - `/bookmarks`
+- `#/watchlists`
+- `#/markets`
+- `#/options`
+- `#/catalysts`
+- `#/research`
+- `#/roadmap`
 
 ## Important Environment Note
 
@@ -20,11 +27,13 @@ Dynamic data pipeline and Vision Map action wiring successfully completed. Local
 
 ## Current State
 
+- `/` and `#/alerts` now open the Citadel Intelligence Center Alerts Desk with a 20-panel CEO B research review dashboard.
 - `/agents` is fully integrated with the AI Habitat OS operating layer, review stacks, and active mission boards.
 - `/vision-map` is wired dynamically into the Review and Mission pipelines. Node and agent drawers support stateful actions that push task and review items. Selected agent markers support highlights.
 - `/bookmarks` supports manual intake and Chrome/X bookmark batch analyzing and deduplication.
 - `/archive` card buttons (Summarize, Checklist, Extract, Send to Agent) connect cleanly into the review and checklist mission system.
 - Build Completion Tracker is updated to reflect this pipeline completion.
+- Sidebar routes 15-20 are polished future concept pages, not live implementations.
 
 ## Completion Tracker System
 
@@ -47,6 +56,14 @@ Dynamic data pipeline and Vision Map action wiring successfully completed. Local
 - Agent movement, missions, and CEO B Review Stack actions are local browser state, not real autonomous background jobs yet.
 
 ## Latest Finished Work
+
+- Upgraded the first page / Alerts Desk into a premium command-center homepage.
+- Added top safety chips, queue controls, safe action buttons, and 20 organized research-only panels.
+- Added future concept routes for Watchlists, Markets Matrix, Options Hub, Catalysts Calendar, Research Desk, and Build / Roadmap.
+- Cleaned active user-facing alert wording away from broker-execution phrasing.
+- Preserved GitHub Pages root deployment workflow and updated safe action versions.
+
+## Previous Finished Work
 
 - Upgraded `#/app/alerts` into a dedicated stateful **Alert Rules Center** supporting 7 default rule categories (Options Flow, Market Gates, Risk Warnings, etc.) and complete local actions (Enable/Disable, Duplicate, Delete, Reset).
 - Implemented a custom cyberpunk toast notification helper (`showNotification`) and a fully customizable **Rule Configuration Editor** form.
@@ -120,5 +137,4 @@ Next Best Tasks:
 1. **GitHub Pages Deployment Fix**: Complete. Custom root deployment workflow is active and verified at commit `2dc65d3`.
 2. **Phase 2 Planning**: Phase 2 research terminal roadmap and wireframe documents have been created under `docs/`.
 3. **Review Wireframes**: CEO B reviews the Phase 2 roadmap and wireframes before initiating any frontend prototype implementation.
-
 

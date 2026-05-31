@@ -6,6 +6,9 @@
 
 ## Working Routes
 
+- `/`
+- `/app/alerts`
+- `/alerts`
 - `/vision-map`
 - `/source-hub`
 - `/signals`
@@ -22,6 +25,12 @@
 - `/signal-engine`
 - `/life-habitat`
 - `/ceo-b-profile`
+- `/watchlists`
+- `/markets`
+- `/options`
+- `/catalysts`
+- `/research`
+- `/roadmap`
 
 ## Missing / Broken Routes
 
@@ -31,6 +40,12 @@
 
 - `public/app.js`
 - `app.js`
+- `public/index.html`
+- `index.html`
+- `public/habitat-data.js`
+- `habitat-data.js`
+- `.github/workflows/pages.yml`
+- `README.md`
 - `PROJECT_STATUS.md`
 - `NEXT_STEPS.md`
 
@@ -74,6 +89,15 @@
 - `/ceo-b-profile` browser check passed: CEO B portrait is visible, image loads, no console errors, and no horizontal overflow.
 
 ## Current Session Upgrade
+
+- Upgraded `/`, `#/`, and `#/alerts` into the **Citadel Intelligence Center / Alerts Desk** first page.
+- Added the 20-panel Alerts Desk structure: command header, CEO B queue, active packet, contract/instrument context, research context, validation criteria, invalidation, risk audit, workspace checklist, safe actions, risk check, source confidence, agent commentary, market/catalyst/options context, Learning Ledger link, Archive memory, QA truth panel, and next manual step.
+- Expanded the sidebar to 20 ordered routes, with new future concept pages for Watchlists, Markets Matrix, Options Hub, Catalysts Calendar, Research Desk, and Build / Roadmap.
+- Cleaned active alert-packet wording to research-only language: manual CEO B review required, no broker execution, no auto-trading, no betting execution, no copy-trading, and no fake live data.
+- Updated the GitHub Pages workflow to newer safe action versions while preserving artifact path `"."`.
+- Updated the Build Completion Tracker default latest-session record in `public/habitat-data.js`.
+
+## Previous Session Upgrade
 
 - Upgraded the **Jarvis Command Console** (`#/jarvis-lab`) with stateful local command router capabilities, classification, force re-classification, and placeholder templates.
 - Connected the Jarvis command console to active local pipelines: Agent Mission Queue (`pickaxeMissionQueue`/`pickaxeAgentOps`), CEO B Review Desk (`pickaxeReviewQueue`), Archive Vault (`pickaxeArchiveVault`), Alert Rules (`pickaxeAlertRules`), and Staging Tasks (`pickaxeCompletionTracker`).
@@ -313,7 +337,7 @@
 - Added `/ai-handoff`, a local text endpoint generated from `AGENTS.md`, `PROJECT_STATUS.md`, and `NEXT_STEPS.md`.
 - Added the Staging AI handoff panel with Copy Handoff Text, Copy Link, and Open actions.
 - Rebuilt the Home front page into an alerts-only command screen.
-- Added clickable CEO B-reviewed demo alert packets, including the requested AAPL call-alert format with contract, price, confidence, reasons, research trail, and manual Webull-only boundary.
+- Added clickable CEO B-reviewed demo alert packets, including the requested AAPL research-packet format with contract context, price context, confidence, reasons, research trail, and no-broker-execution boundary.
 - Rebuilt `/agents` through a new AI Agent Habitat World renderer.
 - Added habitat data for Market, Intelligence, Archive, Builder, and Personal Ops districts.
 - Added mission data, animated bridge/path UI, moving agent units, mission packages, selected habitat/agent/mission detail, local action buttons, and CEO B Review Stack.
@@ -645,7 +669,6 @@ Verify and test live Chrome HTML file upload in browser under `/bookmarks` view,
   - Created Phase 2 Webull-inspired Pickaxe Research Terminal roadmap outlining purposes, routes, and modules.
   - Designed Phase 2 Wireframes containing 10 ASCII dashboard grids, safety rules, and local storage targets.
   - Structured Phase 2 Safety Specification defining mandatory allowed/forbidden labels and proxy backend rules.
-  - Cleaned all remaining user-facing stale references to Trade Journal and Compliance.
+  - Cleaned all remaining user-facing stale references to Research Journal and Risk & Rules naming.
 - **Verification Performed**:
   - Ran validation checks locally (`node --check`, `build.mjs`, `check-project.mjs`, `update-readme.mjs`) and confirmed all passed.
-

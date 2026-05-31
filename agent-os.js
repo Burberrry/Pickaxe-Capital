@@ -150,7 +150,8 @@ document.addEventListener("DOMContentLoaded", () => {
 async function initDashboard() {
   try {
     const res = await fetch("/api/status");
-    if (!res.ok) throw new Error();
+    const contentType = res.headers.get("content-type") || "";
+    if (!res.ok || !contentType.includes("application/json")) throw new Error();
     useFallback = false;
   } catch (e) {
     console.warn("API Server not detected. Running in STATIC Fallback mode.");

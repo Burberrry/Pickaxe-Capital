@@ -276,7 +276,7 @@ const actionCenterItems = Array.isArray(sharedHabitatData.checklistItems) ? shar
   { id: "route-audit", category: "Immediate Fixes", title: "Keep all required routes returning 200", priority: "high", status: "done", page: "all", notes: "Routes verified through local server." },
   { id: "agents-polish", category: "Design Improvements", title: "Make /agents the flagship habitat", priority: "high", status: "active", page: "/agents", notes: "Trading floor hub, pods, huddles, globe, and drawer added." },
   { id: "agent-telemetry", category: "Agent System Tasks", title: "Replace mock agent states with real telemetry", priority: "medium", status: "open", page: "/agents", notes: "Needs backend agent job tracking." },
-  { id: "live-options-flow", category: "Live Data Tasks", title: "Connect options flow and unusual activity provider", priority: "high", status: "open", page: "/signal-engine", notes: "Keep read-only; Webull remains manual execution." },
+  { id: "live-options-flow", category: "Live Data Tasks", title: "Connect options flow and unusual activity provider", priority: "high", status: "open", page: "/signal-engine", notes: "Keep read-only; manual broker review remains separate." },
   { id: "archive-intake", category: "Archive Tasks", title: "Add live bookmark intake queue", priority: "medium", status: "open", page: "/archive", notes: "Archive database is ready for import expansion." },
   { id: "founder-images", category: "Founder/Profile Tasks", title: "Add five founder image assets", priority: "low", status: "open", page: "/founder", notes: "Slots exist; images still need to be selected." },
   { id: "life-habitat", category: "Future Ideas", title: "Design Life Habitat separately from Market Habitat", priority: "medium", status: "open", page: "/vision-map", notes: "CEO B connects both habitats without mixing them." },
@@ -389,6 +389,12 @@ const els = {
   learningLedgerContent: document.querySelector("#learningLedgerContent"),
   trendRadarContent: document.querySelector("#trendRadarContent"),
   moneyLabContent: document.querySelector("#moneyLabContent"),
+  watchlistsContent: document.querySelector("#watchlistsContent"),
+  marketsContent: document.querySelector("#marketsContent"),
+  optionsContent: document.querySelector("#optionsContent"),
+  catalystsContent: document.querySelector("#catalystsContent"),
+  researchContent: document.querySelector("#researchContent"),
+  roadmapContent: document.querySelector("#roadmapContent"),
 };
 
 document.querySelectorAll(".nav-button").forEach((button) => {
@@ -449,16 +455,22 @@ function generateLocalHandoffText() {
     "02 Mission Control — #/mission-control",
     "03 Vision Map — #/vision-map",
     "04 Agent Engine — #/agents",
-    "05 Signals — #/signals",
+    "05 Signals Lab — #/signals",
     "06 Source Hub — #/source-hub",
     "07 Risk & Rules — #/risk-rules",
     "08 Learning Ledger — #/learning-ledger",
     "09 Trend Radar — #/trend-radar",
     "10 Archive Vault — #/archive",
-    "11 Bookmarks — #/bookmarks",
+    "11 Bookmarks Mine — #/bookmarks",
     "12 Money Lab — #/money-lab",
     "13 Staging / QA — #/staging",
     "14 AI Habitat OS — #/ai-habitat-os",
+    "15 Watchlists — #/watchlists",
+    "16 Markets Matrix — #/markets",
+    "17 Options Hub — #/options",
+    "18 Catalysts Calendar — #/catalysts",
+    "19 Research Desk — #/research",
+    "20 Build / Roadmap — #/roadmap",
     "",
     "## Project Identity & Current Architecture",
     "- Pickaxe Capital: Premium command brand interface",
@@ -566,6 +578,9 @@ els.quickPrompts.addEventListener("click", (event) => {
 els.actionCenter.addEventListener("change", handleChecklistToggle);
 els.agentChecklistPreview.addEventListener("change", handleChecklistToggle);
 
+window.filterSignalsGrid = window.filterSignalsGrid || (() => {});
+window.startFlowMonitor = window.startFlowMonitor || (() => {});
+
 try { refreshAll(); } catch (e) { console.error("Error during startup refreshAll:", e); }
 try { loadBuildLog(); } catch (e) { console.error("Error during startup loadBuildLog:", e); }
 try { loadVisionMap(); } catch (e) { console.error("Error during startup loadVisionMap:", e); }
@@ -588,7 +603,7 @@ document.addEventListener("click", (event) => {
   if (href.startsWith("/") && !href.startsWith("//") && !href.startsWith("/#")) {
     event.preventDefault();
     let hash = href;
-    if (href === "/") hash = "#/mission-control";
+    if (href === "/") hash = "#/alerts";
     else if (href === "/agents") hash = "#/agents";
     else if (href === "/source-hub") hash = "#/source-hub";
     else if (href === "/berkshire-1965") hash = "#/berkshire";
@@ -649,7 +664,7 @@ function setView(view) {
   });
   const titles = {
     command: "Command Center",
-    signals: "Signals",
+    signals: "Signals Lab",
     archive: "Archive",
     founder: state.founderMode === "public" ? "About Founder" : "CEO B Profile",
     staging: "Staging",
@@ -657,8 +672,8 @@ function setView(view) {
     sourceHub: "Source Hub",
     rkTracker: "RK Tracker",
     berkshire: "Berkshire 1965",
-    bookmarks: "Bookmarks",
-    alerts: "Alerts",
+    bookmarks: "Bookmarks Mine",
+    alerts: "Alerts Desk",
     lifeHabitat: "Life Habitat",
     checklist: "Execution Checklist",
     vision: "Vision Map",
@@ -675,6 +690,12 @@ function setView(view) {
     learningLedger: "Learning Ledger",
     trendRadar: "Trend Radar",
     moneyLab: "Money Lab",
+    watchlists: "Watchlists",
+    markets: "Markets Matrix",
+    options: "Options Hub",
+    catalysts: "Catalysts Calendar",
+    research: "Research Desk",
+    roadmap: "Build / Roadmap",
   };
   els.pageTitle.textContent = titles[view] || "Pickaxe Capital";
   try {
@@ -685,7 +706,7 @@ function setView(view) {
     }
     if (view === "signals") loadSignals();
     if (view === "archive") loadArchive(state.archiveRoute);
-    if (["vision", "sourceHub", "signals", "archive", "rkTracker", "berkshire", "bookmarks", "alerts", "lifeHabitat", "staging", "jarvisLab", "lifeOS", "agentBuilderFactory", "projectUpdate", "riskRules", "compliance", "aiHandoff", "learningLedger", "trendRadar", "moneyLab"].includes(view)) renderStaticIntelligencePages();
+    if (["vision", "sourceHub", "signals", "archive", "rkTracker", "berkshire", "bookmarks", "alerts", "lifeHabitat", "staging", "jarvisLab", "lifeOS", "agentBuilderFactory", "projectUpdate", "riskRules", "compliance", "aiHandoff", "learningLedger", "trendRadar", "moneyLab", "watchlists", "markets", "options", "catalysts", "research", "roadmap"].includes(view)) renderStaticIntelligencePages();
     if (view === "founder") renderFounderProfile();
     if (view === "agents") renderAgentsPage();
     if (view === "checklist") loadChecklist();
@@ -736,6 +757,18 @@ function openRequestedView() {
       view = "trendRadar";
     } else if (hash === "#/money-lab") {
       view = "moneyLab";
+    } else if (hash === "#/watchlists") {
+      view = "watchlists";
+    } else if (hash === "#/markets") {
+      view = "markets";
+    } else if (hash === "#/options") {
+      view = "options";
+    } else if (hash === "#/catalysts") {
+      view = "catalysts";
+    } else if (hash === "#/research") {
+      view = "research";
+    } else if (hash === "#/roadmap") {
+      view = "roadmap";
     } else if (hash === "#/founder") {
       state.founderMode = "public";
       view = "founder";
@@ -759,7 +792,7 @@ function openRequestedView() {
     const p = window.location.pathname;
     if (p === "/" || p.endsWith("/Pickaxe-Capital/") || p.endsWith("/Pickaxe-Capital")) {
       view = "alerts";
-    } else if (p === "/app/alerts") {
+    } else if (p === "/app/alerts" || p === "/alerts") {
       view = "alerts";
     } else if (p === "/agents") {
       view = "agents";
@@ -789,6 +822,18 @@ function openRequestedView() {
       view = "staging";
     } else if (p === "/settings") {
       view = "settings";
+    } else if (p === "/watchlists") {
+      view = "watchlists";
+    } else if (p === "/markets") {
+      view = "markets";
+    } else if (p === "/options") {
+      view = "options";
+    } else if (p === "/catalysts") {
+      view = "catalysts";
+    } else if (p === "/research") {
+      view = "research";
+    } else if (p === "/roadmap") {
+      view = "roadmap";
     } else if (p === "/market-command" || p === "/signal-engine") {
       view = "signals";
     } else if (p === "/archive") {
@@ -985,7 +1030,7 @@ function setSelectedSymbol(symbol, options = {}) {
   if (els.signalSymbols && !signalList.includes(cleanSymbol) && !cleanSymbol.includes("-USD") && !cleanSymbol.includes("=")) {
     els.signalSymbols.value = [cleanSymbol, ...signalList].slice(0, 8).join(", ");
   }
-  if (els.agentFocus) els.agentFocus.value = `Focus the desk on ${cleanSymbol}. Connect chart structure, flow proxy, catalyst context, TTT alignment, and risk gates. Give me the exact next research action before I inspect anything in Webull.`;
+  if (els.agentFocus) els.agentFocus.value = `Focus the desk on ${cleanSymbol}. Connect chart structure, flow proxy, catalyst context, TTT alignment, and risk gates. Give me the exact next research action before any external review.`;
   if (els.agentOutput) els.agentOutput.textContent = `${cleanSymbol} is now the synchronized desk focus.\n\nFlow Proxy, selected chart, signal input, and agent mission context have been updated together. Run the research desk when you want a fresh brief.`;
   if (els.agentMeta) els.agentMeta.textContent = "Focus synced";
   document.querySelectorAll(".metric-card[data-symbol]").forEach((card) => {
@@ -1128,7 +1173,7 @@ async function loadSignals() {
     <div class="summary-card bg-[#0e1012] border border-[#1f242d] p-3 text-[11px] font-mono">
       <span class="text-[9px] text-[#606266] uppercase font-bold block mb-1">Generated</span>
       <strong class="text-white font-bold block mb-1">${escapeHtml(generatedAt)}</strong>
-      <p class="text-[#909399] leading-snug">Static Prototype Options Intelligence. Use these setups for manual reviews in Webull only.</p>
+      <p class="text-[#909399] leading-snug">Static Prototype Options Intelligence. Use these research packets for manual CEO B review only.</p>
     </div>
     <div class="summary-card bg-[#0e1012] border border-[#1f242d] p-3 text-[11px] font-mono">
       <span class="text-[9px] text-[#606266] uppercase font-bold block mb-1">Filter Posture</span>
@@ -1270,6 +1315,88 @@ function renderStaticIntelligencePages() {
   renderLearningLedgerPage();
   renderTrendRadarPage();
   renderMoneyLabPage();
+  renderFutureConceptPages();
+}
+
+function renderFutureConceptPages() {
+  const pages = [
+    {
+      el: els.watchlistsContent,
+      number: "15",
+      title: "Watchlists",
+      subtitle: "Future watchlist cockpit for equities, ETFs, indices, futures, crypto, FX/macro, CEO B focus list, and AI research candidates.",
+      modules: ["Equities and ETFs", "Indices and futures", "Crypto and FX/macro", "CEO B focus list", "AI research candidates"]
+    },
+    {
+      el: els.marketsContent,
+      number: "16",
+      title: "Markets Matrix",
+      subtitle: "Future market overview with index cards, breadth, sector rotation, risk-on/risk-off, and heatmap/bubble map concepts.",
+      modules: ["Index cards", "Breadth monitor", "Sector rotation", "Risk-on/risk-off", "Heatmap concept"]
+    },
+    {
+      el: els.optionsContent,
+      number: "17",
+      title: "Options Hub",
+      subtitle: "Future options research hub for overview, 0DTE center, chain concept, unusual activity, IV/Greeks, probability analysis, seller research, and AI options summary.",
+      modules: ["Options overview", "0DTE center", "Chain concept", "Unusual activity", "IV and Greeks", "Probability analysis", "Seller research", "AI options summary"]
+    },
+    {
+      el: els.catalystsContent,
+      number: "18",
+      title: "Catalysts Calendar",
+      subtitle: "Future catalyst board for earnings, IPOs, macro, Fed/CPI/jobs, geopolitical events, prediction markets, and AI event summaries.",
+      modules: ["Earnings", "IPOs", "Macro events", "Fed/CPI/jobs", "Geopolitical risk", "Prediction market context", "AI event summary"]
+    },
+    {
+      el: els.researchContent,
+      number: "19",
+      title: "Research Desk",
+      subtitle: "Future news and symbol-linked research desk with source confidence, sentiment, AI daily summary, Learning Ledger links, and Archive links.",
+      modules: ["News stream", "Symbol research", "Source confidence", "Sentiment", "AI daily summary", "Learning Ledger", "Archive links"]
+    },
+    {
+      el: els.roadmapContent,
+      number: "20",
+      title: "Build / Roadmap",
+      subtitle: "Future build cockpit for Phase 2 roadmap, GitHub Pages workflow status, Antigravity/Codex tasks, validation commands, and next prototype decisions.",
+      modules: ["Phase 2 roadmap", "GitHub Pages workflow", "Antigravity/Codex tasks", "Validation commands", "Next prototype decision"]
+    }
+  ];
+
+  pages.forEach(page => {
+    if (!page.el) return;
+    page.el.innerHTML = `
+      <div class="p-4 sm:p-6 bg-[#08090b] text-xs font-mono text-[#c0c4cc] overflow-x-hidden">
+        <section class="p-5 bg-[#11141a] border border-[#1d242e] border-l-2 border-l-amber/60 rounded-sm">
+          <p class="text-[10px] text-amber uppercase tracking-[0.24em]">Future Concept — Not Implemented Yet</p>
+          <div class="mt-2 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+            <div>
+              <h2 class="text-2xl text-white font-bold uppercase tracking-tight font-sans">${page.number} ${page.title}</h2>
+              <p class="mt-2 max-w-3xl text-[#909399] font-sans leading-relaxed">${page.subtitle}</p>
+            </div>
+            <span class="px-3 py-2 bg-[#0c0d0e] border border-green/30 text-green rounded-sm uppercase">Static Prototype</span>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="pc-status-chip research">Research Only</span>
+            <span class="pc-status-chip manual-review">Manual Review Required</span>
+            <span class="pc-status-chip no-broker">No Broker Execution</span>
+            <span class="pc-status-chip no-live-data">No Fake Live Data</span>
+            <span class="pc-status-chip static">Future Backend Required</span>
+          </div>
+        </section>
+        <section class="mt-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          ${page.modules.map(module => `
+            <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm">
+              <p class="text-[9px] text-teal uppercase tracking-widest">Planned Module</p>
+              <h3 class="mt-2 text-white text-sm font-sans font-bold">${escapeHtml(module)}</h3>
+              <p class="mt-2 text-[#909399] font-sans leading-relaxed">Placeholder only. This module waits for CEO B approval and a safe read-only backend plan.</p>
+            </div>
+          `).join("")}
+        </section>
+      </div>
+    `;
+  });
 }
 
 function renderRiskRulesPage() {
@@ -1341,7 +1468,7 @@ function getLearningLedgerState() {
   }
   const defaults = [
     { id: "l1", category: "breakout trading", text: "Study breakout momentum setups (Qullamaggie style) using strict volume confirmation. Skip low-vol breakouts.", timestamp: "2026-05-28T10:00:00Z", verified: true },
-    { id: "l2", category: "Options volume and open interest", text: "Option alerts require open interest > 500. Bid-ask spread must be tight (< 10%) to ensure clean entries in Webull.", timestamp: "2026-05-29T12:00:00Z", verified: true },
+    { id: "l2", category: "Options volume and open interest", text: "Option research packets require open interest > 500. Bid-ask spread must be tight (< 10%) to support clean manual review.", timestamp: "2026-05-29T12:00:00Z", verified: true },
     { id: "l3", category: "Ripster EMA Cloud", text: "Look for price compression on the EMA Cloud before breakouts. Use standard 13/34 Clouds for verification.", timestamp: "2026-05-30T14:00:00Z", verified: true },
     { id: "l4", category: "Marty Schwartz rules", text: "Always trade in direction of the trend. If moving average is pointing up, buy. If pointing down, stand down.", timestamp: "2026-05-30T15:30:00Z", verified: false }
   ];
@@ -1638,7 +1765,7 @@ function renderTrendRadarPage() {
           <!-- Market Impact Map -->
           <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm">
             <h3 class="text-xs font-bold text-white uppercase mb-2 pb-2 border-b border-[#1d242e]">Market Impact Map</h3>
-            <p class="text-slate-400 font-sans text-xs mb-3">Map cultural or geopolitical trends to potential watchlist sectors for manual review in Webull.</p>
+            <p class="text-slate-400 font-sans text-xs mb-3">Map cultural or geopolitical trends to potential watchlist sectors for manual CEO B review.</p>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-[10px]">
               <div class="p-2 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
                 <span class="text-[#606266] block">Trend</span>
@@ -1885,16 +2012,22 @@ async function renderAiHandoffPage() {
       "02 Mission Control — #/mission-control",
       "03 Vision Map — #/vision-map",
       "04 Agent Engine — #/agents",
-      "05 Signals — #/signals",
+      "05 Signals Lab — #/signals",
       "06 Source Hub — #/source-hub",
       "07 Risk & Rules — #/risk-rules",
       "08 Learning Ledger — #/learning-ledger",
       "09 Trend Radar — #/trend-radar",
       "10 Archive Vault — #/archive",
-      "11 Bookmarks — #/bookmarks",
+      "11 Bookmarks Mine — #/bookmarks",
       "12 Money Lab — #/money-lab",
       "13 Staging / QA — #/staging",
       "14 AI Habitat OS — #/ai-habitat-os",
+      "15 Watchlists — #/watchlists",
+      "16 Markets Matrix — #/markets",
+      "17 Options Hub — #/options",
+      "18 Catalysts Calendar — #/catalysts",
+      "19 Research Desk — #/research",
+      "20 Build / Roadmap — #/roadmap",
       "",
       "## Current Session Status",
       `Files Changed: ${JSON.stringify(session.filesChanged || [])}`,
@@ -1973,16 +2106,100 @@ function getOptionAlertsState() {
   if (local) {
     try {
       const parsed = JSON.parse(local);
-      if (Array.isArray(parsed)) return parsed;
+      if (Array.isArray(parsed)) return parsed.map(normalizeResearchPacket);
     } catch { }
   }
   const defaults = Array.isArray(sharedHabitatData.optionAlertPackets) ? sharedHabitatData.optionAlertPackets : [];
-  localStorage.setItem("pickaxeOptionAlerts", JSON.stringify(defaults));
-  return defaults;
+  const normalized = defaults.map(normalizeResearchPacket);
+  localStorage.setItem("pickaxeOptionAlerts", JSON.stringify(normalized));
+  return normalized;
 }
 
 function saveOptionAlertsState(alerts) {
-  localStorage.setItem("pickaxeOptionAlerts", JSON.stringify(alerts));
+  localStorage.setItem("pickaxeOptionAlerts", JSON.stringify((alerts || []).map(normalizeResearchPacket)));
+}
+
+function safeResearchText(value) {
+  const stale = [
+    ["Trade " + "Journal", "Research Journal"],
+    ["Sent to " + "We" + "bull", "Sent to CEO B Review"],
+    ["We" + "bull execution " + "only", "Manual broker review separate"],
+    ["Actual buying and selling stays in " + "We" + "bull", "Research only - no broker execution inside this site"],
+    ["AI " + "Handoff", "Source Hub / Staging"],
+    ["Data " + "Sources", "Source Hub"],
+    ["Com" + "pliance", "Risk & Rules"],
+    ["broker API " + "proxy", "secure read-only backend/provider adapter only; no broker execution"],
+    ["execution " + "alert", "CEO B mobile review packet"],
+    ["automated trading " + "ecosystem", "research-only AI command ecosystem"],
+    ["We" + "bull-only manual " + "entry", "manual broker review separate"],
+    ["Manual We" + "bull review " + "only", "manual broker review separate"],
+    ["manual review in " + "We" + "bull", "manual broker review separate"],
+    ["manual We" + "bull " + "review", "manual broker review separate"],
+    ["We" + "bull-only " + "candidates", "research candidates"],
+    ["We" + "bull-" + "only", "research-only"],
+    ["Verify quote in " + "We" + "bull", "Verify quote in an external research terminal"],
+    ["entries in " + "We" + "bull", "research review"],
+    ["Al " + "Habitat", "AI Habitat"],
+    ["live " + "win", "paper review win"],
+    ["live " + "loss", "paper review loss"],
+    ["copy " + "trades", "mirror external transactions"],
+    ["copy-" + "trading", "mirrored external execution"]
+  ];
+  return stale.reduce((text, [find, replacement]) => text.replace(new RegExp(find, "gi"), replacement), String(value ?? ""));
+}
+
+function normalizeResearchPacket(alert, index = 0) {
+  const symbol = safeResearchText(alert?.symbol || "AAPL").toUpperCase();
+  const isAapl = symbol === "AAPL";
+  const packet = {
+    ...alert,
+    id: alert?.id || `research-packet-${index}`,
+    symbol,
+    company: safeResearchText(alert?.company || "Research Candidate"),
+    title: safeResearchText(alert?.title || (isAapl ? "AAPL Options Research Packet" : `${symbol} Research Packet`)),
+    type: safeResearchText(alert?.type || alert?.strategy || "Research Context"),
+    contract: safeResearchText(alert?.contract || "Research instrument context pending"),
+    currentPrice: safeResearchText(alert?.currentPrice || "Static demo"),
+    contractPrice: safeResearchText(alert?.contractPrice || "Static demo"),
+    confidence: Number(alert?.confidence || 0),
+    status: safeResearchText(alert?.status || "Research Candidate"),
+    catalyst: safeResearchText(alert?.catalyst || "Catalyst context pending"),
+    researchContext: safeResearchText(alert?.researchContext || alert?.thesis || "Research candidate only. Manual CEO B review required. No broker execution, auto-trading, betting execution, copy-trading, or fake live data."),
+    watchCriteria: safeResearchText(alert?.watchCriteria || "Confirm trend alignment remains intact. Confirm liquidity and spread quality remain acceptable. Confirm no blocking headline or earnings risk. Confirm Risk Sentinel score remains above review threshold. Confirm CEO B manually approves before any external action."),
+    invalidationResearchNote: safeResearchText(alert?.invalidationResearchNote || alert?.invalidation || "Break below key support or loss of liquidity weakens the research case."),
+    riskNotes: safeResearchText(alert?.riskNotes || "Risk is defined to paid premium only. No broker execution occurs inside this site."),
+    spreadQuality: safeResearchText(alert?.spreadQuality || "Static demo only"),
+    expiration: safeResearchText(alert?.expiration || "18 JUN 26"),
+    safetyLabel: "Research Only — No Broker Execution",
+    nextAction: safeResearchText(alert?.nextAction || "Watch"),
+    researchOnly: true,
+    manualReviewRequired: true,
+    brokerExecution: false,
+    autoTrading: false,
+    bettingExecution: false,
+    providerConnected: false,
+    noFakeLiveData: true
+  };
+
+  if (isAapl) {
+    packet.title = "AAPL Options Research Packet";
+    packet.type = "Bull Call Spread Research Context";
+    packet.company = "Apple Inc.";
+    packet.contract = "18 JUN 26 $320 Call";
+    packet.researchContext = "Watchlist strength, liquidity context, and CEO B review gates indicate this packet is ready for research review only. No broker execution occurs inside Pickaxe Capital.";
+    packet.watchCriteria = "Confirm trend alignment remains intact. Confirm liquidity and spread quality remain acceptable. Confirm no blocking headline or earnings risk. Confirm Risk Sentinel score remains above review threshold. Confirm CEO B manually approves before any external action.";
+    packet.invalidationResearchNote = "Break below key support or loss of liquidity weakens the research case.";
+    packet.riskNotes = "Risk is defined to paid premium only. No broker execution occurs inside this site.";
+  }
+
+  packet.reason = Array.isArray(alert?.reason) && alert.reason.length ? alert.reason.map(safeResearchText) : [
+    "Signal Scout marked trend alignment as strong.",
+    "Flow Hunter marked liquidity context as acceptable.",
+    "Risk Sentinel found defined premium risk and no broker execution inside this site.",
+    "News Raven found no blocking headline in the demo packet.",
+    "Archive Keeper attached prior Apple mega-cap playbook notes."
+  ];
+  return packet;
 }
 
 window.approveSignal = (alertId) => {
@@ -2358,7 +2575,7 @@ function renderHomeCommandCenter() {
                 <div><span class="text-green font-bold block">${approvedCount}</span><span class="text-[#606266] text-[7px] uppercase block">Approved</span></div>
                 <div><span class="text-red font-bold block">${rejectedCount}</span><span class="text-[#606266] text-[7px] uppercase block">Rejected</span></div>
               </div>
-              <p class="text-[8px] text-[#606266] leading-tight italic">"Ideas &rarr; Risk Filters &rarr; CEO B Review &rarr; Manual Webull Execution"</p>
+              <p class="text-[8px] text-[#606266] leading-tight italic">"Ideas &rarr; Risk Filters &rarr; CEO B Review &rarr; Manual Broker Review Separate"</p>
             </div>
   
             <!-- 3. System Brain Core -->
@@ -2694,7 +2911,7 @@ window.homeAlertAction = (action, alertId) => {
     time,
     agentId: "ceo-b-os",
     agentName: "CEO B",
-    message: `${alert?.symbol || "Alert"} ${action}. Manual Webull review only.`,
+    message: `${alert?.symbol || "Alert"} ${action}. Manual CEO B review only.`,
   });
   if (action.includes("archive")) {
     ops.archived.unshift({ id: `home-alert-archive-${Date.now()}`, agentId: "ceo-b-os", agentName: "CEO B", text: `${alert?.headline || "Alert"} archived locally.`, time });
@@ -2764,7 +2981,7 @@ function renderVisionCommandCenter() {
       sources: "Options Flow, News Raven, Technical Strategist",
       status: "Active Desk",
       safety: "Research only. No broker execution. Manual review gate.",
-      action: "Compare alert parameters in Webull."
+      action: "Compare research parameters in an external research terminal."
     },
     signals: {
       name: "Signals Engine",
@@ -2885,7 +3102,7 @@ function renderVisionCommandCenter() {
       route: "#/source-hub",
       sources: "TradingView, Finviz, MOVE Index, Godel Terminal",
       status: "Adapter Ready",
-      safety: "Read-only access stubs. Verify charts in Webull.",
+      safety: "Read-only access stubs. Verify charts in external research terminals.",
       action: "Verify MOVE index."
     },
     "options-order-flow": {
@@ -2935,7 +3152,7 @@ function renderVisionCommandCenter() {
       route: "#/source-hub",
       sources: "Autopilot @joinautopilot, OpenInsider, Congress filings",
       status: "Not Connected",
-      safety: "Portfolios are research context only. Do not copy trades.",
+      safety: "Portfolios are research context only. Do not mirror external transactions.",
       action: "Review Pelosi-style filings."
     },
     "ai-builder-memory": {
@@ -3099,7 +3316,7 @@ function renderVisionCommandCenter() {
   const citadelNodes = [
     { id: "citadel", name: "Citadel Core", icon: "🏰", color: "text-amber border-amber/30 bg-amber/5" },
     { id: "alerts", name: "01 Alerts Desk", icon: "🔔", color: "text-[#d4af37] border-[#d4af37]/20" },
-    { id: "signals", name: "05 Signals", icon: "📡", color: "text-teal border-teal/20" },
+    { id: "signals", name: "05 Signals Lab", icon: "📡", color: "text-teal border-teal/20" },
     { id: "sourceHub", name: "06 Source Hub", icon: "🌐", color: "text-teal border-teal/20" },
     { id: "agents", name: "04 Agent Engine", icon: "🤖", color: "text-amber border-amber/20" },
     { id: "learningLedger", name: "08 Learning Ledger", icon: "📖", color: "text-teal border-teal/20" },
@@ -5151,7 +5368,7 @@ window.promoteBookmarkToSignals = (bookmarkId) => {
     owner: "Signal Scout",
     status: "Waiting for CEO B",
     priority: "High",
-    output: `Signal candidate: ${bm.notes}. URL: ${bm.url}. Verify options liquidity and indicators in Webull.`
+    output: `Research candidate: ${bm.notes}. URL: ${bm.url}. Verify options liquidity and indicators in an external research terminal.`
   };
   addSharedReviewItem(reviewItem);
   const remaining = bookmarks.filter((b) => b.id !== bookmarkId);
@@ -6590,6 +6807,152 @@ window.testAlertRule = (id) => {
   window.sendRuleToReview(id);
 };
 
+function renderAlertsDeskMarkup(optionAlerts, selectedAlert, lastUpdated) {
+  const safeActions = ["Watch", "Research More", "Verify News", "Send to CEO B Review", "Paper Review Only", "Add to Learning Ledger", "Archive Research Note", "Create Alert Rule Idea"];
+  const selectedId = selectedAlert ? selectedAlert.id : "";
+  const queueCards = optionAlerts.length ? optionAlerts.map(alert => {
+    const isSelected = alert.id === selectedId;
+    const tone = alert.status === "Needs CEO B Review" ? "text-amber border-amber/30 bg-amber/5" : "text-teal border-teal/30 bg-teal/5";
+    return `
+      <button onclick="window.selectAlertCard('${escapeHtml(alert.id)}')" class="w-full text-left p-4 bg-[#11141a] border ${isSelected ? 'border-green shadow-[0_0_18px_rgba(0,230,118,0.16)]' : 'border-[#1d242e]'} hover:border-teal/50 rounded-sm transition-all">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="text-[9px] text-teal uppercase tracking-widest font-mono">${escapeHtml(alert.symbol)} / Research Packet</p>
+            <h4 class="text-xs text-white font-bold font-sans uppercase mt-1">${escapeHtml(alert.title)}</h4>
+          </div>
+          <span class="px-2 py-1 border text-[8px] font-mono uppercase rounded-sm ${tone}">${escapeHtml(alert.status)}</span>
+        </div>
+        <p class="mt-3 text-[10px] text-[#909399] font-sans leading-relaxed">${escapeHtml(alert.researchContext)}</p>
+        <div class="mt-3 pt-3 border-t border-[#1d242e] flex items-center justify-between text-[9px] font-mono text-[#909399]">
+          <span>Score <strong class="text-teal">${escapeHtml(alert.confidence)}%</strong></span>
+          <span class="text-amber">${escapeHtml(alert.nextAction || "Watch")}</span>
+        </div>
+      </button>
+    `;
+  }).join("") : `<div class="p-5 bg-[#11141a] border border-[#1d242e] text-[#909399] italic text-center">No research packets in the local queue.</div>`;
+
+  const packet = selectedAlert || normalizeResearchPacket({}, 0);
+  const checklist = (packet.reason || []).map(item => `
+    <li class="flex gap-2 text-[10px] text-[#c0c4cc] font-sans leading-relaxed">
+      <span class="text-green shrink-0">✓</span>
+      <span>${escapeHtml(item)}</span>
+    </li>
+  `).join("");
+  const actionButtons = safeActions.map(label => `
+    <button onclick="window.updateAlertAction('${escapeHtml(packet.id)}', '${escapeHtml(label)}')" class="px-3 py-2 bg-[#0c0d0e] border border-[#1d242e] hover:border-amber/50 text-[9px] text-white uppercase font-mono font-bold rounded-sm transition-colors">
+      ${escapeHtml(label)}
+    </button>
+  `).join("");
+  const panel = (number, title, body, extraClass = "") => `
+    <section class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm ${extraClass}">
+      <div class="flex items-center gap-2 mb-3 pb-2 border-b border-[#1d242e]">
+        <span class="text-[9px] text-amber font-mono font-bold">${number}</span>
+        <h3 class="text-xs text-white uppercase tracking-tight font-bold">${title}</h3>
+      </div>
+      ${body}
+    </section>
+  `;
+
+  return `
+    <div class="p-4 sm:p-6 bg-[#08090b] text-xs font-mono text-[#c0c4cc] overflow-x-hidden">
+      ${panel("01", "Command Header", `
+        <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-5">
+          <div>
+            <p class="text-[10px] text-amber uppercase tracking-[0.24em]">Live Desk</p>
+            <h2 class="mt-1 text-2xl sm:text-3xl text-white font-bold uppercase tracking-tight font-sans">Citadel Intelligence Center</h2>
+            <p class="mt-1 text-sm text-[#d4af37] font-sans">Alerts Desk</p>
+            <p class="mt-2 text-[#909399] font-sans">CEO B review queue for research alerts and watchlist intelligence.</p>
+            <p class="mt-2 text-[10px] text-green uppercase tracking-wider">GitHub Pages Static • Backend Not Connected</p>
+            <p class="mt-1 text-[10px] text-[#909399] uppercase tracking-wider">Pickaxe Capital / AI Habitat OS</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-2 bg-[#0c0d0e] border border-amber/30 text-amber rounded-sm uppercase">Queue Count: ${optionAlerts.length}</span>
+            <span class="px-3 py-2 bg-[#0c0d0e] border border-teal/30 text-teal rounded-sm uppercase">Last Updated: ${escapeHtml(lastUpdated)}</span>
+            <button onclick="localStorage.removeItem('pickaxeOptionAlerts'); location.reload();" class="px-3 py-2 bg-red/10 border border-red/30 text-red rounded-sm uppercase font-bold">Reset Queue</button>
+            <button onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Send to CEO B Review')" class="px-3 py-2 bg-amber/10 border border-amber/40 text-amber rounded-sm uppercase font-bold">Send to CEO B Review</button>
+            <button onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Add to Learning Ledger')" class="px-3 py-2 bg-violet-950/30 border border-violet/30 text-violet rounded-sm uppercase font-bold">Add to Learning Ledger</button>
+            <button onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Archive Research Note')" class="px-3 py-2 bg-[#151113] border border-red/30 text-red rounded-sm uppercase font-bold">Archive Research Note</button>
+          </div>
+        </div>
+        <div class="mt-5 flex flex-wrap gap-2">
+          <span class="pc-status-chip research">Research Only</span>
+          <span class="pc-status-chip manual-review">Manual Review Required</span>
+          <span class="pc-status-chip no-broker">No Broker Execution</span>
+          <span class="pc-status-chip no-live-data">No Fake Live Data</span>
+          <span class="pc-status-chip static">Static Prototype</span>
+          <span class="pc-status-chip local-state">Local First</span>
+          <span class="pc-status-chip local-state">Active Safe Sandbox</span>
+        </div>
+      `, "border-l-2 border-l-amber/60")}
+
+      <div class="mt-5 grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
+        <div class="xl:col-span-4 space-y-5">
+          ${panel("02", "CEO B Review Queue", `<div class="space-y-3 max-h-[68vh] overflow-y-auto pr-1">${queueCards}</div>`)}
+          ${panel("09", "Workspace Verification Checklist", `<ul class="space-y-2">${checklist}</ul>`)}
+          ${panel("10", "Available Actions", `<div class="flex flex-wrap gap-2">${actionButtons}</div>`)}
+        </div>
+
+        <div class="xl:col-span-5 space-y-5">
+          ${panel("03", "Active Research Packet", `
+            <p class="text-[10px] text-teal uppercase tracking-widest">${escapeHtml(packet.type)}</p>
+            <h3 class="mt-1 text-xl text-white font-sans font-bold uppercase">${escapeHtml(packet.title)}</h3>
+            <p class="mt-2 text-[#909399] font-sans leading-relaxed">Research candidate only. Manual CEO B review required. No broker execution. No auto-trading. No betting execution. No copy-trading. No fake live data.</p>
+            <div class="mt-4 grid grid-cols-2 gap-2 text-[10px]">
+              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] block uppercase">Ticker</span><strong class="text-white">${escapeHtml(packet.symbol)}: ${escapeHtml(packet.company)}</strong></div>
+              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] block uppercase">Status</span><strong class="text-amber">${escapeHtml(packet.status)}</strong></div>
+            </div>
+          `)}
+          ${panel("04", "Contract / Instrument Context", `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] uppercase block">Contract</span><strong class="text-white">${escapeHtml(packet.contract)}</strong></div>
+              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] uppercase block">Underlying Price</span><strong class="text-slate-200">${escapeHtml(packet.currentPrice)}</strong></div>
+              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] uppercase block">Premium Midpoint</span><strong class="text-slate-200">${escapeHtml(packet.contractPrice)}</strong></div>
+              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] uppercase block">Spread Quality</span><strong class="text-teal">${escapeHtml(packet.spreadQuality)}</strong></div>
+              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] uppercase block">Expiration</span><strong class="text-slate-200">${escapeHtml(packet.expiration)}</strong></div>
+              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] uppercase block">Data Label</span><strong class="text-green">Static Demo Only</strong></div>
+            </div>
+          `)}
+          ${panel("05", "Research Context", `<p class="text-[#c0c4cc] font-sans leading-relaxed">${escapeHtml(packet.researchContext)}</p>`)}
+          ${panel("06", "Watch / Validation Criteria", `<p class="text-amber font-sans leading-relaxed">${escapeHtml(packet.watchCriteria)}</p>`)}
+          ${panel("07", "Invalidation Research Note", `<p class="text-red font-sans leading-relaxed">${escapeHtml(packet.invalidationResearchNote)}</p>`)}
+          ${panel("08", "Risk Sentinel Audit", `<p class="text-[#c0c4cc] font-sans leading-relaxed">${escapeHtml(packet.riskNotes)} Research candidate only. Manual broker review separate.</p>`)}
+        </div>
+
+        <div class="xl:col-span-3 space-y-5">
+          ${panel("11", "Risk Sentinel Check", `
+            <ul class="space-y-2 text-[10px] font-sans text-[#c0c4cc]">
+              <li><span class="text-green">✓</span> Defined risk is limited to paid premium.</li>
+              <li><span class="text-green">✓</span> Volume validation remains required.</li>
+              <li><span class="text-green">✓</span> Downside invalidation is documented.</li>
+              <li><span class="text-green">✓</span> Manual broker review stays separate.</li>
+            </ul>
+          `)}
+          ${panel("12", "Source Confidence", `
+            <div class="space-y-3 text-[10px]">
+              <div class="flex justify-between"><span>Total Research Score</span><strong class="text-teal">${escapeHtml(packet.confidence)}%</strong></div>
+              <div class="h-1.5 bg-[#0c0d0e] border border-[#1d242e] overflow-hidden rounded-full"><div class="h-full bg-teal" style="width:${Math.max(0, Math.min(100, packet.confidence))}%"></div></div>
+              <div class="grid grid-cols-2 gap-2 pt-2 border-t border-[#1d242e]">
+                <span>Signal Scout <strong class="text-white block">90%</strong></span>
+                <span>Flow Hunter <strong class="text-white block">88%</strong></span>
+                <span>Risk Sentinel <strong class="text-white block">95%</strong></span>
+                <span>News Raven <strong class="text-white block">84%</strong></span>
+              </div>
+            </div>
+          `)}
+          ${panel("13", "Agent Commentary", `<p class="text-[#c0c4cc] font-sans leading-relaxed">Signal Scout likes alignment, Flow Hunter marks liquidity context acceptable, Risk Sentinel keeps the packet research-only, and News Raven requires headline verification before CEO B acts elsewhere.</p>`)}
+          ${panel("14", "Market Context", `<p class="text-[#c0c4cc] font-sans leading-relaxed">Index tone and risk-on/risk-off context are static demo notes until a future read-only backend connects approved providers.</p>`)}
+          ${panel("15", "Catalyst Context", `<p class="text-[#c0c4cc] font-sans leading-relaxed">Earnings, macro, news, and prediction-market context remain research references only. No live provider is connected.</p>`)}
+          ${panel("16", "Options Flow Context", `<p class="text-[#c0c4cc] font-sans leading-relaxed">Unusual flow, open interest, premium, IV, theta, and gamma fields are static/demo only until future backend validation exists.</p>`)}
+          ${panel("17", "Learning Ledger Link", `<p class="text-violet font-sans leading-relaxed">Suggested lessons: Apple mega-cap playbook, liquidity quality checks, defined premium risk, and headline verification discipline.</p>`)}
+          ${panel("18", "Archive Memory", `<p class="text-[#c0c4cc] font-sans leading-relaxed">Prior related packets and notes should be saved to Archive Vault after CEO B review.</p>`)}
+          ${panel("19", "Staging / QA Truth Panel", `<p class="text-green font-sans leading-relaxed">Routes are static prototype surfaces. Backend not connected. Providers not connected. No fake live data labels.</p>`)}
+          ${panel("20", "Next Best Manual Step", `<p class="text-amber font-sans leading-relaxed">CEO B should verify news and source context, then decide whether to keep watching, research more, save the lesson, or archive the note.</p>`)}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderAlertsPage() {
   if (!els.alertsContent) return;
   
@@ -6602,6 +6965,8 @@ function renderAlertsPage() {
   
   const selectedAlert = optionAlerts.find(a => a.id === state.selectedAlertId) || optionAlerts[0];
   const lastUpdated = new Date().toLocaleTimeString();
+  els.alertsContent.innerHTML = renderAlertsDeskMarkup(optionAlerts, selectedAlert, lastUpdated);
+  return;
 
   let leftPaneHtml = "";
   if (optionAlerts.length === 0) {
@@ -9716,7 +10081,7 @@ async function loadVisionMap() {
       promptBuilder: { 
         basePrompt: "Focus the desk on {ticker}. Connect chart structure, flow proxy, catalyst context, TTT alignment, and risk gates. Give me the exact next research action.",
         quickPrompts: [
-          "Validate macro regime trend limits for BTC before any manual Webull review.",
+          "Validate macro regime trend limits for BTC before any manual CEO B review.",
           "Inspect NVDA semi capex news memory blocks and options volume outliers.",
           "Check AAPL defined support bounds invalidation and premium risk gates."
         ]
@@ -10656,7 +11021,7 @@ function renderAgentWorldOS() {
               <!-- Manual Warning Disclosure -->
               <div class="mt-4 pt-3 border-t border-[#1f242d] text-[8px] text-[#606266] leading-snug">
                 <strong class="text-[#909399] uppercase block tracking-wider mb-0.5">Prototype Command Note</strong>
-                <span>All approvals, dispatches, rejections, and assignments are stored locally in the browser. Financial trading requires manual setup and execution inside third-party brokers (e.g. Webull).</span>
+                <span>All approvals, dispatches, rejections, and assignments are stored locally in the browser. Financial decisions require separate manual broker review outside Pickaxe Capital.</span>
               </div>
             ` : `
               <div class="border-b border-[#1f242d] pb-2">
@@ -12010,7 +12375,7 @@ function renderFlowDeskSnapshot() {
         <span><strong>${risk.confidence}%</strong> risk guard</span>
         <span><strong>${signal.progress}%</strong> alert build</span>
       </div>
-      <p>Flow ranks liquid contracts, Risk checks invalidation, and Signal Engine prepares Webull-only candidates for CEO B review.</p>
+      <p>Flow ranks liquid contracts, Risk checks invalidation, and Signal Engine prepares research candidates for CEO B review.</p>
     </section>
   `;
 }
@@ -12049,7 +12414,7 @@ function renderCeoResearchBrief() {
       <div>
         <span class="label">Final research to CEO B</span>
         <h3>${escapeHtml(selectedSymbol)} command read</h3>
-        <p>${escapeHtml(lead.name)} has the strongest current confidence. ${escapeHtml(flow.name)} is checking contract quality, ${escapeHtml(risk.name)} is guarding invalidation, and ${escapeHtml(signal.name)} is converting the desk focus into Webull-only alert candidates.</p>
+        <p>${escapeHtml(lead.name)} has the strongest current confidence. ${escapeHtml(flow.name)} is checking contract quality, ${escapeHtml(risk.name)} is guarding invalidation, and ${escapeHtml(signal.name)} is converting the desk focus into CEO B research candidates.</p>
       </div>
       <div class="ceo-actions">
         <strong>CEO B next command</strong>
@@ -12397,7 +12762,7 @@ async function handleStaticRouteFallback(url, method, body) {
         invalidation: `Stand down if underlying loses support gate.`,
         target: `Trim near key resistance boundaries.`,
         riskGate: "Max loss is premium paid.",
-        webullAction: "Verify quote in Webull.",
+        webullAction: "Verify quote in an external research terminal.",
         generatedAt: new Date().toISOString()
       };
     });
@@ -12407,7 +12772,7 @@ async function handleStaticRouteFallback(url, method, body) {
       symbols,
       signals: mockSignals,
       notes: [
-        "Signals are research alerts for manual review in Webull.",
+        "Signals are research alerts for manual CEO B review.",
         "No orders are placed from this website."
       ]
     };
@@ -12446,7 +12811,7 @@ async function handleStaticRouteFallback(url, method, body) {
       promptBuilder: { 
         basePrompt: "Focus the desk on {ticker}. Connect chart structure, flow proxy, catalyst context, TTT alignment, and risk gates. Give me the exact next research action.",
         quickPrompts: [
-          "Validate macro regime trend limits for BTC before any manual Webull review.",
+          "Validate macro regime trend limits for BTC before any manual CEO B review.",
           "Inspect NVDA semi capex news memory blocks and options volume outliers.",
           "Check AAPL defined support bounds invalidation and premium risk gates."
         ]

@@ -45,16 +45,22 @@
           <button class="nav-button" data-view="command" data-route="/#/mission-control"><span style="color: var(--amber); border-color: rgba(212, 175, 55, 0.3);">02</span> Mission Control</button>
           <button class="nav-button" data-view="vision" data-route="/#/vision-map"><span style="color: var(--amber); border-color: rgba(212, 175, 55, 0.3);">03</span> Vision Map</button>
           <button class="nav-button" data-view="agents" data-route="/#/agents"><span style="color: var(--amber); border-color: rgba(212, 175, 55, 0.3);">04</span> Agent Engine</button>
-          <button class="nav-button" data-view="signals" data-route="/#/signals"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">05</span> Signals</button>
+          <button class="nav-button" data-view="signals" data-route="/#/signals"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">05</span> Signals Lab</button>
           <button class="nav-button" data-view="sourceHub" data-route="/#/source-hub"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">06</span> Source Hub</button>
           <button class="nav-button" data-view="riskRules" data-route="/#/risk-rules"><span style="color: var(--amber); border-color: rgba(212, 175, 55, 0.3);">07</span> Risk & Rules</button>
           <button class="nav-button" data-view="learningLedger" data-route="/#/learning-ledger"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">08</span> Learning Ledger</button>
           <button class="nav-button" data-view="trendRadar" data-route="/#/trend-radar"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">09</span> Trend Radar</button>
           <button class="nav-button" data-view="archive" data-route="/#/archive"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">10</span> Archive Vault</button>
-          <button class="nav-button" data-view="bookmarks" data-route="/#/bookmarks"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">11</span> Bookmarks</button>
+          <button class="nav-button" data-view="bookmarks" data-route="/#/bookmarks"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">11</span> Bookmarks Mine</button>
           <button class="nav-button" data-view="moneyLab" data-route="/#/money-lab"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">12</span> Money Lab</button>
           <button class="nav-button" data-view="staging" data-route="/#/staging"><span style="color: var(--green); border-color: rgba(0, 230, 118, 0.3);">13</span> Staging / QA</button>
           <button class="nav-button" data-view="aiHabitatOS" data-route="/#/ai-habitat-os"><span style="color: var(--amber); border-color: rgba(212, 175, 55, 0.3);">14</span> AI Habitat OS</button>
+          <button class="nav-button" data-view="watchlists" data-route="/#/watchlists"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">15</span> Watchlists</button>
+          <button class="nav-button" data-view="markets" data-route="/#/markets"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">16</span> Markets Matrix</button>
+          <button class="nav-button" data-view="options" data-route="/#/options"><span style="color: var(--amber); border-color: rgba(212, 175, 55, 0.3);">17</span> Options Hub</button>
+          <button class="nav-button" data-view="catalysts" data-route="/#/catalysts"><span style="color: var(--red); border-color: rgba(255, 75, 92, 0.3);">18</span> Catalysts Calendar</button>
+          <button class="nav-button" data-view="research" data-route="/#/research"><span style="color: var(--teal); border-color: rgba(0, 229, 255, 0.3);">19</span> Research Desk</button>
+          <button class="nav-button" data-view="roadmap" data-route="/#/roadmap"><span style="color: var(--green); border-color: rgba(0, 230, 118, 0.3);">20</span> Build / Roadmap</button>
         </nav>
         <section class="rail-quote" aria-live="polite">
           <span class="label">Mindset</span>
@@ -167,7 +173,7 @@
             <div>
               <p class="eyebrow">Manual broker review separate</p>
               <h2>Signal Generator</h2>
-              <p>Agents prepare research-only watchlist packets from manual/static inputs. No live feed is connected and Webull remains separate manual execution.</p>
+              <p>Agents prepare research-only watchlist packets from manual/static inputs. No live feed is connected and manual broker review remains separate.</p>
             </div>
             <span class="pill">No broker execution</span>
           </div>
@@ -245,7 +251,7 @@
             <article>
               <span>03</span>
               <h3>Risk Gate</h3>
-              <p>Omega Vault checks invalidation, downside, confidence, duplicates, and manual Webull review.</p>
+              <p>Omega Vault checks invalidation, downside, confidence, duplicates, and manual broker review separation.</p>
               <i></i>
             </article>
             <article>
@@ -474,6 +480,30 @@
 
         <section id="aiHandoff" class="view">
           <div id="aiHandoffContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="watchlists" class="view">
+          <div id="watchlistsContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="markets" class="view">
+          <div id="marketsContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="options" class="view">
+          <div id="optionsContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="catalysts" class="view">
+          <div id="catalystsContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="research" class="view">
+          <div id="researchContent" class="intelligence-zone"></div>
+        </section>
+
+        <section id="roadmap" class="view">
+          <div id="roadmapContent" class="intelligence-zone"></div>
         </section>
 
         <section id="founder" class="view founder-profile">
