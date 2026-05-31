@@ -90,6 +90,15 @@
 
 ## Current Session Upgrade
 
+### Circular Logo / Favicon Polish
+
+- Removed the opaque light square/corner background from root and public Pickaxe logo PNG assets.
+- Made the sidebar home-card logo frame circular while keeping the larger readable logo size.
+- Bumped logo and favicon cache keys to `logo3`.
+- Validation passed: `node --check public/app.js`, `node --check app.js`, `scripts/build.mjs`, and `scripts/check-project.mjs`.
+
+## Previous Session Upgrade
+
 ### Live Alerts Desk Verification Complete
 
 - Live URL checked: `https://burberrry.github.io/Pickaxe-Capital/?v=logo2#/alerts`.
@@ -102,7 +111,7 @@
 - No code changes were needed during the final verification pass.
 - Next task: Phase 2 Dashboard prototype when the user has more usage.
 
-## Previous Session Upgrade
+## Earlier Session Upgrade
 
 - Fixed the sidebar home-card Pickaxe Capital logo so the circular mark has a larger fixed footprint and no longer appears cropped.
 - Pointed the browser favicon at the Pickaxe Capital company logo in both root and `public/` HTML.
@@ -111,7 +120,7 @@
 - Validation passed: `node --check public/app.js`, `node --check app.js`, `scripts/build.mjs`, and `scripts/check-project.mjs`.
 - Updated the Build Completion Tracker default latest-session record in `public/habitat-data.js`.
 
-## Earlier Session Upgrade
+## Prior Session Upgrade
 
 - Upgraded `/`, `#/`, and `#/alerts` into the **Citadel Intelligence Center / Alerts Desk** first page.
 - Added the 20-panel Alerts Desk structure: command header, CEO B queue, active packet, contract/instrument context, research context, validation criteria, invalidation, risk audit, workspace checklist, safe actions, risk check, source confidence, agent commentary, market/catalyst/options context, Learning Ledger link, Archive memory, QA truth panel, and next manual step.
