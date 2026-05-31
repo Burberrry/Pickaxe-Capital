@@ -31,7 +31,7 @@
   <body>
     <div class="shell">
       <aside class="rail">
-        <a class="brand home-brand" href="#/mission-control" aria-label="Open Pickaxe Capital home">
+        <a class="brand home-brand" href="#/alerts" aria-label="Open Pickaxe Capital home">
           <span class="mark">
             <img src="brand/pickaxe-capital-logo.png" alt="Pickaxe Capital logo" />
           </span>
@@ -131,7 +131,7 @@
             <div class="panel-head">
               <div>
                 <p class="eyebrow">Learning loop</p>
-                <h2>Trade Journal</h2>
+                <h2>Research Journal</h2>
               </div>
               <span class="pill">Signals become data</span>
             </div>
@@ -142,12 +142,12 @@
               <input name="emotion" placeholder="Emotion check" />
               <select name="outcome">
                 <option value="watched">Watched</option>
-                <option value="sent to Webull">Sent to Webull</option>
+                <option value="sent to CEO B Review">Sent to CEO B Review</option>
                 <option value="paper win">Paper win</option>
                 <option value="paper loss">Paper loss</option>
                 <option value="avoided bad trade">Avoided bad trade</option>
-                <option value="live win">Live win</option>
-                <option value="live loss">Live loss</option>
+                <option value="paper review win">Paper review win</option>
+                <option value="paper review loss">Paper review loss</option>
               </select>
               <select name="grade">
                 <option>A</option>
@@ -165,7 +165,7 @@
         <section id="signals" class="view">
           <div class="signal-hero">
             <div>
-              <p class="eyebrow">Webull execution only</p>
+              <p class="eyebrow">Manual broker review separate</p>
               <h2>Signal Generator</h2>
               <p>Agents prepare research-only watchlist packets from manual/static inputs. No live feed is connected and Webull remains separate manual execution.</p>
             </div>
@@ -177,7 +177,7 @@
               <p class="eyebrow">Key notes</p>
               <h2>AI Status</h2>
             </div>
-            <p><strong>Mode: Signals + Research Only.</strong> The site generates alerts and option ideas. Actual buying and selling stays in Webull. The AI research layer is ready when connected, and the signal engine can still use rules/data-based review whenever model output is unavailable.</p>
+            <p><strong>Mode: Signals + Research Only.</strong> The site generates alerts and option ideas. Research only — no broker execution inside this site. The AI research layer is ready when connected, and the signal engine can still use rules/data-based review whenever model output is unavailable.</p>
           </section>
 
           <div class="control-band">
@@ -227,7 +227,7 @@
             <article>
               <span>00</span>
               <h3>Signals + Research Only</h3>
-              <p>The site generates alerts and option ideas. Actual buying and selling stays in Webull.</p>
+              <p>The site generates alerts and option ideas. Research only — no broker execution inside this site.</p>
               <i></i>
             </article>
             <article>
