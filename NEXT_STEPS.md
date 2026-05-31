@@ -107,6 +107,6 @@ Done:
 - Kept node build and project checker scripts fully verified and passing.
 
 Next Best Task:
-- Signals / Archive / Bookmarks Deep Functionality Pass (implementing robust local parsing, data export previews, and rules correlation).
-- Or Source Hub Adapter Readiness (validating environmental variable parameters stubs and secure connection flows).
+- Verify the live site Fix for Emergency Session 02B: Test route loading on https://burberrry.github.io/Pickaxe-Capital/.
+- Proceed to Session 03 (Option Intelligence and Live Data integrations) only after confirming the live routes load their main content area visibly.
 - Note: Do not recommend or start Device Hub yet until core visual/product routes are fully verified and stable.

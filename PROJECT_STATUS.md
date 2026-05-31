@@ -533,3 +533,25 @@ Verify and test live Chrome HTML file upload in browser under `/bookmarks` view,
 - **Honest Labels Preserved**: Prominently preserved all safety disclosures (e.g. "Mock Research", "Local", "Pending Adapter", "No Live Market Data", "No Broker Execution", "Static UI").
 - **Remaining Risks**: Local browser storage keys and states must be synchronized; no live execution can occur inside this interface.
 
+## Emergency Session 02B - Live GitHub Pages Blank Main Content Fix
+
+- **Emergency Session 02B Summary**: Resolved a critical JS runtime initialization crash that left the main content area blank on the live GitHub Pages site.
+- **Cause of Blank Main Content**:
+  1. A missing function reference: `renderSessionList` was called in `renderTrackerEditor` but never defined, throwing a `ReferenceError` during startup.
+  2. A mock payload type mismatch: The static route fallback for `/api/vision-map` inside `handleStaticRouteFallback` returned strings instead of arrays for `monitorRoom`, `learningSystem`, and `businessMap`, throwing a `TypeError: items.map is not a function` during `loadVisionMap()` rendering.
+  These runtime errors halted script execution, preventing `openRequestedView()` and `setView()` from running and leaving the views container hidden (blank main content).
+- **Files Changed**:
+  - `public/app.js` & `app.js`
+- **Functions Fixed**:
+  - Defined the missing `renderSessionList(label, items)` helper.
+  - Fixed `/api/vision-map` mock payload inside `handleStaticRouteFallback` to return structured array objects matching the expected format.
+  - Wrapped view rendering logic inside `setView` in a `try/catch` block to handle future route rendering errors gracefully.
+  - Created a robust custom error fallback handler `renderRouteErrorFallback(routeName, error)` that displays a visible debug panel instead of a blank screen when rendering fails.
+  - Wrapped all startup load/render calls in individual `try/catch` blocks to ensure a single route failure doesn't block page initialization.
+- **Validation Results**:
+  - `node --check public/app.js` and `node --check app.js` passed successfully.
+  - `node scripts/build.mjs` and `node scripts/check-project.mjs` passed.
+- **Local Browser Route Results**: All tested views (`/`, `#/vision-map`, `#/agents`, `#/signals`, `#/staging`, `#/bookmarks`, `#/jarvis-lab`) render their main content successfully with zero console errors.
+- **Remaining Risks**: Live GitHub Pages is a static client-side build and requires mirroring/syncing changes to the root folder.
+
+

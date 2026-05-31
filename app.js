@@ -547,15 +547,15 @@ els.quickPrompts.addEventListener("click", (event) => {
 els.actionCenter.addEventListener("change", handleChecklistToggle);
 els.agentChecklistPreview.addEventListener("change", handleChecklistToggle);
 
-refreshAll();
-loadBuildLog();
-loadVisionMap();
-renderAgentsPage();
-renderFounderProfile();
-renderActionCenter();
-renderStaticIntelligencePages();
-renderHomeCommandCenter();
-openRequestedView();
+try { refreshAll(); } catch (e) { console.error("Error during startup refreshAll:", e); }
+try { loadBuildLog(); } catch (e) { console.error("Error during startup loadBuildLog:", e); }
+try { loadVisionMap(); } catch (e) { console.error("Error during startup loadVisionMap:", e); }
+try { renderAgentsPage(); } catch (e) { console.error("Error during startup renderAgentsPage:", e); }
+try { renderFounderProfile(); } catch (e) { console.error("Error during startup renderFounderProfile:", e); }
+try { renderActionCenter(); } catch (e) { console.error("Error during startup renderActionCenter:", e); }
+try { renderStaticIntelligencePages(); } catch (e) { console.error("Error during startup renderStaticIntelligencePages:", e); }
+try { renderHomeCommandCenter(); } catch (e) { console.error("Error during startup renderHomeCommandCenter:", e); }
+try { openRequestedView(); } catch (e) { console.error("Error during startup openRequestedView:", e); }
 window.addEventListener("hashchange", openRequestedView);
 
 // Global Link Click Interceptor for GitHub Pages / Static Subdirectories compatibility
@@ -591,6 +591,24 @@ setInterval(tickAgents, 3200);
 setInterval(updateHabitatClock, 1000);
 setInterval(nextMindsetQuote, 30000);
 updateHabitatClock();
+
+function renderRouteErrorFallback(routeName, error) {
+  console.error(`[Render Error] Route: ${routeName}`, error);
+  const esc = (str) => String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  return `
+    <div class="pc-panel bg-[#0d0f13] border border-red/30 p-6 rounded-sm select-none" style="margin: 20px auto; max-width: 600px; text-align: left;">
+      <span class="px-2 py-0.5 bg-red/10 text-red border border-red/30 text-[9px] uppercase font-bold rounded">Static / Local Debug</span>
+      <h2 class="text-lg font-bold text-white uppercase tracking-tight mt-3">Route: ${esc(routeName)}</h2>
+      <p class="text-sm text-slate-400 mt-2">This route hit a local render error.</p>
+      <pre class="bg-black/40 p-4 border border-[#1d242e] rounded-sm text-red text-[11px] font-mono whitespace-pre-wrap mt-4">${esc(error.stack || error.message || error)}</pre>
+      <div class="flex gap-2 mt-6">
+        <a href="#/vision-map" class="pc-action-btn secondary text-xs" style="padding: 6px 12px; background: #131720; border: 1px solid #1f242d; border-radius: 4px; color: #fff; text-decoration: none;">Vision Map</a>
+        <a href="#/agents" class="pc-action-btn secondary text-xs" style="padding: 6px 12px; background: #131720; border: 1px solid #1f242d; border-radius: 4px; color: #fff; text-decoration: none;">Agent Engine</a>
+        <a href="#/staging" class="pc-action-btn secondary text-xs" style="padding: 6px 12px; background: #131720; border: 1px solid #1f242d; border-radius: 4px; color: #fff; text-decoration: none;">Staging QA</a>
+      </div>
+    </div>
+  `;
+}
 
 function setView(view) {
   state.activeView = view;
@@ -637,19 +655,27 @@ function setView(view) {
     aiHabitatOS: "AI Habitat OS",
   };
   els.pageTitle.textContent = titles[view] || "Pickaxe Capital";
-  if (view === "command") {
-    renderHomeCommandCenter();
-    loadMarket();
-    loadOptions();
+  try {
+    if (view === "command") {
+      renderHomeCommandCenter();
+      loadMarket();
+      loadOptions();
+    }
+    if (view === "signals") loadSignals();
+    if (view === "archive") loadArchive(state.archiveRoute);
+    if (["vision", "sourceHub", "signals", "archive", "rkTracker", "berkshire", "bookmarks", "alerts", "lifeHabitat", "staging", "jarvisLab", "lifeOS", "agentBuilderFactory", "projectUpdate", "riskRules", "compliance", "aiHandoff"].includes(view)) renderStaticIntelligencePages();
+    if (view === "founder") renderFounderProfile();
+    if (view === "agents") renderAgentsPage();
+    if (view === "checklist") loadChecklist();
+    if (view === "vision") loadVisionMap();
+    if (view === "log") loadBuildLog();
+  } catch (error) {
+    console.error(`Route render error for view "${view}":`, error);
+    const viewContainer = document.getElementById(view);
+    if (viewContainer) {
+      viewContainer.innerHTML = renderRouteErrorFallback(view, error);
+    }
   }
-  if (view === "signals") loadSignals();
-  if (view === "archive") loadArchive(state.archiveRoute);
-  if (["vision", "sourceHub", "signals", "archive", "rkTracker", "berkshire", "bookmarks", "alerts", "lifeHabitat", "staging", "jarvisLab", "lifeOS", "agentBuilderFactory", "projectUpdate", "riskRules", "compliance", "aiHandoff"].includes(view)) renderStaticIntelligencePages();
-  if (view === "founder") renderFounderProfile();
-  if (view === "agents") renderAgentsPage();
-  if (view === "checklist") loadChecklist();
-  if (view === "vision") loadVisionMap();
-  if (view === "log") loadBuildLog();
 }
 
 function openRequestedView() {
@@ -7431,6 +7457,19 @@ function renderTrackerArea(area, compact = false) {
   `;
 }
 
+function renderSessionList(label, items) {
+  if (!items || !items.length) return "";
+  const listItems = Array.isArray(items) ? items : [items];
+  return `
+    <div class="mb-2">
+      <span class="text-[9px] text-[#606266] uppercase block font-bold mb-0.5">${escapeHtml(label)}</span>
+      <ul class="list-disc pl-4 text-[10px] text-slate-300 space-y-0.5">
+        ${listItems.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
+      </ul>
+    </div>
+  `;
+}
+
 function renderTrackerEditor(tracker) {
   const session = tracker.latestSession || {};
   const groups = [
@@ -10532,11 +10571,35 @@ async function handleStaticRouteFallback(url, method, body) {
   if (pathname.includes("/api/vision-map")) {
     return {
       ok: true,
-      mission: "Commanding a living autonomous intelligence civilization.",
-      promptBuilder: "Stable prompt templates",
-      monitorRoom: "Active UI telemetry panel",
-      learningSystem: "Checklist and lessons loops",
-      businessMap: "Hedge-fund command dashboard"
+      mission: { title: "Pickaxe Capital / AI Habitat OS", statement: "One Vision. Three Layers. Infinite Potential." },
+      promptBuilder: { 
+        basePrompt: "Focus the desk on {ticker}. Connect chart structure, flow proxy, catalyst context, TTT alignment, and risk gates. Give me the exact next research action.",
+        quickPrompts: [
+          "Validate macro regime trend limits for BTC before any manual Webull review.",
+          "Inspect NVDA semi capex news memory blocks and options volume outliers.",
+          "Check AAPL defined support bounds invalidation and premium risk gates."
+        ]
+      },
+      brainMap: [
+        { title: "Core Inputs", items: ["Market Watchlist Data", "Options Chain Implied Vol", "Geopolitical Intelligence Feeds", "Private Chrome Bookmarks Uploads"] }
+      ],
+      monitorRoom: [
+        { title: "Active Watchlists", items: ["SPY index metrics", "QQQ Nasdaq options", "BTC spot levels", "NVDA volatility scan"] }
+      ],
+      learningSystem: [
+        { title: "Ecosystem Rules", items: ["Time Trend Theme alignment", "Max 10% premium spread gate", "Downside invalidation checkpoints"] }
+      ],
+      businessMap: [
+        { title: "Command Revenue", items: ["Static research models", "Educational sandbox packages", "Hedge fund terminal layouts"] }
+      ],
+      operatingDoctrine: [
+        { title: "CEO B Mandates", items: ["Never merge external code untested", "No auto-trading or API key exposure", "Maintain 100% manual review review gates"] }
+      ],
+      catalystMemory: [
+        { title: "Event Tracking", items: ["Federal Reserve interest rate schedule", "Mega-cap corporate earnings windows", "Sector rotation volume breakouts"] }
+      ],
+      quote: { text: "Stand firm in the right place, then watch the horizon.", author: "TTT" },
+      folderSystem: ["Markets", "Options", "Macro Policy", "AI Coding", "Archive Vault", "System Prototyping"]
     };
   }
 
