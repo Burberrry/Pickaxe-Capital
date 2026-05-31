@@ -775,12 +775,13 @@ window.PickaxeHabitatData = {
     { id: "rule-8", name: "CEO B Unapproved", description: "If CEO B has not approved the manual-review packet, do not publish or distribute the alert.", status: "Hard Decision Gate", type: "Automatic Hold" }
   ],
   dataSources: [
-    { name: "Tradier Options Chains", category: "Options Data", agents: "Options Flow Hunter", dataType: "Live Chains, Spreads, Greeks", status: "Future Adapter", step: "Connect developer credentials via future backend.", safety: "Read-only access. Keys must stay backend-isolated.", backend: "Yes" },
-    { name: "Alpaca Options Brokerage", category: "Broker Review", agents: "CEO B Overseer", dataType: "Execution snap, positions", status: "Future Adapter", step: "Connect OAuth 2.0 API gateway.", safety: "Execution is manual/external only. No trade execution from UI.", backend: "Yes" },
-    { name: "Cboe / Hanweck Greeks", category: "Greeks & IV", agents: "Technical Strategist, Risk Sentinel", dataType: "Realtime implied volatility, Greeks", status: "Research Provider", step: "Integrate Hanweck websocket proxy.", safety: "Used only for pricing model confirmation.", backend: "Yes" },
-    { name: "TradingView Charts", category: "Charts & Technicals", agents: "Technical Strategist", dataType: "Interactive visual technical analysis", status: "Manual Embed", step: "Configure TradingView Advanced Widget in iframe.", safety: "Safe client embed, no API keys required.", backend: "No" },
-    { name: "X Bookmarks", category: "Social Sentiment", agents: "Bookmark Miner, Echo Mind", dataType: "HTML bookmark import, sentiment leads", status: "Local Prototype", step: "Manually upload Chrome bookmarks HTML export.", safety: "Processed locally using FileReader. Zero external sync.", backend: "No" },
-    { name: "News / Macro Sources", category: "Catalysts & Macro", agents: "Alpha Prime, Echo Mind", dataType: "Geopolitical risk, Flightradar, macro news", status: "Future Adapter", step: "Connect news rss/api aggregation adapters.", safety: "Public data feeds, low risk.", backend: "Yes" }
+    { name: "Polygon & Finnhub Feed", category: "Market Data", agents: "Signal Scout", dataType: "Equities Quotes, Stock Catalysts", status: "Adapter Ready", step: "Connect developer credentials via future backend.", safety: "Read-only access. Keys must stay backend-isolated.", backend: "Yes" },
+    { name: "Tradier, ORATS, & Whales", category: "Options Flow / Derivatives", agents: "Flow Hunter", dataType: "Chains, Greeks, Sweeps", status: "Needs Backend", step: "Establish server-side sweeps endpoints.", safety: "High volume scanner. No automated orders allowed.", backend: "Yes" },
+    { name: "FRED, GDELT & SEC EDGAR", category: "News / Macro / Risk", agents: "Macro Watcher", dataType: "Economic indices, OSINT, SEC Filings", status: "Needs Compliance Review", step: "Register developer User-Agent for SEC EDGAR.", safety: "Public threat feeds. Manual review by CEO B required.", backend: "Yes" },
+    { name: "GitHub REST & Actions API", category: "Project / GitHub Status", agents: "System Brain", dataType: "Commit history, check runs status", status: "Local", step: "Connect local backend endpoint to GitHub API.", safety: "Local execution. Token requires status read-only permissions.", backend: "Yes" },
+    { name: "Gemini & OpenAI API stubs", category: "AI Review / Summarization", agents: "Command Architect", dataType: "Sentiment briefing packets, tags extraction", status: "Adapter Ready", step: "Establish backend proxy to LLM endpoints.", safety: "Never expose AI keys in frontend client bundles.", backend: "Yes" },
+    { name: "Chrome & X HTML Import", category: "Bookmarks / Article Intake", agents: "Bookmark Miner", dataType: "HTML Netscape parsing, X link posts", status: "Local", step: "Expand parse rules for RSS/XML feeds.", safety: "Runs locally in-browser via FileReader. Zero network traffic.", backend: "No" },
+    { name: "SimilarWeb & COT Reports", category: "Alternative Data Future", agents: "Wealth Alchemist", dataType: "Web traffic data, COT reports", status: "Not Connected", step: "Determine data purchase contracts and licenses.", safety: "Confirm data rights. Visual empty state placeholder only.", backend: "Yes" }
   ],
   complianceDisclosures: [
     { title: "Research Only Platform", text: "Pickaxe Capital / AI Habitat OS is a static research, strategy, and planning software. It is not an investment adviser, broker-dealer, or exchange." },
@@ -829,88 +830,116 @@ window.PickaxeHabitatData = {
   ],
   adapterRegistry: [
     {
-      name: "Alpaca / Polygon Market Data Adapter",
+      id: "market-data-polygon",
+      name: "Polygon / Finnhub Market Data Adapter",
       category: "Market Data",
+      targetRoute: "#/signals",
+      targetAgent: "Signal Scout",
       status: "Adapter Ready",
-      requiredCredentials: ["POLYGON_API_KEY", "ALPACA_API_KEY", "ALPACA_API_SECRET"],
-      supportedMethods: [
-        "getQuotes(symbols)",
-        "getHistoricalBars(symbol, resolution, limit)",
-        "getMarketStatus()"
-      ],
-      currentFallbackBehavior: "Loads static/mock values from canonical watchlist (default marketWatchlist in habitat-data.js).",
-      safetyNotes: "Read-only data feed. Credentials must be isolated on the backend server environment variables. This adapter does not place trades or access brokerage cash balances.",
-      frontendSafe: false
+      dataShape: "market_quote",
+      requiredEnv: ["POLYGON_API_KEY", "FINNHUB_API_KEY", "ALPHA_VANTAGE_API_KEY"],
+      safeFrontend: false,
+      needsBackend: true,
+      refreshCadence: "Realtime / Websocket",
+      currentMode: "Loads static/mock values from canonical watchlist (default marketWatchlist in habitat-data.js).",
+      nextStep: "Build a secure backend API proxy to fetch quotes without exposing API keys.",
+      safetyNote: "Read-only market data feed. Never put developer keys in frontend bundle."
     },
     {
-      name: "Tradier / Unusual Whales Options Flow Adapter",
-      category: "Options Flow",
-      status: "Adapter Ready",
-      requiredCredentials: ["TRADIER_ACCESS_TOKEN", "UNUSUAL_WHALES_API_KEY"],
-      supportedMethods: [
-        "getOptionChains(symbol)",
-        "getUnusualSweeps(limit)",
-        "getOptionGreeks(symbol, contract)"
-      ],
-      currentFallbackBehavior: "Pulls manual review trade memos and default options packets from localStorage (pickaxeOptionAlerts).",
-      safetyNotes: "Options scanning data requires heavy client bandwidth. Credentials must live backend-side. No automated orders are allowed from sweeps.",
-      frontendSafe: false
+      id: "options-flow-tradier",
+      name: "Tradier / ORATS / Unusual Whales Options Flow Adapter",
+      category: "Options Flow / Derivatives",
+      targetRoute: "#/signals",
+      targetAgent: "Flow Hunter",
+      status: "Needs Backend",
+      dataShape: "options_flow",
+      requiredEnv: ["TRADIER_API_KEY", "ORATS_API_KEY", "UNUSUAL_WHALES_API_KEY"],
+      safeFrontend: false,
+      needsBackend: true,
+      refreshCadence: "On-demand / Polling (10s)",
+      currentMode: "Pulls manual review trade memos and default options packets from localStorage (pickaxeOptionAlerts).",
+      nextStep: "Establish server-side API endpoints for scanning and sorting large options sweep payloads.",
+      safetyNote: "Requires client-side bandwidth guards. Orders must be submitted externally, no auto-trading."
     },
     {
-      name: "NetBlocks / News RSS / Flightradar Risk Adapter",
-      category: "News / Geopolitics / Risk Events",
-      status: "Adapter Ready",
-      requiredCredentials: ["NETBLOCKS_API_KEY", "NEWSAPI_ORG_KEY"],
-      supportedMethods: [
-        "getGlobalDisruptions()",
-        "searchRiskEvents(query)",
-        "getAviationIncidents()"
-      ],
-      currentFallbackBehavior: "Returns NetBlocks stubs, Berkshire historical studies, and simulated risk sentinel outputs.",
-      safetyNotes: "Geopolitical threat feeds contain noise. All items require manual verification by CEO B before moving to command desks.",
-      frontendSafe: false
+      id: "news-macro-risk",
+      name: "FRED / NewsAPI / SEC EDGAR Risk Adapter",
+      category: "News / Macro / Risk",
+      targetRoute: "#/signals",
+      targetAgent: "Macro Watcher",
+      status: "Needs Compliance Review",
+      dataShape: "news_event",
+      requiredEnv: ["NEWS_API_KEY", "SEC_EDGAR_USER_AGENT"],
+      safeFrontend: false,
+      needsBackend: true,
+      refreshCadence: "Hourly",
+      currentMode: "Returns NetBlocks connectivity stubs, Berkshire historical studies, and simulated risk outputs.",
+      nextStep: "Register developer user agent for SEC EDGAR and verify rate limits.",
+      safetyNote: "Geopolitical threat intelligence and SEC reports contain noise. Manual audit required by CEO B."
     },
     {
-      name: "Local HTML Bookmark Miner / API Reader",
-      category: "Bookmark Intelligence",
+      id: "project-status-github",
+      name: "GitHub REST API / Actions Status Adapter",
+      category: "Project / GitHub Status",
+      targetRoute: "#/staging",
+      targetAgent: "System Brain",
       status: "Local",
-      requiredCredentials: ["X_API_BEARER_TOKEN", "X_API_CLIENT_ID", "X_API_CLIENT_SECRET"],
-      supportedMethods: [
-        "parseBookmarksHtml(htmlString)",
-        "fetchXBookmarksLive()",
-        "deduplicateBookmarks(list)"
-      ],
-      currentFallbackBehavior: "Processes bookmark exports locally via FileReader in-browser. No database uploads.",
-      safetyNotes: "Reads user-supplied bookmarks HTML files. Runs in-memory. Zero network traffic. Future live X sync requires client credentials.",
-      frontendSafe: true
+      dataShape: "github_commit_status",
+      requiredEnv: ["GITHUB_TOKEN"],
+      safeFrontend: false,
+      needsBackend: true,
+      refreshCadence: "Webhook / On-demand",
+      currentMode: "Loads build completion percentages and changed files logs from static properties in habitat-data.js.",
+      nextStep: "Wire a secure local server middleware to call GitHub Actions check runs API.",
+      safetyNote: "Local scripts must restrict filesystem modifications. Token requires write:statuses permission only."
     },
     {
-      name: "Gemini / OpenAI / Anthropic AI Review Adapter",
-      category: "AI Model Review",
+      id: "ai-review-gemini",
+      name: "Gemini / OpenAI Model Review Adapter",
+      category: "AI Review / Summarization",
+      targetRoute: "#/jarvis-lab",
+      targetAgent: "Command Architect",
       status: "Adapter Ready",
-      requiredCredentials: ["GEMINI_API_KEY", "OPENAI_API_KEY", "ANTHROPIC_API_KEY"],
-      supportedMethods: [
-        "generateBrief(prompt, context)",
-        "reviewSignalPacket(packet)",
-        "extractArchiveInsights(item)"
-      ],
-      currentFallbackBehavior: "Uses rules-based static parser (e.g. check-project checklist validation, rules-based alerts filtering).",
-      safetyNotes: "Never hardcode AI developer keys in client bundle. All requests must go through backend proxy scripts. Fallback to local heuristic checks when quota or connection is unavailable.",
-      frontendSafe: false
+      dataShape: "ai_review_packet",
+      requiredEnv: ["OPENAI_API_KEY", "GEMINI_API_KEY"],
+      safeFrontend: false,
+      needsBackend: true,
+      refreshCadence: "On-demand (User Triggered)",
+      currentMode: "Uses rules-based static parser (check-project checklist validation, rules-based alerts filtering).",
+      nextStep: "Implement a server-side gateway endpoint proxy connecting to OpenAI/Gemini SDKs.",
+      safetyNote: "Never hardcode developer LLM keys. Heuristic fallback operates offline when models rate limit."
     },
     {
-      name: "GitHub Repository Status Adapter",
-      category: "GitHub/Project Status",
+      id: "bookmarks-intake",
+      name: "Local Bookmarks HTML / Reader API Adapter",
+      category: "Bookmarks / Article Intake",
+      targetRoute: "#/bookmarks",
+      targetAgent: "Bookmark Miner",
       status: "Local",
-      requiredCredentials: ["GITHUB_PAT_TOKEN", "GITHUB_REPO_OWNER", "GITHUB_REPO_NAME"],
-      supportedMethods: [
-        "runBuildCheckLocal()",
-        "getRepoIssues()",
-        "getLatestCommits()"
-      ],
-      currentFallbackBehavior: "Loads build completion percentages and changed files logs from static public/habitat-data.js properties.",
-      safetyNotes: "Local script trigger must restrict shell access to authorized directories. GitHub API calls are rate-limited.",
-      frontendSafe: false
+      dataShape: "bookmark_record",
+      requiredEnv: [],
+      safeFrontend: true,
+      needsBackend: false,
+      refreshCadence: "Local / Manual Trigger",
+      currentMode: "Processes bookmark exports locally via FileReader in-browser. Zero external database sync.",
+      nextStep: "Expand parser rules to recognize and parse RSS/XML structured bookmark layouts.",
+      safetyNote: "Reads user-supplied HTML files in-memory. Client sandbox is isolated, no network traffic."
+    },
+    {
+      id: "alternative-data",
+      name: "Buybacks / Alternative Web Traffic Data Adapter",
+      category: "Alternative Data Future",
+      targetRoute: "#/signals",
+      targetAgent: "Wealth Alchemist",
+      status: "Not Connected",
+      dataShape: "alternative_data_signal",
+      requiredEnv: ["SIMILARWEB_API_KEY", "COT_REPORTS_TOKEN"],
+      safeFrontend: false,
+      needsBackend: true,
+      refreshCadence: "Weekly",
+      currentMode: "No current fallback. Empty state placeholder displayed.",
+      nextStep: "Establish data purchase contracts or scrape public SEC buyback forms manually.",
+      safetyNote: "Alternative datasets can have high lag. Confirm data rights before any production use."
     }
   ]
 };

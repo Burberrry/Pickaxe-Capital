@@ -107,6 +107,5 @@ Done:
 - Kept node build and project checker scripts fully verified and passing.
 
 Next Best Task:
-- Verify the live site Fix for Emergency Session 02B: Test route loading on https://burberrry.github.io/Pickaxe-Capital/.
-- Proceed to Session 03 (Option Intelligence and Live Data integrations) only after confirming the live routes load their main content area visibly.
-- Note: Do not recommend or start Device Hub yet until core visual/product routes are fully verified and stable.
+- Final QA + GitHub Pages Readiness (specifically testing custom bookmarks manual import, live rendering fallbacks, and local storage data porting limits on the production build).
+- Alternatively: Alert Rules / Data Portability Polish to refine rule simulations and the backup cockpit interface.

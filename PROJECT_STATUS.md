@@ -585,4 +585,27 @@ Verify and test live Chrome HTML file upload in browser under `/bookmarks` view,
   - Run project checklist: `/Applications/Codex.app/Contents/Resources/node scripts/check-project.mjs` Passed.
   - Run update readme script: `/Applications/Codex.app/Contents/Resources/node scripts/update-readme.mjs` Passed.
 
+## Session 04 — Source Hub Adapter Readiness, Provider Matrix, and Safe Connection Planning - 2026-05-31
+
+- **Changed Files**:
+  - `public/app.js` & `app.js`
+  - `public/habitat-data.js` & `habitat-data.js`
+  - `PROJECT_STATUS.md`
+  - `NEXT_STEPS.md`
+- **Features & Infrastructure Added**:
+  - **Source Hub Provider Matrix (`#/source-hub`)**:
+    - Upgraded matrix table and registry cards to seed and render 7 provider categories covering Market Data, Options Flow, News/Geopolitics, GitHub Status, AI Model Review, Bookmarks, and Alternative Data.
+    - Expanded schemas to track 14 parameters including category, dataShape, targetRoute, targetAgent, refreshCadence, nextStep, and safetyNotes.
+  - **Adapter Status Governance**:
+    - Integrated a structured glossary detailing compliant allowed behaviors and forbidden violations for 10 distinct status tags.
+  - **Environment Variable Planner**:
+    - Embedded a dedicated cockpit listing planned keys, copy-to-clipboard functionality, and warnings highlighting GitHub Pages client-side static security constraints.
+  - **Safe Integration Actions**:
+    - Wired interactive buttons: *Prepare Connection Stub* (saves status overrides to `localStorage.pickaxeAdapterOverrides`), *Send Setup Task to CEO B Review* (`pickaxeReviewQueue`), *Send Adapter Build Task* (`pickaxeMissionQueue`), *Archive Adapter Note* (`pickaxeArchiveVault`), *Copy Env Var Names*, and *Open Related Route*.
+  - **Staging Readiness Diagnostics (`#/staging`)**:
+    - Upgraded diagnostics cards to dynamically fetch state overrides and render totals, ready, needs backend, not connected, and unplanned env counts, under a "No live provider calls: Active Safe Sandbox" safety badge.
+- **Verification Performed**:
+  - Node syntax and checks compiled with zero errors.
+  - Verification scripts (`build.mjs`, `check-project.mjs`, and `update-readme.mjs`) all passed cleanly.
+
 

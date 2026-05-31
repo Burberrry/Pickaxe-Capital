@@ -2575,6 +2575,17 @@ function renderVisionDashboardPanel(title, value, detail) {
   return `<article><span class="label">${escapeHtml(title)}</span><strong>${escapeHtml(String(value))}</strong><p>${escapeHtml(detail)}</p></article>`;
 }
 
+function getAdapterStatus(adapter) {
+  if (!state.adapterStatusOverrides) {
+    try {
+      state.adapterStatusOverrides = JSON.parse(localStorage.getItem("pickaxeAdapterOverrides") || "{}");
+    } catch(e) {
+      state.adapterStatusOverrides = {};
+    }
+  }
+  return state.adapterStatusOverrides[adapter.id] || adapter.status;
+}
+
 function renderAdapterRegistrySection(categories = null) {
   const registry = (sharedHabitatData && sharedHabitatData.adapterRegistry) ? sharedHabitatData.adapterRegistry : [];
   const filtered = categories 
@@ -2582,16 +2593,6 @@ function renderAdapterRegistrySection(categories = null) {
     : registry;
   
   if (filtered.length === 0) return "";
-
-  function getAdapterOwnerAgent(category) {
-    if (category.toLowerCase().includes("market data")) return "Signal Scout";
-    if (category.toLowerCase().includes("options") || category.toLowerCase().includes("spread")) return "Options Flow Hunter";
-    if (category.toLowerCase().includes("news") || category.toLowerCase().includes("risk")) return "News Raven";
-    if (category.toLowerCase().includes("bookmark") || category.toLowerCase().includes("social")) return "Bookmark Miner";
-    if (category.toLowerCase().includes("github") || category.toLowerCase().includes("project")) return "System Brain";
-    if (category.toLowerCase().includes("ai model")) return "Research Agent / CEO B";
-    return "System Brain";
-  }
 
   return `
     <div class="mt-8 border border-[#1f242d] bg-[#0c0d0e] rounded p-4 font-mono text-[#c0c4cc]">
@@ -2605,20 +2606,24 @@ function renderAdapterRegistrySection(categories = null) {
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         ${filtered.map(adapter => {
+          const currentStatus = getAdapterStatus(adapter);
           let statusChipClass = "static";
-          if (adapter.status === "Mock") statusChipClass = "static";
-          else if (adapter.status === "Manual") statusChipClass = "manual-review";
-          else if (adapter.status === "Local") statusChipClass = "local-state";
-          else if (adapter.status === "Adapter Ready") statusChipClass = "adapter-ready";
-          else if (adapter.status === "Connected") statusChipClass = "mock-ready";
-          else if (adapter.status === "Error") statusChipClass = "no-live-data";
+          if (currentStatus === "Mock" || currentStatus === "Static") statusChipClass = "static";
+          else if (currentStatus === "Manual" || currentStatus === "Needs Compliance Review") statusChipClass = "manual-review";
+          else if (currentStatus === "Local" || currentStatus === "Prototype") statusChipClass = "local-state";
+          else if (currentStatus === "Adapter Ready") statusChipClass = "adapter-ready";
+          else if (currentStatus === "Connected") statusChipClass = "mock-ready";
+          else if (currentStatus === "Error" || currentStatus === "Needs API Key") statusChipClass = "no-live-data";
+          else if (currentStatus === "Needs Backend" || currentStatus === "Not Connected") statusChipClass = "no-live-data";
 
-          const envVars = adapter.requiredCredentials && adapter.requiredCredentials.length > 0 
-            ? adapter.requiredCredentials.map(v => `<code class="text-amber text-[9px] bg-amber/5 border border-amber/20 px-1 py-0.2 rounded-sm">${escapeHtml(v)}</code>`).join(" ")
-            : `<span class="text-[#606266] italic">None required</span>`;
+          const envVarsList = adapter.requiredEnv || [];
+          const envVars = envVarsList.length > 0 
+            ? envVarsList.map(v => `<code class="text-amber text-[9px] bg-amber/5 border border-amber/20 px-1 py-0.2 rounded-sm cursor-pointer" onclick="window.copyAdapterEnvVars('${escapeHtml(adapter.id)}', '${escapeHtml(v)}')" title="Click to copy">${escapeHtml(v)}</code>`).join(" ")
+            : `<span class="text-[#606266] italic">None required (Client-Safe)</span>`;
 
-          const owner = getAdapterOwnerAgent(adapter.category);
-          const backendRequired = !adapter.frontendSafe;
+          const envVarsText = envVarsList.join(", ");
+          const owner = adapter.targetAgent || "System Brain";
+          const backendRequired = !adapter.safeFrontend;
 
           return `
             <article class="p-3 border border-[#1f242d] bg-[#090a0c]/80 hover:border-slate-700 hover:shadow-[0_0_10px_rgba(66,217,200,0.05)] transition-all duration-300 flex flex-col justify-between rounded-sm">
@@ -2629,50 +2634,86 @@ function renderAdapterRegistrySection(categories = null) {
                     <span class="text-[8.5px] text-[#606266] uppercase font-bold tracking-wider">${escapeHtml(adapter.category)}</span>
                   </div>
                   <span class="pc-status-chip ${statusChipClass}">
-                    ${escapeHtml(adapter.status)}
+                    ${escapeHtml(currentStatus)}
                   </span>
                 </div>
 
                 <div class="mb-3 text-[10.5px] leading-relaxed text-[#909399]">
-                  <strong class="text-white block text-[9.5px] uppercase font-mono tracking-wider mb-0.5">Current Behavior:</strong>
-                  <div class="bg-black/30 p-2 border border-[#1f242d] rounded-sm text-slate-300 font-mono text-[10px] whitespace-pre-wrap">${escapeHtml(adapter.currentFallbackBehavior || adapter.fallbackBehavior || "")}</div>
+                  <strong class="text-white block text-[9.5px] uppercase font-mono tracking-wider mb-0.5 font-bold">Current Behavior:</strong>
+                  <div class="bg-black/30 p-2 border border-[#1f242d] rounded-sm text-slate-300 font-mono text-[10px] whitespace-pre-wrap">${escapeHtml(adapter.currentMode || adapter.currentFallbackBehavior || "")}</div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2 mb-3 text-[10px]">
+                <div class="grid grid-cols-2 gap-2 mb-2 text-[10px]">
                   <div>
-                    <span class="text-[#606266] uppercase text-[8px] tracking-wider block">Target Agent Owner</span>
+                    <span class="text-[#606266] uppercase text-[8px] tracking-wider block font-bold">Target Agent Owner</span>
                     <strong class="text-[#42d9c8] font-bold font-mono block mt-0.5">${escapeHtml(owner)}</strong>
                   </div>
                   <div>
-                    <span class="text-[#606266] uppercase text-[8px] tracking-wider block">Backend Required</span>
+                    <span class="text-[#606266] uppercase text-[8px] tracking-wider block font-bold">Backend Required</span>
                     <span class="px-1.5 py-0.2 text-[8px] font-bold uppercase rounded-sm inline-block mt-0.5 ${backendRequired ? 'bg-red/10 text-red border border-red/20' : 'bg-green/10 text-green border border-green/20'}">
                       ${backendRequired ? 'Yes (Server-Only)' : 'No (Client-Safe)'}
                     </span>
                   </div>
                 </div>
 
-                <div class="mb-3">
-                  <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-1">Future Connection Credentials (Env Vars)</span>
+                <div class="grid grid-cols-2 gap-2 mb-2 text-[10px]">
+                  <div>
+                    <span class="text-[#606266] uppercase text-[8px] tracking-wider block font-bold">Data Payload Shape</span>
+                    <code class="text-cyan-400 font-mono text-[9px] block mt-0.5">${escapeHtml(adapter.dataShape || "n/a")}</code>
+                  </div>
+                  <div>
+                    <span class="text-[#606266] uppercase text-[8px] tracking-wider block font-bold">Refresh Cadence</span>
+                    <strong class="text-slate-300 font-bold block mt-0.5">${escapeHtml(adapter.refreshCadence || "On-demand")}</strong>
+                  </div>
+                </div>
+
+                <div class="mb-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block">Connection Credentials (Env Vars)</span>
+                    ${envVarsList.length ? `<span class="text-[8px] text-[#42d9c8] cursor-pointer hover:underline" onclick="window.copyAdapterEnvVars('${escapeHtml(adapter.id)}', '${escapeHtml(envVarsText)}')">Copy All</span>` : ""}
+                  </div>
                   <div class="flex flex-wrap gap-1 mt-1">
                     ${envVars}
                   </div>
                 </div>
 
+                <div class="mb-2 bg-black/40 p-2 border border-slate-900 rounded-sm text-[10px] text-slate-300 leading-snug">
+                  <span class="text-amber uppercase text-[8px] font-bold tracking-wider block mb-0.5">Next Construction Step:</span>
+                  ${escapeHtml(adapter.nextStep || "n/a")}
+                </div>
+
                 <div class="mb-3 bg-red-950/10 p-2 border border-red-900/20 rounded-sm text-[10.5px] leading-relaxed text-slate-400">
                   <strong class="text-red uppercase text-[8.5px] tracking-wider block mb-0.5">🔒 Safety Protocol Note:</strong>
-                  ⚠️ ${escapeHtml(adapter.safetyNotes || adapter.safety || 'No external credentials should be exposed in client code.')}
+                  ⚠️ ${escapeHtml(adapter.safetyNote || adapter.safetyNotes || 'No external credentials should be exposed in client code.')}
                 </div>
               </div>
 
               <div class="border-t border-[#141820] pt-2.5 mt-2 flex flex-col gap-2">
-                <div class="flex items-center justify-between text-[9.5px] text-[#8c9099]">
-                  <span>Scope: <strong class="text-white">${adapter.frontendSafe ? 'Client Safe (Frontend)' : 'Server Only (Backend)'}</strong></span>
-                  <span>Category: <strong class="text-white font-mono">${escapeHtml(adapter.category)}</strong></span>
+                <div class="flex items-center justify-between text-[9.5px] text-[#8c9099] font-mono">
+                  <span>Scope: <strong class="text-white">${adapter.safeFrontend ? 'Client Safe (Frontend)' : 'Server Only (Backend)'}</strong></span>
+                  <span>Target Route: <a href="${escapeHtml(adapter.targetRoute)}" class="text-[#42d9c8] hover:underline font-bold">${escapeHtml(adapter.targetRoute)}</a></span>
                 </div>
                 
-                <button type="button" class="pc-action-btn ${adapter.frontendSafe ? 'secondary' : 'risk'} w-full text-center mt-1" onclick="window.prepareAdapterConnection('${escapeHtml(adapter.name)}', ${!!adapter.frontendSafe})">
-                  ${adapter.frontendSafe ? 'Prepare Connection Stub' : 'Needs Backend Adapter'}
-                </button>
+                <div class="grid grid-cols-2 gap-2 mt-1 select-none">
+                  <button type="button" class="pc-action-btn ${adapter.safeFrontend ? 'secondary' : 'risk'} text-[9px] py-1 font-bold uppercase rounded-sm" onclick="window.prepareAdapterConnection('${escapeHtml(adapter.id)}', '${escapeHtml(adapter.name)}', ${!!adapter.safeFrontend})">
+                    ${adapter.safeFrontend ? 'Prepare Connection Stub' : 'Needs Backend Adapter'}
+                  </button>
+                  <a href="${escapeHtml(adapter.targetRoute)}" class="pc-action-btn secondary text-center text-[9px] py-1 font-bold uppercase rounded-sm leading-normal flex items-center justify-center">
+                    Open Related Route
+                  </a>
+                </div>
+
+                <div class="grid grid-cols-3 gap-1.5 select-none text-[8.5px]">
+                  <button type="button" class="pc-action-btn secondary py-0.5 font-sans px-1" onclick="window.sendAdapterToCeoReview('${escapeHtml(adapter.id)}', '${escapeHtml(adapter.name)}')">
+                    Review Gate
+                  </button>
+                  <button type="button" class="pc-action-btn secondary py-0.5 font-sans px-1" onclick="window.sendAdapterBuildTask('${escapeHtml(adapter.id)}', '${escapeHtml(adapter.name)}', '${escapeHtml(owner)}')">
+                    Assign Build
+                  </button>
+                  <button type="button" class="pc-action-btn secondary py-0.5 font-sans px-1" onclick="window.archiveAdapterNote('${escapeHtml(adapter.id)}', '${escapeHtml(adapter.name)}', '${escapeHtml(adapter.category)}', '${escapeHtml(adapter.safetyNote || adapter.safetyNotes)}')">
+                    Archive Spec
+                  </button>
+                </div>
               </div>
             </article>
           `;
@@ -2690,18 +2731,17 @@ function renderAdapterRegistrySection(categories = null) {
 function renderAdapterStagingSummary() {
   const registry = (sharedHabitatData && sharedHabitatData.adapterRegistry) ? sharedHabitatData.adapterRegistry : [];
   const total = registry.length;
-  const ready = registry.filter(a => a.status === "Adapter Ready").length;
-  const local = registry.filter(a => a.status === "Local").length;
-  const manual = registry.filter(a => a.status === "Manual").length;
-  const mock = registry.filter(a => a.status === "Mock").length;
-  const connected = registry.filter(a => a.status === "Connected").length;
-  const error = registry.filter(a => a.status === "Error").length;
-  const backendOnly = registry.filter(a => !a.frontendSafe).length;
-  const frontendSafe = registry.filter(a => a.frontendSafe).length;
+  const ready = registry.filter(a => getAdapterStatus(a) === "Adapter Ready").length;
+  const needsBackend = registry.filter(a => !a.safeFrontend).length;
+  const notConnected = registry.filter(a => getAdapterStatus(a) === "Not Connected").length;
+  
+  // Count adapters requiring environment vars that haven't been simulated/prepared yet
+  const overrides = state.adapterStatusOverrides || {};
+  const missingEnv = registry.filter(a => !a.safeFrontend && !overrides[a.id]).length;
   
   return `
     <section class="panel bg-[#0c0d0e] border border-[#1f242d] p-4 rounded-sm font-mono mt-4">
-      <div class="panel-head border-b border-[#1f242d] pb-2 mb-3 flex justify-between items-center">
+      <div class="panel-head border-b border-[#1f242d] pb-2 mb-3 flex justify-between items-center select-none">
         <div>
           <p class="eyebrow">Ecosystem Integration Status</p>
           <h2 class="text-xs font-bold text-white uppercase tracking-wider">Adapter Readiness Diagnostics</h2>
@@ -2709,7 +2749,7 @@ function renderAdapterStagingSummary() {
         <span class="pill bg-purple-950/40 text-purple-400 border border-purple-900/30">QA Checklist Gate</span>
       </div>
       
-      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center mb-4">
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center mb-4 select-none">
         <div class="bg-black/30 border border-[#1f242d] p-2">
           <strong class="text-white block text-sm font-bold font-mono">${total}</strong>
           <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Total Adapters</span>
@@ -2719,24 +2759,27 @@ function renderAdapterStagingSummary() {
           <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Adapter Ready</span>
         </div>
         <div class="bg-black/30 border border-[#1f242d] p-2">
-          <strong class="text-green block text-sm font-bold font-mono">${connected}</strong>
-          <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Connected</span>
+          <strong class="text-amber block text-sm font-bold font-mono">${needsBackend}</strong>
+          <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Needs Backend</span>
         </div>
         <div class="bg-black/30 border border-[#1f242d] p-2">
-          <strong class="text-cyan block text-sm font-bold font-mono">${frontendSafe}</strong>
-          <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Client-Safe</span>
+          <strong class="text-red block text-sm font-bold font-mono">${notConnected}</strong>
+          <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Not Connected</span>
         </div>
         <div class="bg-black/30 border border-[#1f242d] p-2">
-          <strong class="text-amber block text-sm font-bold font-mono">${backendOnly}</strong>
-          <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Backend-Only</span>
+          <strong class="text-yellow-400 block text-sm font-bold font-mono">${missingEnv}</strong>
+          <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Unplanned Env</span>
         </div>
       </div>
       
       <div class="bg-slate-950/60 border border-slate-900 p-3 rounded-sm text-[11px] leading-relaxed text-[#909399]">
         <div class="flex items-center gap-2 text-white font-bold mb-1 uppercase text-[10.5px]">
-          <span>📋 Next Connection Step:</span>
+          <span>📋 Staging Diagnostics Status:</span>
+          <span class="px-1.5 py-0.2 bg-green/10 text-green border border-green/20 rounded-sm text-[8.5px]">No live provider calls: Active Safe Sandbox</span>
         </div>
-        <p>Verify environment variables (<code class="text-amber">POLYGON_API_KEY</code>, <code class="text-amber">TRADIER_ACCESS_TOKEN</code>, etc.) are provisioned on the secure hosting environment. Test stubs locally in sandbox mode. Execute final visual review before routing alerts to CEO B Review Desk.</p>
+        <p class="font-sans text-slate-400">
+          Next recommended adapter task: <strong>Verify environment variables and deploy server-side proxy handlers for backend-only adapters.</strong> Test stubs locally in sandbox mode before dispatching alerts to the CEO B Review desk.
+        </p>
         
         <div class="mt-3 pt-2.5 border-t border-[#1a1f29] flex flex-wrap gap-x-4 gap-y-1.5 text-[9px] text-[#606266] italic font-mono uppercase">
           <span>⚠️ Adapters are prepared interfaces only. They do not call live providers until credentials and backend connections are added.</span>
@@ -2751,11 +2794,35 @@ function renderSourceHubPage() {
   if (!els.sourceHubContent) return;
   const sources = Array.isArray(sharedHabitatData.dataSources) ? sharedHabitatData.dataSources : [];
   
+  const glossary = [
+    { label: "Mock", meaning: "Simulated offline telemetry data", allowed: "Render visual structures, simulate changes", forbidden: "Establish outbound API connections" },
+    { label: "Static", meaning: "Hardcoded historical information", allowed: "Educational analysis, manual case studies", forbidden: "Live query requests" },
+    { label: "Local", meaning: "Client-side browser storage (localStorage)", allowed: "Save notes, parse bookmarks locally in-memory", forbidden: "Real-time background server sync" },
+    { label: "Manual", meaning: "Human-in-the-loop audit step required", allowed: "Add custom notes, dispatch to review desk", forbidden: "Autonomous system actions without approval" },
+    { label: "Prototype", meaning: "Offline sandbox testing feature", allowed: "Assign mock tasks, simulate progress wiggles", forbidden: "Place active options trades" },
+    { label: "Adapter Ready", meaning: "UI components and data schemas fully prepared", allowed: "Wired local actions and button stubs", forbidden: "Triggering live provider endpoint calls" },
+    { label: "Needs Backend", meaning: "Requires server-side proxy to hide API secrets", allowed: "Define connection logic, list environment parameters", forbidden: "Store secret keys directly in client-side code" },
+    { label: "Needs API Key", meaning: "Requires user/developer credentials to activate", allowed: "Show placeholder forms, list variables", forbidden: "Hardcode credential values in frontend bundle" },
+    { label: "Needs Compliance Review", meaning: "Awaiting legal, risk, or security audit", allowed: "Study regulatory limits, enforce read-only bounds", forbidden: "Auto-trading or routing orders" },
+    { label: "Not Connected", meaning: "Future integration roadmap placeholder only", allowed: "Visualize target agent and route mapping", forbidden: "Pretend sync is active or connected" }
+  ];
+
+  const plannedEnvVars = [
+    "POLYGON_API_KEY",
+    "FINNHUB_API_KEY",
+    "ALPHA_VANTAGE_API_KEY",
+    "TRADIER_API_KEY",
+    "ORATS_API_KEY",
+    "NEWS_API_KEY",
+    "OPENAI_API_KEY",
+    "GITHUB_TOKEN"
+  ];
+  
   els.sourceHubContent.innerHTML = `
     <div class="p-6 bg-[#0a0b0c] text-xs font-mono text-[#c0c4cc]">
-      <div class="flex items-center justify-between border-b border-[#1f242d] pb-4 mb-6">
+      <div class="flex items-center justify-between border-b border-[#1f242d] pb-4 mb-6 select-none">
         <div>
-          <p class="text-[10px] text-amber uppercase tracking-wider">Ecosystem Data Architecture</p>
+          <p class="text-[10px] text-amber uppercase tracking-wider font-bold">Ecosystem Data Architecture</p>
           <h2 class="text-lg font-bold text-white uppercase tracking-tight">Data Providers Matrix</h2>
         </div>
         <span class="px-2 py-1 bg-blue/20 text-blue text-[10px] font-bold border border-blue/40 uppercase tracking-widest">Future Adapters System</span>
@@ -2765,6 +2832,7 @@ function renderSourceHubPage() {
         The Pickaxe Capital / AI Habitat OS options alert engine is designed to interface with the following third-party data providers. Review connection states, stubs, and safety policies below.
       </p>
       
+      <!-- Providers Matrix Table -->
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse border border-slate-900 font-mono text-[11px] leading-relaxed">
           <thead>
@@ -2780,8 +2848,8 @@ function renderSourceHubPage() {
           </thead>
           <tbody class="divide-y divide-slate-900 bg-[#0c0d0e]/60">
             ${sources.map(source => {
-              const statusColor = source.status === "Local Prototype" ? "text-cyan-400" : source.status === "Research Provider" ? "text-purple-400" : "text-amber-400";
-              const statusBg = source.status === "Local Prototype" ? "bg-cyan-950/30 border-cyan-900/30" : source.status === "Research Provider" ? "bg-purple-950/30 border-purple-900/30" : "bg-amber-950/30 border-amber-900/30";
+              const statusColor = source.status === "Local" ? "text-cyan-400" : source.status === "Needs Compliance Review" ? "text-purple-400" : "text-amber-400";
+              const statusBg = source.status === "Local" ? "bg-cyan-950/30 border-cyan-900/30" : source.status === "Needs Compliance Review" ? "bg-purple-950/30 border-purple-900/30" : "bg-amber-950/30 border-amber-900/30";
               return `
                 <tr class="hover:bg-[#121417]/50 transition-colors">
                   <td class="p-3 font-sans font-bold text-white">${escapeHtml(source.name)}</td>
@@ -2808,13 +2876,89 @@ function renderSourceHubPage() {
           </tbody>
         </table>
       </div>
-      
-      <div class="mt-8 p-4 bg-slate-950/60 border border-slate-900 rounded-sm">
-        <h4 class="text-xs font-bold text-white uppercase mb-2 tracking-wider">🔒 API KEY CREDENTIALS POLICY NOTICE:</h4>
-        <p class="text-[11px] text-[#909399] leading-relaxed font-sans">
-          To maintain security compliance, the frontend application layer does not store or accept secret API keys. All integrations requiring developer credentials operate using backend server stubs. Any future live environment deployment must use server-side environmental variables.
-        </p>
-      </div>
+
+      <!-- Env Var Planner -->
+      <section class="mt-8 border border-[#1f242d] bg-[#0c0d0e] rounded p-4">
+        <div class="flex items-center justify-between border-b border-[#1f242d] pb-3 mb-4 select-none">
+          <div>
+            <span class="text-[9px] text-[#8c9099] uppercase tracking-wider font-bold">Local Environment Setup</span>
+            <h3 class="text-xs font-bold text-white uppercase tracking-tight">Environment Variable Planner</h3>
+          </div>
+          <span class="px-2 py-0.5 border border-amber/30 bg-amber/10 text-amber text-[9px] uppercase font-bold rounded">Config Blueprint</span>
+        </div>
+        
+        <div class="bg-red-950/20 border border-red/30 p-3 rounded-sm mb-4 leading-relaxed font-sans text-slate-400">
+          <strong class="text-red uppercase text-[9.5px] block font-mono font-bold mb-1">⚠️ Static GitHub Pages Security Alert:</strong>
+          GitHub Pages is a static client-side environment. It is mathematically impossible to securely store secret API keys directly in client-side JavaScript. Hardcoding keys allows any visitor to steal them. 
+          To connect live data feeds, you must run a backend server (e.g. 'server.mjs') locally or on a private VPS and store credentials inside a backend '.env' file.
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 mb-3">
+          ${plannedEnvVars.map(v => {
+            return '<div class="bg-black/35 p-2 border border-[#1f242d] rounded-sm flex items-center justify-between font-mono">' +
+              '<div>' +
+                '<span class="text-[#606266] text-[8px] uppercase block font-bold">Planned Env Name</span>' +
+                '<strong class="text-amber text-[9.5px] block mt-0.5">' + escapeHtml(v) + '</strong>' +
+              '</div>' +
+              '<button type="button" class="bg-slate-900 border border-slate-800 text-slate-400 hover:border-slate-500 hover:text-white px-1.5 py-0.5 rounded text-[8px] font-bold uppercase transition-colors" onclick="window.copyAdapterEnvVars(\'env-' + escapeHtml(v) + '\', \'' + escapeHtml(v) + '\')" title="Copy name">' +
+                'Copy' +
+              '</button>' +
+            '</div>';
+          }).join("")}
+        </div>
+        <div class="flex justify-end select-none">
+          <button type="button" class="pc-action-btn secondary text-[10px] px-3 py-1 font-bold uppercase" onclick="window.copyAdapterEnvVars('all-envs', '${escapeHtml(plannedEnvVars.join(", "))}')">
+            Copy All Env Var Names
+          </button>
+        </div>
+      </section>
+
+      <!-- Status Governance Section -->
+      <section class="mt-8 border border-[#1f242d] bg-[#0c0d0e] rounded p-4">
+        <div class="flex items-center justify-between border-b border-[#1f242d] pb-3 mb-4 select-none">
+          <div>
+            <span class="text-[9px] text-[#8c9099] uppercase tracking-wider font-bold">Governance & Compliance</span>
+            <h3 class="text-xs font-bold text-white uppercase tracking-tight">Adapter Status Governance Protocol</h3>
+          </div>
+          <span class="px-2 py-0.5 border border-purple-500/30 bg-purple-500/10 text-purple-400 text-[9px] uppercase font-bold rounded">Regulatory Index</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse border border-slate-900 font-mono text-[10.5px] leading-relaxed">
+            <thead>
+              <tr class="bg-[#121417] text-slate-400 border-b border-slate-900">
+                <th class="p-2 font-bold uppercase tracking-wider style='width: 15%;'">Status Label</th>
+                <th class="p-2 font-bold uppercase tracking-wider style='width: 25%;'">Intended Meaning</th>
+                <th class="p-2 font-bold uppercase tracking-wider style='width: 30%;'">Allowed Behavior (Compliant)</th>
+                <th class="p-2 font-bold uppercase tracking-wider style='width: 30%;'">Forbidden Behavior (Violation)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-900 bg-[#0c0d0e]/60 text-slate-300">
+              ${glossary.map(g => {
+                let statusChipClass = "static";
+                if (g.label === "Mock" || g.label === "Static") statusChipClass = "static";
+                else if (g.label === "Manual" || g.label === "Needs Compliance Review") statusChipClass = "manual-review";
+                else if (g.label === "Local" || g.label === "Prototype") statusChipClass = "local-state";
+                else if (g.label === "Adapter Ready") statusChipClass = "adapter-ready";
+                else if (g.label === "Connected") statusChipClass = "mock-ready";
+                else if (g.label === "Error" || g.label === "Needs API Key") statusChipClass = "no-live-data";
+                else if (g.label === "Needs Backend" || g.label === "Not Connected") statusChipClass = "no-live-data";
+                
+                return `
+                  <tr class="hover:bg-[#121417]/30 transition-colors">
+                    <td class="p-2 font-sans font-bold">
+                      <span class="pc-status-chip ${statusChipClass} block text-center" style="width: fit-content; min-width:80px;">${escapeHtml(g.label)}</span>
+                    </td>
+                    <td class="p-2 font-sans text-[10px] text-slate-300">${escapeHtml(g.meaning)}</td>
+                    <td class="p-2 text-green text-[10px] leading-snug">${escapeHtml(g.allowed)}</td>
+                    <td class="p-2 text-red text-[10px] leading-snug">${escapeHtml(g.forbidden)}</td>
+                  </tr>
+                `;
+              }).join("")}
+            </tbody>
+          </table>
+        </div>
+      </section>
       
       ${renderAdapterRegistrySection()}
     </div>
@@ -9676,12 +9820,101 @@ window.resetStorageKey = (key) => {
   refreshAll();
 };
 
-window.prepareAdapterConnection = (name, isSafe) => {
+window.prepareAdapterConnection = (adapterId, name, isSafe) => {
   if (isSafe) {
+    state.adapterStatusOverrides = state.adapterStatusOverrides || {};
+    state.adapterStatusOverrides[adapterId] = "Prototype";
+    try {
+      localStorage.setItem("pickaxeAdapterOverrides", JSON.stringify(state.adapterStatusOverrides));
+    } catch (e) {}
     showNotification(`[Adapter Diagnostics] Mock client connection prepared for ${name}. Stub ready.`);
+    addWorldEvent?.(`Prepared client-side connection stub for "${name}" adapter.`);
+    renderSourceHubPage();
+    renderStagingAdvanced();
   } else {
     showNotification(`[Adapter Gate] Cannot connect ${name}. Requires backend proxy server setup.`);
   }
+};
+
+window.sendAdapterToCeoReview = (adapterId, name) => {
+  addSharedReviewItem({
+    id: `review-adapter-${adapterId}-${Date.now()}`,
+    title: `Credential Setup: ${name}`,
+    source: "Source Hub",
+    owner: "CEO B",
+    status: "Waiting for CEO B",
+    output: `Requesting credential verification and backend proxy setup for adapter "${name}". Required Env: ${adapterId}.`,
+    priority: "Medium"
+  });
+  showNotification(`Sent credential setup request for "${name}" to CEO B Review.`);
+  addWorldEvent?.(`Submitted adapter credential setup ticket for "${name}" to CEO review.`);
+  renderSourceHubPage();
+};
+
+window.sendAdapterBuildTask = (adapterId, name, targetAgent) => {
+  addSharedMissionItem({
+    id: `mission-adapter-${adapterId}-${Date.now()}`,
+    title: `Construct Adapter: ${name}`,
+    owner: targetAgent || "System Brain",
+    source: "Source Hub",
+    priority: "High",
+    nextAction: `Build proxy routes and data shape transformers for "${name}" target payload.`
+  });
+  showNotification(`Dispatched adapter construction task to ${targetAgent || "System Brain"}.`);
+  addWorldEvent?.(`Assigned build task for "${name}" adapter to ${targetAgent || "System Brain"}.`);
+  renderSourceHubPage();
+};
+
+window.archiveAdapterNote = (adapterId, name, category, safetyNote) => {
+  const vaultItems = getEffectiveArchiveVaultItems();
+  const existing = vaultItems.find(item => item.id === `archive-adapter-${adapterId}`);
+  if (existing) {
+    showNotification(`Adapter note for "${name}" is already archived.`);
+    return;
+  }
+  
+  const newArchiveItem = {
+    id: `archive-adapter-${adapterId}`,
+    title: `Adapter Spec: ${name}`,
+    url: `local://adapter/${adapterId}`,
+    domain: "local",
+    type: "research",
+    topic: "Adapter Readiness Spec",
+    category: category || "System",
+    habitat: "Build System Habitat",
+    status: "active",
+    priority: "medium",
+    connectedAgent: "System Brain",
+    summary: `Governance spec for the ${name} integration adapter. Category: ${category}.`,
+    whySaved: "Retained for developer credential reference and API limits analysis.",
+    nextAction: "Review proxy schemas and ensure zero key exposures.",
+    tags: ["adapter-spec", "governance", "api-readiness"],
+    dateAdded: new Date().toISOString().split("T")[0],
+    lastReviewed: new Date().toISOString().split("T")[0]
+  };
+  
+  const nextState = {
+    parsedLinks: [newArchiveItem, ...vaultItems]
+  };
+  setArchiveVaultState(nextState);
+  showNotification(`Archived adapter specification note for "${name}" successfully.`);
+  addWorldEvent?.(`Archived adapter specification for "${name}".`);
+  renderSourceHubPage();
+};
+
+window.copyAdapterEnvVars = (adapterId, envVarsString) => {
+  if (!envVarsString || envVarsString.trim() === "") {
+    showNotification("No environment variables required for this client-safe adapter.");
+    return;
+  }
+  navigator.clipboard.writeText(envVarsString)
+    .then(() => {
+      showNotification(`Copied to clipboard: ${envVarsString}`);
+    })
+    .catch(err => {
+      console.error("Failed to copy env vars:", err);
+      showNotification(`Manual Copy required: ${envVarsString}`);
+    });
 };
 
 window.setAgentFilter = (filter) => {
