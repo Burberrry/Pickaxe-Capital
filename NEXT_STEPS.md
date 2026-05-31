@@ -106,5 +106,7 @@ Done:
 - Confirmed zero console errors, no layout breaks, and no horizontal overflow on standard viewport sizes.
 - Kept node build and project checker scripts fully verified and passing.
 
-Next:
-- Connect `/vision-map` and `/archive` action triggers more dynamically into the local staging and CEO B review stacks.
+Next Best Task:
+- Signals / Archive / Bookmarks Deep Functionality Pass (implementing robust local parsing, data export previews, and rules correlation).
+- Or Source Hub Adapter Readiness (validating environmental variable parameters stubs and secure connection flows).
+- Note: Do not recommend or start Device Hub yet until core visual/product routes are fully verified and stable.

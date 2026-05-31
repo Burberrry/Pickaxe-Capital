@@ -32,6 +32,7 @@ const state = {
   importedBmsTrustFilter: "all",
   importedBmsDupOnly: false,
   backupPreview: null,
+  agentsViewMode: "fleet",
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
@@ -1994,108 +1995,146 @@ function renderVisionCommandCenter() {
   const agentNodes = operatingAgents.filter((agent) => !["CEO B"].includes(agent.name)).slice(0, 13);
   const topSources = pickSources(["deitaone-x", "investing-futures", "tradingview-main", "netblocks", "flightradar24", "osiris-map", "us-debt-clock", "x-bookmarks", "berkshire-1965-report"]);
   els.visionCommandCenter.innerHTML = `
-    <section class="command-hero ai-command-hero">
+    <!-- Top Identity & Status Bar -->
+    <div class="mb-4 flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[#1d242e] pb-3 select-none">
       <div>
-        <p class="eyebrow">Founder Intelligence Operating System</p>
-        <h2>Pickaxe Capital Vision Map</h2>
-        <p>CEO B's command center for live intelligence sources, market signals, archive memory, agents, alerts, bookmarks, RK Tracker, Berkshire 1965 case studies, and the A-Z build plan.</p>
-        <div class="ceo-command-strip">
-          <span><strong>CEO B</strong> Founder command authority</span>
-          <span><strong>${getWorldReviewStack().length}</strong> Review queue</span>
-          <span><strong>${stalledIntegrations.length}</strong> Missing integrations</span>
-          <span><strong>${state.commandActionCount}</strong> Local actions</span>
-        </div>
+        <span class="text-[9px] font-mono text-amber uppercase tracking-widest font-bold">Pickaxe Capital // AI Habitat OS v2.0</span>
+        <h2 class="text-lg font-bold text-white uppercase tracking-tight font-sans">Vision Map & Command Center</h2>
       </div>
-      <div class="command-status-grid">
-        ${["Main Command Center", "CEO B Online Mock", "Source Hub Connected", "Archive Intelligence Active", "RK Tracker Adapter Ready", "X Bookmark Import Ready", "Auto Update Planned", "Live Ready Architecture"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="pc-status-chip static">Static UI Map</span>
+        <span class="pc-status-chip local-state">Local State Database</span>
+        <span class="truth-pill">No Live Market Data / No Broker Execution</span>
       </div>
-    </section>
+    </div>
+
+    <!-- Top Terminal KPI Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4 select-none">
+      <div class="pc-metric-card" onclick="window.location.hash = '#/staging'" style="cursor: pointer;">
+        <span>Review Queue</span>
+        <strong class="text-amber">${getSharedQueue("pickaxeReviewQueue").length} Packets</strong>
+      </div>
+      <div class="pc-metric-card" onclick="window.location.hash = '#/agents'" style="cursor: pointer;">
+        <span>Mission Board</span>
+        <strong class="text-[#00e5ff]">${getSharedQueue("pickaxeMissionQueue").length} Active</strong>
+      </div>
+      <div class="pc-metric-card" onclick="window.location.hash = '#/archive'" style="cursor: pointer;">
+        <span>Archive Vault</span>
+        <strong class="text-[#a78bfa]">${getEffectiveArchiveVaultItems().length} Saved</strong>
+      </div>
+      <div class="pc-metric-card" onclick="window.location.hash = '#/alerts'" style="cursor: pointer;">
+        <span>Active Rules</span>
+        <strong class="text-[#2979ff]">${getAlertRules().length} Rules</strong>
+      </div>
+      <div class="pc-metric-card" onclick="window.location.hash = '#/staging'" style="cursor: pointer;">
+        <span>Staging QA Matrix</span>
+        <strong class="text-green">${getCompletionTrackerState().areas?.filter(t => t.status === "Passed").length}/${getCompletionTrackerState().areas?.length || 0} Passed</strong>
+      </div>
+    </div>
+
+    <!-- Quick Launch Command Deck CTAs -->
+    <div class="pc-panel p-3 mb-4 select-none flex flex-wrap items-center justify-between gap-3 bg-[#0d0f13]">
+      <div class="flex items-center gap-2">
+        <span class="w-1.5 h-1.5 bg-[#d4af37] rounded-full animate-ping"></span>
+        <span class="text-[11.5px] font-mono text-slate-400 font-bold uppercase">CEO B Core Navigation Deck:</span>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <a href="#/agent-engine" class="pc-action-btn secondary">1. Fleet Engine</a>
+        <a href="#/jarvisLab" class="pc-action-btn">2. Jarvis Router</a>
+        <a href="#/signals" class="pc-action-btn secondary">3. Options Workbench</a>
+        <a href="#/staging" class="pc-action-btn">4. Staging QA</a>
+        <a href="#/data-sources" class="pc-action-btn secondary">5. Source Hub</a>
+      </div>
+    </div>
+
+    <!-- Main Strategic Map Grid -->
     <section class="strategic-hub-layout">
       <aside class="command-input-rail">
-        <p class="eyebrow">Input Sources</p>
+        <p class="eyebrow font-mono font-bold text-slate-400">Input Data Feeds</p>
         ${inputNodes.map((node) => renderCommandNodeButton(node, "input")).join("")}
         ${pageNodes.map((node) => renderCommandNodeButton(node, "page")).join("")}
       </aside>
-      <div class="strategic-command-map">
+      <div class="strategic-command-map border border-[#1d242e] rounded-sm">
         <span class="flow-arrow flow-left"></span>
         <span class="flow-arrow flow-right"></span>
         <span class="flow-arrow flow-bottom"></span>
-        <button class="ceo-overseer" type="button" onclick="window.selectVisionNode('ceo-b-layer')">
-          <strong>CEO B</strong>
-          <span>Founder Decision Layer</span>
-          <small>Review queue • Command authority • System status</small>
+        <button class="ceo-overseer" type="button" onclick="window.selectVisionNode('ceo-b-layer')" style="border-radius: var(--radius);">
+          <strong>CEO B Layer</strong>
+          <span>Decision & Approval Desk</span>
+          <small class="font-mono">${getSharedQueue("pickaxeReviewQueue").length} pending review packets • Manual gate only</small>
         </button>
-        <button class="trading-hub-core" type="button" onclick="window.selectVisionNode('trading-floor')">
-          <strong>Trading Floor / Command Hub</strong>
-          <span>Intelligence • Decisions • Execution • Oversight</span>
-          <small>World of Warcraft command hall x Bloomberg terminal</small>
+        <button class="trading-hub-core" type="button" onclick="window.selectVisionNode('trading-floor')" style="border-radius: var(--radius);">
+          <strong>Intelligence Command Core</strong>
+          <span>Option Flows • News Intel • Archive Playbooks</span>
+          <small class="font-mono text-[9px] text-[#8a9ba8]">Obsidian terminal grid. Click node to review status details.</small>
         </button>
         <div class="plugins-access-row">
           ${systemNodes.map((node) => renderCommandNodeButton(node, "system")).join("")}
         </div>
       </div>
       <aside class="command-agent-rail">
-        <p class="eyebrow">Agent Network</p>
+        <p class="eyebrow font-mono font-bold text-slate-400">Agent Network</p>
         ${agentNodes.map((agent) => {
           const selectedClass = agent.id === state.selectedVisionAgentId ? " selected" : "";
+          const priorityClass = agent.priority ? agent.priority.toLowerCase() : "medium";
           return `
-            <button class="agent-mini-node${selectedClass}" type="button" onclick="window.selectVisionAgent('${escapeHtml(agent.id)}')">
-              <strong>${escapeHtml(agent.name)}</strong>
-              <span>${escapeHtml(agent.habitat)} • ${escapeHtml(agent.status)}</span>
+            <button class="agent-mini-node${selectedClass} ${priorityClass} text-left" type="button" onclick="window.selectVisionAgent('${escapeHtml(agent.id)}')">
+              <strong class="text-white block text-[11px]">${escapeHtml(agent.name)}</strong>
+              <span class="text-[9px] text-slate-400 font-mono block truncate">${escapeHtml(agent.habitat)} • ${escapeHtml(agent.status)}</span>
             </button>
           `;
         }).join("")}
       </aside>
     </section>
-    <section class="vision-detail-layout">
-      <aside class="vision-node-drawer" id="visionNodeDrawer">${drawerContent}</aside>
-      <aside class="live-intel-strip">
-        <div class="panel-head"><div><p class="eyebrow">Live Intel Strip</p><h2>Source Watch</h2></div><span class="pill">Safe links</span></div>
+
+    <!-- Drawer details & Live Intel strip -->
+    <section class="vision-detail-layout mt-4">
+      <aside class="vision-node-drawer border border-[#1d242e]" id="visionNodeDrawer">${drawerContent}</aside>
+      <aside class="live-intel-strip border border-[#1d242e]">
+        <div class="panel-head mb-3">
+          <div>
+            <p class="eyebrow">Local Sources</p>
+            <h2 class="text-xs font-bold text-white uppercase">Primary Intel Watch</h2>
+          </div>
+          <span class="pc-status-chip static">Read Only</span>
+        </div>
         ${topSources.map(renderCompactSourceCard).join("")}
       </aside>
     </section>
-    <section class="vision-habitat-band">
-      <article>
-        <p class="eyebrow">Market Habitat</p>
-        <h3>Make money. Detect opportunities. Stay ahead.</h3>
+
+    <!-- Bottom Habitat overview & Pipelines -->
+    <section class="vision-habitat-band mt-4">
+      <article class="pc-panel bg-[#0d0f13]">
+        <p class="eyebrow text-amber">Market Habitat</p>
+        <h3 class="text-white text-xs font-bold uppercase mb-2">Options Flow & Indicators</h3>
         <div class="habitat-chip-grid">
-          ${["Signals", "RK Tracker", "Source Hub", "Market Data", "TradingView", "DeItaone", "US Debt Clock", "Hyperliquid GOLD"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+          ${["Signals", "RK Tracker", "Source Hub", "Market Data", "TradingView", "DeItaone", "US Debt Clock", "Hyperliquid GOLD"].map((item) => `<span class="bg-[#12161f] border border-[#1d242e] text-[10px]">${escapeHtml(item)}</span>`).join("")}
         </div>
       </article>
-      <article class="central">
-        <p class="eyebrow">Knowledge Intake Engine</p>
-        <h3>Inputs -> Agents -> Command Hub -> Archive / Signals / Alerts -> CEO B Review</h3>
-        <div class="automation-flow">
-          ${["Flip Pages", "Tick to Add", "Pop-Up Details", "Add Quickly", "Interactive Map", "Auto Update"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+      <article class="central pc-panel bg-[#0f1115] border-[#d4af37]/30">
+        <p class="eyebrow text-amber">Intelligence Intake Route</p>
+        <h3 class="text-white text-xs font-bold uppercase mb-2">Inputs &gt; Agents &gt; Review &gt; Decisions</h3>
+        <div class="automation-flow font-mono text-[9px] flex flex-wrap gap-1.5 justify-center">
+          ${["Intake Link", "Classify Intent", "Agent Assignment", "Local Dispatch", "Staging Audit", "CEO B Sign-Off"].map((item) => `<span class="bg-[#191e29] border border-[#1d242e] text-[9px] text-[#00e5ff] px-2 py-0.5">${escapeHtml(item)}</span>`).join("")}
         </div>
-        <small>Planned Automation / Local UI Pattern</small>
+        <small class="block text-slate-500 font-mono mt-2">Truth Check: This dashboard reflects simulated local browser state only.</small>
       </article>
-      <article>
-        <p class="eyebrow">Life / Knowledge Habitat</p>
-        <h3>Preserve lessons. Build memory. Improve execution.</h3>
+      <article class="pc-panel bg-[#0d0f13]">
+        <p class="eyebrow text-violet">Life / Knowledge Habitat</p>
+        <h3 class="text-white text-xs font-bold uppercase mb-2">Permanent Memory &amp; Playbooks</h3>
         <div class="habitat-chip-grid">
-          ${["Bookmarks", "X Bookmark Intelligence", "Archive", "Berkshire 1965", "Founder", "Tasks", "Alerts", "Staging"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+          ${["Bookmarks", "X Bookmark Intelligence", "Archive", "Berkshire 1965", "Founder", "Tasks", "Alerts", "Staging"].map((item) => `<span class="bg-[#16121f] border border-[#1d242e] text-[10px]">${escapeHtml(item)}</span>`).join("")}
         </div>
       </article>
     </section>
-    <section class="pipeline-grid">
+
+    <section class="pipeline-grid mt-4">
       ${renderPipeline("External Intelligence Pipeline", ["External Sources", "News Raven / Signal Scout", "Signals + Alerts", "Archive", "CEO B Decision"])}
       ${renderPipeline("Archive Wealth Loop", ["Capture", "Score", "Learn", "Rule", "Playbook", "Review"])}
       ${renderPipeline("RK Tracker Pipeline", ["Watchlist", "Scores", "Risk Review", "Signal Candidate", "Archive"])}
       ${renderPipeline("X Bookmark Intelligence", ["X Bookmarks", "Ticker Detection", "Agent Owner", "Archive/Signals", "Website Improvements"])}
       ${renderPipeline("Berkshire 1965 Pipeline", ["Historical Report", "Metrics", "Lessons", "Turnaround Playbook", "Founder Rules"])}
       ${renderPipeline("Auto Update Flow", ["Flip Pages", "Tick to Add", "Pop-Up Details", "Interactive Map", "Auto Update"])}
-    </section>
-    <section class="quick-action-dock">
-      ${[["Open Source Hub", "#/data-sources"], ["Open Signals", "#/signals"], ["Open RK Tracker", "#/rkTracker"], ["Open Archive", "#/archive"], ["Open Berkshire 1965", "#/berkshire"], ["Review Agents", "#/agent-engine"], ["Capture Intel", "#/bookmarks"], ["Create Alert", "#/alerts"], ["Check Staging", "#/staging"], ["Review Founder", "#/founder"]].map(([label, route]) => `<a href="${route}">${escapeHtml(label)}</a>`).join("")}
-    </section>
-    <section class="vision-dashboard-panels">
-      ${renderVisionDashboardPanel("Mission Progress", "87%", "Daily command objectives moving through source, signal, archive, and CEO B review.")}
-      ${renderVisionDashboardPanel("Agent Interactions", operatingAgents.length, "Agent ownership map active with mock/local state only.")}
-      ${renderVisionDashboardPanel("System Performance", "Build Safe", "Node build validation and route checks remain the source of truth.")}
-      ${renderVisionDashboardPanel("Habitat Network", "2 Civilizations", "Market Habitat and Life Habitat connected by CEO B.")}
-      ${renderVisionDashboardPanel("Market Sentiment", "Watching", "Signals are research-only and not financial advice.")}
-      ${renderVisionDashboardPanel("CEO B Command Says", "Make It Better", "Design better. Work faster. Build smarter.")}
     </section>
   `;
 }
@@ -2391,22 +2430,12 @@ function renderAdapterRegistrySection(categories = null) {
 
   function getAdapterOwnerAgent(category) {
     if (category.toLowerCase().includes("market data")) return "Signal Scout";
-    if (category.toLowerCase().includes("options flow")) return "Flow Hunter";
+    if (category.toLowerCase().includes("options") || category.toLowerCase().includes("spread")) return "Options Flow Hunter";
     if (category.toLowerCase().includes("news") || category.toLowerCase().includes("risk")) return "News Raven";
-    if (category.toLowerCase().includes("bookmark")) return "Bookmark Miner";
+    if (category.toLowerCase().includes("bookmark") || category.toLowerCase().includes("social")) return "Bookmark Miner";
     if (category.toLowerCase().includes("github") || category.toLowerCase().includes("project")) return "System Brain";
     if (category.toLowerCase().includes("ai model")) return "Research Agent / CEO B";
     return "System Brain";
-  }
-
-  function getCeoAction(adapterName) {
-    if (adapterName.includes("Market")) return "Review watchlist data structure & verify Polygon/Alpaca rate limits.";
-    if (adapterName.includes("Options")) return "Audit Sweeps threshold definitions before routing blocks to alerts desk.";
-    if (adapterName.includes("Risk")) return "Sanitize threat severity keywords to block false positive outages.";
-    if (adapterName.includes("Bookmark")) return "Validate local FileReader schema parser against HTML updates.";
-    if (adapterName.includes("AI Review")) return "Review prompt system templates for Gemini / Claude risk validation desks.";
-    if (adapterName.includes("GitHub")) return "Inspect local check-project.mjs terminal feedback loops.";
-    return "Verify credentials format and API quota thresholds.";
   }
 
   return `
@@ -2421,26 +2450,20 @@ function renderAdapterRegistrySection(categories = null) {
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         ${filtered.map(adapter => {
-          let statusColor = "text-slate-400 border-slate-700 bg-slate-800/20";
-          if (adapter.status === "Mock") statusColor = "text-slate-300 border-slate-600 bg-slate-700/20";
-          else if (adapter.status === "Manual") statusColor = "text-amber border-amber/30 bg-amber/5";
-          else if (adapter.status === "Local") statusColor = "text-cyan border-cyan/30 bg-cyan/5";
-          else if (adapter.status === "Adapter Ready") statusColor = "text-purple-400 border-purple-500/20 bg-purple-500/5";
-          else if (adapter.status === "Connected") statusColor = "text-green border-green/30 bg-green/5";
-          else if (adapter.status === "Error") statusColor = "text-red border-red/30 bg-red/5";
+          let statusChipClass = "static";
+          if (adapter.status === "Mock") statusChipClass = "static";
+          else if (adapter.status === "Manual") statusChipClass = "manual-review";
+          else if (adapter.status === "Local") statusChipClass = "local-state";
+          else if (adapter.status === "Adapter Ready") statusChipClass = "adapter-ready";
+          else if (adapter.status === "Connected") statusChipClass = "mock-ready";
+          else if (adapter.status === "Error") statusChipClass = "no-live-data";
 
           const envVars = adapter.requiredCredentials && adapter.requiredCredentials.length > 0 
             ? adapter.requiredCredentials.map(v => `<code class="text-amber text-[9px] bg-amber/5 border border-amber/20 px-1 py-0.2 rounded-sm">${escapeHtml(v)}</code>`).join(" ")
             : `<span class="text-[#606266] italic">None required</span>`;
 
-          const methods = Array.isArray(adapter.supportedMethods)
-            ? adapter.supportedMethods.map(m => `<li class="text-[10px] text-[#a0a5b0]">${escapeHtml(m)}</li>`).join("")
-            : typeof adapter.supportedMethods === 'object'
-              ? Object.entries(adapter.supportedMethods).map(([mName, mDesc]) => `<li class="text-[10.5px] text-[#b0b5c0]"><strong class="text-[#42d9c8] font-bold font-mono">${escapeHtml(mName)}()</strong>: <span class="text-[#a0a5b0]">${escapeHtml(mDesc)}</span></li>`).join("")
-              : `<li class="text-[#606266] italic">No methods defined</li>`;
-
           const owner = getAdapterOwnerAgent(adapter.category);
-          const ceoAction = getCeoAction(adapter.name);
+          const backendRequired = !adapter.frontendSafe;
 
           return `
             <article class="p-3 border border-[#1f242d] bg-[#090a0c]/80 hover:border-slate-700 hover:shadow-[0_0_10px_rgba(66,217,200,0.05)] transition-all duration-300 flex flex-col justify-between rounded-sm">
@@ -2450,20 +2473,27 @@ function renderAdapterRegistrySection(categories = null) {
                     <h4 class="text-[11.5px] font-bold text-white font-mono tracking-tight">${escapeHtml(adapter.name)}</h4>
                     <span class="text-[8.5px] text-[#606266] uppercase font-bold tracking-wider">${escapeHtml(adapter.category)}</span>
                   </div>
-                  <span class="px-1.5 py-0.2 border text-[8px] font-bold rounded-sm uppercase tracking-wider shrink-0 ${statusColor}">
+                  <span class="pc-status-chip ${statusChipClass}">
                     ${escapeHtml(adapter.status)}
                   </span>
                 </div>
 
-                <div class="mb-3 text-[10.5px] text-[#909399] leading-relaxed">
-                  <strong class="text-white">Current Behavior:</strong> ${escapeHtml(adapter.currentFallbackBehavior || adapter.fallbackBehavior || "")}
+                <div class="mb-3 text-[10.5px] leading-relaxed text-[#909399]">
+                  <strong class="text-white block text-[9.5px] uppercase font-mono tracking-wider mb-0.5">Current Behavior:</strong>
+                  <div class="bg-black/30 p-2 border border-[#1f242d] rounded-sm text-slate-300 font-mono text-[10px] whitespace-pre-wrap">${escapeHtml(adapter.currentFallbackBehavior || adapter.fallbackBehavior || "")}</div>
                 </div>
 
-                <div class="mb-3">
-                  <span class="text-[9px] text-[#606266] uppercase font-bold tracking-wider block mb-1">Supported Interface Methods</span>
-                  <ul class="list-none space-y-1 pl-1">
-                    ${methods}
-                  </ul>
+                <div class="grid grid-cols-2 gap-2 mb-3 text-[10px]">
+                  <div>
+                    <span class="text-[#606266] uppercase text-[8px] tracking-wider block">Target Agent Owner</span>
+                    <strong class="text-[#42d9c8] font-bold font-mono block mt-0.5">${escapeHtml(owner)}</strong>
+                  </div>
+                  <div>
+                    <span class="text-[#606266] uppercase text-[8px] tracking-wider block">Backend Required</span>
+                    <span class="px-1.5 py-0.2 text-[8px] font-bold uppercase rounded-sm inline-block mt-0.5 ${backendRequired ? 'bg-red/10 text-red border border-red/20' : 'bg-green/10 text-green border border-green/20'}">
+                      ${backendRequired ? 'Yes (Server-Only)' : 'No (Client-Safe)'}
+                    </span>
+                  </div>
                 </div>
 
                 <div class="mb-3">
@@ -2473,25 +2503,21 @@ function renderAdapterRegistrySection(categories = null) {
                   </div>
                 </div>
 
-                <div class="mb-3 bg-black/20 p-2 border border-[#1f242d] rounded-sm text-[10.5px] leading-relaxed text-slate-300">
-                  <strong class="text-amber uppercase text-[9px] tracking-wider block mb-0.5">CEO B Review Action:</strong>
-                  ${escapeHtml(ceoAction)}
+                <div class="mb-3 bg-red-950/10 p-2 border border-red-900/20 rounded-sm text-[10.5px] leading-relaxed text-slate-400">
+                  <strong class="text-red uppercase text-[8.5px] tracking-wider block mb-0.5">🔒 Safety Protocol Note:</strong>
+                  ⚠️ ${escapeHtml(adapter.safetyNotes || adapter.safety || 'No external credentials should be exposed in client code.')}
                 </div>
               </div>
 
-              <div class="border-t border-[#141820] pt-2.5 mt-2 flex flex-col gap-1 text-[9px] text-[#8c9099]">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full ${adapter.frontendSafe ? 'bg-cyan' : 'bg-amber'}"></span>
-                    <span>Scope: <strong class="text-white">${adapter.frontendSafe ? 'Client Safe (Frontend)' : 'Server Only (Backend)'}</strong></span>
-                  </div>
-                  <div>
-                    <span>Owner: <strong class="text-[#42d9c8] font-bold">${escapeHtml(owner)}</strong></span>
-                  </div>
+              <div class="border-t border-[#141820] pt-2.5 mt-2 flex flex-col gap-2">
+                <div class="flex items-center justify-between text-[9.5px] text-[#8c9099]">
+                  <span>Scope: <strong class="text-white">${adapter.frontendSafe ? 'Client Safe (Frontend)' : 'Server Only (Backend)'}</strong></span>
+                  <span>Category: <strong class="text-white font-mono">${escapeHtml(adapter.category)}</strong></span>
                 </div>
-                <div class="text-[#606266] italic mt-1" title="${escapeHtml(adapter.safetyNotes || adapter.safety || '')}">
-                  ⚠️ Safety: ${escapeHtml(adapter.safetyNotes || adapter.safety || '')}
-                </div>
+                
+                <button type="button" class="pc-action-btn ${adapter.frontendSafe ? 'secondary' : 'risk'} w-full text-center mt-1" onclick="window.prepareAdapterConnection('${escapeHtml(adapter.name)}', ${!!adapter.frontendSafe})">
+                  ${adapter.frontendSafe ? 'Prepare Connection Stub' : 'Needs Backend Adapter'}
+                </button>
               </div>
             </article>
           `;
@@ -2530,23 +2556,23 @@ function renderAdapterStagingSummary() {
       
       <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center mb-4">
         <div class="bg-black/30 border border-[#1f242d] p-2">
-          <strong class="text-white block text-sm font-bold font-mono">\${total}</strong>
+          <strong class="text-white block text-sm font-bold font-mono">${total}</strong>
           <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Total Adapters</span>
         </div>
         <div class="bg-black/30 border border-[#1f242d] p-2">
-          <strong class="text-purple-400 block text-sm font-bold font-mono">\${ready}</strong>
+          <strong class="text-purple-400 block text-sm font-bold font-mono">${ready}</strong>
           <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Adapter Ready</span>
         </div>
         <div class="bg-black/30 border border-[#1f242d] p-2">
-          <strong class="text-green block text-sm font-bold font-mono">\${connected}</strong>
+          <strong class="text-green block text-sm font-bold font-mono">${connected}</strong>
           <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Connected</span>
         </div>
         <div class="bg-black/30 border border-[#1f242d] p-2">
-          <strong class="text-cyan block text-sm font-bold font-mono">\${frontendSafe}</strong>
+          <strong class="text-cyan block text-sm font-bold font-mono">${frontendSafe}</strong>
           <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Client-Safe</span>
         </div>
         <div class="bg-black/30 border border-[#1f242d] p-2">
-          <strong class="text-amber block text-sm font-bold font-mono">\${backendOnly}</strong>
+          <strong class="text-amber block text-sm font-bold font-mono">${backendOnly}</strong>
           <span class="text-[#606266] text-[8.5px] uppercase block mt-1">Backend-Only</span>
         </div>
       </div>
@@ -2653,61 +2679,284 @@ function renderSignalsIntelligence() {
       : "";
   els.signalsIntelligence.innerHTML = `
     ${legacyBridge}
-    <section class="command-hero compact">
+    
+    <!-- Header Command Bar -->
+    <div class="mb-4 flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[#1d242e] pb-3 select-none">
       <div>
-        <p class="eyebrow">Single Market Intelligence Page</p>
-        <h2>Signals Command</h2>
-        <p>Market Command and Signal Engine now consolidate here. The urgent watchlist is manual/static until a future market data adapter is connected. Webull remains manual execution.</p>
+        <span class="text-[9px] font-mono text-amber uppercase tracking-widest font-bold">Consolidated Research Desk</span>
+        <h2 class="text-lg font-bold text-white uppercase tracking-tight font-sans">Signals & Options Intelligence Workbench</h2>
       </div>
-      <div class="signal-badges"><span>Static Watchlist</span><span>Future Adapter</span><span>Not Financial Advice</span><span>No Trading Execution</span></div>
-    </section>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="pc-status-chip research">Mock Research</span>
+        <span class="pc-status-chip local-state">Local</span>
+        <span class="pc-status-chip future-adapter">Pending Adapter</span>
+        <span class="truth-pill">No Live Market Data / No Broker Execution</span>
+      </div>
+    </div>
+
+    <!-- Interactive Market Workspace Chart -->
     ${renderMarketChartWorkspace()}
-    <section class="source-rail">${signalSources.map(renderCompactSourceCard).join("")}</section>
-    <section class="signal-workbench">
-      <div>
-        <p class="eyebrow">Signal Filters</p>
-        <h3>One Page Signal Command</h3>
+
+    <!-- Two-Column Workbench Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
+      
+      <!-- Left 2-Column: Live Indicators and Option Alert Cards -->
+      <div class="lg:col-span-2 space-y-4">
+        
+        <!-- Options Alert Board -->
+        <div class="pc-panel bg-[#0b0c10]">
+          <div class="panel-head border-b border-[#1d242e] pb-2 mb-3">
+            <div>
+              <p class="eyebrow text-amber">Options Alerts</p>
+              <h3 class="text-white text-xs font-bold uppercase">Pre-approved Command Candidates</h3>
+            </div>
+            <span class="pc-status-chip manual-review">Manual Review Required</span>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            ${(sharedHabitatData.alertCommandAlerts || []).map(alert => `
+              <div class="p-3 bg-[#131720] border border-[#1d242e] rounded-sm relative overflow-hidden flex flex-col justify-between">
+                <div class="absolute top-0 left-0 w-[2.5px] h-full ${alert.action.includes("BUY") ? "bg-green" : "bg-amber"}"></div>
+                <div>
+                  <div class="flex justify-between items-start mb-1.5 select-none">
+                    <div>
+                      <strong class="text-white text-xs block">${escapeHtml(alert.symbol)} // ${escapeHtml(alert.company)}</strong>
+                      <span class="text-[9px] text-slate-400 font-mono">${escapeHtml(alert.contract)}</span>
+                    </div>
+                    <span class="px-1.5 py-0.2 text-[8px] font-bold border ${alert.action.includes("BUY") ? "text-green border-green/30 bg-green/5" : "text-amber border-amber/30 bg-amber/5"} uppercase tracking-wider font-mono">${escapeHtml(alert.action)}</span>
+                  </div>
+                  <p class="text-[11px] text-slate-300 leading-snug font-sans mb-3">${escapeHtml(alert.thesis)}</p>
+                </div>
+                <div class="pt-2 border-t border-[#1d242e] flex justify-between items-center text-[10px]">
+                  <span class="text-slate-500">Confidence: <strong class="text-green font-mono">${alert.confidence}%</strong></span>
+                  <div class="flex gap-1">
+                    <button onclick="window.marketWorkspaceAction?.('chart note to CEO B Review', '${escapeHtml(alert.symbol)}')" class="px-2 py-0.5 bg-black/40 text-amber border border-amber/30 text-[8px] uppercase font-bold hover:bg-black transition-all">Queue Review</button>
+                    <button onclick="window.marketWorkspaceAction?.('signal task', '${escapeHtml(alert.symbol)}')" class="px-2 py-0.5 bg-black/40 text-teal border border-teal/30 text-[8px] uppercase font-bold hover:bg-black transition-all">Assign Task</button>
+                  </div>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+
+        <!-- Analytical Panels (Money Flow, VIX, Greed/Fear, Liquidity) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Money Flow & Liquidity -->
+          <div class="pc-panel bg-[#0d0f13]">
+            <div class="panel-head border-b border-[#1d242e] pb-2 mb-3">
+              <div>
+                <p class="eyebrow text-teal">Market Flows</p>
+                <h3 class="text-white text-xs font-bold uppercase">Institutional Money Index</h3>
+              </div>
+              <span class="pc-status-chip static">Static Index</span>
+            </div>
+            <div class="space-y-2.5 font-mono text-[10.5px]">
+              <div class="flex justify-between border-b border-[#1d242e]/60 pb-1">
+                <span class="text-slate-400">Large Block Net Flow (24h)</span>
+                <span class="text-green font-bold">+$1.48B (Buy Bias)</span>
+              </div>
+              <div class="flex justify-between border-b border-[#1d242e]/60 pb-1">
+                <span class="text-slate-400">Dark Pool Net Accumulation</span>
+                <span class="text-green font-bold">+$480M</span>
+              </div>
+              <div class="flex justify-between border-b border-[#1d242e]/60 pb-1">
+                <span class="text-slate-400">SPY Liquidity Depth (5m)</span>
+                <span class="text-slate-300">$240M Bid / $180M Ask</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">P/C Volume Ratio</span>
+                <span class="text-slate-300">0.82 (Cautious Bullish)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Volatility & Sentiment (VIX, Greed/Fear, Buybacks) -->
+          <div class="pc-panel bg-[#0d0f13]">
+            <div class="panel-head border-b border-[#1d242e] pb-2 mb-3">
+              <div>
+                <p class="eyebrow text-violet">Volatility Desk</p>
+                <h3 class="text-white text-xs font-bold uppercase">VIX &amp; Fear Parameters</h3>
+              </div>
+              <span class="pc-status-chip static">Static Index</span>
+            </div>
+            <div class="space-y-2.5 font-mono text-[10.5px]">
+              <div class="flex justify-between border-b border-[#1d242e]/60 pb-1">
+                <span class="text-slate-400">VIX Spot / Futures Term Structure</span>
+                <span class="text-teal font-bold">14.33 (Contango)</span>
+              </div>
+              <div class="flex justify-between border-b border-[#1d242e]/60 pb-1">
+                <span class="text-slate-400">Greed &amp; Fear Index Value</span>
+                <span class="text-amber font-bold">68 / 100 (Greed)</span>
+              </div>
+              <div class="flex justify-between border-b border-[#1d242e]/60 pb-1">
+                <span class="text-slate-400">Corporate Buyback Intensity</span>
+                <span class="text-green font-bold">High (Buyback Window Active)</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Active Share Dilution Alerts</span>
+                <span class="text-slate-400">None in Watchlist</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 13D/G Filings & Geopolitical Events -->
+        <div class="pc-panel bg-[#0b0c10]">
+          <div class="panel-head border-b border-[#1d242e] pb-2 mb-3">
+            <div>
+              <p class="eyebrow text-amber">Active Tracking</p>
+              <h3 class="text-white text-xs font-bold uppercase">Corporate Activists (13D/13G) &amp; Geopolitical News</h3>
+            </div>
+            <span class="pc-status-chip static">Mock Board</span>
+          </div>
+          
+          <div class="space-y-3 text-[11px] font-sans">
+            <div class="p-2 bg-black/30 border border-[#1d242e] rounded-sm flex items-start gap-2.5">
+              <span class="text-[#00e5ff] font-mono text-[10px] font-bold select-none">[13D Filing]</span>
+              <div class="flex-1 font-mono text-[10.5px]">
+                <strong class="text-white">Elliott Management discloses 5.8% stake in $AMD.</strong>
+                <p class="text-slate-400 mt-0.5">Demands cost reduction program and custom silicon partnerships. Invalidation: below $145.</p>
+              </div>
+            </div>
+            <div class="p-2 bg-black/30 border border-[#1d242e] rounded-sm flex items-start gap-2.5">
+              <span class="text-[#a78bfa] font-mono text-[10px] font-bold select-none">[Geo Intel]</span>
+              <div class="flex-1 font-mono text-[10.5px]">
+                <strong class="text-white">Taiwan Strait shipping lanes experience minor naval military exercise delay.</strong>
+                <p class="text-slate-400 mt-0.5">No supply chain blockages reported. News Raven / Risk Sentinel monitoring TSLA microchip exposure.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <input placeholder="Search ticker, source, catalyst, risk note" />
-      <select>
-        <option>All statuses</option>
-        <option>Candidate</option>
-        <option>Watch</option>
-        <option>Rejected</option>
-      </select>
-      <span class="pill">Not Financial Advice</span>
-    </section>
-    <section class="intelligence-split">
-      <div class="panel">
-        <div class="panel-head"><div><p class="eyebrow">RK Tracker Watchlist Candidates</p><h2>Signal Leaderboard</h2></div><a class="text-link" href="#/rkTracker">Open tracker</a></div>
-        <div class="tracker-table compact">${renderTrackerRows(candidates)}</div>
+
+      <!-- Right 1-Column: Signal Filters, Prompt Builder, Future Adapters -->
+      <div class="space-y-4">
+        
+        <!-- Signal Finder and Filters -->
+        <div class="pc-panel bg-[#0f1115]">
+          <div class="panel-head border-b border-[#1d242e] pb-2 mb-3 select-none">
+            <div>
+              <p class="eyebrow text-[#00e5ff]">Signal Search</p>
+              <h3 class="text-white text-xs font-bold uppercase">Filter Local Database</h3>
+            </div>
+            <span class="pc-status-chip local-state">Local</span>
+          </div>
+          
+          <div class="space-y-3 font-mono text-[10.5px]">
+            <div>
+              <label class="text-[#8a9ba8] block mb-1 text-[9px] uppercase font-bold select-none">Search Query</label>
+              <input id="signalsSearchInput" placeholder="Ticker, catalyst, or keyword..." class="bg-black/50 border border-[#1d242e] text-white text-[11px] p-2 w-full focus:border-teal focus:outline-none" />
+            </div>
+            <div>
+              <label class="text-[#8a9ba8] block mb-1 text-[9px] uppercase font-bold select-none">Status Filter</label>
+              <select id="signalsStatusSelect" class="bg-black/50 border border-[#1d242e] text-white text-[11px] p-2 w-full focus:border-teal focus:outline-none">
+                <option value="all">All Statuses</option>
+                <option value="candidate">Candidate</option>
+                <option value="watch">Watch Only</option>
+                <option value="promoted">Promoted</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prompt Builder & Flow Ideas -->
+        <div class="pc-panel bg-[#0f1115]">
+          <div class="panel-head border-b border-[#1d242e] pb-2 mb-3 select-none">
+            <div>
+              <p class="eyebrow text-amber">Prompt Forge</p>
+              <h3 class="text-white text-xs font-bold uppercase">Flow Ideas &amp; Jarvis Commands</h3>
+            </div>
+            <span class="pc-status-chip local-state">Manual Copier</span>
+          </div>
+          <p class="text-slate-400 font-sans text-[11px] mb-3 leading-relaxed select-none">
+            Copy these structured prompts to test Jarvis Command Router categories locally:
+          </p>
+          <div class="space-y-2 text-[10px] font-mono">
+            <div class="p-2 bg-black/40 border border-[#1d242e] rounded-sm relative">
+              <span class="text-amber text-[9px] uppercase block font-bold mb-1 select-none">Options Flow Setup (Review)</span>
+              <code class="text-slate-300 block select-all">Create review packet for options flow watch QQQ</code>
+            </div>
+            <div class="p-2 bg-black/40 border border-[#1d242e] rounded-sm relative">
+              <span class="text-[#00e5ff] text-[9px] uppercase block font-bold mb-1 select-none">Assign Agent Mission</span>
+              <code class="text-slate-300 block select-all">Send NVDA AI chip thesis to Signal Scout</code>
+            </div>
+            <div class="p-2 bg-black/40 border border-[#1d242e] rounded-sm relative">
+              <span class="text-[#a78bfa] text-[9px] uppercase block font-bold mb-1 select-none">Vault Archiving</span>
+              <code class="text-slate-300 block select-all">Archive this idea about DXY risk</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Advanced Future Adapters Placeholders -->
+        <div class="pc-panel bg-[#0f1115]">
+          <div class="panel-head border-b border-[#1d242e] pb-2 mb-3 select-none">
+            <div>
+              <p class="eyebrow text-violet">Alternative Datasets</p>
+              <h3 class="text-white text-xs font-bold uppercase">Future Intelligence Adapters</h3>
+            </div>
+            <span class="pc-status-chip future-adapter">Needs Backend</span>
+          </div>
+          
+          <div class="space-y-2">
+            <div class="p-2 border border-dashed border-[#1d242e] bg-black/15 text-[10px] font-mono">
+              <div class="flex justify-between items-center text-slate-400 select-none">
+                <span>Web Traffic Monitor</span>
+                <span class="text-red">Offline</span>
+              </div>
+              <p class="text-[9px] text-slate-500 font-sans mt-0.5">Placeholder: tracks subdomain growth trends for software/SaaS candidates.</p>
+            </div>
+            
+            <div class="p-2 border border-dashed border-[#1d242e] bg-black/15 text-[10px] font-mono">
+              <div class="flex justify-between items-center text-slate-400 select-none">
+                <span>Credit Card Transactions Panel</span>
+                <span class="text-red">Offline</span>
+              </div>
+              <p class="text-[9px] text-slate-500 font-sans mt-0.5">Placeholder: mock retail transactions panel tracking consumer purchase rates.</p>
+            </div>
+
+            <div class="p-2 border border-dashed border-[#1d242e] bg-black/15 text-[10px] font-mono">
+              <div class="flex justify-between items-center text-slate-400 select-none">
+                <span>Satellite Imagery Analysis</span>
+                <span class="text-red">Offline</span>
+              </div>
+              <p class="text-[9px] text-slate-500 font-sans mt-0.5">Placeholder: retail store parking lot vehicle metrics mock adapter.</p>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="panel">
-        <div class="panel-head"><div><p class="eyebrow">Historical Pattern</p><h2>Berkshire 1965 Turnaround Signal</h2></div><a class="text-link" href="#/berkshire">Study</a></div>
-        <div class="pattern-list">
+
+    </div>
+
+    <!-- Active Tables & Diagnostics -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
+      <div class="lg:col-span-2 pc-panel bg-[#0b0c10]">
+        <div class="panel-head border-b border-[#1d242e] pb-2 mb-3">
+          <div>
+            <p class="eyebrow text-teal">Ecosystem Watchlist</p>
+            <h2 class="text-xs font-bold text-white uppercase">RK Tracker Candidate Leaderboard</h2>
+          </div>
+          <a class="pc-action-btn secondary text-[9px] py-1 px-2.5" href="#/rkTracker">Open Tracker</a>
+        </div>
+        <div class="tracker-table compact overflow-x-auto">${renderTrackerRows(candidates)}</div>
+      </div>
+
+      <div class="pc-panel bg-[#0b0c10]">
+        <div class="panel-head border-b border-[#1d242e] pb-2 mb-3">
+          <div>
+            <p class="eyebrow text-violet">Case Studies</p>
+            <h2 class="text-xs font-bold text-white uppercase">Berkshire 1965 Value Diagnostics</h2>
+          </div>
+          <a class="pc-action-btn text-[9px] py-1 px-2.5" href="#/berkshire">Open Study</a>
+        </div>
+        <div class="pattern-list text-[10px] font-mono">
           ${["Debt decreasing", "Working capital increasing", "Share count decreasing", "Inventory improving", "Operating income improving", "Dead assets being sold", "Cost reduction discussed", "Quality investment underway"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
         </div>
-        <p class="muted">Historical pattern, not financial advice.</p>
       </div>
-    </section>
-    <section class="selected-signal-detail">
-      <div>
-        <p class="eyebrow">Selected Signal Detail</p>
-        <h2>${escapeHtml(candidates[0]?.ticker || "Watchlist")}</h2>
-        <p>${escapeHtml(candidates[0]?.thesisNotes || "Click a signal candidate to inspect more context. This panel is local/mock for now.")}</p>
-      </div>
-      <div class="node-detail-grid">
-        <div><span class="label">Catalyst</span><p>${escapeHtml(candidates[0]?.catalyst || "Awaiting candidate")}</p></div>
-        <div><span class="label">Risk note</span><p>${escapeHtml(candidates[0]?.riskNotes || "Risk gate required")}</p></div>
-        <div><span class="label">Owner</span><p>${escapeHtml(candidates[0]?.ownerAgent || "Signal Scout")}</p></div>
-        <div><span class="label">Next action</span><p>${escapeHtml(candidates[0]?.nextAction || "Review only")}</p></div>
-      </div>
-    </section>
-    <section class="pipeline-grid">
-      ${renderPipeline("Signal Promotion Flow", ["Source", "Catalyst", "RK Score", "Risk Gate", "Archive", "CEO B Review"])}
-      ${renderPipeline("Risk Rejection Flow", ["Hype", "Bad Spread", "Weak Catalyst", "Unclear Invalidation", "Rejected Idea"])}
-      ${renderPipeline("X Bookmark Signal Candidates", ["User Import", "Ticker Detection", "Agent Review", "Signal Candidate"])}
-    </section>
+    </div>
     
     ${renderAdapterRegistrySection(["Market Data", "Options Flow"])}
   `;
@@ -3566,11 +3815,10 @@ function renderMinedTab(bookmarks) {
                 </td>
                 <td>
                   <div class="bookmarks-action-row">
-                    <button type="button" onclick="window.promoteBookmarkToArchive('${escapeHtml(bm.id)}')">Vault</button>
-                    <button type="button" onclick="window.promoteBookmarkToSignals('${escapeHtml(bm.id)}')">Signal</button>
-                    <button type="button" onclick="window.sendBookmarkToCeoReview('${escapeHtml(bm.id)}')">Review</button>
-                    <button type="button" onclick="window.promoteBookmarkToAgentTask('${escapeHtml(bm.id)}')">Task</button>
-                    <button type="button" class="delete-btn" onclick="window.deleteLocalBookmark('${escapeHtml(bm.id)}')">Delete</button>
+                    <button type="button" class="pc-action-btn text-[9px] px-1.5 py-0.5 font-bold rounded-sm" onclick="window.promoteBookmarkToArchive('${escapeHtml(bm.id)}')">Archive Note</button>
+                    <button type="button" class="pc-action-btn secondary text-[9px] px-1.5 py-0.5 font-bold rounded-sm" onclick="window.sendBookmarkToCeoReview('${escapeHtml(bm.id)}')">Send to CEO B Review</button>
+                    <button type="button" class="pc-action-btn secondary text-[9px] px-1.5 py-0.5 font-bold rounded-sm" onclick="window.promoteBookmarkToAgentTask('${escapeHtml(bm.id)}')">Send to Bookmark Miner</button>
+                    <button type="button" class="pc-action-btn risk text-[9px] px-1.5 py-0.5 font-bold rounded-sm" onclick="window.deleteLocalBookmark('${escapeHtml(bm.id)}')">Delete</button>
                   </div>
                 </td>
               </tr>
@@ -5252,15 +5500,124 @@ window.resetSystemData = () => {
 function renderStagingAdvanced() {
   if (!els.stagingAdvanced) return;
   const checks = ["AGENTS.md exists", "PROJECT_STATUS.md exists", "/vision-map command center works", "/source-hub exists", "source registry exists", "/signals exists", "/archive has search/filter", "/rk-tracker route exists", "RK Tracker mock market data is labeled", "RK Tracker external references use safe link cards", "/berkshire-1965 route exists", "Berkshire 1965 metrics shown", "X bookmark import UI exists", "no X scraping", "/agents has ownership matrix", "/bookmarks has import workflow", "/app/alerts has planned triggers", "external links use noopener noreferrer", "no fake live integrations", "build passes"];
+  
+  // Storage Stats Calculator
+  const getStorageStats = () => {
+    const keys = [
+      { key: "pickaxeReviewQueue", name: "CEO B Review Queue", fallback: "[]" },
+      { key: "pickaxeMissionQueue", name: "Agent Mission Queue", fallback: "[]" },
+      { key: "pickaxeArchiveVault", name: "Archive Vault (parsed)", fallback: '{"parsedLinks":[]}' },
+      { key: "pickaxeAlertRules", name: "Alert Rules Center", fallback: "[]" },
+      { key: "pickaxeCompletionTracker", name: "Completion Tracker Areas", fallback: "null" },
+      { key: "pickaxe_jarvis_command_history", name: "Jarvis Command History", fallback: "[]" }
+    ];
+    
+    return keys.map(k => {
+      const raw = localStorage.getItem(k.key);
+      let count = 0;
+      let size = 0;
+      if (raw) {
+        size = raw.length;
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            count = parsed.length;
+          } else if (parsed && typeof parsed === "object") {
+            if (Array.isArray(parsed.parsedLinks)) count = parsed.parsedLinks.length;
+            else if (Array.isArray(parsed.areas)) count = parsed.areas.length;
+            else count = Object.keys(parsed).length;
+          }
+        } catch (e) {
+          count = 1;
+        }
+      }
+      return { ...k, count, size, exists: !!raw };
+    });
+  };
+
+  const routeHealth = (sharedHabitatData && sharedHabitatData.routeHealth) ? sharedHabitatData.routeHealth : { score: "98%", status: "Healthy", metrics: [] };
+
   els.stagingAdvanced.innerHTML = `
+    <!-- Top Overall Cockpit Diagnostic Panel -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 font-mono text-xs">
+      
+      <!-- Left Diagnostic: Route Health -->
+      <div class="pc-panel bg-[#0b0c10] border border-[#1f242d] p-4 rounded-sm">
+        <div class="panel-head border-b border-[#1f242d] pb-2 mb-3 flex justify-between items-center select-none">
+          <div>
+            <p class="eyebrow text-teal">Connectivity & Latency</p>
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Route Health Diagnostics</h3>
+          </div>
+          <span class="px-2 py-0.5 bg-green/10 text-green border border-green/30 text-[9px] uppercase font-bold rounded">Score: ${routeHealth.score}</span>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          ${routeHealth.metrics.map(m => `
+            <div class="p-2 bg-black/40 border border-[#1d242e] rounded-sm text-[10.5px] flex items-center justify-between">
+              <div class="truncate">
+                <span class="text-white font-bold block truncate">${escapeHtml(m.path)}</span>
+                <span class="text-[#606266] text-[8.5px] uppercase font-mono">Latency stubs</span>
+              </div>
+              <div class="text-right shrink-0">
+                <span class="px-1 py-0.2 bg-green/10 text-green border border-green/20 text-[8px] uppercase font-bold rounded-sm">${escapeHtml(m.status)}</span>
+                <span class="text-slate-400 block text-[9.5px] font-mono mt-0.5">${escapeHtml(m.latency)}</span>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+
+      <!-- Right Diagnostic: localStorage Integrity -->
+      <div class="pc-panel bg-[#0b0c10] border border-[#1f242d] p-4 rounded-sm">
+        <div class="panel-head border-b border-[#1f242d] pb-2 mb-3 flex justify-between items-center select-none">
+          <div>
+            <p class="eyebrow text-amber">Persistence & Local DB</p>
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">localStorage Integrity Cockpit</h3>
+          </div>
+          <span class="px-2 py-0.5 bg-cyan/10 text-cyan border border-cyan/30 text-[9px] uppercase font-bold rounded">Local Sandbox</span>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-[10.5px]">
+            <thead>
+              <tr class="bg-black/30 text-[#606266] border-b border-[#1d242e] uppercase font-bold">
+                <th class="p-1">Key</th>
+                <th class="p-1">State</th>
+                <th class="p-1">Size</th>
+                <th class="p-1 text-right">Purge</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[#1d242e]">
+              ${getStorageStats().map(s => `
+                <tr class="hover:bg-white/5 transition-colors">
+                  <td class="p-1.5 text-amber font-mono font-bold truncate max-w-[110px]" title="${escapeHtml(s.key)}">${escapeHtml(s.key)}</td>
+                  <td class="p-1.5 text-white font-mono font-bold">${s.exists ? `${s.count} items` : '<span class="text-[#606266] italic">None</span>'}</td>
+                  <td class="p-1.5 font-mono text-slate-400">${s.exists ? `${s.size} ch` : '0 ch'}</td>
+                  <td class="p-1.5 text-right">
+                    <button type="button" class="px-1 py-0.2 bg-red/10 text-red border border-red/30 text-[8.5px] uppercase font-bold hover:bg-red/20 transition-all rounded-sm" onclick="window.resetStorageKey('${escapeHtml(s.key)}')">Reset</button>
+                  </td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Overall checklist -->
     ${renderCompletionTracker("full")}
     ${renderMissionBoardPanel()}
     ${renderDataPortabilityPanel()}
     ${renderRecoveryStatusPanel()}
     ${renderOpenClawIntegrationLab()}
     ${renderJarvisFoundationChecklist()}
-    <section class="panel">
-      <div class="panel-head"><div><p class="eyebrow">Advanced QA</p><h2>Low-Usage Build Checklist</h2></div><span class="pill">Mock vs Live separated</span></div>
+    
+    <section class="panel pc-panel bg-[#0b0c10]">
+      <div class="panel-head border-b border-[#1f242d] pb-2 mb-3">
+        <div><p class="eyebrow">Advanced QA</p><h2>Low-Usage Build Checklist</h2></div>
+        <span class="pc-status-chip static">Mock vs Live separated</span>
+      </div>
       <div class="qa-grid">${checks.map((check) => `<label><input type="checkbox" ${check.includes("PROJECT_STATUS") ? "" : "checked"} /> ${escapeHtml(check)}</label>`).join("")}</div>
     </section>
     
@@ -5433,20 +5790,20 @@ function renderJarvisCommandConsole() {
   ];
 
   return `
-    <section class="jarvis-console panel">
-      <div class="panel-head select-none">
+    <section class="jarvis-console panel pc-panel bg-[#0b0c10]">
+      <div class="panel-head select-none border-b border-[#1f242d] pb-2 mb-3 flex justify-between items-center">
         <div>
-          <p class="eyebrow">Local browser prototype command router</p>
-          <h2>CEO B Typed Command Console</h2>
+          <p class="eyebrow text-amber">Local browser prototype command router</p>
+          <h2 class="text-xs font-bold text-white uppercase tracking-wider font-mono">CEO B Typed Command Console</h2>
         </div>
-        <span class="pill bg-slate-900 border border-[#1f242d] text-[#8c9099] text-[9.5px]">Local Prototype</span>
+        <span class="pc-status-chip prototype">Local Prototype</span>
       </div>
       
-      <div class="mb-4 text-[#909399] text-[11px] leading-relaxed select-none">
-        📋 <strong class="text-amber">Safety & Scope Disclosure:</strong> Jarvis Lab is a local prototype command router. It does not execute system commands, control devices, trade, or call live APIs. All dispatch actions process data locally in this browser database.
+      <div class="mb-4 bg-red-950/15 border border-red-900/25 p-3 text-red-400 text-[11px] leading-relaxed select-none rounded-sm">
+        🔒 <strong>Safety Notice:</strong> Jarvis Lab is a local prototype command router. It does not execute system commands, control devices, place trades, or call live APIs.
       </div>
       
-      <div class="space-y-1 mb-3">
+      <div class="space-y-1.5 mb-3">
         <span class="text-[#606266] text-[8.5px] uppercase font-bold tracking-wider font-mono block select-none">Type Command or Instruction</span>
         <textarea id="jarvisCommandInput" 
           placeholder="Type a command for CEO B... e.g. Send NVDA AI chip thesis to Signal Scout" 
@@ -5454,7 +5811,7 @@ function renderJarvisCommandConsole() {
           oninput="window.previewJarvisCommand?.()"></textarea>
       </div>
 
-      <div class="space-y-1 mb-4 select-none">
+      <div class="space-y-1.5 mb-4 select-none">
         <span class="text-[#606266] text-[8.5px] uppercase font-bold tracking-wider font-mono block">Example Commands (Click to load)</span>
         <div class="jarvis-examples grid grid-cols-1 sm:grid-cols-2 gap-1.5">
           ${examples.map((text) => `
@@ -5468,8 +5825,8 @@ function renderJarvisCommandConsole() {
       </div>
       
       <div class="flex gap-2 mb-4 select-none">
-        <button type="button" class="bg-blue/20 text-[#42d9c8] border border-[#42d9c8]/30 hover:bg-blue/30 px-3 py-1 uppercase font-bold text-[9.5px] rounded-sm transition-colors" onclick="window.previewJarvisCommand?.()">Force Re-Classify</button>
-        <button type="button" class="bg-red/10 text-red border border-red/30 hover:bg-red/10 px-3 py-1 uppercase font-bold text-[9.5px] rounded-sm transition-colors" onclick="window.clearJarvisHistory?.()">Clear History</button>
+        <button type="button" class="pc-action-btn secondary text-[9.5px] rounded-sm transition-colors px-3 py-1" onclick="window.previewJarvisCommand?.()">Force Re-Classify</button>
+        <button type="button" class="pc-action-btn risk text-[9.5px] rounded-sm transition-colors px-3 py-1" onclick="window.clearJarvisHistory?.()">Clear History</button>
       </div>
 
       <div id="jarvisCommandPreviewDock" class="mb-4">
@@ -8263,36 +8620,139 @@ function renderAgentWorldOS() {
           </div>
         </aside>
 
-        <!-- CENTER PANEL: AI Habitat / Trading Floor command map -->
+        <!-- CENTER PANEL: AI Habitat / Trading Floor command map / fleet directory -->
         <main class="center-panel flex flex-col gap-3">
-          <!-- The map container itself -->
-          <div class="world-map flex-1 rounded-sm border border-[#1f242d] min-h-[620px] relative overflow-hidden" aria-label="AI Habitat map">
-            <div class="world-grid-glow"></div>
-            <svg class="world-bridges" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <path class="bridge market" d="M16 26 C28 35 40 44 50 50" />
-              <path class="bridge intel" d="M82 26 C70 35 60 44 50 50" />
-              <path class="bridge archive" d="M18 76 C31 67 41 58 50 50" />
-              <path class="bridge builder" d="M82 76 C70 67 60 58 50 50" />
-              <path class="bridge personal" d="M50 88 C50 75 50 62 50 50" />
-              <path class="bridge side" d="M16 26 C36 12 62 12 82 26" />
-              <path class="bridge side" d="M18 76 C37 88 62 88 82 76" />
-              <path class="bridge side" d="M18 76 C12 56 10 42 16 26" />
-            </svg>
-            <button class="world-ceo ${centerHot ? "hot" : ""}" type="button" onclick="window.selectWorldHabitat?.('central-command')">
-              <span>CEO B Command Center</span>
-              <strong>Central Trading Floor</strong>
-              <small>review desk • collaboration plaza • ${reviewStack.length} pending approvals</small>
-            </button>
-            <div class="world-floor ${centerHot ? "hot" : ""}">
-              <span>Command Nexus</span>
-              <strong>Mission Completion Board</strong>
-              <small>Trading Floor Active • ${activeCollaborations} collaborations • next: ${escapeHtml(nextBest.label)}</small>
+          <!-- View Toggle Selector -->
+          <div class="flex items-center justify-between bg-[#0c0d0e] border border-[#1f242d] p-2 rounded-sm select-none">
+            <span class="text-[9px] text-[#606266] uppercase font-bold font-mono">Center Workspace Visualizer</span>
+            <div class="flex gap-1 text-[9px] font-mono">
+              <button type="button" class="px-2 py-0.5 border uppercase font-bold rounded-sm transition-all ${state.agentsViewMode === "fleet" ? "bg-amber/20 text-amber border-amber/40" : "bg-transparent text-[#606266] border-[#1f242d] hover:text-white"}" onclick="window.setAgentsViewMode('fleet')">Grouped Fleet Directory</button>
+              <button type="button" class="px-2 py-0.5 border uppercase font-bold rounded-sm transition-all ${state.agentsViewMode === "map" ? "bg-amber/20 text-amber border-amber/40" : "bg-transparent text-[#606266] border-[#1f242d] hover:text-white"}" onclick="window.setAgentsViewMode('map')">Interactive Node Map</button>
             </div>
-            ${habitats.map(renderWorldHabitatNode).join("")}
-            ${(world.missions || []).slice(0, 6).map((mission, index) => renderWorldMissionPackage(mission, index)).join("")}
-            ${renderWorldAgents(habitats)}
-            ${state.showWorldLegend ? renderWorldLegend() : ""}
           </div>
+
+          ${state.agentsViewMode === "map" ? `
+            <!-- The map container itself -->
+            <div class="world-map flex-1 rounded-sm border border-[#1f242d] min-h-[620px] relative overflow-hidden" aria-label="AI Habitat map">
+              <div class="world-grid-glow"></div>
+              <svg class="world-bridges" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path class="bridge market" d="M16 26 C28 35 40 44 50 50" />
+                <path class="bridge intel" d="M82 26 C70 35 60 44 50 50" />
+                <path class="bridge archive" d="M18 76 C31 67 41 58 50 50" />
+                <path class="bridge builder" d="M82 76 C70 67 60 58 50 50" />
+                <path class="bridge personal" d="M50 88 C50 75 50 62 50 50" />
+                <path class="bridge side" d="M16 26 C36 12 62 12 82 26" />
+                <path class="bridge side" d="M18 76 C37 88 62 88 82 76" />
+                <path class="bridge side" d="M18 76 C12 56 10 42 16 26" />
+              </svg>
+              <button class="world-ceo ${centerHot ? "hot" : ""}" type="button" onclick="window.selectWorldHabitat?.('central-command')">
+                <span>CEO B Command Center</span>
+                <strong>Central Trading Floor</strong>
+                <small>review desk • collaboration plaza • ${reviewStack.length} pending approvals</small>
+              </button>
+              <div class="world-floor ${centerHot ? "hot" : ""}">
+                <span>Command Nexus</span>
+                <strong>Mission Completion Board</strong>
+                <small>Trading Floor Active • ${activeCollaborations} collaborations • next: ${escapeHtml(nextBest.label)}</small>
+              </div>
+              ${habitats.map(renderWorldHabitatNode).join("")}
+              ${(world.missions || []).slice(0, 6).map((mission, index) => renderWorldMissionPackage(mission, index)).join("")}
+              ${renderWorldAgents(habitats)}
+              ${state.showWorldLegend ? renderWorldLegend() : ""}
+            </div>
+          ` : `
+            <!-- Grouped Fleet Directory Board -->
+            <div class="fleet-directory-board flex-1 p-3 bg-[#0c0d0e] border border-[#1f242d] rounded-sm min-h-[620px] overflow-y-auto space-y-4">
+              ${[
+                "CEO B Review",
+                "System Brain",
+                "Market Intelligence",
+                "Options Flow",
+                "Risk / Volatility",
+                "News / Macro",
+                "Bookmark Intelligence",
+                "Archive / Memory"
+              ].map(group => {
+                const agentGroupMapping = {
+                  "ceo-b": "CEO B Review",
+                  "system-brain": "System Brain",
+                  "builder-agent": "System Brain",
+                  "qa-agent": "System Brain",
+                  "market-scout": "Market Intelligence",
+                  "technical-strategist": "Market Intelligence",
+                  "research-agent": "Market Intelligence",
+                  "strategy-agent": "Market Intelligence",
+                  "options-flow-hunter": "Options Flow",
+                  "trading-agent": "Options Flow",
+                  "risk-agent": "Risk / Volatility",
+                  "compliance-guard": "Risk / Volatility",
+                  "macro-watcher": "News / Macro",
+                  "recon-agent": "News / Macro",
+                  "catalyst-analyst": "News / Macro",
+                  "memory-agent": "Bookmark Intelligence",
+                  "archive-keeper": "Archive / Memory"
+                };
+
+                const agentsInGroup = habitatAgents.filter(a => agentGroupMapping[a.id] === group);
+                if (!agentsInGroup.length) return "";
+                return `
+                  <div class="fleet-group border border-[#1f242d] bg-[#090a0c]/60 p-2.5 rounded-sm">
+                    <div class="flex items-center justify-between border-b border-[#141820] pb-1.5 mb-2 font-mono select-none">
+                      <div class="flex items-center gap-1.5">
+                        <span class="w-1.5 h-2.5 bg-amber rounded-sm"></span>
+                        <span class="text-[10.5px] font-bold text-white uppercase tracking-wider">${group}</span>
+                      </div>
+                      <span class="text-[8.5px] text-[#606266] uppercase">${agentsInGroup.length} Agents</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      ${agentsInGroup.map(agent => {
+                        const isSelected = agent.id === state.selectedAgentId;
+                        const selectedClass = isSelected ? "border-amber bg-[#121417] shadow-[0_0_10px_rgba(212,175,55,0.25)]" : "border-[#1f242d] bg-[#0c0d0e]/60 hover:border-slate-700";
+                        const statusDotColor = agent.status === "active" ? "bg-green" : agent.status === "thinking" ? "bg-amber" : agent.status === "collaborating" ? "bg-blue" : "bg-cyan";
+                        const badgeColor = agent.badge === "Live Layer" ? "pc-status-chip static" : agent.badge === "Prototype" ? "pc-status-chip prototype" : agent.badge === "Research" ? "pc-status-chip research" : "pc-status-chip static";
+                        return `
+                          <div class="p-2 border transition-all cursor-pointer flex flex-col justify-between gap-1.5 rounded-sm ${selectedClass}" onclick="window.selectWorldAgent('${escapeHtml(agent.id)}')">
+                            <div class="flex justify-between items-start gap-1">
+                              <div>
+                                <h4 class="text-white font-bold text-[10.5px] leading-tight">${escapeHtml(agent.name)}</h4>
+                                <span class="text-[8.5px] text-slate-500 uppercase font-mono tracking-wider">${escapeHtml(agent.title)}</span>
+                              </div>
+                              <span class="px-1 py-0.2 border text-[8px] font-mono tracking-widest uppercase rounded shrink-0 ${badgeColor}">${escapeHtml(agent.badge || 'Static')}</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-1.5 text-[8.5px] font-mono">
+                              <div>
+                                <span class="text-slate-500 block uppercase text-[7.5px]">Status</span>
+                                <span class="font-bold uppercase flex items-center gap-1 mt-0.5 text-slate-300">
+                                  <span class="w-1.5 h-1.5 rounded-full ${statusDotColor} animate-pulse"></span>
+                                  ${escapeHtml(agent.status)}
+                                </span>
+                              </div>
+                              <div>
+                                <span class="text-slate-500 block uppercase text-[7.5px]">Route Owned</span>
+                                <a href="${escapeHtml(agent.route)}" class="text-blue hover:underline block truncate mt-0.5" onclick="event.stopPropagation();">${escapeHtml(agent.route)}</a>
+                              </div>
+                            </div>
+
+                            <div class="text-[9px] text-[#909399] leading-snug border-t border-[#141820] pt-1 mt-1 font-sans">
+                              <div><strong>Task:</strong> ${escapeHtml(agent.task)}</div>
+                              <div class="text-slate-400"><strong>Next:</strong> ${escapeHtml(agent.nextAction)}</div>
+                            </div>
+
+                            ${agent.riskFlag && agent.riskFlag !== "None" ? `
+                              <div class="bg-red-950/20 border border-red-900/30 p-1 text-red text-[8.5px] mt-1 font-mono">
+                                ⚠️ RISK: ${escapeHtml(agent.riskFlag)}
+                              </div>
+                            ` : ""}
+                          </div>
+                        `;
+                      }).join("")}
+                    </div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          `}
           
           <!-- Center panel stats / scoreboard -->
           <div class="grid grid-cols-5 gap-2 p-2.5 bg-[#0c0d0e] border border-[#1f242d] rounded-sm text-center text-[10px]">
@@ -8590,10 +9050,44 @@ function renderSelectedAgentMission(agent) {
   `;
 }
 
-window.selectWorldAgent = (agentId) => {
-  state.selectedAgentId = agentId;
-  state.selectedOperatingAgentId = agentId + "-os";
+window.selectWorldAgent = (idOrName, habitatId = null) => {
+  let agent = habitatAgents.find(a => a.id === idOrName);
+  if (!agent) {
+    agent = habitatAgents.find(a => a.name === idOrName);
+  }
+  
+  if (agent) {
+    state.selectedAgentId = agent.id;
+    state.selectedOperatingAgentId = agent.id + "-os";
+    state.selectedWorldAgentName = agent.name;
+  } else {
+    state.selectedWorldAgentName = idOrName;
+  }
+  
+  if (habitatId) {
+    state.selectedHabitatId = habitatId;
+  }
+  
   renderAgentsPage();
+};
+
+window.setAgentsViewMode = (mode) => {
+  state.agentsViewMode = mode;
+  renderAgentsPage();
+};
+
+window.resetStorageKey = (key) => {
+  localStorage.removeItem(key);
+  showNotification(`Purged ${key}. System will re-seed default values on next refresh.`);
+  refreshAll();
+};
+
+window.prepareAdapterConnection = (name, isSafe) => {
+  if (isSafe) {
+    showNotification(`[Adapter Diagnostics] Mock client connection prepared for ${name}. Stub ready.`);
+  } else {
+    showNotification(`[Adapter Gate] Cannot connect ${name}. Requires backend proxy server setup.`);
+  }
 };
 
 window.setAgentFilter = (filter) => {
@@ -8950,12 +9444,6 @@ window.assignWorldAgentMission = (agentName, habitatId) => {
   ops.tasks.unshift({ agentId: agentName, agentName, action: "assigned next mission", status: "active", time: new Date().toLocaleTimeString(), habitat: habitat?.name || "AI Habitat" });
   setAgentOpsState(ops);
   addWorldEvent(`${agentName} received a new local mission in ${habitat?.name || "AI Habitat"}.`);
-  renderAgentWorldOS();
-};
-
-window.selectWorldAgent = (agentName, habitatId) => {
-  state.selectedWorldAgentName = agentName;
-  if (habitatId) state.selectedHabitatId = habitatId;
   renderAgentWorldOS();
 };
 

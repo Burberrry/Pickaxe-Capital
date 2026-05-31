@@ -64,7 +64,7 @@ node scripts/update-readme.mjs
 
 ### Last README Game Plan Update
 
-- Generated: 2026-05-30
+- Generated: 2026-05-31
 - Sources: `AGENTS.md`, `PROJECT_STATUS.md`, `NEXT_STEPS.md`
 
 ### Working Now
@@ -86,8 +86,7 @@ node scripts/update-readme.mjs
 
 ### Next Priority
 
-1. **Jarvis command console improvements**: Connect Jarvis command console to agent missions and archives more deeply.
-2. **Dedicated /device-hub**: Add a dedicated `/device-hub` layout only after `/life-os` is stable.
+
 
 ### Non-Negotiable Build Rules
 
