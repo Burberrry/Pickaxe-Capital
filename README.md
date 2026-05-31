@@ -23,6 +23,8 @@ This project is a premium dark cyber-finance command center and AI-agent habitat
 | **Broker / Trade Execution** | **Not Supported** | Local research logging only; manual broker review stays outside this site |
 | **Backend Integration** | **Optional Later** | LocalStorage keys drive state sandbox completely |
 
+Latest live verification confirms the Citadel Intelligence Center Alerts Desk is deployed and stable.
+
 ---
 
 ## 🔮 Phase 2 Terminal Roadmap
@@ -148,6 +150,10 @@ The section below is refreshed from `AGENTS.md`, `PROJECT_STATUS.md`, and `NEXT_
 
 ### Current State
 
+- Live URL checked: `https://burberrry.github.io/Pickaxe-Capital/?v=logo2#/alerts`.
+- Alerts Desk is live and correct with 20 sidebar items and 20 visible Alerts Desk panels.
+- Logo and favicon are improved, cache-busted, and not cropped.
+- No stale active wording was found, no code changes were needed in the final verification pass, and validation passed.
 - `/` and `#/alerts` now open the Citadel Intelligence Center Alerts Desk with a 20-panel CEO B research review dashboard.
 - `/agents` is fully integrated with the AI Habitat OS operating layer, review stacks, and active mission boards.
 - `/vision-map` is wired dynamically into the Review and Mission pipelines. Node and agent drawers support stateful actions that push task and review items. Selected agent markers support highlights.

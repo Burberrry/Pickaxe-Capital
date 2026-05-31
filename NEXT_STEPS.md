@@ -1,6 +1,6 @@
 # Pickaxe Capital Next Steps
 
-Alerts Desk command-center homepage upgrade is now the active checkpoint. Local validation is being run with the bundled Codex Node runtime, and the app remains static-first, research-only, and localStorage-backed.
+Live Alerts Desk verification is complete. The live GitHub Pages URL `https://burberrry.github.io/Pickaxe-Capital/?v=logo2#/alerts` renders the Citadel Intelligence Center correctly, and the app remains static-first, research-only, and localStorage-backed.
 
 ## Working Now
 
@@ -27,6 +27,10 @@ Alerts Desk command-center homepage upgrade is now the active checkpoint. Local 
 
 ## Current State
 
+- Live URL checked: `https://burberrry.github.io/Pickaxe-Capital/?v=logo2#/alerts`.
+- Alerts Desk is live and correct with 20 sidebar items and 20 visible Alerts Desk panels.
+- Logo and favicon are improved, cache-busted, and not cropped.
+- No stale active wording was found, no code changes were needed in the final verification pass, and validation passed.
 - `/` and `#/alerts` now open the Citadel Intelligence Center Alerts Desk with a 20-panel CEO B research review dashboard.
 - `/agents` is fully integrated with the AI Habitat OS operating layer, review stacks, and active mission boards.
 - `/vision-map` is wired dynamically into the Review and Mission pipelines. Node and agent drawers support stateful actions that push task and review items. Selected agent markers support highlights.
@@ -57,13 +61,20 @@ Alerts Desk command-center homepage upgrade is now the active checkpoint. Local 
 
 ## Latest Finished Work
 
+- Live Alerts Desk Verification Complete.
+- Confirmed Citadel Intelligence Center is deployed and stable on GitHub Pages.
+- Confirmed desktop/mobile layout has no horizontal overflow and fresh console check has no errors.
+- Next task: Phase 2 Dashboard prototype when the user has more usage.
+
+## Previous Finished Work
+
 - Upgraded the first page / Alerts Desk into a premium command-center homepage.
 - Added top safety chips, queue controls, safe action buttons, and 20 organized research-only panels.
 - Added future concept routes for Watchlists, Markets Matrix, Options Hub, Catalysts Calendar, Research Desk, and Build / Roadmap.
 - Cleaned active user-facing alert wording away from broker-execution phrasing.
 - Preserved GitHub Pages root deployment workflow and updated safe action versions.
 
-## Previous Finished Work
+## Earlier Finished Work
 
 - Upgraded `#/app/alerts` into a dedicated stateful **Alert Rules Center** supporting 7 default rule categories (Options Flow, Market Gates, Risk Warnings, etc.) and complete local actions (Enable/Disable, Duplicate, Delete, Reset).
 - Implemented a custom cyberpunk toast notification helper (`showNotification`) and a fully customizable **Rule Configuration Editor** form.
@@ -137,4 +148,3 @@ Next Best Tasks:
 1. **GitHub Pages Deployment Fix**: Complete. Custom root deployment workflow is active and verified at commit `2dc65d3`.
 2. **Phase 2 Planning**: Phase 2 research terminal roadmap and wireframe documents have been created under `docs/`.
 3. **Review Wireframes**: CEO B reviews the Phase 2 roadmap and wireframes before initiating any frontend prototype implementation.
-

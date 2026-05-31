@@ -90,6 +90,20 @@
 
 ## Current Session Upgrade
 
+### Live Alerts Desk Verification Complete
+
+- Live URL checked: `https://burberrry.github.io/Pickaxe-Capital/?v=logo2#/alerts`.
+- Alerts Desk is live and correct.
+- 20 sidebar items are visible.
+- 20 Alerts Desk panels are visible.
+- Logo and favicon are improved; favicon path is cache-busted.
+- No stale active wording found.
+- Validation passed.
+- No code changes were needed during the final verification pass.
+- Next task: Phase 2 Dashboard prototype when the user has more usage.
+
+## Previous Session Upgrade
+
 - Fixed the sidebar home-card Pickaxe Capital logo so the circular mark has a larger fixed footprint and no longer appears cropped.
 - Pointed the browser favicon at the Pickaxe Capital company logo in both root and `public/` HTML.
 - Regenerated `public/brand/favicon-floating.png` as a 96x96 Pickaxe Capital company-logo favicon for legacy/cached references.
@@ -97,7 +111,7 @@
 - Validation passed: `node --check public/app.js`, `node --check app.js`, `scripts/build.mjs`, and `scripts/check-project.mjs`.
 - Updated the Build Completion Tracker default latest-session record in `public/habitat-data.js`.
 
-## Previous Session Upgrade
+## Earlier Session Upgrade
 
 - Upgraded `/`, `#/`, and `#/alerts` into the **Citadel Intelligence Center / Alerts Desk** first page.
 - Added the 20-panel Alerts Desk structure: command header, CEO B queue, active packet, contract/instrument context, research context, validation criteria, invalidation, risk audit, workspace checklist, safe actions, risk check, source confidence, agent commentary, market/catalyst/options context, Learning Ledger link, Archive memory, QA truth panel, and next manual step.
@@ -106,7 +120,7 @@
 - Updated the GitHub Pages workflow to newer safe action versions while preserving artifact path `"."`.
 - Updated the Build Completion Tracker default latest-session record in `public/habitat-data.js`.
 
-## Earlier Session Upgrade
+## Prior Session Upgrade
 
 - Upgraded the **Jarvis Command Console** (`#/jarvis-lab`) with stateful local command router capabilities, classification, force re-classification, and placeholder templates.
 - Connected the Jarvis command console to active local pipelines: Agent Mission Queue (`pickaxeMissionQueue`/`pickaxeAgentOps`), CEO B Review Desk (`pickaxeReviewQueue`), Archive Vault (`pickaxeArchiveVault`), Alert Rules (`pickaxeAlertRules`), and Staging Tasks (`pickaxeCompletionTracker`).
