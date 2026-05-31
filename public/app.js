@@ -438,14 +438,27 @@ window.copyAiHandoffLink = async () => {
 };
 
 function generateLocalHandoffText() {
-  const session = (sharedHabitatData.buildCompletionTracker && typeof sharedHabitatData.buildCompletionTracker === "object" && typeof sharedHabitatData.buildCompletionTracker.latestSession === "object") ? (sharedHabitatData.buildCompletionTracker.latestSession || {}) : {};
   const rulesStr = (Array.isArray(sharedHabitatData.riskRules) ? sharedHabitatData.riskRules : []).map(r => r ? `- ${r.name || "Unnamed"}: ${r.description || "No description"}` : "").filter(Boolean).join("\n");
   
   return [
     "# Pickaxe Capital / AI Habitat OS - Deployed AI Handoff (Static Fallback)",
     `Generated at: ${new Date().toISOString()}`,
     "Target Environment: GitHub Pages Static Site",
-    "Active Routes: /#/mission-control, /#/agent-engine, /#/signals, /#/alerts, /#/risk-rules, /#/data-sources, /#/compliance, /#/archive, /#/bookmarks, /#/staging",
+    "Active Routes:",
+    "01 Alerts Desk — #/alerts",
+    "02 Mission Control — #/mission-control",
+    "03 Vision Map — #/vision-map",
+    "04 Agent Engine — #/agents",
+    "05 Signals — #/signals",
+    "06 Source Hub — #/source-hub",
+    "07 Risk & Rules — #/risk-rules",
+    "08 Learning Ledger — #/learning-ledger",
+    "09 Trend Radar — #/trend-radar",
+    "10 Archive Vault — #/archive",
+    "11 Bookmarks — #/bookmarks",
+    "12 Money Lab — #/money-lab",
+    "13 Staging / QA — #/staging",
+    "14 AI Habitat OS — #/ai-habitat-os",
     "",
     "## Project Identity & Current Architecture",
     "- Pickaxe Capital: Premium command brand interface",
@@ -457,10 +470,13 @@ function generateLocalHandoffText() {
     rulesStr || "- Wide Bid/Ask Spread\n- Low Open Interest\n- Missing Catalyst\n- IV Crush Exposure\n- CEO B Unapproved Decision Lock",
     "",
     "## Compliance Disclosures",
-    "- Research-only static prototype. Not financial advice.",
-    "- No live data feeds. All tickers use delayed mock snapshots.",
-    "- No broker connection. Webull order execution remains 100% manual and external.",
-    "- CEO B decision layer is a manual human-in-the-loop review queue.",
+    "- Research-only static prototype.",
+    "- No live data feeds unless future backend is implemented.",
+    "- No broker connection.",
+    "- No broker execution inside this site.",
+    "- CEO B manual human-in-the-loop review queue.",
+    "- Future adapters require backend/proxy/security review.",
+    "- No private URLs or API keys in frontend.",
     "",
     "## Known Limitations",
     "- TradingView widget is lazy-loaded (falls back to warning if unavailable).",
@@ -470,7 +486,7 @@ function generateLocalHandoffText() {
     "",
     "## Next Safest Development Steps",
     "1. Connect actual market provider data source endpoints.",
-    "2. Link to personal LLM / on-device assistant broker API proxy.",
+    "2. Link to personal LLM / on-device assistant secure read-only backend/provider adapter only; no broker execution.",
     "3. Set up secure backend route authentication rules."
   ].join("\n");
 }
@@ -574,7 +590,7 @@ document.addEventListener("click", (event) => {
     let hash = href;
     if (href === "/") hash = "#/mission-control";
     else if (href === "/agents") hash = "#/agents";
-    else if (href === "/source-hub") hash = "#/data-sources";
+    else if (href === "/source-hub") hash = "#/source-hub";
     else if (href === "/berkshire-1965") hash = "#/berkshire";
     else if (href === "/rk-tracker") hash = "#/rkTracker";
     else if (href === "/jarvis-lab") hash = "#/jarvisLab";
@@ -697,12 +713,10 @@ function openRequestedView() {
       view = "agents";
     } else if (hash === "#/signals") {
       view = "signals";
-    } else if (hash === "#/risk-rules") {
-      view = "riskRules";
     } else if (hash === "#/data-sources" || hash === "#/source-hub") {
       view = "sourceHub";
-    } else if (hash === "#/compliance") {
-      view = "compliance";
+    } else if (hash === "#/compliance" || hash === "#/risk-rules") {
+      view = "riskRules";
     } else if (hash === "#/archive") {
       state.archiveRoute = "overview";
       view = "archive";
@@ -1871,7 +1885,21 @@ async function renderAiHandoffPage() {
       "# Pickaxe Capital / AI Habitat OS - Deployed AI Handoff (Static Fallback)",
       `Generated at: ${new Date().toISOString()}`,
       "Target Environment: GitHub Pages Static Site",
-      `Active Routes: /#/mission-control, /#/agent-engine, /#/signals, /#/alerts, /#/risk-rules, /#/data-sources, /#/compliance, /#/archive, /#/bookmarks, /#/staging`,
+      "Active Routes:",
+      "01 Alerts Desk — #/alerts",
+      "02 Mission Control — #/mission-control",
+      "03 Vision Map — #/vision-map",
+      "04 Agent Engine — #/agents",
+      "05 Signals — #/signals",
+      "06 Source Hub — #/source-hub",
+      "07 Risk & Rules — #/risk-rules",
+      "08 Learning Ledger — #/learning-ledger",
+      "09 Trend Radar — #/trend-radar",
+      "10 Archive Vault — #/archive",
+      "11 Bookmarks — #/bookmarks",
+      "12 Money Lab — #/money-lab",
+      "13 Staging / QA — #/staging",
+      "14 AI Habitat OS — #/ai-habitat-os",
       "",
       "## Current Session Status",
       `Files Changed: ${JSON.stringify(session.filesChanged || [])}`,
@@ -1881,10 +1909,13 @@ async function renderAiHandoffPage() {
       (session.bugsFixed || []).map(b => `- ${b}`).join("\n"),
       "",
       "## Compliance Disclosures",
-      "- Research-only static prototype. Not financial advice.",
-      "- No live data feeds. All tickers use delayed mock snapshots.",
-      "- No broker connection. Webull order execution remains 100% manual and external.",
-      "- CEO B decision layer is a manual human-in-the-loop review queue.",
+      "- Research-only static prototype.",
+      "- No live data feeds unless future backend is implemented.",
+      "- No broker connection.",
+      "- No broker execution inside this site.",
+      "- CEO B manual human-in-the-loop review queue.",
+      "- Future adapters require backend/proxy/security review.",
+      "- No private URLs or API keys in frontend.",
       "",
       "## Active Security & Risk Gates",
       rulesStr,
@@ -2403,7 +2434,7 @@ function renderHomeCommandCenter() {
               </div>
               <p class="text-[8px] text-[#909399] leading-tight">News & Event Risk</p>
               <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-                Route: <a href="#/data-sources" class="text-blue hover:underline">/data-sources</a>
+                Route: <a href="#/source-hub" class="text-blue hover:underline">/source-hub</a>
               </div>
             </div>
   
@@ -2427,7 +2458,7 @@ function renderHomeCommandCenter() {
               </div>
               <p class="text-[8px] text-[#909399] leading-tight">Provider Matrix</p>
               <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-                Route: <a href="#/data-sources" class="text-blue hover:underline">/data-sources</a>
+                Route: <a href="#/source-hub" class="text-blue hover:underline">/source-hub</a>
               </div>
             </div>
   
@@ -2443,15 +2474,15 @@ function renderHomeCommandCenter() {
               </div>
             </div>
   
-            <!-- 12. Compliance Guard -->
+            <!-- 12. Risk & Rules Guard -->
             <div class="habitat-card-absolute border border-[#1f242d] bg-[#121417]/90 p-2 rounded" style="left: 700px; top: 140px;">
               <div class="flex items-center justify-between mb-1">
-                <span class="text-[9px] font-bold text-white uppercase block">Compliance</span>
+                <span class="text-[9px] font-bold text-white uppercase block">Risk & Rules</span>
                 <span class="status-pulse-dot w-1.5 h-1.5 rounded-full bg-green"></span>
               </div>
-              <p class="text-[8px] text-[#909399] leading-tight">Compliance review</p>
+              <p class="text-[8px] text-[#909399] leading-tight">Risk & Rules review</p>
               <div class="text-[8px] text-[#606266] mt-1 border-t border-[#1f242d] pt-1">
-                Route: <a href="#/compliance" class="text-blue hover:underline">/compliance</a>
+                Route: <a href="#/risk-rules" class="text-blue hover:underline">/risk-rules</a>
               </div>
             </div>
   
@@ -3181,7 +3212,7 @@ function renderVisionCommandCenter() {
 
         <div class="space-y-3 bg-[#0c0d0e] p-3 border border-[#1d242e] rounded-sm">
           <div>
-            <span class="text-[#606266] uppercase text-[9px] block">Connected Data Sources</span>
+            <span class="text-[#606266] uppercase text-[9px] block">Connected Source Hub</span>
             <p class="text-slate-400 font-sans text-[11px] mt-0.5">${escapeHtml(selectedItem.sources || "Internal data stores / logs.")}</p>
           </div>
           <div>
@@ -7457,7 +7488,7 @@ function renderMissionBoardPanel() {
 }
 
 function renderRecoveryStatusPanel() {
-  const activeRoutes = ["#/mission-control", "#/vision-map", "#/agent-engine", "#/archive", "#/staging", "#/founder", "#/ceo-b-profile"];
+  const activeRoutes = ["#/alerts", "#/mission-control", "#/vision-map", "#/agents", "#/signals", "#/source-hub", "#/risk-rules", "#/learning-ledger", "#/trend-radar", "#/archive", "#/bookmarks", "#/money-lab", "#/staging", "#/ai-habitat-os"];
   const optionalRoutes = ["#/jarvisLab", "#/lifeOS"];
   return `
     <section class="recovery-status-panel panel">
@@ -7938,8 +7969,8 @@ function renderProjectUpdatePage() {
       <div class="project-route-grid">${routes.map((route) => {
         let hashRoute = route.route === "/" ? "#/mission-control" : "#" + route.route;
         if (route.route === "/app/alerts") hashRoute = "#/alerts";
-        else if (route.route === "/agents") hashRoute = "#/agent-engine";
-        else if (route.route === "/source-hub") hashRoute = "#/data-sources";
+        else if (route.route === "/agents") hashRoute = "#/agents";
+        else if (route.route === "/source-hub") hashRoute = "#/source-hub";
         else if (route.route === "/berkshire-1965") hashRoute = "#/berkshire";
         else if (route.route === "/rk-tracker") hashRoute = "#/rkTracker";
         else if (route.route === "/jarvis-lab") hashRoute = "#/jarvisLab";
@@ -9773,7 +9804,7 @@ async function runAgents() {
       "",
       `Analysis: Under static prototype mode, the AI Research Desk analyzed ticker ${targetSymbol}. The broad index regime is constructive with positive volume velocity. Risk Sentinel has confirmed invalidation thresholds are mapped for the $${(marketItem.price * 0.95).toFixed(2)} downside level. Options Flow Hunter flags active interest at the near-term strike boundaries.`,
       "",
-      `Recommendation: Ready for manual review. Webull execution only.`
+      `Recommendation: Ready for manual review. Manual broker review separate.`
     ].join("\n");
     
     els.agentOutput.textContent = simulatedBrief;
@@ -12504,7 +12535,7 @@ async function handleStaticRouteFallback(url, method, body) {
       "",
       `Analysis: Under static prototype mode, the AI Research Desk analyzed ticker ${targetSymbol}. The broad index regime is constructive with positive volume velocity. Risk Sentinel has confirmed invalidation thresholds are mapped for the downside support levels. Options Flow Hunter flags active interest at the near-term strike boundaries.`,
       "",
-      `Recommendation: Ready for manual review. Webull execution only.`
+      `Recommendation: Ready for manual review. Manual broker review separate.`
     ].join("\n");
     return {
       ok: true,

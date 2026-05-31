@@ -13,7 +13,7 @@
   "brainMap": [
     {
       "title": "Stock Market Options",
-      "items": ["options chains", "SPY", "QQQ", "key levels", "risk management", "trading journal"]
+      "items": ["options chains", "SPY", "QQQ", "key levels", "risk management", "research journal"]
     },
     {
       "title": "Projects",
@@ -73,7 +73,7 @@
     },
     {
       "title": "Trading Tools",
-      "items": ["Ripster EMA cloud", "LuxAlgo", "indicators", "risk management", "trading journal"]
+      "items": ["Ripster EMA cloud", "LuxAlgo", "indicators", "risk management", "research journal"]
     },
     {
       "title": "Information Edge",
@@ -143,7 +143,7 @@
     },
     {
       "title": "Options Survival",
-      "items": ["Webull execution only", "max loss is premium paid", "reject wide spreads", "define invalidation", "journal lessons"]
+      "items": ["Manual broker review separate", "max loss is premium paid", "reject wide spreads", "define invalidation", "journal lessons"]
     }
   ],
   "catalystMemory": [
