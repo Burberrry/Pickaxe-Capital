@@ -595,8 +595,9 @@ window.PickaxeHabitatData = {
     { id: "founder-decision-cleanup", title: "Founder Decision: Clean before scale", type: "Founder Decision", sourceHabitat: "Founder OS", sourceWebsite: "CEO B", relatedAgent: "CEO B / Wealth Alchemist", summary: "Apply Berkshire cleanup logic to websites, agents, archives, investments, and personal execution.", tags: ["founder", "cleanup", "scale"], confidence: 90, valueScore: 94, status: "CEO B Review", lesson: "Compounding starts when drag is removed.", nextAction: "Add to founder operating rules.", sourceRoute: "/founder", reviewDate: "local/mock" },
   ],
   buildCompletionTracker: {
-    lastUpdated: "2026-05-31",
+    lastUpdated: "2026-06-01",
     areas: [
+      { id: "phase-1-6-premium-ui-polish", name: "Phase 1.6 Premium UI Polish Pass", group: "Builder Habitat", status: "Passed", completion: 100, priority: "Critical", owner: "UI Designer / System Brain", notes: "Typography, sidebar density, card depth, buttons, Alerts Desk surfaces, and Living Agent Network polish improved without changing the static architecture.", nextAction: "CEO B visually reviews the premium polish before Phase 2A Dashboard prototype starts." },
       { id: "phase-1-5-design-system-agent-network", name: "Phase 1.5 Design System + Living Agent Network", group: "Builder Habitat", status: "Passed", completion: 100, priority: "Critical", owner: "UI Designer / System Brain", notes: "Graphite design system, grouped sidebar, simplified Alerts Desk, Living Agent Network, and route cleanup shipped as a static-first UI pass.", nextAction: "CEO B visually reviews the redesign before Phase 2A Dashboard prototype starts." },
       { id: "brand-logo-favicon-polish", name: "Brand logo and favicon polish", group: "Builder Habitat", status: "Passed", completion: 100, priority: "High", owner: "UI Designer / System Brain", notes: "Sidebar home logo now has a larger fixed mark and the favicon uses the Pickaxe Capital company logo.", nextAction: "Verify on GitHub Pages after push/deploy." },
       { id: "alerts-desk-command-center", name: "Alerts Desk command-center homepage", group: "CEO B Review Workflow", status: "Passed", completion: 100, priority: "Critical", owner: "CEO B / System Brain", notes: "Home route now opens a 20-panel research-only Alerts Desk with safe actions, route chips, and future-page links.", nextAction: "CEO B should review the new first page, then choose Dashboard or Options Hub for Phase 2 prototyping." },
@@ -625,15 +626,14 @@ window.PickaxeHabitatData = {
     latestSession: {
       filesChanged: ["index.html", "public/index.html", "styles.css", "public/styles.css", "app.js", "public/app.js", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md", "README.md"],
       featuresAdded: [
-        "Added a premium graphite design-system layer with cleaner cards, chips, buttons, page heroes, and focus states.",
-        "Rebuilt the sidebar into grouped route sections with route codes, status lines, and ordered accent colors.",
-        "Simplified Alerts Desk into CEO B Command Summary, Active Research Packet, and System Truth + Risk panels.",
-        "Added the Living Agent Network to Vision Map with keyboard-focusable agent nodes and CSS-only data packet motion.",
-        "Cleaned Agent Engine, Source Hub, Risk & Rules, Learning Ledger, Trend Radar, Money Lab, Staging / QA, AI Habitat OS, and future concept routes."
+        "Increased global readability, sidebar route scale, and card text contrast.",
+        "Added premium card, button, chip, hover, and active-nav polish without changing routes or framework.",
+        "Deepened the Living Agent Network with richer node styling, slower path motion, and a compact status rail.",
+        "Improved Alerts Desk executive-card hierarchy, metric spacing, action button quality, and System Truth cockpit readability."
       ],
       bugsFixed: [
-        "Reduced duplicate safety chips and repeated static-prototype warnings on the homepage.",
-        "Removed the 20-equal-panel Alerts Desk layout from the active render path.",
+        "Reduced the tiny terminal-engineer feel by raising key font sizes and row heights.",
+        "Reduced flat card appearance with refined shadows, gradients, borders, and radius.",
         "Kept root/public static mirrors aligned for GitHub Pages deployment."
       ],
       validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node scripts/build.mjs; /Applications/Codex.app/Contents/Resources/node scripts/check-project.mjs; /Applications/Codex.app/Contents/Resources/node scripts/update-readme.mjs",
@@ -641,9 +641,9 @@ window.PickaxeHabitatData = {
       remainingProblems: [
         "Live data connectors require backend/API setup and remain not connected.",
         "Real agent telemetry is not connected.",
-        "CEO B should visually review the redesign before Phase 2A Dashboard work."
+        "CEO B should visually review the premium polish before Phase 2A Dashboard work."
       ],
-      nextRecommendedTask: "After CEO B visually approves this redesign, start Phase 2A Dashboard prototype only."
+      nextRecommendedTask: "After CEO B visually approves this polish pass, start Phase 2A Dashboard prototype only."
     },
   },
   marketWatchlist: [

@@ -13201,6 +13201,12 @@ function renderLivingAgentNetwork() {
           </span>
         </a>
       `).join("")}
+      <div class="agent-status-rail" aria-label="Living Agent Network status">
+        <article><span>Network Mode</span><strong>Static Prototype</strong></article>
+        <article><span>Review Gate</span><strong>CEO B Manual</strong></article>
+        <article><span>Adapters</span><strong>Not Connected</strong></article>
+        <article><span>Motion</span><strong>CSS Only</strong></article>
+      </div>
     </div>
   `;
 }
