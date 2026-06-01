@@ -27,13 +27,16 @@ Live Alerts Desk verification is complete. The live GitHub Pages URL `https://bu
 
 ## Current State
 
+- Phase 1.5 Design System + Living Agent Network pass is the current active checkpoint.
+- The site now prioritizes calmer premium graphite surfaces, grouped command navigation, simplified Alerts Desk review flow, and a Living Agent Network on Vision Map.
+- Phase 2 Dashboard work has not started and should wait for CEO B visual approval.
 - Live URL checked: `https://burberrry.github.io/Pickaxe-Capital/?v=logo2#/alerts`.
-- Alerts Desk is live and correct with 20 sidebar items and 20 visible Alerts Desk panels.
+- Alerts Desk is live and now simplified into a CEO B review flow with three primary panels and four supporting panels.
 - Logo and favicon are improved, cache-busted, and not cropped.
 - No stale active wording was found, no code changes were needed in the final verification pass, and validation passed.
-- `/` and `#/alerts` now open the Citadel Intelligence Center Alerts Desk with a 20-panel CEO B research review dashboard.
-- `/agents` is fully integrated with the AI Habitat OS operating layer, review stacks, and active mission boards.
-- `/vision-map` is wired dynamically into the Review and Mission pipelines. Node and agent drawers support stateful actions that push task and review items. Selected agent markers support highlights.
+- `/` and `#/alerts` now open the cleaner Alerts Desk review queue.
+- `/agents` now opens a grouped Agent Engine roster with role/input/output/manual-review summaries.
+- `/vision-map` now carries the Living Agent Network with focusable agent nodes and source-to-CEO B flow.
 - `/bookmarks` supports manual intake and Chrome/X bookmark batch analyzing and deduplication.
 - `/archive` card buttons (Summarize, Checklist, Extract, Send to Agent) connect cleanly into the review and checklist mission system.
 - Build Completion Tracker is updated to reflect this pipeline completion.
@@ -54,12 +57,18 @@ Live Alerts Desk verification is complete. The live GitHub Pages URL `https://bu
 - The app is currently served by `server.mjs` as a static/Node site, even though some Astro source files exist under `src/`.
 - Some data is still mock/demo data.
 - AI model access should be rechecked after account credit changes; the app now avoids stale quota/billing warnings and falls back to rules-based review when model output is unavailable.
-- The app is not a git repository in this folder, so no commit was created.
+- This folder is an active git repository on `main`.
 - Completion Tracker edits are browser-local until a backend/storage layer is added.
 - Home alert examples are demo/local packets and not financial advice.
 - Agent movement, missions, and CEO B Review Stack actions are local browser state, not real autonomous background jobs yet.
 
 ## Latest Finished Work
+
+- Phase 1.5 Design System + Living Agent Network sprint.
+- Simplified Alerts Desk from 20 equal-weight panels into a clear CEO B review flow.
+- Added Living Agent Network to Vision Map.
+- Cleaned route pages toward consistent research-only, manual-review, static-prototype language.
+- Next task after visual approval: Phase 2A Dashboard prototype only.
 
 - Live Alerts Desk Verification Complete.
 - Confirmed Citadel Intelligence Center is deployed and stable on GitHub Pages.

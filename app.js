@@ -1866,7 +1866,7 @@ function renderMoneyLabPage() {
       <div class="p-4 bg-amber-950/20 border border-amber-900/40 text-amber-400 text-xs mb-6 rounded-sm">
         <strong class="font-sans block mb-1">MONEY LAB SAFETY CONTRACT:</strong>
         <p class="font-sans leading-relaxed text-[11px]">
-          This module is 100% separate from Pickaxe trading intelligence. All sport-market research, injury lists, or bankroll metrics are observation notes only. No gambling advice. No guaranteed outcomes. No sportsbook connection. All wagers must stay completely manual, external, and subject to bankroll rules.
+          This module is 100% separate from Pickaxe market intelligence. All sport-market research, injury lists, or bankroll metrics are observation notes only. No gambling advice. No certainty claims. No sportsbook connection. All real-world decisions must stay completely manual, external, and subject to bankroll rules.
         </p>
       </div>
 
@@ -3060,7 +3060,7 @@ function renderVisionCommandCenter() {
       route: "#/risk-rules",
       sources: "Audit rules checklist",
       status: "Active enforcement",
-      safety: "Blocks copy-trading, betting, or guaranteed-profit wording.",
+      safety: "Blocks copy-trading, betting, or certainty-claim wording.",
       action: "Audit bid-ask spread margins."
     },
     staging: {
@@ -12985,4 +12985,478 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function pcChipRow(chips = ["Research Only", "Manual Review Required", "Static Prototype", "Backend Not Connected"]) {
+  return `<div class="status-chip-row">${chips.map((chip) => {
+    const lower = String(chip).toLowerCase();
+    const klass = lower.includes("manual") ? "review-chip" : lower.includes("no ") || lower.includes("not connected") ? "danger-chip" : lower.includes("local") ? "safe-chip" : "status-chip";
+    return `<span class="${klass}">${escapeHtml(chip)}</span>`;
+  }).join("")}</div>`;
+}
+
+function pcPageHero(kicker, title, subtitle, chips) {
+  return `
+    <header class="page-hero">
+      <div>
+        <p class="page-kicker">${escapeHtml(kicker)}</p>
+        <h2 class="page-title">${escapeHtml(title)}</h2>
+        <p class="page-subtitle">${escapeHtml(subtitle)}</p>
+      </div>
+      ${pcChipRow(chips)}
+    </header>
+  `;
+}
+
+function pcInfoCard(title, body, meta = "") {
+  return `
+    <article class="glass-card">
+      ${meta ? `<span class="meta-label">${escapeHtml(meta)}</span>` : ""}
+      <h3>${escapeHtml(title)}</h3>
+      <p>${escapeHtml(body)}</p>
+    </article>
+  `;
+}
+
+renderAlertsDeskMarkup = function (optionAlerts, selectedAlert, lastUpdated) {
+  const packet = selectedAlert || normalizeResearchPacket({}, 0);
+  const topPacket = optionAlerts[0] || packet;
+  const queueCount = optionAlerts.length;
+  const truthItems = [
+    ["Research Only", "On"],
+    ["Manual CEO B Review Required", "On"],
+    ["No Broker Execution", "Locked"],
+    ["No Auto-Trading", "Locked"],
+    ["No Betting Execution", "Locked"],
+    ["No Copy-Trading", "Locked"],
+    ["No Fake Live Data", "On"],
+    ["Backend Not Connected", "True"],
+    ["Provider Adapters Not Connected", "True"],
+    ["Static GitHub Pages Prototype", "True"]
+  ];
+  const safeActions = ["Watch", "Research More", "Verify News", "Send to CEO B Review", "Paper Review Only", "Add to Learning Ledger", "Archive Research Note"];
+  const queueList = optionAlerts.slice(0, 5).map((alert) => `
+    <button type="button" class="secondary-action" onclick="window.selectAlertCard('${escapeHtml(alert.id)}')">
+      ${escapeHtml(alert.symbol)} / ${escapeHtml(alert.status || "Research Packet")}
+    </button>
+  `).join("");
+
+  return `
+    <div class="page-shell">
+      ${pcPageHero(
+        "01 ALRT / CEO B Review Queue",
+        "Alerts Desk",
+        "A clean research review queue for deciding what deserves more verification before anything leaves the site.",
+        ["Research Only", "Manual Review Required", "No Broker Execution", "Static Prototype"]
+      )}
+
+      <section class="split-layout">
+        <article class="command-card">
+          <span class="meta-label">CEO B Command Summary</span>
+          <h3>Review Queue</h3>
+          <div class="section-grid" style="grid-template-columns:repeat(2,minmax(0,1fr));margin:14px 0;">
+            <div class="metric-card"><span>Queue Count</span><strong>${queueCount}</strong></div>
+            <div class="metric-card"><span>Last Local Update</span><strong>${escapeHtml(lastUpdated)}</strong></div>
+          </div>
+          <ul class="pc-list">
+            <li><span>Highest Priority</span><strong>${escapeHtml(topPacket.symbol || "AAPL")}</strong></li>
+            <li><span>Manual Review</span><strong>Required</strong></li>
+            <li><span>Current Gate</span><strong>${escapeHtml(packet.status || "Needs CEO B Review")}</strong></li>
+          </ul>
+          <div class="action-row" style="margin-top:16px;">
+            <button type="button" class="primary-action" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Send to CEO B Review')">Continue Review</button>
+            <button type="button" class="secondary-action" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Watch')">Watch</button>
+          </div>
+          <div class="action-row" style="margin-top:12px;">${queueList}</div>
+        </article>
+
+        <article class="glass-card">
+          <span class="meta-label">Active Research Packet</span>
+          <h3>${escapeHtml(packet.symbol)} / ${escapeHtml(packet.company || packet.title || "Research Candidate")}</h3>
+          <p>${escapeHtml(packet.researchContext || "Research candidate only. CEO B reviews source confidence, risk notes, and watch criteria before any external action.")}</p>
+          <div class="section-grid" style="grid-template-columns:repeat(2,minmax(0,1fr));margin:16px 0;">
+            <div class="metric-card"><span>Packet Type</span><strong>${escapeHtml(packet.type || "Options Research")}</strong></div>
+            <div class="metric-card"><span>Source Confidence</span><strong>${escapeHtml(packet.confidence || 0)}%</strong></div>
+            <div class="metric-card"><span>Risk Score</span><strong>${escapeHtml(packet.riskScore || packet.risk || "Manual")}</strong></div>
+            <div class="metric-card"><span>Updated</span><strong>${escapeHtml(packet.updatedAt || packet.createdAt || "Local")}</strong></div>
+          </div>
+          <ul class="pc-list">
+            <li><span>Watch Criteria</span><strong>${escapeHtml(packet.watchCriteria || "Verify price context, liquidity, source trail, and catalyst.")}</strong></li>
+            <li><span>Price Context</span><strong>${escapeHtml(packet.currentPrice || "Static demo note")}</strong></li>
+            <li><span>Invalidation Note</span><strong>${escapeHtml(packet.invalidationResearchNote || "Stand down if core evidence fails.")}</strong></li>
+            <li><span>Review Boundary</span><strong>Manual broker review separate</strong></li>
+          </ul>
+          <div class="action-row" style="margin-top:16px;">
+            ${safeActions.map((label) => `<button type="button" class="secondary-action" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', '${escapeHtml(label)}')">${escapeHtml(label)}</button>`).join("")}
+          </div>
+        </article>
+
+        <aside class="truth-panel">
+          <span class="meta-label">System Truth + Risk</span>
+          <h3>Risk Sentinel Gate</h3>
+          <div class="truth-list" style="margin-top:14px;">
+            ${truthItems.map(([label, value]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(value)}</strong></span>`).join("")}
+          </div>
+          <div class="section-grid" style="grid-template-columns:1fr;margin-top:16px;">
+            <div class="metric-card"><span>Risk Sentinel</span><strong>Review Gate Active</strong></div>
+            <div class="metric-card"><span>Manual Review Gate</span><strong>CEO B Required</strong></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section-grid" style="margin-top:16px;">
+        ${pcInfoCard("Agent Commentary", "Signal Scout prepares the candidate, Flow Hunter checks liquidity context, News Raven verifies catalysts, and Risk Sentinel keeps the packet research-only.", "Support")}
+        ${pcInfoCard("Learning Suggestions", "Save the source trail, invalidation note, and post-review lesson to the Learning Ledger only after manual review.", "Memory")}
+        ${pcInfoCard("Archive Memory", "Archive useful research notes so future packets can compare against prior context instead of repeating the same work.", "Vault")}
+      </section>
+      <section class="command-card" style="margin-top:16px;">
+        <span class="meta-label">Next Manual Action</span>
+        <h3>Verify the source trail, then choose Watch, Research More, or Archive Research Note.</h3>
+      </section>
+    </div>
+  `;
+}
+
+renderHomeCommandCenter = function () {
+  if (!els.commandOS) return;
+  els.commandOS.innerHTML = `
+    <div class="page-shell">
+      ${pcPageHero(
+        "02 CMD / Mission Routing",
+        "Mission Control",
+        "Command priorities for moving research from intake to CEO B review, archive memory, and build validation.",
+        ["Research Only", "Manual Review Required", "Local First", "Backend Not Connected"]
+      )}
+      <section class="section-grid">
+        ${[
+          ["Review Queue", "Open the highest-priority research packet and verify source confidence before promoting it.", "#/alerts"],
+          ["Source Intake", "Keep Source Hub honest: candidates only, provider adapters not connected.", "#/source-hub"],
+          ["Agent Ownership", "Assign each packet to one owner and one risk reviewer to avoid duplicate work.", "#/agents"],
+          ["Build Truth", "Update Staging after every session so the tracker reflects what changed.", "#/staging"]
+        ].map(([title, body, href]) => `
+          <article class="command-card">
+            <span class="meta-label">Priority</span>
+            <h3>${escapeHtml(title)}</h3>
+            <p>${escapeHtml(body)}</p>
+            <a class="secondary-action" href="${escapeHtml(href)}">Open</a>
+          </article>
+        `).join("")}
+      </section>
+      <section class="truth-panel" style="margin-top:16px;">
+        <span class="meta-label">Next Manual Action</span>
+        <h3>Keep Phase 1.5 focused on visual clarity and safe research workflows. Phase 2 Dashboard waits for CEO B visual approval.</h3>
+      </section>
+    </div>
+  `;
+}
+
+function renderLivingAgentNetwork() {
+  const agents = [
+    { id: "ceo", name: "CEO B", role: "Founder decision layer.", input: "Risk-cleared packets.", output: "Manual decision prep.", status: "Manual Review Required", route: "#/alerts", x: "50%", y: "50%", accent: "var(--gold)", core: true },
+    { id: "brain", name: "System Brain", role: "Keeps routes and build truth organized.", input: "Staging + tracker.", output: "Architecture decisions.", status: "Static Prototype", route: "#/staging", x: "50%", y: "18%", accent: "var(--blue)" },
+    { id: "signal", name: "Signal Scout", role: "Finds research candidates.", input: "Source Hub + Trend Radar.", output: "Review packet.", status: "Static Prototype", route: "#/signals", x: "24%", y: "35%", accent: "var(--red)" },
+    { id: "flow", name: "Flow Hunter", role: "Reviews liquidity and flow context.", input: "Signals Lab.", output: "Risk-ready context.", status: "Research Only", route: "#/signals", x: "30%", y: "66%", accent: "var(--cyan)" },
+    { id: "news", name: "News Raven", role: "Verifies public news and macro context.", input: "Source Hub.", output: "Catalyst note.", status: "Manual Verification", route: "#/source-hub", x: "18%", y: "54%", accent: "var(--purple)" },
+    { id: "risk", name: "Risk Sentinel", role: "Blocks unsafe language and weak packets.", input: "Flow + packet notes.", output: "Manual review gate.", status: "Gate Active", route: "#/risk-rules", x: "70%", y: "66%", accent: "var(--amber)" },
+    { id: "source", name: "Source Hub", role: "Categorizes external source candidates.", input: "Manual source review.", output: "Source candidates.", status: "Not Connected", route: "#/source-hub", x: "14%", y: "22%", accent: "var(--cyan)" },
+    { id: "trend", name: "Trend Radar", role: "Scans world pulse themes.", input: "Manual themes.", output: "Theme packet.", status: "Static Prototype", route: "#/trend-radar", x: "82%", y: "30%", accent: "var(--blue)" },
+    { id: "learn", name: "Learning Ledger", role: "Stores verified rules and playbooks.", input: "CEO B notes.", output: "Reusable memory.", status: "Local First", route: "#/learning-ledger", x: "74%", y: "22%", accent: "var(--purple)" },
+    { id: "archive", name: "Archive Keeper", role: "Compounds saved research memory.", input: "Reviewed packets.", output: "Archive notes.", status: "Static Prototype", route: "#/archive", x: "84%", y: "55%", accent: "var(--green)" },
+    { id: "task", name: "Task Smith", role: "Turns gaps into build tasks.", input: "QA findings.", output: "Next build step.", status: "Validation", route: "#/staging", x: "50%", y: "82%", accent: "var(--green)" }
+  ];
+  const pathData = [
+    ["source", "signal"], ["signal", "flow"], ["flow", "risk"], ["risk", "ceo"], ["ceo", "archive"],
+    ["archive", "learn"], ["learn", "brain"], ["trend", "ceo"], ["task", "brain"], ["news", "signal"]
+  ];
+  const pos = Object.fromEntries(agents.map((agent) => [agent.id, agent]));
+  const pct = (value) => Number(String(value).replace("%", ""));
+  const paths = pathData.map(([from, to]) => {
+    const a = pos[from];
+    const b = pos[to];
+    const ax = pct(a.x), ay = pct(a.y), bx = pct(b.x), by = pct(b.y);
+    const cx = (ax + bx) / 2;
+    const cy = (ay + by) / 2 - 8;
+    return `<path class="agent-path active" d="M ${ax} ${ay} Q ${cx} ${cy} ${bx} ${by}" />`;
+  }).join("");
+  const pulses = pathData.slice(0, 8).map(([from, to], index) => {
+    const a = pos[from];
+    const b = pos[to];
+    return `<span class="data-pulse" style="--sx:${a.x};--sy:${a.y};--tx:${pct(b.x) - pct(a.x)}vw;--ty:${pct(b.y) - pct(a.y)}vh;--delay:${index * -0.72}s"></span>`;
+  }).join("");
+
+  return `
+    <div class="agent-network" aria-label="Living Agent Network">
+      <svg class="agent-paths" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${paths}</svg>
+      ${pulses}
+      ${agents.map((agent) => `
+        <a class="agent-node ${agent.core ? "core" : ""}" href="${escapeHtml(agent.route)}" style="--x:${agent.x};--y:${agent.y};--node-accent:${agent.accent}" aria-label="${escapeHtml(agent.name)}: ${escapeHtml(agent.role)}">
+          <strong>${escapeHtml(agent.name)}</strong>
+          <small>${escapeHtml(agent.status)}</small>
+          <span class="agent-tooltip">
+            <b>${escapeHtml(agent.name)}</b><br>
+            Role: ${escapeHtml(agent.role)}<br>
+            Input: ${escapeHtml(agent.input)}<br>
+            Output: ${escapeHtml(agent.output)}<br>
+            Safety: Manual Review Required.
+          </span>
+        </a>
+      `).join("")}
+    </div>
+  `;
+}
+
+renderVisionCommandCenter = function () {
+  if (!els.visionCommandCenter) return;
+  els.visionCommandCenter.innerHTML = `
+    <div class="page-shell">
+      ${pcPageHero(
+        "03 MAP / Living Agent Network",
+        "Vision Map",
+        "The visual brain of AI Habitat OS: sources move through agents, risk review, CEO B, archive memory, and learning loops.",
+        ["Research Only", "Manual Review Required", "No Fake Live Data", "Backend Not Connected"]
+      )}
+      ${renderLivingAgentNetwork()}
+      <section class="section-grid" style="margin-top:16px;">
+        ${pcInfoCard("Source To Decision Flow", "Source Hub -> Signal Scout -> Flow Hunter -> Risk Sentinel -> CEO B -> Archive Keeper -> Learning Ledger -> System Brain.", "Workflow")}
+        ${pcInfoCard("System Truth", "Every node is a static prototype view. No provider adapter, broker, sportsbook, or background agent job is connected.", "Safety")}
+        ${pcInfoCard("Next Manual Action", "Use this map to decide which route needs review, not as a claim that agents are operating autonomously.", "CEO B")}
+      </section>
+    </div>
+  `;
+}
+
+renderAgentsPage = function () {
+  if (!els.agentOperatingSystem) return;
+  const groups = [
+    ["Command", ["CEO B", "System Brain"]],
+    ["Market Intelligence", ["Signal Scout", "Flow Hunter", "News Raven"]],
+    ["Risk / Rules", ["Risk Sentinel"]],
+    ["Memory", ["Learning Ledger", "Archive Keeper"]],
+    ["Build", ["Task Smith"]]
+  ];
+  const agentLookup = {
+    "CEO B": ["Founder decision layer", "Review queue", "Prepared decisions", "Manual review gate"],
+    "System Brain": ["Architecture and build safety", "Staging + tracker", "Build recommendations", "Static prototype"],
+    "Signal Scout": ["Research candidate scout", "Source Hub + Trend Radar", "Review packet", "Manual verification"],
+    "Flow Hunter": ["Liquidity context reviewer", "Signals Lab", "Flow note", "Research only"],
+    "News Raven": ["News and macro verifier", "Source Hub", "Catalyst note", "Manual verification"],
+    "Risk Sentinel": ["Safety and risk gate", "Packets + rules", "Reject/approve-for-review note", "No execution"],
+    "Learning Ledger": ["Playbook memory", "CEO B notes", "Reusable rules", "Local first"],
+    "Archive Keeper": ["Research vault", "Reviewed packets", "Archived memory", "Static prototype"],
+    "Task Smith": ["Build task generator", "QA findings", "Next recommended task", "Validation required"]
+  };
+  els.agentOperatingSystem.innerHTML = `
+    <div class="page-shell">
+      ${pcPageHero(
+        "04 AGNT / Agent Engine",
+        "Agent Engine",
+        "A grouped roster of research-only workers, their inputs, outputs, status, and manual review boundaries.",
+        ["Research Only", "Manual Review Required", "Static Prototype", "No Autonomous Actions"]
+      )}
+      <section class="section-grid">
+        ${groups.map(([group, names]) => `
+          <article class="glass-card">
+            <span class="meta-label">${escapeHtml(group)}</span>
+            <h3>${escapeHtml(names.length)} agents</h3>
+            <div class="pc-list">
+              ${names.map((name) => {
+                const [role, input, output, gate] = agentLookup[name];
+                return `
+                  <div style="padding:10px 0;border-bottom:1px solid var(--border-soft);">
+                    <strong>${escapeHtml(name)}</strong>
+                    <p>${escapeHtml(role)}</p>
+                    <small>Input: ${escapeHtml(input)} | Output: ${escapeHtml(output)} | Status: ${escapeHtml(gate)}</small>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          </article>
+        `).join("")}
+      </section>
+      <section class="truth-panel" style="margin-top:16px;">
+        <span class="meta-label">Manual Review Gate</span>
+        <h3>Agents organize, review, rank, and prepare decisions. CEO B remains the founder decision layer.</h3>
+      </section>
+    </div>
+  `;
+}
+
+renderSourceHubPage = function () {
+  if (!els.sourceHubContent) return;
+  const cards = [
+    ["Market Sources", "Equity, index, futures, macro, and chart source candidates."],
+    ["Options / Flow Sources", "Options chain, flow, volatility, spread, and liquidity source candidates."],
+    ["News / Macro Sources", "Public news, geopolitical, calendar, and macro event references."],
+    ["Bookmark Sources", "Private bookmark imports stay local until cleaned summaries are created."],
+    ["Research Documents", "Manual documents, notes, and case studies that can feed Archive Vault."],
+    ["Future Provider Adapters", "Backend-only adapters planned later; provider adapters not connected."]
+  ];
+  els.sourceHubContent.innerHTML = `
+    <div class="page-shell">
+      ${pcPageHero("06 SRC / External Intelligence", "Source Hub", "A source cockpit for categorizing research candidates without pretending any provider is connected.", ["Research Candidate", "Not Connected", "Manual Verification Required", "No Frontend API Keys"])}
+      <section class="section-grid">
+        ${cards.map(([title, body]) => `
+          <article class="glass-card">
+            <span class="meta-label">Research Candidate</span>
+            <h3>${escapeHtml(title)}</h3>
+            <p>${escapeHtml(body)}</p>
+            ${pcChipRow(["Research Candidate", "Not Connected", "Manual Verification Required"])}
+          </article>
+        `).join("")}
+      </section>
+    </div>
+  `;
+}
+
+renderSignalsIntelligence = function () {
+  if (!els.signalsIntelligence) return;
+  const cards = [
+    ["Research Packet Cards", "Candidates include source confidence, risk flag, watch criteria, and manual review status."],
+    ["Source Confidence", "Evidence quality matters more than a loud score or fake real-time movement."],
+    ["Risk Flag", "Risk Sentinel must be able to explain why a packet should be watched, studied, or rejected."]
+  ];
+  els.signalsIntelligence.innerHTML = `
+    <div class="page-shell" style="padding-left:0;padding-right:0;">
+      <section class="section-grid">${cards.map(([title, body]) => pcInfoCard(title, body, "Signals Lab")).join("")}</section>
+    </div>
+  `;
+}
+
+renderArchiveIntelligence = function () {
+  if (!els.archiveIntelligence) return;
+  els.archiveIntelligence.innerHTML = `
+    <div class="page-shell" style="padding-left:0;padding-right:0;">
+      ${pcPageHero("10 ARCV / Compounding Intelligence", "Archive Vault", "Saved research memory for packets, playbooks, review notes, lessons, and archived trends.", ["Research Only", "Local First", "Manual Review Required"])}
+      <section class="section-grid">
+        ${["Research Packets", "Playbooks", "Review Notes", "Lessons", "Archived Trends"].map((title) => pcInfoCard(title, `${title} stay organized as reusable intelligence after CEO B review.`, "Vault")).join("")}
+      </section>
+    </div>
+  `;
+}
+
+renderBookmarksPage = function () {
+  if (!els.bookmarksContent) return;
+  els.bookmarksContent.innerHTML = `
+    <div class="page-shell">
+      ${pcPageHero("11 BMK / Bookmark Intelligence", "Bookmarks Mine", "A private local workflow for turning bookmark exports into cleaned summaries and archive candidates.", ["Private Bookmarks Stay Local", "Manual Import", "No Private URLs"])}
+      <section class="section-grid">
+        ${pcInfoCard("Private By Default", "Private bookmarks stay local in the browser unless CEO B chooses to create cleaned summaries.", "Local")}
+        ${pcInfoCard("Clean Summaries Only", "Only sanitized research summaries should move into GitHub-visible docs or public-facing archive notes.", "Safety")}
+        ${pcInfoCard("Future Import Pipeline", "A future backend can formalize imports after privacy, source, and storage rules are reviewed.", "Roadmap")}
+      </section>
+    </div>
+  `;
+}
+
+renderRiskRulesPage = function () {
+  if (!els.riskRulesContent) return;
+  const forbidden = ["No broker execution", "No auto-trading", "No betting execution", "No sportsbook connection", "No copy-trading", "No certainty claims", "No fake connected labels"];
+  els.riskRulesContent.innerHTML = `
+    <div class="page-shell">
+      ${pcPageHero("07 RISK / Safety Matrix", "Risk & Rules", "One clear safety matrix for manual review gates, forbidden actions, and research-only boundaries.", ["Research Only", "Manual Review Required", "No Execution", "No Fake Live Data"])}
+      <section class="split-layout" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);">
+        <article class="truth-panel"><span class="meta-label">Forbidden Actions</span><h3>Hard Blocks</h3><div class="truth-list">${forbidden.map((item) => `<span><em>${escapeHtml(item)}</em><strong>Blocked</strong></span>`).join("")}</div></article>
+        <article class="glass-card"><span class="meta-label">Risk Gates</span><h3>Before CEO B Review</h3><ul class="pc-list">${["Source confidence documented", "Risk and invalidation noted", "Manual verification required", "No private URLs or API keys", "Static prototype truth visible"].map((item) => `<li><span>${escapeHtml(item)}</span><strong>Required</strong></li>`).join("")}</ul></article>
+      </section>
+    </div>
+  `;
+}
+
+renderLearningLedgerPage = function () {
+  if (!els.learningLedgerContent) return;
+  const sections = ["Verified Rules", "Mistakes Avoided", "Playbooks", "CEO B Notes", "Archive Links", "Pending Review"];
+  els.learningLedgerContent.innerHTML = `
+    <div class="page-shell">
+      ${pcPageHero("08 LRN / Memory", "Learning Ledger", "A calm memory layer for verified rules, lessons, playbooks, CEO B notes, and pending review items.", ["Local First", "Manual Review Required", "Research Only"])}
+      <section class="section-grid">${sections.map((title) => pcInfoCard(title, `${title} are saved only after manual review so memory compounds cleanly.`, "Memory")).join("")}</section>
+    </div>
+  `;
+}
+
+renderTrendRadarPage = function () {
+  if (!els.trendRadarContent) return;
+  const sections = ["Market Themes", "Macro Events", "AI / Tech Trends", "Social Pulse", "Risk Flags"];
+  els.trendRadarContent.innerHTML = `
+    <div class="page-shell">
+      ${pcPageHero("09 TRND / World Pulse", "Trend Radar", "A clean pulse board for themes and risk flags without fake real-time provider claims.", ["Static Prototype", "Manual Verification Required", "No Fake Live Data"])}
+      <section class="section-grid">${sections.map((title) => pcInfoCard(title, `${title} are research themes that must be verified before reaching the Alerts Desk.`, "World Pulse")).join("")}</section>
+    </div>
+  `;
+}
+
+renderMoneyLabPage = function () {
+  if (!els.moneyLabContent) return;
+  const cards = ["Side Hustle Ideas", "Sports Research Notes", "Content Ideas", "Experiment Tracker", "Guardrails"];
+  els.moneyLabContent.innerHTML = `
+    <div class="page-shell">
+      ${pcPageHero("12 MNY / Research Experiments", "Money Lab", "Research-only experiments. No betting execution. No sportsbook connection. No financial execution.", ["Research Only", "No Betting Execution", "No Sportsbook Connection", "No Financial Execution"])}
+      <section class="section-grid">${cards.map((title) => pcInfoCard(title, `${title} stay in a research sandbox and require manual review before any real-world action elsewhere.`, "Money Lab")).join("")}</section>
+    </div>
+  `;
+}
+
+renderStagingAdvanced = function () {
+  if (!els.stagingAdvanced) return;
+  const cards = ["Route Status", "Build Status", "Data Source Truth", "Safety Wording Check", "LocalStorage Check", "GitHub Pages Status", "Known Limitations"];
+  els.stagingAdvanced.innerHTML = `
+    <div class="page-shell">
+      ${pcPageHero("13 QA / System Truth", "Staging / QA", "The truth cockpit for route health, validation, data-source honesty, safety wording, and session completion tracking.", ["Validation", "Static Prototype", "Backend Not Connected", "No Fake Live Data"])}
+      <section class="section-grid">${cards.map((title) => pcInfoCard(title, `${title} is tracked here so every Codex session leaves a clear handoff.`, "QA")).join("")}</section>
+      <section class="truth-panel" style="margin-top:16px;"><span class="meta-label">Build Completion Tracker</span><h3>Every session must record changed files, validation commands, validation results, remaining problems, and next recommended task.</h3></section>
+    </div>
+  `;
+}
+
+renderLifeOSPage = function () {
+  const habitatMarkup = `
+    <div class="page-shell">
+      ${pcPageHero("14 OS / AI Habitat OS", "AI Habitat OS", "The operating-system overview for the agent city, static system status, and source-to-CEO B research flow.", ["Static Prototype", "Manual Review Required", "Provider Adapters Not Connected"])}
+      <section class="split-layout" style="grid-template-columns:minmax(0,1.25fr) minmax(280px,0.75fr);">
+        <article class="glass-card">
+          <span class="meta-label">Agent City Concept</span>
+          <h3>Sources feed agents. Agents prepare packets. Risk Sentinel gates. CEO B reviews. Archive compounds memory.</h3>
+          <div class="mini-flow" style="margin-top:16px;"><span>Source Hub</span><span>Signal Scout</span><span>Risk Sentinel</span><span>CEO B</span><span>Archive Vault</span></div>
+        </article>
+        <aside class="truth-panel">
+          <span class="meta-label">System Status</span>
+          <h3>Static prototype truth</h3>
+          <div class="truth-list"><span><em>Backend</em><strong>Not Connected</strong></span><span><em>Agent Jobs</em><strong>Visual Only</strong></span><span><em>Device Control</em><strong>Future Adapter</strong></span></div>
+          <a class="primary-action" href="#/vision-map" style="margin-top:14px;">Open Vision Map</a>
+        </aside>
+      </section>
+    </div>
+  `;
+  if (els.lifeOSContent) els.lifeOSContent.innerHTML = habitatMarkup;
+  const aiHabitat = document.querySelector("#aiHabitatOS");
+  if (aiHabitat) aiHabitat.innerHTML = habitatMarkup;
+}
+
+renderFutureConceptPages = function () {
+  const pages = [
+    [els.watchlistsContent, "15 WL", "Watchlists", "Future watchlist cockpit for research candidates and CEO B focus lists."],
+    [els.marketsContent, "16 MKT", "Markets Matrix", "Future market overview for breadth, regimes, and research context."],
+    [els.optionsContent, "17 OPT", "Options Hub", "Future options research hub for chain concepts, IV context, and probability study."],
+    [els.catalystsContent, "18 CAT", "Catalysts Calendar", "Future catalyst board for earnings, macro, and event-risk research."],
+    [els.researchContent, "19 RSRCH", "Research Desk", "Future source-linked research workspace with confidence and archive links."],
+    [els.roadmapContent, "20 BLD", "Build / Roadmap", "Future build cockpit for Phase 2 planning, validation, and next prototype decisions."]
+  ];
+  pages.forEach(([el, code, title, subtitle]) => {
+    if (!el) return;
+    el.innerHTML = `
+      <div class="page-shell">
+        ${pcPageHero(`${code} / Future Concept`, title, subtitle, ["Future Concept", "Research Only", "Backend Not Connected", "Manual Review Required"])}
+        <section class="section-grid">
+          ${["Purpose", "System Truth", "Next Manual Action"].map((item) => pcInfoCard(item, item === "System Truth" ? "This page does not show live market data and does not claim a provider connection." : item === "Next Manual Action" ? "Review the concept after CEO B approves Phase 1.5 visual direction." : subtitle, "Future")).join("")}
+        </section>
+      </div>
+    `;
+  });
+}
+
+try {
+  renderStaticIntelligencePages();
+  renderHomeCommandCenter();
+  openRequestedView();
+} catch (error) {
+  console.error("Phase 1.5 route refresh failed:", error);
 }

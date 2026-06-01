@@ -597,6 +597,7 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-05-31",
     areas: [
+      { id: "phase-1-5-design-system-agent-network", name: "Phase 1.5 Design System + Living Agent Network", group: "Builder Habitat", status: "Passed", completion: 100, priority: "Critical", owner: "UI Designer / System Brain", notes: "Graphite design system, grouped sidebar, simplified Alerts Desk, Living Agent Network, and route cleanup shipped as a static-first UI pass.", nextAction: "CEO B visually reviews the redesign before Phase 2A Dashboard prototype starts." },
       { id: "brand-logo-favicon-polish", name: "Brand logo and favicon polish", group: "Builder Habitat", status: "Passed", completion: 100, priority: "High", owner: "UI Designer / System Brain", notes: "Sidebar home logo now has a larger fixed mark and the favicon uses the Pickaxe Capital company logo.", nextAction: "Verify on GitHub Pages after push/deploy." },
       { id: "alerts-desk-command-center", name: "Alerts Desk command-center homepage", group: "CEO B Review Workflow", status: "Passed", completion: 100, priority: "Critical", owner: "CEO B / System Brain", notes: "Home route now opens a 20-panel research-only Alerts Desk with safe actions, route chips, and future-page links.", nextAction: "CEO B should review the new first page, then choose Dashboard or Options Hub for Phase 2 prototyping." },
       { id: "visual-map-integration", name: "Visual Map command-center integration", group: "Builder Habitat", status: "Passed", completion: 100, priority: "High", owner: "Builder Agent / System Brain", notes: "Visual nodes and route connections match requirements.", nextAction: "Monitor layout for overflow at standard resolutions." },
@@ -622,24 +623,27 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["public/index.html", "index.html", "public/styles.css", "styles.css", "public/brand/favicon-floating.png", "public/habitat-data.js", "habitat-data.js", "PROJECT_STATUS.md"],
+      filesChanged: ["index.html", "public/index.html", "styles.css", "public/styles.css", "app.js", "public/app.js", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md", "README.md"],
       featuresAdded: [
-        "Adjusted the sidebar brand mark so the Pickaxe Capital logo displays cleanly in the home card.",
-        "Pointed the browser favicon at the Pickaxe Capital company logo.",
-        "Regenerated the legacy favicon-floating.png file from the company logo for cached/older favicon references."
+        "Added a premium graphite design-system layer with cleaner cards, chips, buttons, page heroes, and focus states.",
+        "Rebuilt the sidebar into grouped route sections with route codes, status lines, and ordered accent colors.",
+        "Simplified Alerts Desk into CEO B Command Summary, Active Research Packet, and System Truth + Risk panels.",
+        "Added the Living Agent Network to Vision Map with keyboard-focusable agent nodes and CSS-only data packet motion.",
+        "Cleaned Agent Engine, Source Hub, Risk & Rules, Learning Ledger, Trend Radar, Money Lab, Staging / QA, AI Habitat OS, and future concept routes."
       ],
       bugsFixed: [
-        "Fixed the visually cropped logo in the sidebar home card.",
+        "Reduced duplicate safety chips and repeated static-prototype warnings on the homepage.",
+        "Removed the 20-equal-panel Alerts Desk layout from the active render path.",
         "Kept root/public static mirrors aligned for GitHub Pages deployment."
       ],
       validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node scripts/build.mjs; /Applications/Codex.app/Contents/Resources/node scripts/check-project.mjs; /Applications/Codex.app/Contents/Resources/node scripts/update-readme.mjs",
       validationResult: "Bundled Node syntax checks, build script, project checker, and README updater passed.",
       remainingProblems: [
-        "Live data connectors require backend/API setup.",
+        "Live data connectors require backend/API setup and remain not connected.",
         "Real agent telemetry is not connected.",
-        "GitHub Pages should be checked after the next successful push/deploy."
+        "CEO B should visually review the redesign before Phase 2A Dashboard work."
       ],
-      nextRecommendedTask: "Push the brand polish, then verify the live GitHub Pages favicon and sidebar logo."
+      nextRecommendedTask: "After CEO B visually approves this redesign, start Phase 2A Dashboard prototype only."
     },
   },
   marketWatchlist: [
