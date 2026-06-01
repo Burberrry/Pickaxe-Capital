@@ -367,6 +367,7 @@ const els = {
   founderVibeBars: document.querySelector("#founderVibeBars"),
   founderNorthStar: document.querySelector("#founderNorthStar"),
   actionCenter: document.querySelector("#actionCenter"),
+  dashboardContent: document.querySelector("#dashboardContent"),
   agentChecklistPreview: document.querySelector("#agentChecklistPreview"),
   agentOperatingSystem: document.querySelector("#agentOperatingSystem"),
   jarvisLabContent: document.querySelector("#jarvisLabContent"),
@@ -690,6 +691,7 @@ function setView(view) {
     learningLedger: "Learning Ledger",
     trendRadar: "Trend Radar",
     moneyLab: "Money Lab",
+    dashboard: "CEO B Dashboard",
     watchlists: "Watchlists",
     markets: "Markets Matrix",
     options: "Options Hub",
@@ -706,7 +708,7 @@ function setView(view) {
     }
     if (view === "signals") loadSignals();
     if (view === "archive") loadArchive(state.archiveRoute);
-    if (["vision", "sourceHub", "signals", "archive", "rkTracker", "berkshire", "bookmarks", "alerts", "lifeHabitat", "staging", "jarvisLab", "lifeOS", "agentBuilderFactory", "projectUpdate", "riskRules", "compliance", "aiHandoff", "learningLedger", "trendRadar", "moneyLab", "watchlists", "markets", "options", "catalysts", "research", "roadmap"].includes(view)) renderStaticIntelligencePages();
+    if (["vision", "sourceHub", "signals", "archive", "rkTracker", "berkshire", "bookmarks", "alerts", "lifeHabitat", "staging", "jarvisLab", "lifeOS", "agentBuilderFactory", "projectUpdate", "riskRules", "compliance", "aiHandoff", "learningLedger", "trendRadar", "moneyLab", "dashboard", "watchlists", "markets", "options", "catalysts", "research", "roadmap"].includes(view)) renderStaticIntelligencePages();
     if (view === "founder") renderFounderProfile();
     if (view === "agents") renderAgentsPage();
     if (view === "checklist") loadChecklist();
@@ -728,6 +730,8 @@ function openRequestedView() {
   if (hash) {
     if (hash === "#/" || hash === "#/alerts") {
       view = "alerts";
+    } else if (hash === "#/dashboard") {
+      view = "dashboard";
     } else if (hash === "#/mission-control") {
       view = "command";
     } else if (hash === "#/agent-engine" || hash === "#/agents") {
@@ -792,6 +796,8 @@ function openRequestedView() {
     const p = window.location.pathname;
     if (p === "/" || p.endsWith("/Pickaxe-Capital/") || p.endsWith("/Pickaxe-Capital")) {
       view = "alerts";
+    } else if (p === "/dashboard") {
+      view = "dashboard";
     } else if (p === "/app/alerts" || p === "/alerts") {
       view = "alerts";
     } else if (p === "/agents") {
@@ -1295,6 +1301,7 @@ async function loadArchive(route = "overview") {
 }
 
 function renderStaticIntelligencePages() {
+  if (typeof renderDashboardPage === "function") renderDashboardPage();
   renderVisionCommandCenter();
   renderSourceHubPage();
   renderSignalsIntelligence();
@@ -13018,6 +13025,172 @@ function pcInfoCard(title, body, meta = "") {
   `;
 }
 
+var renderDashboardPage = function () {
+  if (!els.dashboardContent) return;
+  const packets = getOptionAlertsState();
+  const topPacket = packets[0] || normalizeResearchPacket({}, 0);
+  const systemPulse = [
+    ["Alerts Queue", `${packets.length} local/static research packets`, "#/alerts"],
+    ["Vision Map", "Living Agent Network available", "#/vision-map"],
+    ["Source Hub", "Research candidates only", "#/source-hub"],
+    ["Risk & Rules", "Active safety matrix", "#/risk-rules"],
+    ["Learning Ledger", "Memory/playbook layer", "#/learning-ledger"],
+    ["Staging / QA", "Static truth cockpit", "#/staging"]
+  ];
+  const sourceCards = ["Market Sources", "Options / Flow Sources", "News / Macro Sources", "Bookmark Sources", "Research Documents", "Future Provider Adapters"];
+  const riskRules = ["No Broker Execution", "No Auto-Trading", "No Betting Execution", "No Copy-Trading", "No Fake Live Data", "Manual CEO B Review Required", "Provider Adapters Not Connected"];
+  const ledgerSections = ["Verified Rules", "Mistakes Avoided", "Playbooks", "CEO B Notes", "Pending Review"];
+  const trendSections = ["Market Themes", "Macro Events", "AI / Tech Trends", "Social Pulse", "Risk Flags"];
+  const moneySections = ["Side Hustle Ideas", "Sports Research Notes", "Content Ideas", "Experiment Tracker", "Guardrails"];
+  const roadmapItems = [
+    ["Phase 1 Alerts Desk", "Complete"],
+    ["Phase 1.5 Design System", "Complete"],
+    ["Phase 1.6 Premium Polish", "Complete"],
+    ["Phase 2A Dashboard", "In Progress"],
+    ["Next Candidate", "Options Hub or Watchlists"]
+  ];
+  const agentPreview = [
+    ["CEO B", "Manual review"],
+    ["System Brain", "Build truth"],
+    ["Signal Scout", "Research packets"],
+    ["Risk Sentinel", "Safety gate"],
+    ["Source Hub", "Source intake"],
+    ["Learning Ledger", "Memory"],
+    ["Archive Keeper", "Research vault"]
+  ];
+
+  els.dashboardContent.innerHTML = `
+    <div class="page-shell dashboard-shell">
+      ${pcPageHero(
+        "00 DASH / CEO B Overview",
+        "CEO B Dashboard",
+        "System overview for research alerts, source intake, agents, memory, risk rules, and manual review.",
+        ["Research Only", "Manual Review Required", "No Broker Execution", "No Fake Live Data", "Static Prototype", "Local First"]
+      )}
+
+      <section class="dashboard-command-grid">
+        <article class="command-card dashboard-executive-card">
+          <span class="meta-label">CEO B Command Overview</span>
+          <h3>Pickaxe Capital / AI Habitat OS</h3>
+          <p>CEO B is the manual review layer for research alerts, source intake, agent work, memory, and roadmap decisions.</p>
+          <ul class="pc-list">
+            <li><span>Current Mode</span><strong>Static Prototype</strong></li>
+            <li><span>Current Priority</span><strong>Dashboard Approval</strong></li>
+            <li><span>Next Route Decision</span><strong>Options Hub or Watchlists</strong></li>
+          </ul>
+          <div class="action-row">
+            <a class="primary-action" href="#/alerts">Open Alerts Desk</a>
+            <a class="secondary-action" href="#/roadmap">Open Roadmap</a>
+          </div>
+        </article>
+
+        <article class="glass-card dashboard-pulse-card">
+          <span class="meta-label">System Pulse / Current Review</span>
+          <h3>Operating Summary</h3>
+          <div class="dashboard-status-list">
+            ${systemPulse.map(([label, value, href]) => `
+              <a href="${escapeHtml(href)}">
+                <span>${escapeHtml(label)}</span>
+                <strong>${escapeHtml(value)}</strong>
+              </a>
+            `).join("")}
+          </div>
+        </article>
+
+        <aside class="truth-panel dashboard-truth-card">
+          <span class="meta-label">System Truth</span>
+          <h3>Safe Prototype Boundary</h3>
+          <div class="truth-list">
+            ${riskRules.map((item) => `<span><em>${escapeHtml(item)}</em><strong>${item.includes("Not Connected") ? "True" : "Locked"}</strong></span>`).join("")}
+          </div>
+        </aside>
+      </section>
+
+      <section class="dashboard-overview-grid">
+        <article class="command-card">
+          <span class="meta-label">Alerts Queue Snapshot</span>
+          <h3>${escapeHtml(topPacket.symbol || "AAPL")} needs manual context review</h3>
+          <div class="dashboard-metric-strip">
+            <div class="metric-card"><span>Queue Count</span><strong>${packets.length}</strong></div>
+            <div class="metric-card"><span>Highest Priority</span><strong>${escapeHtml(topPacket.symbol || "AAPL")}</strong></div>
+            <div class="metric-card"><span>Review Gate</span><strong>Required</strong></div>
+          </div>
+          <p>${escapeHtml(topPacket.researchContext || "Local/static research packet. Manual review required before any external action.")}</p>
+          <a class="primary-action" href="#/alerts">Open Alerts Desk</a>
+        </article>
+
+        <article class="glass-card dashboard-agent-preview">
+          <span class="meta-label">Living Agent Network Preview</span>
+          <h3>AI Habitat OS review loop</h3>
+          <div class="dashboard-agent-orbit" aria-label="Compact Living Agent Network preview">
+            ${agentPreview.map(([name, status], index) => `<span style="--i:${index}"><strong>${escapeHtml(name)}</strong><em>${escapeHtml(status)}</em></span>`).join("")}
+          </div>
+          <a class="secondary-action" href="#/vision-map">Open Vision Map</a>
+        </article>
+      </section>
+
+      <section class="section-grid dashboard-source-grid">
+        ${sourceCards.map((title) => `
+          <article class="glass-card">
+            <span class="meta-label">Source Hub Status</span>
+            <h3>${escapeHtml(title)}</h3>
+            ${pcChipRow(["Research Candidate", "Not Connected", "Manual Verification Required"])}
+          </article>
+        `).join("")}
+      </section>
+
+      <section class="dashboard-stack-grid">
+        <article class="truth-panel">
+          <span class="meta-label">Risk & Rules Summary</span>
+          <h3>Manual review before anything leaves the site.</h3>
+          <div class="truth-list">${riskRules.map((item) => `<span><em>${escapeHtml(item)}</em><strong>${item.includes("Not Connected") ? "True" : "Locked"}</strong></span>`).join("")}</div>
+          <a class="secondary-action" href="#/risk-rules">Open Risk & Rules</a>
+        </article>
+
+        <article class="glass-card">
+          <span class="meta-label">Learning Ledger Summary</span>
+          <h3>Memory layer</h3>
+          <div class="dashboard-pill-list">${ledgerSections.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+          <a class="secondary-action" href="#/learning-ledger">Open Learning Ledger</a>
+        </article>
+
+        <article class="glass-card">
+          <span class="meta-label">Trend Radar Pulse</span>
+          <h3>Static Concept / Backend Not Connected</h3>
+          <div class="dashboard-pill-list">${trendSections.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+        </article>
+      </section>
+
+      <section class="dashboard-stack-grid">
+        <article class="truth-panel">
+          <span class="meta-label">Money Lab Guardrail</span>
+          <h3>Research-only experiments. No betting execution. No sportsbook connection. No financial execution.</h3>
+          <div class="dashboard-pill-list">${moneySections.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+        </article>
+
+        <article class="command-card">
+          <span class="meta-label">Build / Roadmap Status</span>
+          <h3>Phase 2A is the first overview screen.</h3>
+          <div class="dashboard-status-list compact">
+            ${roadmapItems.map(([label, value]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(value)}</strong></span>`).join("")}
+          </div>
+          <a class="secondary-action" href="#/roadmap">Open Roadmap</a>
+        </article>
+
+        <article class="command-card dashboard-next-action">
+          <span class="meta-label">Next Manual Action</span>
+          <h3>CEO B reviews Dashboard, confirms visual quality, then chooses Options Hub or Watchlists.</h3>
+          <p>Keep all execution external and manual. This site remains research-only, local-first, and honest about static prototype limits.</p>
+          <div class="action-row">
+            <a class="primary-action" href="#/staging">Open Staging / QA</a>
+            <a class="secondary-action" href="#/alerts">Send to CEO B Review</a>
+          </div>
+        </article>
+      </section>
+    </div>
+  `;
+}
+
 renderAlertsDeskMarkup = function (optionAlerts, selectedAlert, lastUpdated) {
   const packet = selectedAlert || normalizeResearchPacket({}, 0);
   const topPacket = optionAlerts[0] || packet;
@@ -13066,6 +13239,7 @@ renderAlertsDeskMarkup = function (optionAlerts, selectedAlert, lastUpdated) {
           <div class="action-row" style="margin-top:16px;">
             <button type="button" class="primary-action" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Send to CEO B Review')">Continue Review</button>
             <button type="button" class="secondary-action" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Watch')">Watch</button>
+            <a class="secondary-action" href="#/dashboard">Open Dashboard</a>
           </div>
           <div class="action-row" style="margin-top:12px;">${queueList}</div>
         </article>
@@ -13453,6 +13627,14 @@ renderFutureConceptPages = function () {
         ${pcPageHero(`${code} / Future Concept`, title, subtitle, ["Future Concept", "Research Only", "Backend Not Connected", "Manual Review Required"])}
         <section class="section-grid">
           ${["Purpose", "System Truth", "Next Manual Action"].map((item) => pcInfoCard(item, item === "System Truth" ? "This page does not show live market data and does not claim a provider connection." : item === "Next Manual Action" ? "Review the concept after CEO B approves Phase 1.5 visual direction." : subtitle, "Future")).join("")}
+          ${title === "Build / Roadmap" ? `
+            <article class="command-card">
+              <span class="meta-label">Phase 2A Entry</span>
+              <h3>CEO B Dashboard Prototype</h3>
+              <p>Open the new static overview screen to review system status, alerts, sources, agents, memory, rules, and next manual action.</p>
+              <a class="primary-action" href="#/dashboard">Open Dashboard</a>
+            </article>
+          ` : ""}
         </section>
       </div>
     `;

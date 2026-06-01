@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="brand/favicon-floating.png?v=20260531-logo3" />
     <link rel="shortcut icon" type="image/png" href="brand/favicon-floating.png?v=20260531-logo3" />
     <link rel="apple-touch-icon" href="brand/pickaxe-capital-logo.png?v=20260531-logo3" />
-    <link rel="stylesheet" href="styles.css?v=phase16-polish" />
+    <link rel="stylesheet" href="styles.css?v=phase2a-dashboard" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -42,6 +42,7 @@
           </div>
         </a>
         <nav class="nav sidebar-shell" aria-label="Pickaxe Capital command navigation">
+          <button class="nav-button sidebar-item dashboard-pin" data-view="dashboard" data-route="/#/dashboard" style="--route-accent:#f5c84c"><span class="sidebar-code">DASH</span><span class="sidebar-copy"><strong>Dashboard</strong><small class="sidebar-status">CEO B Overview</small></span></button>
           <div class="sidebar-group">
             <span class="sidebar-group-label">Command</span>
             <button class="nav-button sidebar-item" data-view="alerts" data-route="/#/alerts" style="--route-accent:#f5c84c"><span class="sidebar-code">01 ALRT</span><span class="sidebar-copy"><strong>Alerts Desk</strong><small class="sidebar-status">CEO B Review</small></span></button>
@@ -764,6 +765,10 @@
           </div>
         </section>
 
+        <section id="dashboard" class="view">
+          <div id="dashboardContent"></div>
+        </section>
+
         <section id="settings" class="view">
           <div class="panel">
             <div class="panel-head">
@@ -826,7 +831,7 @@
       </main>
     </div>
 
-    <script src="habitat-data.js?v=phase16-polish"></script>
-    <script src="app.js?v=phase16-polish"></script>
+    <script src="habitat-data.js?v=phase2a-dashboard"></script>
+    <script src="app.js?v=phase2a-dashboard"></script>
   </body>
 </html>

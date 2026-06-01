@@ -29,8 +29,9 @@ Live Alerts Desk verification is complete. The live GitHub Pages URL `https://bu
 
 - Phase 1.5 Design System + Living Agent Network pass is the current active checkpoint.
 - The site now prioritizes calmer premium graphite surfaces, grouped command navigation, simplified Alerts Desk review flow, and a Living Agent Network on Vision Map.
-- Phase 2 Dashboard work has not started and should wait for CEO B visual approval.
+- Phase 2A Dashboard prototype is implemented and should wait for CEO B visual approval before Options Hub or Watchlists work.
 - Phase 1.6 Premium UI Polish Pass is now layered on top of Phase 1.5: typography, sidebar density, cards, buttons, chips, Alerts Desk polish, and Living Agent Network depth are improved.
+- Phase 2A CEO B Dashboard Prototype is now added at `#/dashboard` as the first overview command screen.
 - Live URL checked: `https://burberrry.github.io/Pickaxe-Capital/?v=logo2#/alerts`.
 - Alerts Desk is live and now simplified into a CEO B review flow with three primary panels and four supporting panels.
 - Logo and favicon are improved, cache-busted, and not cropped.
@@ -70,7 +71,8 @@ Live Alerts Desk verification is complete. The live GitHub Pages URL `https://bu
 - Added Living Agent Network to Vision Map.
 - Cleaned route pages toward consistent research-only, manual-review, static-prototype language.
 - Phase 1.6 Premium UI Polish Pass.
-- Next task after visual approval: Phase 2A Dashboard prototype only.
+- Phase 2A CEO B Dashboard Prototype.
+- Next task after visual approval: choose either Options Hub prototype or Watchlists prototype.
 
 - Live Alerts Desk Verification Complete.
 - Confirmed Citadel Intelligence Center is deployed and stable on GitHub Pages.

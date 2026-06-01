@@ -66,6 +66,10 @@
 - Increased typography readability, sidebar route scale, card depth, button quality, and chip legibility.
 - Added richer Living Agent Network styling, slower CSS-only packet/path motion, and a compact Network Status rail.
 - Cache-busted static assets to `phase16`.
+- Phase 2A CEO B Dashboard Prototype completed locally.
+- Added `#/dashboard` as an overview route with CEO B command summary, system pulse, alerts snapshot, compact agent preview, source status, risk summary, learning memory, trend pulse, Money Lab guardrails, roadmap status, and next manual action.
+- Added an unnumbered pinned Dashboard sidebar entry while preserving the existing 20 grouped route numbers.
+- Cache-busted static assets to `phase2a-dashboard`.
 
 - Obsidian vault verified at `/Users/b/Documents/Obsidian Vault`.
 - Antigravity is installed at `/Applications/Antigravity.app` and `/Applications/Antigravity IDE.app`.

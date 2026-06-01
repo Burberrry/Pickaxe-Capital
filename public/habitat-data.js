@@ -597,6 +597,7 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-01",
     areas: [
+      { id: "phase-2a-ceo-b-dashboard", name: "Phase 2A CEO B Dashboard Prototype", group: "CEO B Review Workflow", status: "In Review", completion: 100, priority: "Critical", owner: "CEO B / System Brain", notes: "Static-first overview screen added for alerts, sources, agents, memory, risk rules, roadmap status, and next manual action without live data or execution claims.", nextAction: "CEO B visually reviews Dashboard, then chooses Options Hub or Watchlists prototype." },
       { id: "phase-1-6-premium-ui-polish", name: "Phase 1.6 Premium UI Polish Pass", group: "Builder Habitat", status: "Passed", completion: 100, priority: "Critical", owner: "UI Designer / System Brain", notes: "Typography, sidebar density, card depth, buttons, Alerts Desk surfaces, and Living Agent Network polish improved without changing the static architecture.", nextAction: "CEO B visually reviews the premium polish before Phase 2A Dashboard prototype starts." },
       { id: "phase-1-5-design-system-agent-network", name: "Phase 1.5 Design System + Living Agent Network", group: "Builder Habitat", status: "Passed", completion: 100, priority: "Critical", owner: "UI Designer / System Brain", notes: "Graphite design system, grouped sidebar, simplified Alerts Desk, Living Agent Network, and route cleanup shipped as a static-first UI pass.", nextAction: "CEO B visually reviews the redesign before Phase 2A Dashboard prototype starts." },
       { id: "brand-logo-favicon-polish", name: "Brand logo and favicon polish", group: "Builder Habitat", status: "Passed", completion: 100, priority: "High", owner: "UI Designer / System Brain", notes: "Sidebar home logo now has a larger fixed mark and the favicon uses the Pickaxe Capital company logo.", nextAction: "Verify on GitHub Pages after push/deploy." },
@@ -626,14 +627,14 @@ window.PickaxeHabitatData = {
     latestSession: {
       filesChanged: ["index.html", "public/index.html", "styles.css", "public/styles.css", "app.js", "public/app.js", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md", "README.md"],
       featuresAdded: [
-        "Increased global readability, sidebar route scale, and card text contrast.",
-        "Added premium card, button, chip, hover, and active-nav polish without changing routes or framework.",
-        "Deepened the Living Agent Network with richer node styling, slower path motion, and a compact status rail.",
-        "Improved Alerts Desk executive-card hierarchy, metric spacing, action button quality, and System Truth cockpit readability."
+        "Added the static #/dashboard CEO B overview route.",
+        "Added a pinned Dashboard sidebar entry above the 20 existing grouped routes without renumbering them.",
+        "Added Dashboard sections for command overview, system pulse, alert snapshot, agent preview, source status, risk summary, learning memory, trend pulse, Money Lab guardrails, roadmap status, and next manual action.",
+        "Linked Alerts Desk and Build / Roadmap into the new Dashboard while keeping Alerts Desk as the homepage."
       ],
       bugsFixed: [
-        "Reduced the tiny terminal-engineer feel by raising key font sizes and row heights.",
-        "Reduced flat card appearance with refined shadows, gradients, borders, and radius.",
+        "Kept all Dashboard data static/local and avoided fake provider, broker, sportsbook, or agent-telemetry connection claims.",
+        "Kept the existing 20-route sidebar structure intact while adding Dashboard as an unnumbered pinned command entry.",
         "Kept root/public static mirrors aligned for GitHub Pages deployment."
       ],
       validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node scripts/build.mjs; /Applications/Codex.app/Contents/Resources/node scripts/check-project.mjs; /Applications/Codex.app/Contents/Resources/node scripts/update-readme.mjs",
@@ -641,9 +642,9 @@ window.PickaxeHabitatData = {
       remainingProblems: [
         "Live data connectors require backend/API setup and remain not connected.",
         "Real agent telemetry is not connected.",
-        "CEO B should visually review the premium polish before Phase 2A Dashboard work."
+        "CEO B should visually review the Dashboard before Options Hub or Watchlists work."
       ],
-      nextRecommendedTask: "After CEO B visually approves this polish pass, start Phase 2A Dashboard prototype only."
+      nextRecommendedTask: "After CEO B visually approves Dashboard, choose either Options Hub prototype or Watchlists prototype."
     },
   },
   marketWatchlist: [
