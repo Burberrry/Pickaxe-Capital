@@ -70,6 +70,10 @@
 - Added `#/dashboard` as an overview route with CEO B command summary, system pulse, alerts snapshot, compact agent preview, source status, risk summary, learning memory, trend pulse, Money Lab guardrails, roadmap status, and next manual action.
 - Added an unnumbered pinned Dashboard sidebar entry while preserving the existing 20 grouped route numbers.
 - Cache-busted static assets to `phase2a-dashboard`.
+- Phase 2B Watchlists Prototype completed locally.
+- Upgraded `#/watchlists` from future concept into a premium static research-universe page with CEO B command summary, priority universe, safety truth panel, bucket cards, agent assignment, review queue, workflow, and future-adapter truth.
+- Added a Dashboard link to Watchlists and changed the sidebar status line to `Research Universe`.
+- Cache-busted static assets to `phase2b-watchlists`.
 
 - Obsidian vault verified at `/Users/b/Documents/Obsidian Vault`.
 - Antigravity is installed at `/Applications/Antigravity.app` and `/Applications/Antigravity IDE.app`.

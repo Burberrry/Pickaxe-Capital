@@ -23,7 +23,7 @@ This project is a premium dark cyber-finance command center and AI-agent habitat
 | **Broker / Trade Execution** | **Not Supported** | Local research logging only; manual broker review stays outside this site |
 | **Backend Integration** | **Optional Later** | LocalStorage keys drive state sandbox completely |
 
-Latest local checkpoint: Phase 2A CEO B Dashboard Prototype is implemented locally and pending deploy. The app keeps Alerts Desk as the homepage while adding `#/dashboard` as a static overview for alerts, sources, agents, memory, risk rules, roadmap status, and next manual action.
+Latest local checkpoint: Phase 2B Watchlists Prototype is implemented locally and pending deploy. The app keeps Alerts Desk as the homepage while upgrading `#/watchlists` into a static research universe for CEO B bucket review, agent assignment, source verification, and manual review workflow.
 
 ---
 
@@ -84,7 +84,7 @@ Or in text:
 
 ## 🚀 Next Priority
 
-- **CEO B visual review of Phase 1.5 redesign, then Phase 2A Dashboard prototype only**
+- **CEO B visual review of Phase 2B Watchlists, then Phase 2C Options Hub prototype only**
 
 ---
 
@@ -110,6 +110,7 @@ node scripts/update-readme.mjs
 | Route | Purpose |
 |---|---|
 | `#/dashboard` | CEO B operating overview |
+| `#/watchlists` | Static research universe and CEO B bucket review |
 | `#/vision-map` | Living Agent Network command map |
 | `#/agents` | AI Habitat OS agent world |
 | `#/signals` | Market intelligence workbench |

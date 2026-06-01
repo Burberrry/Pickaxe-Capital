@@ -32,6 +32,7 @@ Live Alerts Desk verification is complete. The live GitHub Pages URL `https://bu
 - Phase 2A Dashboard prototype is implemented and should wait for CEO B visual approval before Options Hub or Watchlists work.
 - Phase 1.6 Premium UI Polish Pass is now layered on top of Phase 1.5: typography, sidebar density, cards, buttons, chips, Alerts Desk polish, and Living Agent Network depth are improved.
 - Phase 2A CEO B Dashboard Prototype is now added at `#/dashboard` as the first overview command screen.
+- Phase 2B Watchlists Prototype is now added at `#/watchlists` as a static research universe with bucket cards, assigned agents, a review queue, safety truth, and a manual review workflow.
 - Live URL checked: `https://burberrry.github.io/Pickaxe-Capital/?v=logo2#/alerts`.
 - Alerts Desk is live and now simplified into a CEO B review flow with three primary panels and four supporting panels.
 - Logo and favicon are improved, cache-busted, and not cropped.
@@ -42,7 +43,7 @@ Live Alerts Desk verification is complete. The live GitHub Pages URL `https://bu
 - `/bookmarks` supports manual intake and Chrome/X bookmark batch analyzing and deduplication.
 - `/archive` card buttons (Summarize, Checklist, Extract, Send to Agent) connect cleanly into the review and checklist mission system.
 - Build Completion Tracker is updated to reflect this pipeline completion.
-- Sidebar routes 15-20 are polished future concept pages, not live implementations.
+- Sidebar route 15 is now the Watchlists research universe prototype; routes 16-20 remain polished future concept pages.
 
 ## Completion Tracker System
 
@@ -72,7 +73,8 @@ Live Alerts Desk verification is complete. The live GitHub Pages URL `https://bu
 - Cleaned route pages toward consistent research-only, manual-review, static-prototype language.
 - Phase 1.6 Premium UI Polish Pass.
 - Phase 2A CEO B Dashboard Prototype.
-- Next task after visual approval: choose either Options Hub prototype or Watchlists prototype.
+- Phase 2B Watchlists Prototype.
+- Next task after visual approval: Phase 2C Options Hub prototype.
 
 - Live Alerts Desk Verification Complete.
 - Confirmed Citadel Intelligence Center is deployed and stable on GitHub Pages.

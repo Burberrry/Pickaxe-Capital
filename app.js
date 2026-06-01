@@ -1302,6 +1302,7 @@ async function loadArchive(route = "overview") {
 
 function renderStaticIntelligencePages() {
   if (typeof renderDashboardPage === "function") renderDashboardPage();
+  if (typeof renderWatchlistsPage === "function") renderWatchlistsPage();
   renderVisionCommandCenter();
   renderSourceHubPage();
   renderSignalsIntelligence();
@@ -3727,7 +3728,7 @@ window.commandNodeAction = (action, nodeId) => {
       owner: node.ownerAgent || "Task Smith",
       source: "Vision Map",
       priority: "Medium",
-      nextAction: node.nextAction || `Execute next action for ${node.name}.`
+      nextAction: node.nextAction || `Run next research step for ${node.name}.`
     });
     addWorldEvent(`Created task for agent "${node.ownerAgent}" from Vision Map node "${node.name}".`);
   } else if (action === "Send to Archive") {
@@ -3800,7 +3801,7 @@ window.commandAgentAction = (action, agentId) => {
       owner: agent.name,
       source: "Vision Map (Agent)",
       priority: agent.priority || "Medium",
-      nextAction: agent.nextAction || `Execute next action: ${agent.currentTask}`
+      nextAction: agent.nextAction || `Run next research step: ${agent.currentTask}`
     });
     addWorldEvent(`Created task for agent "${agent.name}" from Vision Map.`);
   } else if (action === "CEO B Review") {
@@ -4340,7 +4341,7 @@ function renderSignalsIntelligence() {
             <div class="space-y-2.5 font-mono text-[10.5px]">
               <div class="flex justify-between border-b border-[#1d242e]/60 pb-1">
                 <span class="text-slate-400">Large Block Net Flow (24h)</span>
-                <span class="text-green font-bold">+$1.48B (Buy Bias)</span>
+                <span class="text-green font-bold">+$1.48B (Positive Bias)</span>
               </div>
               <div class="flex justify-between border-b border-[#1d242e]/60 pb-1">
                 <span class="text-slate-400">Dark Pool Net Accumulation</span>
@@ -6718,7 +6719,7 @@ window.sendRuleToMission = (id) => {
   if (!rule) return;
   
   const taskId = `task-${Date.now()}`;
-  const taskText = `Execute research verification for rule "${rule.name || rule.ticker}": Condition "${rule.condition}" on Source "${rule.source}". Action prompt: ${rule.ceoAction}.`;
+  const taskText = `Run research verification for rule "${rule.name || rule.ticker}": Condition "${rule.condition}" on Source "${rule.source}". Action prompt: ${rule.ceoAction}.`;
   
   let missions = [];
   try {
@@ -6743,7 +6744,7 @@ window.sendRuleToMission = (id) => {
     reviewStatus: "In Progress",
     source: "/#/app/alerts",
     owner: rule.agentName,
-    nextAction: rule.ceoAction || "Execute manual verification checks."
+    nextAction: rule.ceoAction || "Run manual verification checks."
   };
   
   missions.unshift(nextMission);
@@ -8138,7 +8139,7 @@ function getEffectiveWorldMissions() {
       habitat: item.source || "CEO B Command",
       status: item.status || "Working",
       title: item.title,
-      description: item.nextAction || "Execute approved plan.",
+      description: item.nextAction || "Run approved research plan.",
       progress: progress,
       assignedAgents: [item.owner || "Task Smith"],
       confidence: item.confidence || 80,
@@ -8624,7 +8625,7 @@ function classifyJarvisText(text) {
       agent = "Task Smith";
       route = "#/agents";
       title = "Assigned Task: " + val.slice(0, 30);
-      nextAction = "Execute assigned mission.";
+      nextAction = "Run assigned mission.";
       confidence = 82;
     } else if (lower.includes("review") || lower.includes("approve") || lower.includes("packet")) {
       category = "CEO B Review Packet";
@@ -11427,7 +11428,7 @@ window.dispatchAgentTask = (agentId) => {
     reviewStatus: "In Progress",
     source: agent ? agent.route : "/#/agents",
     owner: agent ? agent.name : "CEO B",
-    nextAction: "Execute manual verification checks."
+    nextAction: "Run manual verification checks."
   };
   
   missions.unshift(nextMission);
@@ -11772,11 +11773,11 @@ window.reviewStackAction = (action, reviewId, targetAgentId = null) => {
     // Automatically generate a mission task for the approved item
     const agentName = item.agents?.[0] || item.owner || "Task Smith";
     addSharedMissionItem({
-      title: `Execute: ${item.title}`,
+      title: `Run: ${item.title}`,
       owner: agentName,
       source: item.habitat || "CEO B Command",
       priority: item.priority || "High",
-      nextAction: item.output || "Execute approved plan."
+      nextAction: item.output || "Run approved research plan."
     });
     addWorldEvent(`CEO B approved: ${item.title}`);
   } else if (action === "rejected") {
@@ -11789,11 +11790,11 @@ window.reviewStackAction = (action, reviewId, targetAgentId = null) => {
     // Add to mission queue
     addSharedMissionItem({
       id: `mission-dispatched-${Date.now()}`,
-      title: `Execute: ${item.title}`,
+      title: `Run: ${item.title}`,
       owner: agentName,
       source: item.habitat || "CEO B Command",
       priority: item.priority || "High",
-      nextAction: item.output || "Execute approved plan."
+      nextAction: item.output || "Run approved research plan."
     });
     
     // Add to agent ops tasks
@@ -13032,6 +13033,7 @@ var renderDashboardPage = function () {
   const systemPulse = [
     ["Alerts Queue", `${packets.length} local/static research packets`, "#/alerts"],
     ["Vision Map", "Living Agent Network available", "#/vision-map"],
+    ["Watchlists", "Research Universe", "#/watchlists"],
     ["Source Hub", "Research candidates only", "#/source-hub"],
     ["Risk & Rules", "Active safety matrix", "#/risk-rules"],
     ["Learning Ledger", "Memory/playbook layer", "#/learning-ledger"],
@@ -13080,6 +13082,7 @@ var renderDashboardPage = function () {
           </ul>
           <div class="action-row">
             <a class="primary-action" href="#/alerts">Open Alerts Desk</a>
+            <a class="secondary-action" href="#/watchlists">Open Watchlists</a>
             <a class="secondary-action" href="#/roadmap">Open Roadmap</a>
           </div>
         </article>
@@ -13286,6 +13289,273 @@ renderAlertsDeskMarkup = function (optionAlerts, selectedAlert, lastUpdated) {
       <section class="command-card" style="margin-top:16px;">
         <span class="meta-label">Next Manual Action</span>
         <h3>Verify the source trail, then choose Watch, Research More, or Archive Research Note.</h3>
+      </section>
+    </div>
+  `;
+}
+
+var renderWatchlistsPage = function () {
+  if (!els.watchlistsContent) return;
+  const buckets = [
+    {
+      id: "broad-market",
+      title: "Broad Market",
+      sourceName: "Broad Market / Index",
+      purpose: "Market regime, breadth, and index-level context before individual research gets promoted.",
+      agent: "Signal Scout",
+      sourceNeed: "ETF and index source verification",
+      riskNote: "Use as context only; no site-based execution.",
+      assets: [
+        ["SPY", "S&P 500 ETF proxy", "Research Candidate", "Static entry; verify market regime context."],
+        ["QQQ", "Nasdaq 100 ETF proxy", "Watch Only", "Compare tech leadership and breadth notes."],
+        ["DIA", "Dow ETF proxy", "Archive Context Available", "Use as industrial/blue-chip context."],
+        ["IWM", "Russell 2000 ETF proxy", "Needs Source Review", "Check small-cap risk before CEO B review."]
+      ]
+    },
+    {
+      id: "mega-cap-tech",
+      title: "Mega-Cap AI / Tech",
+      sourceName: "Mega-Cap / AI / Tech",
+      purpose: "Leadership, platform shifts, earnings context, and high-beta research candidates.",
+      agent: "Signal Scout",
+      sourceNeed: "News, filings, technical context, and archive notes",
+      riskNote: "High attention names need catalyst and risk review before promotion.",
+      assets: [
+        ["NVDA", "AI accelerator leadership", "Research Candidate", "Verify AI demand and valuation context."],
+        ["AMD", "Semiconductor competitor", "Watch Only", "Compare against sector leadership notes."],
+        ["AAPL", "Consumer platform and AI device layer", "Archive Context Available", "Review prior CEO B notes first."],
+        ["MSFT", "Cloud and AI platform", "Watch Only", "Track platform strength without quote claims."],
+        ["META", "Social platform and AI infrastructure", "Needs Source Review", "Confirm catalyst trail before escalation."],
+        ["TSLA", "High beta vehicle and event-risk name", "Risk Review Required", "Risk Sentinel review required before Alerts Desk."],
+        ["AMZN", "Commerce, cloud, and AI platform", "Watch Only", "Check macro and margin context."],
+        ["GOOGL", "Search, cloud, and AI platform", "Needs Source Review", "Verify source trail and regulatory context."],
+        ["PLTR", "Data, defense, and AI platform", "Research Candidate", "Check archive thesis and risk flags."]
+      ]
+    },
+    {
+      id: "vol-macro",
+      title: "Volatility / Macro",
+      sourceName: "Volatility / Macro",
+      purpose: "Regime pressure, rates, dollar strength, and stress indicators for research context.",
+      agent: "Trend Radar",
+      sourceNeed: "Macro calendar, public index context, and manual verification",
+      riskNote: "Volatility concepts are context signals, not action triggers.",
+      assets: [
+        ["VIX", "Volatility index concept", "Risk Review Required", "Watch regime changes as context only."],
+        ["UVXY", "Volatility ETF concept", "Risk Review Required", "High-risk instrument; require safety note."],
+        ["DXY", "Dollar index concept", "Watch Only", "Use for macro pressure context."],
+        ["US10Y", "Treasury yield concept", "Needs Source Review", "Verify rate context with public sources."]
+      ]
+    },
+    {
+      id: "commodities",
+      title: "Commodities",
+      sourceName: "Commodities / Futures Concepts",
+      purpose: "Energy and metals pressure checks for macro, inflation, and cross-asset research.",
+      agent: "News Raven",
+      sourceNeed: "Macro news and public commodity context",
+      riskNote: "Futures concepts are research-only and remain external to this site.",
+      assets: [
+        ["CL Oil", "Energy futures concept", "Needs Source Review", "Check energy/macro pressure before CEO B review."],
+        ["GC Gold", "Gold futures concept", "Watch Only", "Use as inflation and risk-off context."]
+      ]
+    },
+    {
+      id: "crypto",
+      title: "Crypto Concepts",
+      sourceName: "Crypto / Digital Assets",
+      purpose: "Digital asset research context for broad risk appetite and narrative shifts.",
+      agent: "Risk Sentinel",
+      sourceNeed: "Public crypto market context and risk validation",
+      riskNote: "No wallet, exchange, or execution connection exists here.",
+      assets: [
+        ["BTC", "Digital asset benchmark", "Research Candidate", "Digital vault concept needs source verification."],
+        ["ETH", "Smart contract asset concept", "Watch Only", "Track ecosystem context without provider claims."]
+      ]
+    },
+    {
+      id: "fx",
+      title: "FX / Currency Concepts",
+      sourceName: "Currency / FX Concepts",
+      purpose: "Currency pressure context for macro, commodities, and international risk.",
+      agent: "Trend Radar",
+      sourceNeed: "Public macro and currency context",
+      riskNote: "FX concepts are static research entries only.",
+      assets: [
+        ["USD", "Reserve currency concept", "Watch Only", "Use as macro context across buckets."],
+        ["EURUSD", "Currency pair concept", "Needs Source Review", "Verify macro backdrop before any review packet."]
+      ]
+    }
+  ];
+  const allAssets = buckets.flatMap((bucket) => bucket.assets.map(([symbol, name, status, note]) => ({
+    symbol,
+    name,
+    status,
+    note,
+    bucket: bucket.sourceName,
+    agent: bucket.agent
+  })));
+  const prioritySymbols = ["SPY", "NVDA", "VIX", "TSLA", "BTC", "CL Oil"];
+  const priorityAssets = allAssets.filter((asset) => prioritySymbols.includes(asset.symbol));
+  const truthItems = [
+    "Research Only",
+    "No Broker Execution",
+    "No Auto-Trading",
+    "No Copy-Trading",
+    "No Betting Execution",
+    "No Fake Live Quotes",
+    "Backend Not Connected",
+    "Provider Adapters Not Connected",
+    "Manual CEO B Review Required"
+  ];
+  const agentAssignments = [
+    ["Signal Scout", "Broad market trend review"],
+    ["Flow Hunter", "Options/liquidity research candidates"],
+    ["News Raven", "Catalyst and macro headlines"],
+    ["Risk Sentinel", "Risk gate / forbidden action check"],
+    ["Trend Radar", "Themes and world pulse"],
+    ["Archive Keeper", "Historical context / playbooks"],
+    ["Learning Ledger", "Lessons and rules"]
+  ];
+  const reviewRows = [
+    ["SPY", "Broad market condition review", "Signal Scout"],
+    ["NVDA", "AI leadership research context", "Signal Scout"],
+    ["VIX", "Volatility regime watch", "Risk Sentinel"],
+    ["TSLA", "High beta / event risk review", "Risk Sentinel"],
+    ["BTC", "Digital vault concept review", "Risk Sentinel"],
+    ["CL Oil", "Energy/macro pressure check", "News Raven"]
+  ];
+  const workflow = ["Watchlist Bucket", "Source Hub Verification", "Signal Scout / News Raven Review", "Risk Sentinel Check", "CEO B Manual Review", "Alerts Desk or Archive Vault"];
+
+  els.watchlistsContent.innerHTML = `
+    <div class="page-shell watchlists-shell">
+      ${pcPageHero(
+        "15 WL / Research Universe",
+        "Watchlists",
+        "Organized research universe for equities, ETFs, macro, crypto, futures concepts, and CEO B manual review.",
+        ["Research Only", "Manual Review Required", "No Broker Execution", "No Fake Live Data", "Static Prototype", "Backend Not Connected"]
+      )}
+
+      <section class="watchlist-command-grid">
+        <article class="command-card watchlist-command-card">
+          <span class="meta-label">CEO B Watchlist Command</span>
+          <h3>Research universe, not an execution surface.</h3>
+          <p>Watchlists organize candidates so CEO B can choose one bucket for manual review, source verification, and archive context.</p>
+          <ul class="pc-list">
+            <li><span>Current Mode</span><strong>Static Prototype</strong></li>
+            <li><span>Manual Layer</span><strong>CEO B Required</strong></li>
+            <li><span>Site Boundary</span><strong>No execution inside this site</strong></li>
+            <li><span>Next Manual Action</span><strong>Choose one bucket to review</strong></li>
+          </ul>
+          <div class="action-row">
+            <a class="primary-action" href="#/dashboard">Open Dashboard</a>
+            <a class="secondary-action" href="#/alerts">Open Alerts Desk</a>
+            <a class="secondary-action" href="#/source-hub">Open Source Hub</a>
+            <a class="secondary-action" href="#/risk-rules">Open Risk & Rules</a>
+          </div>
+        </article>
+
+        <article class="glass-card watchlist-priority-card">
+          <span class="meta-label">Priority Research Universe</span>
+          <h3>Six candidates to review first</h3>
+          <div class="watchlist-priority-list">
+            ${priorityAssets.map((asset) => `
+              <div class="watchlist-priority-row">
+                <strong>${escapeHtml(asset.symbol)}</strong>
+                <span>${escapeHtml(asset.name)}</span>
+                <em>${escapeHtml(asset.status)}</em>
+              </div>
+            `).join("")}
+          </div>
+        </article>
+
+        <aside class="truth-panel watchlist-truth-card">
+          <span class="meta-label">Watchlist Truth / Safety</span>
+          <h3>Static research boundary</h3>
+          <div class="truth-list">
+            ${truthItems.map((item) => `<span><em>${escapeHtml(item)}</em><strong>${item.includes("Not Connected") ? "True" : "Locked"}</strong></span>`).join("")}
+          </div>
+        </aside>
+      </section>
+
+      <section class="watchlist-universe-card command-card">
+        <span class="meta-label">Research Universe</span>
+        <h3>Static symbols grouped for CEO B review</h3>
+        <div class="watchlist-asset-list">
+          ${allAssets.map((asset) => `
+            <article class="watchlist-asset-row">
+              <strong>${escapeHtml(asset.symbol)}</strong>
+              <span>${escapeHtml(asset.name)}</span>
+              <span>${escapeHtml(asset.bucket)}</span>
+              <span>${escapeHtml(asset.agent)}</span>
+              <em>${escapeHtml(asset.status)}</em>
+              <small>${escapeHtml(asset.note)}</small>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+
+      <section class="watchlist-bucket-grid">
+        ${buckets.map((bucket) => `
+          <article class="glass-card watchlist-bucket-card">
+            <span class="meta-label">${escapeHtml(bucket.sourceName)}</span>
+            <h3>${escapeHtml(bucket.title)}</h3>
+            <p>${escapeHtml(bucket.purpose)}</p>
+            <ul class="pc-list">
+              <li><span>Assigned Agent</span><strong>${escapeHtml(bucket.agent)}</strong></li>
+              <li><span>Source Need</span><strong>${escapeHtml(bucket.sourceNeed)}</strong></li>
+              <li><span>Risk Note</span><strong>${escapeHtml(bucket.riskNote)}</strong></li>
+            </ul>
+            <a class="secondary-action" href="#/source-hub">Review Bucket</a>
+          </article>
+        `).join("")}
+      </section>
+
+      <section class="watchlist-lower-grid">
+        <article class="glass-card">
+          <span class="meta-label">Agent Assignment</span>
+          <h3>Who watches what</h3>
+          <div class="watchlist-agent-list">
+            ${agentAssignments.map(([agent, role]) => `
+              <span><strong>${escapeHtml(agent)}</strong><em>${escapeHtml(role)}</em></span>
+            `).join("")}
+          </div>
+        </article>
+
+        <article class="command-card">
+          <span class="meta-label">Watchlist Review Queue</span>
+          <h3>Manual context rows</h3>
+          <div class="watchlist-review-list">
+            ${reviewRows.map(([symbol, task, agent]) => `
+              <article>
+                <strong>${escapeHtml(symbol)}</strong>
+                <span>${escapeHtml(task)}</span>
+                <em>${escapeHtml(agent)}</em>
+                <div class="action-row">
+                  <a class="secondary-action" href="#/source-hub">Review Context</a>
+                  <a class="secondary-action" href="#/alerts">Send to CEO B Review</a>
+                  <a class="secondary-action" href="#/learning-ledger">Add Learning Note</a>
+                  <a class="secondary-action" href="#/archive">Archive Research Note</a>
+                  <a class="secondary-action" href="#/risk-rules">Open Risk & Rules</a>
+                </div>
+              </article>
+            `).join("")}
+          </div>
+        </article>
+      </section>
+
+      <section class="watchlist-workflow-card truth-panel">
+        <span class="meta-label">Manual Review Workflow</span>
+        <h3>From watchlist bucket to CEO B decision prep</h3>
+        <div class="watchlist-workflow">
+          ${workflow.map((step) => `<span>${escapeHtml(step)}</span>`).join("")}
+        </div>
+      </section>
+
+      <section class="watchlist-future-state command-card">
+        <span class="meta-label">Empty / Future State</span>
+        <h3>Future provider adapters can populate watchlist fields later, but this prototype does not connect to any provider.</h3>
+        <p>For now, Watchlists stays local, static, and useful as the research foundation for Dashboard, Alerts Desk, Trend Radar, Source Hub, and future Options Hub work.</p>
       </section>
     </div>
   `;
@@ -13613,7 +13883,6 @@ renderLifeOSPage = function () {
 
 renderFutureConceptPages = function () {
   const pages = [
-    [els.watchlistsContent, "15 WL", "Watchlists", "Future watchlist cockpit for research candidates and CEO B focus lists."],
     [els.marketsContent, "16 MKT", "Markets Matrix", "Future market overview for breadth, regimes, and research context."],
     [els.optionsContent, "17 OPT", "Options Hub", "Future options research hub for chain concepts, IV context, and probability study."],
     [els.catalystsContent, "18 CAT", "Catalysts Calendar", "Future catalyst board for earnings, macro, and event-risk research."],
@@ -13640,6 +13909,8 @@ renderFutureConceptPages = function () {
     `;
   });
 }
+
+renderWatchlistsPage();
 
 try {
   renderStaticIntelligencePages();
