@@ -2,21 +2,20 @@
 
 ## Current Active Checkpoint
 
-Phase 2B Watchlists Prototype is built, committed, and pushed to `origin/main`. The next action is CEO B live visual review at:
+Phase 2B Watchlists is built, committed, pushed to origin/main, and live-checked by CEO B.
+
+CEO B live visual review is complete.
 
 https://burberrry.github.io/Pickaxe-Capital/?v=phase2b-watchlists#/watchlists
 
 ## Do Next
 
-1. Wait for GitHub Pages deployment if it is still running.
-2. Open the Watchlists live URL and hard refresh.
-3. Visually check Watchlists, Dashboard, Alerts Desk, and Vision Map.
-4. If approved, start Phase 2C Options Hub Prototype.
-5. Keep all future systems research-only until backend/provider adapters are intentionally planned.
+1. Keep Watchlists stable.
+2. Do not change Watchlists unless a visible bug is found.
+3. Continue preserving research-only wording and static GitHub Pages safety.
 
 ## Do Not Start Yet
 
-- Options Hub before Watchlists visual approval.
 - Live market data.
 - Broker integrations.
 - Betting/sportsbook integrations.
@@ -61,9 +60,9 @@ https://burberrry.github.io/Pickaxe-Capital/?v=phase2b-watchlists#/watchlists
 
 ## Next Session Priority
 
-- CEO B visual review of Phase 2B Watchlists.
-- If approved, start Phase 2C Options Hub Prototype.
-- Keep Options Hub static-first, research-only, and clearly not executable.
+- Keep Watchlists stable.
+- Do not change Watchlists unless a visible bug is found.
+- Continue preserving research-only wording and static GitHub Pages safety.
 
 ## Completion Tracker System
 
@@ -76,5 +75,5 @@ https://burberrry.github.io/Pickaxe-Capital/?v=phase2b-watchlists#/watchlists
 - Phase 1.5 Design System + Living Agent Network completed.
 - Phase 1.6 Premium UI Polish Pass completed.
 - Phase 2A CEO B Dashboard Prototype completed.
-- Phase 2B Watchlists Prototype completed and pushed to `origin/main`.
+- Phase 2B Watchlists Prototype completed, pushed to `origin/main`, and live-checked by CEO B.
 - Older “Dashboard next” and “future Watchlists” notes are historical only and are no longer the active task.

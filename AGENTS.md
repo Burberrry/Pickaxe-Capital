@@ -17,8 +17,7 @@ This project is Pickaxe Capital / AI Habitat OS.
 - Alerts Desk is the homepage.
 - Dashboard exists at `#/dashboard`.
 - Watchlists exists at `#/watchlists`.
-- Phase 2B Watchlists is built, committed, and pushed to `origin/main`; CEO B live visual review is next.
-- Next build after visual approval is Phase 2C Options Hub Prototype.
+- Phase 2B Watchlists is built, committed, pushed to origin/main, and live-checked by CEO B.
 - No live APIs, broker execution, betting execution, copy-trading, fake live data, or private frontend keys.
 - Keep root/public mirrors synced.
 

@@ -22,13 +22,13 @@ This project is a premium dark cyber-finance command center and AI-agent habitat
 | **Design System / Living Agent Network** | **Complete** | Phase 1.5 command-center foundation |
 | **Premium UI Polish** | **Complete** | Phase 1.6 readability and surface polish |
 | **Dashboard** | **Complete** | Pinned `#/dashboard` CEO B overview |
-| **Watchlists** | **Built + Pushed / Awaiting Live Visual Review** | Phase 2B commit `e2db5a2` is on `origin/main` |
+| **Watchlists** | **Built + Pushed + Live-Checked** | Phase 2B commit `e2db5a2` is on `origin/main` |
 | **Options Hub** | **Next** | Phase 2C after CEO B approves Watchlists |
 | **Real Market Data** | **Future Adapter** | No active provider connection |
 | **Broker Execution** | **Not Supported** | Manual review stays outside this site |
 | **Backend Integration** | **Optional Later** | Current app is LocalStorage-only |
 
-Phase 2B Watchlists is built, committed, and pushed to `origin/main`. Next step: wait for GitHub Pages deployment, open the live Watchlists URL, and complete CEO B visual review.
+Phase 2B Watchlists is built, committed, pushed to origin/main, and live-checked by CEO B.
 
 ---
 
@@ -68,7 +68,7 @@ Or in text:
 
 ## 🛑 What This Website Is Not
 
-- **Not a Brokerage**: It has no broker execution and does not place orders.
+- **Not a Brokerage**: It has no broker execution and does not support orders.
 - **No Auto-Trading**: Every decision requires manual CEO B review.
 - **No Copy-Trading**: The site does not mirror or automate anyone else's actions.
 - **No Betting / Sportsbook Execution**: Money Lab remains research-only.
@@ -84,14 +84,14 @@ Or in text:
 - **[x] Phase 1.5 — Design System + Living Agent Network**: complete.
 - **[x] Phase 1.6 — Premium UI Polish Pass**: complete.
 - **[x] Phase 2A — CEO B Dashboard Prototype**: built, committed, and pushed.
-- **[x] Phase 2B — Watchlists Prototype**: built, committed, and pushed; awaiting live visual review.
+- **[x] Phase 2B — Watchlists Prototype**: built, committed, pushed to origin/main, and live-checked by CEO B.
 - **[ ] Phase 2C — Options Hub Prototype**: next after CEO B approves Watchlists.
 
 ---
 
 ## 🚀 Next Priority
 
-- **CEO B visual review of Phase 2B Watchlists, then Phase 2C Options Hub prototype only**
+- **Phase 2B Watchlists is built, committed, pushed to origin/main, and live-checked by CEO B.**
 
 ---
 
@@ -184,9 +184,9 @@ The section below is refreshed from `AGENTS.md`, `PROJECT_STATUS.md`, and `NEXT_
 
 ### Next Priority
 
-- CEO B visual review of Phase 2B Watchlists.
-- If approved, start Phase 2C Options Hub Prototype.
-- Keep Options Hub static-first, research-only, and clearly not executable.
+- Keep Watchlists stable.
+- Do not change Watchlists unless a visible bug is found.
+- Continue preserving research-only wording and static GitHub Pages safety.
 
 ### Non-Negotiable Build Rules
 
