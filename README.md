@@ -1,12 +1,13 @@
 # Pickaxe Capital / AI Habitat OS
 
-Pickaxe Capital is the public brand. AI Habitat OS is the internal operating system. CEO B is the founder decision layer for reviewing, ranking, and approving work.
+Pickaxe Capital is the public brand. AI Habitat OS is the internal operating system. CEO B is the human manual review and command layer.
 
 This project is a premium dark cyber-finance command center and AI-agent habitat. The immediate goal is to finish a stable, readable, static-first website before adding deeper integrations.
 
 ## 🔗 Live Deployments (GitHub Pages)
 
 - **Main Cockpit**: [https://burberrry.github.io/Pickaxe-Capital/](https://burberrry.github.io/Pickaxe-Capital/)
+- **Phase 2B Watchlists Review**: [https://burberrry.github.io/Pickaxe-Capital/?v=phase2b-watchlists#/watchlists](https://burberrry.github.io/Pickaxe-Capital/?v=phase2b-watchlists#/watchlists)
 - **Vision Map**: [https://burberrry.github.io/Pickaxe-Capital/#/vision-map](https://burberrry.github.io/Pickaxe-Capital/#/vision-map)
 
 ---
@@ -15,21 +16,25 @@ This project is a premium dark cyber-finance command center and AI-agent habitat
 
 | Parameter / Milestone | Current Status | Notes |
 | :--- | :--- | :--- |
-| **Static App Runtime** | **Active** | Served locally via `server.mjs` & static on GitHub Pages |
-| **Session 01 (Jarvis & Workflow)** | **Done + Pushed** | Local command router and dispatch pipelines locked |
-| **Session 02 (Visual Upgrade)** | **Done + Pushed** | Obsidian/fintech visually polished, **Commit `7b7968b`** |
-| **GitHub Pages Hosting** | **Live** | Maintained static file mirrors at root |
-| **Real Market Data** | **Future Adapter** | Conceptual providers catalog; no active billing hooks |
-| **Broker / Trade Execution** | **Not Supported** | Local research logging only; manual broker review stays outside this site |
-| **Backend Integration** | **Optional Later** | LocalStorage keys drive state sandbox completely |
+| **Static App Runtime** | **Active** | Served by `server.mjs` locally and static files on GitHub Pages |
+| **GitHub Pages** | **Live** | Root/public mirrors support static deployment |
+| **Alerts Desk** | **Complete** | Homepage and research review queue |
+| **Design System / Living Agent Network** | **Complete** | Phase 1.5 command-center foundation |
+| **Premium UI Polish** | **Complete** | Phase 1.6 readability and surface polish |
+| **Dashboard** | **Complete** | Pinned `#/dashboard` CEO B overview |
+| **Watchlists** | **Built + Pushed / Awaiting Live Visual Review** | Phase 2B commit `e2db5a2` is on `origin/main` |
+| **Options Hub** | **Next** | Phase 2C after CEO B approves Watchlists |
+| **Real Market Data** | **Future Adapter** | No active provider connection |
+| **Broker Execution** | **Not Supported** | Manual review stays outside this site |
+| **Backend Integration** | **Optional Later** | Current app is LocalStorage-only |
 
-Latest local checkpoint: Phase 2B Watchlists Prototype is implemented locally and pending deploy. The app keeps Alerts Desk as the homepage while upgrading `#/watchlists` into a static research universe for CEO B bucket review, agent assignment, source verification, and manual review workflow.
+Phase 2B Watchlists is built, committed, and pushed to `origin/main`. Next step: wait for GitHub Pages deployment, open the live Watchlists URL, and complete CEO B visual review.
 
 ---
 
 ## 🔮 Phase 2 Terminal Roadmap
 
-Phase 2 Webull-inspired Pickaxe Research Terminal is planned as future documentation and wireframes only. It is not implemented yet. Current app remains static-first, research-only, no broker execution, no fake live data.
+Phase 2 Pickaxe Research Terminal work is being built route-by-route. Dashboard and Watchlists are complete as static prototypes; Options Hub is the next prototype after CEO B approves Watchlists. Current app remains static-first, research-only, no broker execution, no fake live data.
 
 ---
 
@@ -63,22 +68,24 @@ Or in text:
 
 ## 🛑 What This Website Is Not
 
-- **Not a Brokerage**: It has no trading capability, does not place orders, and does not execute broker APIs.
+- **Not a Brokerage**: It has no broker execution and does not place orders.
+- **No Auto-Trading**: Every decision requires manual CEO B review.
+- **No Copy-Trading**: The site does not mirror or automate anyone else's actions.
+- **No Betting / Sportsbook Execution**: Money Lab remains research-only.
 - **No System Shell / Device Control**: Jarvis Lab is a browser prototype command router; it cannot execute shell scripts, terminal commands, or pair hardware device commands.
 - **No Web Scraping**: It does not scrape protected sites. Bookmarks utilize offline files loaded via browser `FileReader`.
-- **No Live API Calls**: It does not connect to live market data providers unless a future adapter is explicitly connected.
+- **No Fake Live Market Data**: It does not connect to market data providers unless a future adapter is intentionally built.
 - **Frontend Safe**: It does not store or accept private API keys in client-side code.
 
 ---
 
-## ⏳ Session Tracker / Milestones
+## ⏳ Phase Tracker
 
-- **[x] 01 — Jarvis Router & Workflow Lock**: Done + pushed.
-- **[x] 02 — Visual Production Upgrade + Options Intelligence Command Center**: Done + pushed (Commit `7b7968b`).
-- **[ ] 03 — Signals / Archive / Bookmarks Deep Functionality**: **Next Priority**.
-- **[ ] 04 — Source Hub Adapter Readiness**: Waiting.
-- **[ ] 05 — Final QA + GitHub Pages Readiness**: Waiting.
-- **[ ] 06 — Device Hub / Life OS**: Later.
+- **[x] Phase 1.5 — Design System + Living Agent Network**: complete.
+- **[x] Phase 1.6 — Premium UI Polish Pass**: complete.
+- **[x] Phase 2A — CEO B Dashboard Prototype**: built, committed, and pushed.
+- **[x] Phase 2B — Watchlists Prototype**: built, committed, and pushed; awaiting live visual review.
+- **[ ] Phase 2C — Options Hub Prototype**: next after CEO B approves Watchlists.
 
 ---
 
@@ -96,7 +103,7 @@ cd Pickaxe-Capital
 node server.mjs
 ```
 
-Open `http://localhost:4328/#/vision-map` or `http://localhost:4328/#/agents` in your browser.
+Open `http://localhost:4328/#/alerts`, `http://localhost:4328/#/dashboard`, or `http://localhost:4328/#/watchlists` in your browser.
 
 Useful validation scripts:
 ```bash
@@ -110,19 +117,25 @@ node scripts/update-readme.mjs
 | Route | Purpose |
 |---|---|
 | `#/dashboard` | CEO B operating overview |
-| `#/watchlists` | Static research universe and CEO B bucket review |
-| `#/vision-map` | Living Agent Network command map |
-| `#/agents` | AI Habitat OS agent world |
-| `#/signals` | Market intelligence workbench |
-| `#/archive` | Intelligence vault |
-| `#/bookmarks` | Manual bookmark intake |
-| `#/source-hub` | External source cockpit |
-| `#/staging` | Build tracker, QA, and status |
-| `#/founder` | Founder / brand page |
-| `#/ceo-b-profile` | CEO B command profile |
-| `#/jarvis-lab` | Local command prototype |
-| `#/life-os` | Life Habitat prototype |
-| `#/ai-handoff` | Copy/paste project handoff |
+| `#/alerts` | Alerts Desk / research review queue |
+| `#/watchlists` | Static research universe |
+| `#/vision-map` | Living Agent Network |
+| `#/agents` | Agent Engine |
+| `#/signals` | Signals Lab |
+| `#/source-hub` | Source Hub |
+| `#/risk-rules` | Risk & Rules |
+| `#/learning-ledger` | Learning Ledger |
+| `#/trend-radar` | Trend Radar |
+| `#/archive` | Archive Vault |
+| `#/bookmarks` | Bookmarks Mine |
+| `#/money-lab` | Money Lab |
+| `#/staging` | Staging / QA |
+| `#/ai-habitat-os` | AI Habitat OS |
+| `#/markets` | Markets Matrix future concept |
+| `#/options` | Options Hub future / Phase 2C |
+| `#/catalysts` | Catalysts Calendar future |
+| `#/research` | Research Desk future |
+| `#/roadmap` | Build / Roadmap |
 
 ## Auto-Updating Game Plan
 
@@ -137,27 +150,43 @@ The section below is refreshed from `AGENTS.md`, `PROJECT_STATUS.md`, and `NEXT_
 
 ### Working Now
 
-- `/`
+- `#/dashboard`
 - `#/alerts`
-- `/agents`
-- `/vision-map`
-- `/archive`
-- `/staging`
-- `/founder`
-- `/ceo-b-profile`
-- `/bookmarks`
+- `#/mission-control`
+- `#/vision-map`
+- `#/agents`
+- `#/signals`
+- `#/source-hub`
+- `#/risk-rules`
+- `#/learning-ledger`
+- `#/trend-radar`
+- `#/archive`
+- `#/bookmarks`
+- `#/money-lab`
+- `#/staging`
+- `#/ai-habitat-os`
 - `#/watchlists`
 - `#/markets`
 - `#/options`
+- `#/catalysts`
+- `#/research`
+- `#/roadmap`
 
 ### Current State
 
-- Phase 1.5 Design System + Living Agent Network pass is the current active checkpoint.
-- The site now prioriti
+- Alerts Desk remains the homepage and research review queue.
+- Dashboard exists as the pinned `#/dashboard` CEO B operating overview.
+- Watchlists exists as `#/watchlists` and is the Phase 2B research universe foundation.
+- Vision Map carries the Living Agent Network.
+- Routes 16-20 remain future concepts except where explicitly upgraded later.
+- The app is static-first, vanilla JS / HTML / CSS, and LocalStorage-only.
+- No backend, live provider data, broker execution, auto-trading, betting/sportsbook execution, copy-trading, fake live data, private URLs, or frontend API keys are connected.
 
 ### Next Priority
 
-
+- CEO B visual review of Phase 2B Watchlists.
+- If approved, start Phase 2C Options Hub Prototype.
+- Keep Options Hub static-first, research-only, and clearly not executable.
 
 ### Non-Negotiable Build Rules
 

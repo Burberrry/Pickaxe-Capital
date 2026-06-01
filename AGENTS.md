@@ -9,9 +9,25 @@ This project is Pickaxe Capital / AI Habitat OS.
 - CEO B connects both habitats as the founder decision layer.
 - CEO B does not replace the founder. CEO B organizes, reviews, ranks, and prepares decisions.
 
+## Current Project Truth
+
+- Static-first GitHub Pages app.
+- Vanilla JS / HTML / CSS.
+- LocalStorage only.
+- Alerts Desk is the homepage.
+- Dashboard exists at `#/dashboard`.
+- Watchlists exists at `#/watchlists`.
+- Phase 2B Watchlists is built, committed, and pushed to `origin/main`; CEO B live visual review is next.
+- Next build after visual approval is Phase 2C Options Hub Prototype.
+- No live APIs, broker execution, betting execution, copy-trading, fake live data, or private frontend keys.
+- Keep root/public mirrors synced.
+
 ## Page Priorities
 
-- `/vision-map` is the main command center and homepage.
+- `#/alerts` is the homepage and research review queue.
+- `#/dashboard` is the pinned CEO B operating overview.
+- `#/watchlists` is the Phase 2B research universe foundation.
+- `/vision-map` is the living visual command center.
 - `/signals` is the single market intelligence page. Legacy `/market-command` and `/signal-engine` bridge into it.
 - `/source-hub` is the external intelligence source cockpit.
 - `/archive` is the compounding intelligence vault.

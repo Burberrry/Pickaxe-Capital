@@ -16,7 +16,7 @@ function readIfExists(filePath) {
 
 function findSection(markdown, heading) {
   const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const pattern = new RegExp(`^## ${escaped}\\s*$([\\s\\S]*?)(?=^## |\\z)`, 'm');
+  const pattern = new RegExp(`^## ${escaped}\\s*$\\n?([\\s\\S]*?)(?=^##\\s|(?![\\s\\S]))`, 'm');
   const match = markdown.match(pattern);
   return match ? match[1].trim() : '';
 }
@@ -44,8 +44,8 @@ if (!readme.includes(startMarker) || !readme.includes(endMarker)) {
 }
 
 const workingNow = fallbackLines(
-  extractBullets(findSection(nextSteps, 'Working Now'), 12),
-  extractBullets(findSection(projectStatus, 'Working Routes'), 12),
+  extractBullets(findSection(nextSteps, 'Working Now'), 24),
+  extractBullets(findSection(projectStatus, 'Working Routes'), 24),
 );
 
 const currentState = fallbackLines(

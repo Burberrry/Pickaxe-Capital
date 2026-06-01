@@ -1,36 +1,57 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint — Phase 2B Watchlists
+
+- Latest completed build: Phase 2B Watchlists Prototype.
+- Route upgraded: `#/watchlists`.
+- Current status: built, committed, and pushed to `origin/main`; awaiting GitHub Pages / CEO B live visual review.
+- Latest expected commit: `e2db5a2 Add Phase 2B watchlists prototype`.
+- Live review URL: `https://burberrry.github.io/Pickaxe-Capital/?v=phase2b-watchlists#/watchlists`.
+- Next recommended task after visual approval: Phase 2C Options Hub Prototype.
+- Do not start live APIs, broker integrations, betting/sportsbook integrations, real telemetry, OpenClaw installation, or 20-section image asset integration yet.
+
+Historical note: older “Next Small Task” and prior-session sections below are preserved as session history and are not the active next step.
+
 ## Main Page
 
-- `/vision-map`
+- `#/alerts`
 
 ## Working Routes
 
+- `#/dashboard`
+- `#/alerts`
+- `#/mission-control`
+- `#/vision-map`
+- `#/agents`
+- `#/signals`
+- `#/source-hub`
+- `#/risk-rules`
+- `#/learning-ledger`
+- `#/trend-radar`
+- `#/archive`
+- `#/bookmarks`
+- `#/money-lab`
+- `#/staging`
+- `#/ai-habitat-os`
+- `#/watchlists`
+- `#/markets`
+- `#/options`
+- `#/catalysts`
+- `#/research`
+- `#/roadmap`
+
+## Legacy / Compatibility Routes
+
 - `/`
 - `/app/alerts`
-- `/alerts`
-- `/vision-map`
-- `/source-hub`
-- `/signals`
-- `/archive`
-- `/rk-tracker`
-- `/berkshire-1965`
-- `/agents`
-- `/bookmarks`
-- `/app/alerts`
-- `/founder`
-- `/staging`
-- `/`
 - `/market-command`
 - `/signal-engine`
 - `/life-habitat`
+- `/founder`
 - `/ceo-b-profile`
-- `/watchlists`
-- `/markets`
-- `/options`
-- `/catalysts`
-- `/research`
-- `/roadmap`
+- `/jarvis-lab`
+- `/life-os`
+- `/ai-handoff`
 
 ## Missing / Broken Routes
 
@@ -62,15 +83,15 @@
 - Cleaned route renderers for Mission Control, Agent Engine, Source Hub, Risk & Rules, Learning Ledger, Trend Radar, Archive Vault, Bookmarks Mine, Money Lab, Staging / QA, AI Habitat OS, and future concept pages.
 - Updated default Build Completion Tracker latest-session data in `habitat-data.js`.
 - Validation passed: bundled Node syntax checks for root/public app files, build script, project checker, and README updater.
-- Phase 1.6 Premium UI Polish Pass completed locally.
+- Phase 1.6 Premium UI Polish Pass built and committed.
 - Increased typography readability, sidebar route scale, card depth, button quality, and chip legibility.
 - Added richer Living Agent Network styling, slower CSS-only packet/path motion, and a compact Network Status rail.
 - Cache-busted static assets to `phase16`.
-- Phase 2A CEO B Dashboard Prototype completed locally.
+- Phase 2A CEO B Dashboard Prototype built, committed, and pushed.
 - Added `#/dashboard` as an overview route with CEO B command summary, system pulse, alerts snapshot, compact agent preview, source status, risk summary, learning memory, trend pulse, Money Lab guardrails, roadmap status, and next manual action.
 - Added an unnumbered pinned Dashboard sidebar entry while preserving the existing 20 grouped route numbers.
 - Cache-busted static assets to `phase2a-dashboard`.
-- Phase 2B Watchlists Prototype completed locally.
+- Phase 2B Watchlists Prototype built, committed, and pushed to `origin/main`.
 - Upgraded `#/watchlists` from future concept into a premium static research-universe page with CEO B command summary, priority universe, safety truth panel, bucket cards, agent assignment, review queue, workflow, and future-adapter truth.
 - Added a Dashboard link to Watchlists and changed the sidebar status line to `Research Universe`.
 - Cache-busted static assets to `phase2b-watchlists`.
@@ -124,7 +145,7 @@
 - Live URL checked: `https://burberrry.github.io/Pickaxe-Capital/?v=logo2#/alerts`.
 - Alerts Desk is live and correct.
 - 20 sidebar items are visible.
-- 20 Alerts Desk panels are visible.
+- Historical pre-simplification Alerts Desk panel set was visible during that checkpoint.
 - Logo and favicon are improved; favicon path is cache-busted.
 - No stale active wording found.
 - Validation passed.
