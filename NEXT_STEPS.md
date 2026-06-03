@@ -2,13 +2,13 @@
 
 ## Current Active Checkpoint
 
-Phase 2I Archive / Source Workflow Implementation is the active approved sprint. Source Hub and Archive now work together as a safe local-only research memory loop: Source Hub verifies, CEO B reviews, Archive stores cleaned memory, Learning Ledger can receive cleaned lesson candidates, and Mission Control summarizes cleaned state only.
+Phase 2I Archive / Source Workflow Implementation is pushed, deployed, live-reviewed, clean, and live-locked at `8bc264f`. Source Hub and Archive now work together as a safe local-only research memory loop: Source Hub verifies, CEO B reviews, Archive stores cleaned memory, Learning Ledger can receive cleaned lesson candidates, and Mission Control summarizes cleaned state only.
 
 Phase 2H Pickaxe OS Master Architecture + Research Alert Spec is pushed, clean, and locked at `d867b5f`. Phase 2D Source Hub Intelligence Cockpit remains live-reviewed and live-locked. Sidebar number-badge cleanup is live-verified. Phase 2C App Shell / Navigation Reset is officially live-locked. Agents Placeholder Reset and Mission Control Dashboard Upgrade remain stable. Phase 2B Watchlists remains built, committed, pushed to origin/main, live-checked by CEO B, and stability-checked locally.
 
 Latest live review is complete.
 
-https://burberrry.github.io/Pickaxe-Capital/?v=phase2d-source-hub#/source-hub
+https://burberrry.github.io/Pickaxe-Capital/?v=phase2i-archive-source#/archive
 
 Latest local stability fix: `/ai-handoff` now returns the generated plain-text handoff, matching `/source-hub-staging`.
 
@@ -22,13 +22,13 @@ Latest shell reset: sidebar/navigation now uses a calmer graphite/gold private m
 
 Latest source layer upgrade: `#/source-hub` is now the Source Hub Intelligence Cockpit with source verification matrix, source-to-route map, planned/local agent ownership, source intake queue, adapter boundary panel, private memory boundary, escalation rules, Mission Control integration preview, and local-only action log. All content remains static/manual/demo/local-only with no scraping, live provider calls, broker connection, execution, copy-trading, or private Obsidian note exposure.
 
-Latest archive workflow upgrade: Source Hub can save cleaned source memory to Archive as local-only archive candidates with source lineage, trust labels, privacy tiers, private-data-removed state, linked Source Hub action IDs, and CEO B review state. Archive cards show this lineage and expose safe local-only actions for CEO B review, lesson candidates, evidence requests, cleaning status, and return-to-Source-Hub routing.
+Latest archive workflow upgrade: Source Hub to Archive workflow is live. Source Hub can save cleaned source memory to Archive as local-only archive candidates with source lineage, trust labels, privacy tiers, private-data-removed state, linked Source Hub action IDs, and CEO B review state. Archive cards show this lineage and expose safe local-only actions for CEO B review, lesson candidates, evidence requests, cleaning status, and return-to-Source-Hub routing. Watchlists remains unchanged, Agents remains placeholder-only, and Options Research remains deferred until B explicitly approves it.
 
 ## Do Next
 
 1. Use the Obsidian-backed `/ai-handoff` before future Codex/ChatGPT website build sessions.
-2. Push Phase 2I and complete GitHub Pages live review.
-3. Let B choose the next task before starting another sprint.
+2. Let B choose the next task before starting another sprint.
+3. Keep Phase 2I live-locked unless B approves a follow-up.
 4. Keep Watchlists stable.
 5. Keep Agents placeholder-only until B approves a rebuild.
 6. Do not start Options Hub until B approves.
