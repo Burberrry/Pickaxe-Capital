@@ -1,6 +1,26 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint — Phase 2D Source Hub Intelligence Cockpit
+## Current Checkpoint — Phase 2I Archive / Source Workflow Implementation
+
+- Latest completed/local build: Phase 2I Archive / Source Workflow Implementation.
+- Primary routes upgraded: `#/source-hub` and `#/archive`.
+- Source Hub now saves cleaned local source memory into `pickaxeArchiveVault` using normalized archive candidate fields: source origin, cleaned summary, related route/theme, trust label, safety boundary, linked source ID, linked Source Hub action ID, private-data-removed status, CEO B approval state, review state, and `privacy_tier`.
+- Source Hub source cards now show local archive confirmation state, archive candidate status, privacy tier, private-data-removed label, linked source ID, and Source Hub action lineage.
+- Archive cards now show source origin, trust label, cleaned/public-safe status, related route/theme, CEO B review state, linked source ID, linked Source Hub action ID, privacy tier, private-data-removed state, and next manual action.
+- Archive now includes local filters for source origin, trust label, review state, and privacy tier.
+- Archive now includes safe local-only actions: send back to CEO B Review, create lesson candidate, mark private data removed, mark needs more evidence, return to Source Hub, summarize, and archive.
+- Mission Control summary was limited to aggregate local counts only: archive candidates, cleaned notes, and local learning candidates.
+- Watchlists remains unchanged.
+- Agents remains placeholder-only.
+- Options Research remains deferred and research-only until B explicitly approves it.
+- No live APIs, provider adapters, broker integrations, betting/sportsbook integrations, copy-trading, OpenClaw, fake live data, raw Obsidian exposure, raw bookmark publishing, or private frontend keys were added.
+- `data/signal-alerts.json` remains intentionally untouched.
+- Validation status: local build/check/browser verification passed for Phase 2I; push and GitHub Pages live review remain next.
+- Next recommended task after live review: stop and wait for B approval before any next sprint.
+
+Historical note: Phase 2H master architecture docs are pushed, clean, and locked at `d867b5f`. Older active checkpoint notes below are preserved as history.
+
+## Previous Checkpoint — Phase 2D Source Hub Intelligence Cockpit
 
 - Latest completed/live-locked build: Phase 2D Source Hub Intelligence Cockpit.
 - Route upgraded: `#/source-hub`.

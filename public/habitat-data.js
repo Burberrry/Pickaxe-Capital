@@ -281,7 +281,7 @@ window.PickaxeHabitatData = {
       headline: "$BTC Bitcoin spot breakout confirmed",
       thesis: "Demo alert format: BTC crossover of key horizontal resistance with options/spot volume surge.",
       reason: ["Macro Watcher flags systemic crypto liquidity surge.", "Risk Sentinel locks downside invalidation at $88,000.", "Signal Scout confirms Time/Trend/Theme alignment."],
-      nextAction: "Execute manually in broker. This website does not place trades.",
+      nextAction: "Review manually outside Pickaxe if CEO B chooses. This website does not place trades.",
     },
   ],
   habitatWorld: {
@@ -643,6 +643,7 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-03",
     areas: [
+      { id: "phase-2i-archive-source-workflow", name: "Phase 2I Archive / Source Workflow", group: "Archive Habitat", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Source Hub / Archivist", notes: "Connected Source Hub local actions to normalized cleaned archive candidates in pickaxeArchiveVault with source lineage, trust labels, privacy tiers, private-data-removed status, and CEO B review state. Archive cards now display source origin, trust label, related route/theme, linked source IDs, Source Hub Action IDs, privacy tier, review state, and safe local-only actions. Local build, project check, route sweep, and Source Hub to Archive browser workflow passed. No Options Hub, Agents rebuild, live APIs, provider adapters, broker integration, betting/sportsbook integration, copy-trading, OpenClaw, Watchlists changes, raw Obsidian exposure, or data/signal-alerts.json changes.", nextAction: "Push Phase 2I, live-review Source Hub plus Archive, then stop and wait for B." },
       { id: "phase-2d-source-hub-intelligence-cockpit", name: "Phase 2D Source Hub Intelligence Cockpit", group: "Source Habitat", status: "Built / Local Pass", completion: 95, priority: "Critical", owner: "CEO B / Archivist / Forge", notes: "Upgraded #/source-hub into the trust layer for Pickaxe Capital: source verification matrix, source-to-route map, planned/local agent ownership, manual/demo intake queue, escalation rules, adapter boundaries, private memory boundary, Mission Control integration preview, and local-only prototype actions. No scraping, live provider calls, broker connection, execution, copy-trading, fake connected adapters, private frontend keys, or raw Obsidian note publishing.", nextAction: "Push and live-review on GitHub Pages, then keep Source Hub stable before the next approved cockpit layer." },
       { id: "phase-2c-app-shell-navigation-reset", name: "Phase 2C App Shell / Navigation Reset", group: "Builder Habitat", status: "Passed", completion: 100, priority: "Critical", owner: "CEO B / System Brain", notes: "Reset the global app shell and sidebar navigation into a calmer private market operating-system frame: graphite rail, restrained gold active states, number-only route badges, clearer route labels, less rainbow route-accent styling, and a premium topbar. Mission Control remains the flagship route, Agents remains placeholder-only, and all navigation language stays static/research-safe.", nextAction: "Keep shell stable while Source Hub receives live review." },
       { id: "agents-placeholder-reset", name: "Agents route placeholder reset", group: "Builder Habitat", status: "Passed", completion: 100, priority: "High", owner: "CEO B / System Brain", notes: "Cleared the broken busy Agent Habitat page and replaced it with a calm future-state placeholder schematic on a black/graphite background with the old habitat image removed. The route now preserves the agent concept without fake telemetry, broken layout, or autonomous-agent claims.", nextAction: "Rebuild /agents later as a clean operating schematic only after Mission Control and Source Hub are stable." },
@@ -677,27 +678,31 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
+      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "index.html", "public/index.html", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
       featuresAdded: [
-        "Built Phase 2D Source Hub Intelligence Cockpit on #/source-hub.",
-        "Added source verification matrix, source-to-route map, agent ownership panel, source intake queue, escalation rules, adapter boundaries, private memory boundary, and Mission Control integration preview.",
-        "Added shared Source Hub data for manual/demo source categories, intake cards, planned source ownership, route pipeline, and backend-only adapter boundary statuses.",
-        "Kept sidebar number-only route badges intact after the live-verified cleanup."
+        "Built Phase 2I Archive / Source Workflow implementation.",
+        "Improved Source Hub Save Cleaned Source Memory action so it writes normalized local-only archive candidates to pickaxeArchiveVault.",
+        "Added Source Hub archived confirmation state with archive candidate, privacy tier, private-data-removed, linked source ID, and Source Hub action lineage.",
+        "Improved Archive cards with source origin, trust label, related route/theme, CEO B review state, privacy tier, linked source IDs, and Source Hub action IDs.",
+        "Added Archive filters for source origin, trust label, review state, and privacy tier.",
+        "Added safe local-only Archive actions for CEO B review, lesson candidates, private-data-removed status, needs-more-evidence status, and return-to-Source-Hub flow.",
+        "Added Mission Control summary counts only for local archive candidates, cleaned notes, and learning candidates."
       ],
       bugsFixed: [
-        "Replaced the old Source Hub stub with a structured trust/intelligence cockpit instead of a generic link/provider page.",
-        "Added responsive Source Hub grid constraints to avoid horizontal overflow.",
+        "Preserved Source Hub and Archive layouts while adding lineage details.",
         "Kept Agents as a placeholder and did not rebuild Agent Habitat.",
-        "Kept all actions local-only and avoided live APIs, scraping, broker execution, betting execution, copy-trading, fake connected providers, private frontend keys, and real telemetry claims."
+        "Kept Watchlists unchanged.",
+        "Kept all new workflow actions local-only and avoided live APIs, scraping, provider adapters, broker execution, betting execution, copy-trading, fake connected providers, private frontend keys, real telemetry claims, raw Obsidian exposure, and data/signal-alerts.json changes."
       ],
-      validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; local static browser check /, #/dashboard, #/watchlists, #/source-hub, #/signals, #/alerts, #/agents, #/staging, #/archive, #/bookmarks",
-      validationResult: "Build passed, project check passed, syntax checks passed, root/public mirrors are synced, data/signal-alerts.json remained clean, and local static browser checks passed with no console errors, no blank main content, no horizontal overflow, CEO B Market OS topbar visible, number-only sidebar badges, Source Hub safety/source-required wording visible, no private Obsidian note leakage, no fake connected adapter wording, and Agents placeholder-only.",
+      validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; local browser check /, #/dashboard, #/source-hub, #/archive, #/alerts, #/bookmarks, #/learning-ledger, #/staging, #/agents, #/watchlists; Source Hub Save Cleaned Source Memory workflow check",
+      validationResult: "Passed locally. Current Phase 2I assets loaded with zero current-version console errors, no blank content, no 404s, no horizontal overflow, and Source Hub successfully surfaced a cleaned archive candidate on Archive with lineage.",
       remainingProblems: [
-        "Phase 2D still needs GitHub Pages live review after push.",
+        "Phase 2I still needs push and GitHub Pages live review.",
         "Live data connectors require backend/API setup and remain not connected.",
-        "Real agent telemetry is not connected."
+        "Real agent telemetry is not connected.",
+        "Options Research remains deferred until B explicitly approves it."
       ],
-      nextRecommendedTask: "Push Phase 2D and live-review #/source-hub with the phase2d-source-hub cache key; after approval, keep Source Hub stable before choosing the next cockpit layer."
+      nextRecommendedTask: "After Phase 2I validation and live review, stop and wait for B to choose the next sprint."
     },
   },
   marketWatchlist: [

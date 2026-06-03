@@ -4686,7 +4686,7 @@ function renderOptionAlertCard(alert) {
   `;
 }
 
-function renderArchiveIntelligence() {
+function renderArchiveVaultExperience() {
   if (!els.archiveIntelligence) return;
   state.archiveLayout = state.archiveLayout || "detailed";
   const items = getEffectiveArchiveVaultItems();
@@ -4725,6 +4725,10 @@ function renderArchiveIntelligence() {
       <select id="vaultPriority" onchange="window.filterArchiveVault?.()"><option value="all">All priority</option>${uniqueOptions(items, "priority")}</select>
       <select id="vaultAgent" onchange="window.filterArchiveVault?.()"><option value="all">All agents</option>${uniqueOptions(items, "connectedAgent")}</select>
       <select id="vaultRoute" onchange="window.filterArchiveVault?.()"><option value="all">All routes</option>${uniqueOptions(items, "route")}</select>
+      <select id="vaultSourceOrigin" onchange="window.filterArchiveVault?.()"><option value="all">All source origins</option>${uniqueOptions(items, "sourceOrigin")}</select>
+      <select id="vaultTrust" onchange="window.filterArchiveVault?.()"><option value="all">All trust labels</option>${uniqueOptions(items, "confidenceTrustLabel")}</select>
+      <select id="vaultReviewState" onchange="window.filterArchiveVault?.()"><option value="all">All review states</option>${uniqueOptions(items, "reviewStatus")}</select>
+      <select id="vaultPrivacyTier" onchange="window.filterArchiveVault?.()"><option value="all">All privacy tiers</option>${uniqueOptions(items, "privacy_tier")}</select>
       <select id="vaultSort" onchange="window.filterArchiveVault?.()"><option value="priority">Sort by priority</option><option value="newest">Newest</option><option value="status">Status</option><option value="habitat">Habitat</option><option value="agent">Agent</option></select>
       
       <div style="display:flex; gap:6px; margin-left:auto; flex-shrink:0;">
@@ -4753,6 +4757,10 @@ function renderArchiveIntelligence() {
     </section>
   `;
   renderBookmarkPreview();
+}
+
+function renderArchiveIntelligence() {
+  renderArchiveVaultExperience();
 }
 
 window.filterArchiveIntel = () => {
@@ -4796,11 +4804,116 @@ function setArchiveVaultState(nextState) {
   }
 }
 
+function formatArchiveWorkflowDate(date = new Date()) {
+  return date.toISOString().split("T")[0];
+}
+
+function normalizeArchiveReviewStatus(status) {
+  const value = String(status || "").toLowerCase();
+  if (/approved|active|archived/.test(value)) return "CEO B Approved";
+  if (/returned/.test(value)) return "Returned to Source Hub";
+  if (/evidence|context/.test(value)) return "Needs More Evidence";
+  if (/review|pending|waiting/.test(value)) return "CEO B Review Required";
+  return status || "CEO B Review Required";
+}
+
+function getArchiveSourceOrigin(item) {
+  return item.sourceOrigin || item.sourceHabitat || item.habitat || item.category || "Archive";
+}
+
+function getArchiveTrustLabel(item) {
+  return item.confidenceTrustLabel || item.trustStatus || item.trustLevel || item.confidenceLabel || "Needs Verification";
+}
+
+function getArchivePrivacyTier(item) {
+  return item.privacy_tier || item.privacyTier || (item.privateDataRemoved ? "local_only" : "local_only");
+}
+
+function getArchiveReviewStatus(item) {
+  return normalizeArchiveReviewStatus(item.reviewStatus || item.ceoBReviewStatus || item.status);
+}
+
+function getSourceHubSourceItems() {
+  const queue = Array.isArray(sharedHabitatData.sourceIntakeQueue) ? sharedHabitatData.sourceIntakeQueue : [];
+  const matrix = Array.isArray(sharedHabitatData.sourceVerificationMatrix) ? sharedHabitatData.sourceVerificationMatrix : [];
+  return [...queue, ...matrix];
+}
+
+function getSourceHubItem(sourceId) {
+  return getSourceHubSourceItems().find((entry) => entry.id === sourceId);
+}
+
+function getSourceArchiveLineage(sourceId) {
+  const items = getEffectiveArchiveVaultItems();
+  return items.find((entry) => entry.linkedSourceId === sourceId || entry.id === `archive-source-${sourceId}` || entry.id === `source-note-${sourceId}`) || null;
+}
+
+function buildSourceArchiveCandidate(item, sourceId, sourceHubActionId) {
+  const now = new Date();
+  const title = item.title || item.category || "Source item";
+  const relatedRoute = item.relatedRoute || item.routeUsedBy || "#/source-hub";
+  const relatedTickerTheme = item.relatedTicker || item.topic || item.category || "Source verification";
+  const trustLabel = item.trustStatus || item.trustLevel || "Needs Verification";
+  const sourceOrigin = item.sourceType || item.connectionStatus || "Source Hub";
+  const cleanedSummary = item.nextManualAction || item.safetyNote || item.escalationRule || "Cleaned source memory saved from Source Hub for CEO B review.";
+  const createdDate = formatArchiveWorkflowDate(now);
+  return {
+    id: `archive-source-${sourceId}`,
+    archiveTitle: `Clean Source Memory: ${title}`,
+    sourceOrigin: "Source Hub",
+    cleanedSummary,
+    relatedRoute,
+    relatedTickerTheme,
+    lessonType: /risk|vol|macro/i.test(relatedTickerTheme) ? "Risk" : /watchlist|thesis/i.test(relatedTickerTheme) ? "Watchlist Context" : "Source Context",
+    reviewStatus: "CEO B Review Required",
+    confidenceTrustLabel: trustLabel,
+    safetyBoundary: "Local-only cleaned source memory. No raw Obsidian notes, raw bookmarks, private URLs, live APIs, scraping, or execution pathways.",
+    linkedSourceId: sourceId,
+    linkedSourceHubActionId: sourceHubActionId,
+    privateDataRemoved: true,
+    ceoBApproval: "pending",
+    createdDate,
+    lastReviewedDate: createdDate,
+    privacy_tier: "local_only",
+    title: `Clean Source Memory: ${title}`,
+    url: "#/source-hub",
+    domain: "Source Hub",
+    type: "source-memory",
+    topic: relatedTickerTheme,
+    category: "Source Hub",
+    habitat: "Archive",
+    status: "review",
+    priority: /missing|required|review/i.test(`${item.sourceStatus} ${trustLabel}`) ? "high" : "medium",
+    connectedAgent: item.ownerAgent || "Archivist",
+    summary: cleanedSummary,
+    whySaved: "Source Hub saved a cleaned local archive candidate for CEO B review.",
+    nextAction: "CEO B should review source lineage, confirm private data was removed, and decide whether this becomes public-safe memory.",
+    tags: ["source-hub", "archive-candidate", "local-only", sourceOrigin].filter(Boolean),
+    dateAdded: createdDate,
+    lastReviewed: createdDate,
+    localPreview: true,
+  };
+}
+
+function updateArchiveParsedItem(itemId, patch) {
+  const vaultState = getArchiveVaultState();
+  const parsed = vaultState.parsedLinks || [];
+  const index = parsed.findIndex((entry) => entry.id === itemId);
+  if (index >= 0) {
+    parsed[index] = { ...parsed[index], ...patch };
+    vaultState.parsedLinks = parsed;
+  }
+  if (patch.status) vaultState.statusOverrides[itemId] = patch.status;
+  vaultState.actionLog = vaultState.actionLog || [];
+  setArchiveVaultState(vaultState);
+}
+
 function getEffectiveArchiveVaultItems() {
   const vaultState = getArchiveVaultState();
   const parsed = (vaultState.parsedLinks || []).map((item, index) => ({
+    ...item,
     id: item.id || `local-preview-${index}`,
-    title: item.title || item.domain || item.url,
+    title: item.archiveTitle || item.title || item.domain || item.url,
     url: item.url,
     domain: item.domain || domainFromUrl(item.url),
     type: item.type || "bookmark",
@@ -4816,6 +4929,19 @@ function getEffectiveArchiveVaultItems() {
     tags: item.tags || ["local-preview"],
     dateAdded: item.dateAdded || "local",
     lastReviewed: item.lastReviewed || "not reviewed",
+    sourceOrigin: getArchiveSourceOrigin(item),
+    cleanedSummary: item.cleanedSummary || item.summary || "Local cleaned archive summary pending.",
+    relatedRoute: item.relatedRoute || item.route || item.sourceRoute || "#/archive",
+    relatedTickerTheme: item.relatedTickerTheme || item.topic || item.category || "Research context",
+    lessonType: item.lessonType || "Source Context",
+    reviewStatus: getArchiveReviewStatus(item),
+    confidenceTrustLabel: getArchiveTrustLabel(item),
+    safetyBoundary: item.safetyBoundary || "Local-only archive memory. Public-safe use requires CEO B review.",
+    privateDataRemoved: Boolean(item.privateDataRemoved),
+    ceoBApproval: item.ceoBApproval || "pending",
+    privacy_tier: getArchivePrivacyTier(item),
+    createdDate: item.createdDate || item.dateAdded || "local",
+    lastReviewedDate: item.lastReviewedDate || item.lastReviewed || "not reviewed",
     localPreview: true,
   }));
   return [...archiveVaultItems, ...parsed].map((item) => ({
@@ -4867,10 +4993,16 @@ function renderAgentSourceMap(items) {
 
 function renderVaultCard(item) {
   const target = externalUrl(item.url) ? `target="_blank" rel="noopener noreferrer"` : "";
-  const openHref = externalUrl(item.url) ? item.url : "/archive";
+  const openHref = item.relatedRoute || item.route || (externalUrl(item.url) ? item.url : "/archive");
   
   const vaultState = getArchiveVaultState();
   const isChecked = vaultState.checkedActions[item.id] ? "checked" : "";
+  const lineageLabels = [
+    item.sourceOrigin || "Archive",
+    getArchiveTrustLabel(item),
+    getArchivePrivacyTier(item),
+    getArchiveReviewStatus(item)
+  ];
   
   if (state.archiveLayout === "compact") {
     return `
@@ -4888,12 +5020,13 @@ function renderVaultCard(item) {
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center; font-size:9px; color:#909399; margin-top:4px; font-family:monospace;">
             <span>Agent: ${escapeHtml(item.connectedAgent)}</span>
-            <span>Route: ${escapeHtml(item.route || 'local-signals')}</span>
+            <span>Route: ${escapeHtml(item.relatedRoute || item.route || 'local-signals')}</span>
           </div>
+          <div class="vault-lineage-mini">${lineageLabels.map((label) => `<span>${escapeHtml(label)}</span>`).join("")}</div>
         </div>
         <div class="archive-actions" style="display:flex; justify-content:flex-end; gap:6px; margin-top:4px; border-top:1px solid #1d242e; pt-4px; font-size:8px;">
           <button type="button" onclick="window.archiveVaultAction?.('restore', '${escapeHtml(item.id)}')" class="px-1.5 py-0.5 bg-black/40 text-amber border border-amber/30 hover:bg-black transition-all">Restore Review</button>
-          <button type="button" onclick="window.archiveVaultAction?.('summarize', '${escapeHtml(item.id)}')" class="px-1.5 py-0.5 bg-black/40 text-teal border border-teal/30 hover:bg-black transition-all">Summarize</button>
+          <button type="button" onclick="window.archiveVaultAction?.('lesson', '${escapeHtml(item.id)}')" class="px-1.5 py-0.5 bg-black/40 text-teal border border-teal/30 hover:bg-black transition-all">Lesson</button>
           <button type="button" class="delete-btn px-1.5 py-0.5 bg-red-950/20 text-red border border-red/30 hover:bg-red/35 transition-all" onclick="window.archiveVaultAction?.('archived', '${escapeHtml(item.id)}')">Archive</button>
         </div>
       </article>
@@ -4916,19 +5049,31 @@ function renderVaultCard(item) {
         <div><dt>Type</dt><dd>${escapeHtml(item.type)}</dd></div>
         <div><dt>Habitat</dt><dd>${escapeHtml(item.habitat)}</dd></div>
         <div><dt>Agent</dt><dd>${escapeHtml(item.connectedAgent)}</dd></div>
-        <div><dt>Route Origin</dt><dd>${escapeHtml(item.route || "local-signals")}</dd></div>
-        <div><dt>Last reviewed</dt><dd>${escapeHtml(item.lastReviewed)}</dd></div>
+        <div><dt>Source Origin</dt><dd>${escapeHtml(item.sourceOrigin || item.habitat || "Archive")}</dd></div>
+        <div><dt>Trust Label</dt><dd>${escapeHtml(getArchiveTrustLabel(item))}</dd></div>
+        <div><dt>Related Route</dt><dd>${escapeHtml(item.relatedRoute || item.route || "local-signals")}</dd></div>
+        <div><dt>Related Theme</dt><dd>${escapeHtml(item.relatedTickerTheme || item.topic || "Research context")}</dd></div>
+        <div><dt>CEO B Review</dt><dd>${escapeHtml(getArchiveReviewStatus(item))}</dd></div>
+        <div><dt>Privacy Tier</dt><dd>${escapeHtml(getArchivePrivacyTier(item))}</dd></div>
+        <div><dt>Private Data</dt><dd>${escapeHtml(item.privateDataRemoved ? "Removed" : "Needs check")}</dd></div>
+        <div><dt>Last reviewed</dt><dd>${escapeHtml(item.lastReviewedDate || item.lastReviewed)}</dd></div>
       </dl>
+      <div class="vault-lineage-panel">
+        <span>Lineage</span>
+        <p>${escapeHtml(item.safetyBoundary || "Local-only archive memory. Public-safe use requires CEO B review.")}</p>
+        <small>Source ID: ${escapeHtml(item.linkedSourceId || "not linked")} / Source Hub Action ID: ${escapeHtml(item.linkedSourceHubActionId || "not linked")} / Approval: ${escapeHtml(item.ceoBApproval || "pending")}</small>
+      </div>
       <div class="vault-reason"><strong>Why saved</strong><span>${escapeHtml(item.whySaved)}</span></div>
       <div class="vault-reason"><strong>Next action</strong><span>${escapeHtml(item.nextAction)}</span></div>
       <div class="tag-row">${(item.tags || []).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
       <div class="archive-actions">
         <a href="${escapeHtml(openHref)}" ${target}>Open Source</a>
-        <button type="button" onclick="window.archiveVaultAction?.('restore', '${escapeHtml(item.id)}')">Restore Review</button>
+        <button type="button" onclick="window.archiveVaultAction?.('restore', '${escapeHtml(item.id)}')">Send Back to CEO B Review</button>
         <button type="button" onclick="window.archiveVaultAction?.('summarize', '${escapeHtml(item.id)}')">Summarize</button>
-        <button type="button" onclick="window.archiveVaultAction?.('checklist', '${escapeHtml(item.id)}')">Turn Into Checklist</button>
-        <button type="button" onclick="window.archiveVaultAction?.('extract', '${escapeHtml(item.id)}')">Extract Opportunity</button>
-        <button type="button" onclick="window.archiveVaultAction?.('send', '${escapeHtml(item.id)}')">Send to Agent</button>
+        <button type="button" onclick="window.archiveVaultAction?.('lesson', '${escapeHtml(item.id)}')">Create Lesson Candidate</button>
+        <button type="button" onclick="window.archiveVaultAction?.('cleaned', '${escapeHtml(item.id)}')">Mark Private Data Removed</button>
+        <button type="button" onclick="window.archiveVaultAction?.('needsEvidence', '${escapeHtml(item.id)}')">Needs More Evidence</button>
+        <button type="button" onclick="window.archiveVaultAction?.('returnSource', '${escapeHtml(item.id)}')">Return to Source Hub</button>
         <button type="button" class="delete-btn" onclick="window.archiveVaultAction?.('archived', '${escapeHtml(item.id)}')">Archive</button>
       </div>
     </article>
@@ -5013,17 +5158,26 @@ window.filterArchiveVault = () => {
   const priority = document.querySelector("#vaultPriority")?.value || "all";
   const agent = document.querySelector("#vaultAgent")?.value || "all";
   const route = document.querySelector("#vaultRoute")?.value || "all";
+  const sourceOrigin = document.querySelector("#vaultSourceOrigin")?.value || "all";
+  const trust = document.querySelector("#vaultTrust")?.value || "all";
+  const reviewState = document.querySelector("#vaultReviewState")?.value || "all";
+  const privacyTier = document.querySelector("#vaultPrivacyTier")?.value || "all";
   const sort = document.querySelector("#vaultSort")?.value || "priority";
   
   const filtered = getEffectiveArchiveVaultItems().filter((item) => {
-    const haystack = `${item.title} ${item.url} ${item.domain} ${item.type} ${item.topic} ${item.category} ${item.habitat} ${item.status} ${item.priority} ${item.connectedAgent} ${item.summary} ${item.whySaved} ${item.nextAction} ${(item.tags || []).join(" ")} ${item.route || ""}`.toLowerCase();
+    const itemRoute = item.relatedRoute || item.route || item.sourceRoute || "";
+    const haystack = `${item.title} ${item.url} ${item.domain} ${item.type} ${item.topic} ${item.category} ${item.habitat} ${item.status} ${item.priority} ${item.connectedAgent} ${item.summary} ${item.whySaved} ${item.nextAction} ${(item.tags || []).join(" ")} ${itemRoute} ${item.sourceOrigin || ""} ${item.confidenceTrustLabel || ""} ${item.reviewStatus || ""} ${item.privacy_tier || ""} ${item.linkedSourceId || ""}`.toLowerCase();
     return haystack.includes(q)
       && (status === "all" || item.status === status)
       && (type === "all" || item.type === type)
       && (habitat === "all" || item.habitat === habitat)
       && (priority === "all" || item.priority === priority)
       && (agent === "all" || item.connectedAgent === agent)
-      && (route === "all" || (item.route && item.route === route));
+      && (route === "all" || itemRoute === route)
+      && (sourceOrigin === "all" || item.sourceOrigin === sourceOrigin)
+      && (trust === "all" || getArchiveTrustLabel(item) === trust)
+      && (reviewState === "all" || getArchiveReviewStatus(item) === reviewState)
+      && (privacyTier === "all" || getArchivePrivacyTier(item) === privacyTier);
   });
   grid.innerHTML = sortVaultItems(filtered, sort).map(renderVaultCard).join("") || `<p class="muted font-mono text-center select-none col-span-2" style="padding: 20px;">No matching archive sources.</p>`;
 };
@@ -5044,6 +5198,7 @@ window.archiveVaultAction = async (action, itemId) => {
   if (!item) return;
   const vaultState = getArchiveVaultState();
   const statusMap = { reviewed: "active", completed: "completed", archived: "archived" };
+  const today = formatArchiveWorkflowDate();
   
   if (action === "summarize") {
     const reviewItem = {
@@ -5057,6 +5212,74 @@ window.archiveVaultAction = async (action, itemId) => {
     };
     addSharedReviewItem(reviewItem);
     addWorldEvent(`Requested summary for "${item.title}" from CEO B review stack.`);
+  } else if (action === "lesson") {
+    const ledger = getLearningLedgerState();
+    ledger.unshift({
+      id: `lesson-archive-${item.id}-${Date.now()}`,
+      category: item.lessonType || item.category || "Archive Source Context",
+      lesson_type: item.lessonType || "Source Context",
+      text: item.cleanedSummary || item.summary || "Cleaned archive source memory needs CEO B review before becoming a reusable rule.",
+      statement: item.cleanedSummary || item.summary || "Cleaned archive source memory needs CEO B review before becoming a reusable rule.",
+      linked_records: [item.id],
+      severity: item.priority || "medium",
+      adopted_rule: false,
+      verified: false,
+      timestamp: new Date().toISOString(),
+      privacy_tier: "local_only",
+      source: "Archive Vault",
+      reviewStatus: "CEO B Review Required"
+    });
+    saveLearningLedgerState(ledger);
+    vaultState.actionLog.unshift(`${item.title}: lesson candidate created`);
+    setArchiveVaultState(vaultState);
+    showNotification(`Created local lesson candidate for "${item.title}".`);
+    addWorldEvent(`Created cleaned lesson candidate from "${item.title}".`);
+  } else if (action === "cleaned") {
+    updateArchiveParsedItem(item.id, {
+      privateDataRemoved: true,
+      privacy_tier: item.ceoBApproval === "approved" ? "public_safe" : "local_only",
+      reviewStatus: "CEO B Review Required",
+      lastReviewed: today,
+      lastReviewedDate: today,
+      nextAction: "Private data marked removed locally. CEO B approval is still required before public-safe use."
+    });
+    showNotification(`Marked private data removed for "${item.title}".`);
+    addWorldEvent(`Marked "${item.title}" as cleaned local archive memory.`);
+  } else if (action === "needsEvidence") {
+    updateArchiveParsedItem(item.id, {
+      status: "review",
+      reviewStatus: "Needs More Evidence",
+      ceoBApproval: "pending",
+      lastReviewed: today,
+      lastReviewedDate: today,
+      nextAction: "Return to Source Hub and attach stronger evidence before this memory can escalate."
+    });
+    showNotification(`Marked "${item.title}" as needing more evidence.`);
+    addWorldEvent(`Returned "${item.title}" to evidence gathering.`);
+  } else if (action === "returnSource") {
+    const sourceLog = getSourceHubActionLog();
+    sourceLog.unshift({
+      id: `source-return-${Date.now()}`,
+      action: "Returned from Archive",
+      sourceId: item.linkedSourceId || item.id,
+      title: item.title,
+      owner: item.connectedAgent || "Archivist",
+      route: "#/source-hub",
+      archiveStatus: "Returned to Source Hub",
+      privacy_tier: "local_only",
+      createdAt: new Date().toISOString()
+    });
+    setSourceHubActionLog(sourceLog);
+    updateArchiveParsedItem(item.id, {
+      status: "review",
+      reviewStatus: "Returned to Source Hub",
+      relatedRoute: "#/source-hub",
+      nextAction: "Source Hub should re-check provenance, trust label, and cleaning state.",
+      lastReviewed: today,
+      lastReviewedDate: today
+    });
+    showNotification(`Returned "${item.title}" to Source Hub.`);
+    addWorldEvent(`Returned archive item "${item.title}" to Source Hub.`);
   } else if (action === "checklist") {
     addSharedMissionItem({
       title: `Checklist: ${item.title}`,
@@ -5098,16 +5321,28 @@ window.archiveVaultAction = async (action, itemId) => {
       output: `Restored from Archive. Original summary: ${item.summary}. URL: ${item.url}`
     };
     addSharedReviewItem(reviewItem);
-    
-    vaultState.statusOverrides[item.id] = "review";
-    vaultState.actionLog.unshift(`${item.title}: sent to review`);
-    setArchiveVaultState(vaultState);
+    updateArchiveParsedItem(item.id, {
+      status: "review",
+      reviewStatus: "CEO B Review Required",
+      ceoBApproval: "pending",
+      lastReviewed: today,
+      lastReviewedDate: today
+    });
+    const nextVaultState = getArchiveVaultState();
+    nextVaultState.statusOverrides[item.id] = "review";
+    nextVaultState.actionLog.unshift(`${item.title}: sent to review`);
+    setArchiveVaultState(nextVaultState);
     showNotification(`Sent "${item.title}" back to CEO B Review Queue.`);
     addWorldEvent(`Restored "${item.title}" from Archive to CEO B Review.`);
   } else if (statusMap[action]) {
-    vaultState.statusOverrides[itemId] = statusMap[action];
-    vaultState.actionLog.unshift(`${item.title}: ${statusMap[action]}`);
-    setArchiveVaultState(vaultState);
+    if (action === "archived") {
+      const reviewStatus = item.ceoBApproval === "approved" ? "CEO B Approved" : "CEO B Review Required";
+      updateArchiveParsedItem(item.id, { status: "archived", reviewStatus, lastReviewed: today, lastReviewedDate: today });
+    }
+    const nextVaultState = getArchiveVaultState();
+    nextVaultState.statusOverrides[itemId] = statusMap[action];
+    nextVaultState.actionLog.unshift(`${item.title}: ${statusMap[action]}`);
+    setArchiveVaultState(nextVaultState);
   }
   renderArchiveIntelligence();
 };
@@ -13042,10 +13277,16 @@ var renderDashboardPage = function () {
   if (!els.dashboardContent) return;
   const packets = getOptionAlertsState();
   const topPacket = packets[0] || normalizeResearchPacket({}, 0);
+  const archiveLoopItems = typeof getEffectiveArchiveVaultItems === "function" ? getEffectiveArchiveVaultItems() : [];
+  const archiveSourceCandidates = archiveLoopItems.filter((item) => item.sourceOrigin === "Source Hub" || item.linkedSourceId);
+  const cleanedArchiveNotes = archiveLoopItems.filter((item) => item.privateDataRemoved).length;
+  const pendingArchiveReviews = archiveSourceCandidates.filter((item) => /required|pending|evidence|returned/i.test(`${item.reviewStatus} ${item.ceoBApproval}`)).length;
+  const learningCandidates = typeof getLearningLedgerState === "function" ? getLearningLedgerState().filter((item) => item.privacy_tier === "local_only" && /archive|source/i.test(`${item.source || ""} ${item.category || ""}`)).length : 0;
   const commandStats = [
     ["Queue", `${packets.length}`, "Demo research packets"],
     ["Mode", "Prototype", "Static / local-first"],
-    ["Market Session", "Manual", "No live feed connected"],
+    ["Archive Loop", `${archiveSourceCandidates.length}`, "Local source candidates"],
+    ["Cleaned Notes", `${cleanedArchiveNotes}`, "Sanitized archive memory"],
     ["Decision Gate", "CEO B", "Human review required"]
   ];
   const regimeMetrics = [
@@ -13083,7 +13324,8 @@ var renderDashboardPage = function () {
     ["SEC Filing", "Company filing or investor relations source", "Source required", "#/source-hub"],
     ["Earnings Note", "Transcript, call notes, or calendar catalyst", "Manual research note", "#/source-hub"],
     ["X Bookmark", "User-imported social intelligence only", "Private source", "#/bookmarks"],
-    ["Chart Screenshot", "Manual chart context and level notes", "Static archive item", "#/archive"],
+    ["Archive Candidates", `${pendingArchiveReviews} awaiting CEO B review`, "Local summary only", "#/archive"],
+    ["Learning Candidates", `${learningCandidates} pending local lessons`, "No raw notes", "#/learning-ledger"],
     ["Macro Event", "Economic calendar or rates/dollar context", "Manual verification", "#/source-hub"]
   ];
   const researchQueue = [
@@ -13852,9 +14094,7 @@ function setSourceHubActionLog(items) {
 }
 
 window.sourceHubLocalAction = (action, sourceId) => {
-  const queue = Array.isArray(sharedHabitatData.sourceIntakeQueue) ? sharedHabitatData.sourceIntakeQueue : [];
-  const matrix = Array.isArray(sharedHabitatData.sourceVerificationMatrix) ? sharedHabitatData.sourceVerificationMatrix : [];
-  const item = queue.find((entry) => entry.id === sourceId) || matrix.find((entry) => entry.id === sourceId);
+  const item = getSourceHubItem(sourceId);
   if (!item) return;
   const sourceTitle = item.title || item.category || "Source item";
   const owner = item.ownerAgent || "Archivist";
@@ -13862,22 +14102,25 @@ window.sourceHubLocalAction = (action, sourceId) => {
   const log = getSourceHubActionLog();
   const actionLabel = {
     review: "Sent to CEO B Review",
-    archive: "Archived source note",
+    archive: "Saved cleaned source memory",
     archivist: "Assigned to Archivist",
     forge: "Assigned to Forge",
     alert: "Created source watch alert",
     copy: "Copied source summary"
   }[action] || "Logged source action";
 
-  log.unshift({
+  const actionEntry = {
     id: `source-action-${Date.now()}`,
     action: actionLabel,
     sourceId,
     title: sourceTitle,
     owner,
     route,
+    archiveStatus: action === "archive" ? "Archive Candidate" : undefined,
+    privacy_tier: "local_only",
     createdAt: new Date().toISOString()
-  });
+  };
+  log.unshift(actionEntry);
   setSourceHubActionLog(log);
 
   if (action === "review" && typeof addSharedReviewItem === "function") {
@@ -13905,29 +14148,21 @@ window.sourceHubLocalAction = (action, sourceId) => {
 
   if (action === "archive") {
     const archiveState = getArchiveVaultState();
-    const existing = (archiveState.parsedLinks || []).find((entry) => entry.id === `source-note-${sourceId}`);
+    const existing = (archiveState.parsedLinks || []).find((entry) => entry.id === `archive-source-${sourceId}` || entry.linkedSourceId === sourceId);
+    const archiveCandidate = buildSourceArchiveCandidate(item, sourceId, actionEntry.id);
     if (!existing) {
       setArchiveVaultState({
         ...archiveState,
-        parsedLinks: [{
-          id: `source-note-${sourceId}`,
-          title: `Source Note: ${sourceTitle}`,
-          url: `local://source-hub/${sourceId}`,
-          domain: "local",
-          type: "research",
-          topic: item.relatedTicker || item.category || "Source verification",
-          category: "Source Hub",
-          habitat: "Archive",
-          status: "review",
-          priority: "medium",
-          connectedAgent: owner,
-          summary: item.nextManualAction || item.safetyNote || "Manual source note queued from Source Hub.",
-          whySaved: "Source Hub local-only archive candidate.",
-          nextAction: "Review and clean before publishing any public-facing summary.",
-          tags: ["source-hub", "manual-review"],
-          dateAdded: new Date().toISOString().split("T")[0],
-          lastReviewed: new Date().toISOString().split("T")[0]
-        }, ...(archiveState.parsedLinks || [])]
+        parsedLinks: [archiveCandidate, ...(archiveState.parsedLinks || [])],
+        actionLog: [`${archiveCandidate.archiveTitle}: archive candidate created`, ...(archiveState.actionLog || [])]
+      });
+    } else {
+      setArchiveVaultState({
+        ...archiveState,
+        parsedLinks: (archiveState.parsedLinks || []).map((entry) => (
+          entry.id === existing.id ? { ...entry, ...archiveCandidate, id: existing.id, createdDate: entry.createdDate || archiveCandidate.createdDate, dateAdded: entry.dateAdded || archiveCandidate.dateAdded } : entry
+        )),
+        actionLog: [`${archiveCandidate.archiveTitle}: archive candidate refreshed`, ...(archiveState.actionLog || [])]
       });
     }
   }
@@ -13966,10 +14201,12 @@ renderSourceHubPage = function () {
   const pipeline = Array.isArray(sharedHabitatData.sourceRoutePipeline) ? sharedHabitatData.sourceRoutePipeline : [];
   const boundaries = Array.isArray(sharedHabitatData.sourceAdapterBoundaries) ? sharedHabitatData.sourceAdapterBoundaries : [];
   const actionLog = getSourceHubActionLog();
+  const archivedSourceCount = queue.filter((item) => getSourceArchiveLineage(item.id)).length;
   const sourceStats = [
     ["Matrix Categories", matrix.length || 0, "Static source registry"],
     ["Queue Items", queue.length || 0, "Demo/manual intake"],
     ["Source Required", queue.filter((item) => /missing|required|verification/i.test(`${item.sourceStatus} ${item.trustStatus}`)).length, "Manual gate"],
+    ["Archive Candidates", archivedSourceCount, "Local cleaned memory"],
     ["Private Boundary", "On", "No vault exposure"]
   ];
   const escalationRules = [
@@ -14089,31 +14326,54 @@ renderSourceHubPage = function () {
         <span class="meta-label">Source Intake Queue</span>
         <h3>Manual/demo source candidates waiting for verification.</h3>
         <div class="source-intake-grid">
-          ${queue.map((item) => `
-            <article class="source-card">
-              <div class="source-card-head">
-                <span>${escapeHtml(item.sourceType)}</span>
-                <em>${escapeHtml(item.trustStatus)}</em>
-              </div>
-              <h4>${escapeHtml(item.title)}</h4>
-              <p>${escapeHtml(item.relatedTicker)}</p>
-              <div class="source-card-meta">
-                <span>Route <strong>${escapeHtml(item.relatedRoute)}</strong></span>
-                <span>Owner <strong>${escapeHtml(item.ownerAgent)}</strong></span>
-                <span>Status <strong>${escapeHtml(item.sourceStatus)}</strong></span>
-              </div>
-              <p class="mission-footnote">${escapeHtml(item.nextManualAction)}</p>
-              <div class="source-action-row">
-                <button type="button" onclick="window.sourceHubLocalAction('review', '${escapeHtml(item.id)}')">Send to CEO B Review</button>
-                <button type="button" onclick="window.sourceHubLocalAction('archive', '${escapeHtml(item.id)}')">Archive Source Note</button>
-                <button type="button" onclick="window.sourceHubLocalAction('archivist', '${escapeHtml(item.id)}')">Assign Archivist</button>
-                <button type="button" onclick="window.sourceHubLocalAction('forge', '${escapeHtml(item.id)}')">Assign Forge</button>
-                <button type="button" onclick="window.sourceHubLocalAction('alert', '${escapeHtml(item.id)}')">Create Source Watch Alert</button>
-                <button type="button" onclick="window.copySourceHubSummary('${escapeHtml(item.id)}')">Copy Summary</button>
-                <a href="${escapeHtml(item.relatedRoute)}">Open Route</a>
-              </div>
-            </article>
-          `).join("")}
+          ${queue.map((item) => {
+            const archived = getSourceArchiveLineage(item.id);
+            const archiveStatus = archived ? getArchiveReviewStatus(archived) : "Not Archived";
+            const privacyTier = archived ? getArchivePrivacyTier(archived) : "local_only";
+            return `
+              <article class="source-card ${archived ? "source-card-archived" : ""}">
+                <div class="source-card-head">
+                  <span>${escapeHtml(item.sourceType)}</span>
+                  <em>${escapeHtml(item.trustStatus)}</em>
+                </div>
+                <h4>${escapeHtml(item.title)}</h4>
+                <p>${escapeHtml(item.relatedTicker)}</p>
+                <div class="source-card-meta">
+                  <span>Route <strong>${escapeHtml(item.relatedRoute)}</strong></span>
+                  <span>Owner <strong>${escapeHtml(item.ownerAgent)}</strong></span>
+                  <span>Status <strong>${escapeHtml(item.sourceStatus)}</strong></span>
+                  <span>Archive <strong>${escapeHtml(archived ? "Archive Candidate" : "Needs Cleaning")}</strong></span>
+                  <span>Privacy <strong>${escapeHtml(privacyTier)}</strong></span>
+                </div>
+                ${archived ? `
+                  <div class="source-lineage-strip">
+                    <span>Archived Clean Note</span>
+                    <span>${escapeHtml(archiveStatus)}</span>
+                    <span>Private Data Removed: ${archived.privateDataRemoved ? "Yes" : "Needs Check"}</span>
+                    <small>Source ID ${escapeHtml(item.id)} / Action ${escapeHtml(archived.linkedSourceHubActionId || "local")}</small>
+                  </div>
+                ` : `
+                  <div class="source-lineage-strip pending">
+                    <span>CEO B Review Required</span>
+                    <span>Local Only</span>
+                    <span>Source Required</span>
+                    <small>Next manual action: save cleaned source memory to Archive.</small>
+                  </div>
+                `}
+                <p class="mission-footnote">${escapeHtml(item.nextManualAction)}</p>
+                <div class="source-action-row">
+                  <button type="button" onclick="window.sourceHubLocalAction('review', '${escapeHtml(item.id)}')">Send to CEO B Review</button>
+                  <button type="button" onclick="window.sourceHubLocalAction('archive', '${escapeHtml(item.id)}')">Save Cleaned Source Memory</button>
+                  <button type="button" onclick="window.sourceHubLocalAction('archivist', '${escapeHtml(item.id)}')">Assign Archivist</button>
+                  <button type="button" onclick="window.sourceHubLocalAction('forge', '${escapeHtml(item.id)}')">Assign Forge</button>
+                  <button type="button" onclick="window.sourceHubLocalAction('alert', '${escapeHtml(item.id)}')">Create Source Watch Alert</button>
+                  <button type="button" onclick="window.copySourceHubSummary('${escapeHtml(item.id)}')">Copy Summary</button>
+                  <a href="${escapeHtml(item.relatedRoute)}">Open Route</a>
+                  ${archived ? `<a href="#/archive">Open Archive Lineage</a>` : ""}
+                </div>
+              </article>
+            `;
+          }).join("")}
         </div>
       </section>
 
@@ -14136,7 +14396,7 @@ renderSourceHubPage = function () {
           <span class="meta-label">Mission Control Integration Preview</span>
           <h3>Mission Control should summarize cleaned source state only.</h3>
           <div class="dashboard-status-list compact">
-            ${missionPreview.map(([label, value, owner]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(value)}</strong><small>${escapeHtml(owner)}</small></span>`).join("")}
+            ${missionPreview.map(([label, value, owner]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(label === "Archive candidates" ? `${archivedSourceCount} local` : value)}</strong><small>${escapeHtml(owner)}</small></span>`).join("")}
           </div>
         </article>
       </section>
@@ -14150,7 +14410,7 @@ renderSourceHubPage = function () {
       <section class="glass-card source-action-log">
         <span class="meta-label">Local-only action log</span>
         <h3>Prototype actions stay in this browser.</h3>
-        ${actionLog.length ? `<div class="source-log-list">${actionLog.slice(0, 6).map((entry) => `<span><strong>${escapeHtml(entry.action)}</strong><em>${escapeHtml(entry.title)}</em><small>${escapeHtml(entry.owner)}</small></span>`).join("")}</div>` : `<p class="mission-footnote">No Source Hub local actions have been saved in this browser yet.</p>`}
+        ${actionLog.length ? `<div class="source-log-list">${actionLog.slice(0, 6).map((entry) => `<span><strong>${escapeHtml(entry.action)}</strong><em>${escapeHtml(entry.title)}</em><small>${escapeHtml(entry.archiveStatus || entry.owner)}</small></span>`).join("")}</div>` : `<p class="mission-footnote">No Source Hub local actions have been saved in this browser yet.</p>`}
       </section>
     </div>
   `;
@@ -14171,15 +14431,7 @@ renderSignalsIntelligence = function () {
 }
 
 renderArchiveIntelligence = function () {
-  if (!els.archiveIntelligence) return;
-  els.archiveIntelligence.innerHTML = `
-    <div class="page-shell" style="padding-left:0;padding-right:0;">
-      ${pcPageHero("10 ARCV / Compounding Intelligence", "Archive Vault", "Saved research memory for packets, playbooks, review notes, lessons, and archived trends.", ["Research Only", "Local First", "Manual Review Required"])}
-      <section class="section-grid">
-        ${["Research Packets", "Playbooks", "Review Notes", "Lessons", "Archived Trends"].map((title) => pcInfoCard(title, `${title} stay organized as reusable intelligence after CEO B review.`, "Vault")).join("")}
-      </section>
-    </div>
-  `;
+  renderArchiveVaultExperience();
 }
 
 renderBookmarksPage = function () {

@@ -7792,6 +7792,53 @@ select:focus {
   background: rgba(255, 255, 255, 0.04);
 }
 
+.vault-lineage-panel,
+.vault-lineage-mini {
+  min-width: 0;
+  border: 1px solid rgba(66, 217, 200, 0.18);
+  border-radius: 12px;
+  background: rgba(66, 217, 200, 0.045);
+}
+
+.vault-lineage-panel {
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+}
+
+.vault-lineage-panel span {
+  color: var(--amber);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.vault-lineage-panel p,
+.vault-lineage-panel small {
+  margin: 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.vault-lineage-mini {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 6px;
+  padding: 6px;
+}
+
+.vault-lineage-mini span {
+  padding: 3px 6px;
+  border: 1px solid rgba(66, 217, 200, 0.14);
+  border-radius: 999px;
+  color: var(--teal);
+  font-size: 8px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .vault-reason strong {
   color: var(--amber);
   font-size: 12px;
@@ -11545,6 +11592,53 @@ body {
 
 .source-card-meta strong {
   color: #e8edf5;
+}
+
+.source-lineage-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid rgba(73, 242, 143, 0.18);
+  border-radius: 12px;
+  background: rgba(73, 242, 143, 0.045);
+}
+
+.source-lineage-strip.pending {
+  border-color: rgba(245, 200, 76, 0.20);
+  background: rgba(245, 200, 76, 0.045);
+}
+
+.source-lineage-strip span,
+.source-lineage-strip small {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.source-lineage-strip span {
+  padding: 4px 7px;
+  border: 1px solid rgba(73, 242, 143, 0.18);
+  border-radius: 999px;
+  color: var(--green);
+  background: rgba(73, 242, 143, 0.055);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.source-lineage-strip.pending span {
+  border-color: rgba(245, 200, 76, 0.18);
+  color: var(--gold);
+  background: rgba(245, 200, 76, 0.055);
+}
+
+.source-lineage-strip small {
+  flex-basis: 100%;
+  color: #aebaca;
 }
 
 .source-action-row {
