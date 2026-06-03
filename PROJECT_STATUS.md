@@ -1,21 +1,24 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint — Phase 2C App Shell / Navigation Reset
+## Current Checkpoint — Phase 2D Source Hub Intelligence Cockpit
 
-- Latest completed local build: Phase 2C App Shell / Navigation Reset.
-- Global area upgraded: app shell, sidebar, route labels, and topbar.
+- Latest completed/live-locked build: Phase 2D Source Hub Intelligence Cockpit.
+- Route upgraded: `#/source-hub`.
+- Source Hub status: live-reviewed on GitHub Pages and serving the Phase 2D trust/intelligence cockpit.
+- Phase 2C App Shell / Navigation Reset remains live-locked.
+- Sidebar number-badge cleanup remains live-verified.
 - Related routes preserved: `#/dashboard` Mission Control, `#/watchlists` Research Universe, `#/agents` placeholder.
-- Current status: local implementation complete and validated.
-- Latest expected commit: `e2db5a2 Add Phase 2B watchlists prototype`.
-- Live review URL: `https://burberrry.github.io/Pickaxe-Capital/?v=phase2b-watchlists#/watchlists`.
-- CEO B live visual review: checked on GitHub Pages with cache key `phase2b-watchlists`.
+- Current status: Phase 2D live verification passed.
+- Latest live commit: `a88efa3 Add Phase 2D source hub intelligence cockpit`.
+- Live review URL: `https://burberrry.github.io/Pickaxe-Capital/?v=phase2d-source-hub#/source-hub`.
 - Latest local fix: `/ai-handoff` now returns the generated plain-text AI handoff, matching `/source-hub-staging`.
 - Latest local upgrade: `/ai-handoff` and `/source-hub-staging` can include selected private Obsidian notes from the local vault so future AI/Codex sessions receive current Pickaxe memory context.
 - Latest interface upgrade: `#/dashboard` is now Mission Control with command header, market regime, active agents, alerts, watchlist pulse, research signals, source feed, risk desk, research queue, private memory layer, and next mission.
 - Latest route cleanup: `#/agents` has been cleared from the broken visual habitat and replaced with a calm future-state placeholder/schematic.
 - Latest shell reset: sidebar and navigation now use a graphite/gold private market OS frame instead of rainbow route accents, duplicate Mission Control naming, or fake autonomous-agent language.
+- Latest source layer upgrade: `#/source-hub` now shows the Source Hub Intelligence Cockpit with static safety line, source verification matrix, source-to-route map, planned/local agent ownership, manual/demo source intake queue, escalation rules, adapter readiness boundaries, private memory boundary, Mission Control integration preview, local-only action log, source-required wording, and CEO B final decision-layer wording.
 - Obsidian boundary: selected notes are local handoff context only. The public/static frontend does not publish private vault contents or read Obsidian in-browser.
-- Next recommended task: upgrade `/source-hub` so alerts, signals, thesis cards, and watchlist items can point back to verified sources.
+- Next recommended task: B should choose the next task; do not start Options Hub, Agent Habitat rebuild, live data, or provider adapters automatically.
 - Do not start live APIs, broker integrations, betting/sportsbook integrations, real telemetry, OpenClaw installation, or 20-section image asset integration yet.
 
 Historical note: older “Next Small Task” and prior-session sections below are preserved as session history and are not the active next step.
