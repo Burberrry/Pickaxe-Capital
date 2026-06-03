@@ -786,3 +786,30 @@ Verify and test live Chrome HTML file upload in browser under `/bookmarks` view,
   - Cleaned all remaining user-facing stale references to Research Journal and Risk & Rules naming.
 - **Verification Performed**:
   - Ran validation checks locally (`node --check`, `build.mjs`, `check-project.mjs`, `update-readme.mjs`) and confirmed all passed.
+
+## Phase 2D — Source Hub Intelligence Cockpit - 2026-06-03
+
+- **Current State**: Built locally and validated after the Phase 2C shell lock and sidebar number-badge cleanup.
+- **Changed Files**:
+  - `public/app.js` & `app.js`
+  - `public/habitat-data.js` & `habitat-data.js`
+  - `public/styles.css` & `styles.css`
+  - `PROJECT_STATUS.md`
+  - `NEXT_STEPS.md`
+- **Features Added**:
+  - Upgraded `#/source-hub` into the Source Hub Intelligence Cockpit with a command header, static safety line, source verification matrix, source-to-route map, planned/local agent ownership panel, source intake queue, escalation rules, adapter readiness boundaries, private memory boundary, Mission Control integration preview, and local-only action log.
+  - Added shared Source Hub data for source categories, manual/demo intake cards, planned agent responsibilities, route pipeline steps, and provider boundary statuses.
+  - Wired safe local-only prototype actions for CEO B review, archive source note, assign Archivist, assign Forge, create source watch alert, copy source summary, and open related routes.
+- **Safety Preserved**:
+  - No live APIs, scraping, broker integration, execution, copy-trading, fake connected adapters, private frontend keys, or private Obsidian note publishing.
+  - Obsidian is shown only as a local memory boundary; raw vault contents are not exposed.
+  - Agents remains placeholder-only and no Agent Habitat rebuild was started.
+- **Validation Performed**:
+  - `/Applications/Codex.app/Contents/Resources/node --check public/app.js` passed.
+  - `/Applications/Codex.app/Contents/Resources/node --check app.js` passed.
+  - `/Applications/Codex.app/Contents/Resources/node --run build` passed.
+  - `/Applications/Codex.app/Contents/Resources/node --run check:project` passed.
+  - Local static browser check passed for `/`, `#/dashboard`, `#/watchlists`, `#/source-hub`, `#/signals`, `#/alerts`, `#/agents`, `#/staging`, `#/archive`, and `#/bookmarks` with no console errors, no blank main content, no horizontal overflow, number-only sidebar badges, Source Hub safety wording visible, and Agents placeholder-only.
+- **Remaining Risks**:
+  - Phase 2D still needs GitHub Pages live review after push.
+  - Provider adapters remain planned/backend-only and not connected.

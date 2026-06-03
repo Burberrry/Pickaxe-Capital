@@ -13834,28 +13834,323 @@ renderAgentsPage = function () {
   `;
 }
 
+function getSourceHubActionLog() {
+  try {
+    const stored = JSON.parse(localStorage.getItem("pickaxeSourceHubActions") || "[]");
+    return Array.isArray(stored) ? stored : [];
+  } catch {
+    return [];
+  }
+}
+
+function setSourceHubActionLog(items) {
+  try {
+    localStorage.setItem("pickaxeSourceHubActions", JSON.stringify((items || []).slice(0, 40)));
+  } catch {
+    // Local browser storage may be disabled; actions are prototype-only.
+  }
+}
+
+window.sourceHubLocalAction = (action, sourceId) => {
+  const queue = Array.isArray(sharedHabitatData.sourceIntakeQueue) ? sharedHabitatData.sourceIntakeQueue : [];
+  const matrix = Array.isArray(sharedHabitatData.sourceVerificationMatrix) ? sharedHabitatData.sourceVerificationMatrix : [];
+  const item = queue.find((entry) => entry.id === sourceId) || matrix.find((entry) => entry.id === sourceId);
+  if (!item) return;
+  const sourceTitle = item.title || item.category || "Source item";
+  const owner = item.ownerAgent || "Archivist";
+  const route = item.relatedRoute || item.routeUsedBy || "#/source-hub";
+  const log = getSourceHubActionLog();
+  const actionLabel = {
+    review: "Sent to CEO B Review",
+    archive: "Archived source note",
+    archivist: "Assigned to Archivist",
+    forge: "Assigned to Forge",
+    alert: "Created source watch alert",
+    copy: "Copied source summary"
+  }[action] || "Logged source action";
+
+  log.unshift({
+    id: `source-action-${Date.now()}`,
+    action: actionLabel,
+    sourceId,
+    title: sourceTitle,
+    owner,
+    route,
+    createdAt: new Date().toISOString()
+  });
+  setSourceHubActionLog(log);
+
+  if (action === "review" && typeof addSharedReviewItem === "function") {
+    addSharedReviewItem({
+      id: `source-review-${sourceId}-${Date.now()}`,
+      title: `Source Review: ${sourceTitle}`,
+      source: "Source Hub",
+      owner: "CEO B",
+      status: "Waiting for CEO B",
+      output: `Manual review requested for ${sourceTitle}. Route: ${route}. Owner: ${owner}.`,
+      priority: "High"
+    });
+  }
+
+  if ((action === "archivist" || action === "forge" || action === "alert") && typeof addSharedMissionItem === "function") {
+    addSharedMissionItem({
+      id: `source-mission-${sourceId}-${Date.now()}`,
+      title: `${actionLabel}: ${sourceTitle}`,
+      owner: action === "forge" ? "Forge" : action === "alert" ? "Sentry" : "Archivist",
+      source: "Source Hub",
+      priority: action === "alert" ? "High" : "Medium",
+      nextAction: item.nextManualAction || "Run manual source verification."
+    });
+  }
+
+  if (action === "archive") {
+    const archiveState = getArchiveVaultState();
+    const existing = (archiveState.parsedLinks || []).find((entry) => entry.id === `source-note-${sourceId}`);
+    if (!existing) {
+      setArchiveVaultState({
+        ...archiveState,
+        parsedLinks: [{
+          id: `source-note-${sourceId}`,
+          title: `Source Note: ${sourceTitle}`,
+          url: `local://source-hub/${sourceId}`,
+          domain: "local",
+          type: "research",
+          topic: item.relatedTicker || item.category || "Source verification",
+          category: "Source Hub",
+          habitat: "Archive",
+          status: "review",
+          priority: "medium",
+          connectedAgent: owner,
+          summary: item.nextManualAction || item.safetyNote || "Manual source note queued from Source Hub.",
+          whySaved: "Source Hub local-only archive candidate.",
+          nextAction: "Review and clean before publishing any public-facing summary.",
+          tags: ["source-hub", "manual-review"],
+          dateAdded: new Date().toISOString().split("T")[0],
+          lastReviewed: new Date().toISOString().split("T")[0]
+        }, ...(archiveState.parsedLinks || [])]
+      });
+    }
+  }
+
+  showNotification(`${actionLabel}: ${sourceTitle}`);
+  renderSourceHubPage();
+};
+
+window.copySourceHubSummary = async (sourceId) => {
+  const queue = Array.isArray(sharedHabitatData.sourceIntakeQueue) ? sharedHabitatData.sourceIntakeQueue : [];
+  const matrix = Array.isArray(sharedHabitatData.sourceVerificationMatrix) ? sharedHabitatData.sourceVerificationMatrix : [];
+  const item = queue.find((entry) => entry.id === sourceId) || matrix.find((entry) => entry.id === sourceId);
+  if (!item) return;
+  const text = [
+    `Source: ${item.title || item.category}`,
+    `Type: ${item.sourceType || "Manual Source"}`,
+    `Trust: ${item.trustStatus || item.trustLevel || "Needs Verification"}`,
+    `Route: ${item.relatedRoute || item.routeUsedBy || "#/source-hub"}`,
+    `Owner: ${item.ownerAgent || "Archivist"}`,
+    `Next Action: ${item.nextManualAction || item.escalationRule || "Manual source verification required."}`,
+    "Boundary: Static/local prototype. No live provider call, scraping, broker connection, or private vault exposure."
+  ].join("\n");
+  try {
+    await writeClipboard(text);
+    window.sourceHubLocalAction("copy", sourceId);
+  } catch {
+    showNotification("Clipboard unavailable. Source summary remains visible on page.");
+  }
+};
+
 renderSourceHubPage = function () {
   if (!els.sourceHubContent) return;
-  const cards = [
-    ["Market Sources", "Equity, index, futures, macro, and chart source candidates."],
-    ["Options / Flow Sources", "Options chain, flow, volatility, spread, and liquidity source candidates."],
-    ["News / Macro Sources", "Public news, geopolitical, calendar, and macro event references."],
-    ["Bookmark Sources", "Private bookmark imports stay local until cleaned summaries are created."],
-    ["Research Documents", "Manual documents, notes, and case studies that can feed Archive Vault."],
-    ["Future Provider Adapters", "Backend-only adapters planned later; provider adapters not connected."]
+  const matrix = Array.isArray(sharedHabitatData.sourceVerificationMatrix) ? sharedHabitatData.sourceVerificationMatrix : [];
+  const queue = Array.isArray(sharedHabitatData.sourceIntakeQueue) ? sharedHabitatData.sourceIntakeQueue : [];
+  const ownership = Array.isArray(sharedHabitatData.sourceAgentOwnership) ? sharedHabitatData.sourceAgentOwnership : [];
+  const pipeline = Array.isArray(sharedHabitatData.sourceRoutePipeline) ? sharedHabitatData.sourceRoutePipeline : [];
+  const boundaries = Array.isArray(sharedHabitatData.sourceAdapterBoundaries) ? sharedHabitatData.sourceAdapterBoundaries : [];
+  const actionLog = getSourceHubActionLog();
+  const sourceStats = [
+    ["Matrix Categories", matrix.length || 0, "Static source registry"],
+    ["Queue Items", queue.length || 0, "Demo/manual intake"],
+    ["Source Required", queue.filter((item) => /missing|required|verification/i.test(`${item.sourceStatus} ${item.trustStatus}`)).length, "Manual gate"],
+    ["Private Boundary", "On", "No vault exposure"]
   ];
+  const escalationRules = [
+    "No signal escalation without a source.",
+    "No alert upgrade without source context.",
+    "No watchlist conviction increase without source support.",
+    "No options packet escalation without catalyst/source note.",
+    "No private Obsidian note contents in public frontend.",
+    "CEO B manual review required.",
+    "Source Hub organizes research context; it does not make trading decisions.",
+    "Source confidence is not financial advice."
+  ];
+  const missionPreview = [
+    ["Verified source count", "Demo static count only", "Source Hub"],
+    ["Source gaps", "Visible before escalation", "Risk Desk"],
+    ["Source-required alerts", "Blocked until context attached", "Sentry"],
+    ["Watchlist thesis support", "Company IR, filings, transcripts", "Forge"],
+    ["Archive candidates", "Reviewed memory only", "Archivist"],
+    ["CEO B review queue", "Final decision layer", "CEO B"]
+  ];
+
   els.sourceHubContent.innerHTML = `
-    <div class="page-shell">
-      ${pcPageHero("06 SRC / External Intelligence", "Source Hub", "A source cockpit for categorizing research candidates without pretending any provider is connected.", ["Research Candidate", "Not Connected", "Manual Verification Required", "No Frontend API Keys"])}
-      <section class="section-grid">
-        ${cards.map(([title, body]) => `
-          <article class="glass-card">
-            <span class="meta-label">Research Candidate</span>
-            <h3>${escapeHtml(title)}</h3>
-            <p>${escapeHtml(body)}</p>
-            ${pcChipRow(["Research Candidate", "Not Connected", "Manual Verification Required"])}
+    <div class="page-shell source-hub-shell">
+      <header class="source-hub-hero">
+        <div>
+          <span class="meta-label">06 / Intelligence Trust Layer</span>
+          <h2>Source Hub Intelligence Cockpit</h2>
+          <p>Verified source intake, citation mapping, adapter readiness, and CEO B escalation control.</p>
+          ${pcChipRow(["Static Prototype", "Source Validation Layer", "No Scraping", "No Private Vault Exposure", "No Live Provider Calls", "CEO B Review Required"])}
+        </div>
+        <aside class="truth-panel source-hub-boundary-card">
+          <span class="meta-label">Source Hub Truth</span>
+          <h3>Source required before signal escalation.</h3>
+          <p>Source Hub is a static research and verification prototype. It does not scrape websites, call live provider APIs, expose private Obsidian vault notes, connect to brokers, execute trades, or present fake live data. Sources are manual/demo/local until CEO B approves backend adapters.</p>
+          <strong>CEO B is the final decision layer.</strong>
+        </aside>
+      </header>
+
+      <section class="source-hub-stat-grid">
+        ${sourceStats.map(([label, value, detail]) => `
+          <article class="mission-stat-card">
+            <span>${escapeHtml(label)}</span>
+            <strong>${escapeHtml(value)}</strong>
+            <small>${escapeHtml(detail)}</small>
           </article>
         `).join("")}
+      </section>
+
+      <section class="source-hub-main-grid">
+        <article class="command-card source-matrix-card">
+          <span class="meta-label">Source Verification Matrix</span>
+          <h3>Where each idea comes from and how it may be used.</h3>
+          <div class="source-matrix-list">
+            ${matrix.map((source) => `
+              <article class="source-matrix-row">
+                <div>
+                  <strong>${escapeHtml(source.category)}</strong>
+                  <span>${escapeHtml(source.sourceType)}</span>
+                </div>
+                <em>${escapeHtml(source.trustLevel)}</em>
+                <span>${escapeHtml(source.connectionStatus)}</span>
+                <span>${escapeHtml(source.routeUsedBy)}</span>
+                <span>${escapeHtml(source.ownerAgent)}</span>
+                <p>${escapeHtml(source.escalationRule)} ${escapeHtml(source.safetyNote)}</p>
+              </article>
+            `).join("")}
+          </div>
+        </article>
+
+        <aside class="truth-panel source-rules-card">
+          <span class="meta-label">Escalation Rules</span>
+          <h3>Weak source trails do not move up the system.</h3>
+          <div class="truth-list">
+            ${escalationRules.map((rule) => `<span><em>${escapeHtml(rule)}</em><strong>Required</strong></span>`).join("")}
+          </div>
+        </aside>
+      </section>
+
+      <section class="command-card source-pipeline-card">
+        <span class="meta-label">Source-to-Route Map</span>
+        <h3>Sources feed the cockpit only after trust and route context are assigned.</h3>
+        <div class="source-pipeline">
+          ${pipeline.map((step, index) => `
+            <article>
+              <span>${String(index + 1).padStart(2, "0")}</span>
+              <strong>${escapeHtml(step.step)}</strong>
+              <p>${escapeHtml(step.detail)}</p>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+
+      <section class="split-layout source-ownership-grid">
+        <article class="glass-card">
+          <span class="meta-label">Agent Ownership Panel</span>
+          <h3>Planned/local roles only. No autonomous background agent jobs.</h3>
+          <div class="source-agent-list">
+            ${ownership.map((item) => `
+              <article>
+                <strong>${escapeHtml(item.agent)}</strong>
+                <span>${escapeHtml(item.responsibility)}</span>
+                <em>${escapeHtml(item.status)}</em>
+                <small>${escapeHtml(item.boundary)}</small>
+              </article>
+            `).join("")}
+          </div>
+        </article>
+        <article class="truth-panel source-memory-card">
+          <span class="meta-label">Private Memory Boundary</span>
+          <h3>Website is the cockpit. Obsidian is the memory. CEO B is the decision layer.</h3>
+          <p>Selected Obsidian notes may feed local /ai-handoff and /source-hub-staging, but private vault contents must not be published into public frontend files.</p>
+          ${pcChipRow(["Private Local Only", "No Raw Vault Notes", "Public-Safe Summaries Only"])}
+        </article>
+      </section>
+
+      <section class="command-card source-intake-card">
+        <span class="meta-label">Source Intake Queue</span>
+        <h3>Manual/demo source candidates waiting for verification.</h3>
+        <div class="source-intake-grid">
+          ${queue.map((item) => `
+            <article class="source-card">
+              <div class="source-card-head">
+                <span>${escapeHtml(item.sourceType)}</span>
+                <em>${escapeHtml(item.trustStatus)}</em>
+              </div>
+              <h4>${escapeHtml(item.title)}</h4>
+              <p>${escapeHtml(item.relatedTicker)}</p>
+              <div class="source-card-meta">
+                <span>Route <strong>${escapeHtml(item.relatedRoute)}</strong></span>
+                <span>Owner <strong>${escapeHtml(item.ownerAgent)}</strong></span>
+                <span>Status <strong>${escapeHtml(item.sourceStatus)}</strong></span>
+              </div>
+              <p class="mission-footnote">${escapeHtml(item.nextManualAction)}</p>
+              <div class="source-action-row">
+                <button type="button" onclick="window.sourceHubLocalAction('review', '${escapeHtml(item.id)}')">Send to CEO B Review</button>
+                <button type="button" onclick="window.sourceHubLocalAction('archive', '${escapeHtml(item.id)}')">Archive Source Note</button>
+                <button type="button" onclick="window.sourceHubLocalAction('archivist', '${escapeHtml(item.id)}')">Assign Archivist</button>
+                <button type="button" onclick="window.sourceHubLocalAction('forge', '${escapeHtml(item.id)}')">Assign Forge</button>
+                <button type="button" onclick="window.sourceHubLocalAction('alert', '${escapeHtml(item.id)}')">Create Source Watch Alert</button>
+                <button type="button" onclick="window.copySourceHubSummary('${escapeHtml(item.id)}')">Copy Summary</button>
+                <a href="${escapeHtml(item.relatedRoute)}">Open Route</a>
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+
+      <section class="source-adapter-grid">
+        <article class="command-card">
+          <span class="meta-label">Adapter Readiness / Provider Boundary</span>
+          <h3>Adapters are planned boundaries, not active provider claims.</h3>
+          <div class="adapter-boundary-list">
+            ${boundaries.map((boundary) => `
+              <article>
+                <strong>${escapeHtml(boundary.category)}</strong>
+                <em>${escapeHtml(boundary.status)}</em>
+                <span>${boundary.envVars.length ? boundary.envVars.map((envVar) => `<code>${escapeHtml(envVar)}</code>`).join("") : "<code>NO_ENV_VAR</code>"}</span>
+                <p>${escapeHtml(boundary.safety)}</p>
+              </article>
+            `).join("")}
+          </div>
+        </article>
+        <article class="glass-card source-mission-preview">
+          <span class="meta-label">Mission Control Integration Preview</span>
+          <h3>Mission Control should summarize cleaned source state only.</h3>
+          <div class="dashboard-status-list compact">
+            ${missionPreview.map(([label, value, owner]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(value)}</strong><small>${escapeHtml(owner)}</small></span>`).join("")}
+          </div>
+        </article>
+      </section>
+
+      <section class="truth-panel source-empty-truth">
+        <span class="meta-label">Empty / Truth State</span>
+        <h3>This Source Hub is a static research prototype.</h3>
+        <p>It does not connect to live provider APIs, scrape sites, expose private vault notes, or create financial recommendations. CEO B decides what sources become public-safe research memory.</p>
+      </section>
+
+      <section class="glass-card source-action-log">
+        <span class="meta-label">Local-only action log</span>
+        <h3>Prototype actions stay in this browser.</h3>
+        ${actionLog.length ? `<div class="source-log-list">${actionLog.slice(0, 6).map((entry) => `<span><strong>${escapeHtml(entry.action)}</strong><em>${escapeHtml(entry.title)}</em><small>${escapeHtml(entry.owner)}</small></span>`).join("")}</div>` : `<p class="mission-footnote">No Source Hub local actions have been saved in this browser yet.</p>`}
       </section>
     </div>
   `;

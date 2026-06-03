@@ -2,7 +2,7 @@
 
 ## Current Active Checkpoint
 
-Phase 2C App Shell / Navigation Reset is built locally and validated. Agents Placeholder Reset and Mission Control Dashboard Upgrade are built locally. Phase 2B Watchlists remains built, committed, pushed to origin/main, live-checked by CEO B, and stability-checked locally.
+Phase 2D Source Hub Intelligence Cockpit is built locally and validated. Sidebar number-badge cleanup is live-verified. Phase 2C App Shell / Navigation Reset is officially live-locked. Agents Placeholder Reset and Mission Control Dashboard Upgrade are built locally. Phase 2B Watchlists remains built, committed, pushed to origin/main, live-checked by CEO B, and stability-checked locally.
 
 CEO B live visual review is complete.
 
@@ -18,10 +18,12 @@ Latest route cleanup: `#/agents` is intentionally a placeholder/future schematic
 
 Latest shell reset: sidebar/navigation now uses a calmer graphite/gold private market OS frame. Mission Control is the flagship route, Agents is placeholder-only, and Source Hub is the next major intelligence layer.
 
+Latest source layer upgrade: `#/source-hub` is now the Source Hub Intelligence Cockpit with source verification matrix, source-to-route map, planned/local agent ownership, source intake queue, adapter boundary panel, private memory boundary, escalation rules, and Mission Control integration preview. All content remains static/manual/demo/local-only with no scraping, live provider calls, broker connection, execution, copy-trading, or private Obsidian note exposure.
+
 ## Do Next
 
 1. Use the Obsidian-backed `/ai-handoff` before future Codex/ChatGPT website build sessions.
-2. Start Phase 2D Source Hub Intelligence Cockpit on `#/source-hub` after B approves the shell reset.
+2. Push and live-review Phase 2D Source Hub Intelligence Cockpit if it has not already been pushed.
 3. Keep Watchlists stable.
 4. Continue preserving research-only wording and static GitHub Pages safety.
 5. Wait for explicit B approval before starting live data, provider adapters, or Options Hub.
@@ -75,7 +77,7 @@ Latest shell reset: sidebar/navigation now uses a calmer graphite/gold private m
 ## Next Session Priority
 
 - Treat `#/dashboard` Mission Control as the flagship command-center page.
-- Upgrade `/source-hub` next if B asks for another visible page sprint.
+- Live-review `/source-hub` next if B asks for confirmation; otherwise keep Source Hub stable and choose the next approved cockpit layer.
 - Leave `#/agents` as a placeholder unless B explicitly asks to rebuild the Agent Habitat.
 - Do not start Options Hub yet.
 - Continue preserving research-only wording and static GitHub Pages safety.
@@ -96,5 +98,7 @@ Latest shell reset: sidebar/navigation now uses a calmer graphite/gold private m
 - Phase 2B Watchlists Prototype completed, pushed to `origin/main`, and live-checked by CEO B.
 - Mission Control Dashboard Upgrade completed locally.
 - Agents Placeholder Reset completed locally.
-- Phase 2C App Shell / Navigation Reset completed locally.
+- Phase 2C App Shell / Navigation Reset live-locked.
+- Sidebar number-badge cleanup live-verified.
+- Phase 2D Source Hub Intelligence Cockpit built and locally validated.
 - Older “Dashboard next” and “future Watchlists” notes are historical only and are no longer the active task.
