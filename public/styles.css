@@ -8064,6 +8064,63 @@ body {
   min-height: 122px !important;
 }
 
+/* Phase 2C overflow lock: keep dashboard/watchlists inside the app shell. */
+main,
+.view,
+.page-shell,
+.mission-control-shell,
+.watchlists-shell {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.dashboard-command-grid,
+.watchlist-command-grid {
+  grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.22fr) minmax(260px, 0.82fr) !important;
+  gap: clamp(12px, 1.2vw, 18px) !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.mission-main-grid,
+.watchlist-lower-grid {
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr) !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.risk-desk-card,
+.watchlist-truth-card,
+.truth-panel,
+.command-card,
+.glass-card,
+.metric-card {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.truth-list span,
+.watchlist-priority-row,
+.watchlist-agent-list span,
+.watchlist-review-list article {
+  min-width: 0 !important;
+}
+
+.truth-list span,
+.truth-list strong {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1180px) {
+  .dashboard-command-grid,
+  .watchlist-command-grid,
+  .mission-main-grid,
+  .watchlist-lower-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /* Phase 2C app shell / navigation reset - must remain after older route-accent locks */
 :root {
   --sidebar-width: 318px !important;
