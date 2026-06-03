@@ -7,6 +7,19 @@ const root = process.cwd();
 const publicDir = join(root, "public");
 const dataDir = join(root, "data");
 const port = Number(process.env.PORT || 4328);
+const obsidianVaultPath = process.env.PICKAXE_OBSIDIAN_VAULT || "/Users/b/Documents/Obsidian Vault";
+
+const obsidianHandoffNotes = [
+  ["Pickaxe Capital Vault Operating Prompt.md", "Obsidian Vault Operating Prompt"],
+  ["13 Goals/Pickaxe Goal Command Center.md", "Pickaxe Goal Command Center"],
+  ["01 CEO B/CEO B.md", "CEO B Decision Layer"],
+  ["02 Pickaxe Capital/AI Habitat OS.md", "AI Habitat OS"],
+  ["03 Market Habitat/Market Habitat.md", "Market Habitat"],
+  ["04 Life Habitat/Life Habitat.md", "Life Habitat"],
+  ["09 Agents/Agents.md", "Agents"],
+  ["10 Decisions/CEO B Decisions.md", "CEO B Decisions"],
+  ["00_START_HERE/NEXT_SESSION_PLAN.md.md", "Obsidian Next Session Plan"],
+];
 
 await mkdir(dataDir, { recursive: true });
 loadEnvFile(join(root, ".env.local"));
@@ -109,7 +122,7 @@ createServer(async (req, res) => {
       });
     }
 
-    if (url.pathname === "/source-hub-staging") {
+    if (url.pathname === "/source-hub-staging" || url.pathname === "/ai-handoff") {
       const body = await buildAiHandoff();
       res.writeHead(200, {
         "Content-Type": "text/plain; charset=utf-8",
@@ -227,6 +240,7 @@ async function buildAiHandoff() {
       return `## ${label} (${file})\n\nNot found.`;
     }
   }));
+  const obsidianSection = await buildObsidianHandoffSection();
   return [
     "# Pickaxe Capital / AI Habitat OS - Source Hub / Staging",
     "",
@@ -235,15 +249,16 @@ async function buildAiHandoff() {
     "Use this handoff to understand the current website state. The active runtime is the static Node app served by server.mjs and public/ files.",
     "",
     "Main local URL: http://localhost:4328/vision-map",
-    "Handoff URL: http://localhost:4328/source-hub-staging",
+    "Handoff URLs: http://localhost:4328/ai-handoff and http://localhost:4328/source-hub-staging",
     "Project update URL: http://localhost:4328/project-update",
     "GitHub repo target: https://github.com/Burberrry/pickaxe-capital-command-center",
     "",
     "Architecture truth: static Node app. server.mjs serves public/. Astro src files are reference only unless this changes later.",
     "Active files: server.mjs, public/index.html, public/app.js, public/styles.css, public/habitat-data.js, AGENTS.md, PROJECT_STATUS.md, NEXT_STEPS.md.",
     "Build/check commands: /Applications/Codex.app/Contents/Resources/node --run build and /Applications/Codex.app/Contents/Resources/node --run check:project.",
+    "Private memory source: selected Obsidian notes are included below only when this local server can read the vault. Do not copy private vault contents into public frontend files.",
     "",
-    "Main routes: /, /vision-map, /agents, /agent-builder-factory, /archive, /staging, /project-update, /source-hub-staging, /founder, /ceo-b-profile, /jarvis-lab, /life-os, /signals, /source-hub, /rk-tracker, /bookmarks, /berkshire-1965, /app/alerts, /market-command, /signal-engine, /life-habitat.",
+    "Main routes: /, /vision-map, /agents, /agent-builder-factory, /archive, /staging, /project-update, /ai-handoff, /source-hub-staging, /founder, /ceo-b-profile, /jarvis-lab, /life-os, /signals, /source-hub, /rk-tracker, /bookmarks, /berkshire-1965, /app/alerts, /market-command, /signal-engine, /life-habitat.",
     "",
     "Urgent market watchlist only: BTC, SPY, QQQ, TSLA, AAPL, AMD, NVDA, MSFT, AMZN, UVXY, SPX, MESmain, GCmain, SImain, SICmain, CLmain, DXY. Do not expand the market universe until B approves more symbols.",
     "Market Chart Workspace: manual/prototype QQQ-default workspace, static watchlist, no live feed connected, no trading execution, all actions route to CEO B Review first.",
@@ -254,6 +269,32 @@ async function buildAiHandoff() {
     "",
     "Honest labels: Static, Prototype, Research, Future Adapter, Manual Review, Not Implemented. No scraping, no auto-trading, no fake live agents, no API keys in frontend.",
     "Localhost warning: localhost links only work on B's Mac. For ChatGPT to open the site directly, deploy the static site and share /project-update or /source-hub-staging.",
+    "",
+    obsidianSection,
+    "",
+    sections.join("\n\n---\n\n"),
+  ].join("\n");
+}
+
+async function buildObsidianHandoffSection() {
+  if (!existsSync(obsidianVaultPath)) {
+    return `## Private Obsidian Memory Layer\n\nVault not found at configured local path. Set PICKAXE_OBSIDIAN_VAULT to enable local handoff notes.`;
+  }
+
+  const sections = await Promise.all(obsidianHandoffNotes.map(async ([relativePath, label]) => {
+    try {
+      const text = await readFile(join(obsidianVaultPath, relativePath), "utf8");
+      return `### ${label} (${relativePath})\n\n${text.trim()}`;
+    } catch {
+      return `### ${label} (${relativePath})\n\nNot found.`;
+    }
+  }));
+
+  return [
+    "## Private Obsidian Memory Layer",
+    "",
+    "Local-only source. The website cockpit uses public/static files; Obsidian remains the private memory layer for Codex/AI handoff context.",
+    "Vault path is configured locally through PICKAXE_OBSIDIAN_VAULT or the default Mac vault location.",
     "",
     sections.join("\n\n---\n\n"),
   ].join("\n");

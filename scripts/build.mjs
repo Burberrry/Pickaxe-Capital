@@ -42,5 +42,8 @@ for (const requiredCopy of ["Quietly high-agency.", "Explorer mind.", "High-impa
 for (const api of ["/api/archive", "/api/archive/tree", "/api/archive/sources", "/api/archive/agents", "/api/archive/findings", "/api/archive/imports", "/api/archive/quarantine"]) {
   if (!server.includes(api)) throw new Error(`API route missing from server: ${api}`);
 }
+for (const handoffRoute of ["/ai-handoff", "/source-hub-staging"]) {
+  if (!server.includes(handoffRoute)) throw new Error(`AI handoff route missing from server: ${handoffRoute}`);
+}
 
 console.log("Build validation passed.");

@@ -2,17 +2,29 @@
 
 ## Current Active Checkpoint
 
-Phase 2B Watchlists is built, committed, pushed to origin/main, and live-checked by CEO B.
+Phase 2C App Shell / Navigation Reset is built locally and validated. Agents Placeholder Reset and Mission Control Dashboard Upgrade are built locally. Phase 2B Watchlists remains built, committed, pushed to origin/main, live-checked by CEO B, and stability-checked locally.
 
 CEO B live visual review is complete.
 
 https://burberrry.github.io/Pickaxe-Capital/?v=phase2b-watchlists#/watchlists
 
+Latest local stability fix: `/ai-handoff` now returns the generated plain-text handoff, matching `/source-hub-staging`.
+
+Latest memory upgrade: selected private Obsidian notes can feed the local `/ai-handoff` and `/source-hub-staging` context. The public/static frontend should only show sanitized memory-layer status, not private vault contents.
+
+Latest interface upgrade: `#/dashboard` is now Mission Control, the premium CEO B command-center route for market regime, agents, alerts, watchlists, signals, sources, risk, research queue, and next mission.
+
+Latest route cleanup: `#/agents` is intentionally a placeholder/future schematic on a black/graphite background. The old agent habitat image is removed. Do not rebuild the agent habitat until Mission Control and Source Hub are stable.
+
+Latest shell reset: sidebar/navigation now uses a calmer graphite/gold private market OS frame. Mission Control is the flagship route, Agents is placeholder-only, and Source Hub is the next major intelligence layer.
+
 ## Do Next
 
-1. Keep Watchlists stable.
-2. Do not change Watchlists unless a visible bug is found.
-3. Continue preserving research-only wording and static GitHub Pages safety.
+1. Use the Obsidian-backed `/ai-handoff` before future Codex/ChatGPT website build sessions.
+2. Start Phase 2D Source Hub Intelligence Cockpit on `#/source-hub` after B approves the shell reset.
+3. Keep Watchlists stable.
+4. Continue preserving research-only wording and static GitHub Pages safety.
+5. Wait for explicit B approval before starting live data, provider adapters, or Options Hub.
 
 ## Do Not Start Yet
 
@@ -51,18 +63,24 @@ https://burberrry.github.io/Pickaxe-Capital/?v=phase2b-watchlists#/watchlists
 ## Current State
 
 - Alerts Desk remains the homepage and research review queue.
-- Dashboard exists as the pinned `#/dashboard` CEO B operating overview.
+- Dashboard exists as pinned `#/dashboard` and now displays as Mission Control, the CEO B operating overview.
 - Watchlists exists as `#/watchlists` and is the Phase 2B research universe foundation.
 - Vision Map carries the Living Agent Network.
 - Routes 16-20 remain future concepts except where explicitly upgraded later.
 - The app is static-first, vanilla JS / HTML / CSS, and LocalStorage-only.
 - No backend, live provider data, broker execution, auto-trading, betting/sportsbook execution, copy-trading, fake live data, private URLs, or frontend API keys are connected.
+- `/ai-handoff` and `/source-hub-staging` both serve the generated local text handoff from `server.mjs`.
+- Selected Obsidian notes are local handoff context only; do not publish private vault contents into public frontend files.
 
 ## Next Session Priority
 
-- Keep Watchlists stable.
-- Do not change Watchlists unless a visible bug is found.
+- Treat `#/dashboard` Mission Control as the flagship command-center page.
+- Upgrade `/source-hub` next if B asks for another visible page sprint.
+- Leave `#/agents` as a placeholder unless B explicitly asks to rebuild the Agent Habitat.
+- Do not start Options Hub yet.
 - Continue preserving research-only wording and static GitHub Pages safety.
+- Keep `/ai-handoff` working after any future server changes.
+- Keep the Obsidian memory layer local-only unless B explicitly asks to publish cleaned summaries.
 
 ## Completion Tracker System
 
@@ -76,4 +94,7 @@ https://burberrry.github.io/Pickaxe-Capital/?v=phase2b-watchlists#/watchlists
 - Phase 1.6 Premium UI Polish Pass completed.
 - Phase 2A CEO B Dashboard Prototype completed.
 - Phase 2B Watchlists Prototype completed, pushed to `origin/main`, and live-checked by CEO B.
+- Mission Control Dashboard Upgrade completed locally.
+- Agents Placeholder Reset completed locally.
+- Phase 2C App Shell / Navigation Reset completed locally.
 - Older “Dashboard next” and “future Watchlists” notes are historical only and are no longer the active task.

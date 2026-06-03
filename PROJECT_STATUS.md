@@ -1,14 +1,21 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint — Phase 2B Watchlists
+## Current Checkpoint — Phase 2C App Shell / Navigation Reset
 
-- Latest completed build: Phase 2B Watchlists Prototype.
-- Route upgraded: `#/watchlists`.
-- Current status: built, committed, pushed to origin/main, and live-checked by CEO B.
+- Latest completed local build: Phase 2C App Shell / Navigation Reset.
+- Global area upgraded: app shell, sidebar, route labels, and topbar.
+- Related routes preserved: `#/dashboard` Mission Control, `#/watchlists` Research Universe, `#/agents` placeholder.
+- Current status: local implementation complete and validated.
 - Latest expected commit: `e2db5a2 Add Phase 2B watchlists prototype`.
 - Live review URL: `https://burberrry.github.io/Pickaxe-Capital/?v=phase2b-watchlists#/watchlists`.
 - CEO B live visual review: checked on GitHub Pages with cache key `phase2b-watchlists`.
-- Next recommended task: keep Watchlists stable unless a visible bug is found.
+- Latest local fix: `/ai-handoff` now returns the generated plain-text AI handoff, matching `/source-hub-staging`.
+- Latest local upgrade: `/ai-handoff` and `/source-hub-staging` can include selected private Obsidian notes from the local vault so future AI/Codex sessions receive current Pickaxe memory context.
+- Latest interface upgrade: `#/dashboard` is now Mission Control with command header, market regime, active agents, alerts, watchlist pulse, research signals, source feed, risk desk, research queue, private memory layer, and next mission.
+- Latest route cleanup: `#/agents` has been cleared from the broken visual habitat and replaced with a calm future-state placeholder/schematic.
+- Latest shell reset: sidebar and navigation now use a graphite/gold private market OS frame instead of rainbow route accents, duplicate Mission Control naming, or fake autonomous-agent language.
+- Obsidian boundary: selected notes are local handoff context only. The public/static frontend does not publish private vault contents or read Obsidian in-browser.
+- Next recommended task: upgrade `/source-hub` so alerts, signals, thesis cards, and watchlist items can point back to verified sources.
 - Do not start live APIs, broker integrations, betting/sportsbook integrations, real telemetry, OpenClaw installation, or 20-section image asset integration yet.
 
 Historical note: older “Next Small Task” and prior-session sections below are preserved as session history and are not the active next step.
@@ -60,23 +67,56 @@ Historical note: older “Next Small Task” and prior-session sections below ar
 
 ## Files Changed This Session
 
-- `public/app.js`
-- `app.js`
-- `public/index.html`
 - `index.html`
+- `public/index.html`
+- `app.js`
+- `public/app.js`
+- `styles.css`
+- `public/styles.css`
 - `public/habitat-data.js`
 - `habitat-data.js`
-- `.github/workflows/pages.yml`
-- `README.md`
 - `PROJECT_STATUS.md`
 - `NEXT_STEPS.md`
 
 ## Build Command
 
 - `/Applications/Codex.app/Contents/Resources/node --run build`
+- `/Applications/Codex.app/Contents/Resources/node --run check:project`
 
 ## Build Result
 
+- Phase 2C App Shell / Navigation Reset completed.
+- Sidebar reset to a calmer graphite/gold market operating-system frame.
+- Route labels clarified: Mission Control remains flagship, Command Console is legacy/static, Agents is placeholder/future schematic, Habitat OS is system map, Source Hub remains next intelligence layer.
+- Topbar now reads `CEO B Market OS`.
+- Rainbow route accent styling was reduced in favor of subdued route codes, restrained active gold, and premium graphite surfaces.
+- Agents remains placeholder-only; no fake live agents, fake telemetry, autonomous jobs, or background execution added.
+- Validation passed: build, project check, syntax checks, public frontend safety search found no private Obsidian note leakage, root/public mirrors are synced, and browser checks passed for `/`, `#/dashboard`, `#/agents`, `#/watchlists`, `#/source-hub`, `#/signals`, `#/alerts`, and `#/staging` with no console errors, no horizontal overflow, `CEO B Market OS` topbar visible, and subdued graphite/gold active navigation state.
+- Agents Placeholder Reset completed.
+- `#/agents` now shows an intentional future placeholder instead of the broken/crowded agent habitat visual.
+- The old agent habitat image background has been removed from `#/agents`; the route now uses a black/graphite background.
+- Added placeholder future modules for Atlas, Sentry, Forge, Oracle, Archivist, Scout, and Risk Desk.
+- Added explicit truth copy: no live agents, no background jobs, no autonomous actions, and no fake telemetry are connected on the page.
+- Validation passed: build, project check, syntax checks, and browser route checks for `/agents`, `/dashboard`, and `/` with no console errors or horizontal overflow. `/agents` no longer shows the broken visual habitat, old fake metrics, or autonomous-agent style telemetry.
+- Mission Control Dashboard Upgrade completed.
+- `#/dashboard` now feels like the flagship CEO B command center instead of a generic overview dashboard.
+- Added Mission Control modules: CEO B command header, market regime board, active agents, alerts queue, watchlist pulse, research signal board, source feed preview, risk desk, research queue, private memory layer, and next mission.
+- Watchlists language now aligns with Mission Control agent departments: Atlas, Sentry, Forge, Oracle, Archivist, Scout, and Risk Desk.
+- Sidebar pinned Dashboard entry now displays `Mission Control` while preserving `#/dashboard`.
+- All dashboard market/signal content remains labeled as demo/static/source-required; no live data, broker execution, fake prediction, or private account connection was added.
+- Validation passed: build, project check, syntax checks, browser route checks for `/dashboard`, `/watchlists`, and `/` with no console errors or desktop horizontal overflow, plus mobile-width checks for `/dashboard` and `/watchlists` with no horizontal overflow.
+- Obsidian memory handoff layer added.
+- Selected local vault notes can now be included in `/ai-handoff` and `/source-hub-staging`.
+- Dashboard now shows a Private Memory Layer panel with the cockpit/memory/decision-layer rule.
+- Staging / QA now records the private source boundary.
+- Private vault note contents remain out of public/root static frontend data.
+- Validation passed: build, project check, syntax checks, `/ai-handoff` and `/source-hub-staging` Obsidian context fetch checks, required route 200 checks, and browser smoke check for Dashboard/Staging memory-layer panels with no desktop horizontal overflow.
+- Phase 2B Watchlists stability pass completed.
+- Fixed `/ai-handoff` so it returns the generated plain-text handoff assembled from `AGENTS.md`, `PROJECT_STATUS.md`, and `NEXT_STEPS.md`; `/source-hub-staging` remains supported.
+- Added build/project validation guards for `/ai-handoff` and `/source-hub-staging`.
+- Validation passed: build, project check, server/build/check-project syntax checks, `/ai-handoff` and `/source-hub-staging` fetch checks, Watchlists browser smoke check, and required route browser smoke check.
+- Watchlists browser check passed: route rendered, research-only/manual-review/no-fake-live-quotes safety copy remained visible, no console errors were reported, and no desktop horizontal overflow was found.
+- Required routes checked locally: `/`, `/agents`, `/vision-map`, `/archive`, `/staging`, `/founder`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`; all rendered visible content with no browser console errors and no desktop horizontal overflow.
 - Phase 1.5 Design System + Living Agent Network sprint completed.
 - Added premium graphite design-system layer, grouped sidebar navigation, route codes/status lines, and controlled route accent colors.
 - Simplified `/` and `#/alerts` into a decision-focused Alerts Desk with CEO B Command Summary, Active Research Packet, System Truth + Risk, and four supporting panels.

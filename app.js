@@ -660,11 +660,12 @@ function setView(view) {
     const archiveAlias = route === "/archive" && window.location.pathname.startsWith("/app/archive");
     const signalsAlias = route === "/signals" && window.location.pathname === "/signal-engine";
     const marketAlias = route === "/signals" && window.location.pathname === "/market-command";
-    const routeMatches = !route || route === window.location.pathname || sameHash || agentAlias || founderAlias || ceoAlias || archiveAlias || signalsAlias || marketAlias || (route === "/" && window.location.pathname === "/");
+    const homeAlertsAlias = route && route.includes("#/alerts") && window.location.pathname === "/" && !window.location.hash;
+    const routeMatches = !route || route === window.location.pathname || sameHash || agentAlias || founderAlias || ceoAlias || archiveAlias || signalsAlias || marketAlias || homeAlertsAlias || (route === "/" && window.location.pathname === "/");
     node.classList.toggle("active", sameView && sameFounderMode && routeMatches);
   });
   const titles = {
-    command: "Command Center",
+    command: "Command Console",
     signals: "Signals Lab",
     archive: "Archive",
     founder: state.founderMode === "public" ? "About Founder" : "CEO B Profile",
@@ -678,7 +679,7 @@ function setView(view) {
     lifeHabitat: "Life Habitat",
     checklist: "Execution Checklist",
     vision: "Vision Map",
-    agents: "AI Agent Habitat",
+    agents: "Agents Placeholder",
     agentBuilderFactory: "Agent Builder Factory",
     jarvisLab: "Jarvis Lab",
     lifeOS: "Pickaxe Life OS",
@@ -691,7 +692,7 @@ function setView(view) {
     learningLedger: "Learning Ledger",
     trendRadar: "Trend Radar",
     moneyLab: "Money Lab",
-    dashboard: "CEO B Dashboard",
+    dashboard: "Mission Control",
     watchlists: "Watchlists",
     markets: "Markets Matrix",
     options: "Options Hub",
@@ -1807,7 +1808,7 @@ function renderTrendRadarPage() {
             <div class="space-y-3 font-sans text-[10px] text-[#909399]">
               <div class="p-2.5 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
                 <strong class="text-white block mb-0.5">Spectator Index Updates</strong>
-                <span>Monitors real-time macro alerts for manual desk review.</span>
+                <span>Tracks public macro references for manual desk review.</span>
               </div>
               <div class="p-2.5 bg-[#0c0d0e] border border-[#1d242e] rounded-sm">
                 <strong class="text-white block mb-0.5">OSINT613 Feed stubs</strong>
@@ -5252,7 +5253,7 @@ function getBookmarksState() {
     { id: "seed-bm-1", url: "https://www.tradingview.com/chart", title: "TradingView Charts", notes: "Primary technical chart watch for daily levels.", category: "Market Signal", dateAdded: new Date().toISOString(), status: "Mined" },
     { id: "seed-bm-2", url: "https://netblocks.org/", title: "NetBlocks", notes: "Outage monitor and geopolitics connectivity watcher.", category: "Research Source", dateAdded: new Date().toISOString(), status: "Mined" },
     { id: "seed-bm-3", url: "https://github.com/addyosmani/jarvis", title: "Addy Osmani Jarvis", notes: "Jarvis voice and camera browser project reference.", category: "Vault Document", dateAdded: new Date().toISOString(), status: "Mined" },
-    { id: "seed-bm-4", url: "https://x.com/DeItaone", title: "Deltaone Feed", notes: "Real-time breaking market news.", category: "Research Source", dateAdded: new Date().toISOString(), status: "Mined" }
+    { id: "seed-bm-4", url: "https://x.com/DeItaone", title: "Deltaone Feed", notes: "External breaking market news reference.", category: "Research Source", dateAdded: new Date().toISOString(), status: "Mined" }
   ];
   try {
     localStorage.setItem("pickaxeBookmarks", JSON.stringify(seeds));
@@ -10482,10 +10483,10 @@ function renderAgentOperatingSystem() {
   const selectedAgent = getSelectedOperatingAgent();
   const laneDefinitions = [
     { title: "Core Command", purpose: "CEO B decision layer, narrative, and system brain.", objective: "Keep every agent working toward founder review.", status: "Command Online", agents: ["CEO B", "System Brain", "Story Teller"] },
-    { title: "Market Habitat", purpose: "Watchlist, signals, macro, flows, and RK Tracker.", objective: "Rank candidates without pretending live market data is connected.", status: "Active Mock", agents: ["Signal Scout", "Macro Watcher", "Flow Hunter"] },
-    { title: "Global Risk Habitat", purpose: "News, geopolitical risk, flights, outages, and movement.", objective: "Flag dangerous context before anything reaches CEO B.", status: "Active Mock", agents: ["News Raven", "Risk Sentinel", "Map Builder"] },
+    { title: "Market Habitat", purpose: "Watchlist, signals, macro, flows, and RK Tracker.", objective: "Rank candidates without pretending live market data is connected.", status: "Static Prototype", agents: ["Signal Scout", "Macro Watcher", "Flow Hunter"] },
+    { title: "Global Risk Habitat", purpose: "News, geopolitical risk, flights, outages, and movement.", objective: "Flag dangerous context before anything reaches CEO B.", status: "Static Prototype", agents: ["News Raven", "Risk Sentinel", "Map Builder"] },
     { title: "Knowledge Habitat", purpose: "Bookmarks, X imports, research, and source discovery.", objective: "Convert saved links into useful intelligence.", status: "User Import Ready", agents: ["Bookmark Miner", "Archive Keeper"] },
-    { title: "Archive Habitat", purpose: "Memory, lessons, playbooks, and decision rules.", objective: "Turn repeated lessons into reusable wealth-building rules.", status: "Active Mock", agents: ["Archive Keeper", "Wealth Alchemist"] },
+    { title: "Archive Habitat", purpose: "Memory, lessons, playbooks, and decision rules.", objective: "Turn repeated lessons into reusable wealth-building rules.", status: "Static Prototype", agents: ["Archive Keeper", "Wealth Alchemist"] },
     { title: "Build System Habitat", purpose: "Tasks, QA, staging, and auto-update workflow.", objective: "Keep the site build-safe and avoid duplicate architecture.", status: "Build Safe", agents: ["Task Smith", "Auto Update Agent", "System Brain"] },
     { title: "Private Intelligence Habitat", purpose: "Chrome bookmarks, X bookmarks, and personal saved research.", objective: "Keep private imports local/user-provided until official APIs exist.", status: "Private Import", agents: ["Bookmark Miner", "News Raven"] },
     { title: "Case Study Habitat", purpose: "Berkshire 1965, annual reports, and old documents into modern rules.", objective: "Turn historical cleanup lessons into CEO B checklists.", status: "Historical Manual Data", agents: ["Wealth Alchemist", "Archive Keeper", "Macro Watcher"] },
@@ -10557,7 +10558,7 @@ function renderAgentOperatingSystem() {
         <aside class="agent-game-side">
           ${renderAgentGameDrawer(selectedAgent, agentOps)}
           <section class="game-feed">
-            <div class="panel-head"><div><p class="eyebrow">Mock Live Feed</p><h2>Operations</h2></div><span class="pill">Local</span></div>
+            <div class="panel-head"><div><p class="eyebrow">Static Activity Feed</p><h2>Operations</h2></div><span class="pill">Local</span></div>
             ${feedItems.map((item, index) => renderMockActivityItem(item, index)).join("")}
           </section>
         </aside>
@@ -10584,7 +10585,7 @@ function renderAgentOperatingSystem() {
       </div>
       <div class="agent-command-stats">
         <span><strong>${operatingAgents.length}</strong>Total Agents</span>
-        <span><strong>${operatingAgents.filter((agent) => /active|online|ready/i.test(agent.status)).length}</strong>Active Mock</span>
+        <span><strong>${operatingAgents.filter((agent) => /active|online|ready/i.test(agent.status)).length}</strong>Static Ready</span>
         <span><strong>${agentOps.tasks.filter((task) => task.status !== "done").length}</strong>Local Tasks</span>
         <span><strong>${stalledIntegrations.length}</strong>Setup Needed</span>
       </div>
@@ -10652,7 +10653,7 @@ function renderAgentOperatingSystem() {
       </div>
       <aside class="agent-right-command-stack">
         <section class="agent-live-feed-panel">
-          <div class="panel-head"><div><p class="eyebrow">Mock Activity Feed / not live background jobs yet</p><h2>Live Operations Feed</h2></div><span class="pill">Local</span></div>
+          <div class="panel-head"><div><p class="eyebrow">Static Activity Feed / no background jobs</p><h2>Operations Feed</h2></div><span class="pill">Local</span></div>
           <div class="activity-feed mock-feed">
             ${[...agentOps.events.map((event) => event.message), ...mockActivityFeed].slice(0, 9).map((item, index) => renderMockActivityItem(item, index)).join("")}
           </div>
@@ -10680,7 +10681,7 @@ function renderAgentOperatingSystem() {
     ${renderAgentTaskBoard(agentOps)}
     <section class="agent-os-grid">
       <div class="panel">
-        <div class="panel-head"><div><p class="eyebrow">Mock Activity Feed / not live background jobs yet</p><h2>Living Operations</h2></div><span class="pill">Local visual feed</span></div>
+        <div class="panel-head"><div><p class="eyebrow">Static Activity Feed / no background jobs</p><h2>Operations Log</h2></div><span class="pill">Local visual log</span></div>
         <div class="activity-feed mock-feed">
           ${[...agentOps.events.map((event) => event.message), ...mockActivityFeed].slice(0, 14).map((item, index) => renderMockActivityItem(item, index)).join("")}
         </div>
@@ -13030,165 +13031,252 @@ var renderDashboardPage = function () {
   if (!els.dashboardContent) return;
   const packets = getOptionAlertsState();
   const topPacket = packets[0] || normalizeResearchPacket({}, 0);
-  const systemPulse = [
-    ["Alerts Queue", `${packets.length} local/static research packets`, "#/alerts"],
-    ["Vision Map", "Living Agent Network available", "#/vision-map"],
-    ["Watchlists", "Research Universe", "#/watchlists"],
-    ["Source Hub", "Research candidates only", "#/source-hub"],
-    ["Risk & Rules", "Active safety matrix", "#/risk-rules"],
-    ["Learning Ledger", "Memory/playbook layer", "#/learning-ledger"],
-    ["Staging / QA", "Static truth cockpit", "#/staging"]
+  const commandStats = [
+    ["Queue", `${packets.length}`, "Demo research packets"],
+    ["Mode", "Prototype", "Static / local-first"],
+    ["Market Session", "Manual", "No live feed connected"],
+    ["Decision Gate", "CEO B", "Human review required"]
   ];
-  const sourceCards = ["Market Sources", "Options / Flow Sources", "News / Macro Sources", "Bookmark Sources", "Research Documents", "Future Provider Adapters"];
-  const riskRules = ["No Broker Execution", "No Auto-Trading", "No Betting Execution", "No Copy-Trading", "No Fake Live Data", "Manual CEO B Review Required", "Provider Adapters Not Connected"];
-  const ledgerSections = ["Verified Rules", "Mistakes Avoided", "Playbooks", "CEO B Notes", "Pending Review"];
-  const trendSections = ["Market Themes", "Macro Events", "AI / Tech Trends", "Social Pulse", "Risk Flags"];
-  const moneySections = ["Side Hustle Ideas", "Sports Research Notes", "Content Ideas", "Experiment Tracker", "Guardrails"];
-  const roadmapItems = [
-    ["Phase 1 Alerts Desk", "Complete"],
-    ["Phase 1.5 Design System", "Complete"],
-    ["Phase 1.6 Premium Polish", "Complete"],
-    ["Phase 2A Dashboard", "In Progress"],
-    ["Next Candidate", "Options Hub or Watchlists"]
+  const regimeMetrics = [
+    ["SPY", "Core index", "Manual regime check", "Source required"],
+    ["QQQ", "Growth leadership", "Static watchlist", "No live quote"],
+    ["VIX", "Volatility pressure", "Risk watch", "Manual review"],
+    ["DXY", "Dollar pressure", "Macro context", "Source required"],
+    ["US10Y", "Rates pressure", "Future adapter", "Not connected"],
+    ["BTC", "Risk asset pulse", "Static watchlist", "No exchange link"]
   ];
-  const agentPreview = [
-    ["CEO B", "Manual review"],
-    ["System Brain", "Build truth"],
-    ["Signal Scout", "Research packets"],
-    ["Risk Sentinel", "Safety gate"],
-    ["Source Hub", "Source intake"],
-    ["Learning Ledger", "Memory"],
-    ["Archive Keeper", "Research vault"]
+  const agents = [
+    ["Atlas", "Market structure", "Tracks indexes, VIX, dollar, yields, oil, BTC, and macro regime.", "Scanning macro"],
+    ["Sentry", "Alerts desk", "Watches unusual moves, catalysts, risk warnings, and system status.", "Monitoring alerts"],
+    ["Forge", "Research builder", "Turns sources and notes into briefs, watchlist updates, and thesis cards.", "Building briefs"],
+    ["Oracle", "Signal interpretation", "Converts inputs into themes, trend shifts, and confidence levels.", "Interpreting signals"],
+    ["Archivist", "Source memory", "Organizes links, filings, charts, screenshots, notes, and research history.", "Indexing sources"],
+    ["Scout", "Opportunity discovery", "Finds tickers, themes, sympathy plays, catalysts, and new research lanes.", "Mapping universe"],
+    ["Risk Desk", "Discipline layer", "Tracks source gaps, overtrading risk, chase conditions, and warning gates.", "Gate active"]
   ];
+  const watchlistPulse = [
+    ["Core Indexes", "SPY / QQQ / DIA / IWM", "Manual watchlist"],
+    ["Mega Cap Tech", "AAPL / MSFT / NVDA / TSLA", "Static prototype"],
+    ["AI Infrastructure", "NVDA / AMD / AVGO / SMCI", "Research queue"],
+    ["Crypto Risk", "BTC / ETH / COIN / MSTR", "No exchange link"],
+    ["Macro / Risk", "VIX / DXY / US10Y / Oil / Gold", "Source required"],
+    ["Catalyst Watch", "Earnings / sympathy / high IV", "Manual review"]
+  ];
+  const signalBoard = [
+    ["AI infrastructure", "Theme emerging", "NVDA, AMD, AVGO, SMCI", "Source-backed thesis needed", "Demo research signal"],
+    ["Mega-cap leadership", "Momentum watch", "QQQ, MSFT, AAPL", "Confirm market regime first", "Static prototype data"],
+    ["Volatility pressure", "Risk warning", "VIX, UVXY, DXY", "Avoid chasing; check macro source", "Manual watchlist"],
+    ["Catalyst gap", "Source required", "TSLA, PLTR, small caps", "No escalation without source trail", "Awaiting live data connection"]
+  ];
+  const sourceFeed = [
+    ["SEC Filing", "Company filing or investor relations source", "Source required", "#/source-hub"],
+    ["Earnings Note", "Transcript, call notes, or calendar catalyst", "Manual research note", "#/source-hub"],
+    ["X Bookmark", "User-imported social intelligence only", "Private source", "#/bookmarks"],
+    ["Chart Screenshot", "Manual chart context and level notes", "Static archive item", "#/archive"],
+    ["Macro Event", "Economic calendar or rates/dollar context", "Manual verification", "#/source-hub"]
+  ];
+  const researchQueue = [
+    ["AI Infrastructure", "Attach source trail to top watchlist names", "Forge / Archivist", "#/watchlists"],
+    ["Market Regime", "Review SPY, QQQ, VIX, DXY, US10Y before signal escalation", "Atlas / Risk Desk", "#/signals"],
+    ["Alerts Integrity", "Keep top packets labeled demo/static and source-required", "Sentry", "#/alerts"],
+    ["Archive Flow", "Turn reviewed notes into reusable intelligence memory", "Archivist", "#/archive"]
+  ];
+  const riskRules = ["No broker execution", "No auto-trading", "No betting execution", "No copy-trading", "No fake live data", "No unsourced signal escalation", "Manual CEO B review required"];
+  const memoryLayer = [
+    ["Website Cockpit", "Public/static command center"],
+    ["Obsidian Vault", "Private local memory"],
+    ["AI Handoff", "Selected notes included locally"],
+    ["Public Frontend", "No private note contents"]
+  ];
+  const nextMissions = ["Review AI infrastructure watchlist", "Attach sources to top signals", "Build archive flow", "Connect alerts back to Source Hub"];
 
   els.dashboardContent.innerHTML = `
-    <div class="page-shell dashboard-shell">
-      ${pcPageHero(
-        "00 DASH / CEO B Overview",
-        "CEO B Dashboard",
-        "System overview for research alerts, source intake, agents, memory, risk rules, and manual review.",
-        ["Research Only", "Manual Review Required", "No Broker Execution", "No Fake Live Data", "Static Prototype", "Local First"]
-      )}
+    <div class="page-shell dashboard-shell mission-control-shell">
+      <header class="mission-hero">
+        <div class="mission-hero-copy">
+          <span class="meta-label">00 DASH / CEO B Control Room</span>
+          <h2>Mission Control</h2>
+          <p>CEO B's operating layer for Pickaxe Capital: Time, Trend, and Theme organized into watchlists, sources, signals, alerts, archive memory, and agent departments.</p>
+          ${pcChipRow(["Prototype Mode", "Demo Data", "Source Required", "Market Research OS", "Manual CEO B Review"])}
+        </div>
+        <aside class="mission-hero-panel">
+          <span class="mission-status-light"></span>
+          <strong>CEO B operating layer</strong>
+          <p>Static command center. No live market feed, broker, sportsbook, private account, or execution adapter is connected.</p>
+        </aside>
+      </header>
+
+      <section class="mission-stat-grid">
+        ${commandStats.map(([label, value, detail]) => `
+          <article class="mission-stat-card">
+            <span>${escapeHtml(label)}</span>
+            <strong>${escapeHtml(value)}</strong>
+            <small>${escapeHtml(detail)}</small>
+          </article>
+        `).join("")}
+      </section>
 
       <section class="dashboard-command-grid">
-        <article class="command-card dashboard-executive-card">
-          <span class="meta-label">CEO B Command Overview</span>
-          <h3>Pickaxe Capital / AI Habitat OS</h3>
-          <p>CEO B is the manual review layer for research alerts, source intake, agent work, memory, and roadmap decisions.</p>
-          <ul class="pc-list">
-            <li><span>Current Mode</span><strong>Static Prototype</strong></li>
-            <li><span>Current Priority</span><strong>Dashboard Approval</strong></li>
-            <li><span>Next Route Decision</span><strong>Options Hub or Watchlists</strong></li>
-          </ul>
+        <article class="command-card mission-command-card">
+          <span class="meta-label">Founder / Operator Layer</span>
+          <h3>CEO B turns market noise into organized intelligence.</h3>
+          <p>Pickaxe Capital is a research-first market intelligence system built around Time, Trend, and Theme. The goal is not to predict every move, but to organize the market into watchlists, catalysts, sources, signals, and repeatable decision workflows.</p>
+          <div class="mission-motto">Sell the pickaxe: build the tools, systems, workflows, and intelligence layer around markets.</div>
           <div class="action-row">
-            <a class="primary-action" href="#/alerts">Open Alerts Desk</a>
-            <a class="secondary-action" href="#/watchlists">Open Watchlists</a>
-            <a class="secondary-action" href="#/roadmap">Open Roadmap</a>
+            <a class="primary-action" href="#/watchlists">Open Research Universe</a>
+            <a class="secondary-action" href="#/alerts">Open Alerts</a>
+            <a class="secondary-action" href="#/source-hub">Open Sources</a>
           </div>
         </article>
 
-        <article class="glass-card dashboard-pulse-card">
-          <span class="meta-label">System Pulse / Current Review</span>
-          <h3>Operating Summary</h3>
-          <div class="dashboard-status-list">
-            ${systemPulse.map(([label, value, href]) => `
-              <a href="${escapeHtml(href)}">
-                <span>${escapeHtml(label)}</span>
-                <strong>${escapeHtml(value)}</strong>
-              </a>
+        <article class="glass-card market-regime-card">
+          <span class="meta-label">Market Regime / Static Prototype</span>
+          <h3>Manual regime board</h3>
+          <div class="regime-grid">
+            ${regimeMetrics.map(([symbol, role, stateLabel, note]) => `
+              <div class="regime-tile">
+                <strong>${escapeHtml(symbol)}</strong>
+                <span>${escapeHtml(role)}</span>
+                <em>${escapeHtml(stateLabel)}</em>
+                <small>${escapeHtml(note)}</small>
+              </div>
             `).join("")}
           </div>
+          <p class="mission-footnote">No prices shown here are live. This board is a research checklist until a real backend data source is connected.</p>
         </article>
 
-        <aside class="truth-panel dashboard-truth-card">
-          <span class="meta-label">System Truth</span>
-          <h3>Safe Prototype Boundary</h3>
+        <aside class="truth-panel risk-desk-card">
+          <span class="meta-label">Risk Desk / Discipline</span>
+          <h3>Do not escalate weak or unsourced signals.</h3>
           <div class="truth-list">
-            ${riskRules.map((item) => `<span><em>${escapeHtml(item)}</em><strong>${item.includes("Not Connected") ? "True" : "Locked"}</strong></span>`).join("")}
+            ${riskRules.map((item) => `<span><em>${escapeHtml(item)}</em><strong>Locked</strong></span>`).join("")}
           </div>
         </aside>
       </section>
 
-      <section class="dashboard-overview-grid">
-        <article class="command-card">
-          <span class="meta-label">Alerts Queue Snapshot</span>
-          <h3>${escapeHtml(topPacket.symbol || "AAPL")} needs manual context review</h3>
-          <div class="dashboard-metric-strip">
-            <div class="metric-card"><span>Queue Count</span><strong>${packets.length}</strong></div>
-            <div class="metric-card"><span>Highest Priority</span><strong>${escapeHtml(topPacket.symbol || "AAPL")}</strong></div>
-            <div class="metric-card"><span>Review Gate</span><strong>Required</strong></div>
+      <section class="mission-main-grid">
+        <article class="command-card alerts-command-card">
+          <span class="meta-label">Top Alerts / Demo Research Packets</span>
+          <h3>${escapeHtml(topPacket.symbol || "AAPL")} is the current queue lead.</h3>
+          <p>${escapeHtml(topPacket.researchContext || "Demo research packet. Manual source review required before any external action.")}</p>
+          <div class="mission-alert-strip">
+            ${packets.slice(0, 4).map((packet) => `
+              <a href="#/alerts">
+                <strong>${escapeHtml(packet.symbol || "Packet")}</strong>
+                <span>${escapeHtml(packet.status || "Demo research signal")}</span>
+                <em>${escapeHtml(packet.confidence ? `${packet.confidence}% source confidence` : "Source required")}</em>
+              </a>
+            `).join("") || `<a href="#/alerts"><strong>AAPL</strong><span>Demo research signal</span><em>Source required</em></a>`}
           </div>
-          <p>${escapeHtml(topPacket.researchContext || "Local/static research packet. Manual review required before any external action.")}</p>
           <a class="primary-action" href="#/alerts">Open Alerts Desk</a>
         </article>
 
-        <article class="glass-card dashboard-agent-preview">
-          <span class="meta-label">Living Agent Network Preview</span>
-          <h3>AI Habitat OS review loop</h3>
-          <div class="dashboard-agent-orbit" aria-label="Compact Living Agent Network preview">
-            ${agentPreview.map(([name, status], index) => `<span style="--i:${index}"><strong>${escapeHtml(name)}</strong><em>${escapeHtml(status)}</em></span>`).join("")}
+        <article class="glass-card active-agents-card">
+          <span class="meta-label">Active Agents / Departments</span>
+          <h3>AI Habitat OS departments</h3>
+          <div class="mission-agent-grid">
+            ${agents.map(([name, role, detail, stateLabel]) => `
+              <article class="mission-agent-card">
+                <span class="agent-state-dot"></span>
+                <strong>${escapeHtml(name)}</strong>
+                <em>${escapeHtml(role)}</em>
+                <p>${escapeHtml(detail)}</p>
+                <small>${escapeHtml(stateLabel)} / Static department</small>
+              </article>
+            `).join("")}
           </div>
           <a class="secondary-action" href="#/vision-map">Open Vision Map</a>
         </article>
       </section>
 
-      <section class="section-grid dashboard-source-grid">
-        ${sourceCards.map((title) => `
-          <article class="glass-card">
-            <span class="meta-label">Source Hub Status</span>
-            <h3>${escapeHtml(title)}</h3>
-            ${pcChipRow(["Research Candidate", "Not Connected", "Manual Verification Required"])}
-          </article>
-        `).join("")}
-      </section>
-
       <section class="dashboard-stack-grid">
-        <article class="truth-panel">
-          <span class="meta-label">Risk & Rules Summary</span>
-          <h3>Manual review before anything leaves the site.</h3>
-          <div class="truth-list">${riskRules.map((item) => `<span><em>${escapeHtml(item)}</em><strong>${item.includes("Not Connected") ? "True" : "Locked"}</strong></span>`).join("")}</div>
-          <a class="secondary-action" href="#/risk-rules">Open Risk & Rules</a>
-        </article>
-
-        <article class="glass-card">
-          <span class="meta-label">Learning Ledger Summary</span>
-          <h3>Memory layer</h3>
-          <div class="dashboard-pill-list">${ledgerSections.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
-          <a class="secondary-action" href="#/learning-ledger">Open Learning Ledger</a>
-        </article>
-
-        <article class="glass-card">
-          <span class="meta-label">Trend Radar Pulse</span>
-          <h3>Static Concept / Backend Not Connected</h3>
-          <div class="dashboard-pill-list">${trendSections.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
-        </article>
-      </section>
-
-      <section class="dashboard-stack-grid">
-        <article class="truth-panel">
-          <span class="meta-label">Money Lab Guardrail</span>
-          <h3>Research-only experiments. No betting execution. No sportsbook connection. No financial execution.</h3>
-          <div class="dashboard-pill-list">${moneySections.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
-        </article>
-
-        <article class="command-card">
-          <span class="meta-label">Build / Roadmap Status</span>
-          <h3>Phase 2A is the first overview screen.</h3>
-          <div class="dashboard-status-list compact">
-            ${roadmapItems.map(([label, value]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(value)}</strong></span>`).join("")}
+        <article class="command-card watchlist-pulse-card">
+          <span class="meta-label">Watchlist Pulse</span>
+          <h3>Research Universe lanes</h3>
+          <div class="mission-list-grid">
+            ${watchlistPulse.map(([title, tickers, stateLabel]) => `
+              <a href="#/watchlists">
+                <strong>${escapeHtml(title)}</strong>
+                <span>${escapeHtml(tickers)}</span>
+                <em>${escapeHtml(stateLabel)}</em>
+              </a>
+            `).join("")}
           </div>
-          <a class="secondary-action" href="#/roadmap">Open Roadmap</a>
+        </article>
+
+        <article class="glass-card signal-board-card">
+          <span class="meta-label">Signal Board / Research Only</span>
+          <h3>Signals are not trade calls.</h3>
+          <div class="mission-signal-list">
+            ${signalBoard.map(([theme, type, tickers, riskNote, status]) => `
+              <article>
+                <strong>${escapeHtml(theme)}</strong>
+                <span>${escapeHtml(type)}</span>
+                <small>${escapeHtml(tickers)}</small>
+                <p>${escapeHtml(riskNote)}</p>
+                <em>${escapeHtml(status)}</em>
+              </article>
+            `).join("")}
+          </div>
+          <a class="secondary-action" href="#/signals">Open Signals</a>
+        </article>
+
+        <article class="glass-card source-feed-card">
+          <span class="meta-label">Source Feed Preview</span>
+          <h3>Every thesis should point back to sources.</h3>
+          <div class="source-feed-list">
+            ${sourceFeed.map(([type, detail, status, route]) => `
+              <a href="${escapeHtml(route)}">
+                <strong>${escapeHtml(type)}</strong>
+                <span>${escapeHtml(detail)}</span>
+                <em>${escapeHtml(status)}</em>
+              </a>
+            `).join("")}
+          </div>
+        </article>
+      </section>
+
+      <section class="dashboard-stack-grid">
+        <article class="command-card research-queue-card">
+          <span class="meta-label">Research Queue</span>
+          <h3>What CEO B should review next</h3>
+          <div class="mission-queue-list">
+            ${researchQueue.map(([title, detail, owner, route]) => `
+              <a href="${escapeHtml(route)}">
+                <strong>${escapeHtml(title)}</strong>
+                <span>${escapeHtml(detail)}</span>
+                <em>${escapeHtml(owner)}</em>
+              </a>
+            `).join("")}
+          </div>
+        </article>
+
+        <article class="glass-card private-memory-card">
+          <span class="meta-label">Private Memory Layer</span>
+          <h3>Website is the cockpit. Obsidian is the memory. CEO B is the decision layer.</h3>
+          <p>Raw notes, links, screenshots, and messy ideas stay in the private vault until CEO B turns them into cleaned public-facing copy, archive entries, or agent tasks.</p>
+          <div class="dashboard-status-list compact">
+            ${memoryLayer.map(([label, value]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(value)}</strong></span>`).join("")}
+          </div>
+          <a class="secondary-action" href="/ai-handoff" target="_blank" rel="noopener noreferrer">Open AI Handoff</a>
         </article>
 
         <article class="command-card dashboard-next-action">
-          <span class="meta-label">Next Manual Action</span>
-          <h3>CEO B reviews Dashboard, confirms visual quality, then chooses Options Hub or Watchlists.</h3>
-          <p>Keep all execution external and manual. This site remains research-only, local-first, and honest about static prototype limits.</p>
+          <span class="meta-label">Next Mission</span>
+          <h3>Make the next signal source-backed before it reaches CEO B Review.</h3>
+          <div class="dashboard-pill-list">${nextMissions.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
           <div class="action-row">
-            <a class="primary-action" href="#/staging">Open Staging / QA</a>
-            <a class="secondary-action" href="#/alerts">Send to CEO B Review</a>
+            <a class="primary-action" href="#/watchlists">Review Watchlists</a>
+            <a class="secondary-action" href="#/source-hub">Attach Sources</a>
+            <a class="secondary-action" href="#/archive">Archive Memory</a>
           </div>
         </article>
+      </section>
+
+      <section class="mission-terminal-band">
+        <span>System boundary</span>
+        <strong>Demo research signal / static prototype data / manual watchlist / source required / awaiting live data connection.</strong>
+        <a href="#/risk-rules">Open Risk & Rules</a>
       </section>
     </div>
   `;
@@ -13302,7 +13390,7 @@ var renderWatchlistsPage = function () {
       title: "Broad Market",
       sourceName: "Broad Market / Index",
       purpose: "Market regime, breadth, and index-level context before individual research gets promoted.",
-      agent: "Signal Scout",
+      agent: "Atlas",
       sourceNeed: "ETF and index source verification",
       riskNote: "Use as context only; no site-based execution.",
       assets: [
@@ -13317,7 +13405,7 @@ var renderWatchlistsPage = function () {
       title: "Mega-Cap AI / Tech",
       sourceName: "Mega-Cap / AI / Tech",
       purpose: "Leadership, platform shifts, earnings context, and high-beta research candidates.",
-      agent: "Signal Scout",
+      agent: "Scout",
       sourceNeed: "News, filings, technical context, and archive notes",
       riskNote: "High attention names need catalyst and risk review before promotion.",
       assets: [
@@ -13337,7 +13425,7 @@ var renderWatchlistsPage = function () {
       title: "Volatility / Macro",
       sourceName: "Volatility / Macro",
       purpose: "Regime pressure, rates, dollar strength, and stress indicators for research context.",
-      agent: "Trend Radar",
+      agent: "Atlas / Risk Desk",
       sourceNeed: "Macro calendar, public index context, and manual verification",
       riskNote: "Volatility concepts are context signals, not action triggers.",
       assets: [
@@ -13352,7 +13440,7 @@ var renderWatchlistsPage = function () {
       title: "Commodities",
       sourceName: "Commodities / Futures Concepts",
       purpose: "Energy and metals pressure checks for macro, inflation, and cross-asset research.",
-      agent: "News Raven",
+      agent: "Atlas",
       sourceNeed: "Macro news and public commodity context",
       riskNote: "Futures concepts are research-only and remain external to this site.",
       assets: [
@@ -13365,7 +13453,7 @@ var renderWatchlistsPage = function () {
       title: "Crypto Concepts",
       sourceName: "Crypto / Digital Assets",
       purpose: "Digital asset research context for broad risk appetite and narrative shifts.",
-      agent: "Risk Sentinel",
+      agent: "Risk Desk",
       sourceNeed: "Public crypto market context and risk validation",
       riskNote: "No wallet, exchange, or execution connection exists here.",
       assets: [
@@ -13378,7 +13466,7 @@ var renderWatchlistsPage = function () {
       title: "FX / Currency Concepts",
       sourceName: "Currency / FX Concepts",
       purpose: "Currency pressure context for macro, commodities, and international risk.",
-      agent: "Trend Radar",
+      agent: "Atlas",
       sourceNeed: "Public macro and currency context",
       riskNote: "FX concepts are static research entries only.",
       assets: [
@@ -13409,21 +13497,21 @@ var renderWatchlistsPage = function () {
     "Manual CEO B Review Required"
   ];
   const agentAssignments = [
-    ["Signal Scout", "Broad market trend review"],
-    ["Flow Hunter", "Options/liquidity research candidates"],
-    ["News Raven", "Catalyst and macro headlines"],
-    ["Risk Sentinel", "Risk gate / forbidden action check"],
-    ["Trend Radar", "Themes and world pulse"],
-    ["Archive Keeper", "Historical context / playbooks"],
-    ["Learning Ledger", "Lessons and rules"]
+    ["Atlas", "Market structure and macro regime"],
+    ["Sentry", "Alerts and system status"],
+    ["Forge", "Research briefs and thesis cards"],
+    ["Oracle", "Signal interpretation and confidence language"],
+    ["Archivist", "Source memory and archive history"],
+    ["Scout", "Opportunity discovery and theme runners"],
+    ["Risk Desk", "Discipline and no-chase review"]
   ];
   const reviewRows = [
-    ["SPY", "Broad market condition review", "Signal Scout"],
-    ["NVDA", "AI leadership research context", "Signal Scout"],
-    ["VIX", "Volatility regime watch", "Risk Sentinel"],
-    ["TSLA", "High beta / event risk review", "Risk Sentinel"],
-    ["BTC", "Digital vault concept review", "Risk Sentinel"],
-    ["CL Oil", "Energy/macro pressure check", "News Raven"]
+    ["SPY", "Broad market condition review", "Atlas"],
+    ["NVDA", "AI leadership research context", "Scout"],
+    ["VIX", "Volatility regime watch", "Risk Desk"],
+    ["TSLA", "High beta / event risk review", "Risk Desk"],
+    ["BTC", "Digital vault concept review", "Risk Desk"],
+    ["CL Oil", "Energy/macro pressure check", "Atlas"]
   ];
   const workflow = ["Watchlist Bucket", "Source Hub Verification", "Signal Scout / News Raven Review", "Risk Sentinel Check", "CEO B Manual Review", "Alerts Desk or Archive Vault"];
 
@@ -13439,8 +13527,8 @@ var renderWatchlistsPage = function () {
       <section class="watchlist-command-grid">
         <article class="command-card watchlist-command-card">
           <span class="meta-label">CEO B Watchlist Command</span>
-          <h3>Research universe, not an execution surface.</h3>
-          <p>Watchlists organize candidates so CEO B can choose one bucket for manual review, source verification, and archive context.</p>
+          <h3>Research Universe feeds Mission Control.</h3>
+          <p>Watchlists organize candidates so CEO B can choose one bucket for manual review, source verification, signal context, and archive memory.</p>
           <ul class="pc-list">
             <li><span>Current Mode</span><strong>Static Prototype</strong></li>
             <li><span>Manual Layer</span><strong>CEO B Required</strong></li>
@@ -13448,7 +13536,7 @@ var renderWatchlistsPage = function () {
             <li><span>Next Manual Action</span><strong>Choose one bucket to review</strong></li>
           </ul>
           <div class="action-row">
-            <a class="primary-action" href="#/dashboard">Open Dashboard</a>
+            <a class="primary-action" href="#/dashboard">Open Mission Control</a>
             <a class="secondary-action" href="#/alerts">Open Alerts Desk</a>
             <a class="secondary-action" href="#/source-hub">Open Source Hub</a>
             <a class="secondary-action" href="#/risk-rules">Open Risk & Rules</a>
@@ -13677,55 +13765,59 @@ renderVisionCommandCenter = function () {
 
 renderAgentsPage = function () {
   if (!els.agentOperatingSystem) return;
-  const groups = [
-    ["Command", ["CEO B", "System Brain"]],
-    ["Market Intelligence", ["Signal Scout", "Flow Hunter", "News Raven"]],
-    ["Risk / Rules", ["Risk Sentinel"]],
-    ["Memory", ["Learning Ledger", "Archive Keeper"]],
-    ["Build", ["Task Smith"]]
+  const futureModules = [
+    ["Atlas", "Market structure agent", "Indexes, VIX, yields, dollar, oil, BTC, macro regime"],
+    ["Sentry", "Alerts agent", "Important changes, catalysts, risk warnings, system status"],
+    ["Forge", "Research builder", "Sources and notes into briefs, thesis cards, watchlist updates"],
+    ["Oracle", "Signal interpreter", "Themes, trend shifts, confidence language, source gaps"],
+    ["Archivist", "Source memory", "Links, filings, screenshots, charts, notes, research history"],
+    ["Scout", "Opportunity discovery", "New tickers, themes, sympathy plays, catalysts"],
+    ["Risk Desk", "Discipline layer", "Overtrading risk, do-not-chase reminders, review gates"]
   ];
-  const agentLookup = {
-    "CEO B": ["Founder decision layer", "Review queue", "Prepared decisions", "Manual review gate"],
-    "System Brain": ["Architecture and build safety", "Staging + tracker", "Build recommendations", "Static prototype"],
-    "Signal Scout": ["Research candidate scout", "Source Hub + Trend Radar", "Review packet", "Manual verification"],
-    "Flow Hunter": ["Liquidity context reviewer", "Signals Lab", "Flow note", "Research only"],
-    "News Raven": ["News and macro verifier", "Source Hub", "Catalyst note", "Manual verification"],
-    "Risk Sentinel": ["Safety and risk gate", "Packets + rules", "Reject/approve-for-review note", "No execution"],
-    "Learning Ledger": ["Playbook memory", "CEO B notes", "Reusable rules", "Local first"],
-    "Archive Keeper": ["Research vault", "Reviewed packets", "Archived memory", "Static prototype"],
-    "Task Smith": ["Build task generator", "QA findings", "Next recommended task", "Validation required"]
-  };
   els.agentOperatingSystem.innerHTML = `
-    <div class="page-shell">
+    <div class="page-shell agent-placeholder-shell">
       ${pcPageHero(
-        "04 AGNT / Agent Engine",
-        "Agent Engine",
-        "A grouped roster of research-only workers, their inputs, outputs, status, and manual review boundaries.",
-        ["Research Only", "Manual Review Required", "Static Prototype", "No Autonomous Actions"]
+        "04 AGNT / Future Habitat",
+        "Agent Habitat",
+        "Placeholder route reserved for the future AI Habitat OS agent workspace. The broken visual habitat has been cleared until this page gets a proper rebuild.",
+        ["Future Placeholder", "No Live Agents", "No Autonomous Actions", "Manual CEO B Review"]
       )}
-      <section class="section-grid">
-        ${groups.map(([group, names]) => `
+      <section class="agent-empty-state command-card">
+        <div>
+          <span class="meta-label">Route Status</span>
+          <h3>Intentionally empty until the Agent Habitat is rebuilt.</h3>
+          <p>The next version should be designed from scratch as a calm operating schematic, not a crowded visual city. Mission Control already carries the active agent summary.</p>
+          <div class="action-row">
+            <a class="primary-action" href="#/dashboard">Open Mission Control</a>
+            <a class="secondary-action" href="#/vision-map">Open Vision Map</a>
+            <a class="secondary-action" href="#/staging">Open Staging</a>
+          </div>
+        </div>
+        <div class="agent-schematic" aria-hidden="true">
+          <span class="agent-schematic-core">CEO B</span>
+          <span style="--x:18%;--y:26%"></span>
+          <span style="--x:78%;--y:22%"></span>
+          <span style="--x:24%;--y:72%"></span>
+          <span style="--x:72%;--y:70%"></span>
+          <i></i>
+        </div>
+      </section>
+
+      <section class="agent-placeholder-grid">
+        ${futureModules.map(([name, role, scope]) => `
           <article class="glass-card">
-            <span class="meta-label">${escapeHtml(group)}</span>
-            <h3>${escapeHtml(names.length)} agents</h3>
-            <div class="pc-list">
-              ${names.map((name) => {
-                const [role, input, output, gate] = agentLookup[name];
-                return `
-                  <div style="padding:10px 0;border-bottom:1px solid var(--border-soft);">
-                    <strong>${escapeHtml(name)}</strong>
-                    <p>${escapeHtml(role)}</p>
-                    <small>Input: ${escapeHtml(input)} | Output: ${escapeHtml(output)} | Status: ${escapeHtml(gate)}</small>
-                  </div>
-                `;
-              }).join("")}
-            </div>
+            <span class="meta-label">Future Module</span>
+            <h3>${escapeHtml(name)}</h3>
+            <p><strong>${escapeHtml(role)}</strong></p>
+            <p>${escapeHtml(scope)}</p>
+            ${pcChipRow(["Placeholder", "Not Connected", "No Live Telemetry"])}
           </article>
         `).join("")}
       </section>
-      <section class="truth-panel" style="margin-top:16px;">
-        <span class="meta-label">Manual Review Gate</span>
-        <h3>Agents organize, review, rank, and prepare decisions. CEO B remains the founder decision layer.</h3>
+
+      <section class="truth-panel agent-placeholder-boundary">
+        <span class="meta-label">System Truth</span>
+        <h3>No live agents, no background jobs, no autonomous actions, and no fake telemetry are connected on this page.</h3>
       </section>
     </div>
   `;
@@ -13847,11 +13939,15 @@ renderMoneyLabPage = function () {
 
 renderStagingAdvanced = function () {
   if (!els.stagingAdvanced) return;
-  const cards = ["Route Status", "Build Status", "Data Source Truth", "Safety Wording Check", "LocalStorage Check", "GitHub Pages Status", "Known Limitations"];
+  const cards = ["Route Status", "Build Status", "Data Source Truth", "Obsidian Memory Layer", "Safety Wording Check", "LocalStorage Check", "GitHub Pages Status", "Known Limitations"];
   els.stagingAdvanced.innerHTML = `
     <div class="page-shell">
       ${pcPageHero("13 QA / System Truth", "Staging / QA", "The truth cockpit for route health, validation, data-source honesty, safety wording, and session completion tracking.", ["Validation", "Static Prototype", "Backend Not Connected", "No Fake Live Data"])}
       <section class="section-grid">${cards.map((title) => pcInfoCard(title, `${title} is tracked here so every Codex session leaves a clear handoff.`, "QA")).join("")}</section>
+      <section class="truth-panel" style="margin-top:16px;">
+        <span class="meta-label">Private Source Boundary</span>
+        <h3>Obsidian can feed the local AI handoff, but the static public app does not publish private vault notes or read the vault in-browser.</h3>
+      </section>
       <section class="truth-panel" style="margin-top:16px;"><span class="meta-label">Build Completion Tracker</span><h3>Every session must record changed files, validation commands, validation results, remaining problems, and next recommended task.</h3></section>
     </div>
   `;

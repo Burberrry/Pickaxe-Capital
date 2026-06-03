@@ -37,11 +37,15 @@ for (const table of ["archive_imports", "archive_folders", "archive_sources", "a
 
 const html = await readFile(join(root, "public", "index.html"), "utf8");
 const app = await readFile(join(root, "public", "app.js"), "utf8");
+const server = await readFile(join(root, "server.mjs"), "utf8");
 for (const route of ["#/archive", "#/archive/tree", "#/archive/sources", "#/archive/agents", "#/archive/findings", "#/archive/imports", "#/archive/quarantine"]) {
   if (!html.includes(route)) throw new Error(`Missing Archive route link: ${route}`);
 }
 for (const route of ["/", "/agents", "/vision-map", "/source-hub", "/signals", "/staging", "/archive", "/rk-tracker", "/berkshire-1965", "/bookmarks", "/app/alerts", "/founder", "/ceo-b-profile", "/about-founder", "/market-command", "/signal-engine", "/life-habitat"]) {
   if (!html.includes(route) && !app.includes(route) && !html.includes(route.replace("/", ""))) throw new Error(`Missing route: ${route}`);
+}
+for (const handoffRoute of ["/ai-handoff", "/source-hub-staging"]) {
+  if (!server.includes(handoffRoute)) throw new Error(`Missing AI handoff route in server: ${handoffRoute}`);
 }
 if (!html.includes("Quietly high-agency.")) throw new Error("Missing CEO B profile headline.");
 if (!html.includes("I am commanding a living autonomous intelligence civilization.")) {
