@@ -2001,6 +2001,17 @@ async function renderAiHandoffPage() {
   if (!els.aiHandoffContent) return;
   
   let handoffText = "Generating handoff text...";
+
+  if (isStaticMode()) {
+    handoffText = generateLocalHandoffText();
+    els.aiHandoffContent.innerHTML = `
+      <div class="page-shell">
+        ${pcPageHero("AI Handoff / Static Fallback", "Source Hub / Staging", "Static GitHub Pages handoff fallback. Local Obsidian-backed memory remains local-only.", ["Static Fallback", "No Private Notes", "Copy/Paste Context"])}
+        <pre class="handoff-pre">${escapeHtml(handoffText)}</pre>
+      </div>
+    `;
+    return;
+  }
   
   try {
     const res = await fetch("/source-hub-staging", { cache: "no-store" });

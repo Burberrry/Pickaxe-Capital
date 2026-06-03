@@ -10723,6 +10723,32 @@ main {
   min-width: 0;
 }
 
+body,
+.shell,
+main,
+.view,
+.page-shell,
+.mission-control-shell,
+.watchlists-shell {
+  max-width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.mission-control-shell,
+.watchlists-shell,
+.mission-hero,
+.mission-stat-grid,
+.dashboard-command-grid,
+.mission-main-grid,
+.watchlist-command-grid,
+.watchlist-bucket-grid,
+.watchlist-lower-grid {
+  min-width: 0;
+}
+
 .topbar {
   border-bottom: 1px solid var(--border-soft);
   background: rgba(7, 9, 13, 0.68);
