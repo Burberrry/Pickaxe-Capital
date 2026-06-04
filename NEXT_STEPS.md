@@ -2,7 +2,11 @@
 
 ## Current Active Checkpoint
 
-Phase 2O Section-by-Section Declutter — Archive First is implemented locally for `#/archive` only. It makes Archive read as a premium cleaned intelligence memory vault with one hero, one clear purpose, one clear next manual action, and three above-fold bento panels: Cleaned Memory Queue, Source Lineage Summary, and CEO B Review State.
+Phase 2O Section-by-Section Declutter — Archive First is pushed, deployed, live-reviewed, clean, and live-locked at `5fc85d0 Declutter Archive section`. It changed only `#/archive` and makes Archive read as a premium cleaned intelligence memory vault with one hero, one clear purpose, one clear next manual action, and three above-fold bento panels: Cleaned Memory Queue, Source Lineage Summary, and CEO B Review State.
+
+Phase 2O live review URL:
+
+https://burberrry.github.io/Pickaxe-Capital/?v=phase2o-archive-declutter#/archive
 
 Archive now answers what cleaned intelligence has been preserved, what needs CEO B review, what came from Source Hub, what is clean/local-only, what can become a lesson candidate, what needs more evidence, and what should return to Source Hub. Detailed filters, long archive metadata, secondary actions, import lab, duplicate warnings, old archive history, ownership maps, and local action history are lower or collapsed.
 
@@ -20,7 +24,7 @@ Source Hub now answers what sources are trusted, what still needs verification, 
 
 The existing Source Hub -> Archive workflow remains intact. `Save Cleaned Source Memory` still writes local-only cleaned archive candidates with lineage, trust labels, privacy tier, private-data-removed state, Source Hub action IDs, and CEO B review state. No route architecture, backend systems, dependencies, live APIs, provider adapters, Archive data model changes, localStorage key changes, Watchlists functionality, Agents functionality, Options logic, or `data/signal-alerts.json` changes were added.
 
-Recommended next section after Phase 2N-B is `#/archive`, but B must approve before starting it.
+Phase 2N-B originally recommended `#/archive`; Phase 2O has now completed that recommendation.
 
 Phase 2N-A Launch Countdown Dot Grid is pushed, deployed, live-reviewed, clean, and live-locked at `a132b9e Add launch countdown dot grid`. It adds a premium static dot-grid countdown for `2026-08-03T00:00:00-07:00`, labeled `Testing Launch Window`, not a guaranteed public launch.
 

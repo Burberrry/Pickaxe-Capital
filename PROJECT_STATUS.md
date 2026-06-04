@@ -2,9 +2,11 @@
 
 ## Current Checkpoint — Phase 2O Archive Declutter
 
-- Latest completed/local build: Phase 2O Section-by-Section Declutter — Archive First.
+- Latest completed/live-locked build: Phase 2O Section-by-Section Declutter — Archive First.
+- Phase 2O status: pushed to `origin/main`, deployed on GitHub Pages, live-reviewed, clean, and locked.
+- Latest live commit: `5fc85d0 Declutter Archive section`.
+- Live review URL: `https://burberrry.github.io/Pickaxe-Capital/?v=phase2o-archive-declutter#/archive`.
 - Primary route changed: `#/archive` only.
-- Phase 2O status: locally implemented pending final commit/push/live review.
 - Archive now reads as a premium cleaned intelligence memory vault with one hero, one clear purpose, one primary next action, and three above-fold bento panels: Cleaned Memory Queue, Source Lineage Summary, and CEO B Review State.
 - The hero states the Archive truth clearly: cleaned local memory only, no private vault publishing, no live provider data, and no broker execution.
 - Filters, detailed card metadata, secondary actions, import lab, duplicate warnings, ownership maps, action checklists, historical details, and roadmap notes were moved lower or into quieter collapsed sections.
