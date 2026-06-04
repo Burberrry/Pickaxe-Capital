@@ -2,6 +2,12 @@
 
 ## Current Active Checkpoint
 
+Phase 2N-A Launch Countdown Dot Grid is locally built for the testing launch window visual. It adds a premium static dot-grid countdown for `2026-08-03T00:00:00-07:00`, labeled `Testing Launch Window`, not a guaranteed public launch.
+
+The countdown appears only on `#/dashboard` lower on Mission Control, `#/roadmap` as a larger roadmap card, and `#/staging` as a small QA/readiness card. It shows Pickaxe Testing Launch Window, percent complete, days until testing access, the target date, and the safety line: “Static countdown. No live system telemetry.”
+
+Phase 2N-A does not change route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, Source Hub workflow, Archive workflow, Watchlists functionality, Agents functionality, Options logic, or `data/signal-alerts.json`.
+
 Phase 2M Full-Access Section Decision + Alerts Desk Declutter is pushed, deployed, live-reviewed, clean, and live-locked at `60e5abb Declutter Alerts Desk section`. The chosen section was `/` / `#/alerts` — Alerts Desk / homepage / CEO B Review Queue.
 
 Alerts Desk was chosen because it is the homepage, first impression, daily research review queue, visibly cluttered, and safer to improve than Source Hub, Archive, Watchlists, or Agents in a one-section sprint.
@@ -55,12 +61,13 @@ Latest Alerts Desk polish: `/` / `#/alerts` now presents the homepage/research r
 ## Do Next
 
 1. Use the Obsidian-backed `/ai-handoff` before future Codex/ChatGPT website build sessions.
-2. Let B choose the next task before starting another sprint.
-3. Recommended next section is `#/source-hub`, but B must approve before starting it.
-4. Keep Watchlists stable.
-5. Keep Agents placeholder-only until B approves a rebuild.
-6. Do not start Options Hub until B approves.
-7. Continue preserving research-only wording and static GitHub Pages safety.
+2. Push and live-review Phase 2N-A if B wants this visual shipped.
+3. Let B choose the next task before starting another sprint.
+4. Recommended next section is still `#/source-hub`, but B must approve before starting it.
+5. Keep Watchlists stable.
+6. Keep Agents placeholder-only until B approves a rebuild.
+7. Do not start Options Hub until B approves.
+8. Continue preserving research-only wording and static GitHub Pages safety.
 
 ## Do Not Start Yet
 

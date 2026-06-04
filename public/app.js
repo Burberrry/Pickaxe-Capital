@@ -13762,6 +13762,10 @@ renderDashboardPage = function () {
         </article>
       </section>
 
+      <section class="mission-launch-band" aria-label="Testing launch countdown">
+        ${renderLaunchCountdownCard("compact")}
+      </section>
+
       <section class="mission-quiet-stack">
         <details class="mission-quiet-details">
           <summary>Operating chain</summary>
@@ -13812,6 +13816,60 @@ renderDashboardPage = function () {
         <a href="#/risk-rules">Open Risk & Rules</a>
       </section>
     </div>
+  `;
+}
+
+const launchCountdownConfig = {
+  label: "Pickaxe Testing Launch Window",
+  startDate: "2026-06-03T00:00:00-07:00",
+  launchDate: "2026-08-03T00:00:00-07:00",
+  totalDots: 62
+};
+
+function getLaunchCountdownState(config = launchCountdownConfig) {
+  const start = new Date(config.startDate);
+  const launch = new Date(config.launchDate);
+  const now = new Date();
+  const dayMs = 24 * 60 * 60 * 1000;
+  const durationMs = Math.max(dayMs, launch.getTime() - start.getTime());
+  const elapsedMs = Math.max(0, Math.min(durationMs, now.getTime() - start.getTime()));
+  const daysLeft = Math.max(0, Math.ceil((launch.getTime() - now.getTime()) / dayMs));
+  const percent = Math.max(0, Math.min(100, Math.round((elapsedMs / durationMs) * 100)));
+  const totalDots = Math.max(1, Number(config.totalDots) || 62);
+  const filledDots = Math.max(0, Math.min(totalDots, Math.round((percent / 100) * totalDots)));
+  return {
+    daysLeft,
+    percent,
+    totalDots,
+    filledDots,
+    reached: now.getTime() >= launch.getTime(),
+    targetLabel: launch.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+  };
+}
+
+function renderLaunchCountdownCard(variant = "compact") {
+  const state = getLaunchCountdownState();
+  const dots = Array.from({ length: state.totalDots }, (_, index) => `
+    <span class="launch-dot ${index < state.filledDots ? "is-filled" : ""}" aria-hidden="true"></span>
+  `).join("");
+  const statusText = state.reached ? "Testing launch window reached" : "Build window in progress";
+  const daysText = state.reached ? "Window reached" : `${state.daysLeft} days until testing access`;
+  return `
+    <article class="launch-countdown-card launch-countdown-${escapeHtml(variant)}" aria-label="${escapeHtml(launchCountdownConfig.label)}">
+      <div class="launch-countdown-copy">
+        <span class="meta-label">Testing Launch Window</span>
+        <h3>${escapeHtml(launchCountdownConfig.label)}</h3>
+        <p>${escapeHtml(statusText)}. Static countdown. CEO B controls launch readiness.</p>
+      </div>
+      <div class="launch-countdown-grid" role="img" aria-label="${escapeHtml(`${state.percent}% complete, ${daysText}`)}">
+        ${dots}
+      </div>
+      <div class="launch-countdown-stats">
+        <span><strong>${state.percent}%</strong><em>complete</em></span>
+        <span><strong>${escapeHtml(daysText)}</strong><em>target: ${escapeHtml(state.targetLabel)}</em></span>
+      </div>
+      <p class="launch-countdown-safety">Static countdown. No live system telemetry.</p>
+    </article>
   `;
 }
 
@@ -14801,6 +14859,9 @@ renderStagingAdvanced = function () {
   els.stagingAdvanced.innerHTML = `
     <div class="page-shell">
       ${pcPageHero("13 QA / System Truth", "Staging / QA", "The truth cockpit for route health, validation, data-source honesty, safety wording, and session completion tracking.", ["Validation", "Static Prototype", "Backend Not Connected", "No Fake Live Data"])}
+      <section class="staging-launch-readiness" aria-label="Testing launch readiness">
+        ${renderLaunchCountdownCard("mini")}
+      </section>
       <section class="section-grid">${cards.map((title) => pcInfoCard(title, `${title} is tracked here so every Codex session leaves a clear handoff.`, "QA")).join("")}</section>
       <section class="truth-panel" style="margin-top:16px;">
         <span class="meta-label">Private Source Boundary</span>
@@ -14848,6 +14909,11 @@ renderFutureConceptPages = function () {
     el.innerHTML = `
       <div class="page-shell">
         ${pcPageHero(`${code} / Future Concept`, title, subtitle, ["Future Concept", "Research Only", "Backend Not Connected", "Manual Review Required"])}
+        ${title === "Build / Roadmap" ? `
+          <section class="roadmap-launch-countdown" aria-label="Build roadmap launch countdown">
+            ${renderLaunchCountdownCard("full")}
+          </section>
+        ` : ""}
         <section class="section-grid">
           ${["Purpose", "System Truth", "Next Manual Action"].map((item) => pcInfoCard(item, item === "System Truth" ? "This page does not show live market data and does not claim a provider connection." : item === "Next Manual Action" ? "Review the concept after CEO B approves Phase 1.5 visual direction." : subtitle, "Future")).join("")}
           ${title === "Build / Roadmap" ? `

@@ -1,6 +1,26 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint — Phase 2M Alerts Desk Declutter
+## Current Checkpoint — Phase 2N-A Launch Countdown Dot Grid
+
+- Latest completed/local build: Phase 2N-A Launch Countdown Dot Grid.
+- Testing launch date used: `2026-08-03T00:00:00-07:00`.
+- Launch label: `Testing Launch Window`; this is not a guaranteed public launch.
+- Added a premium static dot-grid countdown for the Pickaxe Testing Launch Window.
+- Countdown appears only on `#/dashboard` lower on Mission Control, `#/roadmap` as a larger roadmap card, and `#/staging` as a small QA/readiness card.
+- Mission Control three top bento panels remain unchanged.
+- Alerts Desk remains the Phase 2M homepage/research review queue.
+- Source Hub remains trust layer.
+- Archive remains cleaned saved intelligence memory.
+- Watchlists remains unchanged.
+- Agents remains placeholder-only.
+- Options Research remains deferred until B explicitly approves it.
+- No route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, Source Hub declutter, or `data/signal-alerts.json` changes were added.
+- Validation status: Phase 2N-A local build/check/browser verification passed.
+- Next task must be chosen by B; do not start Source Hub declutter automatically.
+
+Historical note: Phase 2M Alerts Desk Declutter is pushed, deployed, live-reviewed, clean, and live-locked at `60e5abb`; docs status is locked at `aabada2`.
+
+## Previous Checkpoint — Phase 2M Alerts Desk Declutter
 
 - Latest completed/live-locked build: Phase 2M Full-Access Section Decision + Alerts Desk Declutter.
 - Phase 2M status: pushed to `origin/main`, deployed on GitHub Pages, live-reviewed, clean, and locked.

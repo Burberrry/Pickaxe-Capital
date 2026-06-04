@@ -643,6 +643,7 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-04",
     areas: [
+      { id: "phase-2n-a-launch-countdown-dot-grid", name: "Phase 2N-A Launch Countdown Dot Grid", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "High", owner: "CEO B / Mission Control", notes: "Added a premium static Pickaxe Testing Launch Window dot-grid countdown using the testing launch date 2026-08-03T00:00:00-07:00. Countdown appears only on #/dashboard lower on Mission Control, #/roadmap as a larger roadmap card, and #/staging as a small QA/readiness card. It shows percent complete, days until testing access, target date, and the safety line: Static countdown. No live system telemetry. No route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, Source Hub declutter, Watchlists functionality changes, Agents functionality changes, Options logic changes, or data/signal-alerts.json changes.", nextAction: "Push/live-review Phase 2N-A if B wants it deployed, then wait for B to choose the next task." },
       { id: "phase-2m-alerts-desk-declutter", name: "Phase 2M Alerts Desk Declutter", group: "CEO B Review Workflow", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Alerts Desk", notes: "Full-access section decision chose / and #/alerts because Alerts Desk is the homepage, first impression, daily research review queue, visibly cluttered, and lower-risk than Source Hub, Archive, Watchlists, or Agents. Decluttered Alerts Desk only: one hero, one clear purpose, one primary next action, and three above-fold bento panels: Active Research Packet, Decision Checklist, and Safety / Source Boundary. Packet Queue, Source Confidence, Archive/Learning links, packet context, market/catalyst context, and support commentary moved lower or into quiet collapsed details. No route architecture, workflow logic, integrations, data model, dependencies, Watchlists functionality, Agents implementation logic, Options logic, backend systems, or data/signal-alerts.json changes.", nextAction: "Push/live-review Phase 2M if B wants it deployed, then wait for B to choose the next section." },
       { id: "phase-2l-mission-control-declutter", name: "Phase 2L Mission Control Declutter", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Mission Control", notes: "Decluttered #/dashboard only. Mission Control now has one hero, one clear purpose, one primary next action, and three above-fold bento panels: Decision Queue, Source -> Archive Memory Loop, and 00-20 OS Blueprint Snapshot. Watchlist pulse, route status, research queue, operating chain, full blueprint detail, and private memory boundary were moved lower or collapsed into quiet details. Duplicate status/safety copy was merged into one concise boundary. No route architecture, workflow logic, integrations, data model, dependencies, Watchlists functionality, Agents implementation logic, Options logic, backend systems, or data/signal-alerts.json changes.", nextAction: "Stop and wait for B to choose the next section or sprint." },
       { id: "phase-2k-premium-visual-system-polish", name: "Phase 2K Premium Visual System Polish", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Mission Control", notes: "Applied visual-only polish across /, #/dashboard, #/source-hub, #/archive, #/alerts, #/watchlists, #/agents, and #/staging using the uploaded visual reference only as a motion/layout reference. Translated the reference into Pickaxe-safe product-page clarity: massive confident hero typography, full-screen premium section rhythm, bento card layout, generous padding, rounded 18px-24px cards, strong contrast, restrained CSS-only reveal motion, light page surfaces, graphite contrast panels, and preserved safety boundaries. No new features, dependencies, route changes, Watchlists logic changes, Agent rebuild, Options Hub, live APIs, provider adapters, broker/betting/copy-trading integrations, OpenClaw, raw Obsidian exposure, raw bookmark publishing, or data/signal-alerts.json changes.", nextAction: "Stop and wait for B to choose the next sprint." },
@@ -684,27 +685,28 @@ window.PickaxeHabitatData = {
     latestSession: {
       filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
       featuresAdded: [
-        "Built Phase 2M Alerts Desk section declutter.",
-        "Inspected candidate sections and chose / plus #/alerts as the highest-impact, lowest-risk next section.",
-        "Changed Alerts Desk only, keeping secondary routes as verification-only.",
-        "Reduced Alerts Desk to one hero, one clear purpose, one primary next action, and three above-fold bento panels.",
-        "Moved Packet Queue, Source Confidence, Archive/Learning links, packet context, market/catalyst context, and support commentary lower or into quiet collapsed details."
+        "Built Phase 2N-A Launch Countdown Dot Grid.",
+        "Added a reusable static Pickaxe Testing Launch Window countdown component.",
+        "Placed the compact countdown lower on #/dashboard, not above the three Mission Control core bento panels.",
+        "Placed a larger countdown on #/roadmap and a small QA/readiness countdown on #/staging.",
+        "Rendered a responsive dot grid with percent complete, days until testing access, target date, and static safety copy."
       ],
       bugsFixed: [
-        "Merged repeated research-only and no-execution copy into one concise visible boundary.",
-        "Kept Mission Control, Source Hub, Archive, Watchlists, Agents, Options, and route architecture out of implementation scope except route verification.",
+        "Kept Source Hub declutter out of scope.",
+        "Kept Mission Control top bento panels unchanged.",
+        "Kept Alerts Desk unchanged from Phase 2M.",
         "Kept Watchlists unchanged.",
         "Kept Agents as a placeholder and did not rebuild Agent Habitat.",
-        "Avoided live APIs, scraping, provider adapters, broker execution, betting execution, copy-trading, fake connected providers, private frontend keys, fake telemetry claims, raw Obsidian exposure, raw bookmark publishing, backend systems, dependencies, and data/signal-alerts.json changes."
+        "Avoided route architecture changes, backend systems, dependencies, live APIs, scraping, provider adapters, broker execution, betting execution, copy-trading, fake connected providers, private frontend keys, fake telemetry claims, raw Obsidian exposure, raw bookmark publishing, and data/signal-alerts.json changes."
       ],
-      validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; local browser check /, #/dashboard, #/alerts, #/source-hub, #/archive, #/watchlists, #/agents, #/staging; safety language scan",
-      validationResult: "Phase 2M local validation passed: syntax checks, build, project check, desktop browser route sweep, and mobile Alerts Desk check passed with no console errors, no 404s, no blank main content, no horizontal overflow, three Alerts Desk core panels, collapsed quiet details, Mission Control unchanged from Phase 2L, Watchlists unchanged, Agents placeholder-only, and Options deferred.",
+      validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; local browser check #/dashboard, #/roadmap, /, #/alerts, #/source-hub, #/archive, #/watchlists, #/agents, #/staging; safety language scan",
+      validationResult: "Phase 2N-A local validation passed: syntax checks, build, project check, desktop browser route sweep, and mobile Mission Control check passed with no console errors, no 404s, no blank main content, no horizontal overflow, countdown rendered with 62 dots, percent clamped 0-100, nonnegative days left, Mission Control top bento unchanged, Alerts Desk unchanged, Watchlists unchanged, Agents placeholder-only, and Options deferred.",
       remainingProblems: [
         "Live data connectors require backend/API setup and remain not connected.",
         "Real agent telemetry is not connected.",
         "Options Research remains deferred until B explicitly approves it."
       ],
-      nextRecommendedTask: "Recommended next section: #/source-hub, because it is the trust cockpit and high-impact while still safer than a full Archive declutter. Stop and wait for B to choose."
+      nextRecommendedTask: "Recommended next section remains #/source-hub, but B must approve before starting it. Stop after Phase 2N-A reporting."
     },
   },
   marketWatchlist: [
