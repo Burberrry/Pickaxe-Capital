@@ -8160,8 +8160,7 @@ body {
 }
 
 .brand small,
-.sidebar-status,
-.rail-quote {
+.sidebar-status {
   display: none !important;
 }
 
@@ -8311,8 +8310,7 @@ body {
 }
 
 .brand small,
-.sidebar-status,
-.rail-quote {
+.sidebar-status {
   display: none !important;
 }
 
@@ -8426,8 +8424,7 @@ body::before {
 }
 
 .brand small,
-.sidebar-status,
-.rail-quote {
+.sidebar-status {
   display: none !important;
 }
 
@@ -14185,8 +14182,7 @@ body {
 }
 
 .brand small,
-.sidebar-status,
-.rail-quote {
+.sidebar-status {
   display: none !important;
 }
 

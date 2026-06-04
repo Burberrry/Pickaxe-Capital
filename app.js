@@ -858,8 +858,18 @@ function archiveRouteFromPath(pathname) {
 
 function renderMindsetQuote() {
   const quote = mindsetQuotes[state.quoteIndex % mindsetQuotes.length];
-  els.rotatingQuote.textContent = quote.text;
-  els.rotatingQuoteSource.textContent = quote.source;
+  const rail = document.querySelector(".rail-quote");
+  if (rail && (!els.rotatingQuote || !els.rotatingQuoteSource)) {
+    rail.innerHTML = `
+      <span class="label">Mindset</span>
+      <p id="rotatingQuote"></p>
+      <strong id="rotatingQuoteSource"></strong>
+    `;
+    els.rotatingQuote = document.querySelector("#rotatingQuote");
+    els.rotatingQuoteSource = document.querySelector("#rotatingQuoteSource");
+  }
+  if (els.rotatingQuote) els.rotatingQuote.textContent = quote.text;
+  if (els.rotatingQuoteSource) els.rotatingQuoteSource.textContent = quote.source;
 }
 
 function nextMindsetQuote() {
