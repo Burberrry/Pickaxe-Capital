@@ -647,6 +647,7 @@ function renderRouteErrorFallback(routeName, error) {
 
 function setView(view) {
   state.activeView = view;
+  document.body.dataset.activeView = view;
   document.body.classList.toggle("view-command-active", view === "command");
   document.querySelectorAll(".view").forEach((node) => node.classList.toggle("active", node.id === view));
   document.querySelectorAll(".nav-button").forEach((node) => {

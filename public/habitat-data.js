@@ -643,6 +643,7 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-03",
     areas: [
+      { id: "phase-2k-premium-visual-system-polish", name: "Phase 2K Premium Visual System Polish", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Mission Control", notes: "Applied visual-only polish across /, #/dashboard, #/source-hub, #/archive, #/alerts, #/watchlists, #/agents, and #/staging using the uploaded visual reference only as a motion/layout reference. Translated the reference into Pickaxe-safe product-page clarity: massive confident hero typography, full-screen premium section rhythm, bento card layout, generous padding, rounded 18px-24px cards, strong contrast, restrained CSS-only reveal motion, light page surfaces, graphite contrast panels, and preserved safety boundaries. No new features, dependencies, route changes, Watchlists logic changes, Agent rebuild, Options Hub, live APIs, provider adapters, broker/betting/copy-trading integrations, OpenClaw, raw Obsidian exposure, raw bookmark publishing, or data/signal-alerts.json changes.", nextAction: "Stop and wait for B to choose the next sprint." },
       { id: "phase-2j-mission-control-blueprint-polish", name: "Phase 2J Mission Control + 20-Section Blueprint Polish", group: "CEO B Review Workflow", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Mission Control", notes: "Upgraded #/dashboard Mission Control as the flagship Pickaxe OS command page with clearer CEO B command hierarchy, Source Hub trust status, Archive cleaned-memory status, next manual action, safety truth, compact 00-20 blueprint preview, aggregate-only Source-to-Archive memory metrics, and a safe CEO B decision queue. Watchlists unchanged, Agents placeholder-only, Options Research deferred. No live APIs, provider adapters, broker integration, betting/sportsbook integration, copy-trading, OpenClaw, raw Obsidian exposure, raw bookmark publishing, private frontend keys, or data/signal-alerts.json changes.", nextAction: "Push Phase 2J, live-review Mission Control, then stop and wait for B." },
       { id: "phase-2i-archive-source-workflow", name: "Phase 2I Archive / Source Workflow", group: "Archive Habitat", status: "Live-Locked", completion: 100, priority: "Critical", owner: "CEO B / Source Hub / Archivist", notes: "Connected Source Hub local actions to normalized cleaned archive candidates in pickaxeArchiveVault with source lineage, trust labels, privacy tiers, private-data-removed status, and CEO B review state. Archive cards display source origin, trust label, related route/theme, linked source IDs, Source Hub Action IDs, privacy tier, review state, and safe local-only actions. Phase 2I is pushed, deployed, live-reviewed, clean, and locked.", nextAction: "Keep Source Hub and Archive stable unless B approves follow-up work." },
       { id: "phase-2d-source-hub-intelligence-cockpit", name: "Phase 2D Source Hub Intelligence Cockpit", group: "Source Habitat", status: "Built / Local Pass", completion: 95, priority: "Critical", owner: "CEO B / Archivist / Forge", notes: "Upgraded #/source-hub into the trust layer for Pickaxe Capital: source verification matrix, source-to-route map, planned/local agent ownership, manual/demo intake queue, escalation rules, adapter boundaries, private memory boundary, Mission Control integration preview, and local-only prototype actions. No scraping, live provider calls, broker connection, execution, copy-trading, fake connected adapters, private frontend keys, or raw Obsidian note publishing.", nextAction: "Push and live-review on GitHub Pages, then keep Source Hub stable before the next approved cockpit layer." },
@@ -681,28 +682,27 @@ window.PickaxeHabitatData = {
     latestSession: {
       filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "index.html", "public/index.html", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
       featuresAdded: [
-        "Built Phase 2J Mission Control + 20-Section Visual Blueprint Polish.",
-        "Improved #/dashboard top hierarchy so the first screen communicates CEO B command layer, Phase 2I live-lock, Source Hub trust status, Archive memory status, next manual action, and safety truth.",
-        "Added compact 00-20 Pickaxe OS blueprint preview grouped by Core Command, Intelligence, Memory, Operating System, and Future Research Build.",
-        "Added Source-to-Archive memory summary using aggregate localStorage state only.",
-        "Added safe CEO B decision queue states: review now, needs source, needs archive, needs cleaning, and deferred.",
-        "Improved Mission Control route relationship clarity without changing route architecture."
+        "Built Phase 2K Premium Visual System Polish.",
+        "Applied a Pickaxe-safe light premium visual rhythm to /, #/dashboard, #/source-hub, #/archive, #/alerts, #/watchlists, #/agents, and #/staging.",
+        "Translated the uploaded visual reference into Pickaxe-specific visual principles: massive hero typography, bento card rhythm, generous spacing, rounded 18px-24px cards, strong contrast, restrained CSS-only reveal motion, and light/dark wealth-dashboard contrast.",
+        "Kept Mission Control as the CEO B command hero and preserved the 20-section OS flow, Source-to-Archive loop, Pickaxe OS thesis, core operating modules, and roadmap/phase story as existing Pickaxe content.",
+        "Added a route-state visual hook for approved routes without changing route architecture."
       ],
       bugsFixed: [
-        "Kept Source Hub, Archive, Watchlists, Agents, and Options routes out of implementation scope except route verification.",
+        "Kept Source Hub, Archive, Watchlists, Agents, and Options routes out of feature implementation scope except visual polish and route verification.",
         "Kept Watchlists unchanged.",
         "Kept Agents as a placeholder and did not rebuild Agent Habitat.",
-        "Kept all new Mission Control content aggregate-only and avoided live APIs, scraping, provider adapters, broker execution, betting execution, copy-trading, fake connected providers, private frontend keys, fake telemetry claims, raw Obsidian exposure, raw bookmark publishing, and data/signal-alerts.json changes."
+        "Did not copy reference-specific content, names, external image or GIF URLs, effects, or add new dependencies.",
+        "Avoided live APIs, scraping, provider adapters, broker execution, betting execution, copy-trading, fake connected providers, private frontend keys, fake telemetry claims, raw Obsidian exposure, raw bookmark publishing, and data/signal-alerts.json changes."
       ],
       validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; local browser check /, #/dashboard, #/source-hub, #/archive, #/alerts, #/watchlists, #/agents, #/staging",
-      validationResult: "Local Phase 2J validation passed: syntax checks, build, project check, and browser route checks passed with no console errors, no 404s, no blank main content, and no horizontal overflow.",
+      validationResult: "Phase 2K local validation passed: syntax checks, build, project check, desktop browser route sweep, and mobile Mission Control check passed with no console errors, no 404s, no blank main content, no horizontal overflow, and no forbidden reference-specific text.",
       remainingProblems: [
-        "Phase 2J still needs push and GitHub Pages live review.",
         "Live data connectors require backend/API setup and remain not connected.",
         "Real agent telemetry is not connected.",
         "Options Research remains deferred until B explicitly approves it."
       ],
-      nextRecommendedTask: "After Phase 2J validation and live review, stop and wait for B to choose the next sprint."
+      nextRecommendedTask: "Stop and wait for B to choose the next sprint."
     },
   },
   marketWatchlist: [
