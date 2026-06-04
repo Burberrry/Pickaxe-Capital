@@ -8795,6 +8795,176 @@ body[data-active-view="staging"] .status-strip {
   }
 }
 
+/* Phase 2M Alerts Desk declutter - homepage/review queue only. */
+#alerts.active .alerts-declutter-shell {
+  gap: clamp(22px, 2.7vw, 42px) !important;
+}
+
+#alerts.active .alerts-declutter-hero {
+  min-height: min(600px, calc(100vh - 132px)) !important;
+  align-items: center !important;
+}
+
+#alerts.active .alerts-declutter-hero h2 {
+  max-width: 980px !important;
+  font-size: clamp(58px, 8.2vw, 138px) !important;
+}
+
+#alerts.active .alerts-declutter-hero p {
+  max-width: 760px !important;
+}
+
+#alerts.active .alerts-hero-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 860px;
+  margin-top: clamp(18px, 2vw, 28px);
+}
+
+#alerts.active .alerts-hero-summary span {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--phase2k-border);
+  border-radius: 18px;
+  color: var(--phase2k-muted) !important;
+  background: rgba(255, 255, 255, 0.64);
+  box-shadow: 0 12px 28px rgba(29, 29, 31, 0.05);
+}
+
+#alerts.active .alerts-hero-summary strong {
+  color: var(--phase2k-ink) !important;
+  font-size: 12px;
+}
+
+#alerts.active .alerts-hero-boundary {
+  display: grid;
+  gap: 14px;
+  align-content: end;
+}
+
+#alerts.active .alerts-core-bento {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr) minmax(300px, 0.78fr);
+  gap: clamp(18px, 2vw, 30px);
+  align-items: stretch;
+}
+
+#alerts.active .alerts-core-bento > * {
+  min-height: clamp(410px, 37vh, 540px) !important;
+  padding: clamp(24px, 3vw, 44px) !important;
+}
+
+#alerts.active .alerts-core-bento h3 {
+  margin-bottom: 18px;
+  font-size: clamp(28px, 2.8vw, 46px);
+  line-height: 1;
+}
+
+#alerts.active .alerts-packet-identity {
+  margin: -8px 0 14px;
+  color: var(--phase2k-gold) !important;
+  font-size: 1.02rem;
+  font-weight: 800;
+}
+
+#alerts.active .alerts-packet-metrics,
+#alerts.active .alerts-checklist-list,
+#alerts.active .alerts-boundary-list {
+  display: grid;
+  gap: 10px;
+}
+
+#alerts.active .alerts-packet-metrics {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 20px 0;
+}
+
+#alerts.active .alerts-packet-metrics span,
+#alerts.active .alerts-checklist-list span,
+#alerts.active .alerts-boundary-list span {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid var(--phase2k-border);
+  border-radius: 16px;
+  color: var(--phase2k-muted) !important;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+#alerts.active .alerts-packet-metrics strong,
+#alerts.active .alerts-checklist-list strong {
+  color: var(--phase2k-ink) !important;
+}
+
+#alerts.active .alerts-boundary-list span {
+  color: rgba(245, 245, 247, 0.82) !important;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+#alerts.active .alerts-secondary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) repeat(2, minmax(0, 0.9fr));
+  gap: clamp(16px, 2vw, 28px);
+}
+
+#alerts.active .alerts-secondary-grid > * {
+  min-height: 260px;
+  padding: clamp(22px, 2.4vw, 36px) !important;
+}
+
+#alerts.active .alerts-queue-list {
+  display: grid;
+  gap: 8px;
+}
+
+#alerts.active .alerts-queue-list button {
+  display: grid;
+  grid-template-columns: minmax(72px, 0.28fr) minmax(0, 1fr);
+  gap: 10px;
+  justify-content: start;
+  min-height: 54px !important;
+  padding: 10px 12px !important;
+  border-radius: 14px !important;
+  text-align: left;
+}
+
+#alerts.active .alerts-quiet-stack {
+  display: grid;
+  gap: 12px;
+}
+
+#alerts.active .alerts-quiet-stack .section-grid {
+  margin-top: 16px;
+}
+
+@media (max-width: 1180px) {
+  #alerts.active .alerts-core-bento,
+  #alerts.active .alerts-secondary-grid,
+  #alerts.active .alerts-hero-summary {
+    grid-template-columns: 1fr !important;
+  }
+
+  #alerts.active .alerts-core-bento > * {
+    min-height: auto !important;
+  }
+}
+
+@media (max-width: 720px) {
+  #alerts.active .alerts-declutter-hero h2 {
+    font-size: clamp(44px, 15vw, 76px) !important;
+  }
+
+  #alerts.active .alerts-packet-metrics,
+  #alerts.active .alerts-queue-list button {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /* Phase 2C overflow lock: keep dashboard/watchlists inside the app shell. */
 main,
 .view,

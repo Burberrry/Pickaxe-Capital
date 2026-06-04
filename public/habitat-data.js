@@ -641,8 +641,9 @@ window.PickaxeHabitatData = {
     { id: "founder-decision-cleanup", title: "Founder Decision: Clean before scale", type: "Founder Decision", sourceHabitat: "Founder OS", sourceWebsite: "CEO B", relatedAgent: "CEO B / Wealth Alchemist", summary: "Apply Berkshire cleanup logic to websites, agents, archives, investments, and personal execution.", tags: ["founder", "cleanup", "scale"], confidence: 90, valueScore: 94, status: "CEO B Review", lesson: "Compounding starts when drag is removed.", nextAction: "Add to founder operating rules.", sourceRoute: "/founder", reviewDate: "local/mock" },
   ],
   buildCompletionTracker: {
-    lastUpdated: "2026-06-03",
+    lastUpdated: "2026-06-04",
     areas: [
+      { id: "phase-2m-alerts-desk-declutter", name: "Phase 2M Alerts Desk Declutter", group: "CEO B Review Workflow", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Alerts Desk", notes: "Full-access section decision chose / and #/alerts because Alerts Desk is the homepage, first impression, daily research review queue, visibly cluttered, and lower-risk than Source Hub, Archive, Watchlists, or Agents. Decluttered Alerts Desk only: one hero, one clear purpose, one primary next action, and three above-fold bento panels: Active Research Packet, Decision Checklist, and Safety / Source Boundary. Packet Queue, Source Confidence, Archive/Learning links, packet context, market/catalyst context, and support commentary moved lower or into quiet collapsed details. No route architecture, workflow logic, integrations, data model, dependencies, Watchlists functionality, Agents implementation logic, Options logic, backend systems, or data/signal-alerts.json changes.", nextAction: "Push/live-review Phase 2M if B wants it deployed, then wait for B to choose the next section." },
       { id: "phase-2l-mission-control-declutter", name: "Phase 2L Mission Control Declutter", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Mission Control", notes: "Decluttered #/dashboard only. Mission Control now has one hero, one clear purpose, one primary next action, and three above-fold bento panels: Decision Queue, Source -> Archive Memory Loop, and 00-20 OS Blueprint Snapshot. Watchlist pulse, route status, research queue, operating chain, full blueprint detail, and private memory boundary were moved lower or collapsed into quiet details. Duplicate status/safety copy was merged into one concise boundary. No route architecture, workflow logic, integrations, data model, dependencies, Watchlists functionality, Agents implementation logic, Options logic, backend systems, or data/signal-alerts.json changes.", nextAction: "Stop and wait for B to choose the next section or sprint." },
       { id: "phase-2k-premium-visual-system-polish", name: "Phase 2K Premium Visual System Polish", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Mission Control", notes: "Applied visual-only polish across /, #/dashboard, #/source-hub, #/archive, #/alerts, #/watchlists, #/agents, and #/staging using the uploaded visual reference only as a motion/layout reference. Translated the reference into Pickaxe-safe product-page clarity: massive confident hero typography, full-screen premium section rhythm, bento card layout, generous padding, rounded 18px-24px cards, strong contrast, restrained CSS-only reveal motion, light page surfaces, graphite contrast panels, and preserved safety boundaries. No new features, dependencies, route changes, Watchlists logic changes, Agent rebuild, Options Hub, live APIs, provider adapters, broker/betting/copy-trading integrations, OpenClaw, raw Obsidian exposure, raw bookmark publishing, or data/signal-alerts.json changes.", nextAction: "Stop and wait for B to choose the next sprint." },
       { id: "phase-2j-mission-control-blueprint-polish", name: "Phase 2J Mission Control + 20-Section Blueprint Polish", group: "CEO B Review Workflow", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Mission Control", notes: "Upgraded #/dashboard Mission Control as the flagship Pickaxe OS command page with clearer CEO B command hierarchy, Source Hub trust status, Archive cleaned-memory status, next manual action, safety truth, compact 00-20 blueprint preview, aggregate-only Source-to-Archive memory metrics, and a safe CEO B decision queue. Watchlists unchanged, Agents placeholder-only, Options Research deferred. No live APIs, provider adapters, broker integration, betting/sportsbook integration, copy-trading, OpenClaw, raw Obsidian exposure, raw bookmark publishing, private frontend keys, or data/signal-alerts.json changes.", nextAction: "Push Phase 2J, live-review Mission Control, then stop and wait for B." },
@@ -681,28 +682,29 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "index.html", "public/index.html", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
+      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
       featuresAdded: [
-        "Built Phase 2L Mission Control section-by-section declutter.",
-        "Changed #/dashboard only, keeping secondary routes as verification-only.",
-        "Reduced Mission Control to one hero, one clear purpose, one primary next action, and three above-fold bento panels.",
-        "Moved watchlist pulse, route status, research queue, operating chain, full blueprint detail, and private memory boundary lower or into quiet collapsed details.",
-        "Merged repeated safety/status copy into one concise visible system boundary."
+        "Built Phase 2M Alerts Desk section declutter.",
+        "Inspected candidate sections and chose / plus #/alerts as the highest-impact, lowest-risk next section.",
+        "Changed Alerts Desk only, keeping secondary routes as verification-only.",
+        "Reduced Alerts Desk to one hero, one clear purpose, one primary next action, and three above-fold bento panels.",
+        "Moved Packet Queue, Source Confidence, Archive/Learning links, packet context, market/catalyst context, and support commentary lower or into quiet collapsed details."
       ],
       bugsFixed: [
-        "Kept Source Hub, Archive, Watchlists, Agents, Options, and route architecture out of implementation scope except route verification.",
+        "Merged repeated research-only and no-execution copy into one concise visible boundary.",
+        "Kept Mission Control, Source Hub, Archive, Watchlists, Agents, Options, and route architecture out of implementation scope except route verification.",
         "Kept Watchlists unchanged.",
         "Kept Agents as a placeholder and did not rebuild Agent Habitat.",
         "Avoided live APIs, scraping, provider adapters, broker execution, betting execution, copy-trading, fake connected providers, private frontend keys, fake telemetry claims, raw Obsidian exposure, raw bookmark publishing, backend systems, dependencies, and data/signal-alerts.json changes."
       ],
-      validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; local browser check /, #/dashboard, #/source-hub, #/archive, #/alerts, #/watchlists, #/agents, #/staging",
-      validationResult: "Phase 2L local validation passed: syntax checks, build, project check, desktop browser route sweep, and mobile Mission Control check passed with no console errors, no 404s, no blank main content, no horizontal overflow, three dashboard core panels, collapsed quiet details, Watchlists unchanged, Agents placeholder-only, and Options deferred.",
+      validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; local browser check /, #/dashboard, #/alerts, #/source-hub, #/archive, #/watchlists, #/agents, #/staging; safety language scan",
+      validationResult: "Phase 2M local validation passed: syntax checks, build, project check, desktop browser route sweep, and mobile Alerts Desk check passed with no console errors, no 404s, no blank main content, no horizontal overflow, three Alerts Desk core panels, collapsed quiet details, Mission Control unchanged from Phase 2L, Watchlists unchanged, Agents placeholder-only, and Options deferred.",
       remainingProblems: [
         "Live data connectors require backend/API setup and remain not connected.",
         "Real agent telemetry is not connected.",
         "Options Research remains deferred until B explicitly approves it."
       ],
-      nextRecommendedTask: "Stop and wait for B to choose the next section or sprint."
+      nextRecommendedTask: "Recommended next section: #/source-hub, because it is the trust cockpit and high-impact while still safer than a full Archive declutter. Stop and wait for B to choose."
     },
   },
   marketWatchlist: [

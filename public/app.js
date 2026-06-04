@@ -13819,97 +13819,117 @@ renderAlertsDeskMarkup = function (optionAlerts, selectedAlert, lastUpdated) {
   const packet = selectedAlert || normalizeResearchPacket({}, 0);
   const topPacket = optionAlerts[0] || packet;
   const queueCount = optionAlerts.length;
-  const truthItems = [
-    ["Research Only", "On"],
-    ["Manual CEO B Review Required", "On"],
-    ["No Broker Execution", "Locked"],
-    ["No Auto-Trading", "Locked"],
-    ["No Betting Execution", "Locked"],
-    ["No Copy-Trading", "Locked"],
-    ["No Fake Live Data", "On"],
-    ["Backend Not Connected", "True"],
-    ["Provider Adapters Not Connected", "True"],
-    ["Static GitHub Pages Prototype", "True"]
+  const packetActions = ["Send to CEO B Review", "Research More", "Verify News", "Archive Research Note"];
+  const checklistItems = [
+    ["Source trail", packet.confidence ? `${packet.confidence}% confidence` : "Needs source"],
+    ["Risk note", packet.riskScore || packet.risk || "Manual"],
+    ["Invalidation", packet.invalidationResearchNote || "Stand down if evidence fails"],
+    ["Review gate", "CEO B required"]
   ];
-  const safeActions = ["Watch", "Research More", "Verify News", "Send to CEO B Review", "Paper Review Only", "Add to Learning Ledger", "Archive Research Note"];
+  const safetyItems = [
+    "Static / local-only prototype",
+    "No live APIs",
+    "No scraping",
+    "No broker execution",
+    "No fake connected providers",
+    "No private vault exposure",
+    "Agents placeholder-only",
+    "Options deferred"
+  ];
   const queueList = optionAlerts.slice(0, 5).map((alert) => `
-    <button type="button" class="secondary-action" onclick="window.selectAlertCard('${escapeHtml(alert.id)}')">
-      ${escapeHtml(alert.symbol)} / ${escapeHtml(alert.status || "Research Packet")}
+    <button type="button" onclick="window.selectAlertCard('${escapeHtml(alert.id)}')">
+      <strong>${escapeHtml(alert.symbol)}</strong>
+      <span>${escapeHtml(alert.status || "Research Packet")}</span>
     </button>
   `).join("");
 
   return `
-    <div class="page-shell">
-      ${pcPageHero(
-        "01 ALRT / CEO B Review Queue",
-        "Alerts Desk",
-        "A clean research review queue for deciding what deserves more verification before anything leaves the site.",
-        ["Research Only", "Manual Review Required", "No Broker Execution", "Static Prototype"]
-      )}
-
-      <section class="split-layout">
-        <article class="command-card">
-          <span class="meta-label">CEO B Command Summary</span>
-          <h3>Review Queue</h3>
-          <div class="section-grid" style="grid-template-columns:repeat(2,minmax(0,1fr));margin:14px 0;">
-            <div class="metric-card"><span>Queue Count</span><strong>${queueCount}</strong></div>
-            <div class="metric-card"><span>Last Local Update</span><strong>${escapeHtml(lastUpdated)}</strong></div>
+    <div class="page-shell alerts-declutter-shell">
+      <header class="page-hero alerts-declutter-hero">
+        <div>
+          <span class="page-kicker">01 Alerts Desk / CEO B Review Queue</span>
+          <h2>Alerts Desk</h2>
+          <p>Research packets wait here until CEO B verifies the source trail, risk note, and next manual action.</p>
+          <div class="alerts-hero-summary">
+            <span><strong>Queue</strong>${queueCount} packets</span>
+            <span><strong>Lead packet</strong>${escapeHtml(topPacket.symbol || packet.symbol || "Research")}</span>
+            <span><strong>Updated</strong>${escapeHtml(lastUpdated)}</span>
           </div>
-          <ul class="pc-list">
-            <li><span>Highest Priority</span><strong>${escapeHtml(topPacket.symbol || "AAPL")}</strong></li>
-            <li><span>Manual Review</span><strong>Required</strong></li>
-            <li><span>Current Gate</span><strong>${escapeHtml(packet.status || "Needs CEO B Review")}</strong></li>
-          </ul>
-          <div class="action-row" style="margin-top:16px;">
-            <button type="button" class="primary-action" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Send to CEO B Review')">Continue Review</button>
-            <button type="button" class="secondary-action" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Watch')">Watch</button>
-            <a class="secondary-action" href="#/dashboard">Open Dashboard</a>
-          </div>
-          <div class="action-row" style="margin-top:12px;">${queueList}</div>
-        </article>
+        </div>
+        <aside class="truth-panel alerts-hero-boundary">
+          <span class="meta-label">Safety truth</span>
+          <h3>Manual review only.</h3>
+          <p>Static/local prototype. No live APIs, scraping, broker execution, fake connected providers, private vault exposure, autonomous agents, or Options Research launch.</p>
+          <button type="button" class="primary-action" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Send to CEO B Review')">Review Research Packet</button>
+        </aside>
+      </header>
 
-        <article class="glass-card">
+      <section class="alerts-core-bento" aria-label="Alerts Desk core panels">
+        <article class="command-card alerts-active-packet-card">
           <span class="meta-label">Active Research Packet</span>
-          <h3>${escapeHtml(packet.symbol)} / ${escapeHtml(packet.company || packet.title || "Research Candidate")}</h3>
+          <h3>Active Research Packet</h3>
+          <p class="alerts-packet-identity">${escapeHtml(packet.symbol)} / ${escapeHtml(packet.company || packet.title || "Research Candidate")}</p>
           <p>${escapeHtml(packet.researchContext || "Research candidate only. CEO B reviews source confidence, risk notes, and watch criteria before any external action.")}</p>
-          <div class="section-grid" style="grid-template-columns:repeat(2,minmax(0,1fr));margin:16px 0;">
-            <div class="metric-card"><span>Packet Type</span><strong>${escapeHtml(packet.type || "Options Research")}</strong></div>
-            <div class="metric-card"><span>Source Confidence</span><strong>${escapeHtml(packet.confidence || 0)}%</strong></div>
-            <div class="metric-card"><span>Risk Score</span><strong>${escapeHtml(packet.riskScore || packet.risk || "Manual")}</strong></div>
-            <div class="metric-card"><span>Updated</span><strong>${escapeHtml(packet.updatedAt || packet.createdAt || "Local")}</strong></div>
+          <div class="alerts-packet-metrics">
+            <span><em>Type</em><strong>${escapeHtml(packet.type || "Research Packet")}</strong></span>
+            <span><em>Confidence</em><strong>${escapeHtml(packet.confidence || 0)}%</strong></span>
+            <span><em>Risk</em><strong>${escapeHtml(packet.riskScore || packet.risk || "Manual")}</strong></span>
           </div>
-          <ul class="pc-list">
-            <li><span>Watch Criteria</span><strong>${escapeHtml(packet.watchCriteria || "Verify price context, liquidity, source trail, and catalyst.")}</strong></li>
-            <li><span>Price Context</span><strong>${escapeHtml(packet.currentPrice || "Static demo note")}</strong></li>
-            <li><span>Invalidation Note</span><strong>${escapeHtml(packet.invalidationResearchNote || "Stand down if core evidence fails.")}</strong></li>
-            <li><span>Review Boundary</span><strong>Manual broker review separate</strong></li>
-          </ul>
-          <div class="action-row" style="margin-top:16px;">
-            ${safeActions.map((label) => `<button type="button" class="secondary-action" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', '${escapeHtml(label)}')">${escapeHtml(label)}</button>`).join("")}
+          <div class="action-row">
+            ${packetActions.map((label, index) => `<button type="button" class="${index === 0 ? "primary-action" : "secondary-action"}" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', '${escapeHtml(label)}')">${escapeHtml(label)}</button>`).join("")}
           </div>
         </article>
 
-        <aside class="truth-panel">
-          <span class="meta-label">System Truth + Risk</span>
-          <h3>Risk Sentinel Gate</h3>
-          <div class="truth-list" style="margin-top:14px;">
-            ${truthItems.map(([label, value]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(value)}</strong></span>`).join("")}
+        <article class="glass-card alerts-checklist-card">
+          <span class="meta-label">Decision Checklist</span>
+          <h3>Decision Checklist</h3>
+          <div class="alerts-checklist-list">
+            ${checklistItems.map(([label, value]) => `
+              <span>
+                <strong>${escapeHtml(label)}</strong>
+                <em>${escapeHtml(value)}</em>
+              </span>
+            `).join("")}
           </div>
-          <div class="section-grid" style="grid-template-columns:1fr;margin-top:16px;">
-            <div class="metric-card"><span>Risk Sentinel</span><strong>Review Gate Active</strong></div>
-            <div class="metric-card"><span>Manual Review Gate</span><strong>CEO B Required</strong></div>
+          <p class="mission-footnote">Next manual action: verify the source trail, then choose review, research more, or archive.</p>
+        </article>
+
+        <aside class="truth-panel alerts-boundary-card">
+          <span class="meta-label">Safety / Source Boundary</span>
+          <h3>Safety / Source Boundary</h3>
+          <div class="alerts-boundary-list">
+            ${safetyItems.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
           </div>
         </aside>
       </section>
 
-      <section class="section-grid" style="margin-top:16px;">
-        ${pcInfoCard("Agent Commentary", "Signal Scout prepares the candidate, Flow Hunter checks liquidity context, News Raven verifies catalysts, and Risk Sentinel keeps the packet research-only.", "Support")}
-        ${pcInfoCard("Learning Suggestions", "Save the source trail, invalidation note, and post-review lesson to the Learning Ledger only after manual review.", "Memory")}
-        ${pcInfoCard("Archive Memory", "Archive useful research notes so future packets can compare against prior context instead of repeating the same work.", "Vault")}
+      <section class="alerts-secondary-grid" aria-label="Alerts Desk secondary details">
+        <article class="glass-card">
+          <span class="meta-label">Packet Queue</span>
+          <h3>Other research packets</h3>
+          <div class="alerts-queue-list">${queueList}</div>
+        </article>
+        ${pcInfoCard("Source Confidence", "Source confidence, catalyst context, and risk notes stay below the primary review decision so the page does not repeat itself.", "Lower Detail")}
+        ${pcInfoCard("Archive / Learning", "Save only reviewed source trails, invalidation notes, and lessons after CEO B makes a manual decision.", "Memory")}
       </section>
-      <section class="command-card" style="margin-top:16px;">
-        <span class="meta-label">Next Manual Action</span>
-        <h3>Verify the source trail, then choose Watch, Research More, or Archive Research Note.</h3>
+
+      <section class="alerts-quiet-stack">
+        <details class="mission-quiet-details">
+          <summary>Show packet context</summary>
+          <ul class="pc-list">
+            <li><span>Watch Criteria</span><strong>${escapeHtml(packet.watchCriteria || "Verify price context, liquidity, source trail, and catalyst.")}</strong></li>
+            <li><span>Price Context</span><strong>${escapeHtml(packet.currentPrice || "Static research context")}</strong></li>
+            <li><span>Invalidation Note</span><strong>${escapeHtml(packet.invalidationResearchNote || "Stand down if core evidence fails.")}</strong></li>
+          </ul>
+        </details>
+        <details class="mission-quiet-details">
+          <summary>Show support commentary</summary>
+          <div class="section-grid">
+            ${pcInfoCard("Agent Commentary", "Signal Scout prepares the candidate, Flow Hunter checks liquidity context, News Raven verifies catalysts, and Risk Sentinel keeps the packet research-only.", "Support")}
+            ${pcInfoCard("Market / Catalyst Context", "Market, catalyst, and options context remain research notes until the source trail and risk note are reviewed.", "Context")}
+            ${pcInfoCard("Route Links", "Mission Control summarizes; Source Hub verifies; Archive preserves cleaned memory after manual review.", "System")}
+          </div>
+        </details>
       </section>
     </div>
   `;

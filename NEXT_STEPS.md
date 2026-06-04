@@ -2,9 +2,15 @@
 
 ## Current Active Checkpoint
 
-Phase 2L Section-by-Section Declutter / Mission Control First is pushed, deployed, live-reviewed, clean, and live-locked at `adea558 Declutter Mission Control section`. The sprint changed only `#/dashboard`, turning Mission Control into a cleaner command page with one hero, one clear next manual action, and three above-fold bento panels: Decision Queue, Source -> Archive Memory Loop, and 00-20 OS Blueprint Snapshot.
+Phase 2M Full-Access Section Decision + Alerts Desk Declutter is locally built and validated. The chosen section was `/` / `#/alerts` — Alerts Desk / homepage / CEO B Review Queue.
 
-Secondary Mission Control detail now sits lower or quieter: watchlist pulse, route status, research queue, operating chain, full blueprint detail, and private memory boundary. Duplicate status/safety copy was merged into one concise visible boundary. Watchlists remains unchanged, Agents remains placeholder-only, and Options Research remains deferred.
+Alerts Desk was chosen because it is the homepage, first impression, daily research review queue, visibly cluttered, and safer to improve than Source Hub, Archive, Watchlists, or Agents in a one-section sprint.
+
+Phase 2M changed only `/` / `#/alerts`. Alerts Desk now uses one hero, one clear purpose, one primary next action, and three above-fold bento panels: Active Research Packet, Decision Checklist, and Safety / Source Boundary.
+
+Secondary Alerts Desk detail now sits lower or quieter: Packet Queue, Source Confidence, Archive/Learning links, market/catalyst context, packet context, and support commentary. Repeated research-only and no-execution copy was merged into one concise visible boundary. Watchlists remains unchanged, Agents remains placeholder-only, and Options Research remains deferred.
+
+Phase 2L Section-by-Section Declutter / Mission Control First remains pushed, deployed, live-reviewed, clean, and live-locked at `adea558 Declutter Mission Control section`. The sprint changed only `#/dashboard`, turning Mission Control into a cleaner command page with one hero, one clear next manual action, and three above-fold bento panels: Decision Queue, Source -> Archive Memory Loop, and 00-20 OS Blueprint Snapshot.
 
 Phase 2K Premium Visual System Polish remains pushed, deployed, live-reviewed, clean, and live-locked at `dbeccff Add Phase 2K premium visual system polish`. The Phase 2K live-lock status commit is `dce28ad Update Phase 2K live lock status`.
 
@@ -40,11 +46,13 @@ Latest archive workflow upgrade: Source Hub to Archive workflow is live. Source 
 
 Latest Mission Control polish: `#/dashboard` now presents Mission Control as a decluttered premium command page, with one hero, three core bento panels above the fold, lower-priority intelligence moved down, and verbose blueprint/operating-chain details collapsed.
 
+Latest Alerts Desk polish: `/` / `#/alerts` now presents the homepage/research review queue as a decluttered premium review page, with one hero, three core bento panels above the fold, lower-priority packet details moved down, and longer context/commentary collapsed.
+
 ## Do Next
 
 1. Use the Obsidian-backed `/ai-handoff` before future Codex/ChatGPT website build sessions.
-2. Let B choose the next task before starting another sprint.
-3. Do not start the next section declutter until B chooses it.
+2. Push and live-review Phase 2M if B wants this local commit deployed.
+3. Let B choose the next task before starting another sprint.
 4. Keep Watchlists stable.
 5. Keep Agents placeholder-only until B approves a rebuild.
 6. Do not start Options Hub until B approves.
@@ -98,10 +106,12 @@ Latest Mission Control polish: `#/dashboard` now presents Mission Control as a d
 
 ## Next Session Priority
 
+- Treat `/` / `#/alerts` Alerts Desk as the homepage and CEO B research review queue.
 - Treat `#/dashboard` Mission Control as the flagship command-center page.
 - Keep `#/source-hub` as the trust/intelligence layer.
 - Keep `#/archive` as cleaned saved intelligence memory.
-- After Phase 2I is validated and live-reviewed, B should choose the next recommended task; do not start the next sprint automatically.
+- Recommended next section after Phase 2M: `#/source-hub`, because it is the trust cockpit and is high-impact while still safer than a full Archive declutter.
+- B should choose the next recommended task; do not start the next sprint automatically.
 - Leave `#/agents` as a placeholder unless B explicitly asks to rebuild the Agent Habitat.
 - Do not start Options Hub yet.
 - Continue preserving research-only wording and static GitHub Pages safety.
