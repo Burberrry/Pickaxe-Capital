@@ -8745,6 +8745,25 @@ main {
   text-transform: uppercase;
 }
 
+.mission-hero-locks {
+  display: grid;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.mission-hero-locks span {
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(245, 200, 76, 0.16);
+  border-radius: 999px;
+  color: var(--text-body);
+  background: rgba(245, 200, 76, 0.05);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
 .mission-status-light,
 .agent-state-dot {
   width: 10px;
@@ -8811,6 +8830,194 @@ main {
   background: rgba(245, 200, 76, 0.06);
   font-weight: 850;
   line-height: 1.45;
+}
+
+.mission-flow-panel,
+.mission-blueprint-preview {
+  padding: clamp(16px, 2vw, 22px);
+}
+
+.mission-flow-steps,
+.mission-blueprint-grid,
+.mission-memory-metrics,
+.mission-decision-list {
+  display: grid;
+  gap: 10px;
+}
+
+.mission-flow-steps {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 16px;
+}
+
+.mission-flow-steps a {
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid rgba(245, 200, 76, 0.16);
+  border-radius: 12px;
+  color: inherit;
+  text-decoration: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.018)),
+    rgba(8, 12, 18, 0.72);
+}
+
+.mission-flow-steps span {
+  display: inline-flex;
+  margin-bottom: 9px;
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.mission-flow-steps strong,
+.mission-decision-list strong,
+.mission-section-card strong,
+.mission-memory-metrics strong {
+  display: block;
+  color: var(--text-main);
+  line-height: 1.22;
+}
+
+.mission-flow-steps p {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.mission-decision-list {
+  margin: 16px 0;
+}
+
+.mission-decision-list a {
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  color: inherit;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mission-decision-list span,
+.mission-decision-list em {
+  display: block;
+  margin-top: 5px;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-style: normal;
+  font-weight: 760;
+  line-height: 1.35;
+}
+
+.mission-decision-list em {
+  color: var(--gold);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.mission-memory-metrics {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 16px 0;
+}
+
+.mission-memory-metrics span {
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid rgba(56, 214, 255, 0.16);
+  border-radius: 12px;
+  background: rgba(56, 214, 255, 0.045);
+}
+
+.mission-memory-metrics em,
+.mission-memory-metrics small,
+.mission-section-card em,
+.mission-section-card small,
+.mission-section-card p {
+  display: block;
+  color: var(--text-muted);
+  font-style: normal;
+  font-weight: 760;
+  line-height: 1.35;
+}
+
+.mission-memory-metrics em {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mission-memory-metrics strong {
+  margin: 7px 0;
+  color: var(--gold);
+  font-size: 24px;
+}
+
+.mission-blueprint-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 16px;
+}
+
+.mission-blueprint-group {
+  min-width: 0;
+}
+
+.mission-blueprint-group h4 {
+  margin: 0 0 10px;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mission-blueprint-group > div {
+  display: grid;
+  gap: 8px;
+}
+
+.mission-section-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 7px 9px;
+  min-width: 0;
+  min-height: 112px;
+  padding: 11px;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  color: inherit;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.mission-section-card span {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.mission-section-card em {
+  justify-self: end;
+  padding: 3px 6px;
+  border: 1px solid rgba(245, 200, 76, 0.15);
+  border-radius: 999px;
+  color: var(--text-body);
+  background: rgba(245, 200, 76, 0.04);
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.mission-section-card small,
+.mission-section-card p {
+  grid-column: 1 / -1;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+}
+
+.mission-section-card p {
+  margin: 0;
 }
 
 .market-regime-card,
@@ -9067,11 +9274,14 @@ main {
   }
 
   .mission-stat-grid,
-  .regime-grid {
+  .regime-grid,
+  .mission-flow-steps,
+  .mission-blueprint-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .mission-agent-grid {
+  .mission-agent-grid,
+  .mission-memory-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -9083,7 +9293,10 @@ main {
 
   .mission-stat-grid,
   .regime-grid,
-  .mission-agent-grid {
+  .mission-agent-grid,
+  .mission-flow-steps,
+  .mission-blueprint-grid,
+  .mission-memory-metrics {
     grid-template-columns: 1fr;
   }
 

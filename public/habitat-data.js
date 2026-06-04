@@ -643,7 +643,8 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-03",
     areas: [
-      { id: "phase-2i-archive-source-workflow", name: "Phase 2I Archive / Source Workflow", group: "Archive Habitat", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Source Hub / Archivist", notes: "Connected Source Hub local actions to normalized cleaned archive candidates in pickaxeArchiveVault with source lineage, trust labels, privacy tiers, private-data-removed status, and CEO B review state. Archive cards now display source origin, trust label, related route/theme, linked source IDs, Source Hub Action IDs, privacy tier, review state, and safe local-only actions. Local build, project check, route sweep, and Source Hub to Archive browser workflow passed. No Options Hub, Agents rebuild, live APIs, provider adapters, broker integration, betting/sportsbook integration, copy-trading, OpenClaw, Watchlists changes, raw Obsidian exposure, or data/signal-alerts.json changes.", nextAction: "Push Phase 2I, live-review Source Hub plus Archive, then stop and wait for B." },
+      { id: "phase-2j-mission-control-blueprint-polish", name: "Phase 2J Mission Control + 20-Section Blueprint Polish", group: "CEO B Review Workflow", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Mission Control", notes: "Upgraded #/dashboard Mission Control as the flagship Pickaxe OS command page with clearer CEO B command hierarchy, Source Hub trust status, Archive cleaned-memory status, next manual action, safety truth, compact 00-20 blueprint preview, aggregate-only Source-to-Archive memory metrics, and a safe CEO B decision queue. Watchlists unchanged, Agents placeholder-only, Options Research deferred. No live APIs, provider adapters, broker integration, betting/sportsbook integration, copy-trading, OpenClaw, raw Obsidian exposure, raw bookmark publishing, private frontend keys, or data/signal-alerts.json changes.", nextAction: "Push Phase 2J, live-review Mission Control, then stop and wait for B." },
+      { id: "phase-2i-archive-source-workflow", name: "Phase 2I Archive / Source Workflow", group: "Archive Habitat", status: "Live-Locked", completion: 100, priority: "Critical", owner: "CEO B / Source Hub / Archivist", notes: "Connected Source Hub local actions to normalized cleaned archive candidates in pickaxeArchiveVault with source lineage, trust labels, privacy tiers, private-data-removed status, and CEO B review state. Archive cards display source origin, trust label, related route/theme, linked source IDs, Source Hub Action IDs, privacy tier, review state, and safe local-only actions. Phase 2I is pushed, deployed, live-reviewed, clean, and locked.", nextAction: "Keep Source Hub and Archive stable unless B approves follow-up work." },
       { id: "phase-2d-source-hub-intelligence-cockpit", name: "Phase 2D Source Hub Intelligence Cockpit", group: "Source Habitat", status: "Built / Local Pass", completion: 95, priority: "Critical", owner: "CEO B / Archivist / Forge", notes: "Upgraded #/source-hub into the trust layer for Pickaxe Capital: source verification matrix, source-to-route map, planned/local agent ownership, manual/demo intake queue, escalation rules, adapter boundaries, private memory boundary, Mission Control integration preview, and local-only prototype actions. No scraping, live provider calls, broker connection, execution, copy-trading, fake connected adapters, private frontend keys, or raw Obsidian note publishing.", nextAction: "Push and live-review on GitHub Pages, then keep Source Hub stable before the next approved cockpit layer." },
       { id: "phase-2c-app-shell-navigation-reset", name: "Phase 2C App Shell / Navigation Reset", group: "Builder Habitat", status: "Passed", completion: 100, priority: "Critical", owner: "CEO B / System Brain", notes: "Reset the global app shell and sidebar navigation into a calmer private market operating-system frame: graphite rail, restrained gold active states, number-only route badges, clearer route labels, less rainbow route-accent styling, and a premium topbar. Mission Control remains the flagship route, Agents remains placeholder-only, and all navigation language stays static/research-safe.", nextAction: "Keep shell stable while Source Hub receives live review." },
       { id: "agents-placeholder-reset", name: "Agents route placeholder reset", group: "Builder Habitat", status: "Passed", completion: 100, priority: "High", owner: "CEO B / System Brain", notes: "Cleared the broken busy Agent Habitat page and replaced it with a calm future-state placeholder schematic on a black/graphite background with the old habitat image removed. The route now preserves the agent concept without fake telemetry, broken layout, or autonomous-agent claims.", nextAction: "Rebuild /agents later as a clean operating schematic only after Mission Control and Source Hub are stable." },
@@ -680,29 +681,28 @@ window.PickaxeHabitatData = {
     latestSession: {
       filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "index.html", "public/index.html", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
       featuresAdded: [
-        "Built Phase 2I Archive / Source Workflow implementation.",
-        "Improved Source Hub Save Cleaned Source Memory action so it writes normalized local-only archive candidates to pickaxeArchiveVault.",
-        "Added Source Hub archived confirmation state with archive candidate, privacy tier, private-data-removed, linked source ID, and Source Hub action lineage.",
-        "Improved Archive cards with source origin, trust label, related route/theme, CEO B review state, privacy tier, linked source IDs, and Source Hub action IDs.",
-        "Added Archive filters for source origin, trust label, review state, and privacy tier.",
-        "Added safe local-only Archive actions for CEO B review, lesson candidates, private-data-removed status, needs-more-evidence status, and return-to-Source-Hub flow.",
-        "Added Mission Control summary counts only for local archive candidates, cleaned notes, and learning candidates."
+        "Built Phase 2J Mission Control + 20-Section Visual Blueprint Polish.",
+        "Improved #/dashboard top hierarchy so the first screen communicates CEO B command layer, Phase 2I live-lock, Source Hub trust status, Archive memory status, next manual action, and safety truth.",
+        "Added compact 00-20 Pickaxe OS blueprint preview grouped by Core Command, Intelligence, Memory, Operating System, and Future Research Build.",
+        "Added Source-to-Archive memory summary using aggregate localStorage state only.",
+        "Added safe CEO B decision queue states: review now, needs source, needs archive, needs cleaning, and deferred.",
+        "Improved Mission Control route relationship clarity without changing route architecture."
       ],
       bugsFixed: [
-        "Preserved Source Hub and Archive layouts while adding lineage details.",
-        "Kept Agents as a placeholder and did not rebuild Agent Habitat.",
+        "Kept Source Hub, Archive, Watchlists, Agents, and Options routes out of implementation scope except route verification.",
         "Kept Watchlists unchanged.",
-        "Kept all new workflow actions local-only and avoided live APIs, scraping, provider adapters, broker execution, betting execution, copy-trading, fake connected providers, private frontend keys, real telemetry claims, raw Obsidian exposure, and data/signal-alerts.json changes."
+        "Kept Agents as a placeholder and did not rebuild Agent Habitat.",
+        "Kept all new Mission Control content aggregate-only and avoided live APIs, scraping, provider adapters, broker execution, betting execution, copy-trading, fake connected providers, private frontend keys, fake telemetry claims, raw Obsidian exposure, raw bookmark publishing, and data/signal-alerts.json changes."
       ],
-      validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; local browser check /, #/dashboard, #/source-hub, #/archive, #/alerts, #/bookmarks, #/learning-ledger, #/staging, #/agents, #/watchlists; Source Hub Save Cleaned Source Memory workflow check",
-      validationResult: "Passed locally. Current Phase 2I assets loaded with zero current-version console errors, no blank content, no 404s, no horizontal overflow, and Source Hub successfully surfaced a cleaned archive candidate on Archive with lineage.",
+      validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; local browser check /, #/dashboard, #/source-hub, #/archive, #/alerts, #/watchlists, #/agents, #/staging",
+      validationResult: "Local Phase 2J validation passed: syntax checks, build, project check, and browser route checks passed with no console errors, no 404s, no blank main content, and no horizontal overflow.",
       remainingProblems: [
-        "Phase 2I still needs push and GitHub Pages live review.",
+        "Phase 2J still needs push and GitHub Pages live review.",
         "Live data connectors require backend/API setup and remain not connected.",
         "Real agent telemetry is not connected.",
         "Options Research remains deferred until B explicitly approves it."
       ],
-      nextRecommendedTask: "After Phase 2I validation and live review, stop and wait for B to choose the next sprint."
+      nextRecommendedTask: "After Phase 2J validation and live review, stop and wait for B to choose the next sprint."
     },
   },
   marketWatchlist: [

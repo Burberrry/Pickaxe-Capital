@@ -1,6 +1,25 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint — Phase 2I Archive / Source Workflow Implementation
+## Current Checkpoint — Phase 2J Mission Control + 20-Section Visual Blueprint Polish
+
+- Latest completed/local build: Phase 2J Mission Control + 20-Section Visual Blueprint Polish.
+- Primary route upgraded: `#/dashboard` Mission Control.
+- Mission Control now opens with a clearer CEO B command layer, current locked phase, Source Hub trust status, Archive memory status, next manual action, and safety truth.
+- Mission Control now states the operating chain directly: Source Hub verifies, Archive preserves cleaned memory, CEO B approves, Mission Control summarizes, and Obsidian remains private.
+- Added a compact 00-20 Pickaxe OS visual blueprint preview grouped into Core Command, Intelligence, Memory, Operating System, and Future Research Build.
+- Added a Source-to-Archive memory loop summary that uses aggregate localStorage state only: archive candidates, cleaned archive notes, CEO B review pending, private-data-removed count, learning candidates, and source gaps.
+- Improved the CEO B decision queue with safe route-linked states: review now, needs source, needs archive, needs cleaning, and deferred.
+- Mission Control visual hierarchy was polished with calmer graphite/gold spacing, denser section grouping, clearer status chips, and route relationship clarity.
+- Watchlists remains unchanged.
+- Agents remains placeholder-only.
+- Options Research remains deferred until B explicitly approves it.
+- No live APIs, provider adapters, broker integrations, betting/sportsbook integrations, copy-trading, OpenClaw, fake live data, raw Obsidian exposure, raw bookmark publishing, private frontend keys, or `data/signal-alerts.json` changes were added.
+- Validation status: local build/check/browser verification passed for Phase 2J; push and GitHub Pages live review remain the final gates.
+- Next recommended task after Phase 2J push/live review: stop and wait for B approval before any next sprint.
+
+Historical note: Phase 2I Archive / Source Workflow Implementation is pushed, deployed, live-reviewed, clean, and live-locked at `8bc264f`.
+
+## Previous Checkpoint — Phase 2I Archive / Source Workflow Implementation
 
 - Latest completed/live-locked build: Phase 2I Archive / Source Workflow Implementation.
 - Phase 2I status: pushed to `origin/main`, deployed on GitHub Pages, live-reviewed, clean, and locked.

@@ -13535,6 +13535,295 @@ var renderDashboardPage = function () {
   `;
 }
 
+renderDashboardPage = function () {
+  if (!els.dashboardContent) return;
+  const packets = getOptionAlertsState();
+  const topPacket = packets[0] || normalizeResearchPacket({}, 0);
+  const archiveLoopItems = typeof getEffectiveArchiveVaultItems === "function" ? getEffectiveArchiveVaultItems() : [];
+  const archiveSourceCandidates = archiveLoopItems.filter((item) => item.sourceOrigin === "Source Hub" || item.linkedSourceId);
+  const cleanedArchiveNotes = archiveLoopItems.filter((item) => item.privateDataRemoved).length;
+  const pendingArchiveReviews = archiveSourceCandidates.filter((item) => /required|pending|evidence|returned/i.test(`${item.reviewStatus} ${item.ceoBApproval}`)).length;
+  const privateDataRemovedCount = archiveLoopItems.filter((item) => item.privateDataRemoved === true).length;
+  const learningCandidates = typeof getLearningLedgerState === "function" ? getLearningLedgerState().filter((item) => item.privacy_tier === "local_only" && /archive|source/i.test(`${item.source || ""} ${item.category || ""}`)).length : 0;
+  const sourceItems = typeof getSourceHubSourceItems === "function" ? getSourceHubSourceItems() : [
+    ...(Array.isArray(sharedHabitatData.sourceIntakeQueue) ? sharedHabitatData.sourceIntakeQueue : []),
+    ...(Array.isArray(sharedHabitatData.sourceVerificationMatrix) ? sharedHabitatData.sourceVerificationMatrix : [])
+  ];
+  const sourceGaps = sourceItems.filter((item) => /missing|required|needs/i.test(`${item.sourceStatus || ""} ${item.trustStatus || ""} ${item.trustLevel || ""} ${item.connectionStatus || ""}`)).length;
+  const commandStats = [
+    ["Phase", "2J", "Mission Control blueprint polish"],
+    ["Source Hub", "Verifies", "Trust layer / manual sources"],
+    ["Archive", `${cleanedArchiveNotes}`, "Cleaned memory notes"],
+    ["CEO B Review", `${pendingArchiveReviews}`, "Archive items pending"],
+    ["Safety", "Locked", "Static / local-only cockpit"]
+  ];
+  const commandFlow = [
+    ["Source Hub verifies", "Sources receive trust, route, and safety labels before they can support research.", "#/source-hub"],
+    ["Archive preserves cleaned memory", "Cleaned source memory and review outcomes are stored locally with privacy tiers.", "#/archive"],
+    ["CEO B approves", "Public-safe decisions require manual CEO B review; no automatic publication.", "#/alerts"],
+    ["Mission Control summarizes", "This page shows aggregate status and route context only.", "#/dashboard"],
+    ["Obsidian remains private", "Private vault material stays outside public runtime files and appears only as sanitized context.", "#/ai-handoff"]
+  ];
+  const memoryMetrics = [
+    ["Archive Candidates", archiveSourceCandidates.length, "Source Hub to Archive"],
+    ["Cleaned Notes", cleanedArchiveNotes, "Private data removed"],
+    ["CEO B Review Pending", pendingArchiveReviews, "Manual approval"],
+    ["Private Data Removed", privateDataRemovedCount, "Sanitized records"],
+    ["Learning Candidates", learningCandidates, "Local lessons"],
+    ["Source Gaps", sourceGaps, "Needs provenance"]
+  ];
+  const blueprintGroups = [
+    ["Core Command", [
+      ["00", "Mission Control", "#/dashboard", "Active", "CEO B overview", "Central command summary"],
+      ["01", "Briefing Desk", "#/alerts", "Live-locked", "Home / review queue", "Feeds CEO B focus"],
+      ["05", "Alerts", "#/alerts", "Stable", "Research packets", "CEO B review queue"],
+      ["12", "Risk Rules", "#/risk-rules", "Stable", "Safety gates", "Blocks unsafe escalation"],
+      ["19", "Staging", "#/staging", "Stable", "QA and release truth", "Validates cockpit state"]
+    ]],
+    ["Intelligence", [
+      ["02", "Source Hub", "#/source-hub", "Live-locked", "Trust layer", "Feeds source status"],
+      ["03", "Watchlists", "#/watchlists", "Stable", "Research Universe", "Supplies universe health"],
+      ["04", "Signals", "#/signals", "Active", "Candidate research", "Shows source-backed setups"],
+      ["08", "Catalysts", "#/catalysts", "Future", "Event context", "Future source-backed dates"],
+      ["09", "Trend Radar", "#/trend-radar", "Active", "Theme pulse", "Summarizes themes"]
+    ]],
+    ["Memory", [
+      ["06", "Archive", "#/archive", "Live-locked", "Cleaned memory", "Feeds memory counts"],
+      ["07", "Research Workspace", "#/research", "Future", "Draft research", "Future memo bridge"],
+      ["10", "Bookmarks Intake", "#/bookmarks", "Stable", "Private intake", "Clean before archive"],
+      ["11", "Learning Ledger", "#/learning-ledger", "Stable", "Reusable lessons", "Receives candidates"],
+      ["13", "Vision Map", "#/vision-map", "Stable", "Visual command map", "Shows system topology"]
+    ]],
+    ["Operating System", [
+      ["14", "AI Habitat OS", "#/ai-habitat-os", "Stable", "System map", "Frames habitats"],
+      ["15", "Agent Lanes", "#/agents", "Placeholder", "Future ownership lanes", "No live autonomy"],
+      ["16", "Markets", "#/markets", "Future", "Market matrix", "Future context only"],
+      ["20", "Roadmap", "#/roadmap", "Stable", "Build sequence", "Controls next sprint"]
+    ]],
+    ["Future Research Build", [
+      ["17", "Options Research", "#/options", "Deferred", "Research-only future", "Needs explicit B approval"],
+      ["18", "Money Lab", "#/money-lab", "Stable", "Experiment sandbox", "Research-only experiments"]
+    ]]
+  ];
+  const decisionQueue = [
+    ["Review now", "Check Source Hub to Archive candidates awaiting CEO B review.", "CEO B", "#/archive"],
+    ["Needs source", "Attach provenance before any signal or alert escalation.", "Source Hub", "#/source-hub"],
+    ["Needs archive", "Preserve cleaned review memory after a decision is made.", "Archive", "#/archive"],
+    ["Needs cleaning", "Strip private fields before anything becomes public-safe.", "Privacy", "#/archive"],
+    ["Deferred", "Options Research and Agent Habitat rebuild wait for explicit B approval.", "Roadmap", "#/roadmap"]
+  ];
+  const routeState = [
+    ["Source Hub", `${sourceGaps} source gaps`, "Trust layer", "#/source-hub"],
+    ["Archive", `${archiveSourceCandidates.length} candidates`, "Cleaned memory", "#/archive"],
+    ["Alerts", `${packets.length} research packets`, "CEO B review", "#/alerts"],
+    ["Watchlists", "Stable Research Universe", "Do not modify", "#/watchlists"],
+    ["Learning Ledger", `${learningCandidates} lesson candidates`, "Local summaries", "#/learning-ledger"]
+  ];
+  const riskRules = ["No broker execution", "No auto-trading", "No betting execution", "No copy-trading", "No fake live data", "No unsourced signal escalation", "Manual CEO B review required"];
+  const memoryLayer = [
+    ["Website Cockpit", "Public/static command center"],
+    ["Obsidian Vault", "Private local memory"],
+    ["AI Handoff", "Selected notes included locally"],
+    ["Public Frontend", "No private note contents"]
+  ];
+  const nextMissions = ["Review Source Hub to Archive candidates", "Resolve source gaps", "Keep Watchlists stable", "Wait for B to choose next task"];
+
+  els.dashboardContent.innerHTML = `
+    <div class="page-shell dashboard-shell mission-control-shell mission-blueprint-shell">
+      <header class="mission-hero mission-blueprint-hero">
+        <div class="mission-hero-copy">
+          <span class="meta-label">00 DASH / CEO B Command Layer</span>
+          <h2>Mission Control</h2>
+          <p>CEO B's flagship cockpit for the full Pickaxe OS: Source Hub verifies, Archive preserves cleaned memory, CEO B approves, Mission Control summarizes, and Obsidian remains private.</p>
+          ${pcChipRow(["Phase 2I Live-Locked", "Phase 2J Visual Polish", "Local-Only / Research-Only", "No Live APIs", "No Private Vault Exposure"])}
+        </div>
+        <aside class="mission-hero-panel">
+          <span class="mission-status-light"></span>
+          <strong>Next Manual Action</strong>
+          <p>Review Source Hub to Archive candidates, resolve source gaps, and keep future build lanes deferred until B approves them.</p>
+          <div class="mission-hero-locks">
+            <span>Source Hub Trust: Live-locked</span>
+            <span>Archive Memory: Live-locked</span>
+            <span>Agents: Placeholder-only</span>
+            <span>Options: Deferred</span>
+          </div>
+        </aside>
+      </header>
+
+      <section class="mission-stat-grid">
+        ${commandStats.map(([label, value, detail]) => `
+          <article class="mission-stat-card">
+            <span>${escapeHtml(label)}</span>
+            <strong>${escapeHtml(value)}</strong>
+            <small>${escapeHtml(detail)}</small>
+          </article>
+        `).join("")}
+      </section>
+
+      <section class="mission-flow-panel command-card">
+        <div class="panel-head">
+          <div>
+            <span class="meta-label">Operating Chain</span>
+            <h3>Website is the cockpit. Obsidian is private memory. CEO B is the decision layer.</h3>
+          </div>
+          <a class="secondary-action" href="#/source-hub">Open Trust Layer</a>
+        </div>
+        <div class="mission-flow-steps">
+          ${commandFlow.map(([title, body, route], index) => `
+            <a href="${escapeHtml(route)}">
+              <span>${String(index + 1).padStart(2, "0")}</span>
+              <strong>${escapeHtml(title)}</strong>
+              <p>${escapeHtml(body)}</p>
+            </a>
+          `).join("")}
+        </div>
+      </section>
+
+      <section class="dashboard-command-grid">
+        <article class="command-card mission-command-card mission-decision-card">
+          <span class="meta-label">CEO B Decision Queue</span>
+          <h3>Route the next decision by evidence state.</h3>
+          <div class="mission-decision-list">
+            ${decisionQueue.map(([stateLabel, detail, owner, route]) => `
+              <a href="${escapeHtml(route)}">
+                <strong>${escapeHtml(stateLabel)}</strong>
+                <span>${escapeHtml(detail)}</span>
+                <em>${escapeHtml(owner)}</em>
+              </a>
+            `).join("")}
+          </div>
+          <div class="action-row">
+            <a class="primary-action" href="#/archive">Review Archive</a>
+            <a class="secondary-action" href="#/source-hub">Check Sources</a>
+            <a class="secondary-action" href="#/alerts">Open Alerts</a>
+          </div>
+        </article>
+
+        <article class="glass-card market-regime-card mission-memory-loop-card">
+          <span class="meta-label">Source-to-Archive Memory Loop</span>
+          <h3>Aggregates only. No raw source or private note content.</h3>
+          <div class="mission-memory-metrics">
+            ${memoryMetrics.map(([label, value, detail]) => `
+              <span>
+                <em>${escapeHtml(label)}</em>
+                <strong>${escapeHtml(value)}</strong>
+                <small>${escapeHtml(detail)}</small>
+              </span>
+            `).join("")}
+          </div>
+          <p class="mission-footnote">Source Hub verifies. Archive preserves cleaned memory. Learning Ledger receives lesson candidates later after CEO B review.</p>
+        </article>
+
+        <aside class="truth-panel risk-desk-card">
+          <span class="meta-label">Safety Truth</span>
+          <h3>Static / local-only prototype. No fake connected providers.</h3>
+          <div class="truth-list">
+            ${riskRules.map((item) => `<span><em>${escapeHtml(item)}</em><strong>Locked</strong></span>`).join("")}
+          </div>
+          <p class="mission-footnote">No live APIs, scraping, provider adapters, broker execution, private vault exposure, or autonomous agent claims.</p>
+        </aside>
+      </section>
+
+      <section class="mission-blueprint-preview command-card">
+        <div class="panel-head">
+          <div>
+            <span class="meta-label">20-Section Visual Blueprint Preview</span>
+            <h3>The full Pickaxe OS map, grouped for Mission Control.</h3>
+          </div>
+          <a class="secondary-action" href="#/roadmap">Open Roadmap</a>
+        </div>
+        <div class="mission-blueprint-grid">
+          ${blueprintGroups.map(([group, sections]) => `
+            <article class="mission-blueprint-group">
+              <h4>${escapeHtml(group)}</h4>
+              <div>
+                ${sections.map(([number, name, route, status, role, relationship]) => `
+                  <a href="${escapeHtml(route)}" class="mission-section-card">
+                    <span>${escapeHtml(number)}</span>
+                    <strong>${escapeHtml(name)}</strong>
+                    <em>${escapeHtml(status)}</em>
+                    <small>${escapeHtml(route)}</small>
+                    <p>${escapeHtml(role)} / ${escapeHtml(relationship)}</p>
+                  </a>
+                `).join("")}
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+
+      <section class="mission-main-grid">
+        <article class="command-card alerts-command-card">
+          <span class="meta-label">Alerts / CEO B Review</span>
+          <h3>${escapeHtml(topPacket.symbol || "Research packet")} stays research-only until reviewed.</h3>
+          <p>${escapeHtml(topPacket.researchContext || "Research packet queue. Manual source review required before anything becomes public-safe.")}</p>
+          <div class="mission-alert-strip">
+            ${packets.slice(0, 4).map((packet) => `
+              <a href="#/alerts">
+                <strong>${escapeHtml(packet.symbol || "Packet")}</strong>
+                <span>${escapeHtml(packet.status || "Research packet")}</span>
+                <em>${escapeHtml(packet.confidence ? `${packet.confidence}% source confidence` : "Source required")}</em>
+              </a>
+            `).join("") || `<a href="#/alerts"><strong>Research Packet</strong><span>Manual review</span><em>Source required</em></a>`}
+          </div>
+          <a class="primary-action" href="#/alerts">Open Alerts Desk</a>
+        </article>
+
+        <article class="glass-card active-agents-card">
+          <span class="meta-label">Route Relationship Clarity</span>
+          <h3>Mission Control sees route state, not raw memory.</h3>
+          <div class="source-feed-list">
+            ${routeState.map(([type, detail, status, route]) => `
+              <a href="${escapeHtml(route)}">
+                <strong>${escapeHtml(type)}</strong>
+                <span>${escapeHtml(detail)}</span>
+                <em>${escapeHtml(status)}</em>
+              </a>
+            `).join("")}
+          </div>
+          <a class="secondary-action" href="#/staging">Open Staging</a>
+        </article>
+      </section>
+
+      <section class="dashboard-stack-grid">
+        <article class="command-card watchlist-pulse-card">
+          <span class="meta-label">Watchlists Boundary</span>
+          <h3>Research Universe remains stable.</h3>
+          <p>Mission Control links to Watchlists but does not change Watchlists logic, data, rankings, or route behavior during this sprint.</p>
+          <a class="secondary-action" href="#/watchlists">Open Watchlists</a>
+        </article>
+
+        <article class="glass-card private-memory-card">
+          <span class="meta-label">Private Memory Layer</span>
+          <h3>Website is the cockpit. Obsidian is the memory. CEO B is the decision layer.</h3>
+          <p>Raw notes, links, screenshots, and messy ideas stay in the private vault until CEO B turns them into cleaned public-facing copy, archive entries, or review tasks.</p>
+          <div class="dashboard-status-list compact">
+            ${memoryLayer.map(([label, value]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(value)}</strong></span>`).join("")}
+          </div>
+          <a class="secondary-action" href="#/ai-handoff">Open AI Handoff</a>
+        </article>
+
+        <article class="command-card dashboard-next-action">
+          <span class="meta-label">Next Mission</span>
+          <h3>B chooses the next task. Nothing starts automatically.</h3>
+          <div class="dashboard-pill-list">${nextMissions.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+          <div class="action-row">
+            <a class="primary-action" href="#/archive">Review Archive Loop</a>
+            <a class="secondary-action" href="#/source-hub">Attach Sources</a>
+            <a class="secondary-action" href="#/roadmap">Check Roadmap</a>
+          </div>
+        </article>
+      </section>
+
+      <section class="mission-terminal-band">
+        <span>System boundary</span>
+        <strong>Static / local-only prototype. No live APIs, scraping, broker execution, fake connected providers, private vault exposure, or autonomous agents.</strong>
+        <a href="#/risk-rules">Open Risk & Rules</a>
+      </section>
+    </div>
+  `;
+}
+
 renderAlertsDeskMarkup = function (optionAlerts, selectedAlert, lastUpdated) {
   const packet = selectedAlert || normalizeResearchPacket({}, 0);
   const topPacket = optionAlerts[0] || packet;
