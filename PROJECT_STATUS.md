@@ -2,7 +2,10 @@
 
 ## Current Checkpoint — Phase 2N-A Launch Countdown Dot Grid
 
-- Latest completed/local build: Phase 2N-A Launch Countdown Dot Grid.
+- Latest completed/live-locked build: Phase 2N-A Launch Countdown Dot Grid.
+- Phase 2N-A status: pushed to `origin/main`, deployed on GitHub Pages, live-reviewed, clean, and locked.
+- Latest live commit: `a132b9e Add launch countdown dot grid`.
+- Live review URL: `https://burberrry.github.io/Pickaxe-Capital/?v=phase2na-launch-countdown#/dashboard`.
 - Testing launch date used: `2026-08-03T00:00:00-07:00`.
 - Launch label: `Testing Launch Window`; this is not a guaranteed public launch.
 - Added a premium static dot-grid countdown for the Pickaxe Testing Launch Window.
@@ -14,8 +17,9 @@
 - Watchlists remains unchanged.
 - Agents remains placeholder-only.
 - Options Research remains deferred until B explicitly approves it.
-- No route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, Source Hub declutter, or `data/signal-alerts.json` changes were added.
-- Validation status: Phase 2N-A local build/check/browser verification passed.
+- No route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, Source Hub workflow, Archive workflow, Watchlists functionality, Agents functionality, Options logic, or `data/signal-alerts.json` changes were added.
+- Validation status: Phase 2N-A local build/check/browser verification and GitHub Pages live review passed.
+- Recommended next section remains `#/source-hub`, but B must approve before starting it.
 - Next task must be chosen by B; do not start Source Hub declutter automatically.
 
 Historical note: Phase 2M Alerts Desk Declutter is pushed, deployed, live-reviewed, clean, and live-locked at `60e5abb`; docs status is locked at `aabada2`.
