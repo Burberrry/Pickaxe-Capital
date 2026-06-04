@@ -19,21 +19,12 @@ window.PickaxeHabitatData = {
     { label: "CEO B Profile", route: "/ceo-b-profile", view: "founder" },
   ],
   mindsetQuotes: [
-    {
-      text: "We are like books: most people only see our cover, the minority read only the introduction, many people believe the critics, few will know our content.",
-      source: "Mindset",
-    },
-    { text: "They muddy the water, to make it seem deep.", source: "Nietzsche" },
-    { text: "Be sure you put your feet in the right place, then stand firm.", source: "TTT" },
-    {
-      text: "When you meet a swordsman, draw your sword. Do not recite poetry to he who is not a poet.",
-      source: "Strategy",
-    },
-    { text: "The man who chases two rabbits catches neither.", source: "Focus" },
-    {
-      text: "You are just a man. Stop getting offended. You're not your reputation or achievements. You are not right all the time. Don't be superior. Know when to stop. Accept that you can't always. Let go of control.",
-      source: "Ego Check",
-    },
+    { text: "Discipline is the edge when information is everywhere.", source: "Operating Rule" },
+    { text: "Do not chase every signal. Build a process that filters them.", source: "Research Rule" },
+    { text: "Research first. Decision second. Ego last.", source: "CEO B Rule" },
+    { text: "The goal is not more noise. The goal is better judgment.", source: "Judgment Rule" },
+    { text: "Speed matters only after the source is trusted.", source: "Source Rule" },
+    { text: "Process beats impulse.", source: "Mindset" },
   ],
   agents: [
     {
@@ -643,6 +634,8 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-04",
     areas: [
+      { id: "alerts-first-mindset-quote-polish", name: "Alerts First + Mindset Quote Polish", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "High", owner: "CEO B / System Brain", notes: "Small UI/content polish only. Alerts Desk is visible route/order 00 and first in the sidebar/navigation. Mission Control is visible route/order 01 and remains #/dashboard. / and #/alerts remain the Alerts Desk / Review Queue homepage. Added concise premium mindset quotes to the rotating mindset rail and Founder / CEO B profile operating-rules band. No route architecture, backend, dependency, live API, provider adapter, broker, betting/sportsbook, copy-trading, Source Hub workflow, Archive workflow, Watchlists logic, Agents behavior, Options logic, localStorage key, or data/signal-alerts.json changes.", nextAction: "Lock Emergency Visual Triage, then choose sidebar/navigation consolidation or Staging declutter." },
+      { id: "emergency-visual-triage-homepage", name: "Emergency Visual Triage / Homepage Cleanup", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / UI Designer", notes: "Emergency visual cleanup for the active static app. Simplified / and #/alerts into a focused Review Queue with one active packet, one decision checklist, one compact queue, and collapsed packet context. Added a final dark shell cascade to restore Pickaxe dark surfaces, reduce sidebar density, hide noisy sidebar status labels, remove light-theme bleed, and keep cards/buttons readable. Kept route architecture, backend, data models, localStorage keys, live APIs, provider adapters, broker/betting/copy-trading integrations, Watchlists logic, Source Hub workflow, Archive workflow, and Agents placeholder behavior unchanged.", nextAction: "Next AI should continue visual cleanup section-by-section, starting with Staging or the sidebar structure; do not rebuild from scratch." },
       { id: "phase-2o-archive-declutter", name: "Phase 2O Archive Declutter", group: "Archive Habitat", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Archive", notes: "Decluttered #/archive only. Archive now presents as a premium cleaned intelligence memory vault with one hero, one clear purpose, one primary next action, and three above-fold bento panels: Cleaned Memory Queue, Source Lineage Summary, and CEO B Review State. Detailed filters, long archive metadata, secondary actions, import lab, duplicate warnings, old archive history, ownership maps, and local action history moved lower or into quiet collapsed sections. Existing Source Hub -> Archive workflow remains intact. No route architecture, Source Hub data model, Archive data model, localStorage key, backend, dependency, live API, provider adapter, Watchlists functionality, Agents functionality, Options logic, raw Obsidian publishing, raw bookmark publishing, or data/signal-alerts.json changes.", nextAction: "Push/live-review Phase 2O if B wants it deployed, then wait for B to approve the next section." },
       { id: "phase-2n-b-source-hub-declutter", name: "Phase 2N-B Source Hub Declutter", group: "Source Habitat", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Source Hub", notes: "Decluttered #/source-hub only. Source Hub now presents as a premium trust cockpit with one hero, one clear purpose, one primary next action, and three above-fold bento panels: Verification Matrix, Source Intake Queue, and Source -> Route Map. Adapter readiness boundaries, planned/local ownership lanes, action log, private memory boundary, escalation rules, Mission Control preview, long source-required wording, and local-only action history moved lower or into quiet collapsed sections. Existing Source Hub -> Archive local workflow remains intact. No route architecture, Archive data model, localStorage key, backend, dependency, live API, provider adapter, Watchlists functionality, Agents functionality, Options logic, or data/signal-alerts.json changes.", nextAction: "Push/live-review Phase 2N-B if B wants it deployed, then wait for B to approve the next section." },
       { id: "phase-2n-a-launch-countdown-dot-grid", name: "Phase 2N-A Launch Countdown Dot Grid", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "High", owner: "CEO B / Mission Control", notes: "Added a premium static Pickaxe Testing Launch Window dot-grid countdown using the testing launch date 2026-08-03T00:00:00-07:00. Countdown appears only on #/dashboard lower on Mission Control, #/roadmap as a larger roadmap card, and #/staging as a small QA/readiness card. It shows percent complete, days until testing access, target date, and the safety line: Static countdown. No live system telemetry. No route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, Source Hub declutter, Watchlists functionality changes, Agents functionality changes, Options logic changes, or data/signal-alerts.json changes.", nextAction: "Push/live-review Phase 2N-A if B wants it deployed, then wait for B to choose the next task." },
@@ -685,32 +678,26 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
+      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "index.html", "public/index.html", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
       featuresAdded: [
-        "Built Phase 2O Archive Declutter.",
-        "Changed #/archive only into a calmer premium cleaned memory vault.",
-        "Added one Archive hero with one clear purpose, one primary next action, and concise safety copy.",
-        "Kept three above-fold bento panels: Cleaned Memory Queue, Source Lineage Summary, and CEO B Review State.",
-        "Moved detailed filters, long archive metadata, secondary actions, import lab, duplicate warnings, old archive history, ownership maps, and local action history lower or into quiet collapsed details."
+        "Changed visible sidebar/navigation order so Alerts Desk is 00 and Mission Control is 01.",
+        "Kept / and #/alerts as the Alerts Desk / Review Queue homepage while preserving #/dashboard as Mission Control.",
+        "Added concise premium mindset quote options to the rotating mindset rail.",
+        "Added a compact Founder / CEO B profile operating-rules quote band."
       ],
       bugsFixed: [
-        "Preserved the existing Source Hub -> Archive local workflow and Archive read path from pickaxeArchiveVault.",
-        "Kept Archive data model and localStorage keys unchanged.",
-        "Kept Source Hub unchanged from Phase 2N-B.",
-        "Kept Mission Control unchanged from Phase 2L/2N-A except the existing countdown card.",
-        "Kept Alerts Desk unchanged from Phase 2M.",
-        "Kept Watchlists unchanged.",
-        "Kept Agents as a placeholder and did not rebuild Agent Habitat.",
-        "Avoided route architecture changes, backend systems, dependencies, live APIs, scraping, provider adapters, broker execution, betting execution, copy-trading, fake connected providers, private frontend keys, fake telemetry claims, raw Obsidian publishing, raw bookmark publishing, localStorage key changes, and data/signal-alerts.json changes."
+        "Fixed outdated visible numbering that put Mission Control before the Alerts Desk homepage.",
+        "Updated internal route/order copy and blueprint labels that still described Mission Control as 00 or Alerts as 01.",
+        "Preserved route aliases, route architecture, backend behavior, Source Hub workflow, Archive workflow, Watchlists logic, Agents placeholder behavior, Options deferral, and all no-live/no-execution boundaries."
       ],
-      validationCommand: "/Applications/Codex.app/Contents/Resources/node --check public/app.js; /Applications/Codex.app/Contents/Resources/node --check app.js; /Applications/Codex.app/Contents/Resources/node --check public/habitat-data.js; /Applications/Codex.app/Contents/Resources/node --check habitat-data.js; /Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; local browser check #/archive, #/source-hub, #/dashboard, /, #/alerts, #/watchlists, #/agents, #/staging, #/roadmap; safety language scan",
-      validationResult: "Phase 2O local validation passed: syntax checks, build, project check, desktop browser route sweep, and mobile Archive check passed with no console errors, no 404s, no blank main content, no horizontal overflow, Archive rendered one hero and three above-fold bento panels, Source Hub -> Archive workflow remained intact, Archive continued reading pickaxeArchiveVault, Mission Control and Alerts Desk remained unchanged, Source Hub remained unchanged from Phase 2N-B, countdown remained limited to #/dashboard, #/roadmap, and #/staging, Watchlists unchanged, Agents placeholder-only, and Options deferred.",
+      validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; local browser route sweep for /, #/alerts, #/dashboard, #/source-hub, #/archive, #/staging, #/watchlists, #/agents, #/roadmap, #/founder, #/ceo-b-profile; mobile homepage/sidebar overflow check at 390px; local fetch /ai-handoff",
+      validationResult: "Local validation passed on 2026-06-04: build validation passed, project check passed, browser route sweep rendered main content with no console errors and no desktop horizontal overflow, mobile homepage/sidebar check showed #/alerts as the visible view with no horizontal overflow, and /ai-handoff returned HTTP 200 with generated project context.",
       remainingProblems: [
-        "Live data connectors require backend/API setup and remain not connected.",
-        "Real agent telemetry is not connected.",
-        "Options Research remains deferred until B explicitly approves it."
+        "The CSS file still contains older historical polish blocks and should be consolidated in a future cleanup pass.",
+        "The sidebar still has too many routes for a premium first impression; only the requested Alerts/Mission order was changed.",
+        "Live data connectors and real agent telemetry remain not connected."
       ],
-      nextRecommendedTask: "Recommended next section after Phase 2O is #/staging, because it is the QA/tracker layer and can be cleaned without touching Watchlists. B must approve before starting it. Stop after Phase 2O reporting."
+      nextRecommendedTask: "Lock Emergency Visual Triage, then choose sidebar/navigation consolidation or Staging declutter. Keep the static-first architecture and do not rebuild from scratch."
     },
   },
   marketWatchlist: [

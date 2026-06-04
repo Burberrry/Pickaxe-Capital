@@ -163,30 +163,12 @@ const appleCommandEcosystem = Array.isArray(sharedHabitatData.appleCommandEcosys
 const statusCycle = Array.isArray(sharedHabitatData.statusCycle) ? sharedHabitatData.statusCycle : ["active", "scanning", "thinking", "working", "collaborating", "completed"];
 
 const mindsetQuotes = sharedHabitatData.mindsetQuotes || [
-  {
-    text: "We are like books: most people only see our cover, the minority read only the introduction, many people believe the critics, few will know our content.",
-    source: "Mindset",
-  },
-  {
-    text: "They muddy the water, to make it seem deep.",
-    source: "Nietzsche",
-  },
-  {
-    text: "Be sure you put your feet in the right place, then stand firm.",
-    source: "TTT",
-  },
-  {
-    text: "When you meet a swordsman, draw your sword. Do not recite poetry to he who is not a poet.",
-    source: "Strategy",
-  },
-  {
-    text: "The man who chases two rabbits catches neither.",
-    source: "Focus",
-  },
-  {
-    text: "You are just a man. Stop getting offended. You're not your reputation or achievements. You are not right all the time. Don’t be superior. Know when to stop. Accept that you can't always. Let go of control.",
-    source: "Ego Check",
-  },
+  { text: "Discipline is the edge when information is everywhere.", source: "Operating Rule" },
+  { text: "Do not chase every signal. Build a process that filters them.", source: "Research Rule" },
+  { text: "Research first. Decision second. Ego last.", source: "CEO B Rule" },
+  { text: "The goal is not more noise. The goal is better judgment.", source: "Judgment Rule" },
+  { text: "Speed matters only after the source is trusted.", source: "Source Rule" },
+  { text: "Process beats impulse.", source: "Mindset" },
 ];
 
 const habitatAgents = (Array.isArray(sharedHabitatData.agentRoster) ? sharedHabitatData.agentRoster : []).map((agent) => {
@@ -452,8 +434,8 @@ function generateLocalHandoffText() {
     `Generated at: ${new Date().toISOString()}`,
     "Target Environment: GitHub Pages Static Site",
     "Active Routes:",
-    "01 Alerts Desk — #/alerts",
-    "02 Mission Control — #/mission-control",
+    "00 Alerts Desk — #/alerts",
+    "01 Mission Control — #/dashboard",
     "03 Vision Map — #/vision-map",
     "04 Agent Engine — #/agents",
     "05 Signals Lab — #/signals",
@@ -2029,8 +2011,8 @@ async function renderAiHandoffPage() {
       `Generated at: ${new Date().toISOString()}`,
       "Target Environment: GitHub Pages Static Site",
       "Active Routes:",
-      "01 Alerts Desk — #/alerts",
-      "02 Mission Control — #/mission-control",
+      "00 Alerts Desk — #/alerts",
+      "01 Mission Control — #/dashboard",
       "03 Vision Map — #/vision-map",
       "04 Agent Engine — #/agents",
       "05 Signals Lab — #/signals",
@@ -3336,7 +3318,7 @@ function renderVisionCommandCenter() {
   // Render Core Citadel Map Nodes
   const citadelNodes = [
     { id: "citadel", name: "Citadel Core", icon: "🏰", color: "text-amber border-amber/30 bg-amber/5" },
-    { id: "alerts", name: "01 Alerts Desk", icon: "🔔", color: "text-[#d4af37] border-[#d4af37]/20" },
+    { id: "alerts", name: "00 Alerts Desk", icon: "🔔", color: "text-[#d4af37] border-[#d4af37]/20" },
     { id: "signals", name: "05 Signals Lab", icon: "📡", color: "text-teal border-teal/20" },
     { id: "sourceHub", name: "06 Source Hub", icon: "🌐", color: "text-teal border-teal/20" },
     { id: "agents", name: "04 Agent Engine", icon: "🤖", color: "text-amber border-amber/20" },
@@ -8654,7 +8636,7 @@ function renderProjectUpdatePage() {
     <section class="route-status-board panel">
       <div class="panel-head"><div><p class="eyebrow">Active routes</p><h2>Route Status Board</h2></div><span class="pill">${routes.length} routes</span></div>
       <div class="project-route-grid">${routes.map((route) => {
-        let hashRoute = route.route === "/" ? "#/mission-control" : "#" + route.route;
+        let hashRoute = route.route === "/" ? "#/alerts" : "#" + route.route;
         if (route.route === "/app/alerts") hashRoute = "#/alerts";
         else if (route.route === "/agents") hashRoute = "#/agents";
         else if (route.route === "/source-hub") hashRoute = "#/source-hub";
@@ -13644,7 +13626,7 @@ renderDashboardPage = function () {
     ["Deferred", "Options Research", "Requires explicit B approval"]
   ];
   const sectionStatusMap = [
-    ["00", "Mission Control", "Live-locked"], ["01", "Briefing Desk", "Stable"], ["02", "Source Hub", "Live-locked"], ["03", "Watchlists", "Stable"],
+    ["00", "Alerts Desk", "Live-locked"], ["01", "Mission Control", "Live-locked"], ["02", "Source Hub", "Live-locked"], ["03", "Watchlists", "Stable"],
     ["04", "Signals", "Active"], ["05", "Alerts", "Stable"], ["06", "Archive", "Live-locked"], ["07", "Research", "Future"],
     ["08", "Catalysts", "Future"], ["09", "Trend Radar", "Active"], ["10", "Bookmarks", "Stable"], ["11", "Learning", "Stable"],
     ["12", "Risk Rules", "Stable"], ["13", "Vision Map", "Stable"], ["14", "AI Habitat OS", "Stable"], ["15", "Agent Lanes", "Placeholder"],
@@ -13652,8 +13634,8 @@ renderDashboardPage = function () {
   ];
   const blueprintGroups = [
     ["Core Command", [
-      ["00", "Mission Control", "#/dashboard", "Active", "CEO B overview", "Central command summary"],
-      ["01", "Briefing Desk", "#/alerts", "Live-locked", "Home / review queue", "Feeds CEO B focus"],
+      ["00", "Alerts Desk", "#/alerts", "Live-locked", "Home / review queue", "Feeds CEO B focus"],
+      ["01", "Mission Control", "#/dashboard", "Active", "CEO B overview", "Central command summary"],
       ["05", "Alerts", "#/alerts", "Stable", "Research packets", "CEO B review queue"],
       ["12", "Risk Rules", "#/risk-rules", "Stable", "Safety gates", "Blocks unsafe escalation"],
       ["19", "Staging", "#/staging", "Stable", "QA and release truth", "Validates cockpit state"]
@@ -13719,7 +13701,7 @@ renderDashboardPage = function () {
     <div class="page-shell dashboard-shell mission-control-shell mission-blueprint-shell mission-declutter-shell">
       <header class="mission-hero mission-blueprint-hero mission-declutter-hero">
         <div class="mission-hero-copy">
-          <span class="meta-label">00 Mission Control / CEO B Market OS</span>
+          <span class="meta-label">01 Mission Control / CEO B Market OS</span>
           <h2>Mission Control</h2>
           <p>One cockpit view for current system state, CEO B review, Source Hub trust, Archive memory, and the next manual action.</p>
           <div class="mission-hero-summary">
@@ -13976,7 +13958,7 @@ renderAlertsDeskMarkup = function (optionAlerts, selectedAlert, lastUpdated) {
     <div class="page-shell alerts-declutter-shell">
       <header class="page-hero alerts-declutter-hero">
         <div>
-          <span class="page-kicker">01 Alerts Desk / CEO B Review Queue</span>
+          <span class="page-kicker">00 Alerts Desk / CEO B Review Queue</span>
           <h2>Alerts Desk</h2>
           <p>Research packets wait here until CEO B verifies the source trail, risk note, and next manual action.</p>
           <div class="alerts-hero-summary">
@@ -15034,4 +15016,88 @@ try {
   openRequestedView();
 } catch (error) {
   console.error("Phase 1.5 route refresh failed:", error);
+}
+
+/* Emergency visual triage: keep route logic intact, but make the homepage usable. */
+renderAlertsDeskMarkup = function (optionAlerts, selectedAlert, lastUpdated) {
+  const packet = selectedAlert || normalizeResearchPacket({}, 0);
+  const topPacket = optionAlerts[0] || packet;
+  const queue = optionAlerts.slice(0, 4);
+  const packetActions = ["CEO B Review", "Research More", "Verify Source", "Archive Note"];
+  const checks = [
+    ["Source", packet.confidence ? `${packet.confidence}% confidence` : "Needs verification"],
+    ["Risk", packet.riskScore || packet.risk || "Manual review"],
+    ["Invalidation", packet.invalidationResearchNote || "Stand down if evidence fails"],
+    ["Gate", "CEO B decides"]
+  ];
+
+  return `
+    <div class="page-shell alerts-focus-shell">
+      <header class="alerts-focus-hero">
+        <div>
+          <span class="page-kicker">00 Alerts Desk / Homepage</span>
+          <h2>Review Queue</h2>
+          <p>Only the next useful decision is shown first: verify the source, check risk, then send the packet to CEO B or archive it.</p>
+          <div class="alerts-focus-stats">
+            <span><strong>${optionAlerts.length}</strong><em>packets</em></span>
+            <span><strong>${escapeHtml(topPacket.symbol || "Research")}</strong><em>lead</em></span>
+            <span><strong>${escapeHtml(lastUpdated)}</strong><em>updated</em></span>
+          </div>
+        </div>
+        <aside>
+          <span>System Truth</span>
+          <strong>Research only. Manual review. No live trading, broker execution, scraping, or fake provider data.</strong>
+        </aside>
+      </header>
+
+      <section class="alerts-focus-grid">
+        <article class="alerts-focus-primary">
+          <span class="meta-label">Active Packet</span>
+          <h3>${escapeHtml(packet.symbol || "Research Packet")}</h3>
+          <p class="alerts-packet-identity">${escapeHtml(packet.company || packet.title || "Candidate for manual review")}</p>
+          <p>${escapeHtml(packet.researchContext || "Static research candidate. Source trail and risk note must be reviewed before anything leaves this page.")}</p>
+          <div class="alerts-focus-actions">
+            ${packetActions.map((label, index) => `<button type="button" class="${index === 0 ? "primary-action" : "secondary-action"}" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', '${escapeHtml(label)}')">${escapeHtml(label)}</button>`).join("")}
+          </div>
+        </article>
+
+        <article class="alerts-focus-checks">
+          <span class="meta-label">Decision Checklist</span>
+          <h3>Pass these gates first.</h3>
+          <div>
+            ${checks.map(([label, value]) => `<span><strong>${escapeHtml(label)}</strong><em>${escapeHtml(value)}</em></span>`).join("")}
+          </div>
+        </article>
+
+        <article class="alerts-focus-queue">
+          <span class="meta-label">Queue</span>
+          <h3>Next packets</h3>
+          <div>
+            ${queue.map((alert) => `
+              <button type="button" onclick="window.selectAlertCard('${escapeHtml(alert.id)}')">
+                <strong>${escapeHtml(alert.symbol || "Packet")}</strong>
+                <span>${escapeHtml(alert.status || "Research")}</span>
+              </button>
+            `).join("") || `<span class="mission-footnote">No queued packets.</span>`}
+          </div>
+        </article>
+      </section>
+
+      <details class="mission-quiet-details alerts-focus-details">
+        <summary>Show packet context</summary>
+        <ul class="pc-list">
+          <li><span>Watch Criteria</span><strong>${escapeHtml(packet.watchCriteria || "Verify price context, liquidity, source trail, and catalyst.")}</strong></li>
+          <li><span>Price Context</span><strong>${escapeHtml(packet.currentPrice || "Static research context")}</strong></li>
+          <li><span>Invalidation Note</span><strong>${escapeHtml(packet.invalidationResearchNote || "Stand down if core evidence fails.")}</strong></li>
+        </ul>
+      </details>
+    </div>
+  `;
+};
+
+try {
+  renderStaticIntelligencePages();
+  openRequestedView();
+} catch (error) {
+  console.error("Emergency visual triage refresh failed:", error);
 }

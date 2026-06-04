@@ -4946,6 +4946,23 @@ select:focus {
   line-height: 1.35;
 }
 
+.founder-operating-quotes {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.founder-operating-quotes span {
+  display: block;
+  padding: 9px 10px;
+  border: 1px solid rgba(233, 188, 77, 0.2);
+  border-radius: 8px;
+  color: rgba(245, 241, 232, 0.76);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
 .founder-board {
   display: grid;
   grid-template-columns: 1fr 1fr 1.1fr 1.15fr 1fr;
@@ -8109,6 +8126,686 @@ body {
 .agent-node.core {
   width: clamp(178px, 17vw, 246px) !important;
   min-height: 122px !important;
+}
+
+/* Emergency visual triage final lock - this must remain the last cascade block. */
+:root {
+  --sidebar-width: 278px !important;
+  --font-base: 14px !important;
+  --bg-main: #07090d !important;
+  --surface-1: #0d1118 !important;
+  --surface-2: #111722 !important;
+  --border-soft: rgba(170, 190, 215, 0.13) !important;
+}
+
+body {
+  font-size: var(--font-base) !important;
+  background: linear-gradient(180deg, #07090d 0%, #090d13 56%, #06080c 100%) !important;
+}
+
+.rail {
+  padding: 14px !important;
+}
+
+.brand {
+  grid-template-columns: 44px minmax(0, 1fr) !important;
+  padding: 10px !important;
+  border-radius: 8px !important;
+}
+
+.mark {
+  width: 44px !important;
+  height: 44px !important;
+  flex-basis: 44px !important;
+}
+
+.brand small,
+.sidebar-status,
+.rail-quote {
+  display: none !important;
+}
+
+.nav-button.sidebar-item {
+  min-height: 36px !important;
+  grid-template-columns: 34px minmax(0, 1fr) !important;
+  gap: 8px !important;
+  padding: 6px 8px !important;
+  border-radius: 7px !important;
+  font-size: 12.5px !important;
+}
+
+.nav-button.sidebar-item .sidebar-code {
+  width: 30px !important;
+  height: 24px !important;
+  border-radius: 6px !important;
+  font-size: 9px !important;
+}
+
+.sidebar-copy strong {
+  font-size: 12.5px !important;
+}
+
+.page-title,
+.page-hero h2,
+.mission-hero h2,
+.source-hub-hero h2,
+.vault-hero h2,
+.alerts-focus-hero h2 {
+  font-size: clamp(36px, 4vw, 64px) !important;
+}
+
+.glass-card,
+.command-card,
+.truth-panel,
+.metric-card,
+.alerts-focus-primary,
+.alerts-focus-checks,
+.alerts-focus-queue {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+.primary-action,
+.secondary-action {
+  min-height: 36px !important;
+  border-radius: 7px !important;
+  font-size: 12.5px !important;
+}
+
+html,
+body,
+.shell,
+main,
+.view.active,
+.page-shell {
+  background: #07090d !important;
+  color: #c8d2df !important;
+}
+
+body[data-active-view] main,
+body[data-active-view="alerts"] main,
+body[data-active-view="dashboard"] main {
+  background: #07090d !important;
+}
+
+.topbar {
+  border: 1px solid rgba(170, 190, 215, 0.13) !important;
+  border-radius: 10px !important;
+  padding: 16px 18px !important;
+  margin-bottom: 14px !important;
+  background: rgba(13, 18, 26, 0.92) !important;
+  box-shadow: none !important;
+}
+
+.topbar h1,
+.topbar .eyebrow,
+.alerts-focus-hero h2,
+.alerts-focus-hero h3,
+.alerts-focus-primary h3,
+.alerts-focus-checks h3,
+.alerts-focus-queue h3,
+.alerts-focus-primary strong,
+.alerts-focus-checks strong,
+.alerts-focus-queue strong {
+  color: #f0f5fb !important;
+  text-shadow: none !important;
+}
+
+.alerts-focus-hero,
+.alerts-focus-primary,
+.alerts-focus-checks,
+.alerts-focus-queue {
+  color: #c8d2df !important;
+  background: #111722 !important;
+  border-color: rgba(170, 190, 215, 0.15) !important;
+}
+
+.alerts-focus-hero p,
+.alerts-focus-primary p,
+.alerts-focus-checks p,
+.alerts-focus-queue p,
+.alerts-focus-stats em,
+.alerts-focus-checks em,
+.alerts-focus-queue span {
+  color: #9aa7b8 !important;
+}
+
+.alerts-focus-hero aside,
+.alerts-focus-stats span,
+.alerts-focus-checks span,
+.alerts-focus-queue button {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border-color: rgba(170, 190, 215, 0.14) !important;
+  color: #c8d2df !important;
+}
+
+/* Emergency visual triage final lock - this must remain the last cascade block. */
+:root {
+  --sidebar-width: 278px !important;
+  --font-base: 14px !important;
+  --bg-main: #07090d !important;
+  --surface-1: #0d1118 !important;
+  --surface-2: #111722 !important;
+  --border-soft: rgba(170, 190, 215, 0.13) !important;
+}
+
+body {
+  font-size: var(--font-base) !important;
+  background: linear-gradient(180deg, #07090d 0%, #090d13 56%, #06080c 100%) !important;
+}
+
+.rail {
+  padding: 14px !important;
+}
+
+.brand {
+  grid-template-columns: 44px minmax(0, 1fr) !important;
+  padding: 10px !important;
+  border-radius: 8px !important;
+}
+
+.mark {
+  width: 44px !important;
+  height: 44px !important;
+  flex-basis: 44px !important;
+}
+
+.brand small,
+.sidebar-status,
+.rail-quote {
+  display: none !important;
+}
+
+.nav-button.sidebar-item {
+  min-height: 36px !important;
+  grid-template-columns: 34px minmax(0, 1fr) !important;
+  gap: 8px !important;
+  padding: 6px 8px !important;
+  border-radius: 7px !important;
+  font-size: 12.5px !important;
+}
+
+.nav-button.sidebar-item .sidebar-code {
+  width: 30px !important;
+  height: 24px !important;
+  border-radius: 6px !important;
+  font-size: 9px !important;
+}
+
+.sidebar-copy strong {
+  font-size: 12.5px !important;
+}
+
+.page-title,
+.page-hero h2,
+.mission-hero h2,
+.source-hub-hero h2,
+.vault-hero h2,
+.alerts-focus-hero h2 {
+  font-size: clamp(36px, 4vw, 64px) !important;
+}
+
+.glass-card,
+.command-card,
+.truth-panel,
+.metric-card,
+.alerts-focus-primary,
+.alerts-focus-checks,
+.alerts-focus-queue {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+.primary-action,
+.secondary-action {
+  min-height: 36px !important;
+  border-radius: 7px !important;
+  font-size: 12.5px !important;
+}
+
+/* Emergency visual triage lock - global calm pass, June 2026. */
+:root {
+  --bg-main: #07090d !important;
+  --surface-1: #0d1118 !important;
+  --surface-2: #111722 !important;
+  --surface-3: #151d29 !important;
+  --border-soft: rgba(170, 190, 215, 0.13) !important;
+  --text-main: #f0f5fb !important;
+  --text-body: #c8d2df !important;
+  --text-muted: #8e9aac !important;
+  --text-faint: #687487 !important;
+  --gold: #d8b35a !important;
+  --cyan: #55c8e8 !important;
+  --green: #47d18c !important;
+  --amber: #d8b35a !important;
+  --red: #ef6b5a !important;
+  --blue: #75a8ff !important;
+  --purple: #aa8df6 !important;
+  --radius: 8px !important;
+  --sidebar-width: 278px !important;
+  --font-base: 14px !important;
+  --page-padding: clamp(14px, 1.5vw, 24px) !important;
+  --card-padding: 16px !important;
+  --section-gap: 14px !important;
+}
+
+body {
+  background: linear-gradient(180deg, #07090d 0%, #090d13 56%, #06080c 100%) !important;
+  color: var(--text-body) !important;
+}
+
+body::before {
+  opacity: 0.22 !important;
+  background-size: 72px 72px !important;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.22), transparent 58%) !important;
+}
+
+.rail {
+  padding: 14px !important;
+  background: rgba(6, 8, 12, 0.96) !important;
+}
+
+.brand {
+  display: grid !important;
+  grid-template-columns: 44px minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px !important;
+  border-radius: 8px !important;
+}
+
+.mark {
+  width: 44px !important;
+  height: 44px !important;
+  flex-basis: 44px !important;
+}
+
+.brand strong {
+  font-size: 15px !important;
+  line-height: 1.15 !important;
+}
+
+.brand small,
+.sidebar-status,
+.rail-quote {
+  display: none !important;
+}
+
+.nav.sidebar-shell {
+  gap: 12px !important;
+  margin: 16px 0 0 !important;
+}
+
+.sidebar-group {
+  gap: 3px !important;
+}
+
+.sidebar-group-label {
+  margin-top: 4px !important;
+  padding-inline: 6px !important;
+  font-size: 9px !important;
+  letter-spacing: 0.08em !important;
+  color: var(--text-faint) !important;
+}
+
+.nav-button.sidebar-item {
+  min-height: 36px !important;
+  grid-template-columns: 34px minmax(0, 1fr) !important;
+  gap: 8px !important;
+  padding: 6px 8px !important;
+  border-radius: 7px !important;
+  font-size: 12.5px !important;
+  transform: none !important;
+}
+
+.nav-button.sidebar-item:hover {
+  transform: none !important;
+}
+
+.nav-button.sidebar-item .sidebar-code {
+  width: 30px !important;
+  height: 24px !important;
+  border-radius: 6px !important;
+  font-size: 9px !important;
+  background: rgba(255, 255, 255, 0.035) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  color: var(--text-muted) !important;
+}
+
+.nav-button.sidebar-item.active {
+  box-shadow: inset 2px 0 0 var(--gold) !important;
+  border-color: rgba(216, 179, 90, 0.32) !important;
+  background: rgba(216, 179, 90, 0.08) !important;
+}
+
+.nav-button.sidebar-item.active .sidebar-code {
+  color: var(--gold) !important;
+  border-color: rgba(216, 179, 90, 0.28) !important;
+}
+
+.sidebar-copy strong {
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+}
+
+main {
+  max-width: 1440px !important;
+}
+
+.topbar {
+  min-height: 58px !important;
+  padding: 0 0 12px !important;
+  margin-bottom: 10px !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.topbar h1 {
+  font-size: clamp(24px, 2.4vw, 40px) !important;
+  line-height: 1.05 !important;
+}
+
+.status-strip {
+  min-height: 32px !important;
+  padding: 7px 10px !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.035) !important;
+  color: var(--text-muted) !important;
+}
+
+.page-shell {
+  padding: clamp(14px, 1.6vw, 24px) !important;
+}
+
+.page-hero,
+.mission-hero,
+.source-hub-hero,
+.vault-hero,
+.agent-game-hero,
+.alerts-focus-hero {
+  border-radius: 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  background: linear-gradient(180deg, rgba(18, 24, 34, 0.94), rgba(10, 14, 21, 0.94)) !important;
+  box-shadow: none !important;
+}
+
+.page-hero::before,
+.mission-hero::before,
+.source-hub-hero::before,
+.vault-hero::before,
+.agent-game-hero::before {
+  display: none !important;
+}
+
+.page-title,
+.page-hero h2,
+.mission-hero h2,
+.source-hub-hero h2,
+.vault-hero h2,
+.alerts-focus-hero h2 {
+  font-size: clamp(36px, 4vw, 64px) !important;
+  line-height: 0.98 !important;
+  letter-spacing: 0 !important;
+}
+
+.page-subtitle,
+.page-hero p,
+.mission-hero p,
+.source-hub-hero p,
+.vault-hero p,
+.alerts-focus-hero p {
+  max-width: 760px !important;
+  color: var(--text-muted) !important;
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+}
+
+.glass-card,
+.command-card,
+.truth-panel,
+.metric-card,
+.pc-panel,
+.pc-card,
+.vault-card,
+.source-card,
+.watchlist-bucket-card,
+.watchlist-asset-row,
+.watchlist-priority-card,
+.mission-stat-card,
+.alerts-focus-primary,
+.alerts-focus-checks,
+.alerts-focus-queue {
+  border-radius: 8px !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  background: rgba(13, 18, 26, 0.92) !important;
+  box-shadow: none !important;
+}
+
+.glass-card:hover,
+.pc-card:hover,
+.vault-card:hover,
+.source-card:hover {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.truth-panel {
+  border-color: rgba(216, 179, 90, 0.22) !important;
+  background: rgba(216, 179, 90, 0.055) !important;
+}
+
+.status-chip,
+.review-chip,
+.danger-chip,
+.safe-chip,
+.pill,
+.status-badge,
+.priority-badge,
+.pc-status-chip,
+.tag-row span {
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  color: var(--text-muted) !important;
+}
+
+.primary-action,
+.secondary-action,
+button,
+.archive-actions a,
+.archive-actions button,
+.source-action-row a,
+.source-action-row button {
+  min-height: 36px !important;
+  border-radius: 7px !important;
+  font-size: 12.5px !important;
+  font-weight: 720 !important;
+  box-shadow: none !important;
+}
+
+.primary-action {
+  background: rgba(216, 179, 90, 0.13) !important;
+  border-color: rgba(216, 179, 90, 0.38) !important;
+  color: #f1d47f !important;
+}
+
+.secondary-action {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  color: var(--text-body) !important;
+}
+
+.alerts-focus-shell {
+  display: grid;
+  gap: 14px;
+}
+
+.alerts-focus-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+  gap: 18px;
+  align-items: stretch;
+  padding: clamp(18px, 2.2vw, 28px);
+}
+
+.alerts-focus-hero aside {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid rgba(216, 179, 90, 0.20);
+  border-radius: 8px;
+  background: rgba(216, 179, 90, 0.055);
+}
+
+.alerts-focus-hero aside span,
+.alerts-focus-stats em,
+.alerts-focus-checks em,
+.alerts-focus-queue span {
+  color: var(--text-muted);
+  font-style: normal;
+}
+
+.alerts-focus-hero aside strong {
+  color: var(--text-main);
+  line-height: 1.45;
+}
+
+.alerts-focus-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.alerts-focus-stats span,
+.alerts-focus-checks span {
+  display: grid;
+  gap: 3px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.alerts-focus-stats strong {
+  color: var(--text-main);
+  font-size: 18px;
+}
+
+.alerts-focus-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.7fr) minmax(240px, 0.55fr);
+  gap: 14px;
+}
+
+.alerts-focus-primary,
+.alerts-focus-checks,
+.alerts-focus-queue {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 16px;
+}
+
+.alerts-focus-primary h3 {
+  font-size: clamp(34px, 3.7vw, 58px);
+  line-height: 0.95;
+}
+
+.alerts-focus-primary p {
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.alerts-focus-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.alerts-focus-actions button {
+  flex: 1 1 140px;
+}
+
+.alerts-focus-checks > div,
+.alerts-focus-queue > div {
+  display: grid;
+  gap: 8px;
+}
+
+.alerts-focus-checks strong,
+.alerts-focus-queue strong {
+  color: var(--text-main);
+}
+
+.alerts-focus-queue button {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 8px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.035) !important;
+}
+
+.alerts-focus-details {
+  margin-top: 0 !important;
+}
+
+.mission-core-bento,
+.mission-secondary-grid,
+.source-core-bento,
+.source-secondary-grid,
+.alerts-core-bento,
+.alerts-secondary-grid,
+.watchlist-command-grid,
+.dashboard-command-grid,
+.dashboard-stack-grid {
+  gap: 14px !important;
+}
+
+.launch-countdown-grid {
+  opacity: 0.62 !important;
+}
+
+@media (max-width: 980px) {
+  :root {
+    --sidebar-width: 100% !important;
+  }
+
+  .shell {
+    grid-template-columns: 1fr !important;
+  }
+
+  .rail {
+    position: relative !important;
+    height: auto !important;
+  }
+
+  .nav.sidebar-shell {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+  }
+
+  .sidebar-group-label {
+    grid-column: 1 / -1;
+  }
+
+  .alerts-focus-hero,
+  .alerts-focus-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .alerts-focus-stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  .topbar {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
 }
 
 /* Phase 2K premium visual system polish - visual-only cascade. */
@@ -13379,7 +14076,7 @@ body {
     flex-basis: 100%;
   }
 }
-/* Phase 1.6 final cascade lock - must remain last */
+/* Phase 1.6 final cascade lock - legacy; emergency visual triage follows. */
 :root {
   --sidebar-width: 334px !important;
   --font-base: 14.5px !important;
@@ -13455,3 +14152,107 @@ body {
   width: clamp(178px, 17vw, 246px) !important;
   min-height: 122px !important;
 }
+
+/* Emergency visual triage final lock - this must remain the last cascade block. */
+:root {
+  --sidebar-width: 278px !important;
+  --font-base: 14px !important;
+  --bg-main: #07090d !important;
+  --surface-1: #0d1118 !important;
+  --surface-2: #111722 !important;
+  --border-soft: rgba(170, 190, 215, 0.13) !important;
+}
+
+body {
+  font-size: var(--font-base) !important;
+  background: linear-gradient(180deg, #07090d 0%, #090d13 56%, #06080c 100%) !important;
+}
+
+.rail {
+  padding: 14px !important;
+}
+
+.brand {
+  grid-template-columns: 44px minmax(0, 1fr) !important;
+  padding: 10px !important;
+  border-radius: 8px !important;
+}
+
+.mark {
+  width: 44px !important;
+  height: 44px !important;
+  flex-basis: 44px !important;
+}
+
+.brand small,
+.sidebar-status,
+.rail-quote {
+  display: none !important;
+}
+
+.nav-button.sidebar-item {
+  min-height: 36px !important;
+  grid-template-columns: 34px minmax(0, 1fr) !important;
+  gap: 8px !important;
+  padding: 6px 8px !important;
+  border-radius: 7px !important;
+  font-size: 12.5px !important;
+}
+
+.nav-button.sidebar-item .sidebar-code {
+  width: 30px !important;
+  height: 24px !important;
+  border-radius: 6px !important;
+  font-size: 9px !important;
+}
+
+.sidebar-copy strong {
+  font-size: 12.5px !important;
+}
+
+.page-title,
+.page-hero h2,
+.mission-hero h2,
+.source-hub-hero h2,
+.vault-hero h2,
+.alerts-focus-hero h2 {
+  font-size: clamp(36px, 4vw, 64px) !important;
+}
+
+.glass-card,
+.command-card,
+.truth-panel,
+.metric-card,
+.alerts-focus-primary,
+.alerts-focus-checks,
+.alerts-focus-queue {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+.primary-action,
+.secondary-action {
+  min-height: 36px !important;
+  border-radius: 7px !important;
+  font-size: 12.5px !important;
+}
+
+/* Emergency dark shell absolute EOF lock. */
+html,body,.shell,main,.view.active,.page-shell{background:#07090d!important;color:#c8d2df!important;}
+body[data-active-view] main,body[data-active-view="alerts"] main,body[data-active-view="dashboard"] main{background:#07090d!important;}
+.topbar{border:1px solid rgba(170,190,215,.13)!important;border-radius:10px!important;padding:16px 18px!important;margin-bottom:14px!important;background:rgba(13,18,26,.92)!important;box-shadow:none!important;}
+.topbar h1,.topbar .eyebrow,.alerts-focus-hero h2,.alerts-focus-hero h3,.alerts-focus-primary h3,.alerts-focus-checks h3,.alerts-focus-queue h3,.alerts-focus-primary strong,.alerts-focus-checks strong,.alerts-focus-queue strong{color:#f0f5fb!important;text-shadow:none!important;}
+.alerts-focus-hero,.alerts-focus-primary,.alerts-focus-checks,.alerts-focus-queue{color:#c8d2df!important;background:#111722!important;border-color:rgba(170,190,215,.15)!important;}
+.alerts-focus-hero p,.alerts-focus-primary p,.alerts-focus-checks p,.alerts-focus-queue p,.alerts-focus-stats em,.alerts-focus-checks em,.alerts-focus-queue span{color:#9aa7b8!important;}
+.alerts-focus-hero aside,.alerts-focus-stats span,.alerts-focus-checks span,.alerts-focus-queue button{background:rgba(255,255,255,.045)!important;border-color:rgba(170,190,215,.14)!important;color:#c8d2df!important;}
+
+/* Emergency dark shell specificity lock. */
+body[data-active-view="alerts"] .topbar,body[data-active-view="dashboard"] .topbar,body[data-active-view] .topbar{background:#0d121a!important;border-color:rgba(170,190,215,.16)!important;color:#c8d2df!important;}
+body[data-active-view] .topbar h1,body[data-active-view] .topbar .eyebrow,body[data-active-view] .status-strip{color:#f0f5fb!important;background:rgba(255,255,255,.045)!important;border-color:rgba(170,190,215,.14)!important;}
+body[data-active-view] .alerts-focus-hero aside strong,body[data-active-view] .alerts-focus-hero aside span{color:#f0f5fb!important;}
+body[data-active-view] .alerts-focus-queue button,body[data-active-view] .alerts-focus-actions button{background:rgba(255,255,255,.045)!important;border-color:rgba(170,190,215,.16)!important;color:#f0f5fb!important;}
+body[data-active-view] .alerts-focus-queue button span{color:#9aa7b8!important;}
+
+/* Emergency active-alert button lock. */
+body[data-active-view="alerts"] #alerts.active .alerts-focus-queue button,body[data-active-view="alerts"] #alerts.active .alerts-focus-actions button{background:#171d28!important;border-color:rgba(170,190,215,.18)!important;color:#f0f5fb!important;}
+body[data-active-view="alerts"] #alerts.active .alerts-focus-queue button span,body[data-active-view="alerts"] #alerts.active .alerts-focus-queue button strong{color:#f0f5fb!important;}

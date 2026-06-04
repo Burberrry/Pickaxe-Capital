@@ -1,5 +1,36 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint — Alerts First + Mindset Quote Polish
+
+- Latest local build: Alerts First + Mindset Quote Polish.
+- Date: 2026-06-04.
+- Alerts Desk is now visible route/order `00` and appears first in the sidebar/navigation.
+- Mission Control is now visible route/order `01` and remains available at `#/dashboard`.
+- `/` and `#/alerts` remain the Alerts Desk / Review Queue homepage.
+- Added concise premium mindset quotes to the rotating mindset rail and the Founder / CEO B profile operating-rules band.
+- No route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, betting execution, copy-trading, localStorage keys, Watchlists logic, Source Hub workflow, Archive workflow, Agents behavior, Options logic, or `data/signal-alerts.json` changes were added.
+- Validation passed locally with `/Applications/Codex.app/Contents/Resources/node --run build` and `/Applications/Codex.app/Contents/Resources/node --run check:project`.
+- Browser verification passed for `/`, `#/alerts`, `#/dashboard`, `#/source-hub`, `#/archive`, `#/staging`, `#/watchlists`, `#/agents`, `#/roadmap`, `#/founder`, and `#/ceo-b-profile`: main content rendered, no console errors, and no desktop horizontal overflow.
+- Mobile homepage/sidebar check passed at 390px: `#/alerts` was the visible view, sidebar started with `00 Alerts Desk` then `01 Mission Control`, and no horizontal overflow was detected.
+- `/ai-handoff` returned HTTP 200 with generated project context.
+- Recommended next step remains: lock Emergency Visual Triage, then choose sidebar/navigation consolidation or Staging declutter.
+
+## Current Checkpoint — Emergency Visual Triage
+
+- Latest local build: Emergency Visual Triage / Homepage Cleanup.
+- Date: 2026-06-04.
+- Primary routes changed: `/` and `#/alerts` visual hierarchy, plus global shell/sidebar CSS.
+- Simplified the homepage into a focused Review Queue: one active packet, one decision checklist, one compact queue, and collapsed packet context.
+- Restored dark Pickaxe surfaces after light-theme bleed made the site look inconsistent and low contrast.
+- Reduced sidebar density, hid noisy sidebar status subtitles, shrank the logo block, and kept route buttons more compact.
+- Updated stylesheet cache-buster to `emergency-visual-triage-20260604`.
+- No route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, betting execution, copy-trading, localStorage keys, Watchlists logic, Source Hub workflow, Archive workflow, Agents placeholder behavior, or `data/signal-alerts.json` changes were added.
+- Validation passed locally with `/Applications/Codex.app/Contents/Resources/node --run build` and `/Applications/Codex.app/Contents/Resources/node --run check:project`.
+- Browser verification passed for `/`, `/agents`, `/vision-map`, `/archive`, `/staging`, `/founder`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`: main content rendered, no console errors, and no desktop horizontal overflow.
+- `/ai-handoff` returned HTTP 200 with generated project context.
+- Remaining problem: the CSS still contains older historical polish blocks and should be consolidated later; the sidebar is visually calmer but still structurally too large.
+- Next recommended task: continue visual cleanup section-by-section, preferably `/staging` or sidebar/navigation consolidation, without rebuilding from scratch.
+
 ## Current Checkpoint — Phase 2O Archive Declutter
 
 - Latest completed/live-locked build: Phase 2O Section-by-Section Declutter — Archive First.

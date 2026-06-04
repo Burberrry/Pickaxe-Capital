@@ -2,6 +2,31 @@
 
 ## Current Active Checkpoint
 
+Alerts First + Mindset Quote Polish was completed locally on 2026-06-04. Alerts Desk is now visible route/order `00`, appears first in the sidebar/navigation, and remains the homepage at `/` and `#/alerts`. Mission Control is now visible route/order `01` and remains available at `#/dashboard`.
+
+Mindset quote polish was added to the rotating sidebar mindset rail and the Founder / CEO B profile operating-rules band. The copy stays concise, institutional, research-first, and non-advisory.
+
+Validation passed locally:
+
+- `/Applications/Codex.app/Contents/Resources/node --run build`
+- `/Applications/Codex.app/Contents/Resources/node --run check:project`
+- Browser route sweep for `/`, `#/alerts`, `#/dashboard`, `#/source-hub`, `#/archive`, `#/staging`, `#/watchlists`, `#/agents`, `#/roadmap`, `#/founder`, and `#/ceo-b-profile`
+- Mobile homepage/sidebar overflow check at 390px
+- `/ai-handoff` returned HTTP 200 with generated context
+
+No route architecture, backend, live API, provider adapter, broker, betting/sportsbook, copy-trading, Source Hub workflow, Archive workflow, Watchlists logic, Agents behavior, Options logic, or `data/signal-alerts.json` changes were added. Recommended next step remains: lock Emergency Visual Triage, then choose sidebar/navigation consolidation or Staging declutter.
+
+Emergency Visual Triage / Homepage Cleanup was completed locally on 2026-06-04. It changed `/`, `#/alerts`, shared CSS, and the stylesheet cache-buster. The homepage now opens as a focused Review Queue with one active packet, one decision checklist, one compact queue, and collapsed packet context. The app shell has been forced back into dark Pickaxe surfaces after the old light-theme polish bled through.
+
+Validation passed locally:
+
+- `/Applications/Codex.app/Contents/Resources/node --run build`
+- `/Applications/Codex.app/Contents/Resources/node --run check:project`
+- Browser route sweep for `/`, `/agents`, `/vision-map`, `/archive`, `/staging`, `/founder`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`
+- `/ai-handoff` returned HTTP 200 with generated context
+
+Remaining urgent visual work: consolidate the old CSS polish blocks, structurally simplify the sidebar/navigation, and continue section-by-section cleanup. Do not rebuild from scratch.
+
 Phase 2O Section-by-Section Declutter — Archive First is pushed, deployed, live-reviewed, clean, and live-locked at `5fc85d0 Declutter Archive section`. It changed only `#/archive` and makes Archive read as a premium cleaned intelligence memory vault with one hero, one clear purpose, one clear next manual action, and three above-fold bento panels: Cleaned Memory Queue, Source Lineage Summary, and CEO B Review State.
 
 Phase 2O live review URL:
