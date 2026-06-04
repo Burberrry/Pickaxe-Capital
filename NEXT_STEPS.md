@@ -2,7 +2,11 @@
 
 ## Current Active Checkpoint
 
-Phase 2N-B Section-by-Section Declutter — Source Hub First is implemented locally for `#/source-hub` only. It makes Source Hub read as a premium trust cockpit with one hero, one clear purpose, one primary next action, and three above-fold bento panels: Verification Matrix, Source Intake Queue, and Source -> Route Map.
+Phase 2N-B Section-by-Section Declutter — Source Hub First is pushed, deployed, live-reviewed, clean, and live-locked at `f920dcf Declutter Source Hub section`. It changed only `#/source-hub` and makes Source Hub read as a premium trust cockpit with one hero, one clear purpose, one clear next manual action, and three above-fold bento panels: Verification Matrix, Source Intake Queue, and Source -> Route Map.
+
+Phase 2N-B live review URL:
+
+https://burberrry.github.io/Pickaxe-Capital/?v=phase2nb-source-hub-declutter#/source-hub
 
 Source Hub now answers what sources are trusted, what still needs verification, what CEO B should review next, which routes depend on sources, and what can move from Source Hub to Archive. Adapter boundaries, planned/local ownership lanes, action logs, private memory boundary, escalation rules, Mission Control preview, long safety wording, and local-only action history are lower or collapsed.
 
@@ -20,7 +24,7 @@ The countdown appears only on `#/dashboard` lower on Mission Control, `#/roadmap
 
 Phase 2N-A does not change route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, Source Hub workflow, Archive workflow, Watchlists functionality, Agents functionality, Options logic, or `data/signal-alerts.json`.
 
-Recommended next section remains `#/source-hub`, but B must approve before starting it.
+Phase 2N-A originally recommended `#/source-hub`; Phase 2N-B has now completed that recommendation.
 
 Phase 2M Full-Access Section Decision + Alerts Desk Declutter is pushed, deployed, live-reviewed, clean, and live-locked at `60e5abb Declutter Alerts Desk section`. The chosen section was `/` / `#/alerts` — Alerts Desk / homepage / CEO B Review Queue.
 
@@ -75,13 +79,12 @@ Latest Alerts Desk polish: `/` / `#/alerts` now presents the homepage/research r
 ## Do Next
 
 1. Use the Obsidian-backed `/ai-handoff` before future Codex/ChatGPT website build sessions.
-2. Finish Phase 2N-B validation, commit, push if available, and live-review after B pushes if GitHub auth blocks this workspace.
-3. Let B choose the next task before starting another sprint.
-4. Recommended next section after Phase 2N-B is `#/archive`, but B must approve before starting it.
-5. Keep Watchlists stable.
-6. Keep Agents placeholder-only until B approves a rebuild.
-7. Do not start Options Hub until B approves.
-8. Continue preserving research-only wording and static GitHub Pages safety.
+2. Let B choose the next task before starting another sprint.
+3. Recommended next section after Phase 2N-B is `#/archive`, but B must approve before starting it.
+4. Keep Watchlists stable.
+5. Keep Agents placeholder-only until B approves a rebuild.
+6. Do not start Options Hub until B approves.
+7. Continue preserving research-only wording and static GitHub Pages safety.
 
 ## Do Not Start Yet
 

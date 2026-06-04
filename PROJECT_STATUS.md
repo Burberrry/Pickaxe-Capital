@@ -2,9 +2,11 @@
 
 ## Current Checkpoint — Phase 2N-B Source Hub Declutter
 
-- Latest completed/local build: Phase 2N-B Section-by-Section Declutter — Source Hub First.
+- Latest completed/live-locked build: Phase 2N-B Section-by-Section Declutter — Source Hub First.
+- Phase 2N-B status: pushed to `origin/main`, deployed on GitHub Pages, live-reviewed, clean, and locked.
+- Latest live commit: `f920dcf Declutter Source Hub section`.
+- Live review URL: `https://burberrry.github.io/Pickaxe-Capital/?v=phase2nb-source-hub-declutter#/source-hub`.
 - Primary route changed: `#/source-hub` only.
-- Phase 2N-B status: locally implemented pending final commit/push/live review.
 - Source Hub now reads as a premium trust cockpit with one hero, one clear purpose, one primary next action, and three above-fold bento panels: Verification Matrix, Source Intake Queue, and Source -> Route Map.
 - The hero states the Source Hub truth clearly: sources are verified before research enters Alerts, Archive, Watchlists, or Mission Control.
 - The primary action points CEO B toward reviewing archive candidates while preserving the existing local-only `Save Cleaned Source Memory` workflow.
