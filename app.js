@@ -14945,19 +14945,104 @@ renderMoneyLabPage = function () {
 
 renderStagingAdvanced = function () {
   if (!els.stagingAdvanced) return;
-  const cards = ["Route Status", "Build Status", "Data Source Truth", "Obsidian Memory Layer", "Safety Wording Check", "LocalStorage Check", "GitHub Pages Status", "Known Limitations"];
+  const routeRows = [
+    ["00 Alerts Desk", "locked", "Review Queue homepage", "Static research packets only"],
+    ["01 Mission Control", "locked", "Operating overview", "No fake telemetry"],
+    ["06 Source Hub", "stable", "Trust cockpit", "No provider adapters connected"],
+    ["10 Archive Vault", "stable", "Cleaned memory vault", "No private vault publishing"],
+    ["13 Staging / QA", "active sprint", "Build-readiness room", "Declutter only"],
+    ["15 Watchlists", "stable", "Research universe", "No live quotes"],
+    ["04 Agents", "placeholder", "Future agent habitat", "No autonomous execution"],
+    ["17 Options Hub", "deferred", "Future options research", "No broker or trade execution"]
+  ];
+  const approvalQueue = [
+    "CSS Consolidation",
+    "Watchlists Polish",
+    "Roadmap Polish",
+    "Research Packet Studio Spec",
+    "Bookmark Intelligence Router"
+  ];
+  const safetyRules = [
+    "Static-first GitHub Pages app",
+    "LocalStorage-only browser state",
+    "No live APIs or provider adapters",
+    "No broker execution, copy-trading, or betting execution",
+    "No fake telemetry or fake connected status",
+    "No private Obsidian note publishing",
+    "CEO B approval required before the next sprint"
+  ];
   els.stagingAdvanced.innerHTML = `
-    <div class="page-shell">
-      ${pcPageHero("13 QA / System Truth", "Staging / QA", "The truth cockpit for route health, validation, data-source honesty, safety wording, and session completion tracking.", ["Validation", "Static Prototype", "Backend Not Connected", "No Fake Live Data"])}
-      <section class="staging-launch-readiness" aria-label="Testing launch readiness">
-        ${renderLaunchCountdownCard("mini")}
+    <div class="page-shell staging-qa-shell">
+      ${pcPageHero("13 QA / Build Readiness", "Staging / QA", "A quiet release-control board for current lock status, route stability, blockers, and B's next approval decision.", ["Phase 2P Active", "Static Prototype", "No Live APIs", "CEO B Gate"])}
+
+      <div class="staging-purpose-line" aria-label="Staging purpose and next action">
+        <p><strong>Purpose:</strong> verify the OS is clean enough to lock, then stop until B chooses the next sprint.</p>
+        <a class="primary-action" href="#/staging">Review Phase 2P</a>
+      </div>
+
+      <section class="staging-primary-grid" aria-label="Staging command panels">
+        <article class="staging-command-panel">
+          <span class="meta-label">Current Locked Phase</span>
+          <h3>Sidebar zones are locked. Staging Declutter is active.</h3>
+          <ul class="staging-fact-list">
+            <li><span>Latest locked checkpoint</span><strong>c28f7f7 Sidebar / Navigation Consolidation</strong></li>
+            <li><span>Current visual state</span><strong>Dark graphite shell, muted gold route state, compact OS rail</strong></li>
+            <li><span>Route structure</span><strong>COMMAND through EXPANSION, visible order 00-20</strong></li>
+            <li><span>Safety state</span><strong>Research-only, LocalStorage-only, no live execution systems</strong></li>
+            <li><span>Local caution</span><strong>data/signal-alerts.json has a pre-existing local diff; do not stage it</strong></li>
+          </ul>
+        </article>
+
+        <article class="staging-command-panel">
+          <span class="meta-label">Route Stability Matrix</span>
+          <h3>Key routes and their build-readiness role.</h3>
+          <div class="staging-route-matrix">
+            ${routeRows.map(([route, state, role, truth]) => `
+              <span>
+                <strong>${escapeHtml(route)}</strong>
+                <em>${escapeHtml(state)}</em>
+                <small>${escapeHtml(role)} · ${escapeHtml(truth)}</small>
+              </span>
+            `).join("")}
+          </div>
+        </article>
+
+        <article class="staging-command-panel">
+          <span class="meta-label">Next Approval Queue</span>
+          <h3>B chooses the next task. Codex does not auto-start it.</h3>
+          <ol class="staging-approval-list">
+            ${approvalQueue.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+          </ol>
+          <p class="staging-panel-note">Staging Declutter is the active sprint. Next recommendation after lock: CSS Consolidation, then Watchlists Polish.</p>
+        </article>
       </section>
-      <section class="section-grid">${cards.map((title) => pcInfoCard(title, `${title} is tracked here so every Codex session leaves a clear handoff.`, "QA")).join("")}</section>
-      <section class="truth-panel" style="margin-top:16px;">
-        <span class="meta-label">Private Source Boundary</span>
-        <h3>Obsidian can feed the local AI handoff, but the static public app does not publish private vault notes or read the vault in-browser.</h3>
+
+      <section class="staging-quiet-band" aria-label="Concise safety boundaries">
+        ${safetyRules.map((rule) => `<span>${escapeHtml(rule)}</span>`).join("")}
       </section>
-      <section class="truth-panel" style="margin-top:16px;"><span class="meta-label">Build Completion Tracker</span><h3>Every session must record changed files, validation commands, validation results, remaining problems, and next recommended task.</h3></section>
+
+      <details class="mission-quiet-details staging-quiet-details">
+        <summary>Build Completion Tracker and editable QA records</summary>
+        ${renderCompletionTracker("full")}
+      </details>
+
+      <details class="mission-quiet-details staging-quiet-details">
+        <summary>Mission board, backup, restore, and recovery details</summary>
+        ${renderMissionBoardPanel()}
+        ${renderDataPortabilityPanel()}
+        ${renderRecoveryStatusPanel()}
+      </details>
+
+      <details class="mission-quiet-details staging-quiet-details">
+        <summary>Future adapter research and advanced diagnostics</summary>
+        <section class="staging-launch-readiness" aria-label="Testing launch readiness">
+          ${renderLaunchCountdownCard("mini")}
+        </section>
+        ${renderOpenClawIntegrationLab()}
+        ${renderJarvisFoundationChecklist()}
+        ${renderAdapterStagingSummary()}
+        ${renderAdapterRegistrySection(["AI Model Review", "GitHub/Project Status"])}
+      </details>
     </div>
   `;
 }

@@ -1,6 +1,19 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint — Sidebar / Navigation Consolidation
+## Current Checkpoint — Phase 2P Staging Declutter
+
+- Latest local build: Phase 2P Staging Declutter.
+- Date: 2026-06-04.
+- `#/staging` now reads as a QA / build-readiness command center instead of a dense tracker page.
+- Staging keeps one hero, one clear purpose/manual action, and three above-fold panels: Current Locked Phase, Route Stability Matrix, and Next Approval Queue.
+- Build Completion Tracker, mission board, backup/restore, recovery status, historical logs, advanced diagnostics, future adapter notes, and long checklist details are lower, quieter, or collapsed.
+- Sidebar zones remain locked from `c28f7f7`: `COMMAND`, `INTELLIGENCE`, `MEMORY`, `OPERATIONS`, and `EXPANSION`.
+- Alerts Desk remains visible route/order `00` and first in the sidebar.
+- Mission Control remains visible route/order `01` and available at `#/dashboard`.
+- No route architecture, backend systems, live APIs, provider adapters, broker integrations, copy-trading, private-note exposure, Source Hub workflow, Archive memory model, Watchlists state, Agents behavior, Options logic, or `data/signal-alerts.json` changes were added.
+- Recommended next step after this: CSS Consolidation, then Watchlists Polish. B must approve before either sprint starts.
+
+## Previous Checkpoint — Sidebar / Navigation Consolidation
 
 - Latest local build: Sidebar / Navigation Consolidation — 2-Layer 21-Section OS Map.
 - Date: 2026-06-04.

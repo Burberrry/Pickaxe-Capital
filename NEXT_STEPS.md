@@ -2,6 +2,22 @@
 
 ## Current Active Checkpoint
 
+Phase 2P Staging Declutter was completed locally on 2026-06-04. `#/staging` now reads as a QA / build-readiness command center, not a dense tracker page.
+
+Staging now has one hero, one clear purpose/manual action, and three above-fold panels:
+
+- Current Locked Phase
+- Route Stability Matrix
+- Next Approval Queue
+
+Tracker/history/log details are lower, quieter, or collapsed. The Build Completion Tracker remains available on `#/staging`, and the `pickaxeCompletionTracker` localStorage key is preserved. Backup/export/import and recovery details stay available lower on the page.
+
+Sidebar zones remain locked from `c28f7f7`: `COMMAND`, `INTELLIGENCE`, `MEMORY`, `OPERATIONS`, and `EXPANSION`. Alerts Desk remains `00`; Mission Control remains `01`; `/` and `#/alerts` remain Review Queue; `#/dashboard` remains Mission Control.
+
+No route architecture, backend, live API, provider adapter, broker, copy-trading, private-note exposure, Source Hub workflow, Archive model, Watchlists logic, Agents behavior, Options logic, or `data/signal-alerts.json` changes were added.
+
+Recommended next step after this: CSS Consolidation, then Watchlists Polish. B must approve before either sprint starts.
+
 Sidebar / Navigation Consolidation — 2-Layer 21-Section OS Map was completed locally on 2026-06-04. The sidebar now uses the high-level Pickaxe OS zones `COMMAND`, `INTELLIGENCE`, `MEMORY`, `OPERATIONS`, and `EXPANSION`.
 
 The visible route order is now `00-20`: `00 Alerts Desk`, `01 Mission Control`, `02 Command Console`, `03 Vision Map`, `04 Agents`, `05 Signals Lab`, `06 Source Hub`, `07 Risk & Rules`, `08 Learning Ledger`, `09 Trend Radar`, `10 Archive Vault`, `11 Bookmarks Mine`, `12 Money Lab`, `13 Staging / QA`, `14 Habitat OS`, `15 Watchlists`, `16 Markets Matrix`, `17 Options Hub`, `18 Catalysts Calendar`, `19 Research Desk`, and `20 Roadmap`.
