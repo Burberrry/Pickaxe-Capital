@@ -1,5 +1,17 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint — Sidebar / Navigation Consolidation
+
+- Latest local build: Sidebar / Navigation Consolidation — 2-Layer 21-Section OS Map.
+- Date: 2026-06-04.
+- Sidebar now uses two-layer Pickaxe OS zones: `COMMAND`, `INTELLIGENCE`, `MEMORY`, `OPERATIONS`, and `EXPANSION`.
+- Route order is now visible as `00-20`, with `00 Alerts Desk` first and `01 Mission Control` second.
+- `/` and `#/alerts` remain the Alerts Desk / Review Queue homepage.
+- `#/dashboard` remains Mission Control.
+- Legacy route aliases and all existing route handlers were preserved.
+- No route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, betting execution, copy-trading, localStorage keys, Source Hub workflow, Archive workflow, Watchlists logic, Agents behavior, Options logic, private-note exposure, or `data/signal-alerts.json` changes were added.
+- Recommended next step: Phase 2P Staging Declutter, then CSS Consolidation.
+
 ## Current Checkpoint — Alerts First + Mindset Quote Polish
 
 - Latest local build: Alerts First + Mindset Quote Polish.

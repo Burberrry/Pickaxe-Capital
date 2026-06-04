@@ -634,6 +634,7 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-04",
     areas: [
+      { id: "sidebar-navigation-os-zones", name: "Sidebar / Navigation Consolidation", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / System Brain", notes: "Converted the sidebar into a two-layer Pickaxe OS map with zones COMMAND, INTELLIGENCE, MEMORY, OPERATIONS, and EXPANSION. Visible route order is 00-20 with Alerts Desk first and Mission Control second. Preserved route behavior, aliases, static-first architecture, Source Hub workflow, Archive workflow, Watchlists logic, Agents placeholder behavior, Options deferral, and all no-live/no-execution boundaries. No data/signal-alerts.json changes.", nextAction: "Phase 2P Staging Declutter, then CSS Consolidation." },
       { id: "alerts-first-mindset-quote-polish", name: "Alerts First + Mindset Quote Polish", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "High", owner: "CEO B / System Brain", notes: "Small UI/content polish only. Alerts Desk is visible route/order 00 and first in the sidebar/navigation. Mission Control is visible route/order 01 and remains #/dashboard. / and #/alerts remain the Alerts Desk / Review Queue homepage. Added concise premium mindset quotes to the rotating mindset rail and Founder / CEO B profile operating-rules band. No route architecture, backend, dependency, live API, provider adapter, broker, betting/sportsbook, copy-trading, Source Hub workflow, Archive workflow, Watchlists logic, Agents behavior, Options logic, localStorage key, or data/signal-alerts.json changes.", nextAction: "Lock Emergency Visual Triage, then choose sidebar/navigation consolidation or Staging declutter." },
       { id: "emergency-visual-triage-homepage", name: "Emergency Visual Triage / Homepage Cleanup", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / UI Designer", notes: "Emergency visual cleanup for the active static app. Simplified / and #/alerts into a focused Review Queue with one active packet, one decision checklist, one compact queue, and collapsed packet context. Added a final dark shell cascade to restore Pickaxe dark surfaces, reduce sidebar density, hide noisy sidebar status labels, remove light-theme bleed, and keep cards/buttons readable. Kept route architecture, backend, data models, localStorage keys, live APIs, provider adapters, broker/betting/copy-trading integrations, Watchlists logic, Source Hub workflow, Archive workflow, and Agents placeholder behavior unchanged.", nextAction: "Next AI should continue visual cleanup section-by-section, starting with Staging or the sidebar structure; do not rebuild from scratch." },
       { id: "phase-2o-archive-declutter", name: "Phase 2O Archive Declutter", group: "Archive Habitat", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Archive", notes: "Decluttered #/archive only. Archive now presents as a premium cleaned intelligence memory vault with one hero, one clear purpose, one primary next action, and three above-fold bento panels: Cleaned Memory Queue, Source Lineage Summary, and CEO B Review State. Detailed filters, long archive metadata, secondary actions, import lab, duplicate warnings, old archive history, ownership maps, and local action history moved lower or into quiet collapsed sections. Existing Source Hub -> Archive workflow remains intact. No route architecture, Source Hub data model, Archive data model, localStorage key, backend, dependency, live API, provider adapter, Watchlists functionality, Agents functionality, Options logic, raw Obsidian publishing, raw bookmark publishing, or data/signal-alerts.json changes.", nextAction: "Push/live-review Phase 2O if B wants it deployed, then wait for B to approve the next section." },
@@ -678,26 +679,26 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "index.html", "public/index.html", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
+      filesChanged: ["index.html", "public/index.html", "app.js", "public/app.js", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
       featuresAdded: [
-        "Changed visible sidebar/navigation order so Alerts Desk is 00 and Mission Control is 01.",
-        "Kept / and #/alerts as the Alerts Desk / Review Queue homepage while preserving #/dashboard as Mission Control.",
-        "Added concise premium mindset quote options to the rotating mindset rail.",
-        "Added a compact Founder / CEO B profile operating-rules quote band."
+        "Consolidated the sidebar into five Pickaxe OS zones: COMMAND, INTELLIGENCE, MEMORY, OPERATIONS, and EXPANSION.",
+        "Moved 00 Alerts Desk inside the COMMAND group and kept it first.",
+        "Moved 04 Agents into INTELLIGENCE while keeping the Agents route placeholder-only.",
+        "Aligned Mission Control blueprint and AI handoff route-map copy to the same 00-20 sidebar order."
       ],
       bugsFixed: [
-        "Fixed outdated visible numbering that put Mission Control before the Alerts Desk homepage.",
-        "Updated internal route/order copy and blueprint labels that still described Mission Control as 00 or Alerts as 01.",
+        "Removed older group labels that made the sidebar read like a route dump instead of a two-layer OS map.",
+        "Preserved / and #/alerts as the Review Queue homepage and #/dashboard as Mission Control.",
         "Preserved route aliases, route architecture, backend behavior, Source Hub workflow, Archive workflow, Watchlists logic, Agents placeholder behavior, Options deferral, and all no-live/no-execution boundaries."
       ],
-      validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; local browser route sweep for /, #/alerts, #/dashboard, #/source-hub, #/archive, #/staging, #/watchlists, #/agents, #/roadmap, #/founder, #/ceo-b-profile; mobile homepage/sidebar overflow check at 390px; local fetch /ai-handoff",
-      validationResult: "Local validation passed on 2026-06-04: build validation passed, project check passed, browser route sweep rendered main content with no console errors and no desktop horizontal overflow, mobile homepage/sidebar check showed #/alerts as the visible view with no horizontal overflow, and /ai-handoff returned HTTP 200 with generated project context.",
+      validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; browser route sweep for /, #/alerts, #/dashboard, #/source-hub, #/archive, #/staging, #/watchlists, #/agents, #/roadmap, #/founder, #/ceo-b-profile; mobile sidebar overflow check; local fetch /ai-handoff",
+      validationResult: "Local validation passed on 2026-06-04: build validation passed, project check passed, browser route sweep rendered required pages with exact COMMAND/INTELLIGENCE/MEMORY/OPERATIONS/EXPANSION zones and 00-20 route order, mobile sidebar check found no overflow, and /ai-handoff returned HTTP 200.",
       remainingProblems: [
         "The CSS file still contains older historical polish blocks and should be consolidated in a future cleanup pass.",
-        "The sidebar still has too many routes for a premium first impression; only the requested Alerts/Mission order was changed.",
+        "Staging still needs its Phase 2P declutter pass.",
         "Live data connectors and real agent telemetry remain not connected."
       ],
-      nextRecommendedTask: "Lock Emergency Visual Triage, then choose sidebar/navigation consolidation or Staging declutter. Keep the static-first architecture and do not rebuild from scratch."
+      nextRecommendedTask: "Phase 2P Staging Declutter, then CSS Consolidation. Keep the static-first architecture and do not rebuild from scratch."
     },
   },
   marketWatchlist: [

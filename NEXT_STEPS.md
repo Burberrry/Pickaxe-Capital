@@ -2,6 +2,12 @@
 
 ## Current Active Checkpoint
 
+Sidebar / Navigation Consolidation — 2-Layer 21-Section OS Map was completed locally on 2026-06-04. The sidebar now uses the high-level Pickaxe OS zones `COMMAND`, `INTELLIGENCE`, `MEMORY`, `OPERATIONS`, and `EXPANSION`.
+
+The visible route order is now `00-20`: `00 Alerts Desk`, `01 Mission Control`, `02 Command Console`, `03 Vision Map`, `04 Agents`, `05 Signals Lab`, `06 Source Hub`, `07 Risk & Rules`, `08 Learning Ledger`, `09 Trend Radar`, `10 Archive Vault`, `11 Bookmarks Mine`, `12 Money Lab`, `13 Staging / QA`, `14 Habitat OS`, `15 Watchlists`, `16 Markets Matrix`, `17 Options Hub`, `18 Catalysts Calendar`, `19 Research Desk`, and `20 Roadmap`.
+
+No route architecture, backend, live API, provider adapter, broker, betting/sportsbook, copy-trading, Source Hub workflow, Archive workflow, Watchlists logic, Agents behavior, Options logic, private-note exposure, or `data/signal-alerts.json` changes were added. Recommended next step: Phase 2P Staging Declutter, then CSS Consolidation.
+
 Alerts First + Mindset Quote Polish was completed locally on 2026-06-04. Alerts Desk is now visible route/order `00`, appears first in the sidebar/navigation, and remains the homepage at `/` and `#/alerts`. Mission Control is now visible route/order `01` and remains available at `#/dashboard`.
 
 Mindset quote polish was added to the rotating sidebar mindset rail and the Founder / CEO B profile operating-rules band. The copy stays concise, institutional, research-first, and non-advisory.

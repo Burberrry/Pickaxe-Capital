@@ -436,8 +436,9 @@ function generateLocalHandoffText() {
     "Active Routes:",
     "00 Alerts Desk — #/alerts",
     "01 Mission Control — #/dashboard",
+    "02 Command Console — #/mission-control",
     "03 Vision Map — #/vision-map",
-    "04 Agent Engine — #/agents",
+    "04 Agents — #/agents",
     "05 Signals Lab — #/signals",
     "06 Source Hub — #/source-hub",
     "07 Risk & Rules — #/risk-rules",
@@ -447,13 +448,13 @@ function generateLocalHandoffText() {
     "11 Bookmarks Mine — #/bookmarks",
     "12 Money Lab — #/money-lab",
     "13 Staging / QA — #/staging",
-    "14 AI Habitat OS — #/ai-habitat-os",
+    "14 Habitat OS — #/ai-habitat-os",
     "15 Watchlists — #/watchlists",
     "16 Markets Matrix — #/markets",
     "17 Options Hub — #/options",
     "18 Catalysts Calendar — #/catalysts",
     "19 Research Desk — #/research",
-    "20 Build / Roadmap — #/roadmap",
+    "20 Roadmap — #/roadmap",
     "",
     "## Project Identity & Current Architecture",
     "- Pickaxe Capital: Premium command brand interface",
@@ -2023,8 +2024,9 @@ async function renderAiHandoffPage() {
       "Active Routes:",
       "00 Alerts Desk — #/alerts",
       "01 Mission Control — #/dashboard",
+      "02 Command Console — #/mission-control",
       "03 Vision Map — #/vision-map",
-      "04 Agent Engine — #/agents",
+      "04 Agents — #/agents",
       "05 Signals Lab — #/signals",
       "06 Source Hub — #/source-hub",
       "07 Risk & Rules — #/risk-rules",
@@ -2034,13 +2036,13 @@ async function renderAiHandoffPage() {
       "11 Bookmarks Mine — #/bookmarks",
       "12 Money Lab — #/money-lab",
       "13 Staging / QA — #/staging",
-      "14 AI Habitat OS — #/ai-habitat-os",
+      "14 Habitat OS — #/ai-habitat-os",
       "15 Watchlists — #/watchlists",
       "16 Markets Matrix — #/markets",
       "17 Options Hub — #/options",
       "18 Catalysts Calendar — #/catalysts",
       "19 Research Desk — #/research",
-      "20 Build / Roadmap — #/roadmap",
+      "20 Roadmap — #/roadmap",
       "",
       "## Current Session Status",
       `Files Changed: ${JSON.stringify(session.filesChanged || [])}`,
@@ -3331,14 +3333,14 @@ function renderVisionCommandCenter() {
     { id: "alerts", name: "00 Alerts Desk", icon: "🔔", color: "text-[#d4af37] border-[#d4af37]/20" },
     { id: "signals", name: "05 Signals Lab", icon: "📡", color: "text-teal border-teal/20" },
     { id: "sourceHub", name: "06 Source Hub", icon: "🌐", color: "text-teal border-teal/20" },
-    { id: "agents", name: "04 Agent Engine", icon: "🤖", color: "text-amber border-amber/20" },
+    { id: "agents", name: "04 Agents", icon: "🤖", color: "text-amber border-amber/20" },
     { id: "learningLedger", name: "08 Learning Ledger", icon: "📖", color: "text-teal border-teal/20" },
     { id: "trendRadar", name: "09 Trend Radar", icon: "🎯", color: "text-teal border-teal/20" },
     { id: "moneyLab", name: "12 Money Lab", icon: "🧪", color: "text-teal border-teal/20" },
     { id: "archive", name: "10 Archive Vault", icon: "🗄️", color: "text-teal border-teal/20" },
     { id: "riskRules", name: "07 Risk & Rules", icon: "🛡️", color: "text-amber border-amber/20" },
     { id: "staging", name: "13 Staging / QA", icon: "🧪", color: "text-green border-green/20" },
-    { id: "aiHabitatOS", name: "14 AI Habitat OS", icon: "🏙️", color: "text-amber border-amber/20" }
+    { id: "aiHabitatOS", name: "14 Habitat OS", icon: "🏙️", color: "text-amber border-amber/20" }
   ];
 
   const citadelHtml = citadelNodes.map(node => {
@@ -13636,43 +13638,43 @@ renderDashboardPage = function () {
     ["Deferred", "Options Research", "Requires explicit B approval"]
   ];
   const sectionStatusMap = [
-    ["00", "Alerts Desk", "Live-locked"], ["01", "Mission Control", "Live-locked"], ["02", "Source Hub", "Live-locked"], ["03", "Watchlists", "Stable"],
-    ["04", "Signals", "Active"], ["05", "Alerts", "Stable"], ["06", "Archive", "Live-locked"], ["07", "Research", "Future"],
-    ["08", "Catalysts", "Future"], ["09", "Trend Radar", "Active"], ["10", "Bookmarks", "Stable"], ["11", "Learning", "Stable"],
-    ["12", "Risk Rules", "Stable"], ["13", "Vision Map", "Stable"], ["14", "AI Habitat OS", "Stable"], ["15", "Agent Lanes", "Placeholder"],
-    ["16", "Markets", "Future"], ["17", "Options", "Deferred"], ["18", "Money Lab", "Stable"], ["19", "Staging", "Stable"], ["20", "Roadmap", "Stable"]
+    ["00", "Alerts Desk", "Live-locked"], ["01", "Mission Control", "Live-locked"], ["02", "Command Console", "Legacy"], ["03", "Vision Map", "Stable"],
+    ["04", "Agents", "Placeholder"], ["05", "Signals Lab", "Active"], ["06", "Source Hub", "Live-locked"], ["07", "Risk & Rules", "Stable"],
+    ["08", "Learning Ledger", "Stable"], ["09", "Trend Radar", "Active"], ["10", "Archive Vault", "Live-locked"], ["11", "Bookmarks Mine", "Stable"],
+    ["12", "Money Lab", "Stable"], ["13", "Staging / QA", "Stable"], ["14", "Habitat OS", "Stable"], ["15", "Watchlists", "Stable"],
+    ["16", "Markets Matrix", "Future"], ["17", "Options Hub", "Deferred"], ["18", "Catalysts Calendar", "Future"], ["19", "Research Desk", "Future"], ["20", "Roadmap", "Stable"]
   ];
   const blueprintGroups = [
-    ["Core Command", [
+    ["COMMAND", [
       ["00", "Alerts Desk", "#/alerts", "Live-locked", "Home / review queue", "Feeds CEO B focus"],
       ["01", "Mission Control", "#/dashboard", "Active", "CEO B overview", "Central command summary"],
-      ["05", "Alerts", "#/alerts", "Stable", "Research packets", "CEO B review queue"],
-      ["12", "Risk Rules", "#/risk-rules", "Stable", "Safety gates", "Blocks unsafe escalation"],
-      ["19", "Staging", "#/staging", "Stable", "QA and release truth", "Validates cockpit state"]
+      ["02", "Command Console", "#/mission-control", "Legacy", "Static command route", "Preserves old alias"],
+      ["03", "Vision Map", "#/vision-map", "Stable", "Visual command map", "Shows system topology"]
     ]],
-    ["Intelligence", [
-      ["02", "Source Hub", "#/source-hub", "Live-locked", "Trust layer", "Feeds source status"],
-      ["03", "Watchlists", "#/watchlists", "Stable", "Research Universe", "Supplies universe health"],
-      ["04", "Signals", "#/signals", "Active", "Candidate research", "Shows source-backed setups"],
-      ["08", "Catalysts", "#/catalysts", "Future", "Event context", "Future source-backed dates"],
-      ["09", "Trend Radar", "#/trend-radar", "Active", "Theme pulse", "Summarizes themes"]
+    ["INTELLIGENCE", [
+      ["04", "Agents", "#/agents", "Placeholder", "Future ownership lanes", "No live autonomy"],
+      ["05", "Signals Lab", "#/signals", "Active", "Candidate research", "Shows source-backed setups"],
+      ["06", "Source Hub", "#/source-hub", "Live-locked", "Trust layer", "Feeds source status"],
+      ["07", "Risk & Rules", "#/risk-rules", "Stable", "Safety gates", "Blocks unsafe escalation"],
+      ["08", "Learning Ledger", "#/learning-ledger", "Stable", "Reusable lessons", "Receives candidates"]
     ]],
-    ["Memory", [
-      ["06", "Archive", "#/archive", "Live-locked", "Cleaned memory", "Feeds memory counts"],
-      ["07", "Research Workspace", "#/research", "Future", "Draft research", "Future memo bridge"],
-      ["10", "Bookmarks Intake", "#/bookmarks", "Stable", "Private intake", "Clean before archive"],
-      ["11", "Learning Ledger", "#/learning-ledger", "Stable", "Reusable lessons", "Receives candidates"],
-      ["13", "Vision Map", "#/vision-map", "Stable", "Visual command map", "Shows system topology"]
+    ["MEMORY", [
+      ["09", "Trend Radar", "#/trend-radar", "Active", "Theme pulse", "Summarizes themes"],
+      ["10", "Archive Vault", "#/archive", "Live-locked", "Cleaned memory", "Feeds memory counts"],
+      ["11", "Bookmarks Mine", "#/bookmarks", "Stable", "Private intake", "Clean before archive"],
+      ["12", "Money Lab", "#/money-lab", "Stable", "Experiment sandbox", "Research-only experiments"]
     ]],
-    ["Operating System", [
-      ["14", "AI Habitat OS", "#/ai-habitat-os", "Stable", "System map", "Frames habitats"],
-      ["15", "Agent Lanes", "#/agents", "Placeholder", "Future ownership lanes", "No live autonomy"],
-      ["16", "Markets", "#/markets", "Future", "Market matrix", "Future context only"],
+    ["OPERATIONS", [
+      ["13", "Staging / QA", "#/staging", "Stable", "QA and release truth", "Validates cockpit state"],
+      ["14", "Habitat OS", "#/ai-habitat-os", "Stable", "System map", "Frames habitats"],
+      ["15", "Watchlists", "#/watchlists", "Stable", "Research Universe", "Supplies universe health"],
+      ["16", "Markets Matrix", "#/markets", "Future", "Market matrix", "Future context only"]
+    ]],
+    ["EXPANSION", [
+      ["17", "Options Hub", "#/options", "Deferred", "Research-only future", "Needs explicit B approval"],
+      ["18", "Catalysts Calendar", "#/catalysts", "Future", "Event context", "Future source-backed dates"],
+      ["19", "Research Desk", "#/research", "Future", "Draft research", "Future memo bridge"],
       ["20", "Roadmap", "#/roadmap", "Stable", "Build sequence", "Controls next sprint"]
-    ]],
-    ["Future Research Build", [
-      ["17", "Options Research", "#/options", "Deferred", "Research-only future", "Needs explicit B approval"],
-      ["18", "Money Lab", "#/money-lab", "Stable", "Experiment sandbox", "Research-only experiments"]
     ]]
   ];
   const decisionQueue = [
