@@ -14585,41 +14585,37 @@ renderSourceHubPage = function () {
     ["Archive candidates", "Reviewed memory only", "Archivist"],
     ["CEO B review queue", "Final decision layer", "CEO B"]
   ];
+  const needsVerificationCount = queue.filter((item) => /missing|required|verification/i.test(`${item.sourceStatus} ${item.trustStatus}`)).length;
+  const trustedMatrixCount = matrix.filter((source) => /primary|verified|manual|local/i.test(`${source.trustLevel} ${source.connectionStatus}`)).length;
 
   els.sourceHubContent.innerHTML = `
-    <div class="page-shell source-hub-shell">
-      <header class="source-hub-hero">
+    <div class="page-shell source-hub-shell source-declutter-shell">
+      <header class="source-hub-hero source-declutter-hero">
         <div>
           <span class="meta-label">06 / Intelligence Trust Layer</span>
-          <h2>Source Hub Intelligence Cockpit</h2>
-          <p>Verified source intake, citation mapping, adapter readiness, and CEO B escalation control.</p>
-          ${pcChipRow(["Static Prototype", "Source Validation Layer", "No Scraping", "No Private Vault Exposure", "No Live Provider Calls", "CEO B Review Required"])}
+          <h2>Source Hub</h2>
+          <p>A calm trust cockpit where sources are verified before research enters Alerts, Archive, Watchlists, or Mission Control.</p>
+          <div class="source-trust-summary">
+            <span><strong>${trustedMatrixCount}</strong><em>trusted/manual source lanes</em></span>
+            <span><strong>${needsVerificationCount}</strong><em>items need verification</em></span>
+            <span><strong>${archivedSourceCount}</strong><em>clean archive candidates</em></span>
+          </div>
         </div>
         <aside class="truth-panel source-hub-boundary-card">
           <span class="meta-label">Source Hub Truth</span>
-          <h3>Source required before signal escalation.</h3>
-          <p>Source Hub is a static research and verification prototype. It does not scrape websites, call live provider APIs, expose private Obsidian vault notes, connect to brokers, execute trades, or present fake live data. Sources are manual/demo/local until CEO B approves backend adapters.</p>
-          <strong>CEO B is the final decision layer.</strong>
+          <h3>Verify source before research enters the OS.</h3>
+          <p>Manual/source-required layer. No scraping, no live provider calls, no broker execution.</p>
+          <a class="primary-action" href="#/archive">Review Archive Candidates</a>
         </aside>
       </header>
 
-      <section class="source-hub-stat-grid">
-        ${sourceStats.map(([label, value, detail]) => `
-          <article class="mission-stat-card">
-            <span>${escapeHtml(label)}</span>
-            <strong>${escapeHtml(value)}</strong>
-            <small>${escapeHtml(detail)}</small>
-          </article>
-        `).join("")}
-      </section>
-
-      <section class="source-hub-main-grid">
+      <section class="source-core-bento" aria-label="Source Hub core trust panels">
         <article class="command-card source-matrix-card">
-          <span class="meta-label">Source Verification Matrix</span>
-          <h3>Where each idea comes from and how it may be used.</h3>
-          <div class="source-matrix-list">
-            ${matrix.map((source) => `
-              <article class="source-matrix-row">
+          <span class="meta-label">Verification Matrix</span>
+          <h3>What sources are trusted?</h3>
+          <div class="source-matrix-list source-matrix-compact">
+            ${matrix.slice(0, 5).map((source) => `
+              <article class="source-matrix-row source-matrix-row-compact">
                 <div>
                   <strong>${escapeHtml(source.category)}</strong>
                   <span>${escapeHtml(source.sourceType)}</span>
@@ -14627,148 +14623,177 @@ renderSourceHubPage = function () {
                 <em>${escapeHtml(source.trustLevel)}</em>
                 <span>${escapeHtml(source.connectionStatus)}</span>
                 <span>${escapeHtml(source.routeUsedBy)}</span>
-                <span>${escapeHtml(source.ownerAgent)}</span>
-                <p>${escapeHtml(source.escalationRule)} ${escapeHtml(source.safetyNote)}</p>
+              </article>
+            `).join("")}
+          </div>
+          <p class="mission-footnote">Trust labels are static/manual until B approves backend adapters.</p>
+        </article>
+
+        <article class="glass-card source-intake-card source-intake-priority-card">
+          <span class="meta-label">Source Intake Queue</span>
+          <h3>What should CEO B review next?</h3>
+          <div class="source-priority-list">
+            ${queue.slice(0, 4).map((item) => {
+              const archived = getSourceArchiveLineage(item.id);
+              const archiveStatus = archived ? getArchiveReviewStatus(archived) : "Needs Cleaning";
+              return `
+                <article>
+                  <strong>${escapeHtml(item.title)}</strong>
+                  <span>${escapeHtml(item.relatedTicker)}</span>
+                  <em>${escapeHtml(item.trustStatus)} / ${escapeHtml(archiveStatus)}</em>
+                  <div class="source-action-row compact">
+                    <button type="button" onclick="window.sourceHubLocalAction('review', '${escapeHtml(item.id)}')">CEO B Review</button>
+                    <button type="button" onclick="window.sourceHubLocalAction('archive', '${escapeHtml(item.id)}')">Save Cleaned Source Memory</button>
+                  </div>
+                </article>
+              `;
+            }).join("")}
+          </div>
+        </article>
+
+        <article class="command-card source-pipeline-card source-route-map-card">
+          <span class="meta-label">Source → Route Map</span>
+          <h3>Which routes depend on sources?</h3>
+          <div class="source-pipeline source-pipeline-compact">
+            ${pipeline.map((step, index) => `
+              <article>
+                <span>${String(index + 1).padStart(2, "0")}</span>
+                <strong>${escapeHtml(step.step)}</strong>
+                <p>${escapeHtml(step.detail)}</p>
               </article>
             `).join("")}
           </div>
         </article>
+      </section>
 
-        <aside class="truth-panel source-rules-card">
-          <span class="meta-label">Escalation Rules</span>
-          <h3>Weak source trails do not move up the system.</h3>
-          <div class="truth-list">
-            ${escalationRules.map((rule) => `<span><em>${escapeHtml(rule)}</em><strong>Required</strong></span>`).join("")}
+      <section class="source-secondary-grid" aria-label="Source Hub secondary detail">
+        <article class="glass-card source-mission-preview">
+          <span class="meta-label">Mission Control Summary</span>
+          <h3>Mission Control uses cleaned source state only.</h3>
+          <div class="dashboard-status-list compact">
+            ${missionPreview.slice(0, 4).map(([label, value, owner]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(value)}</strong><small>${escapeHtml(owner)}</small></span>`).join("")}
           </div>
-        </aside>
-      </section>
+        </article>
 
-      <section class="command-card source-pipeline-card">
-        <span class="meta-label">Source-to-Route Map</span>
-        <h3>Sources feed the cockpit only after trust and route context are assigned.</h3>
-        <div class="source-pipeline">
-          ${pipeline.map((step, index) => `
-            <article>
-              <span>${String(index + 1).padStart(2, "0")}</span>
-              <strong>${escapeHtml(step.step)}</strong>
-              <p>${escapeHtml(step.detail)}</p>
-            </article>
-          `).join("")}
-        </div>
-      </section>
+        <article class="truth-panel source-memory-card">
+          <span class="meta-label">Private Memory Boundary</span>
+          <h3>Obsidian remains private.</h3>
+          <p>Selected notes may inform local handoff only. Public-facing Source Hub cards must use cleaned summaries.</p>
+          ${pcChipRow(["Local Only", "No Raw Vault Notes", "CEO B Review"])}
+        </article>
 
-      <section class="split-layout source-ownership-grid">
         <article class="glass-card">
-          <span class="meta-label">Agent Ownership Panel</span>
-          <h3>Planned/local roles only. No autonomous background agent jobs.</h3>
+          <span class="meta-label">Planned Ownership Lanes</span>
+          <h3>No live autonomous agents.</h3>
           <div class="source-agent-list">
-            ${ownership.map((item) => `
+            ${ownership.slice(0, 4).map((item) => `
               <article>
                 <strong>${escapeHtml(item.agent)}</strong>
                 <span>${escapeHtml(item.responsibility)}</span>
                 <em>${escapeHtml(item.status)}</em>
-                <small>${escapeHtml(item.boundary)}</small>
               </article>
             `).join("")}
           </div>
         </article>
-        <article class="truth-panel source-memory-card">
-          <span class="meta-label">Private Memory Boundary</span>
-          <h3>Website is the cockpit. Obsidian is the memory. CEO B is the decision layer.</h3>
-          <p>Selected Obsidian notes may feed local /ai-handoff and /source-hub-staging, but private vault contents must not be published into public frontend files.</p>
-          ${pcChipRow(["Private Local Only", "No Raw Vault Notes", "Public-Safe Summaries Only"])}
-        </article>
       </section>
 
-      <section class="command-card source-intake-card">
-        <span class="meta-label">Source Intake Queue</span>
-        <h3>Manual/demo source candidates waiting for verification.</h3>
-        <div class="source-intake-grid">
-          ${queue.map((item) => {
-            const archived = getSourceArchiveLineage(item.id);
-            const archiveStatus = archived ? getArchiveReviewStatus(archived) : "Not Archived";
-            const privacyTier = archived ? getArchivePrivacyTier(archived) : "local_only";
-            return `
-              <article class="source-card ${archived ? "source-card-archived" : ""}">
-                <div class="source-card-head">
-                  <span>${escapeHtml(item.sourceType)}</span>
-                  <em>${escapeHtml(item.trustStatus)}</em>
-                </div>
-                <h4>${escapeHtml(item.title)}</h4>
-                <p>${escapeHtml(item.relatedTicker)}</p>
-                <div class="source-card-meta">
-                  <span>Route <strong>${escapeHtml(item.relatedRoute)}</strong></span>
-                  <span>Owner <strong>${escapeHtml(item.ownerAgent)}</strong></span>
-                  <span>Status <strong>${escapeHtml(item.sourceStatus)}</strong></span>
-                  <span>Archive <strong>${escapeHtml(archived ? "Archive Candidate" : "Needs Cleaning")}</strong></span>
-                  <span>Privacy <strong>${escapeHtml(privacyTier)}</strong></span>
-                </div>
-                ${archived ? `
-                  <div class="source-lineage-strip">
-                    <span>Archived Clean Note</span>
-                    <span>${escapeHtml(archiveStatus)}</span>
-                    <span>Private Data Removed: ${archived.privateDataRemoved ? "Yes" : "Needs Check"}</span>
-                    <small>Source ID ${escapeHtml(item.id)} / Action ${escapeHtml(archived.linkedSourceHubActionId || "local")}</small>
+      <section class="source-quiet-stack">
+        <details class="mission-quiet-details">
+          <summary>Show full source lineage actions</summary>
+          <div class="source-intake-grid">
+            ${queue.map((item) => {
+              const archived = getSourceArchiveLineage(item.id);
+              const archiveStatus = archived ? getArchiveReviewStatus(archived) : "Not Archived";
+              const privacyTier = archived ? getArchivePrivacyTier(archived) : "local_only";
+              return `
+                <article class="source-card ${archived ? "source-card-archived" : ""}">
+                  <div class="source-card-head">
+                    <span>${escapeHtml(item.sourceType)}</span>
+                    <em>${escapeHtml(item.trustStatus)}</em>
                   </div>
-                ` : `
-                  <div class="source-lineage-strip pending">
-                    <span>CEO B Review Required</span>
-                    <span>Local Only</span>
-                    <span>Source Required</span>
-                    <small>Next manual action: save cleaned source memory to Archive.</small>
+                  <h4>${escapeHtml(item.title)}</h4>
+                  <p>${escapeHtml(item.relatedTicker)}</p>
+                  <div class="source-card-meta">
+                    <span>Route <strong>${escapeHtml(item.relatedRoute)}</strong></span>
+                    <span>Owner <strong>${escapeHtml(item.ownerAgent)}</strong></span>
+                    <span>Status <strong>${escapeHtml(item.sourceStatus)}</strong></span>
+                    <span>Archive <strong>${escapeHtml(archived ? "Archive Candidate" : "Needs Cleaning")}</strong></span>
+                    <span>Privacy <strong>${escapeHtml(privacyTier)}</strong></span>
                   </div>
-                `}
-                <p class="mission-footnote">${escapeHtml(item.nextManualAction)}</p>
-                <div class="source-action-row">
-                  <button type="button" onclick="window.sourceHubLocalAction('review', '${escapeHtml(item.id)}')">Send to CEO B Review</button>
-                  <button type="button" onclick="window.sourceHubLocalAction('archive', '${escapeHtml(item.id)}')">Save Cleaned Source Memory</button>
-                  <button type="button" onclick="window.sourceHubLocalAction('archivist', '${escapeHtml(item.id)}')">Assign Archivist</button>
-                  <button type="button" onclick="window.sourceHubLocalAction('forge', '${escapeHtml(item.id)}')">Assign Forge</button>
-                  <button type="button" onclick="window.sourceHubLocalAction('alert', '${escapeHtml(item.id)}')">Create Source Watch Alert</button>
-                  <button type="button" onclick="window.copySourceHubSummary('${escapeHtml(item.id)}')">Copy Summary</button>
-                  <a href="${escapeHtml(item.relatedRoute)}">Open Route</a>
-                  ${archived ? `<a href="#/archive">Open Archive Lineage</a>` : ""}
-                </div>
-              </article>
-            `;
-          }).join("")}
-        </div>
-      </section>
+                  ${archived ? `
+                    <div class="source-lineage-strip">
+                      <span>Archived Clean Note</span>
+                      <span>${escapeHtml(archiveStatus)}</span>
+                      <span>Private Data Removed: ${archived.privateDataRemoved ? "Yes" : "Needs Check"}</span>
+                      <small>Source ID ${escapeHtml(item.id)} / Action ${escapeHtml(archived.linkedSourceHubActionId || "local")}</small>
+                    </div>
+                  ` : `
+                    <div class="source-lineage-strip pending">
+                      <span>CEO B Review Required</span>
+                      <span>Local Only</span>
+                      <span>Source Required</span>
+                      <small>Next manual action: save cleaned source memory to Archive.</small>
+                    </div>
+                  `}
+                  <p class="mission-footnote">${escapeHtml(item.nextManualAction)}</p>
+                  <div class="source-action-row">
+                    <button type="button" onclick="window.sourceHubLocalAction('review', '${escapeHtml(item.id)}')">Send to CEO B Review</button>
+                    <button type="button" onclick="window.sourceHubLocalAction('archive', '${escapeHtml(item.id)}')">Save Cleaned Source Memory</button>
+                    <button type="button" onclick="window.sourceHubLocalAction('archivist', '${escapeHtml(item.id)}')">Assign Archivist</button>
+                    <button type="button" onclick="window.sourceHubLocalAction('forge', '${escapeHtml(item.id)}')">Assign Forge</button>
+                    <button type="button" onclick="window.sourceHubLocalAction('alert', '${escapeHtml(item.id)}')">Create Source Watch Alert</button>
+                    <button type="button" onclick="window.copySourceHubSummary('${escapeHtml(item.id)}')">Copy Summary</button>
+                    <a href="${escapeHtml(item.relatedRoute)}">Open Route</a>
+                    ${archived ? `<a href="#/archive">Open Archive Lineage</a>` : ""}
+                  </div>
+                </article>
+              `;
+            }).join("")}
+          </div>
+        </details>
 
-      <section class="source-adapter-grid">
-        <article class="command-card">
-          <span class="meta-label">Adapter Readiness / Provider Boundary</span>
-          <h3>Adapters are planned boundaries, not active provider claims.</h3>
-          <div class="adapter-boundary-list">
-            ${boundaries.map((boundary) => `
-              <article>
-                <strong>${escapeHtml(boundary.category)}</strong>
-                <em>${escapeHtml(boundary.status)}</em>
-                <span>${boundary.envVars.length ? boundary.envVars.map((envVar) => `<code>${escapeHtml(envVar)}</code>`).join("") : "<code>NO_ENV_VAR</code>"}</span>
-                <p>${escapeHtml(boundary.safety)}</p>
-              </article>
-            `).join("")}
+        <details class="mission-quiet-details">
+          <summary>Show escalation rules and adapter boundaries</summary>
+          <div class="source-lower-split">
+            <article class="truth-panel source-rules-card">
+              <span class="meta-label">Escalation Rules</span>
+              <h3>Weak source trails do not move up the system.</h3>
+              <div class="truth-list">
+                ${escalationRules.map((rule) => `<span><em>${escapeHtml(rule)}</em><strong>Required</strong></span>`).join("")}
+              </div>
+            </article>
+
+            <article class="command-card">
+              <span class="meta-label">Adapter Readiness / Provider Boundary</span>
+              <h3>Adapters are planned boundaries, not active provider claims.</h3>
+              <div class="adapter-boundary-list">
+                ${boundaries.map((boundary) => `
+                  <article>
+                    <strong>${escapeHtml(boundary.category)}</strong>
+                    <em>${escapeHtml(boundary.status)}</em>
+                    <span>${boundary.envVars.length ? boundary.envVars.map((envVar) => `<code>${escapeHtml(envVar)}</code>`).join("") : "<code>NO_ENV_VAR</code>"}</span>
+                    <p>${escapeHtml(boundary.safety)}</p>
+                  </article>
+                `).join("")}
+              </div>
+            </article>
           </div>
-        </article>
-        <article class="glass-card source-mission-preview">
-          <span class="meta-label">Mission Control Integration Preview</span>
-          <h3>Mission Control should summarize cleaned source state only.</h3>
-          <div class="dashboard-status-list compact">
-            ${missionPreview.map(([label, value, owner]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(label === "Archive candidates" ? `${archivedSourceCount} local` : value)}</strong><small>${escapeHtml(owner)}</small></span>`).join("")}
-          </div>
-        </article>
+        </details>
+
+        <details class="mission-quiet-details">
+          <summary>Show local action history</summary>
+          <section class="glass-card source-action-log">
+            <span class="meta-label">Local-only action log</span>
+            <h3>Prototype actions stay in this browser.</h3>
+            ${actionLog.length ? `<div class="source-log-list">${actionLog.slice(0, 6).map((entry) => `<span><strong>${escapeHtml(entry.action)}</strong><em>${escapeHtml(entry.title)}</em><small>${escapeHtml(entry.archiveStatus || entry.owner)}</small></span>`).join("")}</div>` : `<p class="mission-footnote">No Source Hub local actions have been saved in this browser yet.</p>`}
+          </section>
+        </details>
       </section>
 
       <section class="truth-panel source-empty-truth">
-        <span class="meta-label">Empty / Truth State</span>
+        <span class="meta-label">Concise Safety Boundary</span>
         <h3>This Source Hub is a static research prototype.</h3>
         <p>It does not connect to live provider APIs, scrape sites, expose private vault notes, or create financial recommendations. CEO B decides what sources become public-safe research memory.</p>
-      </section>
-
-      <section class="glass-card source-action-log">
-        <span class="meta-label">Local-only action log</span>
-        <h3>Prototype actions stay in this browser.</h3>
-        ${actionLog.length ? `<div class="source-log-list">${actionLog.slice(0, 6).map((entry) => `<span><strong>${escapeHtml(entry.action)}</strong><em>${escapeHtml(entry.title)}</em><small>${escapeHtml(entry.archiveStatus || entry.owner)}</small></span>`).join("")}</div>` : `<p class="mission-footnote">No Source Hub local actions have been saved in this browser yet.</p>`}
       </section>
     </div>
   `;

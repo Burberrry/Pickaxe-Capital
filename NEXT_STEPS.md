@@ -2,6 +2,14 @@
 
 ## Current Active Checkpoint
 
+Phase 2N-B Section-by-Section Declutter — Source Hub First is implemented locally for `#/source-hub` only. It makes Source Hub read as a premium trust cockpit with one hero, one clear purpose, one primary next action, and three above-fold bento panels: Verification Matrix, Source Intake Queue, and Source -> Route Map.
+
+Source Hub now answers what sources are trusted, what still needs verification, what CEO B should review next, which routes depend on sources, and what can move from Source Hub to Archive. Adapter boundaries, planned/local ownership lanes, action logs, private memory boundary, escalation rules, Mission Control preview, long safety wording, and local-only action history are lower or collapsed.
+
+The existing Source Hub -> Archive workflow remains intact. `Save Cleaned Source Memory` still writes local-only cleaned archive candidates with lineage, trust labels, privacy tier, private-data-removed state, Source Hub action IDs, and CEO B review state. No route architecture, backend systems, dependencies, live APIs, provider adapters, Archive data model changes, localStorage key changes, Watchlists functionality, Agents functionality, Options logic, or `data/signal-alerts.json` changes were added.
+
+Recommended next section after Phase 2N-B is `#/archive`, but B must approve before starting it.
+
 Phase 2N-A Launch Countdown Dot Grid is pushed, deployed, live-reviewed, clean, and live-locked at `a132b9e Add launch countdown dot grid`. It adds a premium static dot-grid countdown for `2026-08-03T00:00:00-07:00`, labeled `Testing Launch Window`, not a guaranteed public launch.
 
 Phase 2N-A live review URL:
@@ -67,9 +75,9 @@ Latest Alerts Desk polish: `/` / `#/alerts` now presents the homepage/research r
 ## Do Next
 
 1. Use the Obsidian-backed `/ai-handoff` before future Codex/ChatGPT website build sessions.
-2. Push and live-review Phase 2N-A if B wants this visual shipped.
+2. Finish Phase 2N-B validation, commit, push if available, and live-review after B pushes if GitHub auth blocks this workspace.
 3. Let B choose the next task before starting another sprint.
-4. Recommended next section is still `#/source-hub`, but B must approve before starting it.
+4. Recommended next section after Phase 2N-B is `#/archive`, but B must approve before starting it.
 5. Keep Watchlists stable.
 6. Keep Agents placeholder-only until B approves a rebuild.
 7. Do not start Options Hub until B approves.
@@ -125,9 +133,9 @@ Latest Alerts Desk polish: `/` / `#/alerts` now presents the homepage/research r
 
 - Treat `/` / `#/alerts` Alerts Desk as the homepage and CEO B research review queue.
 - Treat `#/dashboard` Mission Control as the flagship command-center page.
-- Keep `#/source-hub` as the trust/intelligence layer.
+- Keep `#/source-hub` as the trust/intelligence layer and preserve the Phase 2N-B decluttered trust cockpit.
 - Keep `#/archive` as cleaned saved intelligence memory.
-- Recommended next section after Phase 2M: `#/source-hub`, because it is the trust cockpit and is high-impact while still safer than a full Archive declutter.
+- Recommended next section after Phase 2N-B: `#/archive`, because it is the cleaned memory layer and the next most metadata-dense section.
 - B should choose the next recommended task; do not start the next sprint automatically.
 - Leave `#/agents` as a placeholder unless B explicitly asks to rebuild the Agent Habitat.
 - Do not start Options Hub yet.

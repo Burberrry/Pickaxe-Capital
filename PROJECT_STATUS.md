@@ -1,6 +1,25 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint — Phase 2N-A Launch Countdown Dot Grid
+## Current Checkpoint — Phase 2N-B Source Hub Declutter
+
+- Latest completed/local build: Phase 2N-B Section-by-Section Declutter — Source Hub First.
+- Primary route changed: `#/source-hub` only.
+- Phase 2N-B status: locally implemented pending final commit/push/live review.
+- Source Hub now reads as a premium trust cockpit with one hero, one clear purpose, one primary next action, and three above-fold bento panels: Verification Matrix, Source Intake Queue, and Source -> Route Map.
+- The hero states the Source Hub truth clearly: sources are verified before research enters Alerts, Archive, Watchlists, or Mission Control.
+- The primary action points CEO B toward reviewing archive candidates while preserving the existing local-only `Save Cleaned Source Memory` workflow.
+- Adapter readiness boundaries, planned/local ownership lanes, action log, private memory boundary, escalation rules, Mission Control integration preview, long source-required wording, and local-only action history were moved lower or into quiet collapsed sections.
+- Source Hub -> Archive workflow remains intact: existing cleaned source memory actions still write local-only archive candidates with source lineage, trust labels, privacy tier, private-data-removed state, Source Hub action IDs, and CEO B review state.
+- No route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, Archive data model changes, localStorage key changes, Watchlists functionality, Agents functionality, Options logic, or `data/signal-alerts.json` changes were added.
+- Mission Control remains the Phase 2L/2N-A flagship with the existing countdown card.
+- Alerts Desk remains unchanged from Phase 2M.
+- Archive remains cleaned saved intelligence memory.
+- Watchlists remains unchanged.
+- Agents remains placeholder-only.
+- Options Research remains deferred until B explicitly approves it.
+- Recommended next section after Phase 2N-B is `#/archive`, because it is the cleaned memory layer and now carries the richest source-lineage detail; B must approve before any next section starts.
+
+## Previous Checkpoint — Phase 2N-A Launch Countdown Dot Grid
 
 - Latest completed/live-locked build: Phase 2N-A Launch Countdown Dot Grid.
 - Phase 2N-A status: pushed to `origin/main`, deployed on GitHub Pages, live-reviewed, clean, and locked.
