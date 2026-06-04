@@ -2,21 +2,25 @@
 
 ## Current Checkpoint — Phase 2M Alerts Desk Declutter
 
-- Latest completed/local build: Phase 2M Full-Access Section Decision + Alerts Desk Declutter.
+- Latest completed/live-locked build: Phase 2M Full-Access Section Decision + Alerts Desk Declutter.
+- Phase 2M status: pushed to `origin/main`, deployed on GitHub Pages, live-reviewed, clean, and locked.
+- Latest live commit: `60e5abb Declutter Alerts Desk section`.
+- Live review URL: `https://burberrry.github.io/Pickaxe-Capital/?v=phase2m-alerts-declutter#/alerts`.
 - Section chosen: `/` and `#/alerts` — Alerts Desk / homepage / CEO B Review Queue.
 - Chosen because it is the homepage, first impression, daily research review queue, visibly cluttered, and lower-risk than Source Hub, Archive, Watchlists, or Agents.
 - Primary route changed: `/` / `#/alerts` only.
-- Alerts Desk now uses one hero, one clear purpose, one primary next action, and three above-fold bento panels: Active Research Packet, Decision Checklist, and Safety / Source Boundary.
+- Alerts Desk now uses one hero, one clear purpose, one clear next manual action, and three above-fold bento panels: Active Research Packet, Decision Checklist, and Safety / Source Boundary.
 - Packet Queue, Source Confidence, Archive/Learning links, market/catalyst context, and support commentary now sit lower or inside quiet collapsed details.
 - Repeated research-only and no-execution copy was merged into one concise visible boundary without removing the safety truth.
 - No route architecture, workflow logic, integrations, data model, dependencies, Watchlists functionality, Agents implementation logic, Options logic, backend systems, or `data/signal-alerts.json` changes were added.
-- Mission Control remains the Phase 2L flagship.
+- Mission Control remains unchanged from Phase 2L.
 - Source Hub remains trust layer.
 - Archive remains cleaned saved intelligence memory.
 - Watchlists remains unchanged.
 - Agents remains placeholder-only.
 - Options Research remains deferred until B explicitly approves it.
-- Validation status: Phase 2M local build/check/browser verification passed.
+- Validation status: Phase 2M local build/check/browser verification and GitHub Pages live review passed.
+- Recommended next section is `#/source-hub`, but B must approve before starting it.
 - Next section must be chosen by B; do not start the next section automatically.
 
 Historical note: Phase 2L Section-by-Section Declutter / Mission Control First is pushed, deployed, live-reviewed, clean, and live-locked at `adea558`. Phase 2K Premium Visual System Polish is pushed, deployed, live-reviewed, clean, and live-locked. Phase 2J Mission Control + 20-Section Visual Blueprint Polish is pushed and aligned at `ebbf885`. Phase 2I Archive / Source Workflow Implementation is pushed, deployed, live-reviewed, clean, and live-locked at `8bc264f`.

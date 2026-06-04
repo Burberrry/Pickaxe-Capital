@@ -2,13 +2,17 @@
 
 ## Current Active Checkpoint
 
-Phase 2M Full-Access Section Decision + Alerts Desk Declutter is locally built and validated. The chosen section was `/` / `#/alerts` — Alerts Desk / homepage / CEO B Review Queue.
+Phase 2M Full-Access Section Decision + Alerts Desk Declutter is pushed, deployed, live-reviewed, clean, and live-locked at `60e5abb Declutter Alerts Desk section`. The chosen section was `/` / `#/alerts` — Alerts Desk / homepage / CEO B Review Queue.
 
 Alerts Desk was chosen because it is the homepage, first impression, daily research review queue, visibly cluttered, and safer to improve than Source Hub, Archive, Watchlists, or Agents in a one-section sprint.
 
-Phase 2M changed only `/` / `#/alerts`. Alerts Desk now uses one hero, one clear purpose, one primary next action, and three above-fold bento panels: Active Research Packet, Decision Checklist, and Safety / Source Boundary.
+Phase 2M live review URL:
 
-Secondary Alerts Desk detail now sits lower or quieter: Packet Queue, Source Confidence, Archive/Learning links, market/catalyst context, packet context, and support commentary. Repeated research-only and no-execution copy was merged into one concise visible boundary. Watchlists remains unchanged, Agents remains placeholder-only, and Options Research remains deferred.
+https://burberrry.github.io/Pickaxe-Capital/?v=phase2m-alerts-declutter#/alerts
+
+Phase 2M changed only `/` / `#/alerts`. Alerts Desk now uses one hero, one clear purpose, one clear next manual action, and three above-fold bento panels: Active Research Packet, Decision Checklist, and Safety / Source Boundary.
+
+Secondary Alerts Desk detail now sits lower or quieter: Packet Queue, Source Confidence, Archive/Learning links, market/catalyst context, packet context, and support commentary. Repeated research-only and no-execution copy was merged into one concise visible boundary. Mission Control remains unchanged from Phase 2L. Source Hub remains trust layer. Archive remains cleaned saved intelligence memory. Watchlists remains unchanged. Agents remains placeholder-only. Options Research remains deferred.
 
 Phase 2L Section-by-Section Declutter / Mission Control First remains pushed, deployed, live-reviewed, clean, and live-locked at `adea558 Declutter Mission Control section`. The sprint changed only `#/dashboard`, turning Mission Control into a cleaner command page with one hero, one clear next manual action, and three above-fold bento panels: Decision Queue, Source -> Archive Memory Loop, and 00-20 OS Blueprint Snapshot.
 
@@ -26,7 +30,7 @@ Phase 2I Archive / Source Workflow Implementation is pushed, deployed, live-revi
 
 Phase 2H Pickaxe OS Master Architecture + Research Alert Spec is pushed, clean, and locked at `d867b5f`. Phase 2D Source Hub Intelligence Cockpit remains live-reviewed and live-locked. Sidebar number-badge cleanup is live-verified. Phase 2C App Shell / Navigation Reset is officially live-locked. Agents Placeholder Reset and Mission Control Dashboard Upgrade remain stable. Phase 2B Watchlists remains built, committed, pushed to origin/main, live-checked by CEO B, and stability-checked locally.
 
-Latest live review is complete for Phase 2L Mission Control declutter.
+Latest live review is complete for Phase 2M Alerts Desk declutter.
 
 https://burberrry.github.io/Pickaxe-Capital/?v=phase2i-archive-source#/archive
 
@@ -51,8 +55,8 @@ Latest Alerts Desk polish: `/` / `#/alerts` now presents the homepage/research r
 ## Do Next
 
 1. Use the Obsidian-backed `/ai-handoff` before future Codex/ChatGPT website build sessions.
-2. Push and live-review Phase 2M if B wants this local commit deployed.
-3. Let B choose the next task before starting another sprint.
+2. Let B choose the next task before starting another sprint.
+3. Recommended next section is `#/source-hub`, but B must approve before starting it.
 4. Keep Watchlists stable.
 5. Keep Agents placeholder-only until B approves a rebuild.
 6. Do not start Options Hub until B approves.
