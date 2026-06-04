@@ -8586,6 +8586,215 @@ body[data-active-view="staging"] .status-strip {
   }
 }
 
+/* Phase 2L Mission Control declutter - dashboard only. */
+#dashboard.active .mission-declutter-shell {
+  gap: clamp(22px, 2.7vw, 42px) !important;
+}
+
+#dashboard.active .mission-declutter-hero {
+  min-height: min(620px, calc(100vh - 132px)) !important;
+  align-items: center !important;
+}
+
+#dashboard.active .mission-declutter-hero h2 {
+  max-width: 980px !important;
+  font-size: clamp(58px, 8.2vw, 138px) !important;
+}
+
+#dashboard.active .mission-declutter-hero p {
+  max-width: 760px !important;
+}
+
+#dashboard.active .mission-hero-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 920px;
+  margin-top: clamp(18px, 2vw, 28px);
+}
+
+#dashboard.active .mission-hero-summary span {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--phase2k-border);
+  border-radius: 18px;
+  color: var(--phase2k-muted) !important;
+  background: rgba(255, 255, 255, 0.64);
+  box-shadow: 0 12px 28px rgba(29, 29, 31, 0.05);
+}
+
+#dashboard.active .mission-hero-summary strong {
+  color: var(--phase2k-ink) !important;
+  font-size: 12px;
+}
+
+#dashboard.active .mission-core-bento {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.1fr) minmax(0, 0.98fr);
+  gap: clamp(18px, 2vw, 30px);
+  align-items: stretch;
+}
+
+#dashboard.active .mission-core-bento > * {
+  min-height: clamp(430px, 39vh, 560px) !important;
+  padding: clamp(24px, 3vw, 44px) !important;
+}
+
+#dashboard.active .mission-core-bento h3 {
+  max-width: 680px;
+  margin-bottom: 18px;
+  font-size: clamp(28px, 2.9vw, 48px);
+  line-height: 1;
+}
+
+#dashboard.active .mission-decision-list,
+#dashboard.active .mission-memory-metrics,
+#dashboard.active .mission-snapshot-list {
+  gap: 10px !important;
+}
+
+#dashboard.active .mission-decision-list a,
+#dashboard.active .mission-memory-metrics span,
+#dashboard.active .mission-snapshot-list span {
+  min-height: 78px;
+  padding: 14px !important;
+  border: 1px solid var(--phase2k-border) !important;
+  border-radius: 18px !important;
+  color: var(--phase2k-ink) !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+}
+
+#dashboard.active .mission-memory-metrics {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+#dashboard.active .mission-memory-metrics strong {
+  font-size: clamp(24px, 3vw, 44px) !important;
+}
+
+#dashboard.active .mission-snapshot-list {
+  display: grid;
+}
+
+#dashboard.active .mission-snapshot-list span {
+  display: grid;
+  grid-template-columns: minmax(96px, 0.44fr) minmax(0, 1fr);
+  gap: 4px 12px;
+  align-items: center;
+}
+
+#dashboard.active .mission-snapshot-list small {
+  grid-column: 2;
+}
+
+#dashboard.active .mission-section-chip-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+#dashboard.active .mission-section-chip-map span {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--phase2k-border);
+  border-radius: 14px;
+  color: var(--phase2k-muted) !important;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+#dashboard.active .mission-section-chip-map strong,
+#dashboard.active .mission-section-chip-map em {
+  color: var(--phase2k-ink) !important;
+}
+
+#dashboard.active .mission-secondary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 28px);
+}
+
+#dashboard.active .mission-secondary-grid > * {
+  min-height: 280px;
+  padding: clamp(22px, 2.4vw, 36px) !important;
+}
+
+#dashboard.active .source-feed-list.compact {
+  display: grid;
+  gap: 8px;
+}
+
+#dashboard.active .source-feed-list.compact a {
+  min-height: 54px;
+  padding: 10px 12px;
+  border-radius: 14px;
+}
+
+#dashboard.active .mission-quiet-stack {
+  display: grid;
+  gap: 12px;
+}
+
+#dashboard.active .mission-quiet-details {
+  min-width: 0;
+  padding: clamp(16px, 2vw, 24px);
+  border: 1px solid var(--phase2k-border);
+  border-radius: 22px;
+  color: var(--phase2k-ink);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 16px 42px rgba(29, 29, 31, 0.055);
+}
+
+#dashboard.active .mission-quiet-details summary {
+  cursor: pointer;
+  color: var(--phase2k-ink);
+  font-weight: 800;
+}
+
+#dashboard.active .mission-quiet-details summary::marker {
+  color: var(--phase2k-gold);
+}
+
+#dashboard.active .mission-quiet-details .mission-flow-steps,
+#dashboard.active .mission-quiet-details .mission-blueprint-grid {
+  margin-top: 18px;
+}
+
+#dashboard.active .mission-terminal-band {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 1180px) {
+  #dashboard.active .mission-core-bento,
+  #dashboard.active .mission-secondary-grid,
+  #dashboard.active .mission-hero-summary {
+    grid-template-columns: 1fr !important;
+  }
+
+  #dashboard.active .mission-core-bento > * {
+    min-height: auto !important;
+  }
+}
+
+@media (max-width: 720px) {
+  #dashboard.active .mission-declutter-hero h2 {
+    font-size: clamp(44px, 15vw, 76px) !important;
+  }
+
+  #dashboard.active .mission-memory-metrics,
+  #dashboard.active .mission-snapshot-list span {
+    grid-template-columns: 1fr !important;
+  }
+
+  #dashboard.active .mission-snapshot-list small {
+    grid-column: auto;
+  }
+}
+
 /* Phase 2C overflow lock: keep dashboard/watchlists inside the app shell. */
 main,
 .view,

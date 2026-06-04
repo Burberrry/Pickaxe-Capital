@@ -1,27 +1,25 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint — Phase 2K Premium Visual System Polish
+## Current Checkpoint — Phase 2L Section-by-Section Declutter / Mission Control First
 
-- Latest completed/live-locked build: Phase 2K Premium Visual System Polish.
-- Phase 2K status: pushed to `origin/main`, deployed on GitHub Pages, live-reviewed, clean, and locked.
-- Latest live commit: `dbeccff Add Phase 2K premium visual system polish`.
-- Live review URL: `https://burberrry.github.io/Pickaxe-Capital/?v=phase2k-premium-visual#/dashboard`.
-- Primary visual routes polished: `/`, `#/dashboard`, `#/source-hub`, `#/archive`, `#/alerts`, `#/watchlists`, `#/agents`, and `#/staging`.
-- Phase 2K uses the uploaded visual reference only as a motion/layout reference, translated into Pickaxe-safe product-page principles: massive confident hero typography, full-screen premium section rhythm, bento card layout, generous padding, rounded 18px-24px cards, strong contrast, restrained reveal motion, and light/dark wealth-dashboard contrast.
-- Phase 2K was visual-only.
-- Mission Control keeps the Phase 2J architecture content while receiving a calmer CEO B command hero, compact OS flow strip treatment, Source-to-Archive loop emphasis, and premium bento section hierarchy.
-- No route architecture, workflow logic, integrations, data model, or dependencies were added.
+- Latest completed/local build: Phase 2L Section-by-Section Declutter / Mission Control First.
+- Primary route changed: `#/dashboard` only.
+- Phase 2K premium visual system remains live-locked at `dce28ad Update Phase 2K live lock status` and implementation commit `dbeccff Add Phase 2K premium visual system polish`.
+- Mission Control was decluttered into one hero, one clear purpose, one primary next action, and three main above-fold bento panels: Decision Queue, Source -> Archive Memory Loop, and 00-20 OS Blueprint Snapshot.
+- Moved watchlist pulse, route status, research queue, operating chain, full blueprint detail, and private memory details lower or into quiet collapsed sections.
+- Merged duplicate safety/status copy into one concise visible boundary.
+- Removed duplicate high-priority dashboard modules from the top of Mission Control without deleting the underlying route links or localStorage workflows.
+- No route architecture, workflow logic, integrations, data model, dependencies, Watchlists functionality, Agents implementation logic, Options logic, backend systems, or `data/signal-alerts.json` changes were added.
 - Mission Control remains flagship.
 - Source Hub remains trust layer.
 - Archive remains cleaned saved intelligence memory.
 - Watchlists remains unchanged.
 - Agents remains placeholder-only.
 - Options Research remains deferred until B explicitly approves it.
-- No new dependencies, copied external image/GIF URLs, reference-specific content or effects, live APIs, provider adapters, broker integrations, betting/sportsbook integrations, copy-trading, OpenClaw, fake live data, raw Obsidian exposure, raw bookmark publishing, private frontend keys, or `data/signal-alerts.json` changes were added.
-- Validation status: Phase 2K local build/check/browser verification and GitHub Pages live review passed.
-- Next task must be chosen by B.
+- Validation status: Phase 2L local build/check/browser verification passed.
+- Next task must be chosen by B; do not start the next section automatically.
 
-Historical note: Phase 2J Mission Control + 20-Section Visual Blueprint Polish is pushed and aligned at `ebbf885`. Phase 2I Archive / Source Workflow Implementation is pushed, deployed, live-reviewed, clean, and live-locked at `8bc264f`.
+Historical note: Phase 2K Premium Visual System Polish is pushed, deployed, live-reviewed, clean, and live-locked. Phase 2J Mission Control + 20-Section Visual Blueprint Polish is pushed and aligned at `ebbf885`. Phase 2I Archive / Source Workflow Implementation is pushed, deployed, live-reviewed, clean, and live-locked at `8bc264f`.
 
 ## Previous Checkpoint — Phase 2I Archive / Source Workflow Implementation
 

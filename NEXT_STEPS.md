@@ -2,13 +2,17 @@
 
 ## Current Active Checkpoint
 
-Phase 2K Premium Visual System Polish is pushed, deployed, live-reviewed, clean, and live-locked at `dbeccff Add Phase 2K premium visual system polish`. The visual system was refined across `/`, `#/dashboard`, `#/source-hub`, `#/archive`, `#/alerts`, `#/watchlists`, `#/agents`, and `#/staging` using the uploaded visual reference only as a motion/layout reference, translated into Pickaxe-safe product-page clarity, premium bento rhythm, generous spacing, restrained CSS-only motion, and light/dark wealth-dashboard contrast.
+Phase 2L Section-by-Section Declutter / Mission Control First is locally built and validated. The sprint changed only `#/dashboard`, turning Mission Control into a cleaner command page with one hero, one clear next manual action, and three above-fold bento panels: Decision Queue, Source -> Archive Memory Loop, and 00-20 OS Blueprint Snapshot.
+
+Secondary Mission Control detail now sits lower or quieter: watchlist pulse, route status, research queue, operating chain, full blueprint detail, and private memory boundary. Duplicate status/safety copy was merged into one concise visible boundary. Watchlists remains unchanged, Agents remains placeholder-only, and Options Research remains deferred.
+
+Phase 2K Premium Visual System Polish remains pushed, deployed, live-reviewed, clean, and live-locked at `dbeccff Add Phase 2K premium visual system polish`. The Phase 2K live-lock status commit is `dce28ad Update Phase 2K live lock status`.
 
 Live review URL:
 
 https://burberrry.github.io/Pickaxe-Capital/?v=phase2k-premium-visual#/dashboard
 
-Phase 2K was visual-only. No route architecture, workflow logic, integrations, data model, or dependencies were added. Mission Control remains flagship. Source Hub remains trust layer. Archive remains cleaned saved intelligence memory. Watchlists remains unchanged. Agents remains placeholder-only. Options Research remains deferred. Next task must be chosen by B.
+Phase 2L is Mission Control-only. No route architecture, workflow logic, integrations, data model, dependencies, Watchlists functionality, Agents implementation logic, Options logic, backend systems, or `data/signal-alerts.json` changes were added. Mission Control remains flagship. Source Hub remains trust layer. Archive remains cleaned saved intelligence memory. Watchlists remains unchanged. Agents remains placeholder-only. Options Research remains deferred. Next task must be chosen by B.
 
 Phase 2J Mission Control + 20-Section Visual Blueprint Polish is pushed and aligned at `ebbf885`. Mission Control is the flagship command page for the full Pickaxe OS with a clearer CEO B command layer, compact 00-20 blueprint preview, Source-to-Archive aggregate memory summary, and safe decision queue.
 
@@ -16,7 +20,7 @@ Phase 2I Archive / Source Workflow Implementation is pushed, deployed, live-revi
 
 Phase 2H Pickaxe OS Master Architecture + Research Alert Spec is pushed, clean, and locked at `d867b5f`. Phase 2D Source Hub Intelligence Cockpit remains live-reviewed and live-locked. Sidebar number-badge cleanup is live-verified. Phase 2C App Shell / Navigation Reset is officially live-locked. Agents Placeholder Reset and Mission Control Dashboard Upgrade remain stable. Phase 2B Watchlists remains built, committed, pushed to origin/main, live-checked by CEO B, and stability-checked locally.
 
-Latest live review is complete for Phase 2K.
+Latest live review is complete for Phase 2K. Latest local validation is complete for Phase 2L Mission Control declutter.
 
 https://burberrry.github.io/Pickaxe-Capital/?v=phase2i-archive-source#/archive
 
@@ -34,13 +38,13 @@ Latest source layer upgrade: `#/source-hub` is now the Source Hub Intelligence C
 
 Latest archive workflow upgrade: Source Hub to Archive workflow is live. Source Hub can save cleaned source memory to Archive as local-only archive candidates with source lineage, trust labels, privacy tiers, private-data-removed state, linked Source Hub action IDs, and CEO B review state. Archive cards show this lineage and expose safe local-only actions for CEO B review, lesson candidates, evidence requests, cleaning status, and return-to-Source-Hub routing. Watchlists remains unchanged, Agents remains placeholder-only, and Options Research remains deferred until B explicitly approves it.
 
-Latest Mission Control polish: `#/dashboard` now presents Mission Control as the central command page for the 00-20 Pickaxe OS, with Source Hub verification, Archive cleaned-memory status, CEO B approval state, aggregate-only memory metrics, compact blueprint groups, visible safety boundaries, and Phase 2K premium visual rhythm.
+Latest Mission Control polish: `#/dashboard` now presents Mission Control as a decluttered premium command page, with one hero, three core bento panels above the fold, lower-priority intelligence moved down, and verbose blueprint/operating-chain details collapsed.
 
 ## Do Next
 
 1. Use the Obsidian-backed `/ai-handoff` before future Codex/ChatGPT website build sessions.
 2. Let B choose the next task before starting another sprint.
-3. Keep Phase 2K visual polish scoped to presentation only.
+3. Do not start the next section declutter until B chooses it.
 4. Keep Watchlists stable.
 5. Keep Agents placeholder-only until B approves a rebuild.
 6. Do not start Options Hub until B approves.

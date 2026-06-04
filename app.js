@@ -13551,13 +13551,6 @@ renderDashboardPage = function () {
     ...(Array.isArray(sharedHabitatData.sourceVerificationMatrix) ? sharedHabitatData.sourceVerificationMatrix : [])
   ];
   const sourceGaps = sourceItems.filter((item) => /missing|required|needs/i.test(`${item.sourceStatus || ""} ${item.trustStatus || ""} ${item.trustLevel || ""} ${item.connectionStatus || ""}`)).length;
-  const commandStats = [
-    ["Phase", "2J", "Mission Control blueprint polish"],
-    ["Source Hub", "Verifies", "Trust layer / manual sources"],
-    ["Archive", `${cleanedArchiveNotes}`, "Cleaned memory notes"],
-    ["CEO B Review", `${pendingArchiveReviews}`, "Archive items pending"],
-    ["Safety", "Locked", "Static / local-only cockpit"]
-  ];
   const commandFlow = [
     ["Source Hub verifies", "Sources receive trust, route, and safety labels before they can support research.", "#/source-hub"],
     ["Archive preserves cleaned memory", "Cleaned source memory and review outcomes are stored locally with privacy tiers.", "#/archive"],
@@ -13572,6 +13565,19 @@ renderDashboardPage = function () {
     ["Private Data Removed", privateDataRemovedCount, "Sanitized records"],
     ["Learning Candidates", learningCandidates, "Local lessons"],
     ["Source Gaps", sourceGaps, "Needs provenance"]
+  ];
+  const blueprintSnapshot = [
+    ["Live-locked", "Mission Control, Source Hub, Archive", "Operating spine"],
+    ["Stable", "Alerts, Watchlists, Staging, Learning", "Working cockpit routes"],
+    ["Placeholder", "Agents", "Future ownership lanes only"],
+    ["Deferred", "Options Research", "Requires explicit B approval"]
+  ];
+  const sectionStatusMap = [
+    ["00", "Mission Control", "Live-locked"], ["01", "Briefing Desk", "Stable"], ["02", "Source Hub", "Live-locked"], ["03", "Watchlists", "Stable"],
+    ["04", "Signals", "Active"], ["05", "Alerts", "Stable"], ["06", "Archive", "Live-locked"], ["07", "Research", "Future"],
+    ["08", "Catalysts", "Future"], ["09", "Trend Radar", "Active"], ["10", "Bookmarks", "Stable"], ["11", "Learning", "Stable"],
+    ["12", "Risk Rules", "Stable"], ["13", "Vision Map", "Stable"], ["14", "AI Habitat OS", "Stable"], ["15", "Agent Lanes", "Placeholder"],
+    ["16", "Markets", "Future"], ["17", "Options", "Deferred"], ["18", "Money Lab", "Stable"], ["19", "Staging", "Stable"], ["20", "Roadmap", "Stable"]
   ];
   const blueprintGroups = [
     ["Core Command", [
@@ -13607,11 +13613,10 @@ renderDashboardPage = function () {
     ]]
   ];
   const decisionQueue = [
-    ["Review now", "Check Source Hub to Archive candidates awaiting CEO B review.", "CEO B", "#/archive"],
-    ["Needs source", "Attach provenance before any signal or alert escalation.", "Source Hub", "#/source-hub"],
-    ["Needs archive", "Preserve cleaned review memory after a decision is made.", "Archive", "#/archive"],
-    ["Needs cleaning", "Strip private fields before anything becomes public-safe.", "Privacy", "#/archive"],
-    ["Deferred", "Options Research and Agent Habitat rebuild wait for explicit B approval.", "Roadmap", "#/roadmap"]
+    ["Review now", `${pendingArchiveReviews} archive candidates need CEO B review.`, "CEO B", "#/archive"],
+    ["Needs source", `${sourceGaps} source gaps need provenance.`, "Source Hub", "#/source-hub"],
+    ["Needs cleaning", `${Math.max(0, archiveSourceCandidates.length - privateDataRemovedCount)} records may need privacy review.`, "Archive", "#/archive"],
+    ["Deferred", "Options Research and Agent Habitat rebuild wait for B.", "Roadmap", "#/roadmap"]
   ];
   const routeState = [
     ["Source Hub", `${sourceGaps} source gaps`, "Trust layer", "#/source-hub"],
@@ -13620,70 +13625,55 @@ renderDashboardPage = function () {
     ["Watchlists", "Stable Research Universe", "Do not modify", "#/watchlists"],
     ["Learning Ledger", `${learningCandidates} lesson candidates`, "Local summaries", "#/learning-ledger"]
   ];
-  const riskRules = ["No broker execution", "No auto-trading", "No betting execution", "No copy-trading", "No fake live data", "No unsourced signal escalation", "Manual CEO B review required"];
+  const riskRules = ["Local-only prototype", "No live APIs", "No scraping", "No broker execution", "No fake connected providers", "No private vault exposure", "Agents placeholder-only", "Options deferred"];
   const memoryLayer = [
     ["Website Cockpit", "Public/static command center"],
     ["Obsidian Vault", "Private local memory"],
     ["AI Handoff", "Selected notes included locally"],
     ["Public Frontend", "No private note contents"]
   ];
-  const nextMissions = ["Review Source Hub to Archive candidates", "Resolve source gaps", "Keep Watchlists stable", "Wait for B to choose next task"];
+  const nextManualAction = pendingArchiveReviews > 0
+    ? "Review Archive candidates awaiting CEO B approval."
+    : sourceGaps > 0
+      ? "Resolve Source Hub provenance gaps."
+      : "Keep the cockpit stable and wait for B to choose the next task.";
+  const researchQueue = [
+    ["Alerts", `${packets.length} research packets`, topPacket.symbol || "Research packet", "#/alerts"],
+    ["Learning", `${learningCandidates} lesson candidates`, "Later after review", "#/learning-ledger"],
+    ["Watchlists", "Stable Research Universe", "No functional change", "#/watchlists"],
+    ["Staging", "Build/check truth", "Validation record", "#/staging"]
+  ];
 
   els.dashboardContent.innerHTML = `
-    <div class="page-shell dashboard-shell mission-control-shell mission-blueprint-shell">
-      <header class="mission-hero mission-blueprint-hero">
+    <div class="page-shell dashboard-shell mission-control-shell mission-blueprint-shell mission-declutter-shell">
+      <header class="mission-hero mission-blueprint-hero mission-declutter-hero">
         <div class="mission-hero-copy">
-          <span class="meta-label">00 DASH / CEO B Command Layer</span>
+          <span class="meta-label">00 Mission Control / CEO B Market OS</span>
           <h2>Mission Control</h2>
-          <p>CEO B's flagship cockpit for the full Pickaxe OS: Source Hub verifies, Archive preserves cleaned memory, CEO B approves, Mission Control summarizes, and Obsidian remains private.</p>
-          ${pcChipRow(["Phase 2I Live-Locked", "Phase 2J Visual Polish", "Local-Only / Research-Only", "No Live APIs", "No Private Vault Exposure"])}
+          <p>One cockpit view for current system state, CEO B review, Source Hub trust, Archive memory, and the next manual action.</p>
+          <div class="mission-hero-summary">
+            <span><strong>Current phase</strong>Phase 2L declutter</span>
+            <span><strong>System truth</strong>Static / local-only</span>
+            <span><strong>Next action</strong>${escapeHtml(nextManualAction)}</span>
+          </div>
         </div>
         <aside class="mission-hero-panel">
           <span class="mission-status-light"></span>
-          <strong>Next Manual Action</strong>
-          <p>Review Source Hub to Archive candidates, resolve source gaps, and keep future build lanes deferred until B approves them.</p>
+          <strong>Safety Boundary</strong>
+          <p>Local-only prototype. No live APIs, scraping, broker execution, fake connected providers, private vault exposure, autonomous agents, or Options Research launch.</p>
           <div class="mission-hero-locks">
-            <span>Source Hub Trust: Live-locked</span>
-            <span>Archive Memory: Live-locked</span>
-            <span>Agents: Placeholder-only</span>
-            <span>Options: Deferred</span>
+            <span>Mission Control: Flagship</span>
+            <span>Source Hub: Trust layer</span>
+            <span>Archive: Cleaned memory</span>
+            <span>Watchlists: Stable</span>
           </div>
         </aside>
       </header>
 
-      <section class="mission-stat-grid">
-        ${commandStats.map(([label, value, detail]) => `
-          <article class="mission-stat-card">
-            <span>${escapeHtml(label)}</span>
-            <strong>${escapeHtml(value)}</strong>
-            <small>${escapeHtml(detail)}</small>
-          </article>
-        `).join("")}
-      </section>
-
-      <section class="mission-flow-panel command-card">
-        <div class="panel-head">
-          <div>
-            <span class="meta-label">Operating Chain</span>
-            <h3>Website is the cockpit. Obsidian is private memory. CEO B is the decision layer.</h3>
-          </div>
-          <a class="secondary-action" href="#/source-hub">Open Trust Layer</a>
-        </div>
-        <div class="mission-flow-steps">
-          ${commandFlow.map(([title, body, route], index) => `
-            <a href="${escapeHtml(route)}">
-              <span>${String(index + 1).padStart(2, "0")}</span>
-              <strong>${escapeHtml(title)}</strong>
-              <p>${escapeHtml(body)}</p>
-            </a>
-          `).join("")}
-        </div>
-      </section>
-
-      <section class="dashboard-command-grid">
+      <section class="mission-core-bento" aria-label="Mission Control core panels">
         <article class="command-card mission-command-card mission-decision-card">
           <span class="meta-label">CEO B Decision Queue</span>
-          <h3>Route the next decision by evidence state.</h3>
+          <h3>What needs review now?</h3>
           <div class="mission-decision-list">
             ${decisionQueue.map(([stateLabel, detail, owner, route]) => `
               <a href="${escapeHtml(route)}">
@@ -13694,15 +13684,14 @@ renderDashboardPage = function () {
             `).join("")}
           </div>
           <div class="action-row">
-            <a class="primary-action" href="#/archive">Review Archive</a>
+            <a class="primary-action" href="#/archive">Review Archive Candidates</a>
             <a class="secondary-action" href="#/source-hub">Check Sources</a>
-            <a class="secondary-action" href="#/alerts">Open Alerts</a>
           </div>
         </article>
 
         <article class="glass-card market-regime-card mission-memory-loop-card">
-          <span class="meta-label">Source-to-Archive Memory Loop</span>
-          <h3>Aggregates only. No raw source or private note content.</h3>
+          <span class="meta-label">Source -> Archive Memory Loop</span>
+          <h3>What did the system verify and preserve?</h3>
           <div class="mission-memory-metrics">
             ${memoryMetrics.map(([label, value, detail]) => `
               <span>
@@ -13712,68 +13701,42 @@ renderDashboardPage = function () {
               </span>
             `).join("")}
           </div>
-          <p class="mission-footnote">Source Hub verifies. Archive preserves cleaned memory. Learning Ledger receives lesson candidates later after CEO B review.</p>
+          <p class="mission-footnote">Source Hub verifies. Archive preserves cleaned memory. Mission Control shows aggregates only.</p>
         </article>
 
-        <aside class="truth-panel risk-desk-card">
-          <span class="meta-label">Safety Truth</span>
-          <h3>Static / local-only prototype. No fake connected providers.</h3>
-          <div class="truth-list">
-            ${riskRules.map((item) => `<span><em>${escapeHtml(item)}</em><strong>Locked</strong></span>`).join("")}
+        <article class="command-card mission-os-snapshot-card">
+          <span class="meta-label">00-20 OS Blueprint Snapshot</span>
+          <h3>Which systems are live, stable, placeholder, or deferred?</h3>
+          <div class="mission-snapshot-list">
+            ${blueprintSnapshot.map(([status, systems, role]) => `
+              <span>
+                <strong>${escapeHtml(status)}</strong>
+                <em>${escapeHtml(systems)}</em>
+                <small>${escapeHtml(role)}</small>
+              </span>
+            `).join("")}
           </div>
-          <p class="mission-footnote">No live APIs, scraping, provider adapters, broker execution, private vault exposure, or autonomous agent claims.</p>
-        </aside>
+          <details class="mission-quiet-details">
+            <summary>Show compact 00-20 map</summary>
+            <div class="mission-section-chip-map">
+              ${sectionStatusMap.map(([number, name, status]) => `<span><strong>${escapeHtml(number)}</strong>${escapeHtml(name)}<em>${escapeHtml(status)}</em></span>`).join("")}
+            </div>
+          </details>
+        </article>
       </section>
 
-      <section class="mission-blueprint-preview command-card">
-        <div class="panel-head">
-          <div>
-            <span class="meta-label">20-Section Visual Blueprint Preview</span>
-            <h3>The full Pickaxe OS map, grouped for Mission Control.</h3>
-          </div>
-          <a class="secondary-action" href="#/roadmap">Open Roadmap</a>
-        </div>
-        <div class="mission-blueprint-grid">
-          ${blueprintGroups.map(([group, sections]) => `
-            <article class="mission-blueprint-group">
-              <h4>${escapeHtml(group)}</h4>
-              <div>
-                ${sections.map(([number, name, route, status, role, relationship]) => `
-                  <a href="${escapeHtml(route)}" class="mission-section-card">
-                    <span>${escapeHtml(number)}</span>
-                    <strong>${escapeHtml(name)}</strong>
-                    <em>${escapeHtml(status)}</em>
-                    <small>${escapeHtml(route)}</small>
-                    <p>${escapeHtml(role)} / ${escapeHtml(relationship)}</p>
-                  </a>
-                `).join("")}
-              </div>
-            </article>
-          `).join("")}
-        </div>
-      </section>
-
-      <section class="mission-main-grid">
-        <article class="command-card alerts-command-card">
-          <span class="meta-label">Alerts / CEO B Review</span>
-          <h3>${escapeHtml(topPacket.symbol || "Research packet")} stays research-only until reviewed.</h3>
-          <p>${escapeHtml(topPacket.researchContext || "Research packet queue. Manual source review required before anything becomes public-safe.")}</p>
-          <div class="mission-alert-strip">
-            ${packets.slice(0, 4).map((packet) => `
-              <a href="#/alerts">
-                <strong>${escapeHtml(packet.symbol || "Packet")}</strong>
-                <span>${escapeHtml(packet.status || "Research packet")}</span>
-                <em>${escapeHtml(packet.confidence ? `${packet.confidence}% source confidence` : "Source required")}</em>
-              </a>
-            `).join("") || `<a href="#/alerts"><strong>Research Packet</strong><span>Manual review</span><em>Source required</em></a>`}
-          </div>
-          <a class="primary-action" href="#/alerts">Open Alerts Desk</a>
+      <section class="mission-secondary-grid" aria-label="Secondary intelligence">
+        <article class="glass-card">
+          <span class="meta-label">Watchlist Pulse</span>
+          <h3>Research Universe is stable.</h3>
+          <p>Mission Control links to Watchlists but does not change Watchlists logic, data, rankings, or route behavior.</p>
+          <a class="secondary-action" href="#/watchlists">Open Watchlists</a>
         </article>
 
-        <article class="glass-card active-agents-card">
-          <span class="meta-label">Route Relationship Clarity</span>
-          <h3>Mission Control sees route state, not raw memory.</h3>
-          <div class="source-feed-list">
+        <article class="glass-card">
+          <span class="meta-label">Route Status</span>
+          <h3>Quiet system summary</h3>
+          <div class="source-feed-list compact">
             ${routeState.map(([type, detail, status, route]) => `
               <a href="${escapeHtml(route)}">
                 <strong>${escapeHtml(type)}</strong>
@@ -13782,43 +13745,70 @@ renderDashboardPage = function () {
               </a>
             `).join("")}
           </div>
-          <a class="secondary-action" href="#/staging">Open Staging</a>
+        </article>
+
+        <article class="glass-card">
+          <span class="meta-label">Research Queue</span>
+          <h3>Lower-priority detail</h3>
+          <div class="source-feed-list compact">
+            ${researchQueue.map(([type, detail, status, route]) => `
+              <a href="${escapeHtml(route)}">
+                <strong>${escapeHtml(type)}</strong>
+                <span>${escapeHtml(detail)}</span>
+                <em>${escapeHtml(status)}</em>
+              </a>
+            `).join("")}
+          </div>
         </article>
       </section>
 
-      <section class="dashboard-stack-grid">
-        <article class="command-card watchlist-pulse-card">
-          <span class="meta-label">Watchlists Boundary</span>
-          <h3>Research Universe remains stable.</h3>
-          <p>Mission Control links to Watchlists but does not change Watchlists logic, data, rankings, or route behavior during this sprint.</p>
-          <a class="secondary-action" href="#/watchlists">Open Watchlists</a>
-        </article>
+      <section class="mission-quiet-stack">
+        <details class="mission-quiet-details">
+          <summary>Operating chain</summary>
+          <div class="mission-flow-steps">
+            ${commandFlow.map(([title, body, route], index) => `
+              <a href="${escapeHtml(route)}">
+                <span>${String(index + 1).padStart(2, "0")}</span>
+                <strong>${escapeHtml(title)}</strong>
+                <p>${escapeHtml(body)}</p>
+              </a>
+            `).join("")}
+          </div>
+        </details>
 
-        <article class="glass-card private-memory-card">
-          <span class="meta-label">Private Memory Layer</span>
-          <h3>Website is the cockpit. Obsidian is the memory. CEO B is the decision layer.</h3>
-          <p>Raw notes, links, screenshots, and messy ideas stay in the private vault until CEO B turns them into cleaned public-facing copy, archive entries, or review tasks.</p>
+        <details class="mission-quiet-details">
+          <summary>Full 20-section blueprint detail</summary>
+          <div class="mission-blueprint-grid">
+            ${blueprintGroups.map(([group, sections]) => `
+              <article class="mission-blueprint-group">
+                <h4>${escapeHtml(group)}</h4>
+                <div>
+                  ${sections.map(([number, name, route, status, role, relationship]) => `
+                    <a href="${escapeHtml(route)}" class="mission-section-card">
+                      <span>${escapeHtml(number)}</span>
+                      <strong>${escapeHtml(name)}</strong>
+                      <em>${escapeHtml(status)}</em>
+                      <small>${escapeHtml(route)}</small>
+                      <p>${escapeHtml(role)} / ${escapeHtml(relationship)}</p>
+                    </a>
+                  `).join("")}
+                </div>
+              </article>
+            `).join("")}
+          </div>
+        </details>
+
+        <details class="mission-quiet-details">
+          <summary>Private memory boundary</summary>
           <div class="dashboard-status-list compact">
             ${memoryLayer.map(([label, value]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(value)}</strong></span>`).join("")}
           </div>
-          <a class="secondary-action" href="#/ai-handoff">Open AI Handoff</a>
-        </article>
-
-        <article class="command-card dashboard-next-action">
-          <span class="meta-label">Next Mission</span>
-          <h3>B chooses the next task. Nothing starts automatically.</h3>
-          <div class="dashboard-pill-list">${nextMissions.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
-          <div class="action-row">
-            <a class="primary-action" href="#/archive">Review Archive Loop</a>
-            <a class="secondary-action" href="#/source-hub">Attach Sources</a>
-            <a class="secondary-action" href="#/roadmap">Check Roadmap</a>
-          </div>
-        </article>
+        </details>
       </section>
 
       <section class="mission-terminal-band">
         <span>System boundary</span>
-        <strong>Static / local-only prototype. No live APIs, scraping, broker execution, fake connected providers, private vault exposure, or autonomous agents.</strong>
+        <strong>${riskRules.map(escapeHtml).join(" / ")}</strong>
         <a href="#/risk-rules">Open Risk & Rules</a>
       </section>
     </div>
