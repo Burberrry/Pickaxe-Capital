@@ -2,15 +2,15 @@
 
 ## Current Active Checkpoint
 
-Phase 2L Section-by-Section Declutter / Mission Control First is locally built and validated. The sprint changed only `#/dashboard`, turning Mission Control into a cleaner command page with one hero, one clear next manual action, and three above-fold bento panels: Decision Queue, Source -> Archive Memory Loop, and 00-20 OS Blueprint Snapshot.
+Phase 2L Section-by-Section Declutter / Mission Control First is pushed, deployed, live-reviewed, clean, and live-locked at `adea558 Declutter Mission Control section`. The sprint changed only `#/dashboard`, turning Mission Control into a cleaner command page with one hero, one clear next manual action, and three above-fold bento panels: Decision Queue, Source -> Archive Memory Loop, and 00-20 OS Blueprint Snapshot.
 
 Secondary Mission Control detail now sits lower or quieter: watchlist pulse, route status, research queue, operating chain, full blueprint detail, and private memory boundary. Duplicate status/safety copy was merged into one concise visible boundary. Watchlists remains unchanged, Agents remains placeholder-only, and Options Research remains deferred.
 
 Phase 2K Premium Visual System Polish remains pushed, deployed, live-reviewed, clean, and live-locked at `dbeccff Add Phase 2K premium visual system polish`. The Phase 2K live-lock status commit is `dce28ad Update Phase 2K live lock status`.
 
-Live review URL:
+Phase 2L live review URL:
 
-https://burberrry.github.io/Pickaxe-Capital/?v=phase2k-premium-visual#/dashboard
+https://burberrry.github.io/Pickaxe-Capital/?v=phase2l-dashboard-declutter#/dashboard
 
 Phase 2L is Mission Control-only. No route architecture, workflow logic, integrations, data model, dependencies, Watchlists functionality, Agents implementation logic, Options logic, backend systems, or `data/signal-alerts.json` changes were added. Mission Control remains flagship. Source Hub remains trust layer. Archive remains cleaned saved intelligence memory. Watchlists remains unchanged. Agents remains placeholder-only. Options Research remains deferred. Next task must be chosen by B.
 
@@ -20,7 +20,7 @@ Phase 2I Archive / Source Workflow Implementation is pushed, deployed, live-revi
 
 Phase 2H Pickaxe OS Master Architecture + Research Alert Spec is pushed, clean, and locked at `d867b5f`. Phase 2D Source Hub Intelligence Cockpit remains live-reviewed and live-locked. Sidebar number-badge cleanup is live-verified. Phase 2C App Shell / Navigation Reset is officially live-locked. Agents Placeholder Reset and Mission Control Dashboard Upgrade remain stable. Phase 2B Watchlists remains built, committed, pushed to origin/main, live-checked by CEO B, and stability-checked locally.
 
-Latest live review is complete for Phase 2K. Latest local validation is complete for Phase 2L Mission Control declutter.
+Latest live review is complete for Phase 2L Mission Control declutter.
 
 https://burberrry.github.io/Pickaxe-Capital/?v=phase2i-archive-source#/archive
 

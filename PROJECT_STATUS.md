@@ -2,7 +2,10 @@
 
 ## Current Checkpoint — Phase 2L Section-by-Section Declutter / Mission Control First
 
-- Latest completed/local build: Phase 2L Section-by-Section Declutter / Mission Control First.
+- Latest completed/live-locked build: Phase 2L Section-by-Section Declutter / Mission Control First.
+- Phase 2L status: pushed to `origin/main`, deployed on GitHub Pages, live-reviewed, clean, and locked.
+- Latest live commit: `adea558 Declutter Mission Control section`.
+- Live review URL: `https://burberrry.github.io/Pickaxe-Capital/?v=phase2l-dashboard-declutter#/dashboard`.
 - Primary route changed: `#/dashboard` only.
 - Phase 2K premium visual system remains live-locked at `dce28ad Update Phase 2K live lock status` and implementation commit `dbeccff Add Phase 2K premium visual system polish`.
 - Mission Control was decluttered into one hero, one clear purpose, one primary next action, and three main above-fold bento panels: Decision Queue, Source -> Archive Memory Loop, and 00-20 OS Blueprint Snapshot.
@@ -16,8 +19,8 @@
 - Watchlists remains unchanged.
 - Agents remains placeholder-only.
 - Options Research remains deferred until B explicitly approves it.
-- Validation status: Phase 2L local build/check/browser verification passed.
-- Next task must be chosen by B; do not start the next section automatically.
+- Validation status: Phase 2L local build/check/browser verification and GitHub Pages live review passed.
+- Next section must be chosen by B; do not start the next section automatically.
 
 Historical note: Phase 2K Premium Visual System Polish is pushed, deployed, live-reviewed, clean, and live-locked. Phase 2J Mission Control + 20-Section Visual Blueprint Polish is pushed and aligned at `ebbf885`. Phase 2I Archive / Source Workflow Implementation is pushed, deployed, live-reviewed, clean, and live-locked at `8bc264f`.
 
