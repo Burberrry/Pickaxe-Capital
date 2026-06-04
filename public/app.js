@@ -4692,70 +4692,141 @@ function renderArchiveVaultExperience() {
   state.archiveLayout = state.archiveLayout || "detailed";
   const items = getEffectiveArchiveVaultItems();
   const metrics = getArchiveVaultMetrics(items);
+  const sortedItems = sortVaultItems(items, "priority");
+  const cleanedItems = sortedItems.filter((item) => item.privateDataRemoved || item.cleanedSummary || item.privacy_tier).slice(0, 4);
+  const sourceLineageItems = sortedItems.filter((item) => item.linkedSourceId || /source hub/i.test(`${item.sourceOrigin} ${item.domain} ${item.category}`)).slice(0, 4);
+  const reviewRequired = items.filter((item) => /CEO B Review Required/i.test(getArchiveReviewStatus(item)));
+  const needsEvidence = items.filter((item) => /Needs More Evidence/i.test(getArchiveReviewStatus(item)));
+  const returnedSource = items.filter((item) => /Returned to Source Hub/i.test(getArchiveReviewStatus(item)));
+  const privateRemovedCount = items.filter((item) => item.privateDataRemoved).length;
+  const learningCandidates = getLearningLedgerState().filter((entry) => /archive|source/i.test(`${entry.source} ${entry.category} ${entry.lesson_type}`)).length;
   els.archiveIntelligence.innerHTML = `
-    <section class="command-hero archive-command vault-hero">
+    <div class="archive-declutter-shell">
+    <section class="command-hero archive-command vault-hero archive-declutter-hero">
       <div>
-        <p class="eyebrow">Retrieval-first intelligence vault</p>
-        <h2>Pickaxe Capital Intelligence Vault</h2>
-        <p>Turn saved links into organized intelligence, agent fuel, and daily action. Every source needs a reason, an owner, a status, and a next action.</p>
-        <p class="muted">Seed sources and bookmark previews are local/demo unless a real storage layer is added. No scraping, no fake live checks, no auto-trading.</p>
+        <p class="eyebrow">06 / Cleaned Intelligence Memory</p>
+        <h2>Archive</h2>
+        <p>Cleaned saved intelligence memory for Source Hub lineage, CEO B review, lesson candidates, and reusable research context.</p>
+        <div class="archive-memory-summary">
+          <span><strong>${privateRemovedCount}</strong><em>cleaned notes</em></span>
+          <span><strong>${reviewRequired.length}</strong><em>CEO B reviews</em></span>
+          <span><strong>${sourceLineageItems.length}</strong><em>Source Hub links</em></span>
+        </div>
       </div>
       <div class="ceo-verdict-card">
-        <span class="label">CEO B Verdict</span>
-        <strong>Organize for retrieval, not storage.</strong>
-        <p>Every source needs a reason, an owner, and a next action.</p>
+        <span class="label">Memory Vault Truth</span>
+        <strong>Review cleaned memory before it becomes reusable intelligence.</strong>
+        <p>Cleaned local memory only. No private vault publishing, no live provider data, no broker execution.</p>
+        <a class="primary-action" href="#vaultGrid">Review Cleaned Memory</a>
       </div>
     </section>
-    <section class="vault-metrics">
+
+    <section class="archive-core-bento" aria-label="Archive core memory panels">
+      <article class="vault-panel archive-cleaned-queue">
+        <span class="meta-label">Cleaned Memory Queue</span>
+        <h3>What cleaned intelligence has been preserved?</h3>
+        <div class="archive-priority-list">
+          ${cleanedItems.map((item) => `
+            <button type="button" onclick="window.focusVaultItem?.('${escapeHtml(item.id)}')">
+              <strong>${escapeHtml(item.title)}</strong>
+              <span>${escapeHtml(item.cleanedSummary || item.summary)}</span>
+              <em>${escapeHtml(getArchiveTrustLabel(item))} / ${escapeHtml(getArchivePrivacyTier(item))}</em>
+            </button>
+          `).join("") || `<p class="muted">No cleaned archive memory yet.</p>`}
+        </div>
+      </article>
+
+      <article class="vault-panel archive-lineage-summary">
+        <span class="meta-label">Source Lineage Summary</span>
+        <h3>What came from Source Hub?</h3>
+        <div class="archive-lineage-stats">
+          <span><strong>${sourceLineageItems.length}</strong><em>linked candidates</em></span>
+          <span><strong>${privateRemovedCount}</strong><em>private data removed</em></span>
+          <span><strong>${metrics.duplicates}</strong><em>duplicate warnings</em></span>
+        </div>
+        <div class="archive-lineage-list">
+          ${sourceLineageItems.map((item) => `
+            <button type="button" onclick="window.focusVaultItem?.('${escapeHtml(item.id)}')">
+              <strong>${escapeHtml(item.title)}</strong>
+              <span>${escapeHtml(item.sourceOrigin || "Archive")} -> ${escapeHtml(item.relatedRoute || "#/archive")}</span>
+              <small>Source ID ${escapeHtml(item.linkedSourceId || "manual")} / Action ${escapeHtml(item.linkedSourceHubActionId || "local")}</small>
+            </button>
+          `).join("") || `<p class="muted">Source Hub lineage appears here after cleaned source memory is saved.</p>`}
+        </div>
+      </article>
+
+      <article class="vault-panel archive-review-state">
+        <span class="meta-label">CEO B Review State</span>
+        <h3>What needs a decision?</h3>
+        <div class="dashboard-status-list compact">
+          <span><em>CEO B review</em><strong>${reviewRequired.length}</strong><small>Manual approval required</small></span>
+          <span><em>Needs evidence</em><strong>${needsEvidence.length}</strong><small>Return to Source Hub</small></span>
+          <span><em>Returned sources</em><strong>${returnedSource.length}</strong><small>Lineage needs re-check</small></span>
+          <span><em>Lesson candidates</em><strong>${learningCandidates}</strong><small>Local Learning Ledger only</small></span>
+        </div>
+      </article>
+    </section>
+
+    <section class="archive-secondary-strip" aria-label="Archive secondary memory state">
       ${[
-        ["Total sources", metrics.total],
-        ["Active sources", metrics.active],
-        ["Priority sources", metrics.priority],
+        ["Total memory", metrics.total],
+        ["Priority", metrics.priority],
+        ["Active", metrics.active],
+        ["Completed", metrics.completed],
+        ["Agent-linked", metrics.agentConnected],
         ["Needs review", metrics.review],
-        ["Broken links", metrics.broken],
-        ["Completed actions", metrics.completed],
-        ["Agent-connected", metrics.agentConnected],
-        ["Duplicate warnings", metrics.duplicates],
       ].map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join("")}
     </section>
-    <section class="vault-toolbar" style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
-      <input id="vaultSearch" placeholder="Search title, domain, tags, reason, next action..." oninput="window.filterArchiveVault?.()" style="flex:2; min-width:200px;" />
-      <select id="vaultStatus" onchange="window.filterArchiveVault?.()"><option value="all">All status</option>${uniqueOptions(items, "status")}</select>
-      <select id="vaultType" onchange="window.filterArchiveVault?.()"><option value="all">All type</option>${uniqueOptions(items, "type")}</select>
-      <select id="vaultHabitat" onchange="window.filterArchiveVault?.()"><option value="all">All habitats</option>${uniqueOptions(items, "habitat")}</select>
-      <select id="vaultPriority" onchange="window.filterArchiveVault?.()"><option value="all">All priority</option>${uniqueOptions(items, "priority")}</select>
-      <select id="vaultAgent" onchange="window.filterArchiveVault?.()"><option value="all">All agents</option>${uniqueOptions(items, "connectedAgent")}</select>
-      <select id="vaultRoute" onchange="window.filterArchiveVault?.()"><option value="all">All routes</option>${uniqueOptions(items, "route")}</select>
-      <select id="vaultSourceOrigin" onchange="window.filterArchiveVault?.()"><option value="all">All source origins</option>${uniqueOptions(items, "sourceOrigin")}</select>
-      <select id="vaultTrust" onchange="window.filterArchiveVault?.()"><option value="all">All trust labels</option>${uniqueOptions(items, "confidenceTrustLabel")}</select>
-      <select id="vaultReviewState" onchange="window.filterArchiveVault?.()"><option value="all">All review states</option>${uniqueOptions(items, "reviewStatus")}</select>
-      <select id="vaultPrivacyTier" onchange="window.filterArchiveVault?.()"><option value="all">All privacy tiers</option>${uniqueOptions(items, "privacy_tier")}</select>
-      <select id="vaultSort" onchange="window.filterArchiveVault?.()"><option value="priority">Sort by priority</option><option value="newest">Newest</option><option value="status">Status</option><option value="habitat">Habitat</option><option value="agent">Agent</option></select>
-      
-      <div style="display:flex; gap:6px; margin-left:auto; flex-shrink:0;">
-        <button type="button" class="pc-action-btn secondary text-[10px]" onclick="window.toggleArchiveLayout?.()">Layout: ${state.archiveLayout === 'compact' ? 'Compact' : 'Detailed'}</button>
-        <button type="button" class="pc-action-btn secondary text-[10px]" onclick="window.exportSelectedArchiveJSON?.()">Export Selected</button>
-      </div>
+
+    <section class="archive-quiet-stack">
+      <details class="mission-quiet-details" open>
+        <summary>Show filters and cleaned memory cards</summary>
+        <section class="vault-toolbar archive-filter-toolbar">
+          <input id="vaultSearch" placeholder="Search title, domain, tags, reason, next action..." oninput="window.filterArchiveVault?.()" />
+          <select id="vaultStatus" onchange="window.filterArchiveVault?.()"><option value="all">All status</option>${uniqueOptions(items, "status")}</select>
+          <select id="vaultType" onchange="window.filterArchiveVault?.()"><option value="all">All type</option>${uniqueOptions(items, "type")}</select>
+          <select id="vaultHabitat" onchange="window.filterArchiveVault?.()"><option value="all">All habitats</option>${uniqueOptions(items, "habitat")}</select>
+          <select id="vaultPriority" onchange="window.filterArchiveVault?.()"><option value="all">All priority</option>${uniqueOptions(items, "priority")}</select>
+          <select id="vaultAgent" onchange="window.filterArchiveVault?.()"><option value="all">All agents</option>${uniqueOptions(items, "connectedAgent")}</select>
+          <select id="vaultRoute" onchange="window.filterArchiveVault?.()"><option value="all">All routes</option>${uniqueOptions(items, "route")}</select>
+          <select id="vaultSourceOrigin" onchange="window.filterArchiveVault?.()"><option value="all">All source origins</option>${uniqueOptions(items, "sourceOrigin")}</select>
+          <select id="vaultTrust" onchange="window.filterArchiveVault?.()"><option value="all">All trust labels</option>${uniqueOptions(items, "confidenceTrustLabel")}</select>
+          <select id="vaultReviewState" onchange="window.filterArchiveVault?.()"><option value="all">All review states</option>${uniqueOptions(items, "reviewStatus")}</select>
+          <select id="vaultPrivacyTier" onchange="window.filterArchiveVault?.()"><option value="all">All privacy tiers</option>${uniqueOptions(items, "privacy_tier")}</select>
+          <select id="vaultSort" onchange="window.filterArchiveVault?.()"><option value="priority">Sort by priority</option><option value="newest">Newest</option><option value="status">Status</option><option value="habitat">Habitat</option><option value="agent">Agent</option></select>
+          <div class="archive-toolbar-actions">
+            <button type="button" class="pc-action-btn secondary text-[10px]" onclick="window.toggleArchiveLayout?.()">Layout: ${state.archiveLayout === 'compact' ? 'Compact' : 'Detailed'}</button>
+            <button type="button" class="pc-action-btn secondary text-[10px]" onclick="window.exportSelectedArchiveJSON?.()">Export Selected</button>
+          </div>
+        </section>
+        <div class="panel-head vault-results-head archive-results-head"><div><p class="eyebrow">Cleaned memory records</p><h2>Archive Cards</h2></div><span class="pill">Local actions</span></div>
+        <section id="vaultGrid" class="vault-grid archive-card-grid">${sortedItems.map(renderVaultCard).join("") || `<p class="muted select-none" style="padding:20px; text-align:center;">No archive items yet. Add cleaned source memory to Archive to get started.</p>`}</section>
+      </details>
+
+      <details class="mission-quiet-details">
+        <summary>Show review queues and ownership map</summary>
+        <section class="vault-layout archive-lower-layout">
+          <aside class="vault-left">
+            ${renderTodaysIntelligence(items)}
+            ${renderVaultNextActions(items)}
+            ${renderAgentSourceMap(items)}
+          </aside>
+        </section>
+      </details>
+
+      <details class="mission-quiet-details">
+        <summary>Show import lab, duplicate warnings, and roadmap</summary>
+        ${renderBookmarkImportLab()}
+        <section id="vaultDuplicatePanel">${renderVaultDuplicatePanel(items)}</section>
+        <section class="vault-roadmap panel">
+          <div class="panel-head"><div><p class="eyebrow">Future upgrades</p><h2>Vault Roadmap</h2></div><span class="pill">Research mode</span></div>
+          <div class="stalled-grid">
+            ${["Add real uploaded bookmark file parser", "Add persistent database or JSON write workflow", "Add source health checker server endpoint", "Connect agents and archive daily briefing", "Add source trust/reliability scoring", "Add export/import archive JSON", "Add no-duplicate source creation workflow"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+          </div>
+        </section>
+      </details>
     </section>
-    <section class="vault-layout">
-      <aside class="vault-left">
-        ${renderTodaysIntelligence(items)}
-        ${renderVaultNextActions(items)}
-        ${renderAgentSourceMap(items)}
-      </aside>
-      <div>
-        <div class="panel-head vault-results-head"><div><p class="eyebrow">Source database</p><h2>Archive Sources</h2></div><span class="pill">Local actions</span></div>
-        <section id="vaultGrid" class="vault-grid">${sortVaultItems(items, "priority").map(renderVaultCard).join("") || `<p class="muted select-none" style="padding:20px; text-align:center;">No archive items yet. Add bookmarks or signals to archive vault to get started.</p>`}</section>
-      </div>
-    </section>
-    ${renderBookmarkImportLab()}
-    <section id="vaultDuplicatePanel">${renderVaultDuplicatePanel(items)}</section>
-    <section class="vault-roadmap panel">
-      <div class="panel-head"><div><p class="eyebrow">Future upgrades</p><h2>Vault Roadmap</h2></div><span class="pill">Research mode</span></div>
-      <div class="stalled-grid">
-        ${["Add real uploaded bookmark file parser", "Add persistent database or JSON write workflow", "Add source health checker server endpoint", "Connect agents and archive daily briefing", "Add source trust/reliability scoring", "Add export/import archive JSON", "Add no-duplicate source creation workflow"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
-      </div>
-    </section>
+    </div>
   `;
   renderBookmarkPreview();
 }

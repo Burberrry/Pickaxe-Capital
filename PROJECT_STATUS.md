@@ -1,6 +1,24 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint — Phase 2N-B Source Hub Declutter
+## Current Checkpoint — Phase 2O Archive Declutter
+
+- Latest completed/local build: Phase 2O Section-by-Section Declutter — Archive First.
+- Primary route changed: `#/archive` only.
+- Phase 2O status: locally implemented pending final commit/push/live review.
+- Archive now reads as a premium cleaned intelligence memory vault with one hero, one clear purpose, one primary next action, and three above-fold bento panels: Cleaned Memory Queue, Source Lineage Summary, and CEO B Review State.
+- The hero states the Archive truth clearly: cleaned local memory only, no private vault publishing, no live provider data, and no broker execution.
+- Filters, detailed card metadata, secondary actions, import lab, duplicate warnings, ownership maps, action checklists, historical details, and roadmap notes were moved lower or into quieter collapsed sections.
+- Source Hub -> Archive workflow remains intact: Archive still reads `pickaxeArchiveVault` and preserves source lineage, trust labels, privacy tier, private-data-removed state, Source Hub action IDs, and CEO B review state.
+- No route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, Source Hub data model changes, Archive data model changes, localStorage key changes, Watchlists functionality, Agents functionality, Options logic, raw Obsidian publishing, raw bookmark publishing, or `data/signal-alerts.json` changes were added.
+- Mission Control remains the Phase 2L/2N-A flagship with the existing countdown card.
+- Alerts Desk remains unchanged from Phase 2M.
+- Source Hub remains unchanged from Phase 2N-B.
+- Watchlists remains unchanged.
+- Agents remains placeholder-only.
+- Options Research remains deferred until B explicitly approves it.
+- Recommended next section after Phase 2O is `#/staging`, because it is the QA/tracker layer and can be cleaned without touching Watchlists; B must approve before any next section starts.
+
+## Previous Checkpoint — Phase 2N-B Source Hub Declutter
 
 - Latest completed/live-locked build: Phase 2N-B Section-by-Section Declutter — Source Hub First.
 - Phase 2N-B status: pushed to `origin/main`, deployed on GitHub Pages, live-reviewed, clean, and locked.

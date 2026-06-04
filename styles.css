@@ -9130,6 +9130,197 @@ body[data-active-view="staging"] .status-strip {
   }
 }
 
+/* Phase 2O Archive declutter - memory vault only. */
+#archive.active .archive-declutter-shell {
+  display: grid;
+  gap: clamp(22px, 2.7vw, 42px);
+}
+
+#archive.active .archive-declutter-hero {
+  min-height: min(560px, calc(100vh - 150px)) !important;
+  align-items: center !important;
+}
+
+#archive.active .archive-declutter-hero h2 {
+  max-width: 900px !important;
+  font-size: clamp(64px, 8.8vw, 138px) !important;
+  color: var(--phase2k-ink) !important;
+}
+
+#archive.active .archive-declutter-hero p {
+  max-width: 760px !important;
+}
+
+#archive.active .archive-memory-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 820px;
+  margin-top: clamp(18px, 2vw, 28px);
+}
+
+#archive.active .archive-memory-summary span,
+#archive.active .archive-secondary-strip article,
+#archive.active .archive-lineage-stats span {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--phase2k-border);
+  border-radius: 18px;
+  color: var(--phase2k-muted) !important;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+#archive.active .archive-memory-summary strong,
+#archive.active .archive-secondary-strip strong,
+#archive.active .archive-lineage-stats strong {
+  color: var(--phase2k-ink) !important;
+  font-size: clamp(24px, 2.6vw, 42px);
+  line-height: 1;
+}
+
+#archive.active .archive-core-bento {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.96fr) minmax(310px, 0.88fr);
+  gap: clamp(18px, 2vw, 30px);
+  align-items: stretch;
+}
+
+#archive.active .archive-core-bento > * {
+  min-height: clamp(430px, 38vh, 560px) !important;
+  padding: clamp(24px, 3vw, 44px) !important;
+}
+
+#archive.active .archive-core-bento h3 {
+  margin-bottom: 18px;
+  font-size: clamp(27px, 2.8vw, 46px);
+  line-height: 1;
+}
+
+#archive.active .archive-priority-list,
+#archive.active .archive-lineage-list,
+#archive.active .archive-review-state .dashboard-status-list {
+  display: grid;
+  gap: 10px;
+}
+
+#archive.active .archive-priority-list button,
+#archive.active .archive-lineage-list button {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  min-height: 0 !important;
+  padding: 14px !important;
+  border-radius: 18px !important;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.72) !important;
+}
+
+#archive.active .archive-priority-list strong,
+#archive.active .archive-lineage-list strong,
+#archive.active .archive-priority-list span,
+#archive.active .archive-lineage-list span,
+#archive.active .archive-lineage-list small {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+#archive.active .archive-priority-list em {
+  color: var(--phase2k-gold) !important;
+  font-style: normal;
+  font-weight: 800;
+}
+
+#archive.active .archive-lineage-stats,
+#archive.active .archive-secondary-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+#archive.active .archive-secondary-strip {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+#archive.active .archive-quiet-stack {
+  display: grid;
+  gap: 12px;
+}
+
+#archive.active .archive-filter-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 16px;
+  padding: clamp(18px, 2.4vw, 28px) !important;
+}
+
+#archive.active .archive-filter-toolbar input {
+  flex: 2 1 280px;
+}
+
+#archive.active .archive-filter-toolbar select {
+  flex: 1 1 150px;
+}
+
+#archive.active .archive-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: auto;
+}
+
+#archive.active .archive-results-head,
+#archive.active .archive-card-grid,
+#archive.active .archive-lower-layout,
+#archive.active .bookmark-import-lab,
+#archive.active #vaultDuplicatePanel,
+#archive.active .vault-roadmap {
+  margin-top: 16px;
+}
+
+#archive.active .archive-lower-layout {
+  grid-template-columns: 1fr !important;
+}
+
+#archive.active .archive-lower-layout .vault-left {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#archive.active .archive-card-grid .vault-card {
+  align-content: start;
+}
+
+@media (max-width: 1180px) {
+  #archive.active .archive-core-bento,
+  #archive.active .archive-memory-summary,
+  #archive.active .archive-lineage-stats,
+  #archive.active .archive-lower-layout .vault-left {
+    grid-template-columns: 1fr !important;
+  }
+
+  #archive.active .archive-core-bento > * {
+    min-height: auto !important;
+  }
+}
+
+@media (max-width: 720px) {
+  #archive.active .archive-declutter-hero h2 {
+    font-size: clamp(48px, 16vw, 78px) !important;
+  }
+
+  #archive.active .archive-toolbar-actions {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  #archive.active .archive-toolbar-actions > * {
+    flex: 1 1 100%;
+  }
+}
+
 /* Phase 2N-B Source Hub declutter - trust cockpit only. */
 #sourceHub.active .source-declutter-shell {
   gap: clamp(22px, 2.7vw, 42px) !important;
