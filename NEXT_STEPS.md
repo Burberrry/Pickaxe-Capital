@@ -2,6 +2,36 @@
 
 ## Current Active Checkpoint
 
+CSS Consolidation / Premium Visual System Cleanup was completed locally on 2026-06-05 as a CSS/front-end consolidation sprint only.
+
+The site now has a calmer premium Pickaxe visual foundation in `styles.css` and `public/styles.css`:
+
+- Global Pickaxe Sovereign tokens for black, graphite, charcoal, ivory, paper, champagne gold, antique gold, bronze, verified sage, risk brick, muted text, borders, radii, shadows, transitions, and shell layers.
+- Legacy color aliases now map older cyan/blue/violet/glow variables into the calmer black/gold/sage/muted palette to reduce neon/cyberpunk drift.
+- A final compatibility layer normalizes the app shell, sidebar, route containers, cards, buttons, chips, badges, tables, research streams, mobile stacking, overflow handling, and reduced-motion behavior without renaming route classes.
+- The stylesheet cache key is now `css-consolidation-20260605` in `index.html` and `public/index.html`.
+
+Preserved:
+
+- Alerts Desk packet detail layer, company monograms, research confidence, metric cards, and research-only framing.
+- Mission Control, Source Hub, Archive, Staging, Watchlists, Agents placeholder, Roadmap, Habitat OS, Research Desk, and `/ai-handoff`.
+- Sidebar zones and route order: `COMMAND`, `INTELLIGENCE`, `MEMORY`, `OPERATIONS`, `EXPANSION`, with `00 Alerts Desk` first and `01 Mission Control` second.
+- Static-first/localStorage-only behavior and all no-live/no-execution safety boundaries.
+
+No app logic, route architecture, sidebar renumbering, HTML structure changes beyond the CSS cache key, live APIs, backend systems, provider adapters, broker integrations, autonomous agents, fake live data, payment/auth, private-note exposure, or `data/signal-alerts.json` changes were added. `data/signal-alerts.json` must remain unstaged and uncommitted.
+
+Validation passed:
+
+- `/Applications/Codex.app/Contents/Resources/node --run build`
+- `/Applications/Codex.app/Contents/Resources/node --run check:project`
+- Browser sweep for `/`, `#/alerts`, `#/dashboard`, `#/source-hub`, `#/archive`, `#/staging`, `#/watchlists`, `#/agents`, `#/roadmap`, `#/ai-habitat-os`, and `#/research`
+- Desktop and 390px mobile overflow checks passed
+- `/ai-handoff` returned HTTP 200
+
+Recommended next task after B approval: visually inspect the live deployment after push, then choose either Watchlists Polish or a focused route-by-route visual QA pass. Do not start another sprint automatically.
+
+## Previous Active Checkpoint
+
 Pickaxe 20-Section Execution Blueprint was completed locally on 2026-06-05 as a docs/planning-only sprint.
 
 The new planning artifact is `PICKAXE_20_SECTION_EXECUTION_BLUEPRINT.md`. It defines the professional execution blueprint for the full `00-20` Pickaxe OS map using the current route order:

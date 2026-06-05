@@ -1,28 +1,56 @@
 :root {
   color-scheme: dark;
-  --bg: #0c0d0e;          /* Graphite/Obsidian background */
-  --panel: #11141a;       /* Dark navy panels */
-  --panel-2: #171c24;     /* Secondary panel background */
-  --line: #1d242e;        /* Sleek thin borders */
-  --text: #e2e8f0;
-  --muted: #8a9ba8;       /* Slate muted text */
-  --green: #00e676;       /* Bright positive status */
-  --red: #ff3d00;         /* Risk red/orange status */
-  --amber: #d4af37;       /* Restrained gold command accent */
-  --teal: #00e5ff;        /* Electric cyan */
-  --blue: #2979ff;        /* Electric blue */
-  --violet: #a78bfa;      /* Subtle purple for research/lab states */
-  --black: #050608;
-  --radius: 3px;          /* Minimalist radius */
+  --px-black: #050505;
+  --px-graphite: #111111;
+  --px-charcoal: #1A1712;
+  --px-ivory: #F6F0E4;
+  --px-paper: #EFE3CF;
+  --px-gold: #D4AF37;
+  --px-antique-gold: #B68A3A;
+  --px-bronze: #7A5A28;
+  --px-sage: #6F8068;
+  --px-risk: #9A4E45;
+  --px-muted: #A8A096;
+  --px-radius-xs: 8px;
+  --px-radius-sm: 10px;
+  --px-radius-md: 16px;
+  --px-radius-lg: 22px;
+  --px-radius-xl: 28px;
+  --px-border-soft: rgba(212, 175, 55, 0.18);
+  --px-border-muted: rgba(246, 240, 228, 0.10);
+  --px-border-quiet: rgba(168, 160, 150, 0.16);
+  --px-card: rgba(17, 17, 17, 0.92);
+  --px-card-raised: rgba(26, 23, 18, 0.88);
+  --px-card-quiet: rgba(246, 240, 228, 0.035);
+  --px-shadow-card: 0 18px 60px rgba(0, 0, 0, 0.32);
+  --px-shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.22);
+  --px-transition-fast: 150ms ease;
+  --px-transition: 220ms ease;
+  --px-z-sidebar: 30;
+  --px-z-topbar: 20;
+  --bg: var(--px-black);
+  --panel: var(--px-graphite);
+  --panel-2: var(--px-charcoal);
+  --line: var(--px-border-muted);
+  --text: var(--px-ivory);
+  --muted: var(--px-muted);
+  --green: var(--px-sage);
+  --red: var(--px-risk);
+  --amber: var(--px-gold);
+  --teal: var(--px-muted);
+  --blue: var(--px-sage);
+  --violet: var(--px-antique-gold);
+  --black: var(--px-black);
+  --radius: var(--px-radius-md);
   --sidebar-width: 290px;  /* Compact sidebar */
   --page-padding: clamp(16px, 1.5vw, 28px);
   --card-padding: 14px;
   --section-gap: 14px;
   --font-base: 13px;
   --font-small: 10.5px;
-  --glow-cyan: rgba(0, 229, 255, 0.18);
-  --glow-gold: rgba(212, 175, 55, 0.18);
-  --glow-violet: rgba(167, 139, 250, 0.15);
+  --glow-cyan: rgba(168, 160, 150, 0.10);
+  --glow-gold: rgba(212, 175, 55, 0.14);
+  --glow-violet: rgba(182, 138, 58, 0.10);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -16015,5 +16043,513 @@ body[data-active-view="alerts"] #alerts.active .pcad-purpose-strip button {
 
   .pcad-footer {
     display: grid;
+  }
+}
+
+/* CSS Consolidation / Premium Visual System Cleanup.
+   This final compatibility layer keeps existing route classes intact while
+   normalizing the shared Pickaxe surface, card, button, chip, table, and
+   responsive rules around the sovereign black/gold visual system. */
+:root {
+  --px-black: #050505 !important;
+  --px-graphite: #111111 !important;
+  --px-charcoal: #1A1712 !important;
+  --px-ivory: #F6F0E4 !important;
+  --px-paper: #EFE3CF !important;
+  --px-gold: #D4AF37 !important;
+  --px-antique-gold: #B68A3A !important;
+  --px-bronze: #7A5A28 !important;
+  --px-sage: #6F8068 !important;
+  --px-risk: #9A4E45 !important;
+  --px-muted: #A8A096 !important;
+  --px-radius-xs: 8px !important;
+  --px-radius-sm: 10px !important;
+  --px-radius-md: 16px !important;
+  --px-radius-lg: 22px !important;
+  --px-radius-xl: 28px !important;
+  --px-border-soft: rgba(212, 175, 55, 0.18) !important;
+  --px-border-muted: rgba(246, 240, 228, 0.10) !important;
+  --px-border-quiet: rgba(168, 160, 150, 0.16) !important;
+  --px-card: rgba(17, 17, 17, 0.92) !important;
+  --px-card-raised: rgba(26, 23, 18, 0.88) !important;
+  --px-card-quiet: rgba(246, 240, 228, 0.035) !important;
+  --px-shadow-card: 0 18px 60px rgba(0, 0, 0, 0.32) !important;
+  --px-shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.22) !important;
+  --px-transition-fast: 150ms ease !important;
+  --px-transition: 220ms ease !important;
+  --bg: var(--px-black) !important;
+  --bg-main: var(--px-black) !important;
+  --black: var(--px-black) !important;
+  --panel: var(--px-graphite) !important;
+  --panel-2: var(--px-charcoal) !important;
+  --surface-1: var(--px-graphite) !important;
+  --surface-2: var(--px-charcoal) !important;
+  --surface-3: #201c15 !important;
+  --line: var(--px-border-muted) !important;
+  --border-soft: var(--px-border-muted) !important;
+  --text: var(--px-ivory) !important;
+  --muted: var(--px-muted) !important;
+  --green: var(--px-sage) !important;
+  --red: var(--px-risk) !important;
+  --amber: var(--px-gold) !important;
+  --gold: var(--px-gold) !important;
+  --cyan: var(--px-muted) !important;
+  --teal: var(--px-muted) !important;
+  --blue: var(--px-sage) !important;
+  --violet: var(--px-antique-gold) !important;
+  --radius: var(--px-radius-md) !important;
+  --glow-cyan: rgba(168, 160, 150, 0.10) !important;
+  --glow-gold: rgba(212, 175, 55, 0.14) !important;
+  --glow-violet: rgba(182, 138, 58, 0.10) !important;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 78% -10%, rgba(212, 175, 55, 0.06), transparent 30%),
+    linear-gradient(180deg, var(--px-black) 0%, #080806 54%, #030303 100%) !important;
+  color: var(--px-ivory) !important;
+}
+
+body::before {
+  opacity: 0.28;
+}
+
+.shell {
+  width: 100%;
+  min-width: 0;
+  background: transparent !important;
+}
+
+main {
+  min-width: 0;
+  max-width: 100%;
+  background: transparent !important;
+}
+
+.view,
+.page-shell,
+.staging-qa-shell,
+.archive-declutter-shell,
+.source-hub-shell,
+.dashboard-shell {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.rail {
+  z-index: var(--px-z-sidebar, 30);
+  border-right: 1px solid var(--px-border-muted) !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), transparent 30%),
+    linear-gradient(180deg, rgba(17, 17, 17, 0.98), rgba(5, 5, 5, 0.99)) !important;
+  box-shadow: 18px 0 60px rgba(0, 0, 0, 0.18);
+}
+
+.brand,
+.rail-card,
+.rail-quote {
+  border-color: var(--px-border-muted) !important;
+  border-radius: var(--px-radius-md) !important;
+  background: rgba(246, 240, 228, 0.035) !important;
+  box-shadow: none !important;
+}
+
+.rail-quote {
+  display: block !important;
+  color: var(--px-muted) !important;
+}
+
+.rail-quote .label,
+.rail-quote strong,
+.sidebar-group-label {
+  color: var(--px-gold) !important;
+}
+
+.nav-button.sidebar-item {
+  border: 1px solid transparent !important;
+  border-radius: var(--px-radius-sm) !important;
+  background: rgba(246, 240, 228, 0.025) !important;
+  box-shadow: none !important;
+  color: var(--px-muted) !important;
+  transition: background var(--px-transition-fast), border-color var(--px-transition-fast), color var(--px-transition-fast), transform var(--px-transition-fast);
+}
+
+.nav-button.sidebar-item:hover {
+  border-color: var(--px-border-soft) !important;
+  background: rgba(212, 175, 55, 0.055) !important;
+  color: var(--px-ivory) !important;
+  transform: translateX(1px);
+}
+
+.nav-button.sidebar-item.active {
+  border-color: rgba(212, 175, 55, 0.38) !important;
+  background:
+    linear-gradient(90deg, rgba(212, 175, 55, 0.13), rgba(246, 240, 228, 0.028)) !important;
+  box-shadow: inset 3px 0 0 var(--px-gold) !important;
+  color: var(--px-ivory) !important;
+}
+
+.nav-button.sidebar-item .sidebar-code {
+  border-color: rgba(246, 240, 228, 0.12) !important;
+  background: rgba(0, 0, 0, 0.18) !important;
+  color: var(--px-muted) !important;
+}
+
+.nav-button.sidebar-item.active .sidebar-code,
+.dashboard-pin .sidebar-code {
+  border-color: rgba(212, 175, 55, 0.40) !important;
+  color: var(--px-gold) !important;
+  background: rgba(212, 175, 55, 0.085) !important;
+}
+
+.topbar,
+.panel,
+.glass-card,
+.command-card,
+.truth-panel,
+.metric-card,
+.mini-card,
+.signal-card,
+.summary-card,
+.vault-card,
+.compact-card,
+.source-card,
+.archive-intel-card,
+.pipeline-card,
+.integration-card-grid article,
+.route-status-board article,
+.tracker-area-card,
+.latest-session-card,
+.tracker-add-card,
+.archive-system-card,
+.jarvis-card,
+.ceob-briefing-card,
+.project-route-grid article,
+.pc-panel,
+.pc-card,
+.pc-metric-card,
+.alerts-focus-hero,
+.alerts-focus-primary,
+.alerts-focus-checks,
+.alerts-focus-queue,
+#staging.active .staging-purpose-line,
+#staging.active .staging-command-panel,
+#staging.active .staging-quiet-band,
+#staging.active .staging-quiet-details {
+  border-color: var(--px-border-muted) !important;
+  border-radius: var(--px-radius-lg) !important;
+  background:
+    linear-gradient(145deg, rgba(246, 240, 228, 0.038), rgba(246, 240, 228, 0.012) 44%),
+    var(--px-card) !important;
+  box-shadow: var(--px-shadow-soft) !important;
+  color: var(--px-ivory) !important;
+}
+
+.pc-card:hover,
+.glass-card:hover,
+.command-card:hover,
+.metric-card:hover,
+.vault-card:hover,
+.tracker-area-card:hover {
+  border-color: var(--px-border-soft) !important;
+  box-shadow: var(--px-shadow-card) !important;
+}
+
+.page-title,
+.page-hero h1,
+.page-hero h2,
+.topbar h1,
+.panel h2,
+.panel h3,
+.glass-card h3,
+.command-card h3,
+.truth-panel h3,
+.metric-card strong,
+.vault-card h3,
+.source-card h3,
+.archive-intel-card h3 {
+  color: var(--px-ivory) !important;
+  text-shadow: none !important;
+}
+
+.page-subtitle,
+.card-copy,
+.muted,
+.panel p,
+.glass-card p,
+.command-card p,
+.truth-panel p,
+.metric-card p,
+.source-card p,
+.archive-intel-card p {
+  color: var(--px-muted) !important;
+}
+
+.eyebrow,
+.meta-label,
+.label,
+.page-kicker,
+.pill,
+.status-strip,
+.signal-badges span {
+  border-color: var(--px-border-soft) !important;
+  color: var(--px-gold) !important;
+  background: rgba(212, 175, 55, 0.07) !important;
+}
+
+.pc-action-btn,
+.primary-action,
+.secondary-action,
+.archive-actions a,
+.archive-actions button,
+.source-card a,
+.source-card button,
+.project-route-grid a,
+.quick-action-dock a {
+  border-radius: var(--px-radius-sm) !important;
+  border-color: rgba(212, 175, 55, 0.28) !important;
+  background: rgba(212, 175, 55, 0.075) !important;
+  color: var(--px-gold) !important;
+  box-shadow: none !important;
+  transition: background var(--px-transition-fast), border-color var(--px-transition-fast), color var(--px-transition-fast), transform var(--px-transition-fast);
+}
+
+.primary-action,
+.pc-action-btn:not(.secondary):not(.risk) {
+  background: linear-gradient(180deg, var(--px-gold), var(--px-antique-gold)) !important;
+  border-color: rgba(212, 175, 55, 0.55) !important;
+  color: var(--px-black) !important;
+}
+
+.pc-action-btn.secondary,
+.secondary-action,
+.source-card button {
+  border-color: var(--px-border-muted) !important;
+  background: rgba(246, 240, 228, 0.035) !important;
+  color: var(--px-ivory) !important;
+}
+
+.pc-action-btn.risk,
+.delete-btn {
+  border-color: rgba(154, 78, 69, 0.42) !important;
+  background: rgba(154, 78, 69, 0.08) !important;
+  color: #d08b82 !important;
+  box-shadow: none !important;
+}
+
+.pc-action-btn:hover,
+.primary-action:hover,
+.secondary-action:hover,
+.archive-actions a:hover,
+.archive-actions button:hover,
+.source-card a:hover,
+.source-card button:hover {
+  border-color: var(--px-gold) !important;
+  transform: translateY(-1px);
+}
+
+.pc-status-chip,
+.status-badge,
+.priority-badge,
+.tracker-badge,
+.truth-pill,
+.check-status,
+.pcad-status-chip {
+  border-radius: 999px !important;
+  border-color: var(--px-border-muted) !important;
+  background: rgba(246, 240, 228, 0.04) !important;
+  color: var(--px-muted) !important;
+  box-shadow: none !important;
+}
+
+.pc-status-chip.manual-review,
+.pc-status-chip.research,
+.status-badge.review,
+.priority-badge.high,
+.tracker-badge {
+  border-color: rgba(212, 175, 55, 0.30) !important;
+  background: rgba(212, 175, 55, 0.08) !important;
+  color: var(--px-gold) !important;
+}
+
+.pc-status-chip.local-state,
+.pc-status-chip.mock-ready,
+.pc-status-chip.adapter-ready,
+.status-badge.active,
+.status-badge.approved,
+.status-badge.verified,
+.pcad-status-chip.operational,
+.pcad-status-chip.verified-local,
+.pcad-status-chip.active-mock {
+  border-color: rgba(111, 128, 104, 0.36) !important;
+  background: rgba(111, 128, 104, 0.11) !important;
+  color: #aebba6 !important;
+}
+
+.pc-status-chip.no-live-data,
+.pc-status-chip.no-broker,
+.pc-status-chip.future-adapter,
+.status-badge.risk,
+.status-badge.blocked,
+.priority-badge.critical,
+.pcad-status-chip.risk-gate {
+  border-color: rgba(154, 78, 69, 0.40) !important;
+  background: rgba(154, 78, 69, 0.10) !important;
+  color: #d08b82 !important;
+}
+
+.premium-table,
+.source-table,
+.tracker-table,
+.ownership-table,
+.pcad-table {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.premium-table table,
+.source-table table,
+.tracker-table table,
+.ownership-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.premium-table th,
+.premium-table td,
+.source-table th,
+.source-table td {
+  border-color: var(--px-border-muted) !important;
+}
+
+.premium-table tbody tr,
+.source-table span,
+.tracker-table > *,
+.ownership-table > * {
+  border-color: var(--px-border-muted) !important;
+}
+
+.premium-table tbody tr:hover,
+.source-table span:hover,
+.tracker-table > *:hover {
+  background: rgba(212, 175, 55, 0.045) !important;
+}
+
+body[data-active-view="alerts"] {
+  --pcad-bg: var(--px-black);
+  --pcad-panel: rgba(17, 17, 17, 0.94);
+  --pcad-panel-2: rgba(26, 23, 18, 0.88);
+  --pcad-line: rgba(212, 175, 55, 0.40);
+  --pcad-line-soft: rgba(212, 175, 55, 0.18);
+  --pcad-gold: var(--px-gold);
+  --pcad-gold-soft: var(--px-antique-gold);
+  --pcad-text: var(--px-ivory);
+  --pcad-muted: var(--px-muted);
+  --pcad-green: var(--px-sage);
+  --pcad-red: var(--px-risk);
+}
+
+.pcad-topbar,
+.pcad-panel,
+.pcad-metric-card,
+.pcad-playbook,
+.pcad-purpose-strip,
+.pcad-detail-layer,
+.pcad-footer {
+  border-radius: var(--px-radius-md) !important;
+  box-shadow: var(--px-shadow-soft) !important;
+}
+
+.pcad-table-row,
+body[data-active-view="alerts"] #alerts.active .pcad-table-row,
+body[data-active-view="alerts"] #alerts.active button.pcad-table-row {
+  border-radius: var(--px-radius-sm) !important;
+}
+
+.pcad-table-row em {
+  border-radius: 999px !important;
+}
+
+@media (max-width: 1180px) {
+  .shell {
+    grid-template-columns: minmax(220px, var(--sidebar-width)) minmax(0, 1fr);
+  }
+
+  .page-shell,
+  .view.active {
+    padding-inline: clamp(12px, 2vw, 20px);
+  }
+}
+
+@media (max-width: 760px) {
+  html,
+  body,
+  .shell,
+  main,
+  .view,
+  .page-shell {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .shell {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .rail {
+    position: relative !important;
+    top: auto !important;
+    width: 100%;
+    height: auto !important;
+    max-height: none !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--px-border-muted) !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  .topbar,
+  .panel,
+  .glass-card,
+  .command-card,
+  .truth-panel,
+  .metric-card,
+  .vault-card,
+  .source-card,
+  .archive-intel-card,
+  .pc-panel,
+  .pc-card,
+  .pc-metric-card,
+  .alerts-focus-hero,
+  .alerts-focus-primary,
+  .alerts-focus-checks,
+  .alerts-focus-queue {
+    border-radius: var(--px-radius-md) !important;
+  }
+
+  .primary-action,
+  .secondary-action,
+  .pc-action-btn {
+    width: 100%;
+    min-height: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
   }
 }

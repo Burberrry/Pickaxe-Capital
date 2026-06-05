@@ -1,5 +1,22 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint — CSS Consolidation / Premium Visual System Cleanup
+
+- Latest local build: CSS Consolidation / Premium Visual System Cleanup.
+- Date: 2026-06-05.
+- Sprint type: CSS/front-end consolidation only.
+- Consolidated the visual foundation around Pickaxe Sovereign / luxury OS tokens for sovereign black, executive graphite, deep charcoal, soft ivory, warm paper, champagne gold, antique gold, bronze, verified sage, risk brick, muted text, borders, radii, shadows, transitions, and shell layers.
+- Added a final compatibility layer in `styles.css` and `public/styles.css` that preserves existing route classes while normalizing app shell, sidebar, route containers, cards, buttons, chips, badges, tables, research streams, mobile stacking, overflow handling, and reduced-motion behavior.
+- Neutralized older cyber/neon drift by aliasing legacy cyan/blue/violet/glow variables into the calmer black/gold/sage/muted Pickaxe palette.
+- Preserved the Alerts Desk `pcad-*` packet detail layer, company monograms, research confidence, metrics cards, Source Hub, Archive, Staging, Watchlists, Roadmap, sidebar zones, route order, localStorage behavior, and no-live/no-execution safety language.
+- Updated the stylesheet cache key to `css-consolidation-20260605` in `index.html` and `public/index.html`.
+- No app logic, route architecture, sidebar renumbering, HTML structure changes beyond the CSS cache key, live APIs, backend systems, provider adapters, broker integrations, autonomous agents, fake live data, payment/auth, private-note exposure, or `data/signal-alerts.json` changes were added.
+- Validation passed locally with `/Applications/Codex.app/Contents/Resources/node --run build` and `/Applications/Codex.app/Contents/Resources/node --run check:project`.
+- Browser verification passed for `/`, `#/alerts`, `#/dashboard`, `#/source-hub`, `#/archive`, `#/staging`, `#/watchlists`, `#/agents`, `#/roadmap`, `#/ai-habitat-os`, and `#/research`: no console errors, no blank content, no desktop horizontal overflow, no mobile horizontal overflow at 390px, `/` and `#/alerts` open Alerts Desk, `#/dashboard` opens Mission Control, sidebar zones remain `COMMAND`, `INTELLIGENCE`, `MEMORY`, `OPERATIONS`, and `EXPANSION`, sidebar order remains `00-20`, `00 Alerts Desk` remains first, `01 Mission Control` remains second, `.rail-quote` remains visible, and critical routes render.
+- `/ai-handoff` returned HTTP 200 locally.
+- `data/signal-alerts.json` remains unstaged and uncommitted.
+- Stop after reporting validation, commit, push status, and final git status.
+
 ## Current Checkpoint — Pickaxe 20-Section Execution Blueprint
 
 - Latest local build: Pickaxe 20-Section Execution Blueprint.
