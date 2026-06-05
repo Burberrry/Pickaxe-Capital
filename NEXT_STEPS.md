@@ -2,6 +2,30 @@
 
 ## Current Active Checkpoint
 
+00 Alerts Desk Safety Language + Final Lock Check was completed locally on 2026-06-05. `/` and `#/alerts` remain the Alerts Desk homepage and now use safer research-only language across the premium dark command desk.
+
+The Alerts Desk visual direction is preserved: luxury black/gold research cockpit, left source rail, options research review stream, right watchlist/sentiment/regime panels, bottom call/put educational framework panels, and CEO B manual review identity.
+
+Final language changes:
+
+- `Options Research Review Stream`
+- `Options Research Candidates`
+- `Review Direction`
+- `Call Research Candidate Framework`
+- `Put Research Candidate Framework`
+- `Manual Review Required`
+- `Source Verification Needed`
+- `Risk Gate`
+- `Static Prototype`
+- `Mock / No Live Provider Data`
+- `No Broker Execution`
+
+Visual filters remain visual-only/local mock filters pending B approval. No route architecture, backend, live API, provider adapter, broker integration, autonomous agent, real execution, copy-trading, Watchlists logic, Source Hub workflow, Archive model, Options logic, or `data/signal-alerts.json` changes were added.
+
+Validation passed locally with build, project check, desktop browser route sweep, mobile Alerts Desk overflow check, and `/ai-handoff` HTTP 200. `data/signal-alerts.json` remained unstaged and uncommitted.
+
+Stop after final lock report. Future work requires B approval.
+
 Phase 2P Staging Declutter was completed locally on 2026-06-04. `#/staging` now reads as a QA / build-readiness command center, not a dense tracker page.
 
 Staging now has one hero, one clear purpose/manual action, and three above-fold panels:

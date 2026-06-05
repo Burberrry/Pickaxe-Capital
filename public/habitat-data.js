@@ -632,8 +632,9 @@ window.PickaxeHabitatData = {
     { id: "founder-decision-cleanup", title: "Founder Decision: Clean before scale", type: "Founder Decision", sourceHabitat: "Founder OS", sourceWebsite: "CEO B", relatedAgent: "CEO B / Wealth Alchemist", summary: "Apply Berkshire cleanup logic to websites, agents, archives, investments, and personal execution.", tags: ["founder", "cleanup", "scale"], confidence: 90, valueScore: 94, status: "CEO B Review", lesson: "Compounding starts when drag is removed.", nextAction: "Add to founder operating rules.", sourceRoute: "/founder", reviewDate: "local/mock" },
   ],
   buildCompletionTracker: {
-    lastUpdated: "2026-06-04",
+    lastUpdated: "2026-06-05",
     areas: [
+      { id: "alerts-desk-safety-language-final-lock", name: "00 Alerts Desk Safety Language + Final Lock Check", group: "CEO B Review Workflow", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Alerts Desk", notes: "Final safety-language pass for / and #/alerts. Preserved the premium dark command desk and luxury black/gold research cockpit while replacing trade-like labels with Options Research Review Stream, Options Research Candidates, Review Direction, Call Research Candidate Framework, Put Research Candidate Framework, Manual Review Required, Source Verification Needed, Risk Gate, Static Prototype, Mock / No Live Provider Data, and No Broker Execution. Kept localStorage pickaxeOptionAlerts selection/actions, source rail, research stream, right watchlist/sentiment/regime panels, and bottom educational framework panels. No live APIs, provider adapters, backend, broker execution, fake live data, scraping, auto-trading, betting execution, copy-trading, autonomous agents, private frontend keys, route architecture changes, or data/signal-alerts.json changes were added.", nextAction: "Stop after final lock report. Future work requires B approval." },
       { id: "phase-2p-staging-declutter", name: "Phase 2P Staging Declutter", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / System Brain", notes: "Decluttered #/staging into a QA / build-readiness command center with one hero, a clear purpose and manual action, and three above-fold panels: Current Locked Phase, Route Stability Matrix, and Next Approval Queue. Moved Build Completion Tracker, mission board, backup/restore, recovery, advanced diagnostics, and future adapter research lower behind quiet details. Preserved pickaxeCompletionTracker, backup/export/import functionality, route behavior, sidebar zones, Source Hub workflow, Archive memory model, Watchlists state, Agents placeholder, Options deferral, no-live/no-execution boundaries, and data/signal-alerts.json untouched.", nextAction: "CSS Consolidation, then Watchlists Polish after B approval." },
       { id: "sidebar-navigation-os-zones", name: "Sidebar / Navigation Consolidation", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / System Brain", notes: "Converted the sidebar into a two-layer Pickaxe OS map with zones COMMAND, INTELLIGENCE, MEMORY, OPERATIONS, and EXPANSION. Visible route order is 00-20 with Alerts Desk first and Mission Control second. Preserved route behavior, aliases, static-first architecture, Source Hub workflow, Archive workflow, Watchlists logic, Agents placeholder behavior, Options deferral, and all no-live/no-execution boundaries. No data/signal-alerts.json changes.", nextAction: "Phase 2P Staging Declutter, then CSS Consolidation." },
       { id: "alerts-first-mindset-quote-polish", name: "Alerts First + Mindset Quote Polish", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "High", owner: "CEO B / System Brain", notes: "Small UI/content polish only. Alerts Desk is visible route/order 00 and first in the sidebar/navigation. Mission Control is visible route/order 01 and remains #/dashboard. / and #/alerts remain the Alerts Desk / Review Queue homepage. Added concise premium mindset quotes to the rotating mindset rail and Founder / CEO B profile operating-rules band. No route architecture, backend, dependency, live API, provider adapter, broker, betting/sportsbook, copy-trading, Source Hub workflow, Archive workflow, Watchlists logic, Agents behavior, Options logic, localStorage key, or data/signal-alerts.json changes.", nextAction: "Lock Emergency Visual Triage, then choose sidebar/navigation consolidation or Staging declutter." },
@@ -680,25 +681,26 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
+      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md"],
       featuresAdded: [
-        "Decluttered #/staging into a QA / build-readiness command center.",
-        "Added the three above-fold Staging panels: Current Locked Phase, Route Stability Matrix, and Next Approval Queue.",
-        "Moved Build Completion Tracker, mission board, backup/restore, recovery, and advanced diagnostics lower behind quiet disclosure sections.",
-        "Kept sidebar zones, Alerts Desk 00, Mission Control 01, and existing route behavior intact."
+        "Finalized / and #/alerts safety language for the premium dark command desk.",
+        "Replaced trade-like labels with research-only terminology: Options Research Review Stream, Review Direction, Call Research Candidate Framework, and Put Research Candidate Framework.",
+        "Preserved localStorage-backed mock alert packets, row selection, local-only action buttons, source rail, right panels, and bottom educational framework panels.",
+        "Kept the desk labeled as Static Prototype, Mock / No Live Provider Data, No Broker Execution, and CEO B manual review."
       ],
       bugsFixed: [
-        "Reduced the Staging top surface from a generic QA/tracker dump into a focused release-control board.",
-        "Kept the editable pickaxeCompletionTracker controls available without letting long logs dominate the first screen.",
+        "Removed wording that implied directional instruction instead of research review.",
+        "Removed trade-like table/action labels from the active Alerts Desk renderer.",
         "Preserved route architecture, backend behavior, Source Hub workflow, Archive workflow, Watchlists logic, Agents placeholder behavior, Options deferral, and all no-live/no-execution boundaries."
       ],
-      validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; browser route sweep for /, #/alerts, #/dashboard, #/source-hub, #/archive, #/staging, #/watchlists, #/agents, #/roadmap, #/founder, #/ceo-b-profile; mobile sidebar overflow check; local fetch /ai-handoff",
-      validationResult: "Local validation passed on 2026-06-04: build validation passed, project check passed, browser route sweep rendered the required pages with no console errors or desktop horizontal overflow, #/staging showed one hero and the three requested above-fold panels, mobile Staging/sidebar overflow check passed, and /ai-handoff returned HTTP 200.",
+      validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; browser route checks for /, #/alerts, #/dashboard, #/staging, #/source-hub, #/archive, #/watchlists, #/agents, #/roadmap, #/ai-habitat-os; local fetch /ai-handoff",
+      validationResult: "Local validation passed on 2026-06-05: build validation passed, project check passed, browser route sweep passed for /, #/alerts, #/dashboard, #/staging, #/source-hub, #/archive, #/watchlists, #/agents, #/roadmap, and #/ai-habitat-os with no console errors, no blank content, no desktop horizontal overflow, correct / and #/alerts routing, #/dashboard Mission Control routing, sidebar 00 Alerts Desk first and 01 Mission Control second, rail quote visible, restricted trade-like labels absent, and mobile Alerts Desk overflow clean. /ai-handoff returned HTTP 200.",
       remainingProblems: [
         "The CSS file still contains older historical polish blocks and should be consolidated in a future cleanup pass.",
+        "The new Alerts Desk filters are visual-only for now; they do not yet filter the local mock stream.",
         "Live data connectors and real agent telemetry remain not connected."
       ],
-      nextRecommendedTask: "CSS Consolidation, then Watchlists Polish. B must approve before either sprint starts."
+      nextRecommendedTask: "Stop after final lock report. Future work requires B approval."
     },
   },
   marketWatchlist: [

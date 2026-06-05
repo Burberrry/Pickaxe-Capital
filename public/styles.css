@@ -14500,3 +14500,1021 @@ body[data-active-view="alerts"] #alerts.active .alerts-focus-queue button span,b
     justify-self: start;
   }
 }
+
+/* 00 Alerts Desk premium mock terminal. */
+body[data-active-view="alerts"] {
+  --pcad-bg: #05080a;
+  --pcad-panel: rgba(8, 18, 20, 0.94);
+  --pcad-panel-2: rgba(11, 23, 25, 0.88);
+  --pcad-line: rgba(218, 153, 61, 0.46);
+  --pcad-line-soft: rgba(218, 153, 61, 0.22);
+  --pcad-gold: #e2a84b;
+  --pcad-gold-soft: #b9853b;
+  --pcad-text: #f1dfbd;
+  --pcad-muted: #a99f8b;
+  --pcad-green: #87d85f;
+  --pcad-red: #ff5145;
+}
+
+body[data-active-view="alerts"] .shell {
+  display: grid !important;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr) !important;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(226, 168, 75, 0.07), transparent 24%),
+    linear-gradient(180deg, #071012 0%, #05080a 58%, #020405 100%) !important;
+}
+
+body[data-active-view="alerts"] .topbar {
+  display: none !important;
+}
+
+body[data-active-view="alerts"] .rail {
+  display: block !important;
+}
+
+body[data-active-view="alerts"] main {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 !important;
+  background: var(--pcad-bg) !important;
+}
+
+body[data-active-view="alerts"] #alerts.active {
+  padding: 0 !important;
+}
+
+.pcad-shell {
+  min-height: 100vh;
+  padding: 8px;
+  color: var(--pcad-text);
+  background:
+    linear-gradient(rgba(226, 168, 75, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(226, 168, 75, 0.025) 1px, transparent 1px),
+    radial-gradient(circle at 72% 18%, rgba(116, 209, 92, 0.08), transparent 24%),
+    #030608;
+  background-size: 44px 44px, 44px 44px, auto, auto;
+  border: 1px solid var(--pcad-line-soft);
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.78);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.pcad-topbar,
+.pcad-panel,
+.pcad-metric-card,
+.pcad-playbook,
+.pcad-footer {
+  border: 1px solid var(--pcad-line);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.035), transparent 42%),
+    var(--pcad-panel);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 224, 160, 0.08),
+    0 0 28px rgba(0, 0, 0, 0.34);
+}
+
+.pcad-topbar {
+  display: grid;
+  grid-template-columns: 250px minmax(280px, 1fr) minmax(360px, auto) 230px;
+  gap: 16px;
+  align-items: center;
+  min-height: 70px;
+  padding: 10px 18px;
+}
+
+.pcad-brand,
+.pcad-title-block,
+.pcad-nav,
+.pcad-officer {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.pcad-brand {
+  gap: 14px;
+  color: var(--pcad-gold);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.pcad-brand-mark,
+.pcad-officer span {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--pcad-gold);
+  border-radius: 50%;
+  color: var(--pcad-gold);
+  background: rgba(226, 168, 75, 0.06);
+}
+
+.pcad-brand-mark {
+  width: 46px;
+  height: 46px;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+.pcad-brand strong,
+.pcad-brand em,
+.pcad-title-block h2,
+.pcad-panel-head span,
+.pcad-stream-head h3,
+.pcad-playbook h3,
+.pcad-climate strong {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pcad-brand strong {
+  display: block;
+  color: var(--pcad-gold) !important;
+  font-size: 25px;
+  line-height: 0.9;
+}
+
+.pcad-brand em {
+  display: block;
+  margin-top: 4px;
+  color: var(--pcad-gold) !important;
+  font-size: 11px;
+  font-style: normal;
+  text-align: center;
+}
+
+.pcad-title-block {
+  justify-content: space-between;
+  gap: 16px;
+  padding-left: 22px;
+  border-left: 1px solid var(--pcad-line-soft);
+}
+
+.pcad-title-block h2 {
+  margin: 0;
+  color: var(--pcad-gold) !important;
+  font-size: 31px;
+  line-height: 1;
+  text-shadow: 0 0 18px rgba(226, 168, 75, 0.16) !important;
+}
+
+.pcad-title-block p,
+.pcad-panel-head small,
+.pcad-stream-head span,
+.pcad-metric-card p,
+.pcad-system-card p,
+.pcad-climate p,
+.pcad-footer,
+.pcad-officer em {
+  color: var(--pcad-muted);
+}
+
+.pcad-title-block p {
+  margin: 4px 0 0;
+  font-size: 13px;
+}
+
+.pcad-private,
+.pcad-stream-actions button,
+.pcad-filters button,
+.pcad-system-card a,
+.pcad-regime a {
+  border: 1px solid var(--pcad-line);
+  color: var(--pcad-gold);
+  background: rgba(226, 168, 75, 0.06);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.pcad-private {
+  flex: 0 0 auto;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.pcad-nav {
+  justify-content: center;
+  gap: 18px;
+}
+
+.pcad-nav a {
+  color: rgba(241, 223, 189, 0.54);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.pcad-nav a.active,
+.pcad-nav a:hover {
+  color: var(--pcad-gold);
+}
+
+.pcad-officer {
+  justify-content: flex-end;
+  gap: 12px;
+  border-left: 1px solid var(--pcad-line-soft);
+  padding-left: 18px;
+}
+
+.pcad-officer span {
+  width: 42px;
+  height: 42px;
+  font-family: Georgia, serif;
+}
+
+.pcad-officer strong,
+.pcad-officer em {
+  display: block;
+}
+
+.pcad-officer strong {
+  color: var(--pcad-text);
+  font-size: 13px;
+}
+
+.pcad-officer em {
+  font-size: 11px;
+  font-style: normal;
+}
+
+.pcad-grid {
+  display: grid;
+  grid-template-columns: 305px minmax(760px, 1fr) 405px;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 0 0 !important;
+}
+
+.pcad-left,
+.pcad-center,
+.pcad-right {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.pcad-panel,
+.pcad-metric-card,
+.pcad-playbook {
+  min-width: 0;
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.pcad-panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.pcad-panel-head span,
+.pcad-stream-head h3,
+.pcad-playbook h3 {
+  color: var(--pcad-gold) !important;
+  font-size: 15px;
+}
+
+.pcad-panel-head small,
+.pcad-panel-head a {
+  font-size: 11px;
+}
+
+.pcad-panel-head a {
+  color: var(--pcad-gold);
+  text-decoration: none;
+}
+
+.pcad-source-list {
+  position: relative;
+  display: grid;
+  gap: 9px;
+}
+
+.pcad-source-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  min-height: 58px;
+  padding: 8px 42px 8px 10px;
+  border: 1px solid var(--pcad-line-soft);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.pcad-source-row::after {
+  content: "";
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--pcad-line), transparent);
+  box-shadow: 0 0 10px rgba(226, 168, 75, 0.72);
+}
+
+.pcad-source-row b {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--pcad-line);
+  border-radius: 50%;
+  color: var(--pcad-gold);
+  font-family: Georgia, serif;
+}
+
+.pcad-source-row strong,
+.pcad-source-row small {
+  display: block;
+}
+
+.pcad-source-row strong {
+  color: var(--pcad-text);
+  font-family: Georgia, serif;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pcad-source-row small {
+  margin-top: 3px;
+  color: var(--pcad-muted);
+  font-size: 11px;
+}
+
+.pcad-system-card {
+  display: grid;
+  gap: 12px;
+}
+
+.pcad-system-card span,
+.pcad-climate span,
+.pcad-regime > span,
+.pcad-metric-card small {
+  color: var(--pcad-gold);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pcad-system-card strong {
+  color: var(--pcad-green) !important;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pcad-system-card a,
+.pcad-regime a {
+  display: inline-flex;
+  justify-content: center;
+  padding: 9px 12px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.pcad-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pcad-metric-card {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 2px 12px;
+  min-height: 132px;
+  align-content: center;
+}
+
+.pcad-metric-card small,
+.pcad-metric-card strong,
+.pcad-metric-card p {
+  grid-column: 2;
+  margin: 0;
+}
+
+.pcad-metric-card strong {
+  color: var(--pcad-text) !important;
+  font-family: Georgia, serif;
+  font-size: 36px;
+  line-height: 1;
+}
+
+.pcad-metric-card strong em {
+  color: var(--pcad-muted) !important;
+  font-size: 14px;
+  font-style: normal;
+}
+
+.pcad-metric-card p {
+  font-size: 12px;
+}
+
+.pcad-icon,
+.pcad-gauge {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  align-self: center;
+}
+
+.pcad-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--pcad-line);
+  border-radius: 50%;
+}
+
+.pcad-icon::before {
+  color: var(--pcad-gold);
+  font-family: Georgia, serif;
+  font-size: 23px;
+}
+
+.pcad-icon.bell::before { content: "!"; }
+.pcad-icon.shield::before { content: "*"; }
+.pcad-icon.network::before { content: "+"; }
+
+.pcad-gauge,
+.pcad-sentiment-gauge {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, #071012 54%, transparent 56%),
+    conic-gradient(var(--pcad-green) 0deg var(--gauge), var(--pcad-red) var(--gauge) 360deg);
+}
+
+.pcad-gauge {
+  width: 60px;
+  height: 60px;
+}
+
+.pcad-gauge strong {
+  grid-column: auto;
+  color: var(--pcad-green) !important;
+  font-size: 19px;
+}
+
+.pcad-gauge-card p b {
+  color: var(--pcad-green);
+}
+
+.pcad-gauge-card p .danger,
+.pcad-mini-table .down,
+.pcad-sentiment .danger,
+.pcad-regime .danger {
+  color: var(--pcad-red);
+}
+
+.pcad-stream-panel {
+  padding: 10px;
+}
+
+.pcad-stream-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: end;
+  padding: 0 6px 10px;
+  border-bottom: 1px solid var(--pcad-line-soft);
+}
+
+.pcad-stream-head h3 {
+  margin: 0;
+}
+
+.pcad-stream-head small {
+  color: var(--pcad-muted);
+  font-size: 12px;
+}
+
+.pcad-table {
+  display: grid;
+  gap: 7px;
+  margin-top: 9px;
+}
+
+.pcad-table-row {
+  display: grid;
+  grid-template-columns: 72px 120px 76px 120px 126px 145px minmax(170px, 1fr) 150px 92px;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  min-height: 66px;
+  padding: 8px 10px;
+  border: 1px solid rgba(226, 168, 75, 0.15);
+  border-radius: 5px;
+  color: var(--pcad-muted);
+  background: rgba(3, 8, 10, 0.72);
+  text-align: left;
+}
+
+.pcad-table-row.head {
+  min-height: 30px;
+  color: var(--pcad-gold-soft);
+  background: transparent;
+  border-color: transparent;
+  font-family: Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+button.pcad-table-row:hover,
+button.pcad-table-row.active {
+  border-color: var(--pcad-line);
+  box-shadow: inset 0 0 22px rgba(226, 168, 75, 0.06);
+}
+
+.pcad-table-row span {
+  min-width: 0;
+}
+
+.pcad-table-row strong,
+.pcad-table-row small,
+.pcad-table-row b,
+.pcad-table-row em {
+  display: block;
+}
+
+.pcad-table-row b {
+  color: var(--pcad-green);
+  font-family: Georgia, serif;
+  font-size: 23px;
+  letter-spacing: 0.03em;
+}
+
+.pcad-table-row.put b {
+  color: var(--pcad-red);
+}
+
+.pcad-table-row em {
+  width: fit-content;
+  margin-top: 3px;
+  padding: 2px 8px;
+  border: 1px solid rgba(135, 216, 95, 0.25);
+  border-radius: 4px;
+  color: var(--pcad-green);
+  background: rgba(135, 216, 95, 0.08);
+  font-size: 10px;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.pcad-table-row.put em {
+  border-color: rgba(255, 81, 69, 0.25);
+  color: var(--pcad-red);
+  background: rgba(255, 81, 69, 0.08);
+}
+
+.pcad-spark {
+  width: 100%;
+  height: 44px;
+  overflow: visible;
+}
+
+.pcad-spark polyline {
+  fill: none;
+  stroke: var(--pcad-green);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 5px rgba(135, 216, 95, 0.35));
+}
+
+.pcad-spark.bear polyline {
+  stroke: var(--pcad-red);
+  filter: drop-shadow(0 0 5px rgba(255, 81, 69, 0.35));
+}
+
+.pcad-stream-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.pcad-stream-actions button,
+.pcad-filters button {
+  min-height: 34px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.pcad-stream-actions button.primary,
+.pcad-filters button.active {
+  color: #071012;
+  background: linear-gradient(180deg, #f1c46a, #b97831);
+}
+
+.pcad-playbooks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pcad-playbook {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.2fr) minmax(190px, 0.8fr);
+  gap: 12px;
+  min-height: 255px;
+}
+
+.pcad-playbook h3 {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.pcad-play-chart {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: 150px;
+  border: 1px solid rgba(226, 168, 75, 0.12);
+  background:
+    linear-gradient(rgba(226, 168, 75, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(226, 168, 75, 0.04) 1px, transparent 1px),
+    rgba(0, 0, 0, 0.2);
+  background-size: 22px 22px;
+  padding: 18px;
+}
+
+.pcad-play-chart .pcad-spark {
+  height: 118px;
+}
+
+.pcad-play-chart span {
+  position: absolute;
+  left: 42%;
+  top: 34%;
+  color: var(--pcad-gold);
+  font-family: Georgia, serif;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pcad-playbook ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pcad-playbook li {
+  padding: 8px 10px;
+  border: 1px solid rgba(226, 168, 75, 0.14);
+  border-radius: 5px;
+  color: var(--pcad-muted);
+  background: rgba(255, 255, 255, 0.025);
+  font-size: 12px;
+}
+
+.pcad-entry {
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+  border: 1px solid var(--pcad-line-soft);
+  border-radius: 5px;
+}
+
+.pcad-entry span,
+.pcad-entry em {
+  color: var(--pcad-gold);
+  font-size: 11px;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.pcad-entry strong {
+  color: var(--pcad-green);
+}
+
+.pcad-playbook.puts .pcad-entry strong {
+  color: var(--pcad-red);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.pcad-right .pcad-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.pcad-climate strong {
+  color: var(--pcad-green) !important;
+  font-size: 26px;
+}
+
+.pcad-filters > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.pcad-filters button:nth-child(n + 5) {
+  grid-template-columns: auto;
+}
+
+body[data-active-view="alerts"] #alerts.active .pcad-shell :is(button, a) {
+  border-color: var(--pcad-line) !important;
+}
+
+body[data-active-view="alerts"] #alerts.active .pcad-table-row,
+body[data-active-view="alerts"] #alerts.active button.pcad-table-row {
+  color: var(--pcad-muted) !important;
+  background: rgba(3, 8, 10, 0.74) !important;
+  border-color: rgba(226, 168, 75, 0.15) !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+}
+
+body[data-active-view="alerts"] #alerts.active .pcad-table-row.head {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--pcad-gold-soft) !important;
+}
+
+body[data-active-view="alerts"] #alerts.active button.pcad-table-row:hover,
+body[data-active-view="alerts"] #alerts.active button.pcad-table-row.active {
+  border-color: var(--pcad-line) !important;
+  background: rgba(10, 20, 20, 0.92) !important;
+  box-shadow: inset 0 0 22px rgba(226, 168, 75, 0.06) !important;
+}
+
+body[data-active-view="alerts"] #alerts.active .pcad-table-row b {
+  color: var(--pcad-green) !important;
+}
+
+body[data-active-view="alerts"] #alerts.active .pcad-table-row.put b {
+  color: var(--pcad-red) !important;
+}
+
+body[data-active-view="alerts"] #alerts.active .pcad-table-row em {
+  color: var(--pcad-green) !important;
+  background: rgba(135, 216, 95, 0.08) !important;
+  border-color: rgba(135, 216, 95, 0.25) !important;
+}
+
+body[data-active-view="alerts"] #alerts.active .pcad-table-row.put em {
+  color: var(--pcad-red) !important;
+  background: rgba(255, 81, 69, 0.08) !important;
+  border-color: rgba(255, 81, 69, 0.25) !important;
+}
+
+body[data-active-view="alerts"] #alerts.active .pcad-stream-actions button,
+body[data-active-view="alerts"] #alerts.active .pcad-filters button {
+  color: var(--pcad-gold) !important;
+  background: rgba(226, 168, 75, 0.06) !important;
+  border-color: var(--pcad-line) !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+}
+
+body[data-active-view="alerts"] #alerts.active .pcad-stream-actions button.primary,
+body[data-active-view="alerts"] #alerts.active .pcad-filters button.active {
+  color: #071012 !important;
+  background: linear-gradient(180deg, #f1c46a, #b97831) !important;
+}
+
+.pcad-mini-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0;
+  font-size: 12px;
+}
+
+.pcad-mini-table > * {
+  padding: 6px 4px;
+  border-bottom: 1px solid rgba(226, 168, 75, 0.12);
+}
+
+.pcad-mini-table span {
+  color: var(--pcad-gold-soft);
+  font-family: Georgia, serif;
+  text-transform: uppercase;
+}
+
+.pcad-mini-table strong,
+.pcad-mini-table b {
+  color: var(--pcad-text);
+}
+
+.pcad-mini-table em {
+  color: var(--pcad-muted);
+  font-style: normal;
+}
+
+.pcad-mini-table .up {
+  color: var(--pcad-green);
+}
+
+.pcad-sentiment-gauge {
+  justify-self: center;
+  width: 128px;
+  height: 128px;
+}
+
+.pcad-sentiment-gauge strong,
+.pcad-sentiment-gauge span {
+  display: block;
+  text-align: center;
+}
+
+.pcad-sentiment-gauge strong {
+  color: var(--pcad-green) !important;
+  font-size: 20px;
+}
+
+.pcad-sentiment-gauge span {
+  max-width: 72px;
+  color: var(--pcad-muted);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.pcad-sentiment p,
+.pcad-regime p {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0;
+}
+
+.pcad-sentiment p b,
+.pcad-regime p strong {
+  color: var(--pcad-green);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.pcad-wave {
+  padding: 6px 0;
+}
+
+.pcad-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 12px 20px;
+  color: var(--pcad-muted);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pcad-footer strong {
+  color: rgba(241, 223, 189, 0.68);
+  font-weight: 600;
+}
+
+@media (max-width: 1500px) {
+  .pcad-topbar {
+    grid-template-columns: 220px minmax(260px, 1fr);
+  }
+
+  .pcad-nav {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+
+  .pcad-officer {
+    display: none;
+  }
+
+  .pcad-grid {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+
+  .pcad-left {
+    grid-template-columns: 1fr;
+  }
+
+  .pcad-source-panel {
+    grid-column: auto;
+  }
+
+  .pcad-right {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pcad-playbooks {
+    grid-template-columns: 1fr;
+  }
+
+  .pcad-stream-panel {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .pcad-table {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .pcad-table-row {
+    min-width: 0;
+    grid-template-columns: 42px 76px 42px 68px 72px 80px minmax(80px, 1fr) 72px 48px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 1220px) {
+  .pcad-topbar,
+  .pcad-grid,
+  .pcad-playbooks {
+    grid-template-columns: 1fr;
+  }
+
+  .pcad-nav {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .pcad-left,
+  .pcad-right {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pcad-source-panel {
+    grid-column: 1 / -1;
+  }
+
+  .pcad-table {
+    overflow-x: auto;
+  }
+
+  .pcad-table-row {
+    min-width: 1040px;
+  }
+}
+
+@media (max-width: 760px) {
+  body[data-active-view="alerts"] .shell {
+    grid-template-columns: 1fr !important;
+  }
+
+  body[data-active-view="alerts"] .rail {
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .pcad-shell {
+    padding: 6px;
+  }
+
+  .pcad-topbar,
+  .pcad-title-block,
+  .pcad-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pcad-title-block {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .pcad-title-block h2 {
+    font-size: 26px;
+  }
+
+  .pcad-metrics,
+  .pcad-left,
+  .pcad-right,
+  .pcad-playbook,
+  .pcad-stream-actions,
+  .pcad-filters > div {
+    grid-template-columns: 1fr;
+  }
+
+  .pcad-metric-card {
+    min-height: 112px;
+  }
+
+  .pcad-footer {
+    display: grid;
+  }
+}

@@ -1,5 +1,25 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint — 00 Alerts Desk Safety Language + Final Lock Check
+
+- Latest local build: 00 Alerts Desk Safety Language + Final Lock Check.
+- Date: 2026-06-05.
+- Primary routes changed: `/` and `#/alerts`.
+- Preserved the current black/gold Alerts Desk visual direction: premium dark command desk, left source rail, options research review stream, right watchlist/sentiment/regime panels, bottom call/put educational framework panels, and CEO B identity.
+- Replaced trade-like labels with research-only language: `Options Research Review Stream`, `Options Research Candidates`, `Review Direction`, `Call Research Candidate Framework`, `Put Research Candidate Framework`, `Manual Review Required`, `Source Verification Needed`, `Risk Gate`, `Static Prototype`, `Mock / No Live Provider Data`, and `No Broker Execution`.
+- Removed active Alerts Desk wording that implied directional instruction instead of research review.
+- Kept visual filters as visual-only/pending approval; no filtering logic was added.
+- Preserved the existing localStorage-backed `pickaxeOptionAlerts` mock queue, row selection, and local-only action buttons.
+- The page is explicitly labeled as a static research-only options review queue with no live provider data, no broker execution, and CEO B manual review framing.
+- Synced root/public mirrors for `app.js`, `styles.css`, and `habitat-data.js`.
+- Updated `buildCompletionTracker.latestSession` and added a new tracker area for the final safety-language lock.
+- No route architecture, backend systems, dependencies, live APIs, provider adapters, broker integrations, scraping, fake live data, autonomous agents, auto-trading, betting execution, copy-trading, private frontend keys, Source Hub workflow, Archive workflow, Watchlists logic, Agents behavior, Options logic, or `data/signal-alerts.json` changes were added.
+- Validation passed locally with `/Applications/Codex.app/Contents/Resources/node --run build` and `/Applications/Codex.app/Contents/Resources/node --run check:project`.
+- Browser verification passed for `/`, `#/alerts`, `#/dashboard`, `#/staging`, `#/source-hub`, `#/archive`, `#/watchlists`, `#/agents`, `#/roadmap`, and `#/ai-habitat-os`: no console errors, no blank content, no desktop horizontal overflow, correct Alerts Desk and Mission Control routing, sidebar `00 Alerts Desk` first, `01 Mission Control` second, `.rail-quote` visible, restricted trade-like labels absent, and mobile Alerts Desk overflow clean.
+- `/ai-handoff` returned HTTP 200 locally.
+- `data/signal-alerts.json` remained unstaged and uncommitted.
+- Stop after final lock report. Future work requires B approval.
+
 ## Current Checkpoint — Phase 2P Staging Declutter
 
 - Latest local build: Phase 2P Staging Declutter.

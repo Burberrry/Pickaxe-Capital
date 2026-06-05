@@ -15115,79 +15115,255 @@ try {
   console.error("Phase 1.5 route refresh failed:", error);
 }
 
-/* Emergency visual triage: keep route logic intact, but make the homepage usable. */
+/* Alerts Desk terminal concept: static/local mock command desk, no provider data. */
 renderAlertsDeskMarkup = function (optionAlerts, selectedAlert, lastUpdated) {
-  const packet = selectedAlert || normalizeResearchPacket({}, 0);
-  const topPacket = optionAlerts[0] || packet;
-  const queue = optionAlerts.slice(0, 4);
-  const packetActions = ["CEO B Review", "Research More", "Verify Source", "Archive Note"];
-  const checks = [
-    ["Source", packet.confidence ? `${packet.confidence}% confidence` : "Needs verification"],
-    ["Risk", packet.riskScore || packet.risk || "Manual review"],
-    ["Invalidation", packet.invalidationResearchNote || "Stand down if evidence fails"],
-    ["Gate", "CEO B decides"]
+  const alerts = (optionAlerts.length ? optionAlerts : [normalizeResearchPacket({}, 0)]).map(normalizeResearchPacket);
+  const packet = selectedAlert ? normalizeResearchPacket(selectedAlert) : alerts[0];
+  const selectedId = packet.id || alerts[0]?.id || "research-packet-0";
+  const sortedAlerts = alerts.slice().sort((a, b) => Number(b.confidence || 0) - Number(a.confidence || 0));
+  const streamAlerts = sortedAlerts.slice(0, 5);
+  const callsCount = alerts.filter((item) => /call|bull|long|breakout/i.test(`${item.action || ""} ${item.type || ""} ${item.contract || ""}`)).length || 3;
+  const putsCount = alerts.filter((item) => /put|bear|short|downside|reject/i.test(`${item.action || ""} ${item.type || ""} ${item.contract || ""}`)).length || 1;
+  const avgConfidence = alerts.length ? Math.round(alerts.reduce((sum, item) => sum + Number(item.confidence || 0), 0) / alerts.length) : 0;
+  const bullishEdge = Math.max(50, Math.min(84, Math.round((callsCount / Math.max(1, callsCount + putsCount)) * 100)));
+  const sourceRows = [
+    ["Macro", "Economic & rates", "M"],
+    ["Smart Money", "Top filings & flows", "S"],
+    ["Unusual Flow", "Options flow AI", "U"],
+    ["FDA", "Drug pipeline & FDA", "F"],
+    ["SEC", "Filings & disclosures", "E"],
+    ["Trend", "Price & momentum", "T"],
+    ["News", "News sentiment AI", "N"],
+    ["AI Agents", "Multi-agent analysis", "A"]
   ];
+  const agentNames = ["Unusual Flow AI", "Macro Engine", "Trend Agent", "News Sentinel AI", "AI Flow Agent"];
+  const navItems = [
+    ["Terminal", "#/alerts"],
+    ["Ecosystem", "#/vision-map"],
+    ["Portfolio", "#/watchlists"],
+    ["Research", "#/signals"],
+    ["Knowledge", "#/archive"],
+    ["Settings", "#/staging"]
+  ];
+  const filters = ["Bullish", "Bearish", "Call Candidate", "Put Candidate", "FDA", "SEC", "Macro", "High Conviction"];
+  const actions = ["CEO B Review", "Needs More Evidence", "Source Verification Needed", "Archive Note"];
+  const spark = (tone = "bull", index = 0) => {
+    const paths = [
+      "4,36 16,31 28,33 40,23 52,27 64,20 76,24 88,14 100,19 112,10 124,15 136,5",
+      "4,9 16,16 28,13 40,22 52,19 64,27 76,25 88,31 100,28 112,35 124,32 136,38",
+      "4,34 16,30 28,32 40,27 52,23 64,26 76,18 88,21 100,15 112,17 124,11 136,8"
+    ];
+    return `<svg class="pcad-spark ${tone}" viewBox="0 0 140 44" role="img" aria-label="${tone === "bear" ? "Bearish mock trend" : "Bullish mock trend"}"><polyline points="${paths[index % paths.length]}"></polyline></svg>`;
+  };
+  const sideFor = (alert) => /put|bear|reject|downside|risk/i.test(`${alert.action || ""} ${alert.type || ""} ${alert.contract || ""} ${alert.status || ""}`) ? "put" : "call";
+  const strikeFor = (alert, index) => {
+    const match = String(alert.contract || "").match(/\$(\d+(?:\.\d+)?)/);
+    return match ? `${match[1]}${sideFor(alert) === "put" ? "P" : "C"}` : ["875C", "165P", "205C", "182P", "535C"][index % 5];
+  };
+  const expiryFor = (alert) => safeResearchText(alert.expiration || alert.date || "Static demo");
+  const watchlist = streamAlerts.map((alert, index) => {
+    const change = sideFor(alert) === "put" ? "-0.84%" : index % 2 ? "+1.12%" : "+2.41%";
+    return [alert.symbol, strikeFor(alert, index), change, alert.confidence || 0, sideFor(alert)];
+  });
 
   return `
-    <div class="page-shell alerts-focus-shell">
-      <header class="alerts-focus-hero">
-        <div>
-          <span class="page-kicker">00 Alerts Desk / Homepage</span>
-          <h2>Review Queue</h2>
-          <p>Only the next useful decision is shown first: verify the source, check risk, then send the packet to CEO B or archive it.</p>
-          <div class="alerts-focus-stats">
-            <span><strong>${optionAlerts.length}</strong><em>packets</em></span>
-            <span><strong>${escapeHtml(topPacket.symbol || "Research")}</strong><em>lead</em></span>
-            <span><strong>${escapeHtml(lastUpdated)}</strong><em>updated</em></span>
+    <div class="pcad-shell" aria-label="00 Alerts Desk mock command terminal">
+      <header class="pcad-topbar">
+        <a class="pcad-brand" href="#/alerts" aria-label="Pickaxe Capital Alerts Desk">
+          <span class="pcad-brand-mark">PC</span>
+          <span><strong>PICKAXE</strong><em>CAPITAL</em></span>
+        </a>
+        <div class="pcad-title-block">
+          <div>
+            <h2>00 Alerts Desk</h2>
+            <p>Static research-only options review queue</p>
           </div>
+          <span class="pcad-private">Private Access</span>
         </div>
-        <aside>
-          <span>System Truth</span>
-          <strong>Research only. Manual review. No live trading, broker execution, scraping, or fake provider data.</strong>
-        </aside>
+        <nav class="pcad-nav" aria-label="Alerts Desk quick routes">
+          ${navItems.map(([label, route], index) => `<a class="${index === 0 ? "active" : ""}" href="${route}">${label}</a>`).join("")}
+        </nav>
+        <div class="pcad-officer">
+          <span>CB</span>
+          <strong>CEO B</strong>
+          <em>Chief Investment Officer</em>
+        </div>
       </header>
 
-      <section class="alerts-focus-grid">
-        <article class="alerts-focus-primary">
-          <span class="meta-label">Active Packet</span>
-          <h3>${escapeHtml(packet.symbol || "Research Packet")}</h3>
-          <p class="alerts-packet-identity">${escapeHtml(packet.company || packet.title || "Candidate for manual review")}</p>
-          <p>${escapeHtml(packet.researchContext || "Static research candidate. Source trail and risk note must be reviewed before anything leaves this page.")}</p>
-          <div class="alerts-focus-actions">
-            ${packetActions.map((label, index) => `<button type="button" class="${index === 0 ? "primary-action" : "secondary-action"}" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', '${escapeHtml(label)}')">${escapeHtml(label)}</button>`).join("")}
-          </div>
-        </article>
+      <main class="pcad-grid">
+        <aside class="pcad-left">
+          <section class="pcad-panel pcad-source-panel">
+            <div class="pcad-panel-head">
+              <span>Intelligence Sources</span>
+              <small>Unified mock intelligence</small>
+            </div>
+            <div class="pcad-source-list">
+              ${sourceRows.map(([label, detail, icon], index) => `
+                <article class="pcad-source-row" style="--row-index:${index}">
+                  <b>${icon}</b>
+                  <span><strong>${label}</strong><small>${detail}</small></span>
+                </article>
+              `).join("")}
+            </div>
+          </section>
+          <section class="pcad-panel pcad-system-card">
+            <span>System Status</span>
+            <strong>Operational</strong>
+            <p>All systems are local/static. Last local refresh: ${escapeHtml(lastUpdated)}.</p>
+            <a href="#/staging">View system health</a>
+          </section>
+        </aside>
 
-        <article class="alerts-focus-checks">
-          <span class="meta-label">Decision Checklist</span>
-          <h3>Pass these gates first.</h3>
-          <div>
-            ${checks.map(([label, value]) => `<span><strong>${escapeHtml(label)}</strong><em>${escapeHtml(value)}</em></span>`).join("")}
-          </div>
-        </article>
+        <section class="pcad-center">
+          <section class="pcad-metrics">
+            <article class="pcad-metric-card">
+              <span class="pcad-icon bell"></span>
+              <small>Options Research Candidates</small>
+              <strong>${alerts.length}</strong>
+              <p>Manual review packets in localStorage</p>
+            </article>
+            <article class="pcad-metric-card pcad-gauge-card">
+              <div class="pcad-gauge" style="--gauge:${bullishEdge * 3.6}deg"><strong>${bullishEdge}%</strong></div>
+              <small>Review Direction</small>
+              <p><b>${callsCount}</b> call candidates <b class="danger">${putsCount}</b> put candidates</p>
+            </article>
+            <article class="pcad-metric-card">
+              <span class="pcad-icon shield"></span>
+              <small>Conviction Score</small>
+              <strong>${avgConfidence}<em>/100</em></strong>
+              <p>Average mock signal quality</p>
+            </article>
+            <article class="pcad-metric-card">
+              <span class="pcad-icon network"></span>
+              <small>Static Review Queue</small>
+              <strong>0</strong>
+              <p>No provider feeds connected</p>
+            </article>
+          </section>
 
-        <article class="alerts-focus-queue">
-          <span class="meta-label">Queue</span>
-          <h3>Next packets</h3>
-          <div>
-            ${queue.map((alert) => `
-              <button type="button" onclick="window.selectAlertCard('${escapeHtml(alert.id)}')">
-                <strong>${escapeHtml(alert.symbol || "Packet")}</strong>
-                <span>${escapeHtml(alert.status || "Research")}</span>
-              </button>
-            `).join("") || `<span class="mission-footnote">No queued packets.</span>`}
-          </div>
-        </article>
-      </section>
+          <section class="pcad-panel pcad-stream-panel">
+            <div class="pcad-stream-head">
+              <div>
+                <h3>Options Research Review Stream</h3>
+                <span>Mock / no live provider data. Research-only candidates for CEO B manual review.</span>
+              </div>
+              <small>Sorted by: highest conviction</small>
+            </div>
+            <div class="pcad-table" role="table" aria-label="Mock options research review stream">
+              <div class="pcad-table-row head" role="row">
+                <span>Time</span><span>Ticker / Review Direction</span><span>Strike</span><span>Expiration</span><span>Premium / Context</span><span>Source Agent</span><span>Thesis</span><span>Trend</span><span>Confidence</span>
+              </div>
+              ${streamAlerts.map((alert, index) => {
+                const side = sideFor(alert);
+                const tone = side === "put" ? "bear" : "bull";
+                const active = alert.id === selectedId ? "active" : "";
+                return `
+                  <button type="button" class="pcad-table-row ${tone} ${active}" role="row" onclick="window.selectAlertCard('${escapeHtml(alert.id)}')">
+                    <span><strong>${9 - index}:4${index}</strong><small>Mock</small></span>
+                    <span><b>${escapeHtml(alert.symbol)}</b><em>${side}</em></span>
+                    <span>${escapeHtml(strikeFor(alert, index))}</span>
+                    <span>${escapeHtml(expiryFor(alert))}</span>
+                    <span><strong>${escapeHtml(alert.contractPrice || "N/A")}</strong><small>Static</small></span>
+                    <span>${escapeHtml(agentNames[index % agentNames.length])}</span>
+                    <span>${escapeHtml(alert.catalyst || alert.researchContext || "Research thesis pending.")}</span>
+                    <span>${spark(tone, index)}</span>
+                    <span><b>${escapeHtml(alert.confidence || 0)}</b><small>Mock</small></span>
+                  </button>
+                `;
+              }).join("")}
+            </div>
+            <div class="pcad-stream-actions">
+              ${actions.map((label, index) => `<button type="button" class="${index === 0 ? "primary" : ""}" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', '${escapeHtml(label)}')">${escapeHtml(label)}</button>`).join("")}
+            </div>
+          </section>
 
-      <details class="mission-quiet-details alerts-focus-details">
-        <summary>Show packet context</summary>
-        <ul class="pc-list">
-          <li><span>Watch Criteria</span><strong>${escapeHtml(packet.watchCriteria || "Verify price context, liquidity, source trail, and catalyst.")}</strong></li>
-          <li><span>Price Context</span><strong>${escapeHtml(packet.currentPrice || "Static research context")}</strong></li>
-          <li><span>Invalidation Note</span><strong>${escapeHtml(packet.invalidationResearchNote || "Stand down if core evidence fails.")}</strong></li>
-        </ul>
-      </details>
+          <section class="pcad-playbooks">
+            <article class="pcad-playbook calls">
+              <h3>Call Research Candidate Framework</h3>
+              <div class="pcad-play-chart">
+                ${spark("bull", 2)}
+                <span>Review zone</span>
+              </div>
+              <ul>
+                <li>Price pulls back to support</li>
+                <li>RSI recovers above 50</li>
+                <li>Volume confirmation</li>
+                <li>Break above resistance</li>
+                <li>Source verification required</li>
+                <li>CEO B manual review</li>
+              </ul>
+              <div class="pcad-entry"><span>Candidate context</span><strong>${escapeHtml(packet.currentPrice || "Static prototype")}</strong><em>Manual Review Required</em></div>
+            </article>
+            <article class="pcad-playbook puts">
+              <h3>Put Research Candidate Framework</h3>
+              <div class="pcad-play-chart">
+                ${spark("bear", 1)}
+                <span>Risk zone</span>
+              </div>
+              <ul>
+                <li>Price rallies into resistance</li>
+                <li>RSI below 50</li>
+                <li>Volume confirmation</li>
+                <li>Break below support</li>
+                <li>Source verification required</li>
+                <li>CEO B manual review</li>
+              </ul>
+              <div class="pcad-entry"><span>Risk Gate</span><strong>${escapeHtml(packet.invalidationResearchNote || "Manual risk gate")}</strong><em>No Broker Execution</em></div>
+            </article>
+          </section>
+        </section>
+
+        <aside class="pcad-right">
+          <section class="pcad-panel pcad-climate">
+            <div>
+              <span>Market Climate</span>
+              <small>Mock regime label</small>
+            </div>
+            <strong>${bullishEdge >= 55 ? "Bullish" : "Neutral"}</strong>
+            <p>Local demo queue leans toward call research candidates.</p>
+          </section>
+          <section class="pcad-panel pcad-filters">
+            <div class="pcad-panel-head">
+              <span>Alert Filters</span>
+              <small>Visual filters only</small>
+            </div>
+            <div>
+              ${filters.map((filter, index) => `<button type="button" class="${index === 0 || index === 2 || index === 7 ? "active" : ""}">${filter}</button>`).join("")}
+            </div>
+          </section>
+          <section class="pcad-panel pcad-watchlist">
+            <div class="pcad-panel-head">
+              <span>My Watchlist</span>
+              <a href="#/watchlists">View all</a>
+            </div>
+            <div class="pcad-mini-table">
+              <span>Ticker</span><span>Last</span><span>Change</span><span>Confidence</span>
+              ${watchlist.map(([symbol, last, change, confidence, side]) => `
+                <strong>${escapeHtml(symbol)}</strong><em>${escapeHtml(last)}</em><em class="${side === "put" ? "down" : "up"}">${escapeHtml(change)}</em><b>${escapeHtml(confidence)}</b>
+              `).join("")}
+            </div>
+          </section>
+          <section class="pcad-panel pcad-sentiment">
+            <div class="pcad-panel-head">
+              <span>Call / Put Sentiment</span>
+              <small>Today</small>
+            </div>
+            <div class="pcad-sentiment-gauge" style="--gauge:${bullishEdge * 3.6}deg"><strong>+${Math.max(8, bullishEdge - 36)}%</strong><span>Candidate mix</span></div>
+            <p><b>${bullishEdge}% call candidates</b><b class="danger">${100 - bullishEdge}% put candidates</b></p>
+          </section>
+          <section class="pcad-panel pcad-regime">
+            <span>Market Regime</span>
+            <div class="pcad-wave">${spark("bull", 0)}</div>
+            <p><strong>Risk-on</strong><strong>Neutral</strong><strong class="danger">Risk-off</strong></p>
+            <a href="#/signals">View market analysis</a>
+          </section>
+        </aside>
+      </main>
+
+      <footer class="pcad-footer">
+        <span>Clarity first. Discipline always. Capital preservation is the first return.</span>
+        <strong>Pickaxe Capital / Static Prototype / No Broker Execution</strong>
+      </footer>
     </div>
   `;
 };
