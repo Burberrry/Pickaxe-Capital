@@ -10378,8 +10378,18 @@ function renderRankRow(label, count) {
 
 function renderFounderProfile() {
   const isPublic = state.founderMode === "public";
+  const landing = ensureFounderLandingPage();
+  Array.from(els.founderSection.children).forEach((child) => {
+    child.hidden = isPublic && child !== landing;
+  });
+  landing.hidden = !isPublic;
   els.founderSection.classList.toggle("public-profile", isPublic);
   els.founderSection.classList.toggle("command-profile", !isPublic);
+  els.founderSection.classList.toggle("landing-profile", isPublic);
+  if (isPublic) {
+    landing.innerHTML = renderFounderLandingPage();
+    return;
+  }
   els.founderThink.innerHTML = founderProfile.howYouThink.map(([title, detail], index) => renderFounderTrait(title, detail, founderIcon(index))).join("");
   els.founderStrengths.innerHTML = founderProfile.strengths.map(([title, detail], index) => renderFounderTrait(title, detail, strengthIcon(index))).join("");
   els.founderValues.innerHTML = founderProfile.values.map((item) => `<p><span>◇</span>${escapeHtml(item)}</p>`).join("");
@@ -10395,6 +10405,224 @@ function renderFounderProfile() {
   `).join("");
   els.founderNorthStar.innerHTML = founderProfile.northStar.map((item) => `<span>${escapeHtml(item)}</span>`).join("");
 }
+
+function ensureFounderLandingPage() {
+  let landing = els.founderSection.querySelector(".founder-landing-page");
+  if (!landing) {
+    landing = document.createElement("div");
+    landing.className = "founder-landing-page";
+    landing.hidden = true;
+    els.founderSection.prepend(landing);
+  }
+  return landing;
+}
+
+function renderFounderLandingPage() {
+  const heroChips = ["Research Only", "Source Verified Workflow", "CEO B Manual Review", "No Broker Execution", "Static Prototype"];
+  const actions = [
+    ["Capture", "Collect ideas, tickers, sources, screenshots, bookmarks, notes, and market observations into one operating system."],
+    ["Verify", "Route source material through Source Hub before it influences research, watchlists, archive, or alerts."],
+    ["Build", "Turn messy information into structured research packets, investment maps, watch criteria, and CEO B review queues."],
+    ["Decide", "Keep final decisions manual, calm, documented, and separated from broker execution."]
+  ];
+  const modules = [
+    ["00 Alerts Desk", "Options research review queue for static/manual candidate packets.", "#/alerts"],
+    ["01 Mission Control", "Operating overview for review queues, source health, archive memory, and next actions.", "#/dashboard"],
+    ["06 Source Hub", "Trust cockpit for source verification, lineage, privacy boundaries, and route handoffs.", "#/source-hub"],
+    ["10 Archive Vault", "Cleaned source-linked memory vault for research, lessons, and reviewed intelligence.", "#/archive"],
+    ["15 Watchlists", "Research universe organized by ticker, theme, priority, and review status.", "#/watchlists"],
+    ["19 Research Desk", "Future workspace for building structured research packets and reusable research maps.", "#/research"]
+  ];
+  const tiers = [
+    {
+      label: "Founder Preview",
+      price: "Application only",
+      cta: "Request Preview",
+      items: ["private OS walkthrough", "Alerts Desk preview", "Source Hub preview", "static research packet examples", "feedback loop with B"]
+    },
+    {
+      label: "Private Research OS",
+      price: "Pricing under review",
+      cta: "Join Access List",
+      featured: true,
+      items: ["private cockpit access", "research packet workflow", "watchlist organization", "source-verification workflow", "archive memory workflow", "manual review process"]
+    },
+    {
+      label: "Founder’s Edition",
+      price: "Limited / application only",
+      cta: "Apply for Founder’s Edition",
+      items: ["priority onboarding", "personalized research OS setup", "private workflow mapping", "custom watchlist structure", "research generator planning", "advanced source/archive workflow"]
+    }
+  ];
+  const builtFor = ["founder-led traders", "research-heavy investors", "market operators", "analysts who save too much information", "people who need source discipline", "users who want a private research cockpit, not another noisy dashboard"];
+  const differences = ["Research-first, not execution-first", "Source verification before decisions", "Manual CEO B review gate", "Archive memory that compounds", "Watchlists as research shelves", "Future research generators", "No fake live-data theater"];
+  const generators = ["Company Investment Map", "13F Ownership Map", "Insider Activity Map", "Supply Chain Map", "AI Exposure Map", "Catalyst Map", "Options Flow Map", "Smart Money Map", "Market Regime Map"];
+
+  return `
+    <div class="access-page-shell">
+      <section class="access-hero" aria-labelledby="accessHeroTitle">
+        <div class="access-hero-copy">
+          <p class="access-kicker">Private Founder Intelligence Desk</p>
+          <h2 id="accessHeroTitle">Pickaxe Capital</h2>
+          <h3>Private Market Research OS for Founder-Led Decision Making</h3>
+          <p>Capture market information, verify sources, build research packets, organize intelligence, and route every decision through a calm manual review process.</p>
+          <div class="access-hero-actions">
+            <a class="primary-action" href="#pickaxeAccessRequest">Request Private Access</a>
+            <a class="secondary-action" href="#/dashboard">View Research OS</a>
+          </div>
+          <div class="access-chip-row">${heroChips.map((chip) => `<span>${escapeHtml(chip)}</span>`).join("")}</div>
+        </div>
+        <aside class="access-product-preview" aria-label="Pickaxe static product preview">
+          <div class="access-preview-top">
+            <span>CEO B Review Queue</span>
+            <strong>Static Prototype</strong>
+          </div>
+          <div class="access-preview-card strong">
+            <small>Research Packet</small>
+            <b>Source-verified watch criteria</b>
+            <p>No broker connection. No account linking. Manual review only.</p>
+          </div>
+          <div class="access-preview-grid">
+            <span><small>Source Hub</small><strong>Verification required</strong></span>
+            <span><small>Risk Gate</small><strong>Manual boundary</strong></span>
+            <span><small>Archive</small><strong>Cleaned memory</strong></span>
+            <span><small>Watchlists</small><strong>Research shelves</strong></span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="access-section">
+        <div class="access-section-head">
+          <p class="access-kicker">Operating Discipline</p>
+          <h2>What Pickaxe Does</h2>
+        </div>
+        <div class="access-card-grid four-up">
+          ${actions.map(([title, copy]) => `<article class="access-card"><span>${escapeHtml(title)}</span><p>${escapeHtml(copy)}</p></article>`).join("")}
+        </div>
+      </section>
+
+      <section class="access-section access-loop-section">
+        <div class="access-section-head">
+          <p class="access-kicker">Decision Workflow</p>
+          <h2>The Pickaxe Operating Loop</h2>
+          <p>Pickaxe is designed to reduce information chaos. The system does not replace judgment. It organizes evidence so CEO B can review better.</p>
+        </div>
+        <div class="access-loop">
+          ${["Capture", "Classify", "Source Verify", "Research Packet", "Risk Gate", "CEO B Review", "Archive / Watchlist / Reject", "Learn"].map((step) => `<span>${escapeHtml(step)}</span>`).join("")}
+        </div>
+      </section>
+
+      <section class="access-section">
+        <div class="access-section-head">
+          <p class="access-kicker">Private OS Modules</p>
+          <h2>Inside the Private OS</h2>
+        </div>
+        <div class="access-card-grid modules">
+          ${modules.map(([title, copy, route]) => `
+            <article class="access-card module-card">
+              <span>${escapeHtml(title)}</span>
+              <p>${escapeHtml(copy)}</p>
+              <a href="${escapeHtml(route)}">Open module</a>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+
+      <section class="access-section">
+        <div class="access-section-head">
+          <p class="access-kicker">Planning Concepts</p>
+          <h2>Private Access Options</h2>
+          <p>These are early access concepts for planning and review. There is no checkout, payment processing, or account creation in this static prototype.</p>
+        </div>
+        <div class="access-tier-grid">
+          ${tiers.map((tier) => `
+            <article class="access-tier-card${tier.featured ? " featured" : ""}">
+              <span>${escapeHtml(tier.label)}</span>
+              <strong>${escapeHtml(tier.price)}</strong>
+              <ul>${tier.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+              <a href="#pickaxeAccessRequest">${escapeHtml(tier.cta)}</a>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+
+      <section class="access-section">
+        <div class="access-section-head">
+          <p class="access-kicker">Audience</p>
+          <h2>Built For</h2>
+        </div>
+        <div class="access-tag-grid">${builtFor.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+      </section>
+
+      <section class="access-section">
+        <div class="access-section-head">
+          <p class="access-kicker">Positioning</p>
+          <h2>Why Pickaxe Is Different</h2>
+        </div>
+        <div class="access-card-grid difference-grid">
+          ${differences.map((item) => `<article class="access-card compact"><span>${escapeHtml(item)}</span></article>`).join("")}
+        </div>
+      </section>
+
+      <section class="access-section">
+        <div class="access-section-head">
+          <p class="access-kicker">Future Concept / Source Verification Required</p>
+          <h2>Future Research Generators</h2>
+          <p>Pickaxe is designed to turn one-off research images and AI prompts into reusable ticker-based research tools.</p>
+        </div>
+        <div class="access-generator-grid">${generators.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+      </section>
+
+      <section class="access-safety-band">
+        <div>
+          <p class="access-kicker">Research Boundary</p>
+          <h2>Visible Safety Boundary</h2>
+        </div>
+        <p>Pickaxe Capital OS is a research and organization platform. It is not a broker, bank, registered investment adviser, or financial adviser. It does not execute trades, provide individualized investment advice, guarantee returns, or connect to brokerage accounts. All decisions remain manual and user-controlled.</p>
+        <strong>No broker execution. No auto-trading. No copy-trading. No guaranteed signals. No fake live data.</strong>
+      </section>
+
+      <section id="pickaxeAccessRequest" class="access-section access-request-section">
+        <div class="access-section-head">
+          <p class="access-kicker">Private Intake</p>
+          <h2>Request Private Access</h2>
+          <p>Static prototype. No request is transmitted yet. Use this card to prepare the access request shape for future review.</p>
+        </div>
+        <div class="access-request-card">
+          <label>Name<input type="text" placeholder="Your name" autocomplete="off" /></label>
+          <label>Email<input type="email" placeholder="you@example.com" autocomplete="off" /></label>
+          <label>Role<input type="text" placeholder="Founder, operator, analyst..." autocomplete="off" /></label>
+          <label>What do you want Pickaxe to help organize?<textarea placeholder="Sources, watchlists, research packets, archive memory..." rows="4"></textarea></label>
+          <label>Access interest<select><option>Founder Preview</option><option>Private Research OS</option><option>Founder’s Edition</option></select></label>
+          <button type="button" onclick="window.preparePickaxeAccessRequest?.()">Prepare Access Request</button>
+          <p id="pickaxeAccessNote">Static prototype. No request is transmitted yet.</p>
+        </div>
+      </section>
+
+      <footer class="access-footer">
+        <div>
+          <strong>Pickaxe Capital</strong>
+          <span>AI Habitat OS</span>
+          <small>Research-only disclosure / No broker execution / No investment advice / CEO B manual review</small>
+        </div>
+        <nav aria-label="Pickaxe internal OS links">
+          <a href="#/alerts">Alerts Desk</a>
+          <a href="#/dashboard">Mission Control</a>
+          <a href="#/source-hub">Source Hub</a>
+          <a href="#/archive">Archive</a>
+          <a href="#/watchlists">Watchlists</a>
+          <a href="#/roadmap">Roadmap</a>
+        </nav>
+      </footer>
+    </div>
+  `;
+}
+
+window.preparePickaxeAccessRequest = () => {
+  const note = document.querySelector("#pickaxeAccessNote");
+  if (note) note.textContent = "Access request prepared locally. Static prototype: nothing was transmitted.";
+  showNotification("Access request prepared locally. No request was transmitted.");
+};
 
 function renderFounderTrait(title, detail, icon) {
   return `

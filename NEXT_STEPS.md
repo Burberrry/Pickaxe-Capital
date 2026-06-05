@@ -2,6 +2,60 @@
 
 ## Current Active Checkpoint
 
+Landing Page + Services / Pricing was completed locally on 2026-06-05 as a static front-end marketing/access page sprint.
+
+Before starting, `53ffd8a Consolidate premium visual CSS system` was verified as pushed to `origin/main`.
+
+The existing public founder route is now the public Pickaxe Capital landing/access page:
+
+- `#/founder`
+- `/founder`
+
+The existing CEO B profile route remains preserved:
+
+- `#/ceo-b-profile`
+
+The landing page includes:
+
+- Hero: `Pickaxe Capital` / `Private Market Research OS for Founder-Led Decision Making`
+- What Pickaxe Does: Capture, Verify, Build, Decide
+- The Pickaxe Operating Loop
+- Inside the Private OS modules for Alerts Desk, Mission Control, Source Hub, Archive Vault, Watchlists, and Research Desk
+- Private Access Options with Founder Preview, Private Research OS, and Founder’s Edition
+- Built For
+- Why Pickaxe Is Different
+- Future Research Generators
+- Visible Research Boundary disclosure
+- Static Request Private Access card
+- Footer links to Alerts Desk, Mission Control, Source Hub, Archive, Watchlists, and Roadmap
+
+The access/pricing tier cards are planning concepts only. No payment, checkout, auth, backend, account creation, provider adapter, broker integration, live data, trading execution, copy-trading, investment-advice claim, guaranteed-profit claim, or fake live data was added.
+
+The access request card is local-only. `Prepare Access Request` updates local placeholder copy and notification text only; no request is transmitted.
+
+Files updated for this checkpoint:
+
+- `app.js`
+- `public/app.js`
+- `styles.css`
+- `public/styles.css`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+Validation passed:
+
+- `/Applications/Codex.app/Contents/Resources/node --run build`
+- `/Applications/Codex.app/Contents/Resources/node --run check:project`
+- Browser sweep for `/`, `#/alerts`, `#/dashboard`, `#/founder`, `/founder`, `#/ceo-b-profile`, `#/source-hub`, `#/archive`, `#/staging`, `#/watchlists`, `#/roadmap`, `#/research`, and `#/ai-habitat-os`
+- Desktop and 390px mobile overflow checks passed
+- `/ai-handoff` returned HTTP 200
+
+`data/signal-alerts.json` remains unstaged and uncommitted.
+
+Stop after reporting validation, commit, push status, and git status. Do not start another sprint automatically.
+
+## Previous Active Checkpoint
+
 CSS Consolidation / Premium Visual System Cleanup was completed locally on 2026-06-05 as a CSS/front-end consolidation sprint only.
 
 The site now has a calmer premium Pickaxe visual foundation in `styles.css` and `public/styles.css`:

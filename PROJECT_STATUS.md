@@ -1,5 +1,24 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint — Landing Page + Services / Pricing
+
+- Latest local build: Landing Page + Services / Pricing.
+- Date: 2026-06-05.
+- Sprint type: static front-end marketing/access page only.
+- Verified before starting that `53ffd8a Consolidate premium visual CSS system` is pushed to `origin/main`.
+- Upgraded the existing public founder route (`#/founder` and `/founder`) into a premium public-facing Pickaxe Capital landing page without adding a new 00-20 route or changing the OS sidebar map.
+- Preserved `#/ceo-b-profile` as the existing CEO B profile/app-mode founder page by rendering the landing page only when founder mode is public.
+- Added landing sections for hero, What Pickaxe Does, Pickaxe Operating Loop, Private OS modules, Private Access Options, Built For, Why Pickaxe Is Different, Future Research Generators, visible Research Boundary disclosure, static Request Private Access card, and footer links to internal OS routes.
+- Added planned access tiers: Founder Preview, Private Research OS, and Founder’s Edition. These are explicitly planning/access concepts with no checkout, payment, auth, backend, or account creation.
+- Request access behavior is local-only: the `Prepare Access Request` button updates placeholder text and notification copy; no request is transmitted.
+- Added landing-page CSS in `styles.css` and synced `public/styles.css`; synced `app.js` and `public/app.js`.
+- No route architecture changes, sidebar renumbering, payment/auth, backend systems, live APIs, provider adapters, broker integrations, autonomous agents, fake live data, trading execution, copy-trading, investment-advice claims, guaranteed-profit claims, private-note exposure, or `data/signal-alerts.json` changes were added.
+- Validation passed locally with `/Applications/Codex.app/Contents/Resources/node --run build` and `/Applications/Codex.app/Contents/Resources/node --run check:project`.
+- Browser verification passed for `/`, `#/alerts`, `#/dashboard`, `#/founder`, `/founder`, `#/ceo-b-profile`, `#/source-hub`, `#/archive`, `#/staging`, `#/watchlists`, `#/roadmap`, `#/research`, and `#/ai-habitat-os`: no console errors, no blank content, no desktop horizontal overflow, no 390px mobile horizontal overflow, landing/pricing/access cards render, disclaimer is visible, `/` and `#/alerts` still open Alerts Desk, `#/dashboard` still opens Mission Control, sidebar order remains `00-20`, `00 Alerts Desk` remains first, and `01 Mission Control` remains second.
+- `/ai-handoff` returned HTTP 200 locally.
+- `data/signal-alerts.json` remains unstaged and uncommitted.
+- Stop after reporting validation, commit, push status, and final git status.
+
 ## Current Checkpoint — CSS Consolidation / Premium Visual System Cleanup
 
 - Latest local build: CSS Consolidation / Premium Visual System Cleanup.
