@@ -14564,6 +14564,8 @@ body[data-active-view="alerts"] #alerts.active {
 .pcad-panel,
 .pcad-metric-card,
 .pcad-playbook,
+.pcad-purpose-strip,
+.pcad-detail-layer,
 .pcad-footer {
   border: 1px solid var(--pcad-line);
   background:
@@ -14623,6 +14625,8 @@ body[data-active-view="alerts"] #alerts.active {
 .pcad-panel-head span,
 .pcad-stream-head h3,
 .pcad-playbook h3,
+.pcad-detail-title strong,
+.pcad-detail-layer article > span,
 .pcad-climate strong {
   font-family: Georgia, "Times New Roman", serif;
   letter-spacing: 0.08em;
@@ -14666,6 +14670,9 @@ body[data-active-view="alerts"] #alerts.active {
 .pcad-metric-card p,
 .pcad-system-card p,
 .pcad-climate p,
+.pcad-market-overview p,
+.pcad-detail-layer p,
+.pcad-detail-layer dd,
 .pcad-footer,
 .pcad-officer em {
   color: var(--pcad-muted);
@@ -14679,6 +14686,7 @@ body[data-active-view="alerts"] #alerts.active {
 .pcad-private,
 .pcad-stream-actions button,
 .pcad-filters button,
+.pcad-purpose-strip button,
 .pcad-system-card a,
 .pcad-regime a {
   border: 1px solid var(--pcad-line);
@@ -14745,7 +14753,7 @@ body[data-active-view="alerts"] #alerts.active {
 
 .pcad-grid {
   display: grid;
-  grid-template-columns: 305px minmax(760px, 1fr) 405px;
+  grid-template-columns: 305px minmax(0, 1fr) 405px;
   gap: 10px;
   width: 100%;
   padding: 10px 0 0 !important;
@@ -14852,6 +14860,57 @@ body[data-active-view="alerts"] #alerts.active {
   font-size: 11px;
 }
 
+.pcad-status-chip {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 6px;
+  padding: 3px 7px;
+  border: 1px solid rgba(226, 168, 75, 0.22);
+  border-radius: 999px;
+  color: var(--pcad-gold-soft);
+  background: rgba(226, 168, 75, 0.06);
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.pcad-source-row .pcad-status-chip {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  max-width: 92px;
+  margin-top: 0;
+  justify-content: center;
+}
+
+.pcad-status-chip.operational,
+.pcad-status-chip.verified-local,
+.pcad-status-chip.active-mock {
+  border-color: rgba(135, 216, 95, 0.28);
+  color: var(--pcad-green);
+  background: rgba(135, 216, 95, 0.08);
+}
+
+.pcad-status-chip.needs-source,
+.pcad-status-chip.needs-review,
+.pcad-status-chip.source-verification-needed,
+.pcad-status-chip.future-provider-adapter-required {
+  border-color: rgba(226, 168, 75, 0.28);
+  color: var(--pcad-gold);
+  background: rgba(226, 168, 75, 0.08);
+}
+
+.pcad-status-chip.risk-gate {
+  border-color: rgba(255, 81, 69, 0.25);
+  color: var(--pcad-red);
+  background: rgba(255, 81, 69, 0.08);
+}
+
 .pcad-system-card {
   display: grid;
   gap: 12px;
@@ -14890,6 +14949,42 @@ body[data-active-view="alerts"] #alerts.active {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
+}
+
+.pcad-purpose-strip {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  min-width: 0;
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.pcad-purpose-strip span {
+  color: var(--pcad-gold);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pcad-purpose-strip p {
+  margin: 0;
+  color: var(--pcad-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.pcad-purpose-strip button {
+  min-height: 34px;
+  border-radius: 5px;
+  padding: 0 14px;
+  color: #071012;
+  background: linear-gradient(180deg, #f1c46a, #b97831);
+  font-size: 11px;
+  font-weight: 900;
+  white-space: nowrap;
 }
 
 .pcad-metric-card {
@@ -14984,6 +15079,7 @@ body[data-active-view="alerts"] #alerts.active {
 
 .pcad-stream-panel {
   padding: 10px;
+  overflow: hidden;
 }
 
 .pcad-stream-head {
@@ -15008,14 +15104,17 @@ body[data-active-view="alerts"] #alerts.active {
   display: grid;
   gap: 7px;
   margin-top: 9px;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .pcad-table-row {
   display: grid;
-  grid-template-columns: 72px 120px 76px 120px 126px 145px minmax(170px, 1fr) 150px 92px;
+  grid-template-columns: minmax(150px, 1.1fr) minmax(130px, 0.8fr) minmax(110px, 0.7fr) minmax(140px, 0.85fr) minmax(180px, 1fr) minmax(220px, 1.35fr) minmax(130px, 0.75fr);
   gap: 8px;
   align-items: center;
   width: 100%;
+  min-width: 1080px;
   min-height: 66px;
   padding: 8px 10px;
   border: 1px solid rgba(226, 168, 75, 0.15);
@@ -15036,14 +15135,90 @@ body[data-active-view="alerts"] #alerts.active {
   text-transform: uppercase;
 }
 
-button.pcad-table-row:hover,
-button.pcad-table-row.active {
+:is(button, summary).pcad-table-row:hover,
+:is(button, summary).pcad-table-row.active {
   border-color: var(--pcad-line);
   box-shadow: inset 0 0 22px rgba(226, 168, 75, 0.06);
 }
 
+.pcad-candidate-detail {
+  display: grid;
+  gap: 0;
+  min-width: 1080px;
+}
+
+.pcad-candidate-detail summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.pcad-candidate-detail summary::-webkit-details-marker {
+  display: none;
+}
+
+.pcad-row-packet {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: -2px 0 6px;
+  padding: 10px;
+  border: 1px solid rgba(226, 168, 75, 0.13);
+  border-top: 0;
+  border-radius: 0 0 5px 5px;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.pcad-row-packet span {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.pcad-row-packet strong {
+  color: var(--pcad-gold-soft);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.pcad-row-packet small {
+  color: var(--pcad-muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
 .pcad-table-row span {
   min-width: 0;
+}
+
+.pcad-company-cell {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.pcad-company-cell i,
+.pcad-detail-title i,
+.pcad-mini-table strong i {
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--pcad-line);
+  border-radius: 50%;
+  color: var(--pcad-gold);
+  background: radial-gradient(circle at 35% 25%, rgba(255, 232, 176, 0.16), rgba(226, 168, 75, 0.05));
+  font-family: Georgia, serif;
+  font-style: normal;
+}
+
+.pcad-company-cell i {
+  width: 36px;
+  height: 36px;
+}
+
+.pcad-company-cell strong {
+  color: var(--pcad-text) !important;
+  font-size: 12px !important;
+  line-height: 1.2;
 }
 
 .pcad-table-row strong,
@@ -15083,6 +15258,17 @@ button.pcad-table-row.active {
   background: rgba(255, 81, 69, 0.08);
 }
 
+.pcad-table-row .pcad-status-chip,
+.pcad-table-row.put .pcad-status-chip {
+  margin-top: 6px;
+  padding: 3px 7px;
+  border-color: rgba(226, 168, 75, 0.22);
+  color: var(--pcad-gold-soft);
+  background: rgba(226, 168, 75, 0.06);
+  font-size: 9px;
+  line-height: 1.15;
+}
+
 .pcad-spark {
   width: 100%;
   height: 44px;
@@ -15120,6 +15306,155 @@ button.pcad-table-row.active {
 .pcad-filters button.active {
   color: #071012;
   background: linear-gradient(180deg, #f1c46a, #b97831);
+}
+
+.pcad-detail-layer {
+  display: grid;
+  gap: 14px;
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.pcad-detail-layer header {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--pcad-line-soft);
+}
+
+.pcad-detail-title {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+
+.pcad-detail-title i {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  font-size: 20px;
+}
+
+.pcad-detail-title small,
+.pcad-detail-score span,
+.pcad-detail-layer article > span {
+  color: var(--pcad-gold);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.pcad-detail-title strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--pcad-text) !important;
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.pcad-detail-score {
+  display: grid;
+  gap: 3px;
+  text-align: right;
+}
+
+.pcad-detail-score strong {
+  color: var(--pcad-green);
+  font-family: Georgia, serif;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.pcad-detail-score small {
+  color: var(--pcad-muted);
+  font-size: 11px;
+}
+
+.pcad-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pcad-detail-grid article {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid rgba(226, 168, 75, 0.13);
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.pcad-detail-layer dl {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+}
+
+.pcad-detail-layer dl div {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.75fr) minmax(0, 1fr);
+  gap: 10px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid rgba(226, 168, 75, 0.1);
+}
+
+.pcad-detail-layer dt {
+  color: var(--pcad-gold-soft);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.pcad-detail-layer dd {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.pcad-thesis-card p {
+  margin: 0;
+  color: var(--pcad-text);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.pcad-thesis-card ul,
+.pcad-projected ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pcad-thesis-card li,
+.pcad-projected li {
+  display: grid;
+  gap: 3px;
+  color: var(--pcad-muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.pcad-thesis-card li strong,
+.pcad-projected li strong {
+  color: var(--pcad-gold-soft);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.pcad-safety-copy {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(226, 168, 75, 0.13);
+  border-radius: 5px;
+  background: rgba(226, 168, 75, 0.04);
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .pcad-playbooks {
@@ -15217,6 +15552,80 @@ button.pcad-table-row.active {
   gap: 10px;
 }
 
+.pcad-market-overview > div:first-child,
+.pcad-climate > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pcad-market-overview span,
+.pcad-climate span {
+  color: var(--pcad-gold);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pcad-market-overview small,
+.pcad-climate small {
+  color: var(--pcad-muted);
+  font-size: 11px;
+}
+
+.pcad-market-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.pcad-market-grid span,
+.pcad-sentiment-list span,
+.pcad-system-list a {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid rgba(226, 168, 75, 0.12);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.pcad-market-grid strong,
+.pcad-sentiment-list strong,
+.pcad-system-list strong {
+  color: var(--pcad-text) !important;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.pcad-market-grid small,
+.pcad-sentiment-list em,
+.pcad-system-list em {
+  color: var(--pcad-muted);
+  font-size: 11px;
+  font-style: normal;
+  line-height: 1.25;
+}
+
+.pcad-system-list,
+.pcad-sentiment-list {
+  display: grid;
+  gap: 7px;
+}
+
+.pcad-system-list a {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.pcad-projected li span {
+  color: var(--pcad-muted);
+}
+
 .pcad-climate strong {
   color: var(--pcad-green) !important;
   font-size: 26px;
@@ -15251,8 +15660,8 @@ body[data-active-view="alerts"] #alerts.active .pcad-table-row.head {
   color: var(--pcad-gold-soft) !important;
 }
 
-body[data-active-view="alerts"] #alerts.active button.pcad-table-row:hover,
-body[data-active-view="alerts"] #alerts.active button.pcad-table-row.active {
+body[data-active-view="alerts"] #alerts.active :is(button, summary).pcad-table-row:hover,
+body[data-active-view="alerts"] #alerts.active :is(button, summary).pcad-table-row.active {
   border-color: var(--pcad-line) !important;
   background: rgba(10, 20, 20, 0.92) !important;
   box-shadow: inset 0 0 22px rgba(226, 168, 75, 0.06) !important;
@@ -15278,8 +15687,16 @@ body[data-active-view="alerts"] #alerts.active .pcad-table-row.put em {
   border-color: rgba(255, 81, 69, 0.25) !important;
 }
 
+body[data-active-view="alerts"] #alerts.active .pcad-table-row .pcad-status-chip,
+body[data-active-view="alerts"] #alerts.active .pcad-table-row.put .pcad-status-chip {
+  color: var(--pcad-gold-soft) !important;
+  background: rgba(226, 168, 75, 0.06) !important;
+  border-color: rgba(226, 168, 75, 0.22) !important;
+}
+
 body[data-active-view="alerts"] #alerts.active .pcad-stream-actions button,
-body[data-active-view="alerts"] #alerts.active .pcad-filters button {
+body[data-active-view="alerts"] #alerts.active .pcad-filters button,
+body[data-active-view="alerts"] #alerts.active .pcad-purpose-strip button {
   color: var(--pcad-gold) !important;
   background: rgba(226, 168, 75, 0.06) !important;
   border-color: var(--pcad-line) !important;
@@ -15288,7 +15705,8 @@ body[data-active-view="alerts"] #alerts.active .pcad-filters button {
 }
 
 body[data-active-view="alerts"] #alerts.active .pcad-stream-actions button.primary,
-body[data-active-view="alerts"] #alerts.active .pcad-filters button.active {
+body[data-active-view="alerts"] #alerts.active .pcad-filters button.active,
+body[data-active-view="alerts"] #alerts.active .pcad-purpose-strip button {
   color: #071012 !important;
   background: linear-gradient(180deg, #f1c46a, #b97831) !important;
 }
@@ -15314,6 +15732,27 @@ body[data-active-view="alerts"] #alerts.active .pcad-filters button.active {
 .pcad-mini-table strong,
 .pcad-mini-table b {
   color: var(--pcad-text);
+}
+
+.pcad-mini-table strong {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 6px;
+  align-items: center;
+}
+
+.pcad-mini-table strong i {
+  width: 22px;
+  height: 22px;
+  font-size: 10px;
+}
+
+.pcad-mini-table strong small {
+  grid-column: 2;
+  color: var(--pcad-muted);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.15;
 }
 
 .pcad-mini-table em {
@@ -15350,6 +15789,7 @@ body[data-active-view="alerts"] #alerts.active .pcad-filters button.active {
 }
 
 .pcad-sentiment p,
+.pcad-candidate-mix p,
 .pcad-regime p {
   display: flex;
   justify-content: space-between;
@@ -15358,6 +15798,7 @@ body[data-active-view="alerts"] #alerts.active .pcad-filters button.active {
 }
 
 .pcad-sentiment p b,
+.pcad-candidate-mix p b,
 .pcad-regime p strong {
   color: var(--pcad-green);
   font-size: 12px;
@@ -15434,8 +15875,12 @@ body[data-active-view="alerts"] #alerts.active .pcad-filters button.active {
 
   .pcad-table-row {
     min-width: 0;
-    grid-template-columns: 42px 76px 42px 68px 72px 80px minmax(80px, 1fr) 72px 48px;
+    grid-template-columns: minmax(140px, 1.1fr) minmax(120px, 0.8fr) minmax(96px, 0.7fr) minmax(130px, 0.85fr) minmax(160px, 1fr) minmax(180px, 1.25fr) minmax(110px, 0.75fr);
     font-size: 12px;
+  }
+
+  .pcad-candidate-detail {
+    min-width: 0;
   }
 }
 
@@ -15465,7 +15910,11 @@ body[data-active-view="alerts"] #alerts.active .pcad-filters button.active {
   }
 
   .pcad-table-row {
-    min-width: 1040px;
+    min-width: 980px;
+  }
+
+  .pcad-candidate-detail {
+    min-width: 980px;
   }
 }
 
@@ -15502,6 +15951,10 @@ body[data-active-view="alerts"] #alerts.active .pcad-filters button.active {
   }
 
   .pcad-metrics,
+  .pcad-purpose-strip,
+  .pcad-detail-layer header,
+  .pcad-detail-grid,
+  .pcad-detail-layer dl div,
   .pcad-left,
   .pcad-right,
   .pcad-playbook,
@@ -15512,6 +15965,52 @@ body[data-active-view="alerts"] #alerts.active .pcad-filters button.active {
 
   .pcad-metric-card {
     min-height: 112px;
+  }
+
+  .pcad-purpose-strip button {
+    width: 100%;
+  }
+
+  .pcad-table {
+    display: grid;
+    overflow-x: visible;
+  }
+
+  .pcad-table-row.head {
+    display: none;
+  }
+
+  .pcad-table-row,
+  body[data-active-view="alerts"] #alerts.active .pcad-table-row,
+  body[data-active-view="alerts"] #alerts.active button.pcad-table-row {
+    grid-template-columns: 1fr;
+    min-width: 0;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .pcad-candidate-detail {
+    min-width: 0;
+  }
+
+  .pcad-row-packet {
+    grid-template-columns: 1fr;
+  }
+
+  .pcad-company-cell {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .pcad-detail-layer header {
+    text-align: left;
+  }
+
+  .pcad-detail-score {
+    text-align: left;
+  }
+
+  .pcad-detail-layer dl div {
+    gap: 4px;
   }
 
   .pcad-footer {

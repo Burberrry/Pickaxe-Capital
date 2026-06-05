@@ -2,6 +2,34 @@
 
 ## Current Active Checkpoint
 
+00 Alerts Desk Detail Layer / Options Research Packet Fields was completed locally on 2026-06-05. `/` and `#/alerts` remain the Alerts Desk homepage, now upgraded into a static research-only options review queue with fuller candidate packet fields for CEO B manual review.
+
+The Alerts Desk visual direction is preserved: premium dark command desk, luxury black/gold research cockpit, left intelligence source rail, central options research review stream, right watchlist/sentiment/market-regime panels, bottom call/put research framework panels, and CEO B manual review identity.
+
+Candidate packets now include company monogram, company name, ticker, call/put research candidate label, Review Timeframe, contract context, source agent, agents involved, source type, source verification status, risk status, Research Confidence scored 1-1000 with decimal completeness percentage, Research Thesis, Projected Scenario, and next CEO B review action.
+
+The surrounding desk now includes or improves:
+
+- `Today's Review Queue`
+- `Calls vs Puts`
+- `Today's Total Conviction`
+- `Fear & Greed`
+- `Intelligence Sources`
+- `Market Overview`
+- `System Status`
+- `Market Bias`
+- `Projected Scenario`
+- `Sentiment`
+- `Watchlist`
+
+Confidence is framed as mock research completeness, not expected return. The queue remains Static Prototype / Mock / No Live Provider Data / No Broker Execution. Visual filters remain visual-only. No route architecture, backend, live API, provider adapter, broker integration, real trading execution, copy-trading, autonomous agent system, private-note exposure, or `data/signal-alerts.json` changes were added.
+
+Validation passed for this checkpoint: build, project check, browser route sweep, desktop overflow, required packet fields, required metric/context cards, safe wording, sidebar order, `.rail-quote`, `/ai-handoff` HTTP 200, and confirmation that `data/signal-alerts.json` remains unstaged and uncommitted. Mobile responsive rules were audited for one-column packet/card collapse and min-width overflow protection.
+
+Stop after reporting validation, commit, and push status. Future work requires B approval.
+
+## Previous Active Checkpoint
+
 00 Alerts Desk Safety Language + Final Lock Check was completed locally on 2026-06-05. `/` and `#/alerts` remain the Alerts Desk homepage and now use safer research-only language across the premium dark command desk.
 
 The Alerts Desk visual direction is preserved: luxury black/gold research cockpit, left source rail, options research review stream, right watchlist/sentiment/regime panels, bottom call/put educational framework panels, and CEO B manual review identity.

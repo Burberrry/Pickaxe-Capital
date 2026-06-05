@@ -1,6 +1,26 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint — 00 Alerts Desk Safety Language + Final Lock Check
+## Current Checkpoint — 00 Alerts Desk Detail Layer / Options Research Packet Fields
+
+- Latest local build: 00 Alerts Desk Detail Layer / Options Research Packet Fields.
+- Date: 2026-06-05.
+- Primary routes changed: `/` and `#/alerts`.
+- Preserved the premium dark command desk and luxury black/gold research cockpit: left intelligence source rail, central options research review stream, right watchlist/sentiment/market-regime panels, bottom call/put research framework panels, and CEO B manual review identity.
+- Upgraded each static options research candidate into a fuller packet with company monogram, company name, ticker, call/put research candidate label, Review Timeframe, contract context, source agent, agents involved, source type, source verification status, risk status, Research Thesis, Projected Scenario, and next CEO B review action.
+- Added Research Confidence as a `1-1000` score plus decimal completeness percentage, with copy clarifying that confidence reflects mock research completeness, not expected return.
+- Added or improved metric/context cards: `Today's Review Queue`, `Calls vs Puts`, `Today's Total Conviction`, `Fear & Greed`, `Market Overview`, `System Status`, `Market Bias`, `Projected Scenario`, `Sentiment`, and `Watchlist`.
+- Expanded the Intelligence Sources rail to include Macro, Smart Money, Unusual Flow, Catalyst, FDA, SEC, Trend, News, AI Agents, 13F, Insider Activity, Options Flow, Market Breadth, Watchlists, and Archive Memory with safe mock/source-needed/local-only statuses.
+- Kept visual filters visual-only. No local mock filtering logic was added.
+- Preserved the existing localStorage-backed `pickaxeOptionAlerts` queue. The TSLA packet is display-only if it is not already present and does not write into the source data.
+- No route architecture, sidebar renumbering, backend systems, dependencies, live APIs, provider adapters, broker integrations, scraping, fake live provider data, real trading execution, copy-trading, private-note exposure, autonomous agents, or `data/signal-alerts.json` changes were added.
+- Validation passed locally with `/Applications/Codex.app/Contents/Resources/node --run build` and `/Applications/Codex.app/Contents/Resources/node --run check:project`.
+- Browser verification passed for `/`, `#/alerts`, `#/dashboard`, `#/staging`, `#/source-hub`, `#/archive`, `#/watchlists`, `#/agents`, `#/roadmap`, and `#/ai-habitat-os`: no console errors, no blank content, no desktop horizontal overflow, correct Alerts Desk and Mission Control routing, sidebar `00 Alerts Desk` first, `01 Mission Control` second, `.rail-quote` visible, restricted trade-like labels absent, required packet fields present, and required metric/context cards present.
+- Mobile responsive rules were audited for one-column packet/card collapse and min-width overflow protection.
+- `/ai-handoff` returned HTTP 200 locally.
+- `data/signal-alerts.json` must remain unstaged and uncommitted.
+- Stop after reporting validation, commit, and push status. Future work requires B approval.
+
+## Previous Checkpoint — 00 Alerts Desk Safety Language + Final Lock Check
 
 - Latest local build: 00 Alerts Desk Safety Language + Final Lock Check.
 - Date: 2026-06-05.
