@@ -14256,8 +14256,40 @@ body[data-active-view="alerts"] #alerts.active .alerts-focus-queue button span,b
 /* Phase 2P Staging declutter. */
 #staging.active .staging-qa-shell {
   display: grid;
-  gap: 16px;
+  gap: 12px !important;
   max-width: 1480px;
+  padding: 16px !important;
+}
+
+#staging.active .staging-qa-shell .page-hero {
+  min-height: 0 !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: end !important;
+  gap: 16px !important;
+  margin: 0 !important;
+  padding: 16px !important;
+  border-radius: 8px !important;
+  background: #111722 !important;
+  color: #c8d2df !important;
+}
+
+#staging.active .staging-qa-shell .page-hero h2 {
+  margin: 2px 0 6px !important;
+  color: #f0f5fb !important;
+  font-size: clamp(30px, 3vw, 46px) !important;
+  line-height: 1 !important;
+}
+
+#staging.active .staging-qa-shell .page-hero p,
+#staging.active .staging-qa-shell .page-subtitle {
+  max-width: 760px !important;
+  color: #9aa7b8 !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+}
+
+#staging.active .staging-qa-shell .page-hero::before {
+  display: none !important;
 }
 
 #staging.active .staging-purpose-line,
