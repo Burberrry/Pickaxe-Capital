@@ -2,6 +2,38 @@
 
 ## Current Active Checkpoint
 
+Pickaxe 20-Section Execution Blueprint was completed locally on 2026-06-05 as a docs/planning-only sprint.
+
+The new planning artifact is `PICKAXE_20_SECTION_EXECUTION_BLUEPRINT.md`. It defines the professional execution blueprint for the full `00-20` Pickaxe OS map using the current route order:
+
+- `COMMAND`: `00 Alerts Desk`, `01 Mission Control`, `02 Command Console`, `03 Vision Map`
+- `INTELLIGENCE`: `04 Agents`, `05 Signals Lab`, `06 Source Hub`, `07 Risk & Rules`, `08 Learning Ledger`
+- `MEMORY`: `09 Trend Radar`, `10 Archive Vault`, `11 Bookmarks Mine`, `12 Money Lab`
+- `OPERATIONS`: `13 Staging / QA`, `14 Habitat OS`, `15 Watchlists`, `16 Markets Matrix`
+- `EXPANSION`: `17 Options Hub`, `18 Catalysts Calendar`, `19 Research Desk`, `20 Roadmap`
+
+Every section now has a planning card with Current Name, Better Name if needed, Department, Purpose, User Problem, Inputs, Outputs, Primary Action, Connected Routes, Build Now, Build Later, Safety Boundary, Success Criteria, and Priority Tier.
+
+The blueprint also identifies grouped section clusters, core product pages, future-only sections, recommended build order, do-not-build-yet items, and the connection model across Alerts Desk, Source Hub, Research Desk, Archive, and Mission Control.
+
+Current build direction from the blueprint:
+
+- Keep Alerts Desk stable as the daily CEO B research review queue.
+- Keep Source Hub as the trust/source-verification cockpit.
+- Keep Archive as cleaned local memory with source lineage.
+- Keep Mission Control as the operating overview.
+- Keep Watchlists stable as the research universe foundation.
+- Treat Research Desk as a future manual workspace until B approves a build sprint.
+- Defer Agents rebuild, Markets Matrix live context, Options Hub, Catalysts Calendar, live APIs, provider adapters, broker execution, auto-trading, copy-trading, and fake live data.
+
+No app code, route architecture, CSS, shared data files, frontend behavior, localStorage keys, live integrations, provider adapters, broker integrations, or `data/signal-alerts.json` changes were added. `data/signal-alerts.json` must remain unstaged and uncommitted.
+
+Validation passed with `/Applications/Codex.app/Contents/Resources/node --run build` and `/Applications/Codex.app/Contents/Resources/node --run check:project`.
+
+Stop after reporting validation, commit, and git status.
+
+## Previous Active Checkpoint
+
 00 Alerts Desk Detail Layer / Options Research Packet Fields was completed locally on 2026-06-05. `/` and `#/alerts` remain the Alerts Desk homepage, now upgraded into a static research-only options review queue with fuller candidate packet fields for CEO B manual review.
 
 The Alerts Desk visual direction is preserved: premium dark command desk, luxury black/gold research cockpit, left intelligence source rail, central options research review stream, right watchlist/sentiment/market-regime panels, bottom call/put research framework panels, and CEO B manual review identity.

@@ -1,5 +1,20 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint — Pickaxe 20-Section Execution Blueprint
+
+- Latest local build: Pickaxe 20-Section Execution Blueprint.
+- Date: 2026-06-05.
+- Sprint type: docs/planning only.
+- Added `PICKAXE_20_SECTION_EXECUTION_BLUEPRINT.md` as the professional execution plan for all `00-20` Pickaxe OS sections.
+- The blueprint uses the current route order across `COMMAND`, `INTELLIGENCE`, `MEMORY`, `OPERATIONS`, and `EXPANSION`.
+- Each section now has a planning card covering Current Name, Better Name if needed, Department, Purpose, User Problem, Inputs, Outputs, Primary Action, Connected Routes, Build Now, Build Later, Safety Boundary, Success Criteria, and Priority Tier.
+- Added cross-system planning guidance for section grouping, core product pages, future-only pages, recommended build order, do-not-build-yet items, and how Alerts Desk, Source Hub, Research Desk, Archive, and Mission Control connect.
+- Preserved the current project truth: Alerts Desk is pushed and verified at `29e3dfc`, the app is static-first/localStorage-only, CEO B manual review is required, and there are no live APIs, broker execution, fake live data, auto-trading, or copy-trading.
+- No app code, route architecture, CSS, shared data files, frontend behavior, localStorage keys, live integrations, provider adapters, broker integrations, or `data/signal-alerts.json` changes were added.
+- Validation passed locally with `/Applications/Codex.app/Contents/Resources/node --run build` and `/Applications/Codex.app/Contents/Resources/node --run check:project`.
+- `data/signal-alerts.json` remains unstaged and uncommitted.
+- Stop after reporting validation, commit, and git status.
+
 ## Current Checkpoint — 00 Alerts Desk Detail Layer / Options Research Packet Fields
 
 - Latest local build: 00 Alerts Desk Detail Layer / Options Research Packet Fields.
