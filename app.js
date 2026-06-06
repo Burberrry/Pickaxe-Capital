@@ -36,6 +36,7 @@ const state = {
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
+const RESEARCH_PACKETS_KEY = "pickaxeResearchPackets";
 
 function showNotification(message, type = "success") {
   console.log(`[Notification] ${message}`);
@@ -1346,6 +1347,254 @@ function renderStaticIntelligencePages() {
   renderFutureConceptPages();
 }
 
+function renderResearchPacketCard(packet, index = 0) {
+  const evidenceCount = Array.isArray(packet.evidence) ? packet.evidence.length : 0;
+  const missingCount = Array.isArray(packet.missingEvidence) ? packet.missingEvidence.length : 0;
+  return `
+    <article class="research-packet-card">
+      <div class="research-packet-head">
+        <span>${escapeHtml(packet.ticker)}</span>
+        <em>${escapeHtml(packet.sourceStatus)}</em>
+      </div>
+      <h4>${escapeHtml(packet.title)}</h4>
+      <p>${escapeHtml(packet.sourceSummary)}</p>
+      <div class="research-packet-meta">
+        <span><strong>${evidenceCount}</strong> evidence items</span>
+        <span><strong>${missingCount}</strong> missing items</span>
+        <span><strong>${escapeHtml(packet.confidencePercent)}</strong> source confidence</span>
+      </div>
+      <div class="research-route-actions">
+        <button type="button" class="${index === 0 ? "primary" : ""}" onclick="window.routeResearchPacket('${escapeHtml(packet.id)}', 'alerts')">Send to Alerts Desk Review</button>
+        <button type="button" onclick="window.routeResearchPacket('${escapeHtml(packet.id)}', 'archive')">Archive Candidate</button>
+        <button type="button" onclick="window.routeResearchPacket('${escapeHtml(packet.id)}', 'watchlist')">Add to Watchlists</button>
+        <button type="button" onclick="window.routeResearchPacket('${escapeHtml(packet.id)}', 'evidence')">Needs More Evidence</button>
+      </div>
+    </article>
+  `;
+}
+
+function renderResearchDeskPage() {
+  if (!els.researchContent) return;
+  const storedPackets = getResearchPacketsState();
+  const packets = getResearchPacketsForDisplay();
+  const active = packets[0] || getResearchDeskDemoPacket();
+  const recentPackets = storedPackets.length ? storedPackets : packets;
+  els.researchContent.innerHTML = `
+    <div class="page-shell research-desk-shell">
+      <header class="research-desk-hero">
+        <div>
+          <span class="meta-label">19 / Manual Packet Builder</span>
+          <h2>Research Desk</h2>
+          <p>Build source-backed research packets before they reach Alerts Desk.</p>
+          <p>Turn verified or source-needed material into structured research packets with evidence, missing information, risk boundaries, and CEO B next actions.</p>
+          ${pcChipRow(["Research Only", "Static / No Live Provider Data", "No Broker Execution", "CEO B Manual Review"])}
+        </div>
+        <aside class="truth-panel">
+          <span class="meta-label">Research Boundary</span>
+          <h3>Judgment stays manual.</h3>
+          <p>Research Desk organizes evidence and review state. It does not connect providers, brokers, payment, auth, or background decision systems.</p>
+        </aside>
+      </header>
+
+      <section class="research-operating-loop">
+        ${["Source Intake", "Source Verification", "Research Packet Builder", "Risk / Boundary Check", "Alerts Desk Review Queue", "CEO B Manual Review", "Archive / Watchlists / Reject / Needs More Evidence"].map((step, index) => `
+          <span><em>${String(index + 1).padStart(2, "0")}</em>${escapeHtml(step)}</span>
+        `).join("")}
+      </section>
+
+      <section class="research-builder-grid">
+        <article class="command-card research-builder-card">
+          <span class="meta-label">Packet Builder</span>
+          <h3>Save a local research packet.</h3>
+          <div class="research-form-grid">
+            <label>Ticker<input id="researchPacketTicker" value="${escapeHtml(active.ticker)}" autocomplete="off"></label>
+            <label>Company Name<input id="researchPacketCompany" value="${escapeHtml(active.companyName)}" autocomplete="off"></label>
+            <label>Source Type<input id="researchPacketSourceType" value="${escapeHtml(active.sourceType)}" autocomplete="off"></label>
+            <label>Source Status<input id="researchPacketSourceStatus" value="${escapeHtml(active.sourceStatus)}" autocomplete="off"></label>
+            <label class="wide">Thesis<textarea id="researchPacketThesis">${escapeHtml(active.researchThesis)}</textarea></label>
+            <label class="wide">Evidence<textarea id="researchPacketEvidence">${escapeHtml(active.evidence.join("\n"))}</textarea></label>
+            <label class="wide">Missing Evidence<textarea id="researchPacketMissing">${escapeHtml(active.missingEvidence.join("\n"))}</textarea></label>
+            <label class="wide">Risk Note<textarea id="researchPacketRisk">${escapeHtml(active.riskBoundary)}</textarea></label>
+            <label class="wide">Next Action<input id="researchPacketNextAction" value="${escapeHtml(active.nextAction)}" autocomplete="off"></label>
+          </div>
+          <button type="button" class="primary-action" onclick="window.saveResearchPacketFromBuilder()">Save Research Packet</button>
+          <p class="mission-footnote">Local-only save to ${RESEARCH_PACKETS_KEY}. No request leaves this browser.</p>
+        </article>
+
+        <article class="glass-card research-handoff-card">
+          <span class="meta-label">Source Handoff Queue</span>
+          <h3>Drafts from Source Hub and local builder.</h3>
+          <div class="research-handoff-list">
+            ${packets.map((packet, index) => `
+              <article>
+                <div><strong>${escapeHtml(packet.title)}</strong><em>${escapeHtml(packet.ticker)}</em></div>
+                <span>${escapeHtml(packet.sourceStatus)}</span>
+                <span>${escapeHtml(packet.evidence.length)} evidence / ${escapeHtml(packet.missingEvidence.length)} missing</span>
+                <small>${escapeHtml(packet.nextAction)}</small>
+              </article>
+            `).join("")}
+          </div>
+        </article>
+
+        <article class="truth-panel research-route-card">
+          <span class="meta-label">Route Decision</span>
+          <h3>Move the current packet through the local workflow.</h3>
+          <p>Route actions update research packet state only. Alerts Desk reads routed packets as manual review candidates.</p>
+          <div class="research-route-actions">
+            <button type="button" class="primary" onclick="window.routeResearchPacket('${escapeHtml(active.id)}', 'alerts')">Send to Alerts Desk Review</button>
+            <button type="button" onclick="window.routeResearchPacket('${escapeHtml(active.id)}', 'archive')">Archive Candidate</button>
+            <button type="button" onclick="window.routeResearchPacket('${escapeHtml(active.id)}', 'watchlist')">Add to Watchlists</button>
+            <button type="button" onclick="window.routeResearchPacket('${escapeHtml(active.id)}', 'evidence')">Needs More Evidence</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="research-anatomy-grid">
+        <article class="command-card">
+          <span class="meta-label">Research Packet Anatomy</span>
+          <h3>Evidence, thesis, risk, and next action.</h3>
+          <p>Each packet keeps source origin, verification state, evidence list, missing evidence, risk boundary, confidence score, and CEO B review state together.</p>
+        </article>
+        <article class="glass-card">
+          <span class="meta-label">Source Confidence</span>
+          <h3>${escapeHtml(active.confidenceScore)} / 1000</h3>
+          <p>${escapeHtml(active.confidencePercent)} source confidence reflects completeness of local evidence, not expected return.</p>
+        </article>
+        <article class="glass-card">
+          <span class="meta-label">Missing Evidence</span>
+          <h3>Open checks stay visible.</h3>
+          <ul>${active.missingEvidence.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        </article>
+        <article class="truth-panel">
+          <span class="meta-label">CEO B Review Boundary</span>
+          <h3>Manual review required.</h3>
+          <p>No broker execution, no auto-routing, no copy-trading, no investment advice, and no guaranteed outcomes are created by this workflow.</p>
+        </article>
+      </section>
+
+      <section class="research-recent-section">
+        <div>
+          <span class="meta-label">Recent Research Packets</span>
+          <h3>Local packet memory</h3>
+        </div>
+        <div class="research-packet-list">
+          ${recentPackets.map(renderResearchPacketCard).join("")}
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+function getResearchPacketById(packetId) {
+  const packets = getResearchPacketsState();
+  return packets.find((packet) => packet.id === packetId) || null;
+}
+
+function buildResearchArchiveCandidate(packet) {
+  const date = formatArchiveWorkflowDate(new Date());
+  return {
+    id: `archive-research-${packet.id}`,
+    archiveTitle: `Research Packet: ${packet.title}`,
+    sourceOrigin: "Research Desk",
+    cleanedSummary: packet.sourceSummary,
+    relatedRoute: "#/research",
+    relatedTickerTheme: packet.ticker,
+    lessonType: "Research Packet",
+    reviewStatus: "CEO B Review Required",
+    confidenceTrustLabel: packet.sourceStatus,
+    safetyBoundary: "Local-only research packet archive candidate. No raw private notes, provider calls, broker execution, or payment/auth workflow.",
+    linkedSourceId: packet.id,
+    linkedSourceHubActionId: packet.sourceOrigin === "Source Hub" ? packet.id : undefined,
+    privateDataRemoved: true,
+    ceoBApproval: "pending",
+    createdDate: date,
+    lastReviewedDate: date,
+    privacy_tier: "local_only",
+    title: `Research Packet: ${packet.title}`,
+    url: "#/research",
+    domain: "Research Desk",
+    type: "research-packet",
+    topic: packet.ticker,
+    category: "Research Desk",
+    habitat: "Archive",
+    status: "review",
+    priority: /needed|missing|review/i.test(`${packet.sourceStatus} ${packet.reviewState}`) ? "high" : "medium",
+    connectedAgent: "CEO B",
+    summary: packet.sourceSummary,
+    whySaved: "Research Desk routed a cleaned local packet candidate for Archive review.",
+    nextAction: "CEO B should confirm source lineage, missing evidence, and privacy boundary before this becomes durable memory.",
+    tags: ["research-desk", "archive-candidate", "local-only", packet.ticker].filter(Boolean),
+    dateAdded: date,
+    lastReviewed: date,
+    localPreview: true,
+  };
+}
+
+function archiveResearchPacketCandidate(packet) {
+  const archiveState = getArchiveVaultState();
+  const archiveCandidate = buildResearchArchiveCandidate(packet);
+  const existing = (archiveState.parsedLinks || []).find((entry) => entry.id === archiveCandidate.id);
+  const parsedLinks = existing
+    ? (archiveState.parsedLinks || []).map((entry) => entry.id === existing.id ? { ...entry, ...archiveCandidate, createdDate: entry.createdDate || archiveCandidate.createdDate } : entry)
+    : [archiveCandidate, ...(archiveState.parsedLinks || [])];
+  setArchiveVaultState({
+    ...archiveState,
+    parsedLinks,
+    actionLog: [`${archiveCandidate.archiveTitle}: research archive candidate saved`, ...(archiveState.actionLog || [])],
+  });
+}
+
+window.saveResearchPacketFromBuilder = () => {
+  const valueFor = (id) => document.getElementById(id)?.value || "";
+  const packet = saveResearchPacketRecord({
+    ticker: valueFor("researchPacketTicker"),
+    companyName: valueFor("researchPacketCompany"),
+    title: `${valueFor("researchPacketTicker") || "Research"} local research packet`,
+    sourceOrigin: "Research Desk",
+    sourceType: valueFor("researchPacketSourceType"),
+    sourceStatus: valueFor("researchPacketSourceStatus"),
+    sourceSummary: valueFor("researchPacketThesis"),
+    researchThesis: valueFor("researchPacketThesis"),
+    evidence: valueFor("researchPacketEvidence"),
+    missingEvidence: valueFor("researchPacketMissing"),
+    riskBoundary: valueFor("researchPacketRisk"),
+    nextAction: valueFor("researchPacketNextAction") || "Route to Alerts Desk",
+    reviewState: "Needs CEO B Review",
+  });
+  showNotification(`Saved local research packet for ${packet.ticker}.`);
+  renderResearchDeskPage();
+};
+
+window.routeResearchPacket = (packetId, routeAction) => {
+  const existing = getResearchPacketById(packetId) || saveResearchPacketRecord(getResearchDeskDemoPacket());
+  const now = new Date().toISOString();
+  const patch = { ...existing, updatedAt: now };
+  if (routeAction === "alerts") {
+    patch.reviewState = "Alerts Desk Review Queue";
+    patch.nextAction = "CEO B Manual Review";
+    patch.routedToAlertsAt = now;
+  } else if (routeAction === "archive") {
+    patch.reviewState = "Archive Candidate";
+    patch.nextAction = "CEO B Archive Review";
+    patch.archivedAt = now;
+    archiveResearchPacketCandidate(normalizeResearchPacketDraft(patch));
+  } else if (routeAction === "watchlist") {
+    patch.reviewState = "Watchlist Candidate";
+    patch.nextAction = "Review watch criteria";
+    patch.watchlistCandidate = true;
+  } else {
+    patch.reviewState = "Needs More Evidence";
+    patch.nextAction = "Return to Source Hub";
+    patch.missingEvidence = asResearchList(patch.missingEvidence).length ? patch.missingEvidence : ["Source confirmation", "Risk boundary review"];
+  }
+  const packet = saveResearchPacketRecord(patch);
+  showNotification(`${packet.ticker}: ${packet.reviewState}.`);
+  if (typeof renderResearchDeskPage === "function") renderResearchDeskPage();
+  if (typeof renderAlertsPage === "function") renderAlertsPage();
+  if (typeof renderArchiveIntelligence === "function") renderArchiveIntelligence();
+  if (typeof renderWatchlistsPage === "function") renderWatchlistsPage();
+};
+
 function renderFutureConceptPages() {
   const pages = [
     {
@@ -1394,6 +1643,10 @@ function renderFutureConceptPages() {
 
   pages.forEach(page => {
     if (!page.el) return;
+    if (page.el === els.researchContent) {
+      renderResearchDeskPage();
+      return;
+    }
     page.el.innerHTML = `
       <div class="p-4 sm:p-6 bg-[#08090b] text-xs font-mono text-[#c0c4cc] overflow-x-hidden">
         <section class="p-5 bg-[#11141a] border border-[#1d242e] border-l-2 border-l-amber/60 rounded-sm">
@@ -4893,6 +5146,168 @@ function setArchiveVaultState(nextState) {
   } catch {
     // Browser storage can be disabled; the page still works with seed data.
   }
+}
+
+function asResearchList(value) {
+  if (Array.isArray(value)) return value.map((item) => String(item || "").trim()).filter(Boolean);
+  return String(value || "")
+    .split(/\n|;|\|/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function normalizeResearchPacketDraft(packet = {}) {
+  const now = new Date().toISOString();
+  const ticker = String(packet.ticker || packet.symbol || "NVDA").replace(/[^A-Z0-9.-]/gi, "").toUpperCase() || "NVDA";
+  const evidence = asResearchList(packet.evidence);
+  const missingEvidence = asResearchList(packet.missingEvidence || packet.missing);
+  const confidenceScore = Math.max(0, Math.min(1000, Number(packet.confidenceScore || packet.confidence || 720)));
+  return {
+    id: packet.id || `packet-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    createdAt: packet.createdAt || now,
+    updatedAt: now,
+    ticker,
+    companyName: packet.companyName || packet.company || `${ticker} Research Candidate`,
+    title: packet.title || `${ticker} source-backed research packet`,
+    sourceOrigin: packet.sourceOrigin || "Research Desk",
+    sourceStatus: packet.sourceStatus || "Source Verification Needed",
+    sourceType: packet.sourceType || "Manual Note",
+    sourceSummary: packet.sourceSummary || "Local prototype research context. Source verification required before CEO B review.",
+    researchThesis: packet.researchThesis || packet.thesis || "Research-only thesis pending CEO B manual review.",
+    evidence: evidence.length ? evidence : ["Source summary captured locally"],
+    missingEvidence: missingEvidence.length ? missingEvidence : ["Source confirmation", "Risk / boundary check", "Catalyst check"],
+    riskBoundary: packet.riskBoundary || packet.riskNote || "Manual review required. No broker execution.",
+    confidenceScore,
+    confidencePercent: packet.confidencePercent || `${(confidenceScore / 10).toFixed(1)}%`,
+    reviewState: packet.reviewState || "Needs CEO B Review",
+    nextAction: packet.nextAction || "Route to Alerts Desk",
+    connectedRoutes: packet.connectedRoutes || ["source-hub", "research", "alerts", "archive", "watchlists"],
+    safetyLabels: packet.safetyLabels || ["Research Only", "No Live Data", "Manual Review"],
+    routedToAlertsAt: packet.routedToAlertsAt || null,
+    archivedAt: packet.archivedAt || null,
+    watchlistCandidate: !!packet.watchlistCandidate,
+    localOnly: packet.localOnly !== false,
+  };
+}
+
+function getResearchPacketsState() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(RESEARCH_PACKETS_KEY) || "[]");
+    return Array.isArray(stored) ? stored.map(normalizeResearchPacketDraft) : [];
+  } catch {
+    return [];
+  }
+}
+
+function setResearchPacketsState(packets) {
+  try {
+    localStorage.setItem(RESEARCH_PACKETS_KEY, JSON.stringify((packets || []).map(normalizeResearchPacketDraft).slice(0, 60)));
+  } catch {
+    // Local browser storage may be unavailable; workflow panels remain readable.
+  }
+}
+
+function saveResearchPacketRecord(packet) {
+  const next = normalizeResearchPacketDraft(packet);
+  const packets = getResearchPacketsState();
+  const existingIndex = packets.findIndex((item) => item.id === next.id);
+  if (existingIndex >= 0) {
+    packets[existingIndex] = { ...packets[existingIndex], ...next, updatedAt: new Date().toISOString() };
+    setResearchPacketsState(packets);
+  } else {
+    setResearchPacketsState([next, ...packets]);
+  }
+  return next;
+}
+
+function getResearchDeskDemoPacket() {
+  return normalizeResearchPacketDraft({
+    id: "packet-demo-local-source",
+    ticker: "NVDA",
+    companyName: "NVIDIA Corp.",
+    title: "AI infrastructure research packet",
+    sourceOrigin: "Source Hub",
+    sourceStatus: "Source Verification Needed",
+    sourceType: "Manual Note / Filing / Bookmark",
+    sourceSummary: "Static demo draft showing how source material becomes a research packet before Alerts Desk review.",
+    researchThesis: "AI infrastructure theme requires source-backed evidence, risk context, and CEO B manual review.",
+    evidence: ["Source intake captured", "Ticker context attached"],
+    missingEvidence: ["Source confirmation", "Catalyst check", "Risk boundary review"],
+    riskBoundary: "Manual review required. No broker execution.",
+    confidenceScore: 720,
+    reviewState: "Needs CEO B Review",
+    nextAction: "Route to Alerts Desk",
+  });
+}
+
+function getResearchPacketsForDisplay() {
+  const packets = getResearchPacketsState();
+  return packets.length ? packets : [getResearchDeskDemoPacket()];
+}
+
+function buildResearchPacketFromSourceItem(item) {
+  const source = item || {};
+  const relatedTicker = String(source.relatedTicker || source.topic || source.category || "NVDA").match(/[A-Z]{1,5}/)?.[0] || "NVDA";
+  const title = source.title || source.category || "Source Candidate";
+  return normalizeResearchPacketDraft({
+    ticker: relatedTicker,
+    companyName: source.relatedTicker || `${relatedTicker} Research Candidate`,
+    title: `${title} research packet`,
+    sourceOrigin: "Source Hub",
+    sourceStatus: source.sourceStatus || source.trustStatus || source.trustLevel || "Source Verification Needed",
+    sourceType: source.sourceType || source.connectionStatus || "Source Candidate",
+    sourceSummary: source.nextManualAction || source.safetyNote || source.escalationRule || "Local Source Hub draft. Source verification required before handoff.",
+    researchThesis: `Research-only thesis draft from Source Hub context: ${title}.`,
+    evidence: [source.title || "Source intake captured", source.relatedRoute || source.routeUsedBy || "Route context attached"],
+    missingEvidence: ["Source confirmation", "Risk / boundary check", "CEO B review note"],
+    riskBoundary: "Manual review required. No broker execution.",
+    confidenceScore: /verified|primary|trusted/i.test(`${source.trustStatus} ${source.trustLevel}`) ? 760 : 640,
+    reviewState: "Source Handoff Draft",
+    nextAction: "Open Research Desk",
+  });
+}
+
+function getLatestAlertsResearchPacket() {
+  const packets = getResearchPacketsState();
+  return packets.find((packet) => packet.routedToAlertsAt || /alerts desk/i.test(`${packet.reviewState} ${packet.nextAction}`)) || null;
+}
+
+function renderAlertsResearchDeskIntakePanel() {
+  const packet = getLatestAlertsResearchPacket();
+  if (!packet) {
+    return `
+      <section class="pcad-panel pcad-research-intake">
+        <div class="pcad-panel-head">
+          <span>Research Desk Intake</span>
+          <small>Local packet handoff</small>
+        </div>
+        <p>Research packets sent from Research Desk appear here as manual review candidates.</p>
+        <div class="research-intake-empty">No local Research Desk packets have been routed yet.</div>
+      </section>
+    `;
+  }
+  return `
+    <section class="pcad-panel pcad-research-intake">
+      <div class="pcad-panel-head">
+        <span>Research Desk Intake</span>
+        <small>Manual review candidate</small>
+      </div>
+      <p>Research packets sent from Research Desk appear here as manual review candidates.</p>
+      <article class="research-intake-card">
+        <div>
+          <strong>${escapeHtml(packet.ticker)}</strong>
+          <span>${escapeHtml(packet.title)}</span>
+        </div>
+        <dl>
+          <div><dt>Source Status</dt><dd>${escapeHtml(packet.sourceStatus)}</dd></div>
+          <div><dt>Risk Boundary</dt><dd>${escapeHtml(packet.riskBoundary)}</dd></div>
+          <div><dt>CEO B Review State</dt><dd>${escapeHtml(packet.reviewState)}</dd></div>
+          <div><dt>Next Action</dt><dd>${escapeHtml(packet.nextAction)}</dd></div>
+        </dl>
+        <a href="#/research">Open Research Desk</a>
+      </article>
+    </section>
+  `;
 }
 
 function formatArchiveWorkflowDate(date = new Date()) {
@@ -14869,6 +15284,16 @@ window.copySourceHubSummary = async (sourceId) => {
   }
 };
 
+window.createResearchPacketDraftFromSourceHub = (sourceId) => {
+  const queue = Array.isArray(sharedHabitatData.sourceIntakeQueue) ? sharedHabitatData.sourceIntakeQueue : [];
+  const matrix = Array.isArray(sharedHabitatData.sourceVerificationMatrix) ? sharedHabitatData.sourceVerificationMatrix : [];
+  const source = (sourceId ? queue.find((entry) => entry.id === sourceId) || matrix.find((entry) => entry.id === sourceId) : queue[0]) || null;
+  const packet = saveResearchPacketRecord(buildResearchPacketFromSourceItem(source));
+  showNotification(`Research packet draft created for ${packet.ticker}.`);
+  if (typeof renderSourceHubPage === "function") renderSourceHubPage();
+  if (typeof renderResearchDeskPage === "function") renderResearchDeskPage();
+};
+
 renderSourceHubPage = function () {
   if (!els.sourceHubContent) return;
   const matrix = Array.isArray(sharedHabitatData.sourceVerificationMatrix) ? sharedHabitatData.sourceVerificationMatrix : [];
@@ -14928,6 +15353,22 @@ renderSourceHubPage = function () {
       </header>
 
       <section class="source-core-bento" aria-label="Source Hub core trust panels">
+        <article class="command-card source-research-flow-card">
+          <span class="meta-label">Source → Research Packet Flow</span>
+          <h3>Classify, verify, and hand off source context.</h3>
+          <p>Classify source material, verify boundaries, and route cleaned context into Research Desk before it reaches Alerts Desk.</p>
+          <div class="research-flow-steps" aria-label="Local source to research packet workflow">
+            ${["Source Intake", "Verification Status", "Research Desk Handoff", "Alerts Desk Candidate", "Archive / Watchlist Outcome"].map((step, index) => `
+              <span><em>${String(index + 1).padStart(2, "0")}</em>${escapeHtml(step)}</span>
+            `).join("")}
+          </div>
+          <div class="source-action-row">
+            <button type="button" onclick="window.createResearchPacketDraftFromSourceHub()">Create Research Packet Draft</button>
+            <a href="#/research">Open Research Desk</a>
+          </div>
+          <p class="mission-footnote">Local prototype: creates a research packet draft on this device only.</p>
+        </article>
+
         <article class="command-card source-matrix-card">
           <span class="meta-label">Verification Matrix</span>
           <h3>What sources are trusted?</h3>
@@ -14962,6 +15403,7 @@ renderSourceHubPage = function () {
                   <div class="source-action-row compact">
                     <button type="button" onclick="window.sourceHubLocalAction('review', '${escapeHtml(item.id)}')">CEO B Review</button>
                     <button type="button" onclick="window.sourceHubLocalAction('archive', '${escapeHtml(item.id)}')">Save Cleaned Source Memory</button>
+                    <button type="button" onclick="window.createResearchPacketDraftFromSourceHub('${escapeHtml(item.id)}')">Create Research Packet Draft</button>
                   </div>
                 </article>
               `;
@@ -15060,6 +15502,7 @@ renderSourceHubPage = function () {
                     <button type="button" onclick="window.sourceHubLocalAction('archivist', '${escapeHtml(item.id)}')">Assign Archivist</button>
                     <button type="button" onclick="window.sourceHubLocalAction('forge', '${escapeHtml(item.id)}')">Assign Forge</button>
                     <button type="button" onclick="window.sourceHubLocalAction('alert', '${escapeHtml(item.id)}')">Create Source Watch Alert</button>
+                    <button type="button" onclick="window.createResearchPacketDraftFromSourceHub('${escapeHtml(item.id)}')">Create Research Packet Draft</button>
                     <button type="button" onclick="window.copySourceHubSummary('${escapeHtml(item.id)}')">Copy Summary</button>
                     <a href="${escapeHtml(item.relatedRoute)}">Open Route</a>
                     ${archived ? `<a href="#/archive">Open Archive Lineage</a>` : ""}
@@ -15334,6 +15777,10 @@ renderFutureConceptPages = function () {
   ];
   pages.forEach(([el, code, title, subtitle]) => {
     if (!el) return;
+    if (el === els.researchContent) {
+      renderResearchDeskPage();
+      return;
+    }
     el.innerHTML = `
       <div class="page-shell">
         ${pcPageHero(`${code} / Future Concept`, title, subtitle, ["Future Concept", "Research Only", "Backend Not Connected", "Manual Review Required"])}
@@ -15699,6 +16146,8 @@ renderAlertsDeskMarkup = function (optionAlerts, selectedAlert, lastUpdated) {
               <p>Neutral / monitoring / mock static label</p>
             </article>
           </section>
+
+          ${renderAlertsResearchDeskIntakePanel()}
 
           <section class="pcad-panel pcad-stream-panel">
             <div class="pcad-stream-head">

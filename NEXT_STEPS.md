@@ -2,6 +2,59 @@
 
 ## Current Active Checkpoint
 
+Source Hub → Research Desk → Alerts Desk Flow was completed locally on 2026-06-05 as a static/local workflow prototype sprint.
+
+Before starting, `9e2a285 Add landing page services pricing` was verified as pushed to `origin/main`.
+
+The new workflow connects:
+
+- `#/source-hub`
+- `#/research`
+- `#/alerts`
+- `#/archive`
+- `#/watchlists`
+
+What changed:
+
+- Source Hub now has a `Source → Research Packet Flow` panel with a local `Create Research Packet Draft` action.
+- Research Desk is now a real manual packet builder instead of a future-only placeholder.
+- Research Desk includes Packet Builder fields, Source Handoff Queue, Route Decision actions, Research Packet Anatomy, Source Confidence, Missing Evidence, CEO B Review Boundary, and Recent Research Packets.
+- Alerts Desk now shows a `Research Desk Intake` panel for packets routed from Research Desk.
+- Research packets save locally under `pickaxeResearchPackets`.
+- Archive Candidate routing uses the existing cleaned Archive Vault local pattern.
+- Watchlist Candidate routing marks the packet as watchlist context without changing the Watchlists data model.
+
+Safety boundaries preserved:
+
+- Static/local prototype only.
+- No backend, live APIs, provider adapters, scraping, broker execution, payment/auth, auto-trading, copy-trading, investment advice, guaranteed outcomes, fake live data, or private-note exposure.
+- CEO B manual review remains required.
+- `data/signal-alerts.json` remains unstaged and uncommitted.
+
+Files updated for this checkpoint:
+
+- `app.js`
+- `public/app.js`
+- `styles.css`
+- `public/styles.css`
+- `index.html`
+- `public/index.html`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+Validation passed:
+
+- `/Applications/Codex.app/Contents/Resources/node --run build`
+- `/Applications/Codex.app/Contents/Resources/node --run check:project`
+- Browser sweep for `/`, `#/alerts`, `#/dashboard`, `#/founder`, `#/source-hub`, `#/research`, `#/archive`, `#/watchlists`, `#/staging`, `#/roadmap`, `#/ai-habitat-os`, and `#/ceo-b-profile`
+- Workflow check for Source Hub draft creation, Research Desk route decision, Alerts Desk intake rendering, and refresh-preserved local state
+- Desktop and 390px mobile overflow checks passed
+- `/ai-handoff` returned HTTP 200
+
+Stop after reporting validation, commit, push status, and git status. Do not start another sprint automatically.
+
+## Previous Active Checkpoint
+
 Landing Page + Services / Pricing was completed locally on 2026-06-05 as a static front-end marketing/access page sprint.
 
 Before starting, `53ffd8a Consolidate premium visual CSS system` was verified as pushed to `origin/main`.

@@ -1,5 +1,26 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint — Source Hub → Research Desk → Alerts Desk Flow
+
+- Latest local build: Source Hub → Research Desk → Alerts Desk Flow.
+- Date: 2026-06-05.
+- Sprint type: static/local workflow prototype only.
+- Verified before starting that `9e2a285 Add landing page services pricing` is pushed to `origin/main`.
+- Added local-only research packet state under `pickaxeResearchPackets`.
+- Source Hub now includes a `Source → Research Packet Flow` panel and `Create Research Packet Draft` actions that create local packet drafts from source context without network requests or backend systems.
+- Research Desk is now a manual packet builder with Packet Builder fields, Source Handoff Queue, Route Decision actions, Research Packet Anatomy, Source Confidence, Missing Evidence, CEO B Review Boundary, and Recent Research Packets.
+- Alerts Desk now includes a compact `Research Desk Intake` panel that reads routed research packets as manual review candidates while preserving the existing `pickaxeOptionAlerts` queue and packet detail layer.
+- Archive Candidate routing uses the existing cleaned Archive Vault pattern and stays local-only. Watchlist Candidate routing marks packet state only and does not break Watchlists.
+- Updated cache keys to `source-research-flow-20260605` and synced root/public mirrors for `app.js`, `styles.css`, and `index.html`.
+- No route architecture changes, sidebar renumbering, backend systems, live APIs, provider adapters, scraping, broker integrations, autonomous agents, fake live data, payment/auth, trading execution, copy-trading, investment-advice claims, guaranteed-profit claims, private-note exposure, or `data/signal-alerts.json` changes were added.
+- Validation passed locally with `/Applications/Codex.app/Contents/Resources/node --run build` and `/Applications/Codex.app/Contents/Resources/node --run check:project`.
+- Browser verification passed for `/`, `#/alerts`, `#/dashboard`, `#/founder`, `#/source-hub`, `#/research`, `#/archive`, `#/watchlists`, `#/staging`, `#/roadmap`, `#/ai-habitat-os`, and `#/ceo-b-profile`: no console errors, no blank content, no desktop horizontal overflow, sidebar zones/order preserved, `/` and `#/alerts` open Alerts Desk, and `#/dashboard` opens Mission Control.
+- Workflow verification passed: Source Hub created a local research packet draft, Research Desk rendered Packet Builder / Source Handoff Queue / Route Decision, routing sent the packet to Alerts Desk review state, Alerts Desk displayed the Research Desk Intake candidate, and refresh preserved the visible local packet state.
+- 390px mobile overflow verification passed for `/`, `#/alerts`, `#/source-hub`, `#/research`, `#/archive`, and `#/watchlists`.
+- `/ai-handoff` returned HTTP 200 locally.
+- `data/signal-alerts.json` remains unstaged and uncommitted.
+- Stop after reporting validation, commit, push status, and final git status.
+
 ## Current Checkpoint — Landing Page + Services / Pricing
 
 - Latest local build: Landing Page + Services / Pricing.
