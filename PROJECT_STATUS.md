@@ -1,5 +1,21 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint — Research Packet v2 Live Deployment Lock
+
+- Commit: `d3f7ff3 Add Research Packet v2 gated alerts engine`.
+- Remote state: `origin/main` points to `d3f7ff3113212cffe06bf9664bc34ddd570ab075`.
+- GitHub Pages live review URL: `https://burberrry.github.io/Pickaxe-Capital/?v=research-packet-v2#/alerts`.
+- Live routes verified: `#/alerts`, `#/research`, `#/archive`, `#/learning-ledger`, `#/source-hub`, and `#/staging`.
+- Alerts Desk live review confirmed the v2 hero, Queue State, CEO B Review Queue, AAPL / Apple Inc. packet detail, score-gated packet system, Why CEO B Is Seeing This, Agent Vote Matrix, Risk Gate, Evidence Stack, Missing Evidence, and collapsed Suppressed Noise.
+- Live safety labels confirmed: Research Only, LocalStorage Only, Manual Review Required, No Live APIs, and No Broker Execution.
+- Desktop live browser review passed at 1280px with no console errors, blank content, or horizontal overflow.
+- Mobile live browser review passed at 390px with no console errors, blank content, or horizontal overflow.
+- Final local build and project validation passed.
+- Local `/ai-handoff` returned HTTP 200.
+- Static-first GitHub Pages behavior and all research-only, manual-review, no-live-data, no-provider, no-scraping, no-broker, no-auto-trading, no-copy-trading, and no-frontend-key boundaries remain preserved.
+- `data/signal-alerts.json` remains pre-existing, unstaged, and untouched.
+- Next recommended task: CEO B route-by-route visual QA polish, starting with Staging or Watchlists only after B approval.
+
 ## Current Checkpoint — Research Packet v2 / Research-Gated Alerts Engine
 
 - Date: 2026-06-07.

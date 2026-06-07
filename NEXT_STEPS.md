@@ -2,6 +2,22 @@
 
 ## Current Active Checkpoint
 
+Research Packet v2 Live Deployment Lock was completed on 2026-06-07.
+
+- Commit `d3f7ff3 Add Research Packet v2 gated alerts engine` is present on `origin/main`.
+- Live review: `https://burberrry.github.io/Pickaxe-Capital/?v=research-packet-v2#/alerts`.
+- Live desktop and 390px checks passed for Alerts Desk, Research Desk, Archive, Learning Ledger, Source Hub, and Staging.
+- Alerts Desk v2 hero, queue state, CEO B queue, score-gated packet detail, evidence/risk/vote panels, safety labels, and collapsed Suppressed Noise were confirmed live.
+- No live console errors, blank content, desktop overflow, or mobile overflow were found.
+- Final local build and project checks passed.
+- Local `/ai-handoff` returned HTTP 200.
+- Safety boundaries remain unchanged.
+- `data/signal-alerts.json` remains unstaged and untouched.
+
+Next recommended task: CEO B route-by-route visual QA polish, starting with Staging or Watchlists only after B approval. Do not start automatically.
+
+## Previous Active Checkpoint
+
 Research Packet v2 / Research-Gated Alerts Engine was completed locally on 2026-06-07.
 
 What is now built:
