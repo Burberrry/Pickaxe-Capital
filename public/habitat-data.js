@@ -631,9 +631,52 @@ window.PickaxeHabitatData = {
     { id: "x-bookmark-intelligence", title: "X Bookmark Intelligence item", type: "X Bookmark Intelligence", sourceHabitat: "Private Intelligence", sourceWebsite: "X Bookmarks", relatedAgent: "Bookmark Miner / News Raven", summary: "User-imported X bookmarks can become source ideas, ticker detections, archive entries, and alert candidates.", tags: ["X", "bookmarks", "private"], confidence: 70, valueScore: 82, status: "Static", lesson: "Private saved posts need a safe import workflow, not scraping.", nextAction: "Paste/import sample bookmark links.", sourceRoute: "/bookmarks", reviewDate: "local/mock" },
     { id: "founder-decision-cleanup", title: "Founder Decision: Clean before scale", type: "Founder Decision", sourceHabitat: "Founder OS", sourceWebsite: "CEO B", relatedAgent: "CEO B / Wealth Alchemist", summary: "Apply Berkshire cleanup logic to websites, agents, archives, investments, and personal execution.", tags: ["founder", "cleanup", "scale"], confidence: 90, valueScore: 94, status: "CEO B Review", lesson: "Compounding starts when drag is removed.", nextAction: "Add to founder operating rules.", sourceRoute: "/founder", reviewDate: "local/mock" },
   ],
+  researchPacketV2: {
+    version: 2,
+    storageKey: "pickaxeResearchPackets",
+    routeBands: [
+      { min: 90, max: 100, decision: "CEO_B_COMMAND_ALERT" },
+      { min: 80, max: 89, decision: "CEO_B_REVIEW_WITH_WARNING" },
+      { min: 65, max: 79, decision: "WATCHLIST_REVIEW" },
+      { min: 45, max: 64, decision: "ARCHIVE_CANDIDATE" },
+      { min: 0, max: 44, decision: "SUPPRESSED_NOISE" },
+    ],
+    agentLanes: [
+      "Chief Research Officer",
+      "Market Regime Agent",
+      "TTT Agent",
+      "Options Flow Agent",
+      "Catalyst Agent",
+      "Technical Structure Agent",
+      "Liquidity Agent",
+      "Sentiment Agent",
+      "Smart Money / Positioning Agent",
+      "Risk Sentinel / Omega Vault",
+      "Archive Memory Agent",
+      "CEO B Synthesizer",
+    ],
+    outcomeOptions: [
+      "paper win",
+      "paper loss",
+      "avoided bad trade",
+      "too early",
+      "too late",
+      "no catalyst",
+      "bad liquidity",
+      "good setup bad timing",
+    ],
+    safetyLabels: [
+      "Research Only",
+      "LocalStorage Only",
+      "Manual CEO B Review",
+      "No Live Data",
+      "No Broker Execution",
+    ],
+  },
   buildCompletionTracker: {
-    lastUpdated: "2026-06-05",
+    lastUpdated: "2026-06-07",
     areas: [
+      { id: "research-packet-v2-intelligence-engine", name: "Research Packet v2 / Research-Gated Alerts Engine", group: "CEO B Review Workflow", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Research Desk / Risk Sentinel", notes: "Upgraded the existing pickaxeResearchPackets local workflow into a reusable Research Packet v2 model with symbol/company/asset/setup context, catalyst, TTT, regime, technical, options, liquidity, sentiment, positioning, archive memory, invalidation, risk warnings, fatal flags, missing evidence, source confidence, 12 agent-lane votes, total score, route decision, CEO B next action, and paper outcome memory. Added deterministic local route bands, fatal-risk score override and suppression, hedge-fund-style Alerts Desk evidence/risk/vote panels, Suppressed Noise drawer, CEO B Review/Watch/Archive/Reject/Mark Lesson actions, full manual Research Desk builder with score/route preview, and Archive/Learning Ledger outcome capture. Preserved static-first architecture, localStorage, route/sidebar order, dark Pickaxe branding, root/public mirrors, and all no-live/no-execution boundaries.", nextAction: "Deploy only after CEO B reviews the local Research Packet v2 visuals and workflow." },
       { id: "alerts-desk-options-packet-detail-layer", name: "00 Alerts Desk Detail Layer / Options Research Packet Fields", group: "CEO B Review Workflow", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Alerts Desk", notes: "Upgraded / and #/alerts into a fuller static research-only options review queue. Preserved the premium dark command desk and luxury black/gold research cockpit while adding candidate packet fields for company monograms, company names, tickers, call/put research candidate labels, review timeframe, contract context, source agent, agents involved, source status, risk status, research confidence scored 1-1000 with decimal completeness, Research Thesis, Projected Scenario, and CEO B manual review next action. Added metric cards for Today's Review Queue, Calls vs Puts, Today's Total Conviction, Fear & Greed, Market Overview, System Status, Market Bias, Projected Scenario, Sentiment, and Watchlist. No live APIs, backend, provider adapter, broker integration, fake live provider data, real trading execution, copy-trading, autonomous agents, route architecture changes, or data/signal-alerts.json changes were added.", nextAction: "Stop after reporting validation, commit, and push status. Future work requires B approval." },
       { id: "alerts-desk-safety-language-final-lock", name: "00 Alerts Desk Safety Language + Final Lock Check", group: "CEO B Review Workflow", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Alerts Desk", notes: "Final safety-language pass for / and #/alerts. Preserved the premium dark command desk and luxury black/gold research cockpit while replacing trade-like labels with Options Research Review Stream, Options Research Candidates, Review Direction, Call Research Candidate Framework, Put Research Candidate Framework, Manual Review Required, Source Verification Needed, Risk Gate, Static Prototype, Mock / No Live Provider Data, and No Broker Execution. Kept localStorage pickaxeOptionAlerts selection/actions, source rail, research stream, right watchlist/sentiment/regime panels, and bottom educational framework panels. No live APIs, provider adapters, backend, broker execution, fake live data, scraping, auto-trading, betting execution, copy-trading, autonomous agents, private frontend keys, route architecture changes, or data/signal-alerts.json changes were added.", nextAction: "Stop after final lock report. Future work requires B approval." },
       { id: "phase-2p-staging-declutter", name: "Phase 2P Staging Declutter", group: "Design System", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / System Brain", notes: "Decluttered #/staging into a QA / build-readiness command center with one hero, a clear purpose and manual action, and three above-fold panels: Current Locked Phase, Route Stability Matrix, and Next Approval Queue. Moved Build Completion Tracker, mission board, backup/restore, recovery, advanced diagnostics, and future adapter research lower behind quiet details. Preserved pickaxeCompletionTracker, backup/export/import functionality, route behavior, sidebar zones, Source Hub workflow, Archive memory model, Watchlists state, Agents placeholder, Options deferral, no-live/no-execution boundaries, and data/signal-alerts.json untouched.", nextAction: "CSS Consolidation, then Watchlists Polish after B approval." },
@@ -682,27 +725,28 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
+      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "index.html", "public/index.html", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
       featuresAdded: [
-        "Added the 00 Alerts Desk Detail Layer / Options Research Packet Fields for / and #/alerts.",
-        "Added company monogram, company name, ticker, call/put research candidate label, review timeframe, contract context, source agent, agents involved, source status, risk status, Research Thesis, Projected Scenario, and CEO B manual review next action to the static candidate stream.",
-        "Added Research Confidence as 1-1000 score plus decimal completeness percent, with copy clarifying that confidence reflects mock research completeness, not expected return.",
-        "Added or improved Today's Review Queue, Calls vs Puts, Today's Total Conviction, Fear & Greed, Intelligence Sources, Market Overview, System Status, Market Bias, Projected Scenario, Sentiment, and Watchlist panels.",
-        "Kept visual filters as visual-only and preserved the premium dark command desk, luxury black/gold research cockpit, source rail, review stream, right panels, and bottom call/put research frameworks."
+        "Added the reusable Research Packet v2 shared configuration, route bands, 12 research agent lanes, outcome vocabulary, and backward-compatible local packet normalization.",
+        "Added deterministic local scoring with source-confidence weighting, missing-evidence penalties, agent vote matrix generation, and fatal-risk score override to SUPPRESSED_NOISE.",
+        "Upgraded Alerts Desk into a research-gated CEO B queue with Why CEO B Is Seeing This, Risk Gate, Evidence Stack, Missing Evidence, Agent Vote Matrix, collapsed Suppressed Noise, and Review/Watch/Archive/Reject/Mark Lesson actions.",
+        "Expanded Research Desk into a full manual v2 builder with catalyst, TTT, regime, technical, options, liquidity, sentiment, positioning, archive memory, risk, source, evidence, missing evidence, score preview, route preview, and Generate Local Packet.",
+        "Added local paper-outcome capture and lesson-candidate routing across Archive and Learning Ledger for paper win, paper loss, avoided bad trade, too early, too late, no catalyst, bad liquidity, and good setup bad timing."
       ],
       bugsFixed: [
-        "Made display-only example candidates selectable in the detail layer without writing them into local alert data.",
-        "Improved dense Alerts Desk responsive layout so the stream collapses into readable cards on mobile.",
-        "Preserved route architecture, sidebar ordering, backend behavior, Source Hub workflow, Archive workflow, Watchlists logic, Agents placeholder behavior, Options deferral, and all no-live/no-execution boundaries."
+        "Kept legacy pickaxeResearchPackets records readable by upgrading them in memory instead of breaking or deleting local state.",
+        "Prevented fatal-risk packets from entering Alerts Desk escalation and forced their score to zero.",
+        "Resolved older Alerts Desk CSS cascade conflicts that made new queue cards light and headings unreadable.",
+        "Preserved route architecture, sidebar ordering, localStorage behavior, Source Hub, Watchlists, Dashboard, Staging, Habitat OS, and all no-live/no-execution boundaries."
       ],
-      validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; browser route checks for /, #/alerts, #/dashboard, #/staging, #/source-hub, #/archive, #/watchlists, #/agents, #/roadmap, #/ai-habitat-os; local fetch /ai-handoff",
-      validationResult: "Local validation passed on 2026-06-05: build validation passed, project check passed, browser route sweep passed for /, #/alerts, #/dashboard, #/staging, #/source-hub, #/archive, #/watchlists, #/agents, #/roadmap, and #/ai-habitat-os with no console errors, no blank content, no desktop horizontal overflow, correct / and #/alerts routing, #/dashboard Mission Control routing, sidebar 00 Alerts Desk first and 01 Mission Control second, rail quote visible, required options packet fields present, required dashboard metric/context cards present, restricted trade-like labels absent, and /ai-handoff returned HTTP 200. Mobile responsive rules were audited for one-column packet/card collapse and min-width overflow protection.",
+      validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; in-app browser desktop/mobile route sweep for /, #/alerts, #/research, #/source-hub, #/archive, #/watchlists, #/dashboard, #/staging, #/ai-habitat-os; packet generation/fatal suppression/lesson/outcome workflow checks; local fetch /ai-handoff",
+      validationResult: "Local validation passed on 2026-06-07: build and project checks passed; root/public mirrors matched; all requested routes rendered active nonblank content with no desktop or 390px horizontal overflow and no console errors; a fatal-risk packet previewed and saved as 0/100 SUPPRESSED_NOISE with Alerts escalation disabled; Suppressed Noise count updated on Alerts Desk; Mark Lesson routed a packet to Learning Ledger; avoided bad trade outcome notes persisted and rendered in Learning Ledger and Archive; premium desktop and mobile visuals were inspected; /ai-handoff returned HTTP 200.",
       remainingProblems: [
         "The CSS file still contains older historical polish blocks and should be consolidated in a future cleanup pass.",
-        "Alerts Desk filters are visual-only for now; they do not yet filter the local mock stream.",
-        "Live data connectors and real agent telemetry remain not connected."
+        "Legacy option packets remain labeled static seed material until CEO B replaces or removes them manually.",
+        "Live data connectors, provider adapters, backend persistence, and real agent telemetry remain intentionally not connected."
       ],
-      nextRecommendedTask: "Stop after reporting validation, commit, and push status. Future work requires B approval."
+      nextRecommendedTask: "CEO B should review the local Research Packet v2 flow and visuals before any deploy, commit, or future provider-adapter work."
     },
   },
   marketWatchlist: [

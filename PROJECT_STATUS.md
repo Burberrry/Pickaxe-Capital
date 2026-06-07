@@ -1,5 +1,22 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint — Research Packet v2 / Research-Gated Alerts Engine
+
+- Date: 2026-06-07.
+- Upgraded the existing `pickaxeResearchPackets` localStorage workflow in place; no rebuild or route/sidebar changes.
+- Added a reusable Research Packet v2 model with symbol, company, asset class, direction, setup type, thesis, why-now, catalyst, TTT, regime, technical, options, liquidity, sentiment, positioning, archive memory, invalidation, warnings, fatal flags, missing evidence, source confidence, 12 agent-lane votes, total score, route decision, CEO B action, and learning/outcome fields.
+- Added local route bands: `90-100 CEO_B_COMMAND_ALERT`, `80-89 CEO_B_REVIEW_WITH_WARNING`, `65-79 WATCHLIST_REVIEW`, `45-64 ARCHIVE_CANDIDATE`, and below `45 SUPPRESSED_NOISE`.
+- Fatal risk flags force score `0` and `SUPPRESSED_NOISE`; suppressed packets cannot be escalated to Alerts Desk.
+- Alerts Desk now includes Why CEO B Is Seeing This, Agent Vote Matrix, Risk Gate, Evidence Stack, Missing Evidence, collapsed Suppressed Noise, and Review / Watch / Archive / Reject / Mark Lesson actions.
+- Research Desk now includes the full manual v2 builder, live local score/route preview, and Generate Local Packet.
+- Archive and Learning Ledger now save paper-review outcomes and lesson candidates for paper win, paper loss, avoided bad trade, too early, too late, no catalyst, bad liquidity, and good setup bad timing.
+- Preserved static-first GitHub Pages behavior, localStorage, dark Pickaxe branding, root/public mirrors, manual CEO B review, and all no-backend/no-live/no-provider/no-scraping/no-execution/no-key boundaries.
+- Validation passed with build, project check, mirror comparison, desktop and 390px route sweeps for `/`, `#/alerts`, `#/research`, `#/source-hub`, `#/archive`, `#/watchlists`, `#/dashboard`, `#/staging`, and `#/ai-habitat-os`.
+- Browser checks found no console errors, blank pages, or horizontal overflow.
+- Workflow checks passed for fatal-risk suppression, local packet generation, Suppressed Noise count updates, Mark Lesson routing, and persisted `avoided bad trade` outcome notes in Learning Ledger and Archive.
+- `/ai-handoff` returned HTTP 200.
+- The pre-existing `data/signal-alerts.json` diff remains untouched and must not be staged accidentally.
+
 ## Current Checkpoint — Source Hub → Research Desk → Alerts Desk Flow
 
 - Latest local build: Source Hub → Research Desk → Alerts Desk Flow.

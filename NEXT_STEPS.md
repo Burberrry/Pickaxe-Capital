@@ -2,6 +2,35 @@
 
 ## Current Active Checkpoint
 
+Research Packet v2 / Research-Gated Alerts Engine was completed locally on 2026-06-07.
+
+What is now built:
+
+- Backward-compatible Research Packet v2 records under `pickaxeResearchPackets`.
+- Twelve local research agent lanes with clearly labeled completeness votes, not live agent claims.
+- Deterministic score routing and fatal-risk suppression.
+- Hedge-fund-style Alerts Desk review panels and CEO B manual actions.
+- Full manual Research Desk packet builder with score and route preview.
+- Archive and Learning Ledger paper-outcome memory and lesson-candidate routing.
+- Root/public mirrors and cache keys updated.
+
+Validation passed:
+
+- `/Applications/Codex.app/Contents/Resources/node --run build`
+- `/Applications/Codex.app/Contents/Resources/node --run check:project`
+- Desktop and 390px browser checks for `/`, `#/alerts`, `#/research`, `#/source-hub`, `#/archive`, `#/watchlists`, `#/dashboard`, `#/staging`, and `#/ai-habitat-os`
+- No console errors, blank pages, or horizontal overflow
+- Fatal flag -> `0 / 100` -> `SUPPRESSED_NOISE`
+- Mark Lesson -> Learning Ledger
+- `avoided bad trade` outcome -> Learning Ledger + Archive
+- `/ai-handoff` HTTP 200
+
+Safety remains locked: no backend, live APIs, provider adapters, scraping, broker integration, auto-trading, copy-trading, fake live data, or frontend keys.
+
+Next recommended task: CEO B visual/workflow review before deployment. Keep `data/signal-alerts.json` unstaged.
+
+## Previous Active Checkpoint
+
 Source Hub → Research Desk → Alerts Desk Flow was completed locally on 2026-06-05 as a static/local workflow prototype sprint.
 
 Before starting, `9e2a285 Add landing page services pricing` was verified as pushed to `origin/main`.

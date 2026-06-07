@@ -36,7 +36,34 @@ const state = {
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
-const RESEARCH_PACKETS_KEY = "pickaxeResearchPackets";
+const researchPacketV2Config = (sharedHabitatData.researchPacketV2 && typeof sharedHabitatData.researchPacketV2 === "object")
+  ? sharedHabitatData.researchPacketV2
+  : {};
+const RESEARCH_PACKETS_KEY = researchPacketV2Config.storageKey || "pickaxeResearchPackets";
+const RESEARCH_AGENT_LANES = Array.isArray(researchPacketV2Config.agentLanes) ? researchPacketV2Config.agentLanes : [
+  "Chief Research Officer",
+  "Market Regime Agent",
+  "TTT Agent",
+  "Options Flow Agent",
+  "Catalyst Agent",
+  "Technical Structure Agent",
+  "Liquidity Agent",
+  "Sentiment Agent",
+  "Smart Money / Positioning Agent",
+  "Risk Sentinel / Omega Vault",
+  "Archive Memory Agent",
+  "CEO B Synthesizer",
+];
+const RESEARCH_OUTCOMES = Array.isArray(researchPacketV2Config.outcomeOptions) ? researchPacketV2Config.outcomeOptions : [
+  "paper win",
+  "paper loss",
+  "avoided bad trade",
+  "too early",
+  "too late",
+  "no catalyst",
+  "bad liquidity",
+  "good setup bad timing",
+];
 
 function showNotification(message, type = "success") {
   console.log(`[Notification] ${message}`);
@@ -1350,21 +1377,23 @@ function renderStaticIntelligencePages() {
 function renderResearchPacketCard(packet, index = 0) {
   const evidenceCount = Array.isArray(packet.evidence) ? packet.evidence.length : 0;
   const missingCount = Array.isArray(packet.missingEvidence) ? packet.missingEvidence.length : 0;
+  const fatalCount = Array.isArray(packet.fatalRiskFlags) ? packet.fatalRiskFlags.length : 0;
   return `
     <article class="research-packet-card">
       <div class="research-packet-head">
-        <span>${escapeHtml(packet.ticker)}</span>
-        <em>${escapeHtml(packet.sourceStatus)}</em>
+        <span>${escapeHtml(packet.symbol)}</span>
+        <em class="${fatalCount ? "fatal" : ""}">${escapeHtml(researchRouteLabel(packet.routeDecision))}</em>
       </div>
       <h4>${escapeHtml(packet.title)}</h4>
-      <p>${escapeHtml(packet.sourceSummary)}</p>
+      <p>${escapeHtml(packet.thesis)}</p>
       <div class="research-packet-meta">
         <span><strong>${evidenceCount}</strong> evidence items</span>
         <span><strong>${missingCount}</strong> missing items</span>
-        <span><strong>${escapeHtml(packet.confidencePercent)}</strong> source confidence</span>
+        <span><strong>${escapeHtml(packet.sourceConfidence)}%</strong> source confidence</span>
+        <span><strong>${escapeHtml(packet.totalScore)}</strong> total score</span>
       </div>
       <div class="research-route-actions">
-        <button type="button" class="${index === 0 ? "primary" : ""}" onclick="window.routeResearchPacket('${escapeHtml(packet.id)}', 'alerts')">Send to Alerts Desk Review</button>
+        <button type="button" class="${index === 0 ? "primary" : ""}" onclick="window.routeResearchPacket('${escapeHtml(packet.id)}', 'alerts')" ${fatalCount ? "disabled" : ""}>Send to Alerts Desk Review</button>
         <button type="button" onclick="window.routeResearchPacket('${escapeHtml(packet.id)}', 'archive')">Archive Candidate</button>
         <button type="button" onclick="window.routeResearchPacket('${escapeHtml(packet.id)}', 'watchlist')">Add to Watchlists</button>
         <button type="button" onclick="window.routeResearchPacket('${escapeHtml(packet.id)}', 'evidence')">Needs More Evidence</button>
@@ -1379,14 +1408,15 @@ function renderResearchDeskPage() {
   const packets = getResearchPacketsForDisplay();
   const active = packets[0] || getResearchDeskDemoPacket();
   const recentPackets = storedPackets.length ? storedPackets : packets;
+  const builderValue = (value) => escapeHtml(value || "");
   els.researchContent.innerHTML = `
     <div class="page-shell research-desk-shell">
       <header class="research-desk-hero">
         <div>
-          <span class="meta-label">19 / Manual Packet Builder</span>
+          <span class="meta-label">19 / Research Packet v2 Builder</span>
           <h2>Research Desk</h2>
-          <p>Build source-backed research packets before they reach Alerts Desk.</p>
-          <p>Turn verified or source-needed material into structured research packets with evidence, missing information, risk boundaries, and CEO B next actions.</p>
+          <p>Build research-gated intelligence packets before they reach Alerts Desk.</p>
+          <p>Routes are calculated locally from evidence completeness, source confidence, agent-lane heuristics, missing evidence, and fatal risk overrides.</p>
           ${pcChipRow(["Research Only", "Static / No Live Provider Data", "No Broker Execution", "CEO B Manual Review"])}
         </div>
         <aside class="truth-panel">
@@ -1397,7 +1427,7 @@ function renderResearchDeskPage() {
       </header>
 
       <section class="research-operating-loop">
-        ${["Source Intake", "Source Verification", "Research Packet Builder", "Risk / Boundary Check", "Alerts Desk Review Queue", "CEO B Manual Review", "Archive / Watchlists / Reject / Needs More Evidence"].map((step, index) => `
+        ${["Source Intake", "Evidence Stack", "Agent Lane Scores", "Fatal Risk Gate", "Route Decision", "CEO B Manual Review", "Archive / Watch / Reject / Lesson"].map((step, index) => `
           <span><em>${String(index + 1).padStart(2, "0")}</em>${escapeHtml(step)}</span>
         `).join("")}
       </section>
@@ -1405,19 +1435,38 @@ function renderResearchDeskPage() {
       <section class="research-builder-grid">
         <article class="command-card research-builder-card">
           <span class="meta-label">Packet Builder</span>
-          <h3>Save a local research packet.</h3>
-          <div class="research-form-grid">
-            <label>Ticker<input id="researchPacketTicker" value="${escapeHtml(active.ticker)}" autocomplete="off"></label>
-            <label>Company Name<input id="researchPacketCompany" value="${escapeHtml(active.companyName)}" autocomplete="off"></label>
-            <label>Source Type<input id="researchPacketSourceType" value="${escapeHtml(active.sourceType)}" autocomplete="off"></label>
-            <label>Source Status<input id="researchPacketSourceStatus" value="${escapeHtml(active.sourceStatus)}" autocomplete="off"></label>
-            <label class="wide">Thesis<textarea id="researchPacketThesis">${escapeHtml(active.researchThesis)}</textarea></label>
-            <label class="wide">Evidence<textarea id="researchPacketEvidence">${escapeHtml(active.evidence.join("\n"))}</textarea></label>
-            <label class="wide">Missing Evidence<textarea id="researchPacketMissing">${escapeHtml(active.missingEvidence.join("\n"))}</textarea></label>
-            <label class="wide">Risk Note<textarea id="researchPacketRisk">${escapeHtml(active.riskBoundary)}</textarea></label>
-            <label class="wide">Next Action<input id="researchPacketNextAction" value="${escapeHtml(active.nextAction)}" autocomplete="off"></label>
+          <h3>Generate a local Research Packet v2.</h3>
+          <div class="research-form-grid" oninput="window.previewResearchPacketBuilder?.()">
+            <label>Symbol<input id="researchPacketSymbol" value="${builderValue(active.symbol)}" autocomplete="off"></label>
+            <label>Company Name<input id="researchPacketCompany" value="${builderValue(active.companyName)}" autocomplete="off"></label>
+            <label>Asset Class<select id="researchPacketAssetClass">${["Equity", "Options", "ETF", "Index", "Crypto", "Macro", "Other"].map((item) => `<option ${active.assetClass === item ? "selected" : ""}>${item}</option>`).join("")}</select></label>
+            <label>Direction<input id="researchPacketDirection" value="${builderValue(active.direction)}" autocomplete="off"></label>
+            <label>Setup Type<input id="researchPacketSetupType" value="${builderValue(active.setupType)}" autocomplete="off"></label>
+            <label>Source Confidence (0-100)<input id="researchPacketSourceConfidence" type="number" min="0" max="100" value="${builderValue(active.sourceConfidence)}"></label>
+            <label>Source Type<input id="researchPacketSourceType" value="${builderValue(active.sourceType)}" autocomplete="off"></label>
+            <label>Source Status<input id="researchPacketSourceStatus" value="${builderValue(active.sourceStatus)}" autocomplete="off"></label>
+            <label class="wide">Source Context<textarea id="researchPacketSourceSummary">${builderValue(active.sourceSummary)}</textarea></label>
+            <label class="wide">Thesis<textarea id="researchPacketThesis">${builderValue(active.thesis)}</textarea></label>
+            <label class="wide">Why Now<textarea id="researchPacketWhyNow">${builderValue(active.whyNow)}</textarea></label>
+            <label class="wide">Catalyst Context<textarea id="researchPacketCatalyst">${builderValue(active.catalystContext)}</textarea></label>
+            <label>TTT / Time<textarea id="researchPacketTime">${builderValue(active.tttContext.time)}</textarea></label>
+            <label>TTT / Trend<textarea id="researchPacketTrend">${builderValue(active.tttContext.trend)}</textarea></label>
+            <label class="wide">TTT / Theme<textarea id="researchPacketTheme">${builderValue(active.tttContext.theme)}</textarea></label>
+            <label class="wide">Market Regime Context<textarea id="researchPacketRegime">${builderValue(active.marketRegimeContext)}</textarea></label>
+            <label class="wide">Technical Context<textarea id="researchPacketTechnical">${builderValue(active.technicalContext)}</textarea></label>
+            <label class="wide">Options Context<textarea id="researchPacketOptions">${builderValue(active.optionsContext)}</textarea></label>
+            <label class="wide">Liquidity Context<textarea id="researchPacketLiquidity">${builderValue(active.liquidityContext)}</textarea></label>
+            <label>Sentiment Context<textarea id="researchPacketSentiment">${builderValue(active.sentimentContext)}</textarea></label>
+            <label>Smart Money / Positioning<textarea id="researchPacketPositioning">${builderValue(active.positioningContext)}</textarea></label>
+            <label class="wide">Archive Memory Context<textarea id="researchPacketArchiveMemory">${builderValue(active.archiveMemoryContext)}</textarea></label>
+            <label class="wide">Evidence Stack (one per line)<textarea id="researchPacketEvidence">${builderValue(active.evidence.join("\n"))}</textarea></label>
+            <label class="wide">Missing Evidence (one per line)<textarea id="researchPacketMissing">${builderValue(active.missingEvidence.join("\n"))}</textarea></label>
+            <label class="wide">Invalidation<textarea id="researchPacketInvalidation">${builderValue(active.invalidation)}</textarea></label>
+            <label>Risk Warnings (one per line)<textarea id="researchPacketWarnings">${builderValue(active.riskWarnings.join("\n"))}</textarea></label>
+            <label>Fatal Risk Flags (one per line)<textarea id="researchPacketFatal">${builderValue(active.fatalRiskFlags.join("\n"))}</textarea></label>
+            <label class="wide">CEO B Next Action<input id="researchPacketNextAction" value="${builderValue(active.ceoBNextAction)}" autocomplete="off"></label>
           </div>
-          <button type="button" class="primary-action" onclick="window.saveResearchPacketFromBuilder()">Save Research Packet</button>
+          <button type="button" class="primary-action" onclick="window.saveResearchPacketFromBuilder()">Generate Local Packet</button>
           <p class="mission-footnote">Local-only save to ${RESEARCH_PACKETS_KEY}. No request leaves this browser.</p>
         </article>
 
@@ -1427,21 +1476,29 @@ function renderResearchDeskPage() {
           <div class="research-handoff-list">
             ${packets.map((packet, index) => `
               <article>
-                <div><strong>${escapeHtml(packet.title)}</strong><em>${escapeHtml(packet.ticker)}</em></div>
-                <span>${escapeHtml(packet.sourceStatus)}</span>
-                <span>${escapeHtml(packet.evidence.length)} evidence / ${escapeHtml(packet.missingEvidence.length)} missing</span>
-                <small>${escapeHtml(packet.nextAction)}</small>
+                <div><strong>${escapeHtml(packet.title)}</strong><em>${escapeHtml(packet.symbol)}</em></div>
+                <span>${escapeHtml(packet.totalScore)} / 100</span>
+                <span>${escapeHtml(researchRouteLabel(packet.routeDecision))}</span>
+                <small>${escapeHtml(packet.ceoBNextAction)}</small>
               </article>
             `).join("")}
           </div>
         </article>
 
-        <article class="truth-panel research-route-card">
-          <span class="meta-label">Route Decision</span>
-          <h3>Move the current packet through the local workflow.</h3>
-          <p>Route actions update research packet state only. Alerts Desk reads routed packets as manual review candidates.</p>
+        <article class="truth-panel research-route-card" id="researchPacketPreview">
+          <span class="meta-label">Score + Route Preview</span>
+          <h3><strong data-preview-score>${escapeHtml(active.totalScore)}</strong> / 100</h3>
+          <p data-preview-route>${escapeHtml(researchRouteLabel(active.routeDecision))}</p>
+          <p>Fatal risk flags always override the score and suppress the packet. Agent votes are local completeness heuristics, not live agent output.</p>
+          <div class="research-preview-bands">
+            <span>90-100 <strong>CEO B Command Alert</strong></span>
+            <span>80-89 <strong>Review With Warning</strong></span>
+            <span>65-79 <strong>Watchlist Review</strong></span>
+            <span>45-64 <strong>Archive Candidate</strong></span>
+            <span>Below 45 <strong>Suppressed Noise</strong></span>
+          </div>
           <div class="research-route-actions">
-            <button type="button" class="primary" onclick="window.routeResearchPacket('${escapeHtml(active.id)}', 'alerts')">Send to Alerts Desk Review</button>
+            <button type="button" class="primary" onclick="window.routeResearchPacket('${escapeHtml(active.id)}', 'alerts')" ${active.fatalRiskFlags.length ? "disabled" : ""}>Send to Alerts Desk Review</button>
             <button type="button" onclick="window.routeResearchPacket('${escapeHtml(active.id)}', 'archive')">Archive Candidate</button>
             <button type="button" onclick="window.routeResearchPacket('${escapeHtml(active.id)}', 'watchlist')">Add to Watchlists</button>
             <button type="button" onclick="window.routeResearchPacket('${escapeHtml(active.id)}', 'evidence')">Needs More Evidence</button>
@@ -1451,14 +1508,14 @@ function renderResearchDeskPage() {
 
       <section class="research-anatomy-grid">
         <article class="command-card">
-          <span class="meta-label">Research Packet Anatomy</span>
-          <h3>Evidence, thesis, risk, and next action.</h3>
-          <p>Each packet keeps source origin, verification state, evidence list, missing evidence, risk boundary, confidence score, and CEO B review state together.</p>
+          <span class="meta-label">Agent Lanes</span>
+          <h3>12 local research roles.</h3>
+          <p>${RESEARCH_AGENT_LANES.map(escapeHtml).join(" / ")}</p>
         </article>
         <article class="glass-card">
           <span class="meta-label">Source Confidence</span>
-          <h3>${escapeHtml(active.confidenceScore)} / 1000</h3>
-          <p>${escapeHtml(active.confidencePercent)} source confidence reflects completeness of local evidence, not expected return.</p>
+          <h3>${escapeHtml(active.sourceConfidence)} / 100</h3>
+          <p>Source confidence reflects manual evidence quality, not expected return.</p>
         </article>
         <article class="glass-card">
           <span class="meta-label">Missing Evidence</span>
@@ -1474,8 +1531,8 @@ function renderResearchDeskPage() {
 
       <section class="research-recent-section">
         <div>
-          <span class="meta-label">Recent Research Packets</span>
-          <h3>Local packet memory</h3>
+          <span class="meta-label">Research Packet v2 Memory</span>
+          <h3>Recent local packets</h3>
         </div>
         <div class="research-packet-list">
           ${recentPackets.map(renderResearchPacketCard).join("")}
@@ -1498,7 +1555,7 @@ function buildResearchArchiveCandidate(packet) {
     sourceOrigin: "Research Desk",
     cleanedSummary: packet.sourceSummary,
     relatedRoute: "#/research",
-    relatedTickerTheme: packet.ticker,
+    relatedTickerTheme: packet.symbol,
     lessonType: "Research Packet",
     reviewStatus: "CEO B Review Required",
     confidenceTrustLabel: packet.sourceStatus,
@@ -1514,7 +1571,7 @@ function buildResearchArchiveCandidate(packet) {
     url: "#/research",
     domain: "Research Desk",
     type: "research-packet",
-    topic: packet.ticker,
+    topic: packet.symbol,
     category: "Research Desk",
     habitat: "Archive",
     status: "review",
@@ -1523,7 +1580,7 @@ function buildResearchArchiveCandidate(packet) {
     summary: packet.sourceSummary,
     whySaved: "Research Desk routed a cleaned local packet candidate for Archive review.",
     nextAction: "CEO B should confirm source lineage, missing evidence, and privacy boundary before this becomes durable memory.",
-    tags: ["research-desk", "archive-candidate", "local-only", packet.ticker].filter(Boolean),
+    tags: ["research-desk", "archive-candidate", "local-only", packet.symbol, packet.routeDecision].filter(Boolean),
     dateAdded: date,
     lastReviewed: date,
     localPreview: true,
@@ -1544,25 +1601,61 @@ function archiveResearchPacketCandidate(packet) {
   });
 }
 
-window.saveResearchPacketFromBuilder = () => {
+function readResearchPacketBuilder() {
   const valueFor = (id) => document.getElementById(id)?.value || "";
-  const packet = saveResearchPacketRecord({
-    ticker: valueFor("researchPacketTicker"),
+  return {
+    symbol: valueFor("researchPacketSymbol"),
     companyName: valueFor("researchPacketCompany"),
-    title: `${valueFor("researchPacketTicker") || "Research"} local research packet`,
+    title: `${valueFor("researchPacketSymbol") || "Research"} local research packet`,
+    assetClass: valueFor("researchPacketAssetClass"),
+    direction: valueFor("researchPacketDirection"),
+    setupType: valueFor("researchPacketSetupType"),
     sourceOrigin: "Research Desk",
     sourceType: valueFor("researchPacketSourceType"),
     sourceStatus: valueFor("researchPacketSourceStatus"),
-    sourceSummary: valueFor("researchPacketThesis"),
-    researchThesis: valueFor("researchPacketThesis"),
+    sourceSummary: valueFor("researchPacketSourceSummary"),
+    sourceConfidence: valueFor("researchPacketSourceConfidence"),
+    thesis: valueFor("researchPacketThesis"),
+    whyNow: valueFor("researchPacketWhyNow"),
+    catalystContext: valueFor("researchPacketCatalyst"),
+    tttContext: {
+      time: valueFor("researchPacketTime"),
+      trend: valueFor("researchPacketTrend"),
+      theme: valueFor("researchPacketTheme"),
+    },
+    marketRegimeContext: valueFor("researchPacketRegime"),
+    technicalContext: valueFor("researchPacketTechnical"),
+    optionsContext: valueFor("researchPacketOptions"),
+    liquidityContext: valueFor("researchPacketLiquidity"),
+    sentimentContext: valueFor("researchPacketSentiment"),
+    positioningContext: valueFor("researchPacketPositioning"),
+    archiveMemoryContext: valueFor("researchPacketArchiveMemory"),
     evidence: valueFor("researchPacketEvidence"),
     missingEvidence: valueFor("researchPacketMissing"),
-    riskBoundary: valueFor("researchPacketRisk"),
-    nextAction: valueFor("researchPacketNextAction") || "Route to Alerts Desk",
+    invalidation: valueFor("researchPacketInvalidation"),
+    riskWarnings: valueFor("researchPacketWarnings"),
+    fatalRiskFlags: valueFor("researchPacketFatal"),
+    ceoBNextAction: valueFor("researchPacketNextAction") || "Review evidence and risk gate",
     reviewState: "Needs CEO B Review",
-  });
-  showNotification(`Saved local research packet for ${packet.ticker}.`);
+  };
+}
+
+window.previewResearchPacketBuilder = () => {
+  const preview = document.getElementById("researchPacketPreview");
+  if (!preview) return;
+  const packet = normalizeResearchPacketDraft(readResearchPacketBuilder());
+  const score = preview.querySelector("[data-preview-score]");
+  const route = preview.querySelector("[data-preview-route]");
+  if (score) score.textContent = String(packet.totalScore);
+  if (route) route.textContent = researchRouteLabel(packet.routeDecision);
+  preview.classList.toggle("fatal", packet.fatalRiskFlags.length > 0);
+};
+
+window.saveResearchPacketFromBuilder = () => {
+  const packet = saveResearchPacketRecord(readResearchPacketBuilder());
+  showNotification(`Generated ${packet.symbol} packet: ${researchRouteLabel(packet.routeDecision)}.`);
   renderResearchDeskPage();
+  renderAlertsPage();
 };
 
 window.routeResearchPacket = (packetId, routeAction) => {
@@ -1570,25 +1663,33 @@ window.routeResearchPacket = (packetId, routeAction) => {
   const now = new Date().toISOString();
   const patch = { ...existing, updatedAt: now };
   if (routeAction === "alerts") {
+    if (existing.fatalRiskFlags.length) {
+      showNotification(`${existing.symbol}: fatal risk override suppresses Alerts Desk escalation.`, "warning");
+      return;
+    }
     patch.reviewState = "Alerts Desk Review Queue";
-    patch.nextAction = "CEO B Manual Review";
+    patch.ceoBNextAction = "CEO B Manual Review";
+    patch.nextAction = patch.ceoBNextAction;
     patch.routedToAlertsAt = now;
   } else if (routeAction === "archive") {
     patch.reviewState = "Archive Candidate";
-    patch.nextAction = "CEO B Archive Review";
+    patch.ceoBNextAction = "CEO B Archive Review";
+    patch.nextAction = patch.ceoBNextAction;
     patch.archivedAt = now;
     archiveResearchPacketCandidate(normalizeResearchPacketDraft(patch));
   } else if (routeAction === "watchlist") {
     patch.reviewState = "Watchlist Candidate";
-    patch.nextAction = "Review watch criteria";
+    patch.ceoBNextAction = "Review watch criteria";
+    patch.nextAction = patch.ceoBNextAction;
     patch.watchlistCandidate = true;
   } else {
     patch.reviewState = "Needs More Evidence";
-    patch.nextAction = "Return to Source Hub";
+    patch.ceoBNextAction = "Return to Source Hub";
+    patch.nextAction = patch.ceoBNextAction;
     patch.missingEvidence = asResearchList(patch.missingEvidence).length ? patch.missingEvidence : ["Source confirmation", "Risk boundary review"];
   }
   const packet = saveResearchPacketRecord(patch);
-  showNotification(`${packet.ticker}: ${packet.reviewState}.`);
+  showNotification(`${packet.symbol}: ${packet.reviewState}.`);
   if (typeof renderResearchDeskPage === "function") renderResearchDeskPage();
   if (typeof renderAlertsPage === "function") renderAlertsPage();
   if (typeof renderArchiveIntelligence === "function") renderArchiveIntelligence();
@@ -4972,6 +5073,7 @@ function renderArchiveVaultExperience() {
   const returnedSource = items.filter((item) => /Returned to Source Hub/i.test(getArchiveReviewStatus(item)));
   const privateRemovedCount = items.filter((item) => item.privateDataRemoved).length;
   const learningCandidates = getLearningLedgerState().filter((entry) => /archive|source/i.test(`${entry.source} ${entry.category} ${entry.lesson_type}`)).length;
+  const packetOutcomeCandidates = getResearchPacketsState().filter((packet) => /Archive Candidate|Lesson Candidate|Outcome Recorded/i.test(packet.reviewState) || packet.archivedAt || packet.learning.lessonCandidate);
   els.archiveIntelligence.innerHTML = `
     <div class="archive-declutter-shell">
     <section class="command-hero archive-command vault-hero archive-declutter-hero">
@@ -5049,6 +5151,29 @@ function renderArchiveVaultExperience() {
         ["Needs review", metrics.review],
       ].map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join("")}
     </section>
+
+    <details class="packet-archive-outcomes" ${packetOutcomeCandidates.length ? "open" : ""}>
+      <summary>Research Packet Outcomes <span>${packetOutcomeCandidates.length}</span></summary>
+      <p>Save paper-review outcomes and lesson candidates locally. No live performance or broker activity is implied.</p>
+      <div class="packet-outcome-grid">
+        ${packetOutcomeCandidates.map((packet) => `
+          <article>
+            <div class="packet-outcome-head"><span>${escapeHtml(packet.symbol)}</span><em>${escapeHtml(packet.routeDecision)}</em></div>
+            <h4>${escapeHtml(packet.title)}</h4>
+            <label>Paper Outcome
+              <select id="archivePacketOutcome-${escapeHtml(packet.id)}">
+                <option value="">Select outcome</option>
+                ${RESEARCH_OUTCOMES.map((outcome) => `<option value="${escapeHtml(outcome)}" ${packet.learning.outcomeType === outcome ? "selected" : ""}>${escapeHtml(outcome)}</option>`).join("")}
+              </select>
+            </label>
+            <label>Lesson Notes
+              <textarea id="archivePacketOutcomeNotes-${escapeHtml(packet.id)}">${escapeHtml(packet.learning.outcomeNotes)}</textarea>
+            </label>
+            <button type="button" onclick="window.saveResearchPacketOutcome('${escapeHtml(packet.id)}', 'archivePacketOutcome')">Save Outcome</button>
+          </article>
+        `).join("") || `<p class="research-empty-state">Archive or mark a Research Packet v2 lesson to begin outcome review.</p>`}
+      </div>
+    </details>
 
     <section class="archive-quiet-stack">
       <details class="mission-quiet-details" open>
@@ -5156,38 +5281,171 @@ function asResearchList(value) {
     .filter(Boolean);
 }
 
+function clampResearchScore(value, fallback = 0) {
+  const number = Number(value);
+  return Math.max(0, Math.min(100, Number.isFinite(number) ? number : fallback));
+}
+
+function researchRouteDecision(score, fatalRiskFlags = []) {
+  if (asResearchList(fatalRiskFlags).length) return "SUPPRESSED_NOISE";
+  if (score >= 90) return "CEO_B_COMMAND_ALERT";
+  if (score >= 80) return "CEO_B_REVIEW_WITH_WARNING";
+  if (score >= 65) return "WATCHLIST_REVIEW";
+  if (score >= 45) return "ARCHIVE_CANDIDATE";
+  return "SUPPRESSED_NOISE";
+}
+
+function researchRouteLabel(decision) {
+  return String(decision || "SUPPRESSED_NOISE").replaceAll("_", " ");
+}
+
+function researchContextScore(value, complete = 84, missing = 28) {
+  const text = Array.isArray(value) ? value.join(" ") : String(value || "").trim();
+  if (/pending|not supplied|requires? (manual )?verification|must be (manually )?verified|no .+ selected/i.test(text)) return missing;
+  return text.length >= 18 ? complete : text.length ? Math.max(missing + 12, complete - 22) : missing;
+}
+
+function buildLocalAgentVotes(packet = {}) {
+  const fatalFlags = asResearchList(packet.fatalRiskFlags);
+  const warnings = asResearchList(packet.riskWarnings);
+  const ttt = packet.tttContext || {};
+  const sourceConfidence = clampResearchScore(packet.sourceConfidence, 65);
+  const laneScores = {
+    "Market Regime Agent": researchContextScore(packet.marketRegimeContext),
+    "TTT Agent": Math.round((
+      researchContextScore(ttt.time, 88, 26)
+      + researchContextScore(ttt.trend, 88, 26)
+      + researchContextScore(ttt.theme, 88, 26)
+    ) / 3),
+    "Options Flow Agent": packet.assetClass === "Options" ? researchContextScore(packet.optionsContext, 88, 24) : researchContextScore(packet.optionsContext, 72, 52),
+    "Catalyst Agent": researchContextScore(packet.catalystContext, 90, 24),
+    "Technical Structure Agent": researchContextScore(packet.technicalContext),
+    "Liquidity Agent": researchContextScore(packet.liquidityContext, 90, 22),
+    "Sentiment Agent": researchContextScore(packet.sentimentContext, 78, 42),
+    "Smart Money / Positioning Agent": researchContextScore(packet.positioningContext, 80, 38),
+    "Risk Sentinel / Omega Vault": fatalFlags.length ? 0 : Math.max(35, 94 - (warnings.length * 12) - (packet.invalidation ? 0 : 24)),
+    "Archive Memory Agent": researchContextScore(packet.archiveMemoryContext, 76, 44),
+  };
+  const evidenceScores = Object.values(laneScores);
+  const evidenceAverage = evidenceScores.reduce((sum, score) => sum + score, 0) / evidenceScores.length;
+  const missingPenalty = Math.min(24, asResearchList(packet.missingEvidence).length * 4);
+  const chiefScore = clampResearchScore(Math.round((evidenceAverage * 0.72) + (sourceConfidence * 0.28) - missingPenalty));
+  laneScores["Chief Research Officer"] = chiefScore;
+  laneScores["CEO B Synthesizer"] = fatalFlags.length ? 0 : chiefScore;
+  return RESEARCH_AGENT_LANES.map((lane) => {
+    const score = clampResearchScore(laneScores[lane], 50);
+    return {
+      lane,
+      score,
+      vote: fatalFlags.length && /Risk Sentinel|CEO B Synthesizer/.test(lane)
+        ? "BLOCK"
+        : score >= 80 ? "SUPPORT"
+        : score >= 60 ? "CAUTION"
+        : "NEEDS_EVIDENCE",
+      note: fatalFlags.length && /Risk Sentinel|CEO B Synthesizer/.test(lane)
+        ? "Fatal risk override is active."
+        : "Local completeness heuristic only; no live agent or provider is connected.",
+    };
+  });
+}
+
+function calculateResearchPacketScore(packet = {}, votes = []) {
+  if (asResearchList(packet.fatalRiskFlags).length) return 0;
+  const scoringVotes = votes.filter((vote) => !/Chief Research Officer|CEO B Synthesizer/.test(vote.lane));
+  const average = scoringVotes.length
+    ? scoringVotes.reduce((sum, vote) => sum + clampResearchScore(vote.score), 0) / scoringVotes.length
+    : 0;
+  const sourceConfidence = clampResearchScore(packet.sourceConfidence, 65);
+  const missingPenalty = Math.min(20, asResearchList(packet.missingEvidence).length * 3);
+  return clampResearchScore(Math.round((average * 0.78) + (sourceConfidence * 0.22) - missingPenalty));
+}
+
 function normalizeResearchPacketDraft(packet = {}) {
   const now = new Date().toISOString();
-  const ticker = String(packet.ticker || packet.symbol || "NVDA").replace(/[^A-Z0-9.-]/gi, "").toUpperCase() || "NVDA";
+  const symbol = String(packet.symbol || packet.ticker || "NVDA").replace(/[^A-Z0-9.-]/gi, "").toUpperCase() || "NVDA";
   const evidence = asResearchList(packet.evidence);
   const missingEvidence = asResearchList(packet.missingEvidence || packet.missing);
-  const confidenceScore = Math.max(0, Math.min(1000, Number(packet.confidenceScore || packet.confidence || 720)));
-  return {
+  const sourceConfidence = clampResearchScore(
+    packet.sourceConfidence,
+    Number(packet.confidenceScore || packet.confidence || 650) > 100
+      ? Number(packet.confidenceScore || packet.confidence || 650) / 10
+      : Number(packet.confidenceScore || packet.confidence || 65)
+  );
+  const normalized = {
+    version: 2,
     id: packet.id || `packet-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
     createdAt: packet.createdAt || now,
-    updatedAt: now,
-    ticker,
-    companyName: packet.companyName || packet.company || `${ticker} Research Candidate`,
-    title: packet.title || `${ticker} source-backed research packet`,
+    updatedAt: packet.updatedAt || now,
+    symbol,
+    ticker: symbol,
+    companyName: packet.companyName || packet.company || `${symbol} Research Candidate`,
+    assetClass: packet.assetClass || (/option/i.test(`${packet.sourceType} ${packet.setupType} ${packet.title}`) ? "Options" : "Equity"),
+    direction: packet.direction || packet.action || "Neutral / Research",
+    setupType: packet.setupType || packet.strategy || packet.type || "Manual Research Setup",
+    title: packet.title || `${symbol} source-backed research packet`,
     sourceOrigin: packet.sourceOrigin || "Research Desk",
     sourceStatus: packet.sourceStatus || "Source Verification Needed",
     sourceType: packet.sourceType || "Manual Note",
     sourceSummary: packet.sourceSummary || "Local prototype research context. Source verification required before CEO B review.",
-    researchThesis: packet.researchThesis || packet.thesis || "Research-only thesis pending CEO B manual review.",
+    sourceConfidence,
+    thesis: packet.thesis || packet.researchThesis || packet.researchContext || "Research-only thesis pending CEO B manual review.",
+    researchThesis: packet.thesis || packet.researchThesis || packet.researchContext || "Research-only thesis pending CEO B manual review.",
+    whyNow: packet.whyNow || packet.catalyst || "Timing context requires manual evidence.",
+    catalystContext: packet.catalystContext || packet.catalyst || "Catalyst context pending.",
+    tttContext: {
+      time: packet.tttContext?.time || packet.timeContext || "Time context pending.",
+      trend: packet.tttContext?.trend || packet.trendContext || "Trend context pending.",
+      theme: packet.tttContext?.theme || packet.themeContext || "Theme context pending.",
+    },
+    marketRegimeContext: packet.marketRegimeContext || "Market regime context pending.",
+    technicalContext: packet.technicalContext || packet.watchCriteria || "Technical structure context pending.",
+    optionsContext: packet.optionsContext || packet.contract || "Options context not supplied.",
+    liquidityContext: packet.liquidityContext || packet.spreadQuality || "Liquidity context pending.",
+    sentimentContext: packet.sentimentContext || "Sentiment context pending.",
+    positioningContext: packet.positioningContext || "Smart money / positioning context pending.",
+    archiveMemoryContext: packet.archiveMemoryContext || "Archive memory check pending.",
     evidence: evidence.length ? evidence : ["Source summary captured locally"],
     missingEvidence: missingEvidence.length ? missingEvidence : ["Source confirmation", "Risk / boundary check", "Catalyst check"],
-    riskBoundary: packet.riskBoundary || packet.riskNote || "Manual review required. No broker execution.",
-    confidenceScore,
-    confidencePercent: packet.confidencePercent || `${(confidenceScore / 10).toFixed(1)}%`,
+    invalidation: packet.invalidation || packet.invalidationResearchNote || packet.riskBoundary || "Invalidation requires CEO B review.",
+    riskBoundary: packet.riskBoundary || packet.riskNote || packet.riskNotes || "Manual review required. No broker execution.",
+    riskWarnings: asResearchList(packet.riskWarnings || packet.riskNotes),
+    fatalRiskFlags: asResearchList(packet.fatalRiskFlags),
     reviewState: packet.reviewState || "Needs CEO B Review",
-    nextAction: packet.nextAction || "Route to Alerts Desk",
+    ceoBNextAction: packet.ceoBNextAction || packet.nextAction || "Review evidence and risk gate",
+    nextAction: packet.ceoBNextAction || packet.nextAction || "Review evidence and risk gate",
     connectedRoutes: packet.connectedRoutes || ["source-hub", "research", "alerts", "archive", "watchlists"],
     safetyLabels: packet.safetyLabels || ["Research Only", "No Live Data", "Manual Review"],
     routedToAlertsAt: packet.routedToAlertsAt || null,
     archivedAt: packet.archivedAt || null,
     watchlistCandidate: !!packet.watchlistCandidate,
+    ceoBAction: packet.ceoBAction || "Pending Review",
+    routeOverride: packet.routeOverride || "",
+    learning: {
+      outcomeType: packet.learning?.outcomeType || packet.outcomeType || "",
+      outcomeNotes: packet.learning?.outcomeNotes || packet.outcomeNotes || "",
+      outcomeAt: packet.learning?.outcomeAt || packet.outcomeAt || null,
+      lessonCandidate: Boolean(packet.learning?.lessonCandidate || packet.lessonCandidate),
+    },
     localOnly: packet.localOnly !== false,
   };
+  normalized.agentVotes = Array.isArray(packet.agentVotes) && packet.agentVotes.length
+    ? packet.agentVotes.map((vote) => ({
+        lane: vote.lane || vote.agent || "Research Lane",
+        score: clampResearchScore(vote.score, 50),
+        vote: vote.vote || "CAUTION",
+        note: vote.note || "Manual/local research vote.",
+      }))
+    : buildLocalAgentVotes(normalized);
+  normalized.totalScore = packet.totalScore === 0 || packet.totalScore
+    ? clampResearchScore(packet.totalScore)
+    : calculateResearchPacketScore(normalized, normalized.agentVotes);
+  if (normalized.fatalRiskFlags.length) normalized.totalScore = 0;
+  normalized.routeDecision = normalized.fatalRiskFlags.length
+    ? "SUPPRESSED_NOISE"
+    : (normalized.routeOverride || researchRouteDecision(normalized.totalScore));
+  normalized.confidenceScore = Math.round(sourceConfidence * 10);
+  normalized.confidencePercent = `${sourceConfidence.toFixed(1)}%`;
+  return normalized;
 }
 
 function getResearchPacketsState() {
@@ -5223,20 +5481,35 @@ function saveResearchPacketRecord(packet) {
 function getResearchDeskDemoPacket() {
   return normalizeResearchPacketDraft({
     id: "packet-demo-local-source",
-    ticker: "NVDA",
+    symbol: "NVDA",
     companyName: "NVIDIA Corp.",
     title: "AI infrastructure research packet",
+    assetClass: "Equity",
+    direction: "Neutral / Research",
+    setupType: "Theme + Catalyst Review",
     sourceOrigin: "Source Hub",
     sourceStatus: "Source Verification Needed",
     sourceType: "Manual Note / Filing / Bookmark",
     sourceSummary: "Static demo draft showing how source material becomes a research packet before Alerts Desk review.",
-    researchThesis: "AI infrastructure theme requires source-backed evidence, risk context, and CEO B manual review.",
+    sourceConfidence: 72,
+    thesis: "AI infrastructure theme requires source-backed evidence, risk context, and CEO B manual review.",
+    whyNow: "The theme is active, but timing and catalyst evidence remain incomplete.",
+    catalystContext: "Upcoming company and macro events require manual verification.",
+    tttContext: { time: "Multi-week research window", trend: "Trend confirmation pending", theme: "AI infrastructure" },
+    marketRegimeContext: "Regime context must be manually verified.",
+    technicalContext: "Structure review pending.",
+    optionsContext: "No options instrument selected.",
+    liquidityContext: "Large-cap liquidity assumption must be verified externally.",
+    sentimentContext: "Sentiment context pending.",
+    positioningContext: "Positioning context pending.",
+    archiveMemoryContext: "Prior AI infrastructure notes should be checked in Archive.",
     evidence: ["Source intake captured", "Ticker context attached"],
     missingEvidence: ["Source confirmation", "Catalyst check", "Risk boundary review"],
-    riskBoundary: "Manual review required. No broker execution.",
-    confidenceScore: 720,
+    invalidation: "Thesis invalidates if catalyst or trend evidence fails manual review.",
+    riskWarnings: ["Static context only", "No live source confirmation"],
+    fatalRiskFlags: [],
     reviewState: "Needs CEO B Review",
-    nextAction: "Route to Alerts Desk",
+    ceoBNextAction: "Complete missing evidence before escalation.",
   });
 }
 
@@ -7714,19 +7987,198 @@ function renderAlertsDeskMarkup(optionAlerts, selectedAlert, lastUpdated) {
   `;
 }
 
+function legacyAlertToResearchPacketV2(alert = {}, index = 0) {
+  return normalizeResearchPacketDraft({
+    id: `legacy-${alert.id || index}`,
+    createdAt: alert.date ? `${alert.date}T12:00:00Z` : undefined,
+    symbol: alert.symbol,
+    companyName: alert.company,
+    title: alert.title,
+    assetClass: /option/i.test(`${alert.type} ${alert.strategy} ${alert.contract}`) ? "Options" : "Market",
+    direction: alert.action || "Neutral / Research",
+    setupType: alert.strategy || alert.type,
+    thesis: alert.researchContext || alert.thesis,
+    whyNow: alert.catalyst,
+    catalystContext: alert.catalyst,
+    tttContext: {
+      time: alert.expiration || "Research timing pending",
+      trend: (alert.reason || []).find((item) => /trend/i.test(item)) || "Trend context requires manual verification",
+      theme: alert.strategy || alert.type || "Research theme",
+    },
+    marketRegimeContext: "Static seed packet. Market regime must be verified manually.",
+    technicalContext: alert.watchCriteria,
+    optionsContext: alert.contract,
+    liquidityContext: alert.spreadQuality,
+    sentimentContext: "Static seed packet. Sentiment context pending.",
+    positioningContext: "Static seed packet. Positioning context pending.",
+    archiveMemoryContext: (alert.reason || []).find((item) => /archive/i.test(item)) || "Archive memory check pending.",
+    invalidation: alert.invalidationResearchNote || alert.invalidation,
+    riskWarnings: alert.riskNotes,
+    fatalRiskFlags: [],
+    evidence: alert.reason,
+    missingEvidence: ["Live source confirmation", "Current market regime verification"],
+    sourceOrigin: "Static Seed Queue",
+    sourceType: "Labeled Mock Research Packet",
+    sourceStatus: "Static / Manual Verification Required",
+    sourceSummary: alert.researchContext,
+    sourceConfidence: alert.confidence,
+    totalScore: alert.confidence,
+    reviewState: alert.status,
+    ceoBNextAction: alert.nextAction || "Manual CEO B Review",
+  });
+}
+
+function getUnifiedResearchPacketsForAlerts() {
+  const localPackets = getResearchPacketsState();
+  const localIds = new Set(localPackets.map((packet) => packet.id));
+  const legacyPackets = getOptionAlertsState()
+    .map(legacyAlertToResearchPacketV2)
+    .filter((packet) => !localIds.has(packet.id));
+  return [...localPackets, ...legacyPackets];
+}
+
+function renderPacketList(items, emptyMessage) {
+  return items.length ? `<ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : `<p>${escapeHtml(emptyMessage)}</p>`;
+}
+
+function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
+  const activePackets = packets.filter((packet) => packet.routeDecision !== "SUPPRESSED_NOISE");
+  const suppressedPackets = packets.filter((packet) => packet.routeDecision === "SUPPRESSED_NOISE");
+  const packet = selectedPacket || activePackets[0] || suppressedPackets[0] || getResearchDeskDemoPacket();
+  const fatal = packet.fatalRiskFlags.length > 0;
+  const whyVisible = fatal
+    ? "This packet is shown only inside suppressed noise because a fatal risk override is active."
+    : `${researchRouteLabel(packet.routeDecision)} was assigned from a ${packet.totalScore}/100 local research score, ${packet.sourceConfidence}% source confidence, and ${packet.missingEvidence.length} open evidence checks.`;
+  const queueMarkup = activePackets.map((item) => `
+    <button type="button" class="${item.id === packet.id ? "active" : ""}" onclick="window.selectResearchPacketV2('${escapeHtml(item.id)}')">
+      <span><strong>${escapeHtml(item.symbol)}</strong><em>${escapeHtml(item.companyName)}</em></span>
+      <span><strong>${escapeHtml(item.totalScore)}</strong><em>${escapeHtml(researchRouteLabel(item.routeDecision))}</em></span>
+    </button>
+  `).join("") || `<p class="research-empty-state">No packet cleared the research gate. Waiting is valid.</p>`;
+  const voteRows = packet.agentVotes.map((vote) => `
+    <tr>
+      <td>${escapeHtml(vote.lane)}</td>
+      <td><strong>${escapeHtml(vote.score)}</strong></td>
+      <td><span class="packet-vote ${escapeHtml(vote.vote.toLowerCase())}">${escapeHtml(vote.vote.replaceAll("_", " "))}</span></td>
+    </tr>
+  `).join("");
+  return `
+    <div class="packet-engine-shell">
+      <header class="packet-engine-hero">
+        <div>
+          <span class="meta-label">00 / Research-Gated Intelligence Engine</span>
+          <h2>Alerts Desk</h2>
+          <p>CEO B review queue for locally generated research packets that clear score, evidence, and risk gates.</p>
+          ${pcChipRow(["Research Only", "LocalStorage Only", "Manual Review Required", "No Live APIs", "No Broker Execution"])}
+        </div>
+        <aside>
+          <span>Queue State</span>
+          <strong>${activePackets.length} review packets</strong>
+          <small>${suppressedPackets.length} suppressed / updated ${escapeHtml(lastUpdated)}</small>
+          <a href="#/research">Build Research Packet</a>
+        </aside>
+      </header>
+
+      <section class="packet-engine-layout">
+        <aside class="packet-queue-panel">
+          <div class="packet-panel-head"><span>CEO B Review Queue</span><em>Score-gated</em></div>
+          <div class="packet-queue-list">${queueMarkup}</div>
+        </aside>
+
+        <main class="packet-primary-panel">
+          <div class="packet-title-row">
+            <div>
+              <span>${escapeHtml(packet.assetClass)} / ${escapeHtml(packet.setupType)}</span>
+              <h3>${escapeHtml(packet.symbol)} / ${escapeHtml(packet.companyName)}</h3>
+            </div>
+            <strong class="${fatal ? "fatal" : ""}">${escapeHtml(packet.totalScore)} / 100</strong>
+          </div>
+          <div class="packet-route-banner ${fatal ? "fatal" : ""}">
+            <span>${escapeHtml(researchRouteLabel(packet.routeDecision))}</span>
+            <em>${fatal ? "Fatal risk override active" : "Manual CEO B decision required"}</em>
+          </div>
+
+          <section class="packet-why-panel">
+            <span class="meta-label">Why CEO B Is Seeing This</span>
+            <p>${escapeHtml(whyVisible)}</p>
+          </section>
+
+          <div class="packet-context-grid">
+            <article><span>Thesis</span><p>${escapeHtml(packet.thesis)}</p></article>
+            <article><span>Why Now</span><p>${escapeHtml(packet.whyNow)}</p></article>
+            <article><span>Catalyst</span><p>${escapeHtml(packet.catalystContext)}</p></article>
+            <article><span>TTT: Time / Trend / Theme</span><p>${escapeHtml(packet.tttContext.time)} / ${escapeHtml(packet.tttContext.trend)} / ${escapeHtml(packet.tttContext.theme)}</p></article>
+            <article><span>Market Regime</span><p>${escapeHtml(packet.marketRegimeContext)}</p></article>
+            <article><span>Technical Structure</span><p>${escapeHtml(packet.technicalContext)}</p></article>
+            <article><span>Options Context</span><p>${escapeHtml(packet.optionsContext)}</p></article>
+            <article><span>Liquidity</span><p>${escapeHtml(packet.liquidityContext)}</p></article>
+            <article><span>Sentiment</span><p>${escapeHtml(packet.sentimentContext)}</p></article>
+            <article><span>Smart Money / Positioning</span><p>${escapeHtml(packet.positioningContext)}</p></article>
+            <article><span>Archive Memory</span><p>${escapeHtml(packet.archiveMemoryContext)}</p></article>
+            <article><span>Invalidation</span><p>${escapeHtml(packet.invalidation)}</p></article>
+          </div>
+
+          <div class="packet-ceo-actions">
+            ${["Review", "Watch", "Archive", "Reject", "Mark Lesson"].map((action) => `<button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', '${action}')">${action}</button>`).join("")}
+          </div>
+        </main>
+
+        <aside class="packet-evidence-rail">
+          <section class="packet-risk-gate ${fatal ? "fatal" : ""}">
+            <div class="packet-panel-head"><span>Risk Gate</span><em>${fatal ? "Suppressed" : "Open for review"}</em></div>
+            <strong>${fatal ? "Fatal risk flags override score." : "No fatal override recorded."}</strong>
+            ${renderPacketList(packet.fatalRiskFlags, "No fatal risk flags.")}
+            ${renderPacketList(packet.riskWarnings, "No additional risk warnings recorded.")}
+          </section>
+          <section>
+            <div class="packet-panel-head"><span>Evidence Stack</span><em>${packet.evidence.length}</em></div>
+            ${renderPacketList(packet.evidence, "No evidence supplied.")}
+          </section>
+          <section>
+            <div class="packet-panel-head"><span>Missing Evidence</span><em>${packet.missingEvidence.length}</em></div>
+            ${renderPacketList(packet.missingEvidence, "No missing evidence recorded.")}
+          </section>
+          <section>
+            <div class="packet-panel-head"><span>Source Confidence</span><em>${escapeHtml(packet.sourceConfidence)}%</em></div>
+            <p>${escapeHtml(packet.sourceStatus)} / ${escapeHtml(packet.sourceType)}</p>
+          </section>
+        </aside>
+      </section>
+
+      <section class="packet-vote-matrix">
+        <div class="packet-panel-head"><span>Agent Vote Matrix</span><em>Local completeness heuristics only</em></div>
+        <div class="packet-table-wrap">
+          <table><thead><tr><th>Agent Lane</th><th>Score</th><th>Vote</th></tr></thead><tbody>${voteRows}</tbody></table>
+        </div>
+      </section>
+
+      <details class="suppressed-noise-drawer">
+        <summary>Suppressed Noise <span>${suppressedPackets.length}</span></summary>
+        <p>Collapsed by default. Fatal flags and scores below 45 cannot enter the CEO B alert queue.</p>
+        <div class="suppressed-noise-list">
+          ${suppressedPackets.map((item) => `
+            <button type="button" onclick="window.selectResearchPacketV2('${escapeHtml(item.id)}')">
+              <strong>${escapeHtml(item.symbol)} / ${escapeHtml(item.totalScore)}</strong>
+              <span>${escapeHtml(item.fatalRiskFlags[0] || researchRouteLabel(item.routeDecision))}</span>
+            </button>
+          `).join("") || `<p>No suppressed packets in local memory.</p>`}
+        </div>
+      </details>
+    </div>
+  `;
+}
+
 function renderAlertsPage() {
   if (!els.alertsContent) return;
-  
-  const optionAlerts = getOptionAlertsState();
-  
-  // Set default selected alert if none is selected
-  if (!state.selectedAlertId && optionAlerts.length > 0) {
-    state.selectedAlertId = optionAlerts[0].id;
+
+  const packets = getUnifiedResearchPacketsForAlerts();
+  const activePackets = packets.filter((packet) => packet.routeDecision !== "SUPPRESSED_NOISE");
+  if (!packets.some((packet) => packet.id === state.selectedAlertId)) {
+    state.selectedAlertId = activePackets[0]?.id || packets[0]?.id || "";
   }
-  
-  const selectedAlert = optionAlerts.find(a => a.id === state.selectedAlertId) || optionAlerts[0];
+  const selectedAlert = packets.find((packet) => packet.id === state.selectedAlertId) || activePackets[0] || packets[0];
   const lastUpdated = new Date().toLocaleTimeString();
-  els.alertsContent.innerHTML = renderAlertsDeskMarkup(optionAlerts, selectedAlert, lastUpdated);
+  els.alertsContent.innerHTML = renderResearchGatedAlertsDesk(packets, selectedAlert, lastUpdated);
   return;
 
   let leftPaneHtml = "";
@@ -7982,6 +8434,94 @@ function renderAlertsPage() {
     </div>
   `;
 }
+
+window.selectResearchPacketV2 = (id) => {
+  state.selectedAlertId = id;
+  renderAlertsPage();
+};
+
+function saveResearchPacketLesson(packet, outcomeType = "", outcomeNotes = "") {
+  const ledger = getLearningLedgerState();
+  const existingIndex = ledger.findIndex((entry) => entry.linkedPacketId === packet.id);
+  const entry = {
+    id: existingIndex >= 0 ? ledger[existingIndex].id : `lesson-packet-${packet.id}-${Date.now()}`,
+    category: "Research Packet Outcome",
+    lesson_type: outcomeType || "Lesson Candidate",
+    text: outcomeNotes || `${packet.symbol}: ${packet.thesis}`,
+    statement: outcomeNotes || `${packet.symbol}: ${packet.thesis}`,
+    linkedPacketId: packet.id,
+    linked_records: [packet.id],
+    severity: packet.fatalRiskFlags.length ? "critical" : packet.riskWarnings.length ? "high" : "medium",
+    adopted_rule: false,
+    verified: false,
+    timestamp: new Date().toISOString(),
+    privacy_tier: "local_only",
+    source: "Research Packet v2",
+    reviewStatus: "CEO B Review Required",
+    outcomeType,
+  };
+  if (existingIndex >= 0) ledger[existingIndex] = { ...ledger[existingIndex], ...entry };
+  else ledger.unshift(entry);
+  saveLearningLedgerState(ledger);
+}
+
+window.applyResearchPacketAction = (packetId, action) => {
+  const packet = getUnifiedResearchPacketsForAlerts().find((item) => item.id === packetId);
+  if (!packet) return;
+  const now = new Date().toISOString();
+  const patch = { ...packet, ceoBAction: action, updatedAt: now };
+  if (action === "Review") {
+    patch.reviewState = "CEO B Reviewed";
+    patch.ceoBNextAction = "Record a manual decision or outcome";
+  } else if (action === "Watch") {
+    patch.reviewState = "Watchlist Candidate";
+    patch.watchlistCandidate = true;
+    patch.ceoBNextAction = "Monitor manually and refresh evidence";
+  } else if (action === "Archive") {
+    patch.reviewState = "Archive Candidate";
+    patch.archivedAt = now;
+    patch.ceoBNextAction = "CEO B Archive Review";
+    archiveResearchPacketCandidate(normalizeResearchPacketDraft(patch));
+  } else if (action === "Reject") {
+    patch.reviewState = "Rejected by CEO B";
+    patch.routeOverride = "SUPPRESSED_NOISE";
+    patch.ceoBNextAction = "Keep as rejected research memory";
+  } else if (action === "Mark Lesson") {
+    patch.reviewState = "Lesson Candidate";
+    patch.learning = { ...packet.learning, lessonCandidate: true };
+    patch.ceoBNextAction = "Record the paper outcome in Learning Ledger";
+    saveResearchPacketLesson(normalizeResearchPacketDraft(patch));
+  }
+  patch.nextAction = patch.ceoBNextAction;
+  const saved = saveResearchPacketRecord(patch);
+  state.selectedAlertId = saved.id;
+  showNotification(`${saved.symbol}: ${action} saved locally.`);
+  renderAlertsPage();
+  renderArchiveIntelligence();
+  renderLearningLedgerPage();
+};
+
+window.saveResearchPacketOutcome = (packetId, fieldPrefix = "packetOutcome") => {
+  const packet = getResearchPacketById(packetId);
+  if (!packet) return;
+  const outcomeType = document.getElementById(`${fieldPrefix}-${packetId}`)?.value || "";
+  const outcomeNotes = document.getElementById(`${fieldPrefix}Notes-${packetId}`)?.value || "";
+  const updated = saveResearchPacketRecord({
+    ...packet,
+    learning: {
+      outcomeType,
+      outcomeNotes,
+      outcomeAt: new Date().toISOString(),
+      lessonCandidate: true,
+    },
+    reviewState: "Outcome Recorded",
+    ceoBAction: "Mark Lesson",
+  });
+  saveResearchPacketLesson(updated, outcomeType, outcomeNotes);
+  showNotification(`${updated.symbol}: outcome saved to local learning memory.`);
+  renderLearningLedgerPage();
+  renderArchiveIntelligence();
+};
 
 window.selectAlertCard = (id) => {
   state.selectedAlertId = id;
@@ -15608,11 +16148,63 @@ renderRiskRulesPage = function () {
 
 renderLearningLedgerPage = function () {
   if (!els.learningLedgerContent) return;
-  const sections = ["Verified Rules", "Mistakes Avoided", "Playbooks", "CEO B Notes", "Archive Links", "Pending Review"];
+  const ledger = getLearningLedgerState();
+  const packets = getResearchPacketsState();
+  const outcomePackets = packets.filter((packet) => packet.learning.lessonCandidate || packet.ceoBAction === "Mark Lesson" || packet.reviewState === "Outcome Recorded");
+  const lessonCandidates = ledger.filter((entry) => !entry.verified);
+  const verifiedRules = ledger.filter((entry) => entry.verified);
   els.learningLedgerContent.innerHTML = `
-    <div class="page-shell">
-      ${pcPageHero("08 LRN / Memory", "Learning Ledger", "A calm memory layer for verified rules, lessons, playbooks, CEO B notes, and pending review items.", ["Local First", "Manual Review Required", "Research Only"])}
-      <section class="section-grid">${sections.map((title) => pcInfoCard(title, `${title} are saved only after manual review so memory compounds cleanly.`, "Memory")).join("")}</section>
+    <div class="page-shell learning-ledger-v2">
+      ${pcPageHero("08 LRN / Packet Outcomes", "Learning Ledger", "Record paper outcomes, avoided mistakes, timing errors, liquidity failures, and reusable lessons from Research Packet v2.", ["Local First", "Manual Review Required", "No Execution", "Outcome Memory"])}
+      <section class="learning-summary-grid">
+        <article><span>Packet outcomes</span><strong>${outcomePackets.length}</strong></article>
+        <article><span>Lesson candidates</span><strong>${lessonCandidates.length}</strong></article>
+        <article><span>Verified rules</span><strong>${verifiedRules.length}</strong></article>
+        <article><span>Outcome types</span><strong>${RESEARCH_OUTCOMES.length}</strong></article>
+      </section>
+
+      <section class="packet-outcome-section">
+        <div>
+          <span class="meta-label">Research Packet Outcomes</span>
+          <h3>CEO B learning review</h3>
+          <p>Outcome labels are paper-review memory only. They do not represent broker activity or live performance.</p>
+        </div>
+        <div class="packet-outcome-grid">
+          ${outcomePackets.map((packet) => `
+            <article>
+              <div class="packet-outcome-head">
+                <span>${escapeHtml(packet.symbol)}</span>
+                <em>${escapeHtml(packet.learning.outcomeType || "Lesson Candidate")}</em>
+              </div>
+              <h4>${escapeHtml(packet.title)}</h4>
+              <p>${escapeHtml(packet.learning.outcomeNotes || packet.thesis)}</p>
+              <label>Paper Outcome
+                <select id="packetOutcome-${escapeHtml(packet.id)}">
+                  <option value="">Select outcome</option>
+                  ${RESEARCH_OUTCOMES.map((outcome) => `<option value="${escapeHtml(outcome)}" ${packet.learning.outcomeType === outcome ? "selected" : ""}>${escapeHtml(outcome)}</option>`).join("")}
+                </select>
+              </label>
+              <label>Lesson Notes
+                <textarea id="packetOutcomeNotes-${escapeHtml(packet.id)}" placeholder="What should Pickaxe remember?">${escapeHtml(packet.learning.outcomeNotes)}</textarea>
+              </label>
+              <button type="button" onclick="window.saveResearchPacketOutcome('${escapeHtml(packet.id)}')">Save Packet Outcome</button>
+            </article>
+          `).join("") || `<article class="research-empty-state"><p>Use Mark Lesson on Alerts Desk to route a packet here.</p></article>`}
+        </div>
+      </section>
+
+      <section class="learning-memory-grid">
+        <article class="glass-card">
+          <span class="meta-label">Lesson Candidate Routing</span>
+          <h3>Pending CEO B review</h3>
+          ${lessonCandidates.slice(0, 8).map((entry) => `<p><strong>${escapeHtml(entry.lesson_type || entry.category)}</strong><span>${escapeHtml(entry.text || entry.statement)}</span></p>`).join("") || `<p>No pending lesson candidates.</p>`}
+        </article>
+        <article class="truth-panel">
+          <span class="meta-label">Outcome Vocabulary</span>
+          <h3>Reusable paper-review labels</h3>
+          <p>${RESEARCH_OUTCOMES.map(escapeHtml).join(" / ")}</p>
+        </article>
+      </section>
     </div>
   `;
 }
