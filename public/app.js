@@ -8041,11 +8041,136 @@ function renderPacketList(items, emptyMessage) {
   return items.length ? `<ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : `<p>${escapeHtml(emptyMessage)}</p>`;
 }
 
+function buildOptionsAlertsPanelModel(packet = {}) {
+  const sourceText = `${packet.sourceStatus} ${packet.sourceType} ${packet.sourceOrigin}`.toLowerCase();
+  const evidenceText = `${packet.evidence.join(" ")} ${packet.missingEvidence.join(" ")}`.toLowerCase();
+  const contractText = String(packet.optionsContext || "").trim();
+  const contractMatch = contractText.match(/(?:(\d{1,2}\s+[A-Z]{3}\s+\d{2,4})\s+)?\$?(\d+(?:\.\d+)?)\s*(call|put|c|p)\b/i);
+  const symbolContexts = {
+    AAPL: { bid: "$2.68", ask: "$2.82", volume: "12.4K", openInterest: "48.2K", iv: "34% static", realizedVolatility: "27% manual", ivRank: "42 placeholder", expectedMove: "Source required", premium: "Moderate", regime: "Event-aware" },
+    NVDA: { bid: "$4.02", ask: "$4.24", volume: "18.8K", openInterest: "62.1K", iv: "51% static", realizedVolatility: "46% manual", ivRank: "61 placeholder", expectedMove: "Source required", premium: "Elevated", regime: "High volatility" },
+    TSLA: { bid: "$6.55", ask: "$6.95", volume: "9.6K", openInterest: "41.7K", iv: "67% static", realizedVolatility: "59% manual", ivRank: "73 placeholder", expectedMove: "Source required", premium: "Elevated", regime: "Event-sensitive" },
+    SPY: { bid: "$3.10", ask: "$3.18", volume: "21.0K", openInterest: "83.4K", iv: "19% static", realizedVolatility: "16% manual", ivRank: "35 placeholder", expectedMove: "Source required", premium: "Balanced", regime: "Index regime" },
+  };
+  const context = symbolContexts[packet.symbol] || {
+    bid: "Manual entry required",
+    ask: "Manual entry required",
+    volume: "Manual entry required",
+    openInterest: "Manual entry required",
+    iv: "Source required",
+    realizedVolatility: "Source required",
+    ivRank: "Placeholder unavailable",
+    expectedMove: "Source required",
+    premium: "Unverified",
+    regime: "Manual review",
+  };
+  const bidNumber = Number(String(context.bid).replace(/[^0-9.]/g, ""));
+  const askNumber = Number(String(context.ask).replace(/[^0-9.]/g, ""));
+  const spreadAmount = Number.isFinite(bidNumber) && Number.isFinite(askNumber) && askNumber >= bidNumber
+    ? askNumber - bidNumber
+    : null;
+  const spreadPercent = spreadAmount !== null && ((bidNumber + askNumber) / 2) > 0
+    ? (spreadAmount / ((bidNumber + askNumber) / 2)) * 100
+    : null;
+  const sourceState = /stale/.test(sourceText)
+    ? "Stale"
+    : /verified|multi-source/.test(sourceText) && !/needed|required|pending|mock/.test(sourceText)
+      ? "Verified"
+      : /needed|required|pending|mock|static|manual/.test(sourceText)
+        ? "Unverified"
+        : "Needs More Evidence";
+  const contractInterpretable = Boolean(contractMatch || (/options/i.test(packet.assetClass) && contractText.length >= 8));
+  const liquidityKnown = !/pending|required|not supplied|unverified/i.test(`${packet.liquidityContext} ${context.volume} ${context.openInterest}`);
+  const spreadUnacceptable = /wide|unacceptable|poor/.test(packet.liquidityContext.toLowerCase()) || (spreadPercent !== null && spreadPercent > 18);
+  const volatilityMissing = /source required|unavailable/.test(`${context.iv} ${context.realizedVolatility}`.toLowerCase());
+  const eventAmbiguous = /pending|requires? manual|not supplied|ambiguous/.test(packet.catalystContext.toLowerCase());
+  const packetCopy = `${packet.title} ${packet.thesis} ${packet.whyNow} ${packet.ceoBNextAction}`.toLowerCase();
+  const advisoryLanguage = /\b(buy now|sell now|strong buy|trade signal|auto-execute|execute now|ai predicts)\b/.test(packetCopy);
+  const ceoReviewed = /reviewed|approved for review|archive candidate|rejected by ceo b|lesson candidate/i.test(`${packet.reviewState} ${packet.ceoBAction}`);
+  const hardBlocks = [
+    { label: "Missing or stale source trail", blocked: sourceState !== "Verified", detail: sourceState === "Stale" ? "Source trail is stale." : sourceState === "Verified" ? "Source trail is reviewable." : "Source verification remains incomplete." },
+    { label: "Unresolved source conflict", blocked: /conflict|disagree/.test(evidenceText), detail: /conflict|disagree/.test(evidenceText) ? "Conflicting evidence requires resolution." : "No unresolved conflict recorded." },
+    { label: "Weak contract interpretability", blocked: !contractInterpretable, detail: contractInterpretable ? "Contract identity is interpretable." : "Exact strike, expiry, or option type is incomplete." },
+    { label: "Insufficient liquidity", blocked: !liquidityKnown, detail: liquidityKnown ? "Static/manual volume and open interest context is present." : "Liquidity requires manual evidence." },
+    { label: "Unacceptable spread", blocked: spreadUnacceptable, detail: spreadUnacceptable ? "Spread quality fails the research threshold." : "No unacceptable spread is recorded." },
+    { label: "Event ambiguity", blocked: eventAmbiguous, detail: eventAmbiguous ? "Catalyst timing or impact needs verification." : "Event context is labeled." },
+    { label: "Missing volatility context", blocked: volatilityMissing, detail: volatilityMissing ? "Material premium context still requires a source." : "Manual volatility context is present." },
+    { label: "Private data in public-safe packet", blocked: false, detail: "No public private-note fields are displayed." },
+    { label: "Advisory or execution language", blocked: advisoryLanguage, detail: advisoryLanguage ? "Unsafe instruction language must be removed." : "Research-only language check passed." },
+    { label: "Missing CEO B review", blocked: !ceoReviewed, detail: ceoReviewed ? "A local CEO B review state is recorded." : "CEO B Review Required." },
+  ];
+  const blockingCount = hardBlocks.filter((item) => item.blocked).length;
+  const evidenceBlocked = hardBlocks.some((item, index) => item.blocked && [0, 1, 5, 6, 7, 8].includes(index));
+  const contractBlocked = hardBlocks.some((item, index) => item.blocked && [2, 3, 4].includes(index));
+  const outputState = packet.routeDecision === "SUPPRESSED_NOISE"
+    ? "Suppressed Noise"
+    : /rejected/i.test(packet.reviewState)
+      ? "Rejected"
+      : evidenceBlocked
+      ? "Needs More Evidence"
+      : contractBlocked
+        ? "Watchlist Review"
+        : packet.routeDecision === "ARCHIVE_CANDIDATE"
+          ? "Archive Candidate"
+          : "Research Packet Candidate";
+  const reviewStatus = /rejected/i.test(packet.reviewState)
+    ? "Rejected"
+    : /lesson/i.test(packet.reviewState)
+      ? "Archived Lesson Candidate"
+      : /archive/i.test(packet.reviewState)
+        ? "Deferred"
+        : ceoReviewed
+          ? "Approved for Review"
+          : "Pending Review";
+  const freshness = packet.updatedAt || packet.createdAt || "Manual timestamp unavailable";
+
+  return {
+    source: {
+      count: packet.evidence.length,
+      primary: packet.sourceOrigin || "Source Hub review required",
+      type: packet.sourceType,
+      freshness,
+      trust: sourceState,
+      conflicts: /conflict|disagree/.test(evidenceText) ? "Conflict detected" : "No conflict recorded",
+      missing: packet.missingEvidence,
+      verification: sourceState === "Verified" ? "Verified" : sourceState === "Stale" ? "Stale" : packet.missingEvidence.length ? "Needs More Evidence" : "Unverified",
+    },
+    contract: {
+      strike: contractMatch?.[2] ? `$${contractMatch[2]} ${/p|put/i.test(contractMatch[3]) ? "Put" : "Call"}` : "Manual entry required",
+      expiration: contractMatch?.[1] || packet.tttContext.time || "Manual entry required",
+      dte: "Manual calculation required",
+      bid: context.bid,
+      ask: context.ask,
+      spread: spreadAmount === null ? "Manual entry required" : `$${spreadAmount.toFixed(2)} / ${spreadPercent.toFixed(1)}%`,
+      volume: context.volume,
+      openInterest: context.openInterest,
+      spreadQuality: spreadUnacceptable ? "Blocked" : spreadPercent === null ? "Needs More Evidence" : spreadPercent <= 8 ? "Acceptable static context" : "Manual review",
+      liquidityGrade: liquidityKnown ? "Manual grade B" : "Unverified",
+      score: contractInterpretable && liquidityKnown && !spreadUnacceptable ? "78 / 100 manual" : "Blocked pending evidence",
+    },
+    volatility: {
+      iv: context.iv,
+      realized: context.realizedVolatility,
+      rank: context.ivRank,
+      expectedMove: context.expectedMove,
+      eventRisk: eventAmbiguous ? "Event ambiguity / source required" : packet.catalystContext,
+      crushWarning: /earnings|event|catalyst/i.test(packet.catalystContext) ? "IV crush warning: event premium may compress." : "IV crush warning: review when event premium is material.",
+      premium: context.premium,
+      regime: context.regime,
+    },
+    hardBlocks,
+    blockingCount,
+    outputState,
+    reviewStatus,
+  };
+}
+
 function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
   const activePackets = packets.filter((packet) => packet.routeDecision !== "SUPPRESSED_NOISE");
   const suppressedPackets = packets.filter((packet) => packet.routeDecision === "SUPPRESSED_NOISE");
   const packet = selectedPacket || activePackets[0] || suppressedPackets[0] || getResearchDeskDemoPacket();
   const fatal = packet.fatalRiskFlags.length > 0;
+  const panelModel = buildOptionsAlertsPanelModel(packet);
   const whyVisible = fatal
     ? "This packet is shown only inside suppressed noise because a fatal risk override is active."
     : `${researchRouteLabel(packet.routeDecision)} was assigned from a ${packet.totalScore}/100 local research score, ${packet.sourceConfidence}% source confidence, and ${packet.missingEvidence.length} open evidence checks.`;
@@ -8066,10 +8191,10 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
     <div class="packet-engine-shell">
       <header class="packet-engine-hero">
         <div>
-          <span class="meta-label">00 / Research-Gated Intelligence Engine</span>
-          <h2>Alerts Desk</h2>
-          <p>CEO B review queue for locally generated research packets that clear score, evidence, and risk gates.</p>
-          ${pcChipRow(["Research Only", "LocalStorage Only", "Manual Review Required", "No Live APIs", "No Broker Execution"])}
+          <span class="meta-label">00 / Options Alerts / Alerts Desk Compatibility Route</span>
+          <h2>Options Alerts</h2>
+          <p>Static/manual research cockpit for locally generated packets. Research Packet Candidate only. Not a trade signal.</p>
+          ${pcChipRow(["Research Only", "Manual Review Required", "No Broker Execution", "No Live APIs", "Source Verification Required", "CEO B Review Required"])}
         </div>
         <aside>
           <span>Queue State</span>
@@ -8088,59 +8213,145 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
         <main class="packet-primary-panel">
           <div class="packet-title-row">
             <div>
-              <span>${escapeHtml(packet.assetClass)} / ${escapeHtml(packet.setupType)}</span>
+              <span>Panel 1 / Candidate Identity and Why Now</span>
               <h3>${escapeHtml(packet.symbol)} / ${escapeHtml(packet.companyName)}</h3>
             </div>
             <strong class="${fatal ? "fatal" : ""}">${escapeHtml(packet.totalScore)} / 100</strong>
           </div>
           <div class="packet-route-banner ${fatal ? "fatal" : ""}">
-            <span>${escapeHtml(researchRouteLabel(packet.routeDecision))}</span>
-            <em>${fatal ? "Fatal risk override active" : "Manual CEO B decision required"}</em>
+            <span>${escapeHtml(panelModel.outputState)}</span>
+            <em>${fatal ? "Fatal risk override active" : "CEO B Review Required"}</em>
           </div>
 
           <section class="packet-why-panel">
-            <span class="meta-label">Why CEO B Is Seeing This</span>
+            <span class="meta-label">Research Packet Candidate / Manual Review Required</span>
             <p>${escapeHtml(whyVisible)}</p>
           </section>
 
-          <div class="packet-context-grid">
-            <article><span>Thesis</span><p>${escapeHtml(packet.thesis)}</p></article>
-            <article><span>Why Now</span><p>${escapeHtml(packet.whyNow)}</p></article>
-            <article><span>Catalyst</span><p>${escapeHtml(packet.catalystContext)}</p></article>
-            <article><span>TTT: Time / Trend / Theme</span><p>${escapeHtml(packet.tttContext.time)} / ${escapeHtml(packet.tttContext.trend)} / ${escapeHtml(packet.tttContext.theme)}</p></article>
-            <article><span>Market Regime</span><p>${escapeHtml(packet.marketRegimeContext)}</p></article>
-            <article><span>Technical Structure</span><p>${escapeHtml(packet.technicalContext)}</p></article>
-            <article><span>Options Context</span><p>${escapeHtml(packet.optionsContext)}</p></article>
-            <article><span>Liquidity</span><p>${escapeHtml(packet.liquidityContext)}</p></article>
-            <article><span>Sentiment</span><p>${escapeHtml(packet.sentimentContext)}</p></article>
-            <article><span>Smart Money / Positioning</span><p>${escapeHtml(packet.positioningContext)}</p></article>
-            <article><span>Archive Memory</span><p>${escapeHtml(packet.archiveMemoryContext)}</p></article>
-            <article><span>Invalidation</span><p>${escapeHtml(packet.invalidation)}</p></article>
-          </div>
+          <section class="options-alerts-panel">
+            <div class="options-alerts-panel-head">
+              <span>Candidate Identity and Why Now</span>
+              <em>${escapeHtml(packet.assetClass)} / ${escapeHtml(packet.setupType)}</em>
+            </div>
+            <div class="options-alerts-data-grid identity">
+              <article><span>Ticker / Underlying</span><strong>${escapeHtml(packet.symbol)} / ${escapeHtml(packet.companyName)}</strong></article>
+              <article><span>Research Direction</span><strong>${escapeHtml(packet.direction)}</strong></article>
+              <article><span>Packet Status</span><strong>${escapeHtml(panelModel.outputState)}</strong></article>
+              <article><span>CEO B State</span><strong>${escapeHtml(panelModel.reviewStatus)}</strong></article>
+            </div>
+            <div class="options-alerts-ttt">
+              <span><small>Time</small>${escapeHtml(packet.tttContext.time)}</span>
+              <span><small>Trend</small>${escapeHtml(packet.tttContext.trend)}</span>
+              <span><small>Theme</small>${escapeHtml(packet.tttContext.theme)}</span>
+            </div>
+            <div class="options-alerts-copy-grid">
+              <article><span>Why Now</span><p>${escapeHtml(packet.whyNow)}</p></article>
+              <article><span>Catalyst</span><p>${escapeHtml(packet.catalystContext)}</p></article>
+              <article class="wide"><span>Research Thesis</span><p>${escapeHtml(packet.thesis)}</p></article>
+            </div>
+          </section>
 
-          <div class="packet-ceo-actions">
-            ${["Review", "Watch", "Archive", "Reject", "Mark Lesson"].map((action) => `<button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', '${action}')">${action}</button>`).join("")}
-          </div>
+          <section class="options-alerts-panel">
+            <div class="options-alerts-panel-head">
+              <span>Panel 3 / Contract Quality and Liquidity</span>
+              <em>Static/manual research context</em>
+            </div>
+            <div class="options-alerts-data-grid">
+              <article><span>Strike</span><strong>${escapeHtml(panelModel.contract.strike)}</strong></article>
+              <article><span>Expiration / DTE</span><strong>${escapeHtml(panelModel.contract.expiration)} / ${escapeHtml(panelModel.contract.dte)}</strong></article>
+              <article><span>Bid / Ask</span><strong>${escapeHtml(panelModel.contract.bid)} / ${escapeHtml(panelModel.contract.ask)}</strong></article>
+              <article><span>Spread</span><strong>${escapeHtml(panelModel.contract.spread)}</strong></article>
+              <article><span>Volume</span><strong>${escapeHtml(panelModel.contract.volume)}</strong></article>
+              <article><span>Open Interest</span><strong>${escapeHtml(panelModel.contract.openInterest)}</strong></article>
+              <article><span>Spread Quality</span><strong>${escapeHtml(panelModel.contract.spreadQuality)}</strong></article>
+              <article><span>Liquidity Grade</span><strong>${escapeHtml(panelModel.contract.liquidityGrade)}</strong></article>
+              <article><span>Contract Score</span><strong>${escapeHtml(panelModel.contract.score)}</strong></article>
+              <article><span>Execution Boundary</span><strong>No Broker Execution</strong></article>
+            </div>
+          </section>
+
+          <section class="options-alerts-panel">
+            <div class="options-alerts-panel-head">
+              <span>Panel 4 / Volatility Intelligence and Event Risk</span>
+              <em>Manual volatility context</em>
+            </div>
+            <div class="options-alerts-data-grid">
+              <article><span>IV Context</span><strong>${escapeHtml(panelModel.volatility.iv)}</strong></article>
+              <article><span>Realized Volatility</span><strong>${escapeHtml(panelModel.volatility.realized)}</strong></article>
+              <article><span>IV Rank / Percentile</span><strong>${escapeHtml(panelModel.volatility.rank)}</strong></article>
+              <article><span>Expected Move</span><strong>${escapeHtml(panelModel.volatility.expectedMove)}</strong></article>
+              <article><span>Event Risk</span><strong>${escapeHtml(panelModel.volatility.eventRisk)}</strong></article>
+              <article><span>Premium Condition</span><strong>${escapeHtml(panelModel.volatility.premium)}</strong></article>
+              <article><span>Volatility Regime</span><strong>${escapeHtml(panelModel.volatility.regime)}</strong></article>
+              <article><span>Source State</span><strong>Source required</strong></article>
+            </div>
+            <p class="options-alerts-warning">${escapeHtml(panelModel.volatility.crushWarning)} Event risk must be labeled. Static context does not imply live IV data.</p>
+          </section>
         </main>
 
         <aside class="packet-evidence-rail">
-          <section class="packet-risk-gate ${fatal ? "fatal" : ""}">
-            <div class="packet-panel-head"><span>Risk Gate</span><em>${fatal ? "Suppressed" : "Open for review"}</em></div>
-            <strong>${fatal ? "Fatal risk flags override score." : "No fatal override recorded."}</strong>
-            ${renderPacketList(packet.fatalRiskFlags, "No fatal risk flags.")}
-            ${renderPacketList(packet.riskWarnings, "No additional risk warnings recorded.")}
+          <section class="options-alerts-panel">
+            <div class="options-alerts-panel-head">
+              <span>Panel 2 / Source Trail and Evidence Quality</span>
+              <em>${escapeHtml(panelModel.source.verification)}</em>
+            </div>
+            <div class="options-alerts-source-summary">
+              <span><small>Source Count</small><strong>${escapeHtml(panelModel.source.count)}</strong></span>
+              <span><small>Trust Label</small><strong>${escapeHtml(panelModel.source.trust)}</strong></span>
+              <span><small>Confidence</small><strong>${escapeHtml(packet.sourceConfidence)}%</strong></span>
+            </div>
+            <dl class="options-alerts-definition-list">
+              <div><dt>Primary Source</dt><dd>${escapeHtml(panelModel.source.primary)}</dd></div>
+              <div><dt>Source Type</dt><dd>${escapeHtml(panelModel.source.type)}</dd></div>
+              <div><dt>Timestamp / Freshness</dt><dd>${escapeHtml(panelModel.source.freshness)}</dd></div>
+              <div><dt>Conflicts</dt><dd>${escapeHtml(panelModel.source.conflicts)}</dd></div>
+              <div><dt>Source Hub State</dt><dd>${escapeHtml(panelModel.source.verification)}</dd></div>
+            </dl>
+            <div class="options-alerts-evidence">
+              <span>Evidence</span>
+              ${renderPacketList(packet.evidence, "No evidence supplied.")}
+            </div>
+            <div class="options-alerts-evidence missing">
+              <span>Missing Evidence</span>
+              ${renderPacketList(panelModel.source.missing, "No missing evidence recorded.")}
+            </div>
+            <div class="options-alerts-state-key">
+              ${["Verified", "Unverified", "Stale", "Needs More Evidence"].map((label) => `<span class="${panelModel.source.verification === label ? "active" : ""}">${label}</span>`).join("")}
+            </div>
           </section>
-          <section>
-            <div class="packet-panel-head"><span>Evidence Stack</span><em>${packet.evidence.length}</em></div>
-            ${renderPacketList(packet.evidence, "No evidence supplied.")}
-          </section>
-          <section>
-            <div class="packet-panel-head"><span>Missing Evidence</span><em>${packet.missingEvidence.length}</em></div>
-            ${renderPacketList(packet.missingEvidence, "No missing evidence recorded.")}
-          </section>
-          <section>
-            <div class="packet-panel-head"><span>Source Confidence</span><em>${escapeHtml(packet.sourceConfidence)}%</em></div>
-            <p>${escapeHtml(packet.sourceStatus)} / ${escapeHtml(packet.sourceType)}</p>
+
+          <section class="options-alerts-panel packet-risk-gate ${fatal ? "fatal" : ""}">
+            <div class="options-alerts-panel-head">
+              <span>Panel 5 / Risk Desk and CEO B Review State</span>
+              <em>${panelModel.blockingCount} hard blocks</em>
+            </div>
+            <div class="options-alerts-risk-list">
+              ${panelModel.hardBlocks.map((item) => `
+                <article class="${item.blocked ? "blocked" : "clear"}">
+                  <span>${item.blocked ? "BLOCK" : "CLEAR"}</span>
+                  <div><strong>${escapeHtml(item.label)}</strong><p>${escapeHtml(item.detail)}</p></div>
+                </article>
+              `).join("")}
+            </div>
+            <div class="options-alerts-output">
+              <span>Output State</span>
+              <strong>${escapeHtml(panelModel.outputState)}</strong>
+              <small>Hard blocks outrank confidence scores.</small>
+            </div>
+            <div class="options-alerts-output">
+              <span>CEO B Review Status</span>
+              <strong>${escapeHtml(panelModel.reviewStatus)}</strong>
+              <small>CEO B Review Required before any reviewed record is complete.</small>
+            </div>
+            <div class="options-alerts-state-key outputs">
+              ${["Research Packet Candidate", "Needs More Evidence", "Watchlist Review", "Archive Candidate", "Rejected", "Suppressed Noise"].map((label) => `<span class="${panelModel.outputState === label ? "active" : ""}">${label}</span>`).join("")}
+            </div>
+            <div class="options-alerts-state-key outputs">
+              ${["Pending Review", "Approved for Review", "Deferred", "Rejected", "Archived Lesson Candidate"].map((label) => `<span class="${panelModel.reviewStatus === label ? "active" : ""}">${label}</span>`).join("")}
+            </div>
+            <div class="packet-ceo-actions">
+              ${["Review", "Watch", "Archive", "Reject", "Mark Lesson"].map((action) => `<button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', '${action}')">${action}</button>`).join("")}
+            </div>
           </section>
         </aside>
       </section>

@@ -2,6 +2,34 @@
 
 ## Current Active Checkpoint
 
+Options Alerts Static Research Panels 1-5 were implemented and locally validated on 2026-06-09.
+
+Implemented on the existing `/` and `#/alerts` compatibility route:
+
+- Candidate Identity and Why Now
+- Source Trail and Evidence Quality
+- Contract Quality and Liquidity
+- Volatility Intelligence and Event Risk
+- Risk Desk and CEO B Review State
+
+The page now shows static/manual source, contract, liquidity, volatility, event-risk, hard-block, output-state, and CEO B review context. Existing Research Packet v2 queue and local Review/Watch/Archive/Reject/Mark Lesson actions remain intact.
+
+Validation passed:
+
+- build
+- project check
+- root/public mirror comparison
+- desktop and 390px browser checks for `/`, `#/alerts`, `#/research`, `#/source-hub`, `#/archive`, `#/learning-ledger`, `#/dashboard`, `#/watchlists`, and `#/staging`
+- no console errors, blank content, failed local page loads, or horizontal overflow
+- existing Review action changed the local CEO B state to `Approved for Review`
+- `data/signal-alerts.json` remained unchanged
+
+Deferred: full Risk Desk workflow, Source Trail automation, Archive Outcome implementation, Quant Lab, Performance Tracker, live providers, APIs, broker/account connections, and autonomous behavior.
+
+Exact next recommended action: CEO B visually review and lock Options Alerts panels 1-5, then decide whether to authorize a separate full Risk Desk workflow sprint. Do not start it automatically.
+
+## Previous Active Checkpoint
+
 Options Alerts Franchise Cards and Review Gates were specified on 2026-06-09.
 
 Completed documentation:
@@ -26,7 +54,7 @@ No runtime or UI work was authorized. No routes, APIs, broker connections, live 
 
 Exact next recommended action: CEO B review and lock the Options Alerts franchise cards, Risk Desk hard blocks, and CEO B Review Gate; then authorize a separate bounded implementation sprint for static/manual panels 1-5. Do not begin implementation automatically.
 
-## Previous Active Checkpoint
+## Earlier Active Checkpoint
 
 Company Story and Operating Doctrine Docs Integration was completed on 2026-06-09.
 

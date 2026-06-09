@@ -1,5 +1,22 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Options Alerts Static Research Panels 1-5
+
+- Date: 2026-06-09.
+- Sprint type: bounded static/manual implementation.
+- Starting state: clean `main` at `750072b`, one approved docs commit ahead of local `origin/main`; `data/signal-alerts.json` clean.
+- Enhanced the existing `/` and `#/alerts` Research Packet v2 route in place; no route migration or rebuild.
+- Implemented Candidate Identity and Why Now, Source Trail and Evidence Quality, Contract Quality and Liquidity, Volatility Intelligence and Event Risk, and Risk Desk and CEO B Review State.
+- Added clearly labeled static/manual contract and volatility context, source verification states, ten deterministic hard-block rows, output states, CEO B review states, and visible safety labels.
+- Hard blocks now visibly outrank confidence: unresolved source/evidence blocks force `Needs More Evidence` even when the existing packet score is high.
+- Preserved current Research Packet v2 scoring, queue selection, local Review/Watch/Archive/Reject/Mark Lesson actions, and Research Desk / Source Hub / Archive / Learning Ledger behavior.
+- Existing Review behavior was live-checked: it updated the local state to `Approved for Review` and cleared the missing CEO B review block without bypassing remaining evidence blocks.
+- Root/public mirrors were synchronized and the asset cache key was updated.
+- Browser verification passed at desktop and 390px for `/`, `#/alerts`, `#/research`, `#/source-hub`, `#/archive`, `#/learning-ledger`, `#/dashboard`, `#/watchlists`, and `#/staging`: no console errors, blank content, failed local page loads, or horizontal overflow.
+- Build and project checks passed. `data/signal-alerts.json` remained unchanged.
+- No live APIs, backend, auth, broker integration, account sync, scraping, copy-trading, auto-trading, fake live data, fake autonomous agents, Source Trail automation, Archive Outcome implementation, full Risk Desk workflow, Quant Lab, or Performance Tracker work was added.
+- Exact next recommended action: CEO B visually review and lock Options Alerts panels 1-5, then decide whether to authorize a separate full Risk Desk workflow sprint. Do not start it automatically.
+
 ## Current Checkpoint - Options Alerts Franchise Cards and Review Gates
 
 - Date: 2026-06-09.
