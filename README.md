@@ -109,9 +109,3 @@ Planned expansion includes Quant Lab and Memory OS capabilities. Future work mus
 
 > Research only. Manual review required. No broker execution. No copy-trading. No guaranteed outcomes.
 
-## Live Links
-
-- **Main Cockpit:** https://burberrry.github.io/Pickaxe-Capital/
-- **Options Alerts:** https://burberrry.github.io/Pickaxe-Capital/?v=options-alerts-panels-1-5#/alerts
-- **Mission
-a52a566db8eb8d5ce0a9c6ed15aacc1278b964d5
