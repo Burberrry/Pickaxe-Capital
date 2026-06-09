@@ -47,8 +47,31 @@ Source Requirements
 CEO B Decision
 Archive Outcome
 Definition of Done
+Blockers
+Dependencies
+Suggested UI placement
+Static/manual data fields
+Copy language allowed
+Copy language banned
 
 Stop after documentation. Do not implement.
+```
+
+## Options Alerts Implementation Prompt Gate
+
+Do not use this template until CEO B explicitly authorizes implementation.
+
+```text
+Read docs/02_RESEARCH/PICKAXE_OPTIONS_ALERTS_SPEC.md.
+Name the exact approved panels and runtime files.
+Preserve the current / and #/alerts compatibility routes.
+Implement only static/manual/unavailable data states.
+Make all documented Risk Desk hard blocks deterministic and stronger than scores.
+Keep CEO B Review Required until an explicit local decision.
+Create no autonomous publication or execution path.
+Preserve privacy stripping, Archive Outcome, and Learning Ledger boundaries.
+Run build, project check, route checks, responsive checks, safety scan, mirror checks, and rollback verification.
+Stop after the approved implementation scope.
 ```
 
 ## Research Feature Prompt

@@ -12,13 +12,13 @@ Status: Strategy backlog; no implementation authorization.
 
 ## Priority 1 - Flagship Research Unit
 
-- Specify Options Alerts panels 1-5.
-- Specify Risk Desk hard blocks.
-- Specify CEO B Review Gate.
-- Specify Source Trail.
-- Specify Archive Outcome.
+- Options Alerts panels 1-5 franchise cards: specified; awaiting CEO B documentation lock.
+- Risk Desk hard blocks: specified; thresholds require implementation-sprint approval.
+- CEO B Review Gate: specified; no implementation approved.
+- Source Trail and evidence-quality contract: specified.
+- Archive Outcome and Learning Ledger handoff: specified.
 
-Implementation remains blocked until those franchise cards are approved.
+Implementation remains blocked until CEO B approves the specification and authorizes an exact runtime sprint.
 
 ## Priority 2 - Research Infrastructure
 
@@ -84,3 +84,9 @@ A backlog item is ready only when it has:
 - dependencies
 - acceptance criteria
 - CEO B approval
+
+## Options Alerts Implementation Gate
+
+Status: `SPEC_COMPLETE / IMPLEMENTATION_BLOCKED`.
+
+The full implementation gate lives in `docs/02_RESEARCH/PICKAXE_OPTIONS_ALERTS_SPEC.md`. No Options Alerts runtime work may begin until all five franchise cards, ten Risk Desk hard blocks, CEO B Review Gate, static/manual data plan, Archive Outcome, Learning Ledger connection, safety language, exact file scope, validation plan, and rollback boundary are approved.

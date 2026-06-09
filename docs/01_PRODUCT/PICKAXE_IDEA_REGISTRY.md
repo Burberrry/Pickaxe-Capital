@@ -5,7 +5,7 @@ Governing source: `docs/00_MASTER/PICKAXE_MASTER_BUILD_BIBLE_v3.md`.
 
 | Canonical idea | Aliases / inspiration shorthand | Owner | Status | Core dependency |
 | --- | --- | --- | --- | --- |
-| Options Alerts | Alerts Desk | Options Alerts + CEO B | Current product direction; runtime compatibility label remains | Source Hub, Risk Desk, CEO B Review |
+| Options Alerts | Alerts Desk | Options Alerts + Risk Desk + CEO B | Franchise cards specified; implementation blocked; runtime compatibility label remains | Source Hub, Risk Desk, CEO B Review Gate, Archive Outcome |
 | Build the Machine Doctrine | Elon Setup | CEO B + Staging | Doctrine | Learning Ledger and approval loop |
 | Unstoppable Operating System | Company-building OS | Mission Control | Future / Planned | Stable Market Habitat |
 | Performance Tracker | P&L Calendar, Trading Performance Dashboard, CEO B Performance OS | Archive + Learning Ledger | Future / Planned | Stable outcomes and review compliance |
@@ -28,3 +28,14 @@ Governing source: `docs/00_MASTER/PICKAXE_MASTER_BUILD_BIBLE_v3.md`.
 - Inspiration sources describe qualities, not designs or intellectual property to copy.
 - Status must distinguish current, planned, blocked, and conceptual work.
 - A registry entry is not implementation approval.
+
+## Options Alerts Owned Components
+
+- Candidate Identity and Why Now
+- Source Trail and Evidence Quality
+- Contract Quality and Liquidity
+- Volatility Intelligence Panel
+- Risk Desk and CEO B Review State
+- CEO B Review Gate
+- Archive Outcome
+- Learning Ledger handoff

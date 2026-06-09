@@ -56,6 +56,25 @@ Reviewed Packet
   -> Versioned Rule Update
 ```
 
+## Options Alerts Archive Outcome
+
+Archive receives the reviewed packet as an immutable-at-decision, sanitized snapshot. It stores packet and rule versions, source references, contract and volatility snapshots, hard blocks, warnings, CEO B decision, rationale, route outcome, privacy tier, later outcome, and linked lesson IDs.
+
+Archive Outcome is internal company memory, not public performance proof. Later outcomes may append a new review record but must not rewrite the original source, contract, volatility, risk, or decision state.
+
+## Options Alerts Learning Ledger Handoff
+
+Learning Ledger receives an explicit lesson candidate only when an observed outcome or blocked packet reveals a reusable process lesson. Each candidate links to its Archive Outcome and separates:
+
+- observed result
+- process quality
+- mistake or strength
+- lesson extracted
+- proposed rule, checklist, source, design, or prompt improvement
+- CEO B adoption decision
+
+No lesson changes system rules automatically.
+
 ## Privacy Boundary
 
 - Obsidian is a private owner notebook, not a public database.

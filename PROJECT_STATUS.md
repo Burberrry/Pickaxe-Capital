@@ -1,5 +1,22 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Options Alerts Franchise Cards and Review Gates
+
+- Date: 2026-06-09.
+- Sprint type: docs-only specification.
+- Starting state: clean `main` at `a8570c3`, aligned with the local `origin/main` tracking ref; `data/signal-alerts.json` clean.
+- Expanded `docs/02_RESEARCH/PICKAXE_OPTIONS_ALERTS_SPEC.md` into the implementation-ready documentation contract for the flagship Options Alerts product.
+- Created five complete franchise cards: Candidate Identity and Why Now; Source Trail and Evidence Quality; Contract Quality and Liquidity; Volatility Intelligence Panel; Risk Desk and CEO B Review State.
+- Each card now defines owner route, purpose, inputs, outputs, rules, safety, sources, CEO B decision, Archive Outcome, definition of done, blockers, dependencies, suggested placement, static/manual fields, allowed copy, and banned copy.
+- Specified ten deterministic Risk Desk hard blocks. Hard blocks set review readiness to blocked and outrank every confidence score.
+- Specified the CEO B Review Gate entry requirements, seven review questions, decision record, allowed decisions, and non-autonomous gate rule.
+- Specified immutable-at-decision Archive Outcome records and explicit Learning Ledger lesson candidates. Archive is internal memory, not public performance proof; Learning Ledger cannot update rules automatically.
+- Added the static/manual data modes, safety language contract, Definition of Ready, and Definition of Done for a separately approved future implementation.
+- Updated product registry, backlog, route ownership, source/memory rules, Codex prompt templates, and sprint lock checklist.
+- No UI, runtime, route, CSS, JS, HTML, data, dependency, API, broker, Quant Lab, Performance Tracker, fake live, or autonomous-agent work was performed.
+- The Build Completion Tracker was not edited because its default data lives in a forbidden runtime file; this status entry records the docs-only sprint.
+- Exact next recommended action: CEO B review and lock the Options Alerts franchise cards, Risk Desk hard blocks, and CEO B Review Gate; then authorize a separate bounded implementation sprint for static/manual panels 1-5. Do not begin implementation automatically.
+
 ## Current Checkpoint - Company Story and Operating Doctrine Docs Integration
 
 - Date: 2026-06-09.

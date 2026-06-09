@@ -27,6 +27,27 @@ Status: Required before every Codex sprint.
 - [ ] CEO B Decision
 - [ ] Archive Outcome
 - [ ] Definition of Done
+- [ ] Blockers
+- [ ] Dependencies
+- [ ] Suggested UI placement
+- [ ] Static/manual data fields
+- [ ] Copy language allowed
+- [ ] Copy language banned
+
+## Options Alerts Lock
+
+- [ ] Candidate Identity and Why Now approved.
+- [ ] Source Trail and Evidence Quality approved.
+- [ ] Contract Quality and Liquidity approved.
+- [ ] Volatility Intelligence Panel approved.
+- [ ] Risk Desk and CEO B Review State approved.
+- [ ] Ten Risk Desk hard blocks approved.
+- [ ] CEO B Review Gate approved.
+- [ ] Archive Outcome handoff approved.
+- [ ] Learning Ledger connection approved.
+- [ ] Static/manual data plan approved.
+- [ ] Definition of Ready satisfied.
+- [ ] Exact implementation files separately approved.
 
 ## Safety Lock
 

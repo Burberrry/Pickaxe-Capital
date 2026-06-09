@@ -2,6 +2,32 @@
 
 ## Current Active Checkpoint
 
+Options Alerts Franchise Cards and Review Gates were specified on 2026-06-09.
+
+Completed documentation:
+
+- Candidate Identity and Why Now franchise card
+- Source Trail and Evidence Quality franchise card
+- Contract Quality and Liquidity franchise card
+- Volatility Intelligence Panel franchise card
+- Risk Desk and CEO B Review State franchise card
+- ten Risk Desk hard blocks with resolution and override rules
+- CEO B Review Gate entry, questions, decisions, and decision record
+- Archive Outcome handoff
+- Learning Ledger lesson-candidate connection
+- static/manual data modes and minimum packet groups
+- required, allowed, and banned safety language
+- Definition of Ready for implementation
+- Definition of Done for a later approved implementation
+
+Current status: `SPEC_COMPLETE / IMPLEMENTATION_BLOCKED`.
+
+No runtime or UI work was authorized. No routes, APIs, broker connections, live data, autonomous publication, Quant Lab implementation, Performance Tracker work, or `data/signal-alerts.json` changes were made.
+
+Exact next recommended action: CEO B review and lock the Options Alerts franchise cards, Risk Desk hard blocks, and CEO B Review Gate; then authorize a separate bounded implementation sprint for static/manual panels 1-5. Do not begin implementation automatically.
+
+## Previous Active Checkpoint
+
 Company Story and Operating Doctrine Docs Integration was completed on 2026-06-09.
 
 What is now documented:
@@ -35,7 +61,7 @@ No runtime work was authorized or performed. The Build Completion Tracker was no
 
 Exact next recommended action: CEO B review and lock the Phase 0 documentation set, then authorize a separate docs-only specification sprint for Options Alerts panels 1-5 and the Risk Desk + CEO B Review Gate. Do not begin implementation.
 
-## Previous Active Checkpoint
+## Earlier Active Checkpoint
 
 Research Packet v2 Live Deployment Lock was completed on 2026-06-07.
 

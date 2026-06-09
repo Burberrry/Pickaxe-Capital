@@ -4,14 +4,14 @@ Status: Documentation ownership map. Future routes are not approved runtime rout
 
 | Product / system | Current or proposed route | Owner | Status | Notes |
 | --- | --- | --- | --- | --- |
-| Options Alerts | `/`, `#/alerts` | Options Alerts + CEO B | Current | Runtime still says Alerts Desk in places; canonical docs name is Options Alerts. |
+| Options Alerts | `/`, `#/alerts` | Options Alerts + Risk Desk + CEO B | Spec complete / implementation blocked | Runtime still says Alerts Desk in places; canonical docs name is Options Alerts. Five panels terminate at the CEO B Review Gate. |
 | Mission Control | `#/dashboard` | CEO B + Operations | Current | Flagship overview and future Daily System Improvement card. |
 | Source Hub | `#/source-hub` | Source Verifier | Current | Trust, provenance, and research intake. |
 | Research Workspace | `#/research` | Research lane | Current | Packet construction and source handoff. |
 | Archive | `#/archive` | Archive Curator | Current | Sanitized durable memory. |
 | Learning Ledger | `#/learning-ledger` | Learning lane | Current | Outcomes, lessons, and proposed rules. |
 | Watchlists | `#/watchlists` | Watchlist Curator | Current | Research universe. |
-| Risk Desk | `#/risk-rules` | Risk lane + CEO B | Current compatibility route | Future hard-block authority must be specified before expansion. |
+| Risk Desk | `#/risk-rules` | Risk lane + CEO B | Rules specified / implementation blocked | Owns hard blocks and threshold versions; cannot approve or execute. |
 | Quant Lab | `#/quant-lab` | Quant Research | Future | May own Algorithmic Strategy Factory and Market Cipher Room. |
 | Market Cipher Room | `#/quant-lab` or `#/source-hub` | Quant Research + Source Verifier | Future | Final owner route requires CEO B decision. |
 | Market Overview | future route decision | Mission Control | Future | Do not create route during docs sprint. |
@@ -30,3 +30,4 @@ Status: Documentation ownership map. Future routes are not approved runtime rout
 - Shared panels remain components unless they have a distinct workflow and durable data model.
 - Route creation requires explicit CEO B approval and a franchise card.
 - Current aliases remain operational until a separate migration sprint is approved.
+- Archive owns the sanitized decision snapshot; Learning Ledger owns lesson candidates; neither may rewrite the original reviewed packet.
