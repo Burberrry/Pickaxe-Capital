@@ -1,5 +1,20 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Company Story and Operating Doctrine Docs Integration
+
+- Date: 2026-06-09.
+- Sprint type: docs-only strategy integration.
+- Starting repo state: clean `main`, aligned with `origin/main`, at `259ffd6 Lock Research Packet v2 live deployment status`.
+- Established `docs/00_MASTER/PICKAXE_MASTER_BUILD_BIBLE_v3.md` as the governing source of truth.
+- Added the Pickaxe Origin Thesis, original company storytelling system, Gold Rush tool-and-infrastructure thesis, protected-IP boundaries, Build the Machine Doctrine, Franchise-Grade Operating Model, Road to $100M long-term aspiration, proprietary technology-company direction, and Unstoppable Operating System.
+- Canonicalized Options Alerts, Performance Tracker, Market Cipher Room, Market Overview, Pickaxe Research Center, Security Research Cockpit, Volatility Intelligence Panel, Algorithmic Strategy Factory, Signal Atlas, and Founder OS.
+- Added Phase 0 vision, game plan, idea registry, deduped backlog, route ownership, research specs, source/memory rules, Memory OS, design system, Codex prompt library, and sprint lock checklist.
+- Documented the current priority order: docs structure, Bible lock, Phase 0 docs, Options Alerts panels 1-5, Risk Desk and CEO B Review Gate, Source Trail and Archive Outcome, Quant Lab docs/static prototype, Market Overview, Pickaxe Research Center, Performance Tracker, Memory OS, and Founder OS later.
+- Runtime behavior, routes, JS, CSS, HTML, shared data, dependencies, APIs, backend, integrations, Options Alerts implementation, Quant Lab implementation, Performance Tracker implementation, and `data/signal-alerts.json` were not changed.
+- The `/staging` Build Completion Tracker was not edited because its defaults live in a forbidden runtime file; this status record is the docs-only session record.
+- Safety remains locked: research-only, CEO B final review, no guaranteed outcomes, no broker or betting execution, no copy-trading, no protected-site scraping, no public raw Obsidian content, no fake live data, no fake autonomous agents, and no self-modifying system.
+- Exact next recommended action: CEO B review and lock the Phase 0 documentation set, then authorize a separate docs-only specification sprint for Options Alerts panels 1-5 and the Risk Desk + CEO B Review Gate. Do not begin implementation.
+
 ## Current Checkpoint — Research Packet v2 Live Deployment Lock
 
 - Commit: `d3f7ff3 Add Research Packet v2 gated alerts engine`.

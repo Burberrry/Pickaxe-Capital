@@ -2,6 +2,41 @@
 
 ## Current Active Checkpoint
 
+Company Story and Operating Doctrine Docs Integration was completed on 2026-06-09.
+
+What is now documented:
+
+- Pickaxe Origin Thesis and founder-owned company story
+- Gold Rush "build the tools" business thesis
+- original inspiration boundaries for finance storytelling, mystery research, premium command-center design, and mature research platforms
+- Build the Machine Doctrine and Daily System Improvement
+- Franchise-Grade Operating Model and required franchise card
+- Road to $100M long-term aspiration and staged company growth
+- proprietary Pickaxe technology-company direction
+- Options Alerts, Performance Tracker, Market Cipher Room, Unstoppable Operating System, Market Overview, Pickaxe Research Center, Security Research Cockpit, Volatility Intelligence Panel, Algorithmic Strategy Factory, Signal Atlas, and Founder OS
+- Phase 0 vision, deduped backlog, route ownership, source/memory rules, design language, prompt templates, and sprint locks
+
+Current approved priority:
+
+1. Project documentation structure
+2. Master Build Bible lock
+3. Phase 0 master docs
+4. Options Alerts panels 1-5
+5. Risk Desk + CEO B Review Gate
+6. Source Trail + Archive Outcome
+7. Quant Lab docs and static prototype
+8. Market Overview
+9. Pickaxe Research Center
+10. Performance Tracker
+11. Memory OS
+12. Founder OS / Life OS later
+
+No runtime work was authorized or performed. The Build Completion Tracker was not changed because this docs-only sprint explicitly prohibited edits to its runtime data file.
+
+Exact next recommended action: CEO B review and lock the Phase 0 documentation set, then authorize a separate docs-only specification sprint for Options Alerts panels 1-5 and the Risk Desk + CEO B Review Gate. Do not begin implementation.
+
+## Previous Active Checkpoint
+
 Research Packet v2 Live Deployment Lock was completed on 2026-06-07.
 
 - Commit `d3f7ff3 Add Research Packet v2 gated alerts engine` is present on `origin/main`.
