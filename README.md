@@ -2,6 +2,106 @@
 
 Pickaxe Capital is a founder-owned research and decision-infrastructure cockpit. AI Habitat OS is the internal operating system behind the cockpit. CEO B is the human manual review and command layer.
 
-The project is currently a static-first GitHub Pages market-research application focused on **Options Alerts**, source verification, research packet review, Archive memory, Learning Ledger outcomes, and future Quant Lab / Memory OS expansion.
+## Current Status
 
-Pick
+Static-first GitHub Pages market-research application focused on Options Alerts, source verification, research packet review, Archive memory, Learning Ledger outcomes, and future Quant Lab / Memory OS expansion.
+
+> **Research only. Manual review required. No broker execution. No copy-trading. No guaranteed outcomes.**
+
+## Live Links
+
+- [Main Cockpit](https://burberrry.github.io/Pickaxe-Capital/)
+- [Options Alerts](https://burberrry.github.io/Pickaxe-Capital/?v=options-alerts-panels-1-5#/alerts)
+- [Mission Control](https://burberrry.github.io/Pickaxe-Capital/#/dashboard)
+- [Source Hub](https://burberrry.github.io/Pickaxe-Capital/#/source-hub)
+- [Archive](https://burberrry.github.io/Pickaxe-Capital/#/archive)
+
+## Latest Checkpoint
+
+- `3dc9b68` Implement Options Alerts static research panels
+- `750072b` Specify Options Alerts franchise cards and review gates
+- `a8570c3` Integrate Pickaxe company story and operating doctrine
+
+## Implemented Options Alerts Panels
+
+- Candidate Identity and Why Now
+- Source Trail and Evidence Quality
+- Contract Quality and Liquidity
+- Volatility Intelligence and Event Risk
+- Risk Desk and CEO B Review State
+
+## Core Workflow
+
+```text
+Source Hub
+→ Research Packet
+→ Options Alerts
+→ Risk Desk / CEO B Review State
+→ Archive
+→ Learning Ledger
+```
+
+## What This Project Is
+
+- Static-first market research cockpit
+- Research-only Options Alerts review surface
+- CEO B manual decision layer
+- Source and memory operating system
+- LocalStorage/static GitHub Pages prototype
+
+## What This Project Is Not
+
+- Not a brokerage
+- No broker execution
+- No auto-trading
+- No copy-trading
+- No guaranteed returns
+- No fake live data
+- No scraping
+- No frontend API keys
+- No raw Obsidian publishing
+
+## Core Routes
+
+- `/` and `#/alerts`: Options Alerts / Alerts Desk compatibility route
+- `#/dashboard`: Mission Control
+- `#/source-hub`: Source Hub
+- `#/research`: Research Workspace
+- `#/archive`: Archive
+- `#/learning-ledger`: Learning Ledger
+- `#/watchlists`: Watchlists
+- `#/staging`: Staging / QA
+- `#/ai-habitat-os`: AI Habitat OS
+
+## Architecture
+
+- Vanilla HTML, CSS, and JavaScript
+- Static-first deployment through GitHub Pages
+- LocalStorage-backed prototype state
+- `server.mjs` for local development
+- Root and `public/` assets are maintained as mirrors
+- No live market APIs, backend trading services, or private frontend credentials
+
+## Quick Start
+
+```bash
+git clone git@github.com:Burberrry/Pickaxe-Capital.git
+cd Pickaxe-Capital
+node server.mjs
+```
+
+Open the local address printed by the server.
+
+If `npm` is unavailable in the Codex desktop environment, run the build with:
+
+```bash
+/Applications/Codex.app/Contents/Resources/node --run build
+```
+
+## Review Boundary
+
+Options Alerts organizes research candidates and supporting evidence for human review. Risk gates and evidence blocks can prevent a candidate from advancing, but the system does not place orders or make autonomous investment decisions. CEO B remains the manual review and command layer.
+
+## Future Direction
+
+Planned expansion includes Quant Lab and Memory OS capabilities. Future work must preserve the research-only boundary, explicit human review, static-first safety model, and prohibition on broker execution, copy-trading, fake live data, scraping, and exposed frontend secrets.
