@@ -107,5 +107,5 @@ Options Alerts organizes research candidates and supporting evidence for human r
 
 Planned expansion includes Quant Lab and Memory OS capabilities. Future work must preserve the research-only boundary, explicit human review, static-first safety model, and prohibition on broker execution, copy-trading, fake live data, scraping, and exposed frontend secrets.
 
-> Research only. Manual review required. No broker execution. No copy-trading. No guaranteed outcomes.
+
 
