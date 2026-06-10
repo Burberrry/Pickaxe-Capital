@@ -19,6 +19,134 @@ Commit message:
 Stop condition:
 ```
 
+## Pickaxe Institutional Prompt Engine Rule
+
+Motto: **Raw idea in. Institutional output out.**
+
+Every rough CEO B idea, short command, messy note, screenshot, partial thought, or unfinished concept must be upgraded before execution. Do not answer at surface level. Convert it into an institutional-grade prompt, apply the Pickaxe Institutional Quality Gate, produce a structured output, define the next action, and archive the lesson for compounding improvement.
+
+### Upgrade Requirements
+
+Every upgraded prompt must identify:
+
+1. The real objective
+2. The target page, feature, agent, workflow, or decision
+3. The institutional standard required
+4. The user experience or operator experience
+5. The data inputs needed
+6. The outputs expected
+7. The agents or departments involved
+8. The risk, disclosure, and research boundaries
+9. The build format or deliverable
+10. The next execution step
+
+## Master Prompt Template
+
+```text
+Task:
+Build/improve [specific thing] for Pickaxe Capital.
+
+Context:
+Pickaxe Capital is an AI-native capital intelligence company built around Time, Trend, and Theme. AI Habitat OS is the internal operating system. CEO B is the founder judgment layer. Agents are institutional departments.
+
+Objective:
+Make this more clear, trusted, useful, scalable, research-driven, and institutionally prepared.
+
+Required output:
+
+1. Purpose
+2. Audience
+3. Page/feature layout
+4. Sections
+5. Data inputs
+6. Outputs
+7. Agent workflow
+8. Risk/disclosure boundaries
+9. UI components
+10. Status labels
+11. Build checklist
+12. Future upgrade path
+
+Quality gate:
+Clarity, trust, research quality, decision quality, memory, source integrity, risk control, human review, UX, automation readiness, data quality, company discipline, investability, founder leverage, compounding value, simplicity, proof, strategic fit.
+
+Constraint:
+No fake live data, no investment advice, no broker execution, no copy-trading, no guaranteed outcomes, no unsupported performance claims.
+```
+
+## Institutional Quality Gate Prompt
+
+```text
+Before final output, test the proposed answer against the Pickaxe Institutional Quality Gate:
+
+1. Clarity
+2. Trust
+3. Research Quality
+4. Decision Quality
+5. Memory
+6. Source Integrity
+7. Risk Control
+8. Human Review
+9. Research Boundary
+10. User Experience
+11. System Architecture
+12. Automation Readiness
+13. Data Quality
+14. Public-Company Discipline
+15. Investability
+16. Founder Leverage
+17. Compounding Value
+18. Simplicity
+19. Proof
+20. Strategic Fit
+
+Name the strongest gates improved. If the answer fails the Research Boundary, Human Review, Source Integrity, or Risk Control gates, revise before presenting it.
+```
+
+## Mini-Gate Prompt Pack
+
+### Research Gate
+
+```text
+Check thesis clarity, source list, date visibility, evidence strength, counter-thesis, stated risks, research-only conclusion, and archived decision.
+```
+
+### Options Gate
+
+```text
+Check contract liquidity, spread acceptability, open interest, event risk, IV context, real catalyst, no instruction language, and CEO B review required.
+```
+
+### Source Gate
+
+```text
+Check publisher, timestamp, primary or secondary status, freshness, bias, verification state, conflicting evidence, tags, and archive status.
+```
+
+### Website Gate
+
+```text
+Check one clear purpose, clean layout, sensible CTA, public/private boundary, visible status labels, reduced clutter, institutional feel, and master-plan support.
+```
+
+### Agent Gate
+
+```text
+Check clear mission, inputs, outputs, forbidden actions, human review trigger, supported route/page, and archive path.
+```
+
+### Company Gate
+
+```text
+Check recordkeeping, governance, audit trail, reporting, investor credibility, and operational clarity.
+```
+
+### Prompt Gate
+
+```text
+Check specific request, defined output format, included context, included constraints, success standard, reusable answer, and system improvement.
+```
+
 ## Docs-Only Integration Prompt
 
 ```text
