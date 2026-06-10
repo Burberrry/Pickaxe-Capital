@@ -1,7 +1,7 @@
 # Pickaxe Master Build Bible v3
 
 Status: Governing documentation source of truth.
-Updated: 2026-06-08.
+Updated: 2026-06-10.
 Scope: Company strategy, product architecture, operating doctrine, safety, naming, and build order.
 
 This Bible governs future Pickaxe Capital / AI Habitat OS planning. Existing runtime behavior remains unchanged until CEO B approves a separate implementation sprint.
@@ -84,6 +84,197 @@ Future Mission Control concept: `Daily System Improvement`.
 | Next system improvement | Queue one bounded improvement. |
 
 The doctrine is inspired by repeatable company-building systems: reduce work to first principles, document the process, measure bottlenecks, improve the machine, and reuse proven infrastructure across products. It does not copy or impersonate any individual founder.
+
+## Pickaxe Institutional Prompt Engine
+
+Motto: **Raw idea in. Institutional output out.**
+
+Long form: Every rough founder thought gets upgraded into a structured prompt, tested against the Pickaxe Quality Gate, converted into a system component, and archived for compounding improvement.
+
+### Core Loop
+
+```text
+Raw Thought
+  -> Clarify Intent
+  -> Upgrade Prompt
+  -> Apply Institutional Quality Gate
+  -> Produce Output
+  -> Define Next Action
+  -> Archive Lesson
+  -> Improve Next Prompt
+```
+
+### Permanent Rule
+
+When CEO B gives a rough idea, short command, messy note, screenshot, partial thought, or unfinished concept, do not answer it at the surface level. First convert the input into an institutional-grade prompt.
+
+The upgraded prompt must identify:
+
+1. The real objective
+2. The target page, feature, agent, workflow, or decision
+3. The institutional standard required
+4. The user experience or operator experience
+5. The data inputs needed
+6. The outputs expected
+7. The agents or departments involved
+8. The risk, disclosure, and research boundaries
+9. The build format or deliverable
+10. The next execution step
+
+### Pickaxe Institutional Quality Gate
+
+Every upgraded prompt and output should be tested against the 20-point gate:
+
+1. **Clarity** - Does this make Pickaxe easier to understand in 10 seconds?
+2. **Trust** - Does this make Pickaxe feel more credible, disciplined, and transparent?
+3. **Research Quality** - Does this improve the quality, structure, sourcing, or verification of research?
+4. **Decision Quality** - Does this help CEO B make better, calmer, more evidence-based decisions?
+5. **Memory** - Does this create a record the system can learn from later?
+6. **Source Integrity** - Does this preserve where information came from, when it was captured, and how reliable it is?
+7. **Risk Control** - Does this expose red flags, weak evidence, liquidity risk, volatility risk, or overconfidence?
+8. **Human Review** - Does this keep final judgment with CEO B instead of blindly trusting automation?
+9. **Research Boundary** - Does this avoid fake signals, investment-advice language, broker execution, copy-trading, and guaranteed outcome claims?
+10. **User Experience** - Does this make the system easier to use, navigate, and act on?
+11. **System Architecture** - Does this fit cleanly into the Pickaxe operating system instead of creating clutter?
+12. **Automation Readiness** - Can this later be automated, connected to APIs, logged, or converted into a reusable workflow?
+13. **Data Quality** - Does this improve data structure, tagging, filtering, scoring, or retrieval?
+14. **Public-Company Discipline** - Does this support clean records, reporting, governance, disclosures, and future auditability?
+15. **Investability** - Would this make Pickaxe look more serious, scalable, defensible, and institutionally prepared?
+16. **Founder Leverage** - Does this multiply CEO B's judgment, speed, and execution capacity?
+17. **Compounding Value** - Will this become more valuable as more sources, decisions, research notes, and outcomes are added?
+18. **Simplicity** - Can this be made cleaner, more direct, or more useful with fewer moving parts?
+19. **Proof** - Does this show real process, evidence, progress, or learning instead of hype?
+20. **Strategic Fit** - Does this move Pickaxe closer to becoming an AI-native capital intelligence company?
+
+### How Pickaxe Thinks
+
+Pickaxe Capital is built around a simple operating discipline:
+
+Every source should improve research.
+Every research packet should improve decisions.
+Every decision should create memory.
+Every memory should improve the system.
+
+The goal is not to generate noise, chase signals, or automate judgment.
+
+The goal is to build a research-first intelligence system where AI agents organize information, surface risk, structure evidence, and support better human decisions.
+
+CEO B remains the final review layer.
+
+AI assists.
+Sources inform.
+Risk controls.
+Memory compounds.
+The system improves.
+
+### Mini-Gates
+
+#### Research Gate
+
+- thesis clarity
+- source list
+- date visibility
+- evidence strength
+- counter-thesis
+- stated risks
+- research-only conclusion
+- archived decision
+
+#### Options Gate
+
+- contract liquidity
+- spread acceptability
+- open interest
+- event risk
+- IV context
+- real catalyst
+- no instruction language
+- CEO B review required
+
+#### Source Gate
+
+- publisher
+- timestamp
+- primary or secondary
+- freshness
+- bias
+- verification state
+- conflicting evidence
+- tags and archive status
+
+#### Website Gate
+
+- one clear purpose
+- clean layout
+- sensible CTA
+- public/private boundary
+- visible status labels
+- reduced clutter
+- institutional feel
+- master-plan support
+
+#### Agent Gate
+
+- clear mission
+- inputs
+- outputs
+- forbidden actions
+- human review trigger
+- supported route/page
+- archive path
+
+#### Company Gate
+
+- recordkeeping
+- governance
+- audit trail
+- reporting
+- investor credibility
+- operational clarity
+
+#### Prompt Gate
+
+- specific request
+- defined output format
+- included context
+- included constraints
+- success standard
+- reusable answer
+- system improvement
+
+### Master Prompt Template
+
+```text
+Task:
+Build/improve [specific thing] for Pickaxe Capital.
+
+Context:
+Pickaxe Capital is an AI-native capital intelligence company built around Time, Trend, and Theme. AI Habitat OS is the internal operating system. CEO B is the founder judgment layer. Agents are institutional departments.
+
+Objective:
+Make this more clear, trusted, useful, scalable, research-driven, and institutionally prepared.
+
+Required output:
+
+1. Purpose
+2. Audience
+3. Page/feature layout
+4. Sections
+5. Data inputs
+6. Outputs
+7. Agent workflow
+8. Risk/disclosure boundaries
+9. UI components
+10. Status labels
+11. Build checklist
+12. Future upgrade path
+
+Quality gate:
+Clarity, trust, research quality, decision quality, memory, source integrity, risk control, human review, UX, automation readiness, data quality, company discipline, investability, founder leverage, compounding value, simplicity, proof, strategic fit.
+
+Constraint:
+No fake live data, no investment advice, no broker execution, no copy-trading, no guaranteed outcomes, no unsupported performance claims.
+```
 
 ## Franchise-Grade Operating Model
 
