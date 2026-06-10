@@ -5,6 +5,7 @@ Governing source: `docs/00_MASTER/PICKAXE_MASTER_BUILD_BIBLE_v3.md`.
 
 | Canonical idea | Aliases / inspiration shorthand | Owner | Status | Core dependency |
 | --- | --- | --- | --- | --- |
+| Pickaxe Institutional Prompt Engine | Raw idea in, institutional output out; prompt upgrade loop | CEO B + Codex + Memory OS | Doctrine | Master Build Bible, Quality Gate, Prompt Library, Memory OS |
 | Options Alerts | Alerts Desk | Options Alerts + Risk Desk + CEO B | Franchise cards specified; implementation blocked; runtime compatibility label remains | Source Hub, Risk Desk, CEO B Review Gate, Archive Outcome |
 | Build the Machine Doctrine | Elon Setup | CEO B + Staging | Doctrine | Learning Ledger and approval loop |
 | Unstoppable Operating System | Company-building OS | Mission Control | Future / Planned | Stable Market Habitat |
@@ -28,6 +29,19 @@ Governing source: `docs/00_MASTER/PICKAXE_MASTER_BUILD_BIBLE_v3.md`.
 - Inspiration sources describe qualities, not designs or intellectual property to copy.
 - Status must distinguish current, planned, blocked, and conceptual work.
 - A registry entry is not implementation approval.
+- Rough founder input must be routed through the Pickaxe Institutional Prompt Engine before it becomes a backlog item, franchise card, prompt, page spec, agent spec, workflow, or implementation request.
+
+## Prompt Engine Owned Components
+
+- Raw Thought intake
+- Clarify Intent
+- Upgrade Prompt
+- Institutional Quality Gate
+- Mini-Gate routing
+- Structured Output
+- Next Action
+- Archive Lesson
+- Improve Next Prompt
 
 ## Options Alerts Owned Components
 
