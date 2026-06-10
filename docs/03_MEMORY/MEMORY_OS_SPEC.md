@@ -4,7 +4,7 @@ Status: Future / Planned. Documentation only.
 
 ## Purpose
 
-Memory OS preserves source context, decisions, outcomes, mistakes, rules, and company continuity so Pickaxe improves without pretending to learn autonomously.
+Memory OS preserves source context, decisions, outcomes, mistakes, rules, prompts, and company continuity so Pickaxe improves without pretending to learn autonomously.
 
 ## Core Modules
 
@@ -13,9 +13,49 @@ Memory OS preserves source context, decisions, outcomes, mistakes, rules, and co
 - Source lineage
 - Decision history
 - Rule registry
+- Prompt Engine archive
 - Codex prompt improvements
 - Daily System Improvement
 - Performance Tracker
+
+## Institutional Prompt Engine Memory Loop
+
+Motto: **Raw idea in. Institutional output out.**
+
+Every rough CEO B idea should become a memory object when it changes the operating system, product architecture, research rules, source standards, or future prompt quality.
+
+```text
+Raw Thought
+  -> Clarify Intent
+  -> Upgrade Prompt
+  -> Apply Institutional Quality Gate
+  -> Produce Output
+  -> Define Next Action
+  -> Archive Lesson
+  -> Improve Next Prompt
+```
+
+### Prompt Archive Record
+
+Every archived prompt improvement should record:
+
+- raw CEO B input
+- interpreted objective
+- upgraded institutional prompt
+- target page, feature, agent, workflow, or decision
+- quality gates applied
+- mini-gates applied
+- output produced
+- risk/disclosure boundaries preserved
+- next action defined
+- lesson learned
+- affected documentation or product area
+- CEO B decision state
+- effective date
+
+### Memory Rule
+
+Memory OS stores prompt improvements, lessons, and proposed rule changes. It does not approve its own recommendations, self-modify runtime behavior, create fake live agents, or bypass CEO B.
 
 ## Performance Tracker
 
@@ -93,6 +133,7 @@ CEO B decision:
 Hard block updated:
 Best source:
 Worst source:
+Prompt improvement:
 Next system improvement:
 ```
 
