@@ -14,6 +14,121 @@ Status: Required before every Codex sprint.
 - [ ] Confirm canonical feature name and owner.
 - [ ] Confirm whether the task is docs-only or implementation.
 
+## Institutional Prompt Engine Lock
+
+- [ ] Treat raw CEO B input as founder signal, not final prompt.
+- [ ] Convert rough idea, short command, messy note, screenshot, partial thought, or unfinished concept into an institutional-grade prompt before answering.
+- [ ] Identify the real objective.
+- [ ] Identify the target page, feature, agent, workflow, or decision.
+- [ ] Define the institutional standard required.
+- [ ] Define the user or operator experience.
+- [ ] Define needed data inputs.
+- [ ] Define expected outputs.
+- [ ] Define agents or departments involved.
+- [ ] Define risk, disclosure, and research boundaries.
+- [ ] Define build format or deliverable.
+- [ ] Define the next execution step.
+- [ ] Apply the Pickaxe Institutional Quality Gate before final output.
+- [ ] Archive the lesson or prompt improvement when the work changes future behavior.
+
+## Institutional Quality Gate
+
+- [ ] Clarity
+- [ ] Trust
+- [ ] Research Quality
+- [ ] Decision Quality
+- [ ] Memory
+- [ ] Source Integrity
+- [ ] Risk Control
+- [ ] Human Review
+- [ ] Research Boundary
+- [ ] User Experience
+- [ ] System Architecture
+- [ ] Automation Readiness
+- [ ] Data Quality
+- [ ] Public-Company Discipline
+- [ ] Investability
+- [ ] Founder Leverage
+- [ ] Compounding Value
+- [ ] Simplicity
+- [ ] Proof
+- [ ] Strategic Fit
+
+## Mini-Gates
+
+### Research Gate
+
+- [ ] Thesis clarity
+- [ ] Source list
+- [ ] Date visibility
+- [ ] Evidence strength
+- [ ] Counter-thesis
+- [ ] Stated risks
+- [ ] Research-only conclusion
+- [ ] Archived decision
+
+### Options Gate
+
+- [ ] Contract liquidity
+- [ ] Spread acceptability
+- [ ] Open interest
+- [ ] Event risk
+- [ ] IV context
+- [ ] Real catalyst
+- [ ] No instruction language
+- [ ] CEO B review required
+
+### Source Gate
+
+- [ ] Publisher
+- [ ] Timestamp
+- [ ] Primary or secondary
+- [ ] Freshness
+- [ ] Bias
+- [ ] Verification state
+- [ ] Conflicting evidence
+- [ ] Tags and archive status
+
+### Website Gate
+
+- [ ] One clear purpose
+- [ ] Clean layout
+- [ ] Sensible CTA
+- [ ] Public/private boundary
+- [ ] Visible status labels
+- [ ] Reduced clutter
+- [ ] Institutional feel
+- [ ] Master-plan support
+
+### Agent Gate
+
+- [ ] Clear mission
+- [ ] Inputs
+- [ ] Outputs
+- [ ] Forbidden actions
+- [ ] Human review trigger
+- [ ] Supported route/page
+- [ ] Archive path
+
+### Company Gate
+
+- [ ] Recordkeeping
+- [ ] Governance
+- [ ] Audit trail
+- [ ] Reporting
+- [ ] Investor credibility
+- [ ] Operational clarity
+
+### Prompt Gate
+
+- [ ] Specific request
+- [ ] Defined output format
+- [ ] Included context
+- [ ] Included constraints
+- [ ] Success standard
+- [ ] Reusable answer
+- [ ] System improvement
+
 ## Franchise Lock
 
 - [ ] Feature Name
