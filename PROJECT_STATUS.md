@@ -1,5 +1,34 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Phase 2 Hero + Alerts Desk
+
+- Date: 2026-06-11.
+- Phase 2 upgraded only `/` and `#/alerts` through the documented active Research Packet v2 render path.
+- Added the approved AI-native capital intelligence hero, three route CTAs, six operating badges, and a static CEO B / source / agent / risk / memory / alerts system visual.
+- Rebuilt the active Alerts Desk presentation as an institutional research review queue while preserving packet selection, LocalStorage compatibility, score routing, source evidence, risk blocks, agent votes, archive actions, and learning actions.
+- Added queue, calls/puts, conviction, market-bias, source-status, market overview, system status, projected scenario, watchlist, call/put framework, CEO B review, Risk Gate, Source Verification, and Archive/Learning surfaces.
+- Expanded normalized packets with the Phase 2 card schema and the required research-only disclaimer.
+- Approval is now quality-gated. Incomplete fields, unverified sources, hard risk blocks, or missing CEO B review force `Needs Review`.
+- `Approved for Research — Not a Trade Command` is the only final approval label.
+- Added route-scoped Obsidian Gold Command styling and a compact horizontal mobile Alerts Desk navigation header.
+- Root/public mirrors remain synchronized. No Phase 3 routes, live services, backend behavior, broker execution, or unrelated product pages were changed.
+- Build, project, Phase 1.5, syntax, mirror, desktop, 390px mobile, direct-route, and `/ai-handoff` checks passed.
+- Phase 3 remains gated until CEO B reviews `PHASE_2_DELIVERABLE_REPORT.md`.
+
+## Current Checkpoint - Phase 1.5 Foundational Truth Cleanup
+
+- Date: 2026-06-11.
+- Phase 1 inspection is complete. Phase 1.5 cleanup aligns public copy, local runtime behavior, deployment, route truth, and validation.
+- The public app remains a static/demo GitHub Pages research prototype.
+- `server.mjs` is local-development-only. Yahoo Finance, CBOE, and optional OpenAI paths are disabled by default and require `PICKAXE_ENABLE_LIVE_SERVICES=true` for explicit local development.
+- Default market, options, signals, checklist, and research endpoints return labeled static/demo responses without external calls.
+- GitHub Pages now uploads `public/` only. Private notes, docs, imports, scripts, data exports, and local configuration are outside the deployment artifact.
+- Public execution-like labels were replaced with research-review language. Legacy LocalStorage approval and route values normalize to the current labels.
+- Effective render paths are documented in `docs/ACTIVE_RENDER_PATHS.md`.
+- New checks cover root/public mirrors, public safety language, deployment boundary, and the 21-route manifest.
+- Research Desk is implemented as a local workflow. Agents and AI Habitat OS remain Phase 3 targets.
+- Phase 2 scope remains hero plus `#/alerts` only. Authorization depends on all Phase 1.5 checks passing and CEO B reviewing `PHASE_1_5_DELIVERABLE_REPORT.md`.
+
 ## Current Checkpoint - Options Alerts Static Research Panels 1-5
 
 - Date: 2026-06-09.

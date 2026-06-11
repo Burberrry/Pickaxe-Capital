@@ -4,8 +4,9 @@ Pickaxe Capital is a founder-owned research and decision-infrastructure cockpit.
 
 ## Current Status
 
+Phase 1 inspection and Phase 1.5 foundational truth cleanup are complete locally. Phase 2 remains limited to the hero and Alerts Desk and may begin only after CEO B reviews the Phase 1.5 deliverable report.
 
-Static-first GitHub Pages market-research application focused on Options Alerts, source verification, research packet review, Archive memory, Learning Ledger outcomes, and future Quant Lab / Memory OS expansion.
+The public product is a static/demo GitHub Pages market-research application focused on Options Alerts, source verification, research packet review, Archive memory, and Learning Ledger outcomes. Live Yahoo Finance, CBOE, and optional AI development paths are disabled by default in `server.mjs` and are not used by GitHub Pages.
 
 > **Research only. Manual review required. No broker execution. No copy-trading. No guaranteed outcomes.**
 
@@ -81,7 +82,11 @@ Source Hub
 - LocalStorage-backed prototype state
 - `server.mjs` for local development
 - Root and `public/` assets are maintained as mirrors
-- No live market APIs, backend trading services, or private frontend credentials
+- GitHub Pages deploys `public/` only
+- Live services are disabled by default and require `PICKAXE_ENABLE_LIVE_SERVICES=true` for explicit local development
+- No broker services, trade execution, or private frontend credentials
+
+See `docs/PUBLIC_DEPLOYMENT_BOUNDARY.md` and `docs/ACTIVE_RENDER_PATHS.md` before changing deployment or route renderers.
 
 ## Quick Start
 
@@ -106,6 +111,5 @@ Options Alerts organizes research candidates and supporting evidence for human r
 ## Future Direction
 
 Planned expansion includes Quant Lab and Memory OS capabilities. Future work must preserve the research-only boundary, explicit human review, static-first safety model, and prohibition on broker execution, copy-trading, fake live data, scraping, and exposed frontend secrets.
-
 
 

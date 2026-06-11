@@ -2,6 +2,19 @@
 
 ## Current Active Checkpoint
 
+Phase 2 Hero + Alerts Desk is the completed local checkpoint pending CEO B review.
+
+- `/` and `#/alerts` now use the Phase 2 AI-native hero and institutional research review queue.
+- Research Packet v2, LocalStorage state, source evidence, risk blocks, agent votes, Archive, and Learning actions remain intact.
+- Approval requires complete research fields, verified sources, a clear risk gate, and CEO B review.
+- Public app truth remains static/demo with no live APIs or broker execution.
+- Build, project, Phase 1.5, mirror, syntax, desktop, mobile, direct-route, and `/ai-handoff` validation passed.
+- Agents and AI Habitat OS remain untouched Phase 3 targets.
+
+Next authorized scope after CEO B reviews `PHASE_2_DELIVERABLE_REPORT.md`: Phase 3 `#/agents` plus `#/ai-habitat-os` only. Do not begin live services, backend work, broker integration, unrelated routes, or broad refactoring.
+
+## Previous Active Checkpoint
+
 Options Alerts Static Research Panels 1-5 were implemented and locally validated on 2026-06-09.
 
 Implemented on the existing `/` and `#/alerts` compatibility route:
@@ -28,7 +41,7 @@ Deferred: full Risk Desk workflow, Source Trail automation, Archive Outcome impl
 
 Exact next recommended action: CEO B visually review and lock Options Alerts panels 1-5, then decide whether to authorize a separate full Risk Desk workflow sprint. Do not start it automatically.
 
-## Previous Active Checkpoint
+## Earlier Active Checkpoint
 
 Options Alerts Franchise Cards and Review Gates were specified on 2026-06-09.
 

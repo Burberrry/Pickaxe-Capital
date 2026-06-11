@@ -189,7 +189,7 @@ window.PickaxeHabitatData = {
     },
   ],
   operatingAgents: [
-    { id: "ceo-b-os", name: "CEO B", role: "Founder decision layer", classType: "Founder Layer", habitat: "Core Command", status: "Static", routeOwned: "/vision-map", sourcesOwned: ["CEO B Review Queue", "Founder decisions"], currentTask: "Review highest-value signals and archive intelligence", progress: 92, confidence: 96, lastOutput: "Waiting for complete research packets before decisions.", nextAction: "Approve or reject priority intelligence.", riskFlag: "Human review required", priority: "Critical" },
+    { id: "ceo-b-os", name: "CEO B", role: "Founder decision layer", classType: "Founder Layer", habitat: "Core Command", status: "Static", routeOwned: "/vision-map", sourcesOwned: ["CEO B Review Queue", "Founder decisions"], currentTask: "Review highest-value signals and archive intelligence", progress: 92, confidence: 96, lastOutput: "Waiting for complete research packets before decisions.", nextAction: "Approve for research or reject priority intelligence.", riskFlag: "Human review required", priority: "Critical" },
     { id: "system-brain", name: "System Brain", role: "Route health, architecture, build safety", classType: "Architect", habitat: "Build System Habitat", status: "Prototype", routeOwned: "/staging", sourcesOwned: ["Routes", "Build checks"], currentTask: "Keep app organized and avoid duplicates", progress: 88, confidence: 91, lastOutput: "Route map and build safety checked.", nextAction: "Maintain PROJECT_STATUS.md after every session.", riskFlag: "Duplicate architecture risk", priority: "Critical" },
     { id: "signal-scout", name: "Signal Scout", role: "Market signals, watchlist, RK Tracker", classType: "Scout", habitat: "Market Habitat", status: "Prototype", routeOwned: "/signals", sourcesOwned: ["TradingView", "RK Tracker", "Investing Futures"], currentTask: "Rank watchlist candidates and market setups", progress: 81, confidence: 84, lastOutput: "Promoted mock RK candidates to signal review.", nextAction: "Check catalyst and risk before promotion.", riskFlag: "Mock market data only", priority: "High" },
     { id: "news-raven", name: "News Raven", role: "Breaking news, source hub, X/DeItaone", classType: "Sentinel", habitat: "Global Risk Habitat", status: "Prototype", routeOwned: "/source-hub", sourcesOwned: ["DeItaone", "X Bookmarks", "Perplexity"], currentTask: "Watch source cards and summarize news intelligence", progress: 76, confidence: 82, lastOutput: "Source cards ready with safe fallbacks.", nextAction: "Summarize user-imported X themes.", riskFlag: "No live X sync", priority: "High" },
@@ -216,7 +216,7 @@ window.PickaxeHabitatData = {
       symbol: "AAPL",
       company: "Apple",
       currentPrice: "$308.50",
-      action: "BUY CALL",
+      action: "Call Research Setup",
       contract: "18 JUN 26 $320 Call",
       contractPrice: "$2.75",
       confidence: 92,
@@ -264,7 +264,7 @@ window.PickaxeHabitatData = {
       symbol: "BTC",
       company: "Bitcoin",
       currentPrice: "$92,400.00",
-      action: "BUY STRENGTH",
+      action: "Strength Research Setup",
       contract: "Spot TTT breakout setup",
       contractPrice: "N/A",
       confidence: 94,
@@ -394,7 +394,7 @@ window.PickaxeHabitatData = {
     { route: "/ai-handoff", status: "Ready", purpose: "Copy/paste AI context" },
   ],
   visionCommandNodes: [
-    { id: "ceo-b-layer", name: "CEO B Command Layer", type: "Founder Layer", ownerAgent: "CEO B", route: "/founder", status: "Static", purpose: "Founder command authority, review queue, decision layer, and system status.", currentTask: "Review signals, archive intelligence, and build priorities.", nextAction: "Approve the next highest-value action.", relatedSystems: ["Founder", "Agents", "Archive", "Signals"] },
+    { id: "ceo-b-layer", name: "CEO B Command Layer", type: "Founder Layer", ownerAgent: "CEO B", route: "/founder", status: "Static", purpose: "Founder command authority, review queue, decision layer, and system status.", currentTask: "Review signals, archive intelligence, and build priorities.", nextAction: "Approve the next highest-value research action or reject it.", relatedSystems: ["Founder", "Agents", "Archive", "Signals"] },
     { id: "trading-floor", name: "Trading Floor / Command Hub", type: "System", ownerAgent: "System Brain / CEO B", route: "/vision-map", status: "Main Command", purpose: "Central hub for intelligence, decisions, execution planning, and oversight.", currentTask: "Synchronize inputs, agents, archive, and CEO B review.", nextAction: "Route selected intelligence to the right agent.", relatedSystems: ["Source Hub", "Signals", "Agents", "Archive"] },
     { id: "global-intel", name: "Global Intel / Markets / World View", type: "Source", ownerAgent: "News Raven / Macro Watcher", route: "/source-hub", status: "Source Ready", purpose: "World-view layer for market, macro, and geopolitical awareness.", currentTask: "Monitor sources without scraping.", nextAction: "Save high-value context to Archive.", relatedSystems: ["Source Hub", "Archive", "Alerts"] },
     { id: "flights", name: "Flights / Global Movement", type: "Source", ownerAgent: "Map Builder", route: "/source-hub", status: "Link Fallback", purpose: "Track movement, logistics, airports, and global risk context.", currentTask: "Use Flightradar24 and map sources as external terminals.", nextAction: "Create planned movement-risk alert.", relatedSystems: ["Flightradar24", "OsirisAI", "Alerts"] },
@@ -635,7 +635,7 @@ window.PickaxeHabitatData = {
     version: 2,
     storageKey: "pickaxeResearchPackets",
     routeBands: [
-      { min: 90, max: 100, decision: "CEO_B_COMMAND_ALERT" },
+      { min: 90, max: 100, decision: "CEO_B_RESEARCH_REVIEW" },
       { min: 80, max: 89, decision: "CEO_B_REVIEW_WITH_WARNING" },
       { min: 65, max: 79, decision: "WATCHLIST_REVIEW" },
       { min: 45, max: 64, decision: "ARCHIVE_CANDIDATE" },
@@ -674,8 +674,10 @@ window.PickaxeHabitatData = {
     ],
   },
   buildCompletionTracker: {
-    lastUpdated: "2026-06-09",
+    lastUpdated: "2026-06-11",
     areas: [
+      { id: "phase-2-hero-alerts-desk", name: "Phase 2 Hero + Alerts Desk", group: "CEO B Review Workflow", status: "Passed / Awaiting CEO B Review", completion: 100, priority: "Critical", owner: "CEO B / Alerts Desk / Risk Gate", notes: "Upgraded only / and #/alerts through the documented active Research Packet v2 render path. Added the AI-native capital intelligence hero, Obsidian Gold Command styling, static system visual, institutional review metrics, full research stream, expanded packet schema, reusable disclaimer, source/risk/CEO B quality gate, safe approval label, and 390px mobile treatment. Preserved LocalStorage compatibility, packet scoring, source evidence, risk blocks, agent votes, Archive/Learning actions, static/demo truth, and root/public mirrors.", nextAction: "CEO B reviews PHASE_2_DELIVERABLE_REPORT.md. Phase 3 Agents + AI Habitat OS may begin only after that review." },
+      { id: "phase-1-5-foundational-truth-cleanup", name: "Phase 1.5 Foundational Truth Cleanup", group: "Build Safety", status: "Passed / Awaiting CEO B Review", completion: 100, priority: "Critical", owner: "CEO B / System Brain / Risk & Rules", notes: "Aligned public product truth with runtime behavior: local external services are disabled by default, GitHub Pages publishes public/ only, execution-like labels are research-safe, legacy LocalStorage states normalize forward, active render paths are documented, and bounded mirror/safety/deployment/route checks pass.", nextAction: "CEO B reviews PHASE_1_5_DELIVERABLE_REPORT.md before authorizing Phase 2 hero and Alerts Desk work." },
       { id: "options-alerts-static-research-panels", name: "Options Alerts Static Research Panels 1-5", group: "CEO B Review Workflow", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Options Alerts / Risk Desk", notes: "Enhanced the existing / and #/alerts Research Packet v2 route in place with five static/manual panels: Candidate Identity and Why Now, Source Trail and Evidence Quality, Contract Quality and Liquidity, Volatility Intelligence and Event Risk, and Risk Desk and CEO B Review State. Added visible source states, manual contract and volatility context, deterministic ten-rule hard-block overview, output/review states, and the required safety labels. Preserved existing localStorage actions, packet scoring, Research Desk, Source Hub, Archive, Learning Ledger, route compatibility, and all no-live/no-execution boundaries.", nextAction: "CEO B should review the static/manual panels and hard-block presentation before approving any full Risk Desk workflow." },
       { id: "research-packet-v2-intelligence-engine", name: "Research Packet v2 / Research-Gated Alerts Engine", group: "CEO B Review Workflow", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Research Desk / Risk Sentinel", notes: "Upgraded the existing pickaxeResearchPackets local workflow into a reusable Research Packet v2 model with symbol/company/asset/setup context, catalyst, TTT, regime, technical, options, liquidity, sentiment, positioning, archive memory, invalidation, risk warnings, fatal flags, missing evidence, source confidence, 12 agent-lane votes, total score, route decision, CEO B next action, and paper outcome memory. Added deterministic local route bands, fatal-risk score override and suppression, hedge-fund-style Alerts Desk evidence/risk/vote panels, Suppressed Noise drawer, CEO B Review/Watch/Archive/Reject/Mark Lesson actions, full manual Research Desk builder with score/route preview, and Archive/Learning Ledger outcome capture. Preserved static-first architecture, localStorage, route/sidebar order, dark Pickaxe branding, root/public mirrors, and all no-live/no-execution boundaries.", nextAction: "Deploy only after CEO B reviews the local Research Packet v2 visuals and workflow." },
       { id: "alerts-desk-options-packet-detail-layer", name: "00 Alerts Desk Detail Layer / Options Research Packet Fields", group: "CEO B Review Workflow", status: "Built / Local Pass", completion: 100, priority: "Critical", owner: "CEO B / Alerts Desk", notes: "Upgraded / and #/alerts into a fuller static research-only options review queue. Preserved the premium dark command desk and luxury black/gold research cockpit while adding candidate packet fields for company monograms, company names, tickers, call/put research candidate labels, review timeframe, contract context, source agent, agents involved, source status, risk status, research confidence scored 1-1000 with decimal completeness, Research Thesis, Projected Scenario, and CEO B manual review next action. Added metric cards for Today's Review Queue, Calls vs Puts, Today's Total Conviction, Fear & Greed, Market Overview, System Status, Market Bias, Projected Scenario, Sentiment, and Watchlist. No live APIs, backend, provider adapter, broker integration, fake live provider data, real trading execution, copy-trading, autonomous agents, route architecture changes, or data/signal-alerts.json changes were added.", nextAction: "Stop after reporting validation, commit, and push status. Future work requires B approval." },
@@ -726,28 +728,28 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "index.html", "public/index.html", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
+      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "index.html", "public/index.html", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md", "PHASE_2_DELIVERABLE_REPORT.md"],
       featuresAdded: [
-        "Implemented the five approved Options Alerts panels on the existing / and #/alerts compatibility route.",
-        "Added static/manual candidate identity, Time / Trend / Theme, Why Now, catalyst, source trail, evidence quality, contract quality, liquidity, volatility, event risk, and premium context.",
-        "Added a deterministic ten-rule Risk Desk overview with visible BLOCK/CLEAR states, output state, CEO B review status, and hard-block precedence over confidence scores.",
-        "Preserved the existing Research Packet v2 queue, local Review/Watch/Archive/Reject/Mark Lesson actions, and connected Research Desk, Source Hub, Archive, and Learning Ledger routes.",
-        "Added mobile-safe graphite/gold panel styling and explicit Research Only, Manual Review Required, No Broker Execution, No Live APIs, Source Verification Required, and CEO B Review Required labels."
+        "Added the approved AI-native capital intelligence hero, route CTAs, operating badges, and static CEO B research-system visual.",
+        "Expanded Alerts Desk with institutional review metrics, static/demo context panels, a complete options research stream, and call/put research frameworks.",
+        "Added the Phase 2 research packet schema, card disclaimer, quality-gate summary, and research-only approval boundary.",
+        "Added route-scoped Obsidian Gold Command styling and a compact 390px Alerts Desk navigation header."
       ],
       bugsFixed: [
-        "Aligned the visible output state with unresolved evidence hard blocks so blocked packets show Needs More Evidence instead of appearing cleared by score.",
-        "Kept exact contract parsing and static/manual fallbacks readable when older local packet fields are incomplete.",
-        "Preserved root/public mirrors, route aliases, localStorage compatibility, and existing packet action behavior.",
-        "Confirmed no desktop or 390px horizontal overflow across all required routes."
+        "Prevented incomplete, unverified, risk-blocked, or unreviewed packets from displaying an approved research state.",
+        "Persisted the dedicated CEO B reviewed status across existing LocalStorage packet actions.",
+        "Handled missing legacy spread percentages without breaking the Alerts Desk route.",
+        "Removed mobile horizontal overflow and reduced the Alerts Desk header height while preserving navigation access."
       ],
-      validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; in-app browser desktop and 390px route sweep for /, #/alerts, #/research, #/source-hub, #/archive, #/learning-ledger, #/dashboard, #/watchlists, #/staging; existing Review action verification; safety-language scan; root/public mirror comparison",
-      validationResult: "Local validation passed on 2026-06-09: build and project checks passed; all nine required routes rendered active nonblank content with no console errors or horizontal overflow at desktop and 390px; / and #/alerts showed all five Options Alerts panels and required safety labels; the existing Review action changed the local CEO B state to Approved for Review and cleared the missing-review block; root/public mirrors matched; data/signal-alerts.json stayed unchanged.",
+      validationCommand: "npm run build; npm run check:project; npm run check:phase15; node syntax checks; git diff --check; root/public mirror comparison; browser checks for /, #/alerts, required direct routes, /ai-handoff, desktop 1280px, and mobile 390px",
+      validationResult: "Passed on 2026-06-11. Build, project, Phase 1.5, syntax, mirror, safety, deployment, and 21-route checks passed. / and #/alerts rendered the Phase 2 hero and research queue with no console errors or horizontal overflow. Four visible stream cards carried the required disclaimer. Direct routes and /ai-handoff loaded without local render errors. Root/public mirrors remained synchronized.",
       remainingProblems: [
-        "Contract DTE, IV rank/percentile, expected move, and source freshness remain static/manual placeholders until a separately approved data plan exists.",
-        "The full Risk Desk workflow, Source Trail automation, Archive Outcome implementation, Quant Lab, and Performance Tracker remain deferred.",
-        "Existing Tailwind CDN development warning remains pre-existing; no new console errors were introduced."
+        "Legacy duplicate and overridden render functions remain documented technical debt for a later approved refactor.",
+        "Live services remain retained as explicit local-development code and must never be enabled for GitHub Pages.",
+        "The Phase 2 work has not been committed, pushed, or live-reviewed in this session.",
+        "Phase 3 remains blocked until CEO B reviews the Phase 2 deliverable."
       ],
-      nextRecommendedTask: "CEO B should visually review and lock Options Alerts panels 1-5, then choose whether to approve a separate Risk Desk workflow sprint. Do not start it automatically."
+      nextRecommendedTask: "CEO B reviews PHASE_2_DELIVERABLE_REPORT.md. After approval, begin Phase 3 #/agents and #/ai-habitat-os only."
     },
   },
   marketWatchlist: [
@@ -837,12 +839,12 @@ window.PickaxeHabitatData = {
     { id: "analyze", label: "ANALYZE", name: "Process Data", status: "completed" },
     { id: "validate", label: "VALIDATE", name: "Test & Verify", status: "completed" },
     { id: "deliver", label: "DELIVER", name: "Report Up", status: "working" },
-    { id: "execute", label: "EXECUTE", name: "Take Action", status: "waiting" }
+    { id: "execute", label: "PUBLISH RESEARCH", name: "Complete Review", status: "waiting" }
   ],
   agentRoster: [
-    { name: "CEO B", branch: "Command", role: "Commander / Overseer", level: 18, status: "Active", habitat: "CEO B Headquarters", inputs: "Reports, recommendations", outputs: "Approve / Reject decisions", currentTask: "Reviewing highest-value signals and archive intelligence.", nextAction: "Approve or reject priority intelligence.", confidence: 96, riskFlag: "Human review required", route: "#/ceo-b-profile", color: "gold", badge: "Live Layer" },
+    { name: "CEO B", branch: "Command", role: "Commander / Overseer", level: 18, status: "Active", habitat: "CEO B Headquarters", inputs: "Reports, recommendations", outputs: "Research review / reject decisions", currentTask: "Reviewing highest-value signals and archive intelligence.", nextAction: "Approve for research or reject priority intelligence.", confidence: 96, riskFlag: "Human review required", route: "#/ceo-b-profile", color: "gold", badge: "Human Layer" },
     { name: "Research Agent", branch: "Intelligence", role: "Data Science", level: 16, status: "Active", habitat: "Research Lab", inputs: "Market feeds, bookmarks", outputs: "Analysed leads, patterns", currentTask: "Extracting routing and architecture ideas.", nextAction: "Turn research into staged implementation notes.", confidence: 76, riskFlag: "Do not merge external code directly", route: "#/archive", color: "blue", badge: "Static" },
-    { name: "Trading Agent", branch: "Operations", role: "Market Operator", level: 16, status: "Active", habitat: "Trading Floor", inputs: "Approved signals, rules", outputs: "Liquidity & Order Flow reports", currentTask: "Monitoring relative volume and options placeholders.", nextAction: "Connect provider only after UI stabilizes.", confidence: 82, riskFlag: "No auto-trading allowed", route: "#/signals", color: "green", badge: "Static" },
+    { name: "Market Research Agent", branch: "Operations", role: "Market Research Operator", level: 16, status: "Active", habitat: "Research Floor", inputs: "Reviewed research candidates, rules", outputs: "Liquidity and options-context reports", currentTask: "Monitoring relative volume and options placeholders.", nextAction: "Connect read-only provider only after a future backend phase is approved.", confidence: 82, riskFlag: "No autonomous publication or trading", route: "#/signals", color: "green", badge: "Static" },
     { name: "Builder Agent", branch: "Engineering", role: "Infrastructure", level: 17, status: "Active", habitat: "Builder Factory", inputs: "Missions, checklists, bugs", outputs: "Working browser features", currentTask: "Implementing full command ecosystem layout.", nextAction: "Consolidate layout and add CSS animations.", confidence: 78, riskFlag: "Visual simulation only", route: "#/staging", color: "gold", badge: "Prototype" },
     { name: "Risk Agent", branch: "Security", role: "Shield", level: 16, status: "Active", habitat: "Risk Control House", inputs: "Signals, setups", outputs: "Exposure & stress analysis", currentTask: "Checking premium-only max loss rules.", nextAction: "Build risk rejection rules.", confidence: 95, riskFlag: "Alerts not live", route: "#/risk-rules", color: "red", badge: "Prototype" },
     { name: "Memory Agent", branch: "Archive", role: "Archivist", level: 15, status: "Active", habitat: "Archive Keeper Vault", inputs: "Bookmarks, HTML exports", outputs: "Preserved folder trees, summaries", currentTask: "Scanning user-imported Chrome bookmarks.", nextAction: "Promote top imported items to Archive.", confidence: 89, riskFlag: "Private import only", route: "#/bookmarks", color: "purple", badge: "Static" },
@@ -1026,7 +1028,7 @@ window.PickaxeHabitatData = {
     { id: "rule-5", name: "Missing Catalyst", description: "If news/macro catalyst is absent, reject options setup.", status: "Active Gate", type: "Automatic Reject" },
     { id: "rule-6", name: "No Hard Invalidation", description: "Risk sentinel requires hard downside price gate or setup is rejected.", status: "Active Gate", type: "Automatic Reject" },
     { id: "rule-7", name: "Low Confidence", description: "Confidence score below 75 automatically routes to Archive / Ignore.", status: "Archive Gate", type: "Automatic Archive" },
-    { id: "rule-8", name: "CEO B Unapproved", description: "If CEO B has not approved the manual-review packet, do not publish or distribute the alert.", status: "Hard Decision Gate", type: "Automatic Hold" }
+    { id: "rule-8", name: "CEO B Review Required", description: "Do not publish or distribute a packet unless CEO B marks it Approved for Research — Not a Trade Command.", status: "Hard Decision Gate", type: "Automatic Hold" }
   ],
   dataSources: [
     { name: "Polygon & Finnhub Feed", category: "Market Data", agents: "Signal Scout", dataType: "Equities Quotes, Stock Catalysts", status: "Adapter Ready", step: "Connect developer credentials via future backend.", safety: "Read-only access. Keys must stay backend-isolated.", backend: "Yes" },

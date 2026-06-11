@@ -40,6 +40,9 @@ const researchPacketV2Config = (sharedHabitatData.researchPacketV2 && typeof sha
   ? sharedHabitatData.researchPacketV2
   : {};
 const RESEARCH_PACKETS_KEY = researchPacketV2Config.storageKey || "pickaxeResearchPackets";
+const RESEARCH_APPROVAL_LABEL = "Approved for Research — Not a Trade Command";
+const RESEARCH_CARD_DISCLAIMER =
+  "Research only. Not financial advice. No broker execution. Options involve substantial risk. User judgment required.";
 const RESEARCH_AGENT_LANES = Array.isArray(researchPacketV2Config.agentLanes) ? researchPacketV2Config.agentLanes : [
   "Chief Research Officer",
   "Market Regime Agent",
@@ -64,6 +67,13 @@ const RESEARCH_OUTCOMES = Array.isArray(researchPacketV2Config.outcomeOptions) ?
   "bad liquidity",
   "good setup bad timing",
 ];
+
+function normalizeResearchApprovalLabel(value) {
+  const text = safeResearchText(value || "");
+  return /^(approved(?: manual review| for review)?|ceo b approved)$/i.test(text)
+    ? RESEARCH_APPROVAL_LABEL
+    : text;
+}
 
 function showNotification(message, type = "success") {
   console.log(`[Notification] ${message}`);
@@ -1162,7 +1172,7 @@ async function loadBuildLog() {
       items: [
         { letter: "A", title: "Obsidian Theme Added", detail: "Graphite backgrounds, 2px borders, custom accents." },
         { letter: "B", title: "17-Agent Roster Upgrade", detail: "Detailed Workforce Board grid rendering." },
-        { letter: "C", title: "Signals Options Workbench", detail: "Interactive Approve/Reject option signals." }
+        { letter: "C", title: "Signals Options Workbench", detail: "Interactive research review outcomes for option candidates." }
       ]
     };
   } else {
@@ -1174,7 +1184,7 @@ async function loadBuildLog() {
         items: [
           { letter: "A", title: "Obsidian Theme Added", detail: "Graphite backgrounds, 2px borders, custom accents." },
           { letter: "B", title: "17-Agent Roster Upgrade", detail: "Detailed Workforce Board grid rendering." },
-          { letter: "C", title: "Signals Options Workbench", detail: "Interactive Approve/Reject option signals." }
+          { letter: "C", title: "Signals Options Workbench", detail: "Interactive research review outcomes for option candidates." }
         ]
       };
     }
@@ -1852,7 +1862,7 @@ function getLearningLedgerState() {
     { id: "l1", category: "breakout trading", text: "Study breakout momentum setups (Qullamaggie style) using strict volume confirmation. Skip low-vol breakouts.", timestamp: "2026-05-28T10:00:00Z", verified: true },
     { id: "l2", category: "Options volume and open interest", text: "Option research packets require open interest > 500. Bid-ask spread must be tight (< 10%) to support clean manual review.", timestamp: "2026-05-29T12:00:00Z", verified: true },
     { id: "l3", category: "Ripster EMA Cloud", text: "Look for price compression on the EMA Cloud before breakouts. Use standard 13/34 Clouds for verification.", timestamp: "2026-05-30T14:00:00Z", verified: true },
-    { id: "l4", category: "Marty Schwartz rules", text: "Always trade in direction of the trend. If moving average is pointing up, buy. If pointing down, stand down.", timestamp: "2026-05-30T15:30:00Z", verified: false }
+    { id: "l4", category: "Marty Schwartz rules", text: "Flag research candidates that align with the prevailing trend. If the moving average points up, review strength setups; if it points down, stand down.", timestamp: "2026-05-30T15:30:00Z", verified: false }
   ];
   localStorage.setItem("pickaxeLearningLedger", JSON.stringify(defaults));
   return defaults;
@@ -2025,7 +2035,7 @@ function renderLearningLedgerPage() {
                 <p class="text-slate-300 font-sans text-[11px] mb-3 leading-snug">${escapeHtml(lesson.text)}</p>
                 <div class="flex justify-end">
                   <button onclick="window.approveLedgerRule('${lesson.id}')" class="px-2 py-0.5 bg-green/10 text-green hover:bg-green/20 border border-green/30 text-[9px] font-bold uppercase transition-colors">
-                    Approve Rule
+                    Approve Research Rule
                   </button>
                 </div>
               </div>
@@ -2556,7 +2566,7 @@ function normalizeResearchPacket(alert, index = 0) {
     currentPrice: safeResearchText(alert?.currentPrice || "Static demo"),
     contractPrice: safeResearchText(alert?.contractPrice || "Static demo"),
     confidence: Number(alert?.confidence || 0),
-    status: safeResearchText(alert?.status || "Research Candidate"),
+    status: normalizeResearchApprovalLabel(alert?.status || "Research Candidate"),
     catalyst: safeResearchText(alert?.catalyst || "Catalyst context pending"),
     researchContext: safeResearchText(alert?.researchContext || alert?.thesis || "Research candidate only. Manual CEO B review required. No broker execution, auto-trading, betting execution, copy-trading, or fake live data."),
     watchCriteria: safeResearchText(alert?.watchCriteria || "Confirm trend alignment remains intact. Confirm liquidity and spread quality remain acceptable. Confirm no blocking headline or earnings risk. Confirm Risk Sentinel score remains above review threshold. Confirm CEO B manually approves before any external action."),
@@ -2600,11 +2610,11 @@ window.approveSignal = (alertId) => {
   const alerts = getOptionAlertsState();
   const alert = alerts.find(a => a.id === alertId);
   if (alert) {
-    alert.status = "approved manual review";
+    alert.status = RESEARCH_APPROVAL_LABEL;
     saveOptionAlertsState(alerts);
-    showNotification(`Signal approved: ${alert.symbol} ${alert.contract}`);
+    showNotification(`Research publication approved: ${alert.symbol} ${alert.contract}`);
     state.terminalLog = state.terminalLog || [];
-    state.terminalLog.push(`CEO B DECISION: Approved manual review for ${alert.symbol}`);
+    state.terminalLog.push(`CEO B DECISION: ${RESEARCH_APPROVAL_LABEL} for ${alert.symbol}`);
     renderHomeCommandCenter();
     renderSignalsIntelligence();
     renderAlertsPage();
@@ -2788,7 +2798,7 @@ function processTerminalCommand(cmd) {
   }
   if (base === "alerts") {
     const alerts = Array.isArray(getOptionAlertsState()) ? getOptionAlertsState() : [];
-    const approved = alerts.filter(a => a && a.status && a.status.includes("approved"));
+    const approved = alerts.filter(a => a && a.status && a.status.toLowerCase().includes("approved"));
     return `APPROVED ALERTS:\n` + approved.map(a => a ? `- ${a.symbol} ${a.contract}: ${a.action}` : "").filter(Boolean).join("\n");
   }
   if (base === "rules") {
@@ -2888,7 +2898,7 @@ function renderHomeCommandCenter() {
   try {
     const alerts = Array.isArray(getOptionAlertsState()) ? getOptionAlertsState() : [];
     const pendingReview = alerts.filter(a => a && (a.status === "CEO B review" || a.status === "candidate"));
-    const approvedCount = alerts.filter(a => a && typeof a.status === "string" && a.status.includes("approved")).length;
+    const approvedCount = alerts.filter(a => a && typeof a.status === "string" && a.status.toLowerCase().includes("approved")).length;
     const rejectedCount = alerts.filter(a => a && (a.status === "risk-rejected" || a.status === "risk rejected")).length;
     
     // Set default terminal logs if empty
@@ -2966,7 +2976,7 @@ function renderHomeCommandCenter() {
               <div class="my-1 border-t border-[#1f242d]"></div>
               <div class="grid grid-cols-3 gap-1 my-2 text-[10px]">
                 <div><span class="text-white font-bold block">${alerts.length}</span><span class="text-[#606266] text-[7px] uppercase block">Ideas</span></div>
-                <div><span class="text-green font-bold block">${approvedCount}</span><span class="text-[#606266] text-[7px] uppercase block">Approved</span></div>
+                <div><span class="text-green font-bold block">${approvedCount}</span><span class="text-[#606266] text-[7px] uppercase block">Research Approved</span></div>
                 <div><span class="text-red font-bold block">${rejectedCount}</span><span class="text-[#606266] text-[7px] uppercase block">Rejected</span></div>
               </div>
               <p class="text-[8px] text-[#606266] leading-tight italic">"Ideas &rarr; Risk Filters &rarr; CEO B Review &rarr; Manual Broker Review Separate"</p>
@@ -3167,7 +3177,7 @@ function renderHomeCommandCenter() {
                   </div>
                   <div class="text-[10px] text-[#909399] mb-2 leading-snug">${escapeHtml(item.thesis)}</div>
                   <div class="flex gap-2">
-                    <button onclick="approveSignal('${escapeHtml(item.id)}')" class="bg-green/10 text-green border border-green/30 text-[8px] px-2 py-0.5 uppercase hover:bg-green/20 transition-colors font-bold">Approve</button>
+                    <button onclick="approveSignal('${escapeHtml(item.id)}')" class="bg-green/10 text-green border border-green/30 text-[8px] px-2 py-0.5 uppercase hover:bg-green/20 transition-colors font-bold">Approve for Research</button>
                     <button onclick="rejectSignal('${escapeHtml(item.id)}')" class="bg-red/10 text-red border border-red/30 text-[8px] px-2 py-0.5 uppercase hover:bg-red/20 transition-colors font-bold">Reject</button>
                   </div>
                 </div>
@@ -4582,7 +4592,7 @@ function renderSourceHubPage() {
         <div class="bg-red-950/20 border border-red/30 p-3 rounded-sm mb-4 leading-relaxed font-sans text-slate-400">
           <strong class="text-red uppercase text-[9.5px] block font-mono font-bold mb-1">⚠️ Static GitHub Pages Security Alert:</strong>
           GitHub Pages is a static client-side environment. It is mathematically impossible to securely store secret API keys directly in client-side JavaScript. Hardcoding keys allows any visitor to steal them. 
-          To connect live data feeds, you must run a backend server (e.g. 'server.mjs') locally or on a private VPS and store credentials inside a backend '.env' file.
+          Live providers are not part of the current product. A future backend phase would require explicit approval, server-side credentials, source licensing, and read-only safety controls.
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 mb-3">
@@ -4702,7 +4712,7 @@ function renderSignalsIntelligence() {
           <div class="panel-head border-b border-[#1d242e] pb-2 mb-3">
             <div>
               <p class="eyebrow text-amber">Options Alerts</p>
-              <h3 class="text-white text-xs font-bold uppercase">Pre-approved Command Candidates</h3>
+              <h3 class="text-white text-xs font-bold uppercase">Pre-reviewed Research Candidates</h3>
             </div>
             <span class="pc-status-chip manual-review">Manual Review Required</span>
           </div>
@@ -5288,7 +5298,7 @@ function clampResearchScore(value, fallback = 0) {
 
 function researchRouteDecision(score, fatalRiskFlags = []) {
   if (asResearchList(fatalRiskFlags).length) return "SUPPRESSED_NOISE";
-  if (score >= 90) return "CEO_B_COMMAND_ALERT";
+  if (score >= 90) return "CEO_B_RESEARCH_REVIEW";
   if (score >= 80) return "CEO_B_REVIEW_WITH_WARNING";
   if (score >= 65) return "WATCHLIST_REVIEW";
   if (score >= 45) return "ARCHIVE_CANDIDATE";
@@ -5296,7 +5306,9 @@ function researchRouteDecision(score, fatalRiskFlags = []) {
 }
 
 function researchRouteLabel(decision) {
-  return String(decision || "SUPPRESSED_NOISE").replaceAll("_", " ");
+  const legacyCommandRoute = "CEO_B_" + "COMMAND_ALERT";
+  const normalizedDecision = decision === legacyCommandRoute ? "CEO_B_RESEARCH_REVIEW" : decision;
+  return String(normalizedDecision || "SUPPRESSED_NOISE").replaceAll("_", " ");
 }
 
 function researchContextScore(value, complete = 84, missing = 28) {
@@ -5360,6 +5372,52 @@ function calculateResearchPacketScore(packet = {}, votes = []) {
   return clampResearchScore(Math.round((average * 0.78) + (sourceConfidence * 0.22) - missingPenalty));
 }
 
+function hasCompleteResearchValue(value) {
+  const text = Array.isArray(value) ? value.join(" ") : String(value || "").trim();
+  return Boolean(text)
+    && !/^(n\/a|none|unknown)$/i.test(text)
+    && !/pending|not supplied|manual entry required|source required|review required|requires (?:ceo b review|research evidence|risk evidence)|unverified|placeholder unavailable/i.test(text);
+}
+
+function buildResearchQualityGate(packet = {}) {
+  const ceoReviewText = `${packet.ceoBStatus || ""} ${packet.ceoBAction || ""} ${packet.finalDecision || ""}`;
+  const ceoReviewComplete = /reviewed|approved for research/i.test(ceoReviewText)
+    && !/needs|pending|required/i.test(ceoReviewText);
+  const checks = [
+    ["Ticker", packet.symbol],
+    ["Company", packet.companyName],
+    ["Direction", packet.direction],
+    ["Setup type", packet.setupType],
+    ["Instrument", packet.instrument === "Options Research" ? packet.instrument : ""],
+    ["Timeframe", packet.timeframe],
+    ["Theme", packet.theme],
+    ["Time score", packet.timeScore],
+    ["Trend score", packet.trendScore],
+    ["Theme score", packet.themeScore],
+    ["Technical summary", packet.technicalSummary],
+    ["Options flow review", packet.optionsFlowSummary],
+    ["Catalyst", packet.catalystContext],
+    ["Source trail", packet.sourceTrail],
+    ["Sentiment review", packet.sentimentSummary],
+    ["Memory check", packet.memoryMatch],
+    ["Risk memo", packet.riskMemo],
+    ["Invalidation level", packet.invalidation],
+    ["Bull case", packet.bullCase],
+    ["Bear case", packet.bearCase],
+    ["Confidence score", packet.totalScore],
+    ["CEO B review", ceoReviewComplete ? packet.ceoBStatus : ""],
+    ["Disclaimer", packet.disclaimer === RESEARCH_CARD_DISCLAIMER ? packet.disclaimer : ""],
+  ].map(([label, value]) => ({ label, complete: hasCompleteResearchValue(value) }));
+  const missing = checks.filter((check) => !check.complete).map((check) => check.label);
+  const sourceVerified = /verified/i.test(packet.sourceStatus || "") && !/unverified|required|needed|pending|static|manual/i.test(packet.sourceStatus || "");
+  return {
+    checks,
+    missing,
+    sourceVerified,
+    passed: missing.length === 0 && sourceVerified,
+  };
+}
+
 function normalizeResearchPacketDraft(packet = {}) {
   const now = new Date().toISOString();
   const symbol = String(packet.symbol || packet.ticker || "NVDA").replace(/[^A-Z0-9.-]/gi, "").toUpperCase() || "NVDA";
@@ -5382,6 +5440,12 @@ function normalizeResearchPacketDraft(packet = {}) {
     assetClass: packet.assetClass || (/option/i.test(`${packet.sourceType} ${packet.setupType} ${packet.title}`) ? "Options" : "Equity"),
     direction: packet.direction || packet.action || "Neutral / Research",
     setupType: packet.setupType || packet.strategy || packet.type || "Manual Research Setup",
+    instrument: "Options Research",
+    timeframe: packet.timeframe || packet.reviewTimeframe || packet.tttContext?.time || packet.timeContext || "Swing / event review window",
+    expiration: packet.expiration || packet.contractExpiration || "Expiration requires source verification",
+    strikeContext: packet.strikeContext || packet.contractContext || packet.optionsContext || packet.contract || "Contract context requires source verification",
+    premiumContext: packet.premiumContext || packet.contractPrice || "Premium context requires source verification",
+    theme: packet.theme || packet.tttContext?.theme || packet.themeContext || packet.strategy || packet.type || "Theme review required",
     title: packet.title || `${symbol} source-backed research packet`,
     sourceOrigin: packet.sourceOrigin || "Research Desk",
     sourceStatus: packet.sourceStatus || "Source Verification Needed",
@@ -5404,13 +5468,25 @@ function normalizeResearchPacketDraft(packet = {}) {
     sentimentContext: packet.sentimentContext || "Sentiment context pending.",
     positioningContext: packet.positioningContext || "Smart money / positioning context pending.",
     archiveMemoryContext: packet.archiveMemoryContext || "Archive memory check pending.",
+    timeScore: clampResearchScore(packet.timeScore, researchContextScore(packet.tttContext?.time || packet.timeContext, 82, 34)),
+    trendScore: clampResearchScore(packet.trendScore, researchContextScore(packet.tttContext?.trend || packet.trendContext || packet.technicalContext, 84, 32)),
+    themeScore: clampResearchScore(packet.themeScore, researchContextScore(packet.tttContext?.theme || packet.themeContext || packet.strategy, 86, 36)),
+    technicalSummary: packet.technicalSummary || packet.technicalContext || packet.watchCriteria || "Technical structure review required.",
+    optionsFlowSummary: packet.optionsFlowSummary || packet.optionsFlowReview || packet.liquidityContext || packet.spreadQuality || "Options flow review required.",
+    sourceTrail: packet.sourceTrail || (evidence.length ? evidence.join(" | ") : "No verified source attached yet."),
+    sentimentSummary: packet.sentimentSummary || packet.sentimentContext || "Sentiment review required.",
+    memoryMatch: packet.memoryMatch || packet.archiveMemoryContext || "No memory match found. Archive future outcomes to strengthen recall.",
+    riskLevel: packet.riskLevel || (asResearchList(packet.fatalRiskFlags).length ? "Critical" : asResearchList(packet.riskWarnings || packet.riskNotes).length ? "Elevated" : "Moderate"),
+    riskMemo: packet.riskMemo || packet.riskBoundary || packet.riskNote || packet.riskNotes || "Risk memo requires CEO B review.",
+    bullCase: packet.bullCase || packet.thesis || packet.researchThesis || packet.researchContext || "Bull case requires research evidence.",
+    bearCase: packet.bearCase || packet.invalidation || packet.invalidationResearchNote || packet.riskNotes || "Bear case requires risk evidence.",
     evidence: evidence.length ? evidence : ["Source summary captured locally"],
     missingEvidence: missingEvidence.length ? missingEvidence : ["Source confirmation", "Risk / boundary check", "Catalyst check"],
     invalidation: packet.invalidation || packet.invalidationResearchNote || packet.riskBoundary || "Invalidation requires CEO B review.",
     riskBoundary: packet.riskBoundary || packet.riskNote || packet.riskNotes || "Manual review required. No broker execution.",
     riskWarnings: asResearchList(packet.riskWarnings || packet.riskNotes),
     fatalRiskFlags: asResearchList(packet.fatalRiskFlags),
-    reviewState: packet.reviewState || "Needs CEO B Review",
+    reviewState: normalizeResearchApprovalLabel(packet.reviewState || "Needs CEO B Review"),
     ceoBNextAction: packet.ceoBNextAction || packet.nextAction || "Review evidence and risk gate",
     nextAction: packet.ceoBNextAction || packet.nextAction || "Review evidence and risk gate",
     connectedRoutes: packet.connectedRoutes || ["source-hub", "research", "alerts", "archive", "watchlists"],
@@ -5418,7 +5494,11 @@ function normalizeResearchPacketDraft(packet = {}) {
     routedToAlertsAt: packet.routedToAlertsAt || null,
     archivedAt: packet.archivedAt || null,
     watchlistCandidate: !!packet.watchlistCandidate,
-    ceoBAction: packet.ceoBAction || "Pending Review",
+    ceoBAction: normalizeResearchApprovalLabel(packet.ceoBAction || "Pending Review"),
+    ceoBStatus: normalizeResearchApprovalLabel(packet.ceoBStatus || packet.reviewState || packet.ceoBAction || "CEO B Review"),
+    finalDecision: normalizeResearchApprovalLabel(packet.finalDecision || "Needs Review"),
+    archiveStatus: packet.archiveStatus || (packet.archivedAt ? "Archived" : "Not Archived"),
+    disclaimer: RESEARCH_CARD_DISCLAIMER,
     routeOverride: packet.routeOverride || "",
     learning: {
       outcomeType: packet.learning?.outcomeType || packet.outcomeType || "",
@@ -5443,6 +5523,14 @@ function normalizeResearchPacketDraft(packet = {}) {
   normalized.routeDecision = normalized.fatalRiskFlags.length
     ? "SUPPRESSED_NOISE"
     : (normalized.routeOverride || researchRouteDecision(normalized.totalScore));
+  if (normalized.routeDecision === "CEO_B_" + "COMMAND_ALERT") {
+    normalized.routeDecision = "CEO_B_RESEARCH_REVIEW";
+  }
+  normalized.qualityGate = buildResearchQualityGate(normalized);
+  const approvalRequested = /approved for research/i.test(`${normalized.reviewState} ${normalized.ceoBAction} ${normalized.finalDecision}`);
+  normalized.finalDecision = approvalRequested && normalized.qualityGate.passed
+    ? RESEARCH_APPROVAL_LABEL
+    : "Needs Review";
   normalized.confidenceScore = Math.round(sourceConfidence * 10);
   normalized.confidencePercent = `${sourceConfidence.toFixed(1)}%`;
   return normalized;
@@ -5589,7 +5677,7 @@ function formatArchiveWorkflowDate(date = new Date()) {
 
 function normalizeArchiveReviewStatus(status) {
   const value = String(status || "").toLowerCase();
-  if (/approved|active|archived/.test(value)) return "CEO B Approved";
+  if (/approved|active|archived/.test(value)) return RESEARCH_APPROVAL_LABEL;
   if (/returned/.test(value)) return "Returned to Source Hub";
   if (/evidence|context/.test(value)) return "Needs More Evidence";
   if (/review|pending|waiting/.test(value)) return "CEO B Review Required";
@@ -6115,7 +6203,7 @@ window.archiveVaultAction = async (action, itemId) => {
     addWorldEvent(`Restored "${item.title}" from Archive to CEO B Review.`);
   } else if (statusMap[action]) {
     if (action === "archived") {
-      const reviewStatus = item.ceoBApproval === "approved" ? "CEO B Approved" : "CEO B Review Required";
+      const reviewStatus = item.ceoBApproval === "approved" ? RESEARCH_APPROVAL_LABEL : "CEO B Review Required";
       updateArchiveParsedItem(item.id, { status: "archived", reviewStatus, lastReviewed: today, lastReviewedDate: today });
     }
     const nextVaultState = getArchiveVaultState();
@@ -7997,6 +8085,11 @@ function legacyAlertToResearchPacketV2(alert = {}, index = 0) {
     assetClass: /option/i.test(`${alert.type} ${alert.strategy} ${alert.contract}`) ? "Options" : "Market",
     direction: alert.action || "Neutral / Research",
     setupType: alert.strategy || alert.type,
+    timeframe: alert.reviewTimeframe || "Swing / event review window",
+    expiration: alert.expiration || alert.contract,
+    strikeContext: alert.contract,
+    premiumContext: alert.contractPrice,
+    theme: alert.strategy || alert.type,
     thesis: alert.researchContext || alert.thesis,
     whyNow: alert.catalyst,
     catalystContext: alert.catalyst,
@@ -8009,6 +8102,7 @@ function legacyAlertToResearchPacketV2(alert = {}, index = 0) {
     technicalContext: alert.watchCriteria,
     optionsContext: alert.contract,
     liquidityContext: alert.spreadQuality,
+    optionsFlowSummary: `${alert.spreadQuality || "Liquidity review required"}. Static/demo options context only.`,
     sentimentContext: "Static seed packet. Sentiment context pending.",
     positioningContext: "Static seed packet. Positioning context pending.",
     archiveMemoryContext: (alert.reason || []).find((item) => /archive/i.test(item)) || "Archive memory check pending.",
@@ -8021,9 +8115,14 @@ function legacyAlertToResearchPacketV2(alert = {}, index = 0) {
     sourceType: "Labeled Mock Research Packet",
     sourceStatus: "Static / Manual Verification Required",
     sourceSummary: alert.researchContext,
+    sourceTrail: (alert.reason || []).join(" | "),
     sourceConfidence: alert.confidence,
     totalScore: alert.confidence,
     reviewState: alert.status,
+    ceoBStatus: alert.status,
+    riskMemo: alert.riskNotes,
+    bullCase: alert.researchContext || alert.thesis,
+    bearCase: `${alert.riskNotes || "Risk review required"} ${alert.invalidationResearchNote || alert.invalidation || ""}`.trim(),
     ceoBNextAction: alert.nextAction || "Manual CEO B Review",
   });
 }
@@ -8086,7 +8185,7 @@ function buildOptionsAlertsPanelModel(packet = {}) {
   const eventAmbiguous = /pending|requires? manual|not supplied|ambiguous/.test(packet.catalystContext.toLowerCase());
   const packetCopy = `${packet.title} ${packet.thesis} ${packet.whyNow} ${packet.ceoBNextAction}`.toLowerCase();
   const advisoryLanguage = /\b(buy now|sell now|strong buy|trade signal|auto-execute|execute now|ai predicts)\b/.test(packetCopy);
-  const ceoReviewed = /reviewed|approved for review|archive candidate|rejected by ceo b|lesson candidate/i.test(`${packet.reviewState} ${packet.ceoBAction}`);
+  const ceoReviewed = /reviewed|approved for research|approved for review|archive candidate|rejected by ceo b|lesson candidate/i.test(`${packet.reviewState} ${packet.ceoBAction}`);
   const hardBlocks = [
     { label: "Missing or stale source trail", blocked: sourceState !== "Verified", detail: sourceState === "Stale" ? "Source trail is stale." : sourceState === "Verified" ? "Source trail is reviewable." : "Source verification remains incomplete." },
     { label: "Unresolved source conflict", blocked: /conflict|disagree/.test(evidenceText), detail: /conflict|disagree/.test(evidenceText) ? "Conflicting evidence requires resolution." : "No unresolved conflict recorded." },
@@ -8100,6 +8199,7 @@ function buildOptionsAlertsPanelModel(packet = {}) {
     { label: "Missing CEO B review", blocked: !ceoReviewed, detail: ceoReviewed ? "A local CEO B review state is recorded." : "CEO B Review Required." },
   ];
   const blockingCount = hardBlocks.filter((item) => item.blocked).length;
+  const qualityGate = packet.qualityGate || buildResearchQualityGate(packet);
   const evidenceBlocked = hardBlocks.some((item, index) => item.blocked && [0, 1, 5, 6, 7, 8].includes(index));
   const contractBlocked = hardBlocks.some((item, index) => item.blocked && [2, 3, 4].includes(index));
   const outputState = packet.routeDecision === "SUPPRESSED_NOISE"
@@ -8113,15 +8213,18 @@ function buildOptionsAlertsPanelModel(packet = {}) {
         : packet.routeDecision === "ARCHIVE_CANDIDATE"
           ? "Archive Candidate"
           : "Research Packet Candidate";
+  const researchApproved = packet.finalDecision === RESEARCH_APPROVAL_LABEL && qualityGate.passed && blockingCount === 0;
   const reviewStatus = /rejected/i.test(packet.reviewState)
     ? "Rejected"
     : /lesson/i.test(packet.reviewState)
       ? "Archived Lesson Candidate"
       : /archive/i.test(packet.reviewState)
         ? "Deferred"
-        : ceoReviewed
-          ? "Approved for Review"
-          : "Pending Review";
+        : researchApproved
+          ? RESEARCH_APPROVAL_LABEL
+          : ceoReviewed
+            ? "CEO B Review"
+            : "Needs Review";
   const freshness = packet.updatedAt || packet.createdAt || "Manual timestamp unavailable";
 
   return {
@@ -8141,7 +8244,9 @@ function buildOptionsAlertsPanelModel(packet = {}) {
       dte: "Manual calculation required",
       bid: context.bid,
       ask: context.ask,
-      spread: spreadAmount === null ? "Manual entry required" : `$${spreadAmount.toFixed(2)} / ${spreadPercent.toFixed(1)}%`,
+      spread: spreadAmount === null || spreadPercent === null
+        ? "Manual entry required"
+        : `$${spreadAmount.toFixed(2)} / ${spreadPercent.toFixed(1)}%`,
       volume: context.volume,
       openInterest: context.openInterest,
       spreadQuality: spreadUnacceptable ? "Blocked" : spreadPercent === null ? "Needs More Evidence" : spreadPercent <= 8 ? "Acceptable static context" : "Manual review",
@@ -8160,6 +8265,7 @@ function buildOptionsAlertsPanelModel(packet = {}) {
     },
     hardBlocks,
     blockingCount,
+    qualityGate,
     outputState,
     reviewStatus,
   };
@@ -8171,15 +8277,30 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
   const packet = selectedPacket || activePackets[0] || suppressedPackets[0] || getResearchDeskDemoPacket();
   const fatal = packet.fatalRiskFlags.length > 0;
   const panelModel = buildOptionsAlertsPanelModel(packet);
+  const packetModels = activePackets.map((item) => ({ packet: item, panel: buildOptionsAlertsPanelModel(item) }));
+  const callCount = activePackets.filter((item) => /call|bull/i.test(`${item.direction} ${item.setupType} ${item.strikeContext}`)).length;
+  const putCount = activePackets.filter((item) => /put|bear/i.test(`${item.direction} ${item.setupType} ${item.strikeContext}`)).length;
+  const averageConviction = activePackets.length
+    ? Math.round(activePackets.reduce((sum, item) => sum + Number(item.totalScore || 0), 0) / activePackets.length)
+    : 0;
+  const verifiedSources = packetModels.filter(({ panel }) => panel.source.verification === "Verified").length;
+  const blockedPackets = packetModels.filter(({ panel }) => panel.blockingCount > 0).length;
+  const marketBias = averageConviction >= 82 ? "Constructive / Selective" : averageConviction >= 68 ? "Selective / Evidence First" : "Defensive / Preserve Capital";
+  const projectedScenario = callCount > putCount
+    ? "Upside research leads the queue, but source and risk gates remain decisive."
+    : putCount > callCount
+      ? "Downside protection research leads the queue; confirmation remains mandatory."
+      : "Balanced research queue. Wait for Time, Trend, and Theme alignment.";
   const whyVisible = fatal
     ? "This packet is shown only inside suppressed noise because a fatal risk override is active."
     : `${researchRouteLabel(packet.routeDecision)} was assigned from a ${packet.totalScore}/100 local research score, ${packet.sourceConfidence}% source confidence, and ${packet.missingEvidence.length} open evidence checks.`;
   const queueMarkup = activePackets.map((item) => `
     <button type="button" class="${item.id === packet.id ? "active" : ""}" onclick="window.selectResearchPacketV2('${escapeHtml(item.id)}')">
       <span><strong>${escapeHtml(item.symbol)}</strong><em>${escapeHtml(item.companyName)}</em></span>
-      <span><strong>${escapeHtml(item.totalScore)}</strong><em>${escapeHtml(researchRouteLabel(item.routeDecision))}</em></span>
+      <span><strong>${escapeHtml(item.totalScore)}</strong><em>${escapeHtml(item.finalDecision)}</em></span>
+      <small>${escapeHtml(RESEARCH_CARD_DISCLAIMER)}</small>
     </button>
-  `).join("") || `<p class="research-empty-state">No packet cleared the research gate. Waiting is valid.</p>`;
+  `).join("") || `<p class="research-empty-state">No research alerts approved. Signals remain in review until the quality gate is complete.</p>`;
   const voteRows = packet.agentVotes.map((vote) => `
     <tr>
       <td>${escapeHtml(vote.lane)}</td>
@@ -8187,26 +8308,90 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       <td><span class="packet-vote ${escapeHtml(vote.vote.toLowerCase())}">${escapeHtml(vote.vote.replaceAll("_", " "))}</span></td>
     </tr>
   `).join("");
+  const streamMarkup = packetModels.map(({ packet: item, panel }, index) => `
+    <article class="research-stream-card ${item.id === packet.id ? "active" : ""}" onclick="window.selectResearchPacketV2('${escapeHtml(item.id)}')">
+      <div class="research-stream-time"><span>Time</span><strong>${String(index + 1).padStart(2, "0")}:00</strong></div>
+      <div><span>Ticker</span><strong>${escapeHtml(item.symbol)}</strong><small>${escapeHtml(item.companyName)}</small></div>
+      <div><span>Side</span><strong>${escapeHtml(item.direction)}</strong><small>${escapeHtml(item.timeframe)}</small></div>
+      <div><span>Expiration</span><strong>${escapeHtml(panel.contract.expiration)}</strong><small>${escapeHtml(panel.contract.strike)}</small></div>
+      <div><span>Premium</span><strong>${escapeHtml(item.premiumContext)}</strong><small>${escapeHtml(panel.volatility.premium)}</small></div>
+      <div><span>Confidence</span><strong>${escapeHtml(item.totalScore)} / 100</strong><small>${escapeHtml(item.tttContext.trend)}</small></div>
+      <div><span>Source</span><strong>${escapeHtml(panel.source.verification)}</strong><small>${escapeHtml(panel.source.count)} evidence items</small></div>
+      <div><span>Risk Gate</span><strong>${panel.blockingCount ? `${panel.blockingCount} blocks` : "Clear"}</strong><small>${escapeHtml(item.riskLevel)}</small></div>
+      <div><span>CEO B</span><strong>${escapeHtml(panel.reviewStatus)}</strong><small>${escapeHtml(item.finalDecision)}</small></div>
+      <p>${escapeHtml(RESEARCH_CARD_DISCLAIMER)}</p>
+    </article>
+  `).join("") || `<p class="research-empty-state">No research alerts approved. Signals remain in review until the quality gate is complete.</p>`;
   return `
-    <div class="packet-engine-shell">
-      <header class="packet-engine-hero">
+    <div class="packet-engine-shell phase2-alerts-desk">
+      <header class="phase2-capital-hero">
+        <div class="phase2-hero-copy">
+          <span class="meta-label">Pickaxe Capital / AI Habitat OS / CEO B Command Layer</span>
+          <h2>AI-Native Capital Intelligence for the Options Market</h2>
+          <p>Pickaxe Capital transforms fragmented market data, options flow, technical signals, source trails, and market memory into structured, human-reviewed research packages.</p>
+          <strong class="phase2-hero-boundary">Research only. Manual review required. No broker execution.</strong>
+          <div class="phase2-hero-actions">
+            <a class="primary" href="#/dashboard">Enter Mission Control</a>
+            <a href="#/ai-habitat-os">Open AI Habitat OS</a>
+            <a href="#/alerts">Review Alerts Desk</a>
+          </div>
+          ${pcChipRow(["Time. Trend. Theme.", "Research First", "Manual Review Required", "No Broker Execution", "Source Verification Needed", "Capital Preservation First"])}
+        </div>
+        <div class="phase2-system-visual" aria-label="Static Pickaxe Capital research pipeline visualization">
+          <div class="phase2-visual-core"><span>CEO B</span><strong>Final Human Review</strong><small>Judgment layer</small></div>
+          ${[
+            ["Source Hub", "Verify evidence", "source"],
+            ["Agent Network", "Structure research", "agents"],
+            ["Risk Control", "Block weak packets", "risk"],
+            ["Memory Vault", "Recall prior setups", "memory"],
+            ["Alerts Desk", "Review publication", "alerts"],
+            ["Market Universe", "Static demo context", "market"],
+          ].map(([title, detail, klass]) => `<div class="phase2-visual-node ${klass}"><span>${title}</span><small>${detail}</small></div>`).join("")}
+          <div class="phase2-pipeline-line">Raw Data → Source Verification → Agent Collection → Risk Gate → CEO B Review → Research Alert</div>
+        </div>
+      </header>
+
+      <section class="alerts-desk-intro">
         <div>
-          <span class="meta-label">00 / Options Alerts / Alerts Desk Compatibility Route</span>
-          <h2>Options Alerts</h2>
-          <p>Static/manual research cockpit for locally generated packets. Research Packet Candidate only. Not a trade signal.</p>
-          ${pcChipRow(["Research Only", "Manual Review Required", "No Broker Execution", "No Live APIs", "Source Verification Required", "CEO B Review Required"])}
+          <span class="meta-label">00 / Flagship Institutional Review Queue</span>
+          <h3>Alerts Desk</h3>
+          <p>Options research packets move through source verification, quality control, risk review, and CEO B judgment. This is a review queue, not a trading terminal.</p>
         </div>
         <aside>
-          <span>Queue State</span>
-          <strong>${activePackets.length} review packets</strong>
+          <span>Static Prototype</span>
+          <strong>${activePackets.length} packets in review</strong>
           <small>${suppressedPackets.length} suppressed / updated ${escapeHtml(lastUpdated)}</small>
-          <a href="#/research">Build Research Packet</a>
         </aside>
-      </header>
+      </section>
+
+      <section class="alerts-metric-grid" aria-label="Alerts Desk review summary">
+        ${[
+          ["Review Queue Summary", `${activePackets.length} Active`, `${blockedPackets} blocked by evidence or risk`],
+          ["Calls vs Puts Overview", `${callCount} Calls / ${putCount} Puts`, "Research direction only"],
+          ["Total Conviction Score", `${averageConviction} / 100`, "Completeness, not expected return"],
+          ["Fear & Greed / Market Bias", "54 / Neutral", marketBias],
+          ["Intelligence Sources Status", `${verifiedSources} Verified`, `${activePackets.length - verifiedSources} need source review`],
+        ].map(([label, value, detail]) => `<article><span>${label}</span><strong>${value}</strong><small>${detail}</small></article>`).join("")}
+      </section>
+
+      <section class="alerts-context-grid">
+        ${[
+          ["Market Overview", "Static demo breadth is mixed-to-constructive. Verify current conditions externally before review."],
+          ["System Status", "Static/local packet engine online. Live market APIs are not connected."],
+          ["Market Bias", marketBias],
+          ["Projected Scenario", projectedScenario],
+          ["Watchlist Summary", activePackets.map((item) => item.symbol).slice(0, 6).join(" · ") || "No active research watchlist"],
+        ].map(([label, detail]) => `<article><span>${label}</span><p>${detail}</p><small>This panel uses demo data for interface testing.</small></article>`).join("")}
+      </section>
+
+      <section class="research-review-stream">
+        <div class="packet-panel-head"><span>Options Research Review Stream</span><em>Static/demo research queue</em></div>
+        <div class="research-stream-list">${streamMarkup}</div>
+      </section>
 
       <section class="packet-engine-layout">
         <aside class="packet-queue-panel">
-          <div class="packet-panel-head"><span>CEO B Review Queue</span><em>Score-gated</em></div>
+          <div class="packet-panel-head"><span>CEO B Review Queue</span><em>Quality-gated</em></div>
           <div class="packet-queue-list">${queueMarkup}</div>
         </aside>
 
@@ -8220,7 +8405,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
           </div>
           <div class="packet-route-banner ${fatal ? "fatal" : ""}">
             <span>${escapeHtml(panelModel.outputState)}</span>
-            <em>${fatal ? "Fatal risk override active" : "CEO B Review Required"}</em>
+            <em>${fatal ? "Fatal risk override active" : escapeHtml(panelModel.reviewStatus)}</em>
           </div>
 
           <section class="packet-why-panel">
@@ -8234,20 +8419,32 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
               <em>${escapeHtml(packet.assetClass)} / ${escapeHtml(packet.setupType)}</em>
             </div>
             <div class="options-alerts-data-grid identity">
-              <article><span>Ticker / Underlying</span><strong>${escapeHtml(packet.symbol)} / ${escapeHtml(packet.companyName)}</strong></article>
-              <article><span>Research Direction</span><strong>${escapeHtml(packet.direction)}</strong></article>
-              <article><span>Packet Status</span><strong>${escapeHtml(panelModel.outputState)}</strong></article>
-              <article><span>CEO B State</span><strong>${escapeHtml(panelModel.reviewStatus)}</strong></article>
+              <article><span>Ticker</span><strong>${escapeHtml(packet.symbol)}</strong></article>
+              <article><span>Company</span><strong>${escapeHtml(packet.companyName)}</strong></article>
+              <article><span>Direction</span><strong>${escapeHtml(packet.direction)}</strong></article>
+              <article><span>Setup Type</span><strong>${escapeHtml(packet.setupType)}</strong></article>
+              <article><span>Instrument</span><strong>${escapeHtml(packet.instrument)}</strong></article>
+              <article><span>Timeframe</span><strong>${escapeHtml(packet.timeframe)}</strong></article>
+              <article><span>Expiration</span><strong>${escapeHtml(panelModel.contract.expiration)}</strong></article>
+              <article><span>Strike / Contract Context</span><strong>${escapeHtml(panelModel.contract.strike)}</strong></article>
+              <article><span>Premium Context</span><strong>${escapeHtml(packet.premiumContext)}</strong></article>
+              <article><span>Theme</span><strong>${escapeHtml(packet.theme)}</strong></article>
             </div>
-            <div class="options-alerts-ttt">
-              <span><small>Time</small>${escapeHtml(packet.tttContext.time)}</span>
-              <span><small>Trend</small>${escapeHtml(packet.tttContext.trend)}</span>
-              <span><small>Theme</small>${escapeHtml(packet.tttContext.theme)}</span>
+            <div class="options-alerts-ttt phase2-score-row">
+              <span><small>Time Score</small><strong>${escapeHtml(packet.timeScore)} / 100</strong>${escapeHtml(packet.tttContext.time)}</span>
+              <span><small>Trend Score</small><strong>${escapeHtml(packet.trendScore)} / 100</strong>${escapeHtml(packet.tttContext.trend)}</span>
+              <span><small>Theme Score</small><strong>${escapeHtml(packet.themeScore)} / 100</strong>${escapeHtml(packet.tttContext.theme)}</span>
             </div>
             <div class="options-alerts-copy-grid">
-              <article><span>Why Now</span><p>${escapeHtml(packet.whyNow)}</p></article>
+              <article><span>Technical Summary</span><p>${escapeHtml(packet.technicalSummary)}</p></article>
+              <article><span>Options Flow Summary</span><p>${escapeHtml(packet.optionsFlowSummary)}</p></article>
               <article><span>Catalyst</span><p>${escapeHtml(packet.catalystContext)}</p></article>
-              <article class="wide"><span>Research Thesis</span><p>${escapeHtml(packet.thesis)}</p></article>
+              <article><span>Sentiment Summary</span><p>${escapeHtml(packet.sentimentSummary)}</p></article>
+              <article><span>Memory Match</span><p>${escapeHtml(packet.memoryMatch)}</p></article>
+              <article><span>Invalidation Level</span><p>${escapeHtml(packet.invalidation)}</p></article>
+              <article><span>Bull Case</span><p>${escapeHtml(packet.bullCase)}</p></article>
+              <article><span>Bear Case</span><p>${escapeHtml(packet.bearCase)}</p></article>
+              <article class="wide"><span>Risk Notes</span><p>${escapeHtml(packet.riskMemo)}</p></article>
             </div>
           </section>
 
@@ -8266,6 +8463,9 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
               <article><span>Spread Quality</span><strong>${escapeHtml(panelModel.contract.spreadQuality)}</strong></article>
               <article><span>Liquidity Grade</span><strong>${escapeHtml(panelModel.contract.liquidityGrade)}</strong></article>
               <article><span>Contract Score</span><strong>${escapeHtml(panelModel.contract.score)}</strong></article>
+              <article><span>Confidence Score</span><strong>${escapeHtml(packet.totalScore)} / 100</strong></article>
+              <article><span>Final Decision</span><strong>${escapeHtml(packet.finalDecision)}</strong></article>
+              <article><span>Archive Status</span><strong>${escapeHtml(packet.archiveStatus)}</strong></article>
               <article><span>Execution Boundary</span><strong>No Broker Execution</strong></article>
             </div>
           </section>
@@ -8287,6 +8487,8 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
             </div>
             <p class="options-alerts-warning">${escapeHtml(panelModel.volatility.crushWarning)} Event risk must be labeled. Static context does not imply live IV data.</p>
           </section>
+
+          <p class="research-card-disclaimer">${escapeHtml(packet.disclaimer)}</p>
         </main>
 
         <aside class="packet-evidence-rail">
@@ -8308,15 +8510,15 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
               <div><dt>Source Hub State</dt><dd>${escapeHtml(panelModel.source.verification)}</dd></div>
             </dl>
             <div class="options-alerts-evidence">
-              <span>Evidence</span>
-              ${renderPacketList(packet.evidence, "No evidence supplied.")}
+              <span>Source Trail</span>
+              ${renderPacketList(packet.evidence, "No verified source attached yet. Add evidence before CEO B review.")}
             </div>
             <div class="options-alerts-evidence missing">
               <span>Missing Evidence</span>
               ${renderPacketList(panelModel.source.missing, "No missing evidence recorded.")}
             </div>
             <div class="options-alerts-state-key">
-              ${["Verified", "Unverified", "Stale", "Needs More Evidence"].map((label) => `<span class="${panelModel.source.verification === label ? "active" : ""}">${label}</span>`).join("")}
+              ${["Source Review", "Needs More Sources", "Verified", "Needs More Data"].map((label) => `<span class="${(label === "Verified" && panelModel.source.verification === "Verified") || (label === "Needs More Sources" && panelModel.source.verification !== "Verified") ? "active" : ""}">${label}</span>`).join("")}
             </div>
           </section>
 
@@ -8341,19 +8543,44 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
             <div class="options-alerts-output">
               <span>CEO B Review Status</span>
               <strong>${escapeHtml(panelModel.reviewStatus)}</strong>
-              <small>CEO B Review Required before any reviewed record is complete.</small>
+              <small>Approved means approved for research publication only, never a buy or sell command.</small>
+            </div>
+            <div class="quality-gate-summary ${panelModel.qualityGate.passed ? "passed" : "blocked"}">
+              <span>Research Quality Gate</span>
+              <strong>${panelModel.qualityGate.passed ? "Complete" : "Needs Review"}</strong>
+              <small>${panelModel.qualityGate.passed ? "Required fields and source verification are complete." : `${panelModel.qualityGate.missing.length} required fields incomplete; source verified: ${panelModel.qualityGate.sourceVerified ? "yes" : "no"}.`}</small>
+              ${panelModel.qualityGate.missing.length ? `<p>${escapeHtml(panelModel.qualityGate.missing.join(" · "))}</p>` : ""}
             </div>
             <div class="options-alerts-state-key outputs">
-              ${["Research Packet Candidate", "Needs More Evidence", "Watchlist Review", "Archive Candidate", "Rejected", "Suppressed Noise"].map((label) => `<span class="${panelModel.outputState === label ? "active" : ""}">${label}</span>`).join("")}
-            </div>
-            <div class="options-alerts-state-key outputs">
-              ${["Pending Review", "Approved for Review", "Deferred", "Rejected", "Archived Lesson Candidate"].map((label) => `<span class="${panelModel.reviewStatus === label ? "active" : ""}">${label}</span>`).join("")}
+              ${["Source Review", "Risk Gate", "Needs More Data", "CEO B Review", "Needs More Sources", "Approved for Research", RESEARCH_APPROVAL_LABEL, "Rejected", "Archived"].map((label) => `<span class="${panelModel.reviewStatus === label || panelModel.outputState === label ? "active" : ""}">${label}</span>`).join("")}
             </div>
             <div class="packet-ceo-actions">
-              ${["Review", "Watch", "Archive", "Reject", "Mark Lesson"].map((action) => `<button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', '${action}')">${action}</button>`).join("")}
+              ${["Review", "Approve for Research", "Watch", "Archive", "Reject", "Mark Lesson"].map((action) => `<button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', '${action}')">${action}</button>`).join("")}
             </div>
+            <p class="research-card-disclaimer">${escapeHtml(packet.disclaimer)}</p>
           </section>
         </aside>
+      </section>
+
+      <section class="alerts-framework-grid">
+        <article>
+          <span class="meta-label">Call Research Candidate Framework</span>
+          <h3>Upside research requires alignment, not excitement.</h3>
+          <p>Confirm Time, Trend, Theme, contract quality, catalyst, source trail, invalidation, and premium risk before CEO B review.</p>
+          ${pcChipRow(["Source Review", "Risk Gate", "CEO B Review"])}
+        </article>
+        <article>
+          <span class="meta-label">Put Research Candidate Framework</span>
+          <h3>Downside research requires structure, not fear.</h3>
+          <p>Confirm breakdown structure, catalyst credibility, liquidity, volatility context, defined risk, and a clear bear-case invalidation.</p>
+          ${pcChipRow(["Needs More Data", "Needs More Sources", "Manual Review Required"])}
+        </article>
+        <article>
+          <span class="meta-label">Archive / Learning Link</span>
+          <h3>Every outcome becomes memory.</h3>
+          <p>Archive reviewed packets and record paper outcomes so future research can compare the current setup with prior evidence and lessons.</p>
+          <div class="phase2-framework-links"><a href="#/archive">Open Archive</a><a href="#/learning-ledger">Open Learning Ledger</a></div>
+        </article>
       </section>
 
       <section class="packet-vote-matrix">
@@ -8362,6 +8589,10 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
           <table><thead><tr><th>Agent Lane</th><th>Score</th><th>Vote</th></tr></thead><tbody>${voteRows}</tbody></table>
         </div>
       </section>
+      <footer class="alerts-compliance-footer">
+        <strong>${escapeHtml(RESEARCH_CARD_DISCLAIMER)}</strong>
+        <span>Source verification needed. Past performance does not guarantee future results. Approved for Research — Not a Trade Command.</span>
+      </footer>
 
       <details class="suppressed-noise-drawer">
         <summary>Suppressed Noise <span>${suppressedPackets.length}</span></summary>
@@ -8371,6 +8602,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
             <button type="button" onclick="window.selectResearchPacketV2('${escapeHtml(item.id)}')">
               <strong>${escapeHtml(item.symbol)} / ${escapeHtml(item.totalScore)}</strong>
               <span>${escapeHtml(item.fatalRiskFlags[0] || researchRouteLabel(item.routeDecision))}</span>
+              <small>${escapeHtml(RESEARCH_CARD_DISCLAIMER)}</small>
             </button>
           `).join("") || `<p>No suppressed packets in local memory.</p>`}
         </div>
@@ -8683,7 +8915,24 @@ window.applyResearchPacketAction = (packetId, action) => {
   const patch = { ...packet, ceoBAction: action, updatedAt: now };
   if (action === "Review") {
     patch.reviewState = "CEO B Reviewed";
+    patch.ceoBStatus = "Reviewed by CEO B";
     patch.ceoBNextAction = "Record a manual decision or outcome";
+  } else if (action === "Approve for Research") {
+    patch.ceoBStatus = "Reviewed by CEO B";
+    const normalized = normalizeResearchPacketDraft(patch);
+    const panel = buildOptionsAlertsPanelModel(normalized);
+    if (!normalized.qualityGate.passed || panel.blockingCount > 0) {
+      patch.reviewState = "Needs Review";
+      patch.ceoBAction = "Needs Review";
+      patch.finalDecision = "Needs Review";
+      patch.ceoBNextAction = "Complete missing fields, source verification, and risk blocks";
+      showNotification("Approval blocked: complete the quality gate, source verification, and risk review.", "warning");
+    } else {
+      patch.reviewState = RESEARCH_APPROVAL_LABEL;
+      patch.ceoBAction = RESEARCH_APPROVAL_LABEL;
+      patch.finalDecision = RESEARCH_APPROVAL_LABEL;
+      patch.ceoBNextAction = "Publish research record and retain the no-trade-command boundary";
+    }
   } else if (action === "Watch") {
     patch.reviewState = "Watchlist Candidate";
     patch.watchlistCandidate = true;
@@ -9643,7 +9892,7 @@ function getEffectiveWorldMissions() {
       habitat: item.source || "CEO B Command",
       status: item.status || "Working",
       title: item.title,
-      description: item.nextAction || "Run approved research plan.",
+      description: item.nextAction || "Prepare reviewed research plan.",
       progress: progress,
       assignedAgents: [item.owner || "Task Smith"],
       confidence: item.confidence || 80,
@@ -9831,7 +10080,7 @@ function renderProjectUpdatePage() {
       <div class="game-action-row">
         <button type="button" onclick="window.copyHandoffText?.()">Copy Source Hub / Staging</button>
         <button type="button" onclick="window.copyProjectSummary?.()">Copy Project Update Summary</button>
-        <button type="button" onclick="navigator.clipboard?.writeText('https://github.com/Burberrry/pickaxe-capital-command-center')">Copy GitHub Repo Link</button>
+        <button type="button" onclick="navigator.clipboard?.writeText('https://github.com/Burberrry/Pickaxe-Capital')">Copy GitHub Repo Link</button>
         <a href="#/source-hub-staging">Open Source Hub / Staging</a>
         <a href="#/staging">Open Staging Mission Board</a>
       </div>
@@ -10015,7 +10264,7 @@ window.copyProjectSummary = async () => {
     "Static Node app: server.mjs serves public/",
     "Project update: http://localhost:4328/project-update",
     "Source Hub / Staging: http://localhost:4328/source-hub-staging",
-    "GitHub target: https://github.com/Burberrry/pickaxe-capital-command-center",
+    "GitHub target: https://github.com/Burberrry/Pickaxe-Capital",
     `Urgent watchlist: ${canonicalWatchlistSymbols().join(", ")}`,
     "No scraping, no auto-trading, no fake live agents, no API keys in frontend.",
   ].join("\n");
@@ -11597,7 +11846,7 @@ function renderFounderLandingPage() {
     ["06 Source Hub", "Trust cockpit for source verification, lineage, privacy boundaries, and route handoffs.", "#/source-hub"],
     ["10 Archive Vault", "Cleaned source-linked memory vault for research, lessons, and reviewed intelligence.", "#/archive"],
     ["15 Watchlists", "Research universe organized by ticker, theme, priority, and review status.", "#/watchlists"],
-    ["19 Research Desk", "Future workspace for building structured research packets and reusable research maps.", "#/research"]
+    ["19 Research Desk", "Implemented local workflow for building structured research packets and reusable research maps.", "#/research"]
   ];
   const tiers = [
     {
@@ -11880,7 +12129,7 @@ function loadPromptIntoDesk() {
 
 async function runAgents() {
   els.agentMeta.textContent = "Running";
-  els.agentOutput.textContent = "Research desk is reading live data, options chain, and memory...";
+  els.agentOutput.textContent = "Research desk is reviewing static demo inputs, options context, and local memory...";
   const symbols = els.watchlistInput.value.split(",").map((s) => s.trim()).filter(Boolean);
   try {
     const payload = await postJson("/api/agents/research", {
@@ -12012,7 +12261,7 @@ function renderSignalPacket(signal) {
   else if (signal.action?.includes("WAIT") || signal.side === "WAIT") actionColorClass = "text-amber-400 font-bold";
   
   let statusBg = "bg-slate-900 border-slate-800 text-slate-400";
-  if (signal.status?.includes("approved")) statusBg = "bg-emerald-950/30 border-emerald-900/30 text-emerald-400";
+  if (signal.status?.toLowerCase().includes("approved")) statusBg = "bg-emerald-950/30 border-emerald-900/30 text-emerald-400";
   else if (signal.status?.includes("rejected")) statusBg = "bg-red-950/30 border-red-900/30 text-red-400";
   else if (signal.status?.includes("review")) statusBg = "bg-blue-950/30 border-blue-900/30 text-blue-400";
   else if (signal.status?.includes("watch")) statusBg = "bg-amber-950/30 border-amber-900/30 text-amber-400";
@@ -12057,7 +12306,7 @@ function renderSignalPacket(signal) {
       <!-- Action buttons -->
       <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-900 mt-auto">
         <button onclick="window.changeSignalStatus('${escapeHtml(signal.id)}', 'CEO B review')" class="bg-blue-950/40 text-blue-400 border border-blue-900/50 hover:bg-blue-950/80 hover:border-blue-400 transition-colors text-[9px] px-2 py-1 uppercase font-bold">Send to Review</button>
-        <button onclick="window.changeSignalStatus('${escapeHtml(signal.id)}', 'approved manual review')" class="bg-emerald-950/40 text-emerald-400 border border-emerald-900/50 hover:bg-emerald-950/80 hover:border-emerald-400 transition-colors text-[9px] px-2 py-1 uppercase font-bold">Approve</button>
+        <button onclick="window.changeSignalStatus('${escapeHtml(signal.id)}', 'Approved for Research — Not a Trade Command')" class="bg-emerald-950/40 text-emerald-400 border border-emerald-900/50 hover:bg-emerald-950/80 hover:border-emerald-400 transition-colors text-[9px] px-2 py-1 uppercase font-bold">Approve for Research</button>
         <button onclick="window.changeSignalStatus('${escapeHtml(signal.id)}', 'risk rejected')" class="bg-red-950/40 text-red-400 border border-red-900/50 hover:bg-red-950/80 hover:border-red-400 transition-colors text-[9px] px-2 py-1 uppercase font-bold">Reject</button>
         <button onclick="window.changeSignalStatus('${escapeHtml(signal.id)}', 'watch only')" class="bg-slate-900 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:border-slate-500 transition-colors text-[9px] px-2 py-1 uppercase font-bold">Watch Only</button>
       </div>
@@ -12073,11 +12322,11 @@ window.changeSignalStatus = (alertId, nextStatus) => {
   const alerts = getOptionAlertsState();
   const alert = alerts.find(a => a.id === alertId);
   if (alert) {
-    alert.status = nextStatus;
+    alert.status = normalizeResearchApprovalLabel(nextStatus);
     saveOptionAlertsState(alerts);
-    showNotification(`Signal status changed to "${nextStatus}" for ${alert.symbol}`);
+    showNotification(`Signal status changed to "${alert.status}" for ${alert.symbol}`);
     state.terminalLog = state.terminalLog || [];
-    state.terminalLog.push(`SIGNAL UPDATE: ${alert.symbol} set to "${nextStatus}"`);
+    state.terminalLog.push(`SIGNAL UPDATE: ${alert.symbol} set to "${alert.status}"`);
     
     // Refresh relevant views
     renderHomeCommandCenter();
@@ -12738,7 +12987,7 @@ function renderAgentWorldOS() {
                     
                     <!-- Simplified CEO B Actions -->
                     <div class="grid grid-cols-2 gap-1 pt-1.5 border-t border-[#1f242d] text-[8px]">
-                      <button type="button" class="bg-green/10 text-green border border-green/30 hover:bg-green/20 py-1 uppercase font-bold rounded-sm transition-colors" onclick="window.reviewStackAction('approved', '${escapeHtml(item.id)}')">Approve</button>
+                      <button type="button" class="bg-green/10 text-green border border-green/30 hover:bg-green/20 py-1 uppercase font-bold rounded-sm transition-colors" onclick="window.reviewStackAction('approved', '${escapeHtml(item.id)}')">Approve for Research</button>
                       <button type="button" class="bg-red/10 text-red border border-red/30 hover:bg-red/20 py-1 uppercase font-bold rounded-sm transition-colors" onclick="window.reviewStackAction('rejected', '${escapeHtml(item.id)}')">Reject</button>
                       
                       <!-- Assign to Agent Option -->
@@ -13296,7 +13545,7 @@ function renderWorldDetailPanel(habitat, mission, agentName) {
         <small>Chain: ${escapeHtml((mission.collaborationChain || ["Home", "Workstation", "Trading Floor", "CEO B Review"]).join(" -> "))}</small>
       </div>
       <div class="game-action-row">
-        <button type="button" onclick="window.worldAction?.('approved', '${escapeHtml(mission.id || "")}')">Approve</button>
+        <button type="button" onclick="window.worldAction?.('approved', '${escapeHtml(mission.id || "")}')">Approve for Research</button>
         <button type="button" onclick="window.worldAction?.('needs improvement', '${escapeHtml(mission.id || "")}')">Send Back</button>
         <button type="button" onclick="window.worldAction?.('archived', '${escapeHtml(mission.id || "")}')">Archive</button>
         <button type="button" onclick="window.sendHabitatReport?.('${escapeHtml(habitat.id || "market-habitat")}')">Send Habitat Report</button>
@@ -13326,7 +13575,7 @@ function renderWorldReviewItem(item) {
       <p>${escapeHtml(item.output)}</p>
       <small>${escapeHtml((item.agents || []).join(", "))} • ${item.confidence}% confidence</small>
       <div class="world-review-actions">
-        <button type="button" onclick="window.reviewStackAction?.('approved', '${escapeHtml(item.id)}')">Approve</button>
+        <button type="button" onclick="window.reviewStackAction?.('approved', '${escapeHtml(item.id)}')">Approve for Research</button>
         <button type="button" onclick="window.reviewStackAction?.('needs improvement', '${escapeHtml(item.id)}')">Needs Improvement</button>
         <button type="button" onclick="window.reviewStackAction?.('archived', '${escapeHtml(item.id)}')">Archive</button>
         <button type="button" onclick="window.reviewStackAction?.('sent back', '${escapeHtml(item.id)}')">Send Back</button>
@@ -13500,7 +13749,7 @@ window.reviewStackAction = (action, reviewId, targetAgentId = null) => {
 
   if (action === "approved") {
     worldState.reviewStack = stack.filter((entry) => entry.id !== reviewId);
-    worldState.wins = [{ ...item, status: "Approved", time }, ...(worldState.wins || [])];
+    worldState.wins = [{ ...item, status: RESEARCH_APPROVAL_LABEL, time }, ...(worldState.wins || [])];
     
     // Automatically generate a mission task for the approved item
     const agentName = item.agents?.[0] || item.owner || "Task Smith";
@@ -13509,9 +13758,9 @@ window.reviewStackAction = (action, reviewId, targetAgentId = null) => {
       owner: agentName,
       source: item.habitat || "CEO B Command",
       priority: item.priority || "High",
-      nextAction: item.output || "Run approved research plan."
+      nextAction: item.output || "Prepare reviewed research plan."
     });
-    addWorldEvent(`CEO B approved: ${item.title}`);
+    addWorldEvent(`CEO B approved for research: ${item.title}`);
   } else if (action === "rejected") {
     worldState.reviewStack = stack.filter((entry) => entry.id !== reviewId);
     addWorldEvent(`CEO B rejected: ${item.title}`);
@@ -13526,7 +13775,7 @@ window.reviewStackAction = (action, reviewId, targetAgentId = null) => {
       owner: agentName,
       source: item.habitat || "CEO B Command",
       priority: item.priority || "High",
-      nextAction: item.output || "Run approved research plan."
+      nextAction: item.output || "Prepare reviewed research plan."
     });
     
     // Add to agent ops tasks
@@ -13554,7 +13803,7 @@ window.reviewStackAction = (action, reviewId, targetAgentId = null) => {
       url: `#/agents?agent=ceo-b`,
       domain: "CEO B Review",
       type: "review",
-      topic: "CEO B Approved Review Item",
+      topic: "CEO B Research-Approved Review Item",
       category: "Archive / Tracker",
       habitat: item.habitat || "CEO B Command",
       status: "archived",
@@ -13658,7 +13907,7 @@ function renderAgentOpsBottomPanels(agentOps) {
       </article>
       <article class="ceo-command-says">
         <span class="label">CEO B Command Says</span>
-        <h3>Stay stationed. Trust the process. Review, rank, and execute.</h3>
+        <h3>Stay stationed. Trust the process. Review, rank, and prepare research.</h3>
       </article>
     </section>
   `;
@@ -14539,7 +14788,7 @@ async function handleStaticRouteFallback(url, method, body) {
       items: [
         { letter: "A", title: "Obsidian Theme Added", detail: "Graphite backgrounds, 2px borders, custom accents." },
         { letter: "B", title: "17-Agent Roster Upgrade", detail: "Detailed Workforce Board grid rendering." },
-        { letter: "C", title: "Signals Options Workbench", detail: "Interactive Approve/Reject option signals." }
+        { letter: "C", title: "Signals Options Workbench", detail: "Interactive research review outcomes for option candidates." }
       ]
     };
   }
@@ -15061,7 +15310,7 @@ renderDashboardPage = function () {
     ["04", "Agents", "Placeholder"], ["05", "Signals Lab", "Active"], ["06", "Source Hub", "Live-locked"], ["07", "Risk & Rules", "Stable"],
     ["08", "Learning Ledger", "Stable"], ["09", "Trend Radar", "Active"], ["10", "Archive Vault", "Live-locked"], ["11", "Bookmarks Mine", "Stable"],
     ["12", "Money Lab", "Stable"], ["13", "Staging / QA", "Stable"], ["14", "Habitat OS", "Stable"], ["15", "Watchlists", "Stable"],
-    ["16", "Markets Matrix", "Future"], ["17", "Options Hub", "Deferred"], ["18", "Catalysts Calendar", "Future"], ["19", "Research Desk", "Future"], ["20", "Roadmap", "Stable"]
+    ["16", "Markets Matrix", "Future"], ["17", "Options Hub", "Deferred"], ["18", "Catalysts Calendar", "Future"], ["19", "Research Desk", "Local Workflow"], ["20", "Roadmap", "Stable"]
   ];
   const blueprintGroups = [
     ["COMMAND", [
@@ -15092,7 +15341,7 @@ renderDashboardPage = function () {
     ["EXPANSION", [
       ["17", "Options Hub", "#/options", "Deferred", "Research-only future", "Needs explicit B approval"],
       ["18", "Catalysts Calendar", "#/catalysts", "Future", "Event context", "Future source-backed dates"],
-      ["19", "Research Desk", "#/research", "Future", "Draft research", "Future memo bridge"],
+      ["19", "Research Desk", "#/research", "Local Workflow", "Draft research", "Local packet builder"],
       ["20", "Roadmap", "#/roadmap", "Stable", "Build sequence", "Controls next sprint"]
     ]]
   ];
@@ -16575,7 +16824,7 @@ renderFutureConceptPages = function () {
     [els.marketsContent, "16 MKT", "Markets Matrix", "Future market overview for breadth, regimes, and research context."],
     [els.optionsContent, "17 OPT", "Options Hub", "Future options research hub for chain concepts, IV context, and probability study."],
     [els.catalystsContent, "18 CAT", "Catalysts Calendar", "Future catalyst board for earnings, macro, and event-risk research."],
-    [els.researchContent, "19 RSRCH", "Research Desk", "Future source-linked research workspace with confidence and archive links."],
+    [els.researchContent, "19 RSRCH", "Research Desk", "Implemented local source-linked research workspace with confidence and archive links."],
     [els.roadmapContent, "20 BLD", "Build / Roadmap", "Future build cockpit for Phase 2 planning, validation, and next prototype decisions."]
   ];
   pages.forEach(([el, code, title, subtitle]) => {

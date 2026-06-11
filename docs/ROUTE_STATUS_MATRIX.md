@@ -1,10 +1,10 @@
 # Route Status Matrix
 
-Phase 2E planning/audit matrix for the current Pickaxe Capital / AI Habitat OS route set.
+Phase 1.5 reconciled matrix for the current Pickaxe Capital / AI Habitat OS route set.
 
 ## Core Rules
 
-- Keep Mission Control as flagship.
+- Keep Alerts Desk as the homepage and Mission Control as the pinned CEO B overview.
 - Keep Source Hub stable after Phase 2D.
 - Do not touch Watchlists unless a visible bug is found.
 - Do not rebuild Agents yet.
@@ -34,8 +34,8 @@ Phase 2E planning/audit matrix for the current Pickaxe Capital / AI Habitat OS r
 | `#/markets` | Markets Matrix | Market Intelligence | future concept | Future market overview and regime context. | High | No | Would require backend/live-data rules. |
 | `#/options` | Options Hub | Market Intelligence | future concept | Future research-only options cockpit. | High | No | Do not start without B approval. |
 | `#/catalysts` | Catalysts Calendar | Market Intelligence | future concept | Future event/catalyst research board. | Medium/High | No | Needs source workflow first. |
-| `#/research` | Research Desk | Research Build | future concept | Future source-linked research workspace. | Medium | Maybe | Could follow Archive/Source workflow. |
-| `#/roadmap` | Build / Roadmap | Research Build | future concept | Future build/sprint cockpit. | Low | Maybe | Planning docs can feed this later. |
+| `#/research` | Research Desk | Research Build | implemented local workflow | Local source-linked packet builder with confidence, routing, Archive, and Learning Ledger links. | Medium | No | Preserve during Phase 2; no live provider claims. |
+| `#/roadmap` | Build / Roadmap | Research Build | stable planning route | Static build/sprint cockpit and launch planning surface. | Low | No | Preserve during Phase 2. |
 
 ## Legacy / Compatibility Matrix
 
@@ -54,8 +54,7 @@ Phase 2E planning/audit matrix for the current Pickaxe Capital / AI Habitat OS r
 
 ## Touch Priority
 
-1. Safe planning: 20-section blueprint interpretation and route grouping.
-2. Low/medium feature candidate: Archive / Source Workflow.
-3. Visual polish candidate: Mission Control after B approves direction.
-4. Higher-risk candidate: Options Intelligence Hub, only with strict research-only rules.
-5. Deferred: Agents rebuild, live data, adapters, OpenClaw, device control.
+1. Phase 2: hero and `#/alerts` only after CEO B accepts Phase 1.5.
+2. Phase 3: `#/agents` and `#/ai-habitat-os` only after Phase 2 review.
+3. Phase 4: consistency, placeholders, mobile, and validation.
+4. Deferred: live data, provider adapters, OpenClaw, device control, broker execution, and broad refactors.

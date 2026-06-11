@@ -24,6 +24,15 @@ const obsidianHandoffNotes = [
 await mkdir(dataDir, { recursive: true });
 loadEnvFile(join(root, ".env.local"));
 
+// DEV-ONLY / DISABLED BY DEFAULT / NOT USED BY GITHUB PAGES
+// GitHub Pages does not run server.mjs. The public app is a static/demo
+// prototype. Live data belongs to a future backend phase and must be
+// explicitly enabled for local development.
+const LIVE_SERVICES_ENABLED =
+  String(process.env.PICKAXE_ENABLE_LIVE_SERVICES || "").toLowerCase() === "true";
+const LIVE_SERVICES_DISABLED_MESSAGE =
+  "Live services are disabled in this static prototype. This endpoint returns demo/static data only.";
+
 const contentTypes = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -73,7 +82,10 @@ createServer(async (req, res) => {
     if (url.pathname === "/api/health") {
       return json(res, {
         ok: true,
-        hasOpenAIKey: Boolean(process.env.OPENAI_API_KEY),
+        mode: LIVE_SERVICES_ENABLED ? "dev-live-services" : "static-demo",
+        liveServicesEnabled: LIVE_SERVICES_ENABLED,
+        hasOpenAIKey: LIVE_SERVICES_ENABLED && Boolean(process.env.OPENAI_API_KEY),
+        message: LIVE_SERVICES_ENABLED ? "Local development live services are enabled." : LIVE_SERVICES_DISABLED_MESSAGE,
         time: new Date().toISOString(),
       });
     }
@@ -84,12 +96,27 @@ createServer(async (req, res) => {
         .map((s) => s.trim().toUpperCase())
         .filter(Boolean)
         .slice(0, 24);
+      if (!LIVE_SERVICES_ENABLED) {
+        return json(res, {
+          mode: "static-demo",
+          message: LIVE_SERVICES_DISABLED_MESSAGE,
+          updatedAt: new Date().toISOString(),
+          results: symbols.map(getDemoMarketSnapshot),
+        });
+      }
       const results = await Promise.all(symbols.map((symbol) => getMarketSnapshot(symbol)));
       return json(res, { updatedAt: new Date().toISOString(), results });
     }
 
     if (url.pathname === "/api/options") {
       const symbol = (url.searchParams.get("symbol") || "SPY").trim().toUpperCase();
+      if (!LIVE_SERVICES_ENABLED) {
+        return json(res, {
+          mode: "static-demo",
+          message: LIVE_SERVICES_DISABLED_MESSAGE,
+          ...getDemoOptionsSnapshot(symbol),
+        });
+      }
       return json(res, await getOptionsSnapshot(symbol));
     }
 
@@ -99,6 +126,14 @@ createServer(async (req, res) => {
         .map((s) => s.trim().toUpperCase())
         .filter(Boolean)
         .slice(0, 10);
+      if (!LIVE_SERVICES_ENABLED) {
+        return json(res, {
+          mode: "static-demo",
+          message: LIVE_SERVICES_DISABLED_MESSAGE,
+          updatedAt: new Date().toISOString(),
+          signals: getDemoSignals(symbols),
+        });
+      }
       return json(res, await generateOptionSignals(symbols));
     }
 
@@ -162,6 +197,9 @@ createServer(async (req, res) => {
 
     if (url.pathname === "/api/agents/research" && req.method === "POST") {
       const body = await readBody(req);
+      if (!LIVE_SERVICES_ENABLED) {
+        return json(res, getDemoResearchResponse(body));
+      }
       return json(res, await runResearchAgents(body));
     }
 
@@ -201,7 +239,8 @@ createServer(async (req, res) => {
     return json(res, { ok: false, error: error.message || "Unknown error" }, 500);
   }
 }).listen(port, () => {
-  console.log(`Pickaxe Capital is running at http://localhost:${port}`);
+  const mode = LIVE_SERVICES_ENABLED ? "DEV LIVE SERVICES ENABLED" : "STATIC/DEMO";
+  console.log(`Pickaxe Capital is running at http://localhost:${port} (${mode})`);
 });
 
 async function serveStatic(pathname, res) {
@@ -251,9 +290,10 @@ async function buildAiHandoff() {
     "Main local URL: http://localhost:4328/vision-map",
     "Handoff URLs: http://localhost:4328/ai-handoff and http://localhost:4328/source-hub-staging",
     "Project update URL: http://localhost:4328/project-update",
-    "GitHub repo target: https://github.com/Burberrry/pickaxe-capital-command-center",
+    "GitHub repo target: https://github.com/Burberrry/Pickaxe-Capital",
     "",
-    "Architecture truth: static Node app. server.mjs serves public/. Astro src files are reference only unless this changes later.",
+    "Architecture truth: the public product is static/demo. server.mjs is a local development server; GitHub Pages serves public/ directly. Astro src files are reference only unless this changes later.",
+    "Live-service truth: Yahoo Finance, CBOE, and optional OpenAI paths are disabled by default. They require PICKAXE_ENABLE_LIVE_SERVICES=true for explicit local development and are never run by GitHub Pages.",
     "Active files: server.mjs, public/index.html, public/app.js, public/styles.css, public/habitat-data.js, AGENTS.md, PROJECT_STATUS.md, NEXT_STEPS.md.",
     "Build/check commands: /Applications/Codex.app/Contents/Resources/node --run build and /Applications/Codex.app/Contents/Resources/node --run check:project.",
     "Private memory source: selected Obsidian notes are included below only when this local server can read the vault. Do not copy private vault contents into public frontend files.",
@@ -298,6 +338,138 @@ async function buildObsidianHandoffSection() {
     "",
     sections.join("\n\n---\n\n"),
   ].join("\n");
+}
+
+function getDemoMarketSnapshot(symbol, index = 0) {
+  const demoRows = {
+    SPY: [535.42, 0.38, 3_200_000],
+    QQQ: [472.18, 0.61, 2_400_000],
+    IWM: [205.36, -0.27, 1_100_000],
+    NVDA: [121.74, 1.12, 4_800_000],
+    AAPL: [196.88, 0.21, 2_000_000],
+    TSLA: [179.42, -0.84, 3_700_000],
+  };
+  const [price, changePct, volume] = demoRows[symbol] || [
+    100 + index * 7.5,
+    index % 2 === 0 ? 0.24 : -0.19,
+    750_000 + index * 90_000,
+  ];
+  const spark = [-0.8, -0.35, 0.1, -0.05, 0.44, 0.31, 0.72].map((step) =>
+    Number((price * (1 + step / 100)).toFixed(2)),
+  );
+  return {
+    ok: true,
+    symbol,
+    name: marketNames[symbol] || `${symbol} Demo Snapshot`,
+    price,
+    change: Number((price * changePct / 100).toFixed(2)),
+    changePct,
+    dayHigh: Math.max(...spark),
+    dayLow: Math.min(...spark),
+    volume,
+    spark,
+    currency: "USD",
+    exchange: "Static Demo",
+    status: "DEMO",
+    source: "Static demo dataset",
+    isDemo: true,
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function getDemoOptionsSnapshot(symbol) {
+  const market = getDemoMarketSnapshot(symbol);
+  const rounded = Math.max(1, Math.round(market.price / 5) * 5);
+  const expiration = "DEMO-EXPIRATION";
+  const makeContract = (side, strikeOffset, premium, volume, openInterest) => {
+    const strike = rounded + strikeOffset;
+    return {
+      side,
+      contractSymbol: `${symbol}-DEMO-${side}-${strike}`,
+      strike,
+      expiration,
+      bid: Number((premium - 0.08).toFixed(2)),
+      ask: Number((premium + 0.08).toFixed(2)),
+      mid: premium,
+      volume,
+      openInterest,
+      impliedVolatility: 0.31,
+      score: 62,
+      isDemo: true,
+    };
+  };
+  return {
+    ok: true,
+    symbol,
+    underlyingPrice: market.price,
+    expiration,
+    calls: [
+      makeContract("CALL", 0, 3.15, 820, 2_450),
+      makeContract("CALL", 5, 1.92, 610, 1_880),
+    ],
+    puts: [
+      makeContract("PUT", 0, 2.84, 735, 2_120),
+      makeContract("PUT", -5, 1.66, 540, 1_640),
+    ],
+    source: "Static demo dataset",
+    isDemo: true,
+  };
+}
+
+function getDemoSignals(symbols) {
+  return symbols.slice(0, 3).map((symbol, index) => {
+    const market = getDemoMarketSnapshot(symbol, index);
+    const side = index % 2 === 0 ? "CALL" : "PUT";
+    const strike = Math.round(market.price / 5) * 5;
+    return {
+      id: `demo-${symbol.toLowerCase()}-${side.toLowerCase()}`,
+      symbol,
+      alertType: "Research Candidate",
+      side,
+      strike,
+      expiration: "DEMO-EXPIRATION",
+      contractSymbol: `${symbol}-DEMO-${side}-${strike}`,
+      underlyingPrice: market.price,
+      bid: 1.84,
+      ask: 2.02,
+      mid: 1.93,
+      volume: 640 + index * 75,
+      openInterest: 1_900 + index * 210,
+      score: 68 - index * 4,
+      thesis: "Static demonstration candidate for human research review.",
+      invalidation: "Demo-only scenario; verify all market context and sources before use.",
+      source: "Static demo dataset",
+      status: "Needs Review",
+      isDemo: true,
+    };
+  });
+}
+
+function getDemoResearchResponse(body = {}) {
+  const focus = cleanText(
+    body.focus || body.question || body.prompt || "Review the current research queue.",
+    500,
+  );
+  return {
+    ok: true,
+    mode: "static-demo",
+    message: LIVE_SERVICES_DISABLED_MESSAGE,
+    run: {
+      id: `demo-research-${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      focus,
+      modelUsed: "static-demo",
+      aiOk: false,
+      status: "Needs Review",
+      report: [
+        "Static demonstration response. No AI model or external market service was called.",
+        "Review Time, Trend, and Theme using verified sources.",
+        "Confirm risk, invalidation, and source trail before research publication.",
+        "CEO B review required.",
+        "Research only. Not financial advice. No broker execution. Options involve substantial risk. User judgment required.",
+      ].join("\n\n"),
+    },
+  };
 }
 
 async function getMarketSnapshot(symbol) {
@@ -667,7 +839,7 @@ async function runResearchAgents(body) {
   let modelUsed = "local-fallback";
   let aiOk = false;
 
-  if (process.env.OPENAI_API_KEY) {
+  if (LIVE_SERVICES_ENABLED && process.env.OPENAI_API_KEY) {
     try {
       const aiResponse = await fetch("https://api.openai.com/v1/responses", {
         method: "POST",
@@ -731,19 +903,22 @@ function fallbackResearch(prompt, reason) {
     .sort((a, b) => b.score - a.score)
     .slice(0, 5);
   return [
-    `Desk Pulse: Rules-based review is active (${cleanReason}). Market data is still live, so use this as a desk brief.`,
+    `Desk Pulse: Rules-based review is active (${cleanReason}). Treat all inputs as demo/static unless live services were explicitly enabled for local development.`,
     `Highest Priority Watchlist: ${movers.map((m) => `${m.symbol} ${formatPct(m.changePct)}`).join(", ") || "No clean market snapshot yet."}`,
     `Options Flow Proxy Read: ${topContracts.map((c) => `${c.side} ${c.strike} vol ${c.volume} OI ${c.openInterest}`).join("; ") || "No option chain available from the current free data route."}`,
     "Risk Gates: Only study liquid names, reject wide spreads, define invalidation before entry, cap risk per idea, and journal the thesis before action.",
     `Mistake To Avoid Today: Do not turn a market opinion into oversized options exposure without volume, catalyst, and invalidation lining up.`,
-    "Next 3 Actions: Run the scan again near liquidity windows. Pick one ticker for deep review. Write the planned trade and the reason not to take it.",
-    "Conviction Score: 5/10 - live data is present, but the AI model response was not available for deeper synthesis.",
+    "Next 3 Actions: Review the research packet again near relevant liquidity windows. Pick one ticker for deep review. Write the research thesis and the reason to reject it.",
+    "Conviction Score: 5/10 - source verification and human review remain required.",
   ].join("\n\n");
 }
 
 async function buildChecklistState() {
   const now = new Date();
-  const market = await Promise.all(["SPY", "QQQ", "NVDA", "BTC-USD"].map(getMarketSnapshot));
+  const checklistSymbols = ["SPY", "QQQ", "NVDA", "BTC-USD"];
+  const market = LIVE_SERVICES_ENABLED
+    ? await Promise.all(checklistSymbols.map(getMarketSnapshot))
+    : checklistSymbols.map(getDemoMarketSnapshot);
   const runs = await readJson("agent-runs.json", []);
   const journal = await readJson("research-journal.json", []);
   const today = now.toISOString().slice(0, 10);
@@ -770,16 +945,20 @@ async function buildChecklistState() {
     },
     {
       id: "data",
-      title: "Confirm live data feed",
+      title: "Confirm static/demo data mode",
       status: marketHealthy ? "done" : "blocked",
-      detail: marketHealthy ? "Market route returned live snapshots." : "Market route is not returning clean data yet.",
+      detail: marketHealthy
+        ? "Market route returned labeled static/demo snapshots."
+        : "Static/demo market context is not returning clean data yet.",
       priority: 1,
     },
     {
       id: "agent",
       title: "Run the research desk",
       status: hasRunToday ? "done" : "due",
-      detail: hasRunToday ? "At least one agent research run is logged today." : "Run the AI desk brief before forming a trade thesis.",
+      detail: hasRunToday
+        ? "At least one agent research run is logged today."
+        : "Review the static research desk brief before forming a research thesis.",
       priority: 1,
     },
     {

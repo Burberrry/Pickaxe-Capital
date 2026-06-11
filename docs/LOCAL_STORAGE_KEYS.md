@@ -19,6 +19,7 @@ The app's backup/export logic explicitly handles these primary keys:
 | `pickaxe_jarvis_command_history` | `#/jarvis-lab` | Typed Jarvis command history. | Yes, with care | Local/prototype | Potentially private | No voice/camera/device control; typed command history may be personal. |
 | `pickaxeArchiveVault` | `#/archive`, `#/source-hub` | Parsed/saved archive notes and source candidates. | Yes, with care | Local/user-provided | Potentially private | Clean before publishing; may include source URLs. |
 | `pickaxeOptionAlerts` | `#/signals`, `#/alerts` | Demo/research options/signal packets. | Yes | Demo/static/local | No by default | No live chain, fake IV/Greeks/flow, or execution language. |
+| `pickaxeResearchPackets` | `#/research`, `#/alerts`, `#/archive`, `#/learning-ledger` | Research Packet v2 drafts, review state, route decisions, and paper outcomes. | Yes, with care | Static/local | Could include user notes | Legacy approval and command-route values normalize forward; no broker action is stored or triggered. |
 | `pickaxeLocalNotes` | `#/archive`, `#/bookmarks`, `#/signals` | Manual research notes. | Yes, with care | Local/user-provided | Potentially private | Do not publish raw notes. |
 
 ## Additional Keys
