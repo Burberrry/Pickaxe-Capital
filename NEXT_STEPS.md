@@ -2,10 +2,12 @@
 
 ## Current Active Checkpoint
 
-Phase 5.2 README Workflow YAML Repair is complete and locally verified.
+Phase 5.3 README Marker Contract Repair is complete and verified on GitHub Actions.
 
-- `.github/workflows/update-readme.yml` now quotes the commit message containing a colon, restoring valid YAML.
-- No README automation logic, Pages deployment logic, dependency, application runtime, or product route changed.
+- The exact README auto-update marker contract is restored.
+- `scripts/update-readme.mjs` updates only its bounded README block with current project truth.
+- README workflow run #79 and Pages workflow run #69 passed.
+- No application runtime, product route, dependency, or Pages deployment logic changed.
 
 Highest-leverage next scope: Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel.
 
@@ -14,7 +16,7 @@ Highest-leverage next scope: Phase 6 Public Credibility Section - Pickaxe Proof 
 - Phase 3 Agent Habitat and AI Habitat OS are complete, browser-local, research-only, and live on GitHub Pages.
 - Phase 4 local utility CSS and dependency-free route smoke coverage are active.
 - Phase 5 pre-deploy validation and public-only Pages deployment are active.
-- Phase 5.3 restores the bounded README auto-update marker contract.
+- Phase 5.3 keeps the bounded README auto-update marker contract active.
 
 ## Current State
 

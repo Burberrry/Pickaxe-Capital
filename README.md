@@ -122,7 +122,7 @@ Options Alerts organizes research candidates and supporting evidence for human r
 - Phase 3 Agent Habitat and AI Habitat OS are complete, browser-local, research-only, and live on GitHub Pages.
 - Phase 4 local utility CSS and dependency-free route smoke coverage are active.
 - Phase 5 pre-deploy validation and public-only Pages deployment are active.
-- Phase 5.3 restores the bounded README auto-update marker contract.
+- Phase 5.3 keeps the bounded README auto-update marker contract active.
 
 ### Current State
 
