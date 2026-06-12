@@ -136,7 +136,7 @@ Options Alerts organizes research candidates and supporting evidence for human r
 
 ### Next Priority
 
-- Commit, push, and live-verify Phase 7. Do not begin another visual or product sprint in the same lock cycle.
+- Keep Phase 7 locked. Do not begin another visual or product sprint without CEO B approval.
 
 ### Non-Negotiable Build Rules
 
