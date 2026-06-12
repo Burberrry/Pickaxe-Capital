@@ -966,7 +966,7 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-12",
     areas: [
-      { id: "phase-6-proof-of-work-carousel", name: "Phase 6 Proof of Work Carousel", group: "Public Credibility", status: "Passed / Local", completion: 100, priority: "High", owner: "CEO B / Founder / System Brain", notes: "Added six reusable verified-internal-milestone proof cards to /founder and #/founder with two-card desktop display, one-card 390px display, accessible previous/next controls, live slide count, safe route links, and section-scoped dark/gold styling. Copy explicitly rejects customer endorsement and performance-claim framing. Desktop, direct/hash Founder, carousel interaction, route-link, 390px, regression-route, console, overflow, mirror, syntax, build, project, safety, and smoke checks passed. No testimonial, customer logo, external endorsement, return, AUM, accuracy, live provider, broker, scraping, dependency, framework, or broad redesign behavior was added.", nextAction: "Commit, push, and live-verify Phase 6 before authorizing another product sprint." },
+      { id: "phase-6-proof-of-work-carousel", name: "Phase 6 Proof of Work Carousel", group: "Public Credibility", status: "Passed / Hosted", completion: 100, priority: "High", owner: "CEO B / Founder / System Brain", notes: "Added six reusable verified-internal-milestone proof cards to /founder and #/founder with two-card desktop display, one-card 390px display, accessible previous/next controls, live slide count, safe route links, and section-scoped dark/gold styling. Product commit 577fcc4 and GitHub Pages direct-route repair 0a490cb are on main. README and Pages workflows passed. Live route, carousel, route-link, desktop, 390px, console, overflow, safety, mirror, syntax, build, project, and smoke checks passed. No testimonial, customer logo, external endorsement, return, AUM, accuracy, live provider, broker, scraping, dependency, framework, or broad redesign behavior was added.", nextAction: "Keep Phase 6 locked. Perform only bounded Founder visual polish if CEO B identifies a live issue; otherwise wait for approval before Watchlists or Risk Desk planning." },
       { id: "phase-5-3-readme-marker-contract-repair", name: "Phase 5.3 README Marker Contract Repair", group: "Build Safety", status: "Passed / Hosted", completion: 100, priority: "High", owner: "CEO B / System Brain / QA", notes: "Restored the exact PICKAXE-AUTO-UPDATE README markers required by scripts/update-readme.mjs and added concise current-truth source sections so generated content does not fall back to stale historical bullets. The generator changes only its bounded README block. README workflow run #79 and Pages workflow run #69 passed. No product UI, route, dependency, Pages deployment behavior, live-data behavior, broker behavior, or safety boundary changed.", nextAction: "Begin Phase 6 Proof of Work Carousel only when authorized." },
       { id: "phase-5-2-readme-workflow-yaml-repair", name: "Phase 5.2 README Workflow YAML Repair", group: "Build Safety", status: "Passed / Local", completion: 100, priority: "High", owner: "CEO B / System Brain / QA", notes: "Quoted the README automation commit_message scalar so its embedded colon parses as valid YAML. No workflow logic, dependency, Pages deployment behavior, product route, runtime code, or safety boundary changed.", nextAction: "Confirm the hosted README workflow passes, then begin Phase 6 Proof of Work Carousel only when authorized." },
       { id: "phase-5-infrastructure-lock", name: "Phase 5 Infrastructure Lock", group: "Build Safety", status: "Passed / Local", completion: 100, priority: "Critical", owner: "CEO B / System Brain / QA", notes: "Hardened the existing GitHub Pages workflow with a Node 22 validation job that runs build, project, Phase 1.5, agent syntax, and dependency-free route smoke checks before uploading public/. The deploy job now depends on validation, preserving the existing public-only artifact, Pages permissions, and concurrency behavior. Corrected AGENTS.md truth drift for the completed browser-local Agent Habitat, AI Habitat OS, Tailwind CDN removal, local utility compatibility CSS, and smoke command. No application runtime, route, dependency, secret, live-data, provider, broker, or product behavior changed.", nextAction: "Commit and push the Phase 3-5 change set, confirm the GitHub Actions gate passes, and live-check the deployed Pages routes." },
@@ -1026,7 +1026,7 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["README.md", "PROJECT_STATUS.md", "NEXT_STEPS.md", "app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js"],
+      filesChanged: ["README.md", "PROJECT_STATUS.md", "NEXT_STEPS.md", "app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "founder/index.html", "public/founder/index.html", "scripts/smoke-routes.mjs", "scripts/check-mirrors.mjs"],
       featuresAdded: [
         "Added six reusable shared-data Proof of Work cards to the public Founder page.",
         "Added a lightweight browser-local two-card carousel with accessible controls, live slide count, route links, and one-card mobile treatment.",
@@ -1034,20 +1034,20 @@ window.PickaxeHabitatData = {
       ],
       bugsFixed: [
         "Prevented the public credibility section from implying customers, testimonials, external endorsements, or performance validation.",
-        "Kept the Founder carousel responsive without horizontal overflow at 390px."
+        "Kept the Founder carousel responsive without horizontal overflow at 390px.",
+        "Fixed the GitHub Pages-only direct /founder 404 with a static route bridge and added smoke/mirror regression coverage."
       ],
       validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; --run check:project; --run check:phase15; --run check:agents; --run smoke:routes; --run check:mirrors; node scripts/update-readme.mjs; JavaScript syntax; git diff --check; desktop and 390px browser QA",
-      validationResult: "Passed locally on 2026-06-12: build, project, Phase 1.5, agent syntax, route smoke, mirrors, README generation, JavaScript syntax, git diff, direct/hash Founder, carousel controls/count/links, 390px layout, requested route regressions, console, and overflow checks.",
+      validationResult: "Passed locally and hosted on 2026-06-12: build, project, Phase 1.5, agent syntax, route smoke, mirrors, README generation, JavaScript syntax, git diff, direct/hash Founder, carousel controls/count/links, 390px layout, requested route regressions, console, overflow, README workflow, Pages validation, and Pages deployment.",
       remainingProblems: [
         "Some duplicate renderer names remain because early startup calls reach their hoisted declarations before final assignments.",
         "Historical global and route CSS remains large and should be consolidated only with route-by-route browser evidence.",
         "utility-compat.css is a generated snapshot and must be regenerated or explicitly extended when new Tailwind-style utility classes are introduced.",
         "The route smoke command is dependency-free and does not replace full automated browser rendering, console, or responsive-layout tests.",
         "Google Fonts remains an external stylesheet dependency.",
-        "Phase 6 live GitHub Pages verification remains pending commit and push.",
         "Live providers, backend jobs, autonomous agents, and broker execution remain intentionally unconnected."
       ],
-      nextRecommendedTask: "Commit, push, and live-verify the Phase 6 Founder Proof of Work carousel."
+      nextRecommendedTask: "Keep Phase 6 locked. Perform only bounded Founder spacing/readability polish if live review identifies a real issue; otherwise wait for CEO B approval before Watchlists or Risk Desk planning."
     },
   },
   marketWatchlist: [

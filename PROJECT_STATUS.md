@@ -3,19 +3,24 @@
 ## Current Checkpoint - Phase 6 Proof of Work Carousel
 
 - Date: 2026-06-12.
+- Product commit: `577fcc4` (`Add Founder proof of work carousel`).
+- GitHub Pages direct-route repair commit: `0a490cb` (`Fix GitHub Pages Founder route`).
 - Added a public `Proof of Work` credibility carousel to `/founder` and `#/founder`.
 - Added six reusable shared-data cards covering Agent Habitat, AI Habitat OS, build-system hardening, research boundaries, the Source-to-Archive loop, and static-first deployment.
 - Desktop displays two rotating proof cards; the 390px layout displays one card without horizontal overflow.
 - Added accessible previous/next buttons, live `01 / 06` slide count, safe route links, and section-scoped dark/gold Founder styling.
 - Added the required truth line that proof cards are verified internal milestones, not customer endorsements or performance claims.
 - Carousel controls, wrap-safe local state, direct/hash Founder paths, route links, desktop layout, 390px layout, and requested route regressions passed browser QA.
+- GitHub Actions README run `27396267097` and Pages run `27396267117` passed for the product commit.
+- Live QA found and repaired the GitHub Pages-only `/founder` 404 with a static redirect bridge; Pages run `27396389902` then passed.
+- Live routes, carousel controls, slide count, route links, two-card desktop layout, one-card 390px layout, console checks, and horizontal-overflow checks passed at `https://burberrry.github.io/Pickaxe-Capital/`.
 - No testimonials, customer logos, external endorsements, performance claims, dependencies, live providers, broker connections, scraping, or product-wide redesign were added.
 
 ### Phase 6 Limitations
 
 - Carousel state is intentionally browser-local and resets when the Founder route rerenders.
 - Proof cards describe internal build milestones only; they are not external validation.
-- Live deployment verification remains pending a separate commit/push lock.
+- Browser smoke remains manual/in-app; the dependency-free route smoke command does not replace full automated browser coverage.
 
 ## Current Checkpoint - Phase 5.3 README Marker Contract Repair
 

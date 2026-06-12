@@ -135,7 +135,7 @@ Options Alerts organizes research candidates and supporting evidence for human r
 
 ### Next Priority
 
-- Commit, push, and live-verify the Phase 6 Founder Proof of Work carousel.
+- Keep Phase 6 locked. Perform only a bounded Founder spacing/readability pass if live review identifies a real issue; otherwise wait for CEO B approval before Watchlists or Risk Desk planning.
 
 ### Non-Negotiable Build Rules
 

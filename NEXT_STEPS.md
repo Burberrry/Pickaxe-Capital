@@ -2,14 +2,15 @@
 
 ## Current Active Checkpoint
 
-Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel is complete and locally verified.
+Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel is committed, deployed, and live verified.
 
 - `/founder` and `#/founder` now include six verified internal proof cards.
 - The carousel shows two cards on desktop and one at 390px, with accessible previous/next controls and live slide count.
 - Copy clearly separates internal milestones from customer endorsements and performance claims.
-- Requested Founder and regression routes passed local browser QA without console errors or horizontal overflow.
+- Product commit `577fcc4` and direct-route repair commit `0a490cb` are on `main`.
+- README and Pages workflows passed; requested Founder and regression routes passed live browser QA without console errors or horizontal overflow.
 
-Highest-leverage next scope: commit and push Phase 6, confirm both GitHub Actions workflows pass, and live-check the Founder carousel.
+Highest-leverage next scope: Phase 6.2 Founder Page Visual QA Polish only if CEO B identifies a live spacing/readability issue. Otherwise plan Watchlists or Risk Desk after CEO B approval.
 
 ## Working Now
 
@@ -29,7 +30,7 @@ Highest-leverage next scope: commit and push Phase 6, confirm both GitHub Action
 
 ## Next Session Priority
 
-- Commit, push, and live-verify the Phase 6 Founder Proof of Work carousel.
+- Keep Phase 6 locked. Perform only a bounded Founder spacing/readability pass if live review identifies a real issue; otherwise wait for CEO B approval before Watchlists or Risk Desk planning.
 
 ## Previous Active Checkpoint
 
