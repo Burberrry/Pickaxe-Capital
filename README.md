@@ -124,6 +124,7 @@ Options Alerts organizes research candidates and supporting evidence for human r
 - Phase 5 pre-deploy validation and public-only Pages deployment are active.
 - Phase 5.3 keeps the bounded README auto-update marker contract active.
 - Phase 6 adds a verified-internal-milestone Proof of Work carousel to the public Founder page.
+- Phase 7 adds a global decorative Pickaxe Starlight Field with reduced-motion and hidden-tab safeguards.
 
 ### Current State
 
@@ -135,7 +136,7 @@ Options Alerts organizes research candidates and supporting evidence for human r
 
 ### Next Priority
 
-- Keep Phase 6 locked. Perform only a bounded Founder spacing/readability pass if live review identifies a real issue; otherwise wait for CEO B approval before Watchlists or Risk Desk planning.
+- Commit, push, and live-verify Phase 7. Do not begin another visual or product sprint in the same lock cycle.
 
 ### Non-Negotiable Build Rules
 
