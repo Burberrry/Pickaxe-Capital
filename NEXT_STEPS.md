@@ -2,13 +2,15 @@
 
 ## Current Active Checkpoint
 
-Phase 7 Pickaxe Starlight Field is committed, deployed, and live verified.
+Phase 7 Pickaxe Starlight Field is committed, deployed, live verified, and lock-QA complete.
 
 - One dependency-free canvas sits behind the global app shell.
 - Desktop and mobile star counts stay bounded, with slow subtle twinkle and a rare shooting star.
 - Hidden tabs pause animation; reduced-motion mode renders a static low-opacity field.
 - Founder controls and requested route regressions remain functional without console errors or horizontal overflow.
 - Product commit `a8b8c22`, README run `27409073533`, and Pages run `27409073406` passed.
+- Final lock QA verified deployed commit `288fc290558681d286af28403ebf0ccd8bcf4e9e` and successful Pages run `27409411271` across `#/alerts` and `#/founder` at `1280x720` and `390x844`.
+- Lock QA found one initialized canvas, no duplicate layer, no mobile overflow, clean console output, working reduced-motion and hidden-state behavior, and working Founder controls.
 
 Highest-leverage next scope: keep Phase 7 locked. Adjust only opacity or density if CEO B identifies a real live readability issue.
 

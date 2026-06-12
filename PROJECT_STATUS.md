@@ -1,5 +1,23 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Phase 7 Lock QA
+
+- Date: 2026-06-12.
+- Exact deployed commit: `288fc290558681d286af28403ebf0ccd8bcf4e9e`.
+- GitHub Pages run `27409411271` completed successfully.
+- Live canonical routes checked: `#/alerts` and `#/founder`.
+- Browser widths checked: `1280x720` desktop and `390x844` mobile.
+- The starfield initialized once, remained a single canvas, and retained the same canvas node across route changes.
+- The shooting-star layer remained behind content and non-interactive.
+- The 390px Founder route had no horizontal overflow.
+- Reduced-motion mode rendered a confirmed static frame.
+- Hidden-state lifecycle testing confirmed pause and resume behavior.
+- Founder carousel controls advanced from `01 / 06` to `02 / 06`; mobile retained one visible card.
+- Browser console checks returned no errors or warnings.
+- The worktree was clean and matched `origin/main`.
+- No real issue was found. No bug-fix commit was required during the lock QA pass.
+- Phase 7 should stay locked. Adjust only opacity or density later if CEO B identifies a real live readability issue.
+
 ## Current Checkpoint - Phase 7 Pickaxe Starlight Field
 
 - Date: 2026-06-12.
