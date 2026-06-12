@@ -910,6 +910,7 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-12",
     areas: [
+      { id: "phase-5-3-readme-marker-contract-repair", name: "Phase 5.3 README Marker Contract Repair", group: "Build Safety", status: "Passed / Local", completion: 100, priority: "High", owner: "CEO B / System Brain / QA", notes: "Restored the exact PICKAXE-AUTO-UPDATE README markers required by scripts/update-readme.mjs and added concise current-truth source sections so generated content does not fall back to stale historical bullets. The generator changes only its bounded README block. No product UI, route, dependency, Pages deployment behavior, live-data behavior, broker behavior, or safety boundary changed.", nextAction: "Confirm README and Pages workflows pass, then begin Phase 6 Proof of Work Carousel only when authorized." },
       { id: "phase-5-2-readme-workflow-yaml-repair", name: "Phase 5.2 README Workflow YAML Repair", group: "Build Safety", status: "Passed / Local", completion: 100, priority: "High", owner: "CEO B / System Brain / QA", notes: "Quoted the README automation commit_message scalar so its embedded colon parses as valid YAML. No workflow logic, dependency, Pages deployment behavior, product route, runtime code, or safety boundary changed.", nextAction: "Confirm the hosted README workflow passes, then begin Phase 6 Proof of Work Carousel only when authorized." },
       { id: "phase-5-infrastructure-lock", name: "Phase 5 Infrastructure Lock", group: "Build Safety", status: "Passed / Local", completion: 100, priority: "Critical", owner: "CEO B / System Brain / QA", notes: "Hardened the existing GitHub Pages workflow with a Node 22 validation job that runs build, project, Phase 1.5, agent syntax, and dependency-free route smoke checks before uploading public/. The deploy job now depends on validation, preserving the existing public-only artifact, Pages permissions, and concurrency behavior. Corrected AGENTS.md truth drift for the completed browser-local Agent Habitat, AI Habitat OS, Tailwind CDN removal, local utility compatibility CSS, and smoke command. No application runtime, route, dependency, secret, live-data, provider, broker, or product behavior changed.", nextAction: "Commit and push the Phase 3-5 change set, confirm the GitHub Actions gate passes, and live-check the deployed Pages routes." },
       { id: "phase-4-build-system-hardening", name: "Phase 4 Build-System Hardening", group: "Build Safety", status: "Passed / Local", completion: 100, priority: "Critical", owner: "CEO B / System Brain / QA", notes: "Removed the Tailwind Play CDN runtime and inline configuration while preserving utility-dependent legacy views with a generated local utility-compat.css mirror. Added dependency-free route smoke coverage for static/demo health, required assets, 9 direct routes, 8 hash routes, SPA fallback markers, CDN removal, and selected privacy boundaries. Build/project guards, deployment checks, mirror coverage, desktop browser QA, and 390px regression QA passed. No framework, dependency, product feature, market logic, API adapter, live-data behavior, or broker behavior was added.", nextAction: "Add a bounded GitHub Actions pre-deploy gate for the existing build, project/Phase 1.5 checks, and route smoke command." },
@@ -968,22 +969,23 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: [".github/workflows/update-readme.yml", "PROJECT_STATUS.md", "NEXT_STEPS.md", "habitat-data.js", "public/habitat-data.js"],
+      filesChanged: ["README.md", "PROJECT_STATUS.md", "NEXT_STEPS.md", "habitat-data.js", "public/habitat-data.js"],
       featuresAdded: [
         "No product features were added."
       ],
       bugsFixed: [
-        "Quoted the README workflow commit message so the embedded colon no longer causes a YAML parse failure."
+        "Restored the exact README marker contract required by scripts/update-readme.mjs.",
+        "Prevented generated README content from falling back to stale historical route and Agent Habitat status bullets."
       ],
-      validationCommand: "YAML parse; /Applications/Codex.app/Contents/Resources/node --run build; --run check:project; --run smoke:routes; git diff --check",
-      validationResult: "Passed locally on 2026-06-12: README workflow YAML parsing, build, project validation, dependency-free route smoke, mirrors, and git diff.",
+      validationCommand: "node scripts/update-readme.mjs; /Applications/Codex.app/Contents/Resources/node --run build; --run check:project; --run smoke:routes; --run check:mirrors; git diff --check",
+      validationResult: "Passed locally on 2026-06-12: README generation, bounded marker-block diff review, build, project validation, dependency-free route smoke, mirrors, privacy review, and git diff.",
       remainingProblems: [
         "Some duplicate renderer names remain because early startup calls reach their hoisted declarations before final assignments.",
         "Historical global and route CSS remains large and should be consolidated only with route-by-route browser evidence.",
         "utility-compat.css is a generated snapshot and must be regenerated or explicitly extended when new Tailwind-style utility classes are introduced.",
         "The route smoke command is dependency-free and does not replace full automated browser rendering, console, or responsive-layout tests.",
         "Google Fonts remains an external stylesheet dependency.",
-        "Hosted README workflow verification remains pending commit and push.",
+        "Hosted README and Pages workflow verification remains pending commit and push.",
         "Live providers, backend jobs, autonomous agents, and broker execution remain intentionally unconnected."
       ],
       nextRecommendedTask: "Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel."

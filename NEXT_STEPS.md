@@ -9,6 +9,25 @@ Phase 5.2 README Workflow YAML Repair is complete and locally verified.
 
 Highest-leverage next scope: Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel.
 
+## Working Now
+
+- Phase 3 Agent Habitat and AI Habitat OS are complete, browser-local, research-only, and live on GitHub Pages.
+- Phase 4 local utility CSS and dependency-free route smoke coverage are active.
+- Phase 5 pre-deploy validation and public-only Pages deployment are active.
+- Phase 5.3 restores the bounded README auto-update marker contract.
+
+## Current State
+
+- The active product is a vanilla HTML/CSS/JavaScript static SPA served from `public/`.
+- `#/agents` is the nine-department browser-local Agent Habitat command center.
+- `#/ai-habitat-os` is the nine-zone browser-local strategic system map.
+- Research remains static/manual with source verification and CEO B final review.
+- No live providers, autonomous background agents, broker execution, copy-trading, fake live data, or private frontend keys are connected.
+
+## Next Session Priority
+
+- Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel.
+
 ## Previous Active Checkpoint
 
 Phase 5 Infrastructure Lock is complete and deployed.
