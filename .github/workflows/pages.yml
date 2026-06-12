@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Validate and Deploy GitHub Pages
 
 on:
   push:
@@ -16,20 +16,49 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  validate:
+    name: Validate and Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build validation
+        run: node --run build
+
+      - name: Project validation
+        run: node --run check:project
+
+      - name: Phase 1.5 safety and deployment checks
+        run: node --run check:phase15
+
+      - name: Agent syntax checks
+        run: node --run check:agents
+
+      - name: Route smoke checks
+        run: node --run smoke:routes
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: "public"
+
   deploy:
+    name: Deploy
+    needs: validate
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: "public"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

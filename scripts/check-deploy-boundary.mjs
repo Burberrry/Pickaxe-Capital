@@ -18,7 +18,7 @@ for (const entry of entries) {
   if (forbiddenNames.has(entry.name)) failures.push(`public/ contains forbidden deployment entry: ${entry.name}`);
 }
 
-for (const required of ["index.html", "app.js", "styles.css", "habitat-data.js"]) {
+for (const required of ["index.html", "app.js", "styles.css", "utility-compat.css", "habitat-data.js"]) {
   if (!entries.some((entry) => entry.name === required)) failures.push(`public/ is missing ${required}`);
 }
 

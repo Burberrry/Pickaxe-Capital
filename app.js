@@ -36,6 +36,11 @@ const state = {
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
+const agentHabitatDepartments = Array.isArray(sharedHabitatData.agentHabitatDepartments) ? sharedHabitatData.agentHabitatDepartments : [];
+const agentWorkflowSteps = Array.isArray(sharedHabitatData.agentWorkflowSteps) ? sharedHabitatData.agentWorkflowSteps : [];
+const habitatSystemZones = Array.isArray(sharedHabitatData.habitatSystemZones) ? sharedHabitatData.habitatSystemZones : [];
+const agentOwnershipMatrix = Array.isArray(sharedHabitatData.agentOwnershipMatrix) ? sharedHabitatData.agentOwnershipMatrix : [];
+const agentSafetyBoundaries = Array.isArray(sharedHabitatData.agentSafetyBoundaries) ? sharedHabitatData.agentSafetyBoundaries : [];
 const researchPacketV2Config = (sharedHabitatData.researchPacketV2 && typeof sharedHabitatData.researchPacketV2 === "object")
   ? sharedHabitatData.researchPacketV2
   : {};
@@ -726,7 +731,7 @@ function setView(view) {
     lifeHabitat: "Life Habitat",
     checklist: "Execution Checklist",
     vision: "Vision Map",
-    agents: "Agents Placeholder",
+    agents: "Agent Habitat",
     agentBuilderFactory: "Agent Builder Factory",
     jarvisLab: "Jarvis Lab",
     lifeOS: "Pickaxe Life OS",
@@ -756,7 +761,7 @@ function setView(view) {
     }
     if (view === "signals") loadSignals();
     if (view === "archive") loadArchive(state.archiveRoute);
-    if (["vision", "sourceHub", "signals", "archive", "rkTracker", "berkshire", "bookmarks", "alerts", "lifeHabitat", "staging", "jarvisLab", "lifeOS", "agentBuilderFactory", "projectUpdate", "riskRules", "compliance", "aiHandoff", "learningLedger", "trendRadar", "moneyLab", "dashboard", "watchlists", "markets", "options", "catalysts", "research", "roadmap"].includes(view)) renderStaticIntelligencePages();
+    if (["vision", "sourceHub", "signals", "archive", "rkTracker", "berkshire", "bookmarks", "alerts", "lifeHabitat", "staging", "jarvisLab", "lifeOS", "aiHabitatOS", "agentBuilderFactory", "projectUpdate", "riskRules", "compliance", "aiHandoff", "learningLedger", "trendRadar", "moneyLab", "dashboard", "watchlists", "markets", "options", "catalysts", "research", "roadmap"].includes(view)) renderStaticIntelligencePages();
     if (view === "founder") renderFounderProfile();
     if (view === "agents") renderAgentsPage();
     if (view === "checklist") loadChecklist();
@@ -1412,6 +1417,7 @@ function renderResearchPacketCard(packet, index = 0) {
   `;
 }
 
+// Active renderer: #/research. This definition is not replaced later.
 function renderResearchDeskPage() {
   if (!els.researchContent) return;
   const storedPackets = getResearchPacketsState();
@@ -7929,152 +7935,6 @@ window.testAlertRule = (id) => {
   window.sendRuleToReview(id);
 };
 
-function renderAlertsDeskMarkup(optionAlerts, selectedAlert, lastUpdated) {
-  const safeActions = ["Watch", "Research More", "Verify News", "Send to CEO B Review", "Paper Review Only", "Add to Learning Ledger", "Archive Research Note", "Create Alert Rule Idea"];
-  const selectedId = selectedAlert ? selectedAlert.id : "";
-  const queueCards = optionAlerts.length ? optionAlerts.map(alert => {
-    const isSelected = alert.id === selectedId;
-    const tone = alert.status === "Needs CEO B Review" ? "text-amber border-amber/30 bg-amber/5" : "text-teal border-teal/30 bg-teal/5";
-    return `
-      <button onclick="window.selectAlertCard('${escapeHtml(alert.id)}')" class="w-full text-left p-4 bg-[#11141a] border ${isSelected ? 'border-green shadow-[0_0_18px_rgba(0,230,118,0.16)]' : 'border-[#1d242e]'} hover:border-teal/50 rounded-sm transition-all">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <p class="text-[9px] text-teal uppercase tracking-widest font-mono">${escapeHtml(alert.symbol)} / Research Packet</p>
-            <h4 class="text-xs text-white font-bold font-sans uppercase mt-1">${escapeHtml(alert.title)}</h4>
-          </div>
-          <span class="px-2 py-1 border text-[8px] font-mono uppercase rounded-sm ${tone}">${escapeHtml(alert.status)}</span>
-        </div>
-        <p class="mt-3 text-[10px] text-[#909399] font-sans leading-relaxed">${escapeHtml(alert.researchContext)}</p>
-        <div class="mt-3 pt-3 border-t border-[#1d242e] flex items-center justify-between text-[9px] font-mono text-[#909399]">
-          <span>Score <strong class="text-teal">${escapeHtml(alert.confidence)}%</strong></span>
-          <span class="text-amber">${escapeHtml(alert.nextAction || "Watch")}</span>
-        </div>
-      </button>
-    `;
-  }).join("") : `<div class="p-5 bg-[#11141a] border border-[#1d242e] text-[#909399] italic text-center">No research packets in the local queue.</div>`;
-
-  const packet = selectedAlert || normalizeResearchPacket({}, 0);
-  const checklist = (packet.reason || []).map(item => `
-    <li class="flex gap-2 text-[10px] text-[#c0c4cc] font-sans leading-relaxed">
-      <span class="text-green shrink-0">✓</span>
-      <span>${escapeHtml(item)}</span>
-    </li>
-  `).join("");
-  const actionButtons = safeActions.map(label => `
-    <button onclick="window.updateAlertAction('${escapeHtml(packet.id)}', '${escapeHtml(label)}')" class="px-3 py-2 bg-[#0c0d0e] border border-[#1d242e] hover:border-amber/50 text-[9px] text-white uppercase font-mono font-bold rounded-sm transition-colors">
-      ${escapeHtml(label)}
-    </button>
-  `).join("");
-  const panel = (number, title, body, extraClass = "") => `
-    <section class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm ${extraClass}">
-      <div class="flex items-center gap-2 mb-3 pb-2 border-b border-[#1d242e]">
-        <span class="text-[9px] text-amber font-mono font-bold">${number}</span>
-        <h3 class="text-xs text-white uppercase tracking-tight font-bold">${title}</h3>
-      </div>
-      ${body}
-    </section>
-  `;
-
-  return `
-    <div class="p-4 sm:p-6 bg-[#08090b] text-xs font-mono text-[#c0c4cc] overflow-x-hidden">
-      ${panel("01", "Command Header", `
-        <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-5">
-          <div>
-            <p class="text-[10px] text-amber uppercase tracking-[0.24em]">Live Desk</p>
-            <h2 class="mt-1 text-2xl sm:text-3xl text-white font-bold uppercase tracking-tight font-sans">Citadel Intelligence Center</h2>
-            <p class="mt-1 text-sm text-[#d4af37] font-sans">Alerts Desk</p>
-            <p class="mt-2 text-[#909399] font-sans">CEO B review queue for research alerts and watchlist intelligence.</p>
-            <p class="mt-2 text-[10px] text-green uppercase tracking-wider">GitHub Pages Static • Backend Not Connected</p>
-            <p class="mt-1 text-[10px] text-[#909399] uppercase tracking-wider">Pickaxe Capital / AI Habitat OS</p>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-2 bg-[#0c0d0e] border border-amber/30 text-amber rounded-sm uppercase">Queue Count: ${optionAlerts.length}</span>
-            <span class="px-3 py-2 bg-[#0c0d0e] border border-teal/30 text-teal rounded-sm uppercase">Last Updated: ${escapeHtml(lastUpdated)}</span>
-            <button onclick="localStorage.removeItem('pickaxeOptionAlerts'); location.reload();" class="px-3 py-2 bg-red/10 border border-red/30 text-red rounded-sm uppercase font-bold">Reset Queue</button>
-            <button onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Send to CEO B Review')" class="px-3 py-2 bg-amber/10 border border-amber/40 text-amber rounded-sm uppercase font-bold">Send to CEO B Review</button>
-            <button onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Add to Learning Ledger')" class="px-3 py-2 bg-violet-950/30 border border-violet/30 text-violet rounded-sm uppercase font-bold">Add to Learning Ledger</button>
-            <button onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Archive Research Note')" class="px-3 py-2 bg-[#151113] border border-red/30 text-red rounded-sm uppercase font-bold">Archive Research Note</button>
-          </div>
-        </div>
-        <div class="mt-5 flex flex-wrap gap-2">
-          <span class="pc-status-chip research">Research Only</span>
-          <span class="pc-status-chip manual-review">Manual Review Required</span>
-          <span class="pc-status-chip no-broker">No Broker Execution</span>
-          <span class="pc-status-chip no-live-data">No Fake Live Data</span>
-          <span class="pc-status-chip static">Static Prototype</span>
-          <span class="pc-status-chip local-state">Local First</span>
-          <span class="pc-status-chip local-state">Active Safe Sandbox</span>
-        </div>
-      `, "border-l-2 border-l-amber/60")}
-
-      <div class="mt-5 grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
-        <div class="xl:col-span-4 space-y-5">
-          ${panel("02", "CEO B Review Queue", `<div class="space-y-3 max-h-[68vh] overflow-y-auto pr-1">${queueCards}</div>`)}
-          ${panel("09", "Workspace Verification Checklist", `<ul class="space-y-2">${checklist}</ul>`)}
-          ${panel("10", "Available Actions", `<div class="flex flex-wrap gap-2">${actionButtons}</div>`)}
-        </div>
-
-        <div class="xl:col-span-5 space-y-5">
-          ${panel("03", "Active Research Packet", `
-            <p class="text-[10px] text-teal uppercase tracking-widest">${escapeHtml(packet.type)}</p>
-            <h3 class="mt-1 text-xl text-white font-sans font-bold uppercase">${escapeHtml(packet.title)}</h3>
-            <p class="mt-2 text-[#909399] font-sans leading-relaxed">Research candidate only. Manual CEO B review required. No broker execution. No auto-trading. No betting execution. No copy-trading. No fake live data.</p>
-            <div class="mt-4 grid grid-cols-2 gap-2 text-[10px]">
-              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] block uppercase">Ticker</span><strong class="text-white">${escapeHtml(packet.symbol)}: ${escapeHtml(packet.company)}</strong></div>
-              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] block uppercase">Status</span><strong class="text-amber">${escapeHtml(packet.status)}</strong></div>
-            </div>
-          `)}
-          ${panel("04", "Contract / Instrument Context", `
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
-              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] uppercase block">Contract</span><strong class="text-white">${escapeHtml(packet.contract)}</strong></div>
-              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] uppercase block">Underlying Price</span><strong class="text-slate-200">${escapeHtml(packet.currentPrice)}</strong></div>
-              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] uppercase block">Premium Midpoint</span><strong class="text-slate-200">${escapeHtml(packet.contractPrice)}</strong></div>
-              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] uppercase block">Spread Quality</span><strong class="text-teal">${escapeHtml(packet.spreadQuality)}</strong></div>
-              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] uppercase block">Expiration</span><strong class="text-slate-200">${escapeHtml(packet.expiration)}</strong></div>
-              <div class="bg-[#0c0d0e] border border-[#1d242e] p-3"><span class="text-[#606266] uppercase block">Data Label</span><strong class="text-green">Static Demo Only</strong></div>
-            </div>
-          `)}
-          ${panel("05", "Research Context", `<p class="text-[#c0c4cc] font-sans leading-relaxed">${escapeHtml(packet.researchContext)}</p>`)}
-          ${panel("06", "Watch / Validation Criteria", `<p class="text-amber font-sans leading-relaxed">${escapeHtml(packet.watchCriteria)}</p>`)}
-          ${panel("07", "Invalidation Research Note", `<p class="text-red font-sans leading-relaxed">${escapeHtml(packet.invalidationResearchNote)}</p>`)}
-          ${panel("08", "Risk Sentinel Audit", `<p class="text-[#c0c4cc] font-sans leading-relaxed">${escapeHtml(packet.riskNotes)} Research candidate only. Manual broker review separate.</p>`)}
-        </div>
-
-        <div class="xl:col-span-3 space-y-5">
-          ${panel("11", "Risk Sentinel Check", `
-            <ul class="space-y-2 text-[10px] font-sans text-[#c0c4cc]">
-              <li><span class="text-green">✓</span> Defined risk is limited to paid premium.</li>
-              <li><span class="text-green">✓</span> Volume validation remains required.</li>
-              <li><span class="text-green">✓</span> Downside invalidation is documented.</li>
-              <li><span class="text-green">✓</span> Manual broker review stays separate.</li>
-            </ul>
-          `)}
-          ${panel("12", "Source Confidence", `
-            <div class="space-y-3 text-[10px]">
-              <div class="flex justify-between"><span>Total Research Score</span><strong class="text-teal">${escapeHtml(packet.confidence)}%</strong></div>
-              <div class="h-1.5 bg-[#0c0d0e] border border-[#1d242e] overflow-hidden rounded-full"><div class="h-full bg-teal" style="width:${Math.max(0, Math.min(100, packet.confidence))}%"></div></div>
-              <div class="grid grid-cols-2 gap-2 pt-2 border-t border-[#1d242e]">
-                <span>Signal Scout <strong class="text-white block">90%</strong></span>
-                <span>Flow Hunter <strong class="text-white block">88%</strong></span>
-                <span>Risk Sentinel <strong class="text-white block">95%</strong></span>
-                <span>News Raven <strong class="text-white block">84%</strong></span>
-              </div>
-            </div>
-          `)}
-          ${panel("13", "Agent Commentary", `<p class="text-[#c0c4cc] font-sans leading-relaxed">Signal Scout likes alignment, Flow Hunter marks liquidity context acceptable, Risk Sentinel keeps the packet research-only, and News Raven requires headline verification before CEO B acts elsewhere.</p>`)}
-          ${panel("14", "Market Context", `<p class="text-[#c0c4cc] font-sans leading-relaxed">Index tone and risk-on/risk-off context are static demo notes until a future read-only backend connects approved providers.</p>`)}
-          ${panel("15", "Catalyst Context", `<p class="text-[#c0c4cc] font-sans leading-relaxed">Earnings, macro, news, and prediction-market context remain research references only. No live provider is connected.</p>`)}
-          ${panel("16", "Options Flow Context", `<p class="text-[#c0c4cc] font-sans leading-relaxed">Unusual flow, open interest, premium, IV, theta, and gamma fields are static/demo only until future backend validation exists.</p>`)}
-          ${panel("17", "Learning Ledger Link", `<p class="text-violet font-sans leading-relaxed">Suggested lessons: Apple mega-cap playbook, liquidity quality checks, defined premium risk, and headline verification discipline.</p>`)}
-          ${panel("18", "Archive Memory", `<p class="text-[#c0c4cc] font-sans leading-relaxed">Prior related packets and notes should be saved to Archive Vault after CEO B review.</p>`)}
-          ${panel("19", "Staging / QA Truth Panel", `<p class="text-green font-sans leading-relaxed">Routes are static prototype surfaces. Backend not connected. Providers not connected. No fake live data labels.</p>`)}
-          ${panel("20", "Next Best Manual Step", `<p class="text-amber font-sans leading-relaxed">CEO B should verify news and source context, then decide whether to keep watching, research more, save the lesson, or archive the note.</p>`)}
-        </div>
-      </div>
-    </div>
-  `;
-}
-
 function legacyAlertToResearchPacketV2(alert = {}, index = 0) {
   return normalizeResearchPacketDraft({
     id: `legacy-${alert.id || index}`,
@@ -8611,6 +8471,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
   `;
 }
 
+// Active renderer: / and #/alerts. The route writes only the research-gated desk.
 function renderAlertsPage() {
   if (!els.alertsContent) return;
 
@@ -8622,260 +8483,7 @@ function renderAlertsPage() {
   const selectedAlert = packets.find((packet) => packet.id === state.selectedAlertId) || activePackets[0] || packets[0];
   const lastUpdated = new Date().toLocaleTimeString();
   els.alertsContent.innerHTML = renderResearchGatedAlertsDesk(packets, selectedAlert, lastUpdated);
-  return;
 
-  let leftPaneHtml = "";
-  if (optionAlerts.length === 0) {
-    leftPaneHtml = `<div class="text-[#909399] italic p-4 text-center">No alerts found in queue.</div>`;
-  } else {
-    leftPaneHtml = optionAlerts.map(alert => {
-      const isSelected = alert.id === state.selectedAlertId;
-      const statusColor = alert.status === "Needs CEO B Review" ? "text-amber border-amber/30 bg-amber/5" : "text-teal border-teal/30 bg-teal/5";
-      const badgeDot = alert.status === "Needs CEO B Review" ? "bg-amber" : "bg-teal";
-      
-      return `
-        <div onclick="window.selectAlertCard('${alert.id}')" class="p-4 bg-[#11141a] border ${isSelected ? 'border-green shadow-[0_0_15px_rgba(0,230,118,0.15)]' : 'border-[#1d242e]'} hover:border-teal/50 rounded-sm cursor-pointer transition-all select-none relative flex flex-col gap-2">
-          <div class="absolute top-0 left-0 w-[3px] h-full ${isSelected ? 'bg-green' : 'bg-[#1d242e]'}"></div>
-          <div class="flex justify-between items-start">
-            <div class="flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 ${badgeDot} rounded-full"></span>
-              <strong class="text-white text-xs font-sans tracking-tight">${escapeHtml(alert.symbol)}</strong>
-            </div>
-            <span class="px-1.5 py-0.5 border text-[8px] font-mono font-bold uppercase rounded-sm ${statusColor}">${escapeHtml(alert.status)}</span>
-          </div>
-          <div class="text-[10px] text-slate-400 font-sans line-clamp-2 leading-relaxed">${escapeHtml(alert.researchContext || alert.thesis || "")}</div>
-          <div class="flex justify-between items-center text-[9px] text-[#909399] pt-2 border-t border-[#1d242e] font-mono">
-            <span>Score: <strong class="text-teal font-bold">${alert.confidence}%</strong></span>
-            <span>Next: <strong class="text-amber">${escapeHtml(alert.nextAction || "Watch")}</strong></span>
-          </div>
-        </div>
-      `;
-    }).join("");
-  }
-
-  let middlePaneHtml = "";
-  if (!selectedAlert) {
-    middlePaneHtml = `<div class="p-8 text-center text-slate-500 italic">Select a candidate setup to view details.</div>`;
-  } else {
-    middlePaneHtml = `
-      <div class="p-5 bg-[#11141a] border border-[#1d242e] rounded-sm flex flex-col gap-4">
-        <!-- Header details -->
-        <div class="border-b border-[#1d242e] pb-3">
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="text-[9px] text-teal uppercase tracking-widest font-mono">${escapeHtml(selectedAlert.strategy || "Options Research")}</p>
-              <h3 class="text-sm font-bold text-white uppercase tracking-tight font-sans mt-0.5">${escapeHtml(selectedAlert.symbol)}: ${escapeHtml(selectedAlert.company)}</h3>
-            </div>
-            <span class="text-[10px] text-[#909399] font-mono">${escapeHtml(selectedAlert.date || "2026-05-29")}</span>
-          </div>
-          <p class="text-[9px] text-[#909399] font-mono mt-1">${escapeHtml(selectedAlert.safetyLabel || "Research Only")}</p>
-        </div>
-
-        <!-- Price matrix -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-[#0c0d0e] p-3 border border-[#1d242e] rounded-sm font-mono text-[10px]">
-          <div>
-            <span class="text-[#606266] uppercase text-[8px] block">Contract Info</span>
-            <strong class="text-white truncate block font-sans" title="${escapeHtml(selectedAlert.contract)}">${escapeHtml(selectedAlert.contract)}</strong>
-          </div>
-          <div>
-            <span class="text-[#606266] uppercase text-[8px] block">Underlying Price</span>
-            <strong class="text-slate-300 block font-bold">${escapeHtml(selectedAlert.currentPrice)}</strong>
-          </div>
-          <div>
-            <span class="text-[#606266] uppercase text-[8px] block">Premium (Mid)</span>
-            <strong class="text-slate-300 block font-bold">${escapeHtml(selectedAlert.contractPrice || "N/A")}</strong>
-          </div>
-          <div>
-            <span class="text-[#606266] uppercase text-[8px] block">Spread Quality</span>
-            <strong class="text-[#00e5ff] block font-bold">${escapeHtml(selectedAlert.spreadQuality || "N/A")}</strong>
-          </div>
-        </div>
-
-        <!-- Details and text boxes -->
-        <div class="space-y-3 text-[10px]">
-          <div>
-            <span class="text-[#606266] uppercase text-[8px] font-bold font-mono">Research Context</span>
-            <p class="text-slate-300 leading-relaxed font-sans">${escapeHtml(selectedAlert.researchContext || selectedAlert.thesis || "No context provided.")}</p>
-          </div>
-          
-          <div>
-            <span class="text-[#606266] uppercase text-[8px] font-bold font-mono">Watch / Validation Criteria</span>
-            <p class="text-[#d4af37] leading-relaxed font-sans">${escapeHtml(selectedAlert.watchCriteria || selectedAlert.entry || "No watch criteria set.")}</p>
-          </div>
-
-          <div>
-            <span class="text-[#606266] uppercase text-[8px] font-bold font-mono">Invalidation Note</span>
-            <p class="text-red leading-relaxed font-sans">${escapeHtml(selectedAlert.invalidationResearchNote || selectedAlert.invalidation || "No invalidation parameters defined.")}</p>
-          </div>
-
-          <div>
-            <span class="text-[#606266] uppercase text-[8px] font-bold font-mono">Risk Sentinel Audit Notes</span>
-            <p class="text-slate-400 leading-relaxed font-sans">${escapeHtml(selectedAlert.riskNotes || "Premium risk only. No automated orders allowed.")}</p>
-          </div>
-        </div>
-
-        <!-- Agent checklist/reasons -->
-        <div class="border-t border-[#1d242e] pt-3">
-          <span class="text-[#606266] uppercase text-[8px] font-bold font-mono block mb-2">Workspace Verification Checklist</span>
-          <ul class="space-y-1.5 text-[10px] text-[#909399] font-sans">
-            ${Array.isArray(selectedAlert.reason) ? selectedAlert.reason.map(r => `
-              <li class="flex items-start gap-2">
-                <span class="text-green select-none shrink-0">✓</span>
-                <span>${escapeHtml(r)}</span>
-              </li>
-            `).join("") : `<li class="italic text-[#606266]">No checklist details recorded.</li>`}
-          </ul>
-        </div>
-
-        <!-- Allowed Actions Buttons Panel -->
-        <div class="border-t border-[#1d242e] pt-4 mt-2">
-          <span class="text-[#606266] uppercase text-[8px] font-bold font-mono block mb-2">Available Actions</span>
-          <div class="flex flex-wrap gap-2">
-            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Watch')" class="bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] font-mono px-3 py-1.5 uppercase font-bold text-white transition-colors">
-              Watch
-            </button>
-            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Research More')" class="bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] font-mono px-3 py-1.5 uppercase font-bold text-white transition-colors">
-              Research More
-            </button>
-            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Verify News')" class="bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] font-mono px-3 py-1.5 uppercase font-bold text-white transition-colors">
-              Verify News
-            </button>
-            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Send to CEO B Review')" class="bg-amber-950/20 text-amber hover:bg-amber-950/40 border border-amber-900/40 hover:border-amber text-[10px] font-mono px-3 py-1.5 uppercase font-bold transition-all">
-              Send to CEO B Review
-            </button>
-            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Paper Review Only')" class="bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] font-mono px-3 py-1.5 uppercase font-bold text-white transition-colors">
-              Paper Review Only
-            </button>
-            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Add to Learning Ledger')" class="bg-black/50 hover:bg-slate-900 border border-[#1d242e] hover:border-slate-500 text-[10px] font-mono px-3 py-1.5 uppercase font-bold text-violet transition-colors">
-              Add to Learning Ledger
-            </button>
-            <button onclick="window.updateAlertAction('${selectedAlert.id}', 'Archive Research Note')" class="bg-[#1c1214] text-red/80 border border-red/20 hover:border-red hover:bg-[#251518] text-[10px] font-mono px-3 py-1.5 uppercase font-bold transition-all">
-              Archive Research Note
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  els.alertsContent.innerHTML = `
-    <div class="p-6 bg-[#0c0d0e] text-xs font-mono text-[#c0c4cc]">
-      <!-- Header banner -->
-      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[#1d242e] pb-4 mb-6 gap-4">
-        <div>
-          <p class="text-[10px] text-amber uppercase tracking-wider font-mono">Citadel Intelligence Center</p>
-          <h2 class="text-lg font-bold text-white uppercase tracking-tight">Alerts Desk</h2>
-          <p class="text-[#909399] font-sans mt-0.5">CEO B review queue for research alerts and watchlist intelligence.</p>
-        </div>
-        <div class="flex flex-wrap gap-2 text-[10px] font-mono font-bold shrink-0">
-          <span class="px-2 py-1 bg-[#11141a] border border-[#1d242e] text-[#c0c4cc] rounded-sm uppercase">Queue Count: ${optionAlerts.length}</span>
-          <span class="px-2 py-1 bg-[#11141a] border border-[#1d242e] text-[#909399] rounded-sm font-normal">Last Updated: ${lastUpdated}</span>
-          <button onclick="localStorage.removeItem('pickaxeOptionAlerts'); location.reload();" class="px-2 py-1 bg-red/10 text-red border border-red/30 hover:bg-red/20 text-[9px] uppercase font-bold transition-colors">Reset Queue</button>
-        </div>
-      </div>
-
-      <!-- Status Chips bar -->
-      <div class="flex flex-wrap gap-1.5 mb-6">
-        <span class="pc-status-chip research">Research Only</span>
-        <span class="pc-status-chip manual-review">Manual Review Required</span>
-        <span class="pc-status-chip no-broker">No Broker Execution</span>
-        <span class="pc-status-chip no-live-data">No Fake Live Data</span>
-        <span class="pc-status-chip static">Static Prototype</span>
-        <span class="pc-status-chip local-state">Local First</span>
-      </div>
-
-      <!-- 3-Column main layout grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-        
-        <!-- Left: Alert Queue Cards List (4 cols) -->
-        <div class="lg:col-span-4 space-y-3">
-          <div class="border-b border-[#1d242e] pb-1.5 mb-2">
-            <span class="text-[#606266] uppercase text-[9px] tracking-wider font-bold">Research Alerts Queue</span>
-          </div>
-          <div class="space-y-3 max-h-[70vh] overflow-y-auto pr-1">
-            ${leftPaneHtml}
-          </div>
-        </div>
-
-        <!-- Middle: Selected Alert Packet Detail (5 cols) -->
-        <div class="lg:col-span-5 space-y-3">
-          <div class="border-b border-[#1d242e] pb-1.5 mb-2">
-            <span class="text-[#606266] uppercase text-[9px] tracking-wider font-bold">Active Setup Packet Analyst View</span>
-          </div>
-          ${middlePaneHtml}
-        </div>
-
-        <!-- Right: Risk Checklist, Source Confidence, Safety Rules (3 cols) -->
-        <div class="lg:col-span-3 space-y-5">
-          <!-- Risk Checklist -->
-          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm">
-            <h4 class="text-xs font-bold text-white uppercase mb-3 pb-1.5 border-b border-[#1d242e] tracking-tight">Risk Sentinel Check</h4>
-            <div class="space-y-2.5 font-sans text-[10px] text-[#909399]">
-              <div class="flex items-center gap-2.5">
-                <span class="text-green text-xs">✓</span>
-                <div>
-                  <strong class="text-slate-300 block font-bold">Defined Premium Risk</strong>
-                  <span>Max loss capped at paid contract premium.</span>
-                </div>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-green text-xs">✓</span>
-                <div>
-                  <strong class="text-slate-300 block font-bold">Volume Validation Check</strong>
-                  <span>OI and volume outliers confirm trade depth.</span>
-                </div>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-green text-xs">✓</span>
-                <div>
-                  <strong class="text-slate-300 block font-bold">Downside Invalidation Set</strong>
-                  <span>Hard pricing floor exists inside thesis.</span>
-                </div>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-green text-xs">✓</span>
-                <div>
-                  <strong class="text-slate-300 block font-bold">Manual Execution Isolation</strong>
-                  <span>Order placement occurs externally only.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Source Confidence details -->
-          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm">
-            <h4 class="text-xs font-bold text-white uppercase mb-3 pb-1.5 border-b border-[#1d242e] tracking-tight">Source Confidence</h4>
-            <div class="space-y-3 font-mono text-[10px]">
-              <div>
-                <div class="flex justify-between mb-1">
-                  <span class="text-slate-400">Total Setup Score:</span>
-                  <span class="text-teal font-bold">${selectedAlert ? selectedAlert.confidence : 0}%</span>
-                </div>
-                <div class="w-full bg-[#0c0d0e] h-1.5 rounded-full overflow-hidden border border-[#1d242e]">
-                  <div class="bg-teal h-full" style="width: ${selectedAlert ? selectedAlert.confidence : 0}%"></div>
-                </div>
-              </div>
-              <div class="grid grid-cols-2 gap-3 pt-2 text-[9px] text-[#909399] border-t border-[#1d242e]">
-                <div><span>Signal Scout:</span> <strong class="text-white block font-bold">90%</strong></div>
-                <div><span>Flow Hunter:</span> <strong class="text-white block font-bold">88%</strong></div>
-                <div><span>Risk Sentinel:</span> <strong class="text-white block font-bold">95%</strong></div>
-                <div><span>News Raven:</span> <strong class="text-white block font-bold">84%</strong></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Safety Rules Summary -->
-          <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm border-l-2 border-red/40 bg-gradient-to-r from-red/5 to-transparent">
-            <h4 class="text-xs font-bold text-white uppercase mb-2 tracking-tight">Active Safe Sandbox</h4>
-            <p class="text-[10px] text-[#909399] font-sans leading-relaxed">
-              No live provider calls: Active Safe Sandbox. The Pickaxe Capital AI Command Center operates inside a safe local-only sandbox. Direct financial execution, sportsbook connectivity, or copy-trading is strictly forbidden.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  `;
 }
 
 window.selectResearchPacketV2 = (id) => {
@@ -12350,6 +11958,7 @@ function renderCardGroup(items) {
   `).join("");
 }
 
+// Bootstrap renderer: reached by early startup calls before the Phase 3 override below.
 function renderAgentsPage() {
   const visibleAgents = habitatAgents.filter((agent) => state.agentFilter === "all" || agent.status === state.agentFilter);
   const selected = habitatAgents.find((agent) => agent.id === state.selectedAgentId) || habitatAgents[0];
@@ -12459,246 +12068,6 @@ function renderAgentsPage() {
 function renderAgentOperatingSystem() {
   if (!els.agentOperatingSystem) return;
   renderAgentWorldOS();
-  return;
-  const selectedAgent = getSelectedOperatingAgent();
-  const laneDefinitions = [
-    { title: "Core Command", purpose: "CEO B decision layer, narrative, and system brain.", objective: "Keep every agent working toward founder review.", status: "Command Online", agents: ["CEO B", "System Brain", "Story Teller"] },
-    { title: "Market Habitat", purpose: "Watchlist, signals, macro, flows, and RK Tracker.", objective: "Rank candidates without pretending live market data is connected.", status: "Static Prototype", agents: ["Signal Scout", "Macro Watcher", "Flow Hunter"] },
-    { title: "Global Risk Habitat", purpose: "News, geopolitical risk, flights, outages, and movement.", objective: "Flag dangerous context before anything reaches CEO B.", status: "Static Prototype", agents: ["News Raven", "Risk Sentinel", "Map Builder"] },
-    { title: "Knowledge Habitat", purpose: "Bookmarks, X imports, research, and source discovery.", objective: "Convert saved links into useful intelligence.", status: "User Import Ready", agents: ["Bookmark Miner", "Archive Keeper"] },
-    { title: "Archive Habitat", purpose: "Memory, lessons, playbooks, and decision rules.", objective: "Turn repeated lessons into reusable wealth-building rules.", status: "Static Prototype", agents: ["Archive Keeper", "Wealth Alchemist"] },
-    { title: "Build System Habitat", purpose: "Tasks, QA, staging, and auto-update workflow.", objective: "Keep the site build-safe and avoid duplicate architecture.", status: "Build Safe", agents: ["Task Smith", "Auto Update Agent", "System Brain"] },
-    { title: "Private Intelligence Habitat", purpose: "Chrome bookmarks, X bookmarks, and personal saved research.", objective: "Keep private imports local/user-provided until official APIs exist.", status: "Private Import", agents: ["Bookmark Miner", "News Raven"] },
-    { title: "Case Study Habitat", purpose: "Berkshire 1965, annual reports, and old documents into modern rules.", objective: "Turn historical cleanup lessons into CEO B checklists.", status: "Historical Manual Data", agents: ["Wealth Alchemist", "Archive Keeper", "Macro Watcher"] },
-  ];
-  const agentOps = getAgentOpsState();
-  const visibleLanes = state.agentHabitatFilter === "all" ? laneDefinitions : laneDefinitions.filter((lane) => lane.title === state.agentHabitatFilter);
-  const gameNodes = [
-    ["Signal Scout", 18, 24, "Market Analysis", "violet"],
-    ["Macro Watcher", 34, 17, "Macro Research", "violet"],
-    ["News Raven", 17, 52, "News & Intel", "cyan"],
-    ["Flow Hunter", 38, 48, "Flow Desk", "green"],
-    ["Risk Sentinel", 74, 48, "Risk Vault", "gold"],
-    ["System Brain", 72, 22, "Strategy Core", "cyan"],
-    ["Bookmark Miner", 26, 76, "Private Intel", "green"],
-    ["Archive Keeper", 50, 78, "Archive Vault", "green"],
-    ["Wealth Alchemist", 70, 76, "Playbook Lab", "violet"],
-    ["Task Smith", 13, 77, "Build Queue", "gold"],
-    ["Story Teller", 85, 26, "Founder Narrative", "violet"],
-    ["Auto Update Agent", 86, 74, "Automation Dock", "cyan"],
-  ];
-  const feedItems = [...agentOps.events.map((event) => `${event.agentName} ${event.message}`), ...mockActivityFeed].slice(0, 7);
-  els.agentOperatingSystem.innerHTML = `
-    <section class="agent-game-page">
-      <header class="agent-game-hero">
-        <div>
-          <p class="eyebrow">Page 07 / AI Habitat OS</p>
-          <h2>Agent Habitat</h2>
-          <p>CEO B’s game-style command floor. Agents patrol pods, carry data cubes, huddle for risk checks, and deliver final research packets for human review. Mock/local state only.</p>
-        </div>
-        <div class="agent-game-scoreboard">
-          <span><strong>${operatingAgents.length}</strong> agents</span>
-          <span><strong>${operatingAgents.filter((agent) => /active|online|ready/i.test(agent.status)).length}</strong> active</span>
-          <span><strong>${agentOps.tasks.filter((task) => task.status !== "done").length}</strong> tasks</span>
-          <span><strong>${stalledIntegrations.length}</strong> setup</span>
-        </div>
-      </header>
-
-      <section class="agent-game-layout">
-        <div class="agent-game-map" aria-label="AI Habitat OS video game command map">
-          <div class="game-district market"><strong>Market Habitat</strong><small>signals / macro / flow</small></div>
-          <div class="game-district risk"><strong>Risk Habitat</strong><small>news / map / veto</small></div>
-          <div class="game-district archive"><strong>Archive Habitat</strong><small>memory / playbooks</small></div>
-          <div class="game-district build"><strong>Build Habitat</strong><small>tasks / automation</small></div>
-          <svg class="game-routes" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            <path class="gold" d="M50 12 C50 26 50 33 50 44" />
-            <path class="cyan" d="M18 24 C30 35 41 39 50 50 C60 40 72 34 84 26" />
-            <path class="green" d="M14 55 C30 62 41 62 50 55 C60 63 72 62 86 55" />
-            <path class="violet" d="M14 78 C30 72 40 64 50 55 C60 66 70 74 86 78" />
-            <path class="patrol" d="M18 22 C32 13 68 13 84 24 C92 47 86 76 68 84 C49 91 23 84 13 58 C9 42 10 31 18 22" />
-          </svg>
-          <button class="game-ceo-node" type="button" onclick="window.selectOperatingAgent?.('ceo-b-os')">
-            <span>CEO B</span>
-            <strong>Command Center</strong>
-            <small>final review / founder decision layer</small>
-          </button>
-          <div class="game-core-node">
-            <span>Trading Floor</span>
-            <strong>Operations Core</strong>
-            <small>agents meet here before CEO B review</small>
-          </div>
-          ${gameNodes.map(([name, x, y, role, tone]) => renderAgentGameNode(name, x, y, role, tone)).join("")}
-          ${["Scout", "Raven", "Risk", "Archive", "Build", "Macro"].map((label, index) => `<span class="game-runner runner-${index + 1}"><i></i><em>${escapeHtml(label)}</em></span>`).join("")}
-          ${Array.from({ length: 6 }).map((_, index) => `<span class="game-cube cube-${index + 1}"></span>`).join("")}
-          <div class="game-routine-bar">
-            ${["Scan", "Commute", "Handoff", "Huddle", "Deliver"].map((step) => `<span>${escapeHtml(step)}</span>`).join("")}
-          </div>
-        </div>
-
-        <aside class="agent-game-side">
-          ${renderAgentGameDrawer(selectedAgent, agentOps)}
-          <section class="game-feed">
-            <div class="panel-head"><div><p class="eyebrow">Static Activity Feed</p><h2>Operations</h2></div><span class="pill">Local</span></div>
-            ${feedItems.map((item, index) => renderMockActivityItem(item, index)).join("")}
-          </section>
-        </aside>
-      </section>
-
-      <section class="agent-game-bottom">
-        ${[
-          ["Mission", "87%", "Daily objectives moving through research, risk, archive, and CEO B review."],
-          ["Network", "Agent Mesh", "Pods cluster when tasks overlap, then split back to home stations."],
-          ["Boundaries", "No Fake Live", "No real agents, no auto-trading, no X sync until backend setup exists."],
-          ["Next", "Vision Map", "Bring page 01 up to this simpler game-style command quality."],
-        ].map(([title, value, detail]) => `<article><span>${escapeHtml(title)}</span><strong>${escapeHtml(value)}</strong><p>${escapeHtml(detail)}</p></article>`).join("")}
-      </section>
-    </section>
-  `;
-  return;
-  els.agentOperatingSystem.innerHTML = `
-    <section class="agent-command-deck">
-      <div>
-        <p class="eyebrow">AI Habitat OS / Page 07</p>
-        <h2>Agent Operations Floor</h2>
-        <p>One living command room for CEO B, market agents, risk sentinels, bookmark miners, archive memory, build tasks, and future automation. Everything shown here is mock/local until real telemetry is connected.</p>
-        <div class="signal-badges"><span>Mock Activity</span><span>Local State</span><span>CEO B Review</span><span>No Fake Live Agents</span></div>
-      </div>
-      <div class="agent-command-stats">
-        <span><strong>${operatingAgents.length}</strong>Total Agents</span>
-        <span><strong>${operatingAgents.filter((agent) => /active|online|ready/i.test(agent.status)).length}</strong>Static Ready</span>
-        <span><strong>${agentOps.tasks.filter((task) => task.status !== "done").length}</strong>Local Tasks</span>
-        <span><strong>${stalledIntegrations.length}</strong>Setup Needed</span>
-      </div>
-    </section>
-    <section class="agent-civilization-grid">
-      <div class="agent-civilization-map" aria-label="Pickaxe Capital AI agent civilization map">
-        <div class="agent-city-backdrop"></div>
-        <div class="habitat-district district-market"><strong>Market Habitat</strong><small>signals / macro / flow</small></div>
-        <div class="habitat-district district-risk"><strong>Risk Habitat</strong><small>news / maps / veto</small></div>
-        <div class="habitat-district district-knowledge"><strong>Knowledge Habitat</strong><small>bookmarks / archive</small></div>
-        <div class="habitat-district district-build"><strong>Build Habitat</strong><small>tasks / automation</small></div>
-        <svg class="agent-civilization-links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <path class="gold" d="M50 12 C50 24, 50 31, 50 42" />
-          <path class="cyan" d="M15 33 C30 40, 38 45, 50 50" />
-          <path class="cyan" d="M85 33 C70 40, 62 45, 50 50" />
-          <path class="purple" d="M18 68 C32 63, 40 58, 50 50" />
-          <path class="purple" d="M82 68 C68 63, 60 58, 50 50" />
-          <path class="green" d="M32 82 C40 70, 45 58, 50 50" />
-          <path class="green" d="M68 82 C60 70, 55 58, 50 50" />
-          <path class="patrol patrol-one" d="M15 23 C22 34, 36 41, 50 45 C65 41, 76 32, 85 23" />
-          <path class="patrol patrol-two" d="M13 54 C28 60, 40 63, 50 58 C61 64, 76 62, 87 53" />
-          <path class="patrol patrol-three" d="M18 78 C36 72, 42 64, 50 56 C58 66, 67 74, 84 80" />
-        </svg>
-        <button class="agent-command-node ceo" type="button" onclick="window.selectOperatingAgent?.('ceo-b-os')">
-          <span>CEO B</span>
-          <strong>Command Center</strong>
-          <small>Founder decision layer</small>
-        </button>
-        <div class="agent-command-node floor">
-          <span>Trading Floor</span>
-          <strong>AI Operations Core</strong>
-          <small>Research • risk • archive • review</small>
-        </div>
-        ${renderAgentMapNode("Signal Scout", "alpha", 15, 21, "Market Analysis")}
-        ${renderAgentMapNode("System Brain", "nexus", 72, 19, "Strategy Engine")}
-        ${renderAgentMapNode("Risk Sentinel", "omega", 72, 47, "Risk Management")}
-        ${renderAgentMapNode("News Raven", "echo", 15, 47, "News & Intel")}
-        ${renderAgentMapNode("Macro Watcher", "macro", 31, 18, "Macro Research")}
-        ${renderAgentMapNode("Flow Hunter", "flow", 34, 42, "Flow Desk")}
-        ${renderAgentMapNode("Map Builder", "geo", 84, 64, "Geopolitical Watch")}
-        ${renderAgentMapNode("Bookmark Miner", "sigma", 26, 67, "Private Intelligence")}
-        ${renderAgentMapNode("Archive Keeper", "weaver", 47, 70, "Knowledge Vault")}
-        ${renderAgentMapNode("Wealth Alchemist", "quantum", 67, 67, "Playbook Engine")}
-        ${renderAgentMapNode("Task Smith", "task", 16, 72, "Build Tasks")}
-        ${renderAgentMapNode("Story Teller", "story", 83, 22, "Founder Narrative")}
-        ${renderAgentMapNode("Auto Update Agent", "auto", 84, 72, "Planned Automation")}
-        <span class="agent-worker route-one"><b></b><em>Scout</em></span>
-        <span class="agent-worker route-two"><b></b><em>Raven</em></span>
-        <span class="agent-worker route-three"><b></b><em>Keeper</em></span>
-        <span class="agent-worker route-four"><b></b><em>Risk</em></span>
-        <span class="agent-worker route-five"><b></b><em>Build</em></span>
-        <span class="agent-data-cube cube-a"></span>
-        <span class="agent-data-cube cube-b"></span>
-        <span class="agent-data-cube cube-c"></span>
-        <span class="agent-data-cube cube-d"></span>
-        <div class="habitat-routine-strip">
-          ${[
-            ["Patrol", "agents scan their habitat lanes"],
-            ["Commute", "move to the trading floor"],
-            ["Handoff", "send data cubes to CEO B"],
-            ["Huddle", "risk + signal collaboration"],
-            ["Return", "save output to archive memory"],
-          ].map(([title, detail]) => `<article><strong>${escapeHtml(title)}</strong><span>${escapeHtml(detail)}</span></article>`).join("")}
-        </div>
-      </div>
-      <aside class="agent-right-command-stack">
-        <section class="agent-live-feed-panel">
-          <div class="panel-head"><div><p class="eyebrow">Static Activity Feed / no background jobs</p><h2>Operations Feed</h2></div><span class="pill">Local</span></div>
-          <div class="activity-feed mock-feed">
-            ${[...agentOps.events.map((event) => event.message), ...mockActivityFeed].slice(0, 9).map((item, index) => renderMockActivityItem(item, index)).join("")}
-          </div>
-        </section>
-        <section class="operating-agent-drawer" id="operatingAgentDrawer">
-          ${renderOperatingAgentDrawer(selectedAgent)}
-        </section>
-      </aside>
-    </section>
-    ${renderAgentEcosystemConsole(agentOps, selectedAgent, laneDefinitions)}
-    ${renderAgentOpsBottomPanels(agentOps)}
-    <section class="habitat-lane-grid">
-      ${visibleLanes.map((lane) => {
-        const agents = lane.agents.map((agentName) => operatingAgents.find((agent) => agent.name === agentName)).filter(Boolean);
-        return `
-          <article class="habitat-lane">
-            <div class="lane-head"><h3>${escapeHtml(lane.title)}</h3><span>${agents.length} agents • ${escapeHtml(lane.status)}</span></div>
-            <p>${escapeHtml(lane.purpose)}</p>
-            <small class="lane-objective"><b>Objective:</b> ${escapeHtml(lane.objective)}</small>
-            ${agents.map(renderOperatingAgentCard).join("") || `<p class="muted">No assigned agent yet.</p>`}
-          </article>
-        `;
-      }).join("")}
-    </section>
-    ${renderAgentTaskBoard(agentOps)}
-    <section class="agent-os-grid">
-      <div class="panel">
-        <div class="panel-head"><div><p class="eyebrow">Static Activity Feed / no background jobs</p><h2>Operations Log</h2></div><span class="pill">Local visual log</span></div>
-        <div class="activity-feed mock-feed">
-          ${[...agentOps.events.map((event) => event.message), ...mockActivityFeed].slice(0, 14).map((item, index) => renderMockActivityItem(item, index)).join("")}
-        </div>
-      </div>
-      <div class="panel">
-        <div class="panel-head"><div><p class="eyebrow">CEO B Review Queue</p><h2>Pending Decisions</h2></div><span class="pill">${ceoReviewQueue.length} items</span></div>
-        <div class="review-queue">
-          ${ceoReviewQueue.map((item, index) => `<article><span>${escapeHtml(item.type)} • ${escapeHtml(item.priority)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.note)}</p><small>${escapeHtml(item.owner)}</small><button type="button" onclick="window.operatingAgentAction?.('review', '${escapeHtml(item.owner)}')">Review</button></article>`).join("")}
-        </div>
-      </div>
-    </section>
-    <section class="motion-system-panel">
-      <div class="panel-head">
-        <div><p class="eyebrow">Motion & Animation System</p><h2>How the Habitat Feels Alive</h2></div>
-        <span class="pill">Mock visual states</span>
-      </div>
-      <div class="motion-state-grid">
-        ${[
-          ["Patrol Loops", "Agents continuously patrol defined paths inside hubs."],
-          ["Commute Paths", "Agents travel between pods and the trading floor."],
-          ["Data Handoff", "Agents exchange data cubes at waypoints."],
-          ["Collaboration", "Agents form temporary huddles for complex problems."],
-          ["Task Complete", "Agents deliver results and return to their home station."],
-          ["Idle Observatory", "Agents idle, monitor, or await new task assignments."],
-          ["Live Activity Pulse", "Feeds and status lights move when mock events update."],
-        ].map(([title, detail], index) => `<article><b>${index + 1}</b><h3>${escapeHtml(title)}</h3><p>${escapeHtml(detail)}</p><i></i></article>`).join("")}
-      </div>
-    </section>
-    <section class="panel ownership-matrix-panel">
-      <div class="panel-head"><div><p class="eyebrow">Ownership Matrix</p><h2>Page / Source -> Agent Owner -> Status -> Next Action</h2></div><span class="pill">Local owner map</span></div>
-      <div class="ownership-table">${renderOwnershipRows()}</div>
-    </section>
-    <section class="panel stalled-panel">
-      <div class="panel-head"><div><p class="eyebrow">Stalled / Missing Integrations</p><h2>Honest System Boundaries</h2></div><span class="pill">No fake live work</span></div>
-      <div class="stalled-grid">${stalledIntegrations.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
-    </section>
-  `;
 }
 
 function getSelectedOperatingAgent() {
@@ -15007,268 +14376,7 @@ function pcInfoCard(title, body, meta = "") {
   `;
 }
 
-var renderDashboardPage = function () {
-  if (!els.dashboardContent) return;
-  const packets = getOptionAlertsState();
-  const topPacket = packets[0] || normalizeResearchPacket({}, 0);
-  const archiveLoopItems = typeof getEffectiveArchiveVaultItems === "function" ? getEffectiveArchiveVaultItems() : [];
-  const archiveSourceCandidates = archiveLoopItems.filter((item) => item.sourceOrigin === "Source Hub" || item.linkedSourceId);
-  const cleanedArchiveNotes = archiveLoopItems.filter((item) => item.privateDataRemoved).length;
-  const pendingArchiveReviews = archiveSourceCandidates.filter((item) => /required|pending|evidence|returned/i.test(`${item.reviewStatus} ${item.ceoBApproval}`)).length;
-  const learningCandidates = typeof getLearningLedgerState === "function" ? getLearningLedgerState().filter((item) => item.privacy_tier === "local_only" && /archive|source/i.test(`${item.source || ""} ${item.category || ""}`)).length : 0;
-  const commandStats = [
-    ["Queue", `${packets.length}`, "Demo research packets"],
-    ["Mode", "Prototype", "Static / local-first"],
-    ["Archive Loop", `${archiveSourceCandidates.length}`, "Local source candidates"],
-    ["Cleaned Notes", `${cleanedArchiveNotes}`, "Sanitized archive memory"],
-    ["Decision Gate", "CEO B", "Human review required"]
-  ];
-  const regimeMetrics = [
-    ["SPY", "Core index", "Manual regime check", "Source required"],
-    ["QQQ", "Growth leadership", "Static watchlist", "No live quote"],
-    ["VIX", "Volatility pressure", "Risk watch", "Manual review"],
-    ["DXY", "Dollar pressure", "Macro context", "Source required"],
-    ["US10Y", "Rates pressure", "Future adapter", "Not connected"],
-    ["BTC", "Risk asset pulse", "Static watchlist", "No exchange link"]
-  ];
-  const agents = [
-    ["Atlas", "Market structure", "Tracks indexes, VIX, dollar, yields, oil, BTC, and macro regime.", "Scanning macro"],
-    ["Sentry", "Alerts desk", "Watches unusual moves, catalysts, risk warnings, and system status.", "Monitoring alerts"],
-    ["Forge", "Research builder", "Turns sources and notes into briefs, watchlist updates, and thesis cards.", "Building briefs"],
-    ["Oracle", "Signal interpretation", "Converts inputs into themes, trend shifts, and confidence levels.", "Interpreting signals"],
-    ["Archivist", "Source memory", "Organizes links, filings, charts, screenshots, notes, and research history.", "Indexing sources"],
-    ["Scout", "Opportunity discovery", "Finds tickers, themes, sympathy plays, catalysts, and new research lanes.", "Mapping universe"],
-    ["Risk Desk", "Discipline layer", "Tracks source gaps, overtrading risk, chase conditions, and warning gates.", "Gate active"]
-  ];
-  const watchlistPulse = [
-    ["Core Indexes", "SPY / QQQ / DIA / IWM", "Manual watchlist"],
-    ["Mega Cap Tech", "AAPL / MSFT / NVDA / TSLA", "Static prototype"],
-    ["AI Infrastructure", "NVDA / AMD / AVGO / SMCI", "Research queue"],
-    ["Crypto Risk", "BTC / ETH / COIN / MSTR", "No exchange link"],
-    ["Macro / Risk", "VIX / DXY / US10Y / Oil / Gold", "Source required"],
-    ["Catalyst Watch", "Earnings / sympathy / high IV", "Manual review"]
-  ];
-  const signalBoard = [
-    ["AI infrastructure", "Theme emerging", "NVDA, AMD, AVGO, SMCI", "Source-backed thesis needed", "Demo research signal"],
-    ["Mega-cap leadership", "Momentum watch", "QQQ, MSFT, AAPL", "Confirm market regime first", "Static prototype data"],
-    ["Volatility pressure", "Risk warning", "VIX, UVXY, DXY", "Avoid chasing; check macro source", "Manual watchlist"],
-    ["Catalyst gap", "Source required", "TSLA, PLTR, small caps", "No escalation without source trail", "Awaiting live data connection"]
-  ];
-  const sourceFeed = [
-    ["SEC Filing", "Company filing or investor relations source", "Source required", "#/source-hub"],
-    ["Earnings Note", "Transcript, call notes, or calendar catalyst", "Manual research note", "#/source-hub"],
-    ["X Bookmark", "User-imported social intelligence only", "Private source", "#/bookmarks"],
-    ["Archive Candidates", `${pendingArchiveReviews} awaiting CEO B review`, "Local summary only", "#/archive"],
-    ["Learning Candidates", `${learningCandidates} pending local lessons`, "No raw notes", "#/learning-ledger"],
-    ["Macro Event", "Economic calendar or rates/dollar context", "Manual verification", "#/source-hub"]
-  ];
-  const researchQueue = [
-    ["AI Infrastructure", "Attach source trail to top watchlist names", "Forge / Archivist", "#/watchlists"],
-    ["Market Regime", "Review SPY, QQQ, VIX, DXY, US10Y before signal escalation", "Atlas / Risk Desk", "#/signals"],
-    ["Alerts Integrity", "Keep top packets labeled demo/static and source-required", "Sentry", "#/alerts"],
-    ["Archive Flow", "Turn reviewed notes into reusable intelligence memory", "Archivist", "#/archive"]
-  ];
-  const riskRules = ["No broker execution", "No auto-trading", "No betting execution", "No copy-trading", "No fake live data", "No unsourced signal escalation", "Manual CEO B review required"];
-  const memoryLayer = [
-    ["Website Cockpit", "Public/static command center"],
-    ["Obsidian Vault", "Private local memory"],
-    ["AI Handoff", "Selected notes included locally"],
-    ["Public Frontend", "No private note contents"]
-  ];
-  const nextMissions = ["Review AI infrastructure watchlist", "Attach sources to top signals", "Build archive flow", "Connect alerts back to Source Hub"];
-
-  els.dashboardContent.innerHTML = `
-    <div class="page-shell dashboard-shell mission-control-shell">
-      <header class="mission-hero">
-        <div class="mission-hero-copy">
-          <span class="meta-label">00 DASH / CEO B Control Room</span>
-          <h2>Mission Control</h2>
-          <p>CEO B's operating layer for Pickaxe Capital: Time, Trend, and Theme organized into watchlists, sources, signals, alerts, archive memory, and agent departments.</p>
-          ${pcChipRow(["Prototype Mode", "Demo Data", "Source Required", "Market Research OS", "Manual CEO B Review"])}
-        </div>
-        <aside class="mission-hero-panel">
-          <span class="mission-status-light"></span>
-          <strong>CEO B operating layer</strong>
-          <p>Static command center. No live market feed, broker, sportsbook, private account, or execution adapter is connected.</p>
-        </aside>
-      </header>
-
-      <section class="mission-stat-grid">
-        ${commandStats.map(([label, value, detail]) => `
-          <article class="mission-stat-card">
-            <span>${escapeHtml(label)}</span>
-            <strong>${escapeHtml(value)}</strong>
-            <small>${escapeHtml(detail)}</small>
-          </article>
-        `).join("")}
-      </section>
-
-      <section class="dashboard-command-grid">
-        <article class="command-card mission-command-card">
-          <span class="meta-label">Founder / Operator Layer</span>
-          <h3>CEO B turns market noise into organized intelligence.</h3>
-          <p>Pickaxe Capital is a research-first market intelligence system built around Time, Trend, and Theme. The goal is not to predict every move, but to organize the market into watchlists, catalysts, sources, signals, and repeatable decision workflows.</p>
-          <div class="mission-motto">Sell the pickaxe: build the tools, systems, workflows, and intelligence layer around markets.</div>
-          <div class="action-row">
-            <a class="primary-action" href="#/watchlists">Open Research Universe</a>
-            <a class="secondary-action" href="#/alerts">Open Alerts</a>
-            <a class="secondary-action" href="#/source-hub">Open Sources</a>
-          </div>
-        </article>
-
-        <article class="glass-card market-regime-card">
-          <span class="meta-label">Market Regime / Static Prototype</span>
-          <h3>Manual regime board</h3>
-          <div class="regime-grid">
-            ${regimeMetrics.map(([symbol, role, stateLabel, note]) => `
-              <div class="regime-tile">
-                <strong>${escapeHtml(symbol)}</strong>
-                <span>${escapeHtml(role)}</span>
-                <em>${escapeHtml(stateLabel)}</em>
-                <small>${escapeHtml(note)}</small>
-              </div>
-            `).join("")}
-          </div>
-          <p class="mission-footnote">No prices shown here are live. This board is a research checklist until a real backend data source is connected.</p>
-        </article>
-
-        <aside class="truth-panel risk-desk-card">
-          <span class="meta-label">Risk Desk / Discipline</span>
-          <h3>Do not escalate weak or unsourced signals.</h3>
-          <div class="truth-list">
-            ${riskRules.map((item) => `<span><em>${escapeHtml(item)}</em><strong>Locked</strong></span>`).join("")}
-          </div>
-        </aside>
-      </section>
-
-      <section class="mission-main-grid">
-        <article class="command-card alerts-command-card">
-          <span class="meta-label">Top Alerts / Demo Research Packets</span>
-          <h3>${escapeHtml(topPacket.symbol || "AAPL")} is the current queue lead.</h3>
-          <p>${escapeHtml(topPacket.researchContext || "Demo research packet. Manual source review required before any external action.")}</p>
-          <div class="mission-alert-strip">
-            ${packets.slice(0, 4).map((packet) => `
-              <a href="#/alerts">
-                <strong>${escapeHtml(packet.symbol || "Packet")}</strong>
-                <span>${escapeHtml(packet.status || "Demo research signal")}</span>
-                <em>${escapeHtml(packet.confidence ? `${packet.confidence}% source confidence` : "Source required")}</em>
-              </a>
-            `).join("") || `<a href="#/alerts"><strong>AAPL</strong><span>Demo research signal</span><em>Source required</em></a>`}
-          </div>
-          <a class="primary-action" href="#/alerts">Open Alerts Desk</a>
-        </article>
-
-        <article class="glass-card active-agents-card">
-          <span class="meta-label">Active Agents / Departments</span>
-          <h3>AI Habitat OS departments</h3>
-          <div class="mission-agent-grid">
-            ${agents.map(([name, role, detail, stateLabel]) => `
-              <article class="mission-agent-card">
-                <span class="agent-state-dot"></span>
-                <strong>${escapeHtml(name)}</strong>
-                <em>${escapeHtml(role)}</em>
-                <p>${escapeHtml(detail)}</p>
-                <small>${escapeHtml(stateLabel)} / Static department</small>
-              </article>
-            `).join("")}
-          </div>
-          <a class="secondary-action" href="#/vision-map">Open Vision Map</a>
-        </article>
-      </section>
-
-      <section class="dashboard-stack-grid">
-        <article class="command-card watchlist-pulse-card">
-          <span class="meta-label">Watchlist Pulse</span>
-          <h3>Research Universe lanes</h3>
-          <div class="mission-list-grid">
-            ${watchlistPulse.map(([title, tickers, stateLabel]) => `
-              <a href="#/watchlists">
-                <strong>${escapeHtml(title)}</strong>
-                <span>${escapeHtml(tickers)}</span>
-                <em>${escapeHtml(stateLabel)}</em>
-              </a>
-            `).join("")}
-          </div>
-        </article>
-
-        <article class="glass-card signal-board-card">
-          <span class="meta-label">Signal Board / Research Only</span>
-          <h3>Signals are not trade calls.</h3>
-          <div class="mission-signal-list">
-            ${signalBoard.map(([theme, type, tickers, riskNote, status]) => `
-              <article>
-                <strong>${escapeHtml(theme)}</strong>
-                <span>${escapeHtml(type)}</span>
-                <small>${escapeHtml(tickers)}</small>
-                <p>${escapeHtml(riskNote)}</p>
-                <em>${escapeHtml(status)}</em>
-              </article>
-            `).join("")}
-          </div>
-          <a class="secondary-action" href="#/signals">Open Signals</a>
-        </article>
-
-        <article class="glass-card source-feed-card">
-          <span class="meta-label">Source Feed Preview</span>
-          <h3>Every thesis should point back to sources.</h3>
-          <div class="source-feed-list">
-            ${sourceFeed.map(([type, detail, status, route]) => `
-              <a href="${escapeHtml(route)}">
-                <strong>${escapeHtml(type)}</strong>
-                <span>${escapeHtml(detail)}</span>
-                <em>${escapeHtml(status)}</em>
-              </a>
-            `).join("")}
-          </div>
-        </article>
-      </section>
-
-      <section class="dashboard-stack-grid">
-        <article class="command-card research-queue-card">
-          <span class="meta-label">Research Queue</span>
-          <h3>What CEO B should review next</h3>
-          <div class="mission-queue-list">
-            ${researchQueue.map(([title, detail, owner, route]) => `
-              <a href="${escapeHtml(route)}">
-                <strong>${escapeHtml(title)}</strong>
-                <span>${escapeHtml(detail)}</span>
-                <em>${escapeHtml(owner)}</em>
-              </a>
-            `).join("")}
-          </div>
-        </article>
-
-        <article class="glass-card private-memory-card">
-          <span class="meta-label">Private Memory Layer</span>
-          <h3>Website is the cockpit. Obsidian is the memory. CEO B is the decision layer.</h3>
-          <p>Raw notes, links, screenshots, and messy ideas stay in the private vault until CEO B turns them into cleaned public-facing copy, archive entries, or agent tasks.</p>
-          <div class="dashboard-status-list compact">
-            ${memoryLayer.map(([label, value]) => `<span><em>${escapeHtml(label)}</em><strong>${escapeHtml(value)}</strong></span>`).join("")}
-          </div>
-          <a class="secondary-action" href="/ai-handoff" target="_blank" rel="noopener noreferrer">Open AI Handoff</a>
-        </article>
-
-        <article class="command-card dashboard-next-action">
-          <span class="meta-label">Next Mission</span>
-          <h3>Make the next signal source-backed before it reaches CEO B Review.</h3>
-          <div class="dashboard-pill-list">${nextMissions.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
-          <div class="action-row">
-            <a class="primary-action" href="#/watchlists">Review Watchlists</a>
-            <a class="secondary-action" href="#/source-hub">Attach Sources</a>
-            <a class="secondary-action" href="#/archive">Archive Memory</a>
-          </div>
-        </article>
-      </section>
-
-      <section class="mission-terminal-band">
-        <span>System boundary</span>
-        <strong>Demo research signal / static prototype data / manual watchlist / source required / awaiting live data connection.</strong>
-        <a href="#/risk-rules">Open Risk & Rules</a>
-      </section>
-    </div>
-  `;
-}
-
+// Final active renderer: #/dashboard. Assigned after bootstrap initialization.
 renderDashboardPage = function () {
   if (!els.dashboardContent) return;
   const packets = getOptionAlertsState();
@@ -15606,126 +14714,7 @@ function renderLaunchCountdownCard(variant = "compact") {
   `;
 }
 
-renderAlertsDeskMarkup = function (optionAlerts, selectedAlert, lastUpdated) {
-  const packet = selectedAlert || normalizeResearchPacket({}, 0);
-  const topPacket = optionAlerts[0] || packet;
-  const queueCount = optionAlerts.length;
-  const packetActions = ["Send to CEO B Review", "Research More", "Verify News", "Archive Research Note"];
-  const checklistItems = [
-    ["Source trail", packet.confidence ? `${packet.confidence}% confidence` : "Needs source"],
-    ["Risk note", packet.riskScore || packet.risk || "Manual"],
-    ["Invalidation", packet.invalidationResearchNote || "Stand down if evidence fails"],
-    ["Review gate", "CEO B required"]
-  ];
-  const safetyItems = [
-    "Static / local-only prototype",
-    "No live APIs",
-    "No scraping",
-    "No broker execution",
-    "No fake connected providers",
-    "No private vault exposure",
-    "Agents placeholder-only",
-    "Options deferred"
-  ];
-  const queueList = optionAlerts.slice(0, 5).map((alert) => `
-    <button type="button" onclick="window.selectAlertCard('${escapeHtml(alert.id)}')">
-      <strong>${escapeHtml(alert.symbol)}</strong>
-      <span>${escapeHtml(alert.status || "Research Packet")}</span>
-    </button>
-  `).join("");
-
-  return `
-    <div class="page-shell alerts-declutter-shell">
-      <header class="page-hero alerts-declutter-hero">
-        <div>
-          <span class="page-kicker">00 Alerts Desk / CEO B Review Queue</span>
-          <h2>Alerts Desk</h2>
-          <p>Research packets wait here until CEO B verifies the source trail, risk note, and next manual action.</p>
-          <div class="alerts-hero-summary">
-            <span><strong>Queue</strong>${queueCount} packets</span>
-            <span><strong>Lead packet</strong>${escapeHtml(topPacket.symbol || packet.symbol || "Research")}</span>
-            <span><strong>Updated</strong>${escapeHtml(lastUpdated)}</span>
-          </div>
-        </div>
-        <aside class="truth-panel alerts-hero-boundary">
-          <span class="meta-label">Safety truth</span>
-          <h3>Manual review only.</h3>
-          <p>Static/local prototype. No live APIs, scraping, broker execution, fake connected providers, private vault exposure, autonomous agents, or Options Research launch.</p>
-          <button type="button" class="primary-action" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', 'Send to CEO B Review')">Review Research Packet</button>
-        </aside>
-      </header>
-
-      <section class="alerts-core-bento" aria-label="Alerts Desk core panels">
-        <article class="command-card alerts-active-packet-card">
-          <span class="meta-label">Active Research Packet</span>
-          <h3>Active Research Packet</h3>
-          <p class="alerts-packet-identity">${escapeHtml(packet.symbol)} / ${escapeHtml(packet.company || packet.title || "Research Candidate")}</p>
-          <p>${escapeHtml(packet.researchContext || "Research candidate only. CEO B reviews source confidence, risk notes, and watch criteria before any external action.")}</p>
-          <div class="alerts-packet-metrics">
-            <span><em>Type</em><strong>${escapeHtml(packet.type || "Research Packet")}</strong></span>
-            <span><em>Confidence</em><strong>${escapeHtml(packet.confidence || 0)}%</strong></span>
-            <span><em>Risk</em><strong>${escapeHtml(packet.riskScore || packet.risk || "Manual")}</strong></span>
-          </div>
-          <div class="action-row">
-            ${packetActions.map((label, index) => `<button type="button" class="${index === 0 ? "primary-action" : "secondary-action"}" onclick="window.updateAlertAction('${escapeHtml(packet.id)}', '${escapeHtml(label)}')">${escapeHtml(label)}</button>`).join("")}
-          </div>
-        </article>
-
-        <article class="glass-card alerts-checklist-card">
-          <span class="meta-label">Decision Checklist</span>
-          <h3>Decision Checklist</h3>
-          <div class="alerts-checklist-list">
-            ${checklistItems.map(([label, value]) => `
-              <span>
-                <strong>${escapeHtml(label)}</strong>
-                <em>${escapeHtml(value)}</em>
-              </span>
-            `).join("")}
-          </div>
-          <p class="mission-footnote">Next manual action: verify the source trail, then choose review, research more, or archive.</p>
-        </article>
-
-        <aside class="truth-panel alerts-boundary-card">
-          <span class="meta-label">Safety / Source Boundary</span>
-          <h3>Safety / Source Boundary</h3>
-          <div class="alerts-boundary-list">
-            ${safetyItems.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
-          </div>
-        </aside>
-      </section>
-
-      <section class="alerts-secondary-grid" aria-label="Alerts Desk secondary details">
-        <article class="glass-card">
-          <span class="meta-label">Packet Queue</span>
-          <h3>Other research packets</h3>
-          <div class="alerts-queue-list">${queueList}</div>
-        </article>
-        ${pcInfoCard("Source Confidence", "Source confidence, catalyst context, and risk notes stay below the primary review decision so the page does not repeat itself.", "Lower Detail")}
-        ${pcInfoCard("Archive / Learning", "Save only reviewed source trails, invalidation notes, and lessons after CEO B makes a manual decision.", "Memory")}
-      </section>
-
-      <section class="alerts-quiet-stack">
-        <details class="mission-quiet-details">
-          <summary>Show packet context</summary>
-          <ul class="pc-list">
-            <li><span>Watch Criteria</span><strong>${escapeHtml(packet.watchCriteria || "Verify price context, liquidity, source trail, and catalyst.")}</strong></li>
-            <li><span>Price Context</span><strong>${escapeHtml(packet.currentPrice || "Static research context")}</strong></li>
-            <li><span>Invalidation Note</span><strong>${escapeHtml(packet.invalidationResearchNote || "Stand down if core evidence fails.")}</strong></li>
-          </ul>
-        </details>
-        <details class="mission-quiet-details">
-          <summary>Show support commentary</summary>
-          <div class="section-grid">
-            ${pcInfoCard("Agent Commentary", "Signal Scout prepares the candidate, Flow Hunter checks liquidity context, News Raven verifies catalysts, and Risk Sentinel keeps the packet research-only.", "Support")}
-            ${pcInfoCard("Market / Catalyst Context", "Market, catalyst, and options context remain research notes until the source trail and risk note are reviewed.", "Context")}
-            ${pcInfoCard("Route Links", "Mission Control summarizes; Source Hub verifies; Archive preserves cleaned memory after manual review.", "System")}
-          </div>
-        </details>
-      </section>
-    </div>
-  `;
-}
-
+// Active renderer: #/watchlists. No later assignment replaces this function.
 var renderWatchlistsPage = function () {
   if (!els.watchlistsContent) return;
   const buckets = [
@@ -16107,65 +15096,370 @@ renderVisionCommandCenter = function () {
   `;
 }
 
+// Final active renderer: #/agents Phase 3 browser-local workflow.
 renderAgentsPage = function () {
   if (!els.agentOperatingSystem) return;
-  const futureModules = [
-    ["Atlas", "Market structure agent", "Indexes, VIX, yields, dollar, oil, BTC, macro regime"],
-    ["Sentry", "Alerts agent", "Important changes, catalysts, risk warnings, system status"],
-    ["Forge", "Research builder", "Sources and notes into briefs, thesis cards, watchlist updates"],
-    ["Oracle", "Signal interpreter", "Themes, trend shifts, confidence language, source gaps"],
-    ["Archivist", "Source memory", "Links, filings, screenshots, charts, notes, research history"],
-    ["Scout", "Opportunity discovery", "New tickers, themes, sympathy plays, catalysts"],
-    ["Risk Desk", "Discipline layer", "Overtrading risk, do-not-chase reminders, review gates"]
-  ];
+  const selectedId = state.selectedPhase3AgentId || agentHabitatDepartments[0]?.id;
+  const selectedAgent = agentHabitatDepartments.find((agent) => agent.id === selectedId) || agentHabitatDepartments[0] || {};
+  const agentOps = getAgentOpsState();
+  const localTasks = agentOps.tasks.filter((task) => task.phase3 === true);
+  const latestEvents = agentOps.events.filter((event) => event.phase3 === true).slice(0, 6);
+  const activeTasks = localTasks.filter((task) => !["Archived", "Complete"].includes(task.status)).length;
+  const reviewCount = getSharedQueue("pickaxeReviewQueue").filter((item) => item.source === "Agent Habitat Phase 3").length;
+
+  const renderDepartmentCard = (agent) => `
+    <button class="phase3-department-card ${agent.id === selectedAgent.id ? "is-selected" : ""}" type="button" onclick="window.selectPhase3Agent('${escapeHtml(agent.id)}')">
+      <span class="phase3-department-code">${escapeHtml(agent.departmentId)}</span>
+      <span class="phase3-department-name">${escapeHtml(agent.name)}</span>
+      <small>${escapeHtml(agent.pickaxeName)} · ${escapeHtml(agent.currentState)}</small>
+      <p>${escapeHtml(agent.purpose)}</p>
+      <span class="phase3-card-meta"><b>${escapeHtml(agent.taskType || "Research organization")}</b><em>${escapeHtml(agent.verificationState)}</em></span>
+    </button>
+  `;
+
+  const renderTask = (task) => `
+    <article class="phase3-task-card">
+      <div class="phase3-task-head">
+        <span>${escapeHtml(task.departmentId || "LOCAL")}</span>
+        <strong>${escapeHtml(task.status || "Assigned Locally")}</strong>
+      </div>
+      <h4>${escapeHtml(task.title)}</h4>
+      <p>${escapeHtml(task.agentName || "Agent Department")} · ${escapeHtml(task.taskType || "Research task")} · ${escapeHtml(task.createdLabel || "Browser-local task")}</p>
+      <small>Output: ${escapeHtml(task.outputDestination || "CEO B review queue")} · Review: ${escapeHtml(task.reviewState || "Manual Review Required")}</small>
+      <div class="phase3-task-actions">
+        <button type="button" onclick="window.phase3AgentAction('evidence','${escapeHtml(task.id)}')">Needs More Evidence</button>
+        <button type="button" onclick="window.phase3AgentAction('review','${escapeHtml(task.id)}')">Send to CEO B</button>
+        <button type="button" onclick="window.phase3AgentAction('archive','${escapeHtml(task.id)}')">Route to Archive</button>
+        <button type="button" onclick="window.phase3AgentAction('alert','${escapeHtml(task.id)}')">Create Alert Draft</button>
+      </div>
+    </article>
+  `;
+
   els.agentOperatingSystem.innerHTML = `
-    <div class="page-shell agent-placeholder-shell">
+    <div class="page-shell phase3-agent-habitat">
       ${pcPageHero(
-        "04 AGNT / Future Habitat",
+        "04 AGNT / Agent Operations",
         "Agent Habitat",
-        "Placeholder route reserved for the future AI Habitat OS agent workspace. The broken visual habitat has been cleared until this page gets a proper rebuild.",
-        ["Future Placeholder", "No Live Agents", "No Autonomous Actions", "Manual CEO B Review"]
+        "Specialized research agents organize source intake, market context, risk checks, archive memory, and alert drafts before anything reaches CEO B manual review.",
+        ["Local Workflow", "Research Only", "Manual Review Required", "No Broker Execution", "No Fake Live Agents"]
       )}
-      <section class="agent-empty-state command-card">
-        <div>
-          <span class="meta-label">Route Status</span>
-          <h3>Intentionally empty until the Agent Habitat is rebuilt.</h3>
-          <p>The next version should be designed from scratch as a calm operating schematic, not a crowded visual city. Mission Control already carries the active agent summary.</p>
-          <div class="action-row">
-            <a class="primary-action" href="#/dashboard">Open Mission Control</a>
-            <a class="secondary-action" href="#/vision-map">Open Vision Map</a>
-            <a class="secondary-action" href="#/staging">Open Staging</a>
+
+      <nav class="phase3-route-nav" aria-label="Agent Habitat connected routes">
+        <a href="#/alerts">Home / Alerts</a>
+        <a href="#/dashboard">Mission Control</a>
+        <a class="is-current" href="#/agents">Agent Habitat</a>
+        <a href="#/ai-habitat-os">AI Habitat OS</a>
+        <a href="#/source-hub">Source Hub</a>
+        <a href="#/archive">Archive</a>
+      </nav>
+
+      <section class="phase3-ops-summary" aria-label="Agent Habitat local state">
+        <article><span>Defined Departments</span><strong>${agentHabitatDepartments.length}</strong><small>Shared static model</small></article>
+        <article><span>Local Tasks</span><strong>${activeTasks}</strong><small>Saved in this browser</small></article>
+        <article><span>CEO B Packets</span><strong>${reviewCount}</strong><small>Manual review queue</small></article>
+        <article><span>Execution Mode</span><strong>None</strong><small>No broker or background jobs</small></article>
+      </section>
+
+      <section class="phase3-agent-layout">
+        <div class="phase3-department-panel">
+          <div class="phase3-section-head">
+            <div><span class="meta-label">Department Directory</span><h3>Choose an operating department</h3></div>
+            <span class="phase3-local-pill">Static definitions</span>
+          </div>
+          <div class="phase3-department-grid">
+            ${agentHabitatDepartments.map(renderDepartmentCard).join("")}
           </div>
         </div>
-        <div class="agent-schematic" aria-hidden="true">
-          <span class="agent-schematic-core">CEO B</span>
-          <span style="--x:18%;--y:26%"></span>
-          <span style="--x:78%;--y:22%"></span>
-          <span style="--x:24%;--y:72%"></span>
-          <span style="--x:72%;--y:70%"></span>
-          <i></i>
+
+        <aside class="phase3-agent-inspector">
+          <div class="phase3-inspector-head">
+            <span>${escapeHtml(selectedAgent.departmentId || "D-00")}</span>
+            <small>${escapeHtml(selectedAgent.currentState || "Static / Local")}</small>
+          </div>
+          <p class="meta-label">Agent Inspector</p>
+          <h3>${escapeHtml(selectedAgent.name || "Agent Department")}</h3>
+          <p class="phase3-inspector-mission">${escapeHtml(selectedAgent.mission || "")}</p>
+          <dl>
+            <div><dt>Department / Function</dt><dd>${escapeHtml(selectedAgent.purpose || "")}</dd></div>
+            <div><dt>Current Status</dt><dd>${escapeHtml(selectedAgent.currentState || "Static / Local")}</dd></div>
+            <div><dt>Task Type</dt><dd>${escapeHtml(selectedAgent.taskType || "Research organization")}</dd></div>
+            <div><dt>Owned Route</dt><dd><a href="${escapeHtml(selectedAgent.ownerRoute || "#/agents")}">${escapeHtml(selectedAgent.ownerRoute || "#/agents")}</a></dd></div>
+            <div><dt>Input Sources</dt><dd>${escapeHtml((selectedAgent.inputs || []).join(" · "))}</dd></div>
+            <div><dt>Outputs</dt><dd>${escapeHtml((selectedAgent.outputs || []).join(" · "))}</dd></div>
+            <div><dt>Output Destinations</dt><dd>${escapeHtml((selectedAgent.outputDestinations || []).join(" · "))}</dd></div>
+            <div><dt>Risk / Review State</dt><dd>${escapeHtml(selectedAgent.verificationState || "Manual Review Required")} · ${escapeHtml(selectedAgent.safetyLabel || "Research Only")}</dd></div>
+            <div><dt>Current Local Tasks</dt><dd>${localTasks.filter((task) => task.agentId === selectedAgent.id).length} saved locally</dd></div>
+            <div><dt>Latest Local Activity</dt><dd>${escapeHtml(latestEvents.find((event) => event.agentId === selectedAgent.id)?.message || selectedAgent.latestLocalActivity || "No local activity yet.")}</dd></div>
+          </dl>
+          <div class="phase3-checklist">
+            <span class="meta-label">Verification Checklist</span>
+            ${(selectedAgent.verificationChecklist || []).map((item) => `<p><i></i>${escapeHtml(item)}</p>`).join("")}
+          </div>
+          <div class="phase3-review-note"><strong>CEO B Review Note</strong><p>${escapeHtml(selectedAgent.ceoReviewNote || "")}</p></div>
+          <div class="phase3-risk-boundary"><strong>Risk Boundary</strong><p>${escapeHtml(selectedAgent.riskBoundary || "")}</p></div>
+          <div class="phase3-manual-next"><span>Next Manual Action</span><strong>${escapeHtml(selectedAgent.nextManualAction || "")}</strong></div>
+        </aside>
+      </section>
+
+      <section class="phase3-task-board">
+        <div class="phase3-section-head">
+          <div><span class="meta-label">Browser-Local Task Board</span><h3>Assign and route research work manually</h3></div>
+          <span class="phase3-local-pill">pickaxeAgentOps</span>
+        </div>
+        <div class="phase3-task-composer">
+          <label for="phase3TaskInput">Local research task for ${escapeHtml(selectedAgent.name || "selected department")}</label>
+          <input id="phase3TaskInput" type="text" maxlength="180" placeholder="Example: Verify the source and outline Time / Trend / Theme context" />
+          <button class="primary-action" type="button" onclick="window.phase3AgentAction('assign')">Assign Local Research Task</button>
+        </div>
+        <div class="phase3-task-grid">
+          ${localTasks.length ? localTasks.map(renderTask).join("") : `
+            <article class="phase3-empty-task">
+              <span>LOCAL QUEUE EMPTY</span>
+              <h4>No background work is running.</h4>
+              <p>Assign a task or run a demo workflow cycle to create a browser-local record.</p>
+            </article>
+          `}
         </div>
       </section>
 
-      <section class="agent-placeholder-grid">
-        ${futureModules.map(([name, role, scope]) => `
-          <article class="glass-card">
-            <span class="meta-label">Future Module</span>
-            <h3>${escapeHtml(name)}</h3>
-            <p><strong>${escapeHtml(role)}</strong></p>
-            <p>${escapeHtml(scope)}</p>
-            ${pcChipRow(["Placeholder", "Not Connected", "No Live Telemetry"])}
-          </article>
-        `).join("")}
+      <section class="phase3-workflow-rail" aria-label="Agent workflow">
+        <div class="phase3-section-head">
+          <div><span class="meta-label">Agent Workflow Rail</span><h3>Source intake to reviewed memory</h3></div>
+          <a href="#/ai-habitat-os">Open system map</a>
+        </div>
+        <div class="phase3-rail-grid">
+          ${agentWorkflowSteps.map((step, index) => `
+            <a href="${escapeHtml(step.route)}">
+              <span>${String(index + 1).padStart(2, "0")}</span>
+              <strong>${escapeHtml(step.label)}</strong>
+              <small>${escapeHtml(step.note)}</small>
+            </a>
+          `).join("")}
+        </div>
       </section>
 
-      <section class="truth-panel agent-placeholder-boundary">
-        <span class="meta-label">System Truth</span>
-        <h3>No live agents, no background jobs, no autonomous actions, and no fake telemetry are connected on this page.</h3>
+      <section class="phase3-learning-loop">
+        <div>
+          <span class="meta-label">Correction + Learning Loop</span>
+          <h3>Review compounds knowledge, not guaranteed outcomes.</h3>
+          <p>Failed assumptions, weak sources, missed context, and CEO B corrections are preserved as research lessons.</p>
+        </div>
+        <div class="phase3-learning-grid">
+          <article><strong>Every rejected signal becomes training material.</strong><span>Record why it failed, what evidence was missing, and which rule should be reviewed.</span></article>
+          <article><strong>Every mistake becomes a better rule.</strong><span>Corrections become manual lesson candidates before any operating rule changes.</span></article>
+          <article><strong>Every reviewed output strengthens the system.</strong><span>Reviewed packets retain source lineage, contradictions, decisions, and archive context.</span></article>
+          <article><strong>Bad data and missed context stay visible.</strong><span>The learning loop improves research discipline; it does not promise trading performance.</span></article>
+        </div>
+      </section>
+
+      <section class="phase3-command-grid">
+        <article class="phase3-command-panel">
+          <span class="meta-label">Agent Command Actions</span>
+          <h3>Local controls, explicit outcomes</h3>
+          <p>These controls create browser-local records. They do not start agents, jobs, providers, or execution.</p>
+          <div class="phase3-command-actions">
+            <button type="button" onclick="window.phase3AgentAction('cycle')">Run Demo Workflow Cycle</button>
+            <button type="button" onclick="window.phase3AgentAction('packet')">Create CEO B Review Packet</button>
+            <button type="button" onclick="window.phase3AgentAction('archive-output')">Archive Agent Output</button>
+            <button class="is-danger" type="button" onclick="window.phase3AgentAction('reset')">Reset Local Demo State</button>
+          </div>
+        </article>
+        <article class="phase3-truth-panel">
+          <span class="meta-label">Missing Integration Truth</span>
+          <h3>Planned adapters are not connected.</h3>
+          <p>This route is a local research workflow and visual operating model.</p>
+          <div>
+            ${agentSafetyBoundaries.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+          </div>
+        </article>
+      </section>
+
+      <section class="phase3-activity-strip">
+        <span class="meta-label">Latest Local Activity</span>
+        <div>
+          ${latestEvents.length ? latestEvents.map((event) => `
+            <p><strong>${escapeHtml(event.label || "Local action")}</strong><span>${escapeHtml(event.message)}</span><small>${escapeHtml(event.createdLabel || "")}</small></p>
+          `).join("") : `<p><strong>No local activity</strong><span>The Agent Habitat is waiting for a manual action.</span><small>Local workflow only</small></p>`}
+        </div>
       </section>
     </div>
   `;
 }
+
+function phase3AgentTimestamp() {
+  return new Date().toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
+
+function phase3PushEvent(agentOps, agent, label, message) {
+  agentOps.events.unshift({
+    id: `phase3-event-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    phase3: true,
+    agentId: agent.id,
+    label,
+    message,
+    createdAt: new Date().toISOString(),
+    createdLabel: phase3AgentTimestamp()
+  });
+}
+
+function phase3FindTask(agentOps, taskId) {
+  return agentOps.tasks.find((task) => task.id === taskId && task.phase3 === true);
+}
+
+window.selectPhase3Agent = (agentId) => {
+  if (!agentHabitatDepartments.some((agent) => agent.id === agentId)) return;
+  state.selectedPhase3AgentId = agentId;
+  renderAgentsPage();
+};
+
+window.phase3AgentAction = (action, taskId) => {
+  const agentOps = getAgentOpsState();
+  const task = taskId ? phase3FindTask(agentOps, taskId) : null;
+  const agent = (task && agentHabitatDepartments.find((item) => item.id === task.agentId))
+    || agentHabitatDepartments.find((item) => item.id === state.selectedPhase3AgentId)
+    || agentHabitatDepartments[0];
+  if (!agent) return;
+  const taskTitle = task?.title || document.querySelector("#phase3TaskInput")?.value.trim() || `${agent.name}: review source quality and prepare a research packet`;
+
+  if (action === "assign") {
+    const entry = {
+      id: `phase3-task-${Date.now()}`,
+      phase3: true,
+      title: taskTitle,
+      agentId: agent.id,
+      agentName: agent.name,
+      departmentId: agent.departmentId,
+      status: "Assigned Locally",
+      taskType: agent.taskType,
+      outputDestination: (agent.outputDestinations || [agent.ownerRoute])[0],
+      reviewState: agent.verificationState,
+      createdAt: new Date().toISOString(),
+      createdLabel: phase3AgentTimestamp()
+    };
+    agentOps.tasks.unshift(entry);
+    addSharedMissionItem({
+      id: entry.id,
+      title: entry.title,
+      source: "Agent Habitat Phase 3",
+      owner: agent.name,
+      status: "Local / Manual",
+      priority: "Medium",
+      nextAction: agent.nextManualAction
+    });
+    phase3PushEvent(agentOps, agent, "Task assigned", `Created "${entry.title}" in the browser-local queue.`);
+    showNotification("Local research task assigned. No background work started.");
+  }
+
+  if (action === "evidence" && task) {
+    task.status = "Needs More Evidence";
+    task.updatedAt = new Date().toISOString();
+    phase3PushEvent(agentOps, agent, "Evidence requested", `"${task.title}" remains in research until evidence is added.`);
+    showNotification("Task marked Needs More Evidence.", "warning");
+  }
+
+  if ((action === "review" && task) || action === "packet") {
+    const packetTitle = task?.title || taskTitle;
+    if (task) task.status = "CEO B Review Required";
+    const packet = addSharedReviewItem({
+      id: `phase3-review-${Date.now()}`,
+      title: packetTitle,
+      source: "Agent Habitat Phase 3",
+      owner: "CEO B",
+      status: "Manual Review Required",
+      priority: "High",
+      output: `${agent.name} prepared a local research packet. Verify sources, risk, thesis, and invalidation before routing.`
+    }, { syncWorld: false });
+    agentOps.reviewed.unshift({ ...packet, phase3: true, agentId: agent.id });
+    phase3PushEvent(agentOps, agent, "Review packet created", `"${packetTitle}" was added to the local CEO B review queue.`);
+    showNotification("Local CEO B review packet created.");
+  }
+
+  if ((action === "archive" && task) || action === "archive-output") {
+    const archiveTitle = task?.title || taskTitle;
+    if (task) task.status = "Archived";
+    const vault = getArchiveVaultState();
+    const candidate = {
+      id: `phase3-archive-${Date.now()}`,
+      phase3: true,
+      title: archiveTitle,
+      summary: `${agent.name} local output prepared as a cleaned archive candidate.`,
+      type: "Agent Research Output",
+      sourceOrigin: "Agent Habitat Phase 3",
+      sourceTrustLabel: "Manual Review Required",
+      privacyTier: "local_only",
+      privateDataRemoved: true,
+      ceoReviewState: "Pending CEO B Review",
+      relatedAgent: agent.name,
+      relatedRoute: agent.ownerRoute,
+      createdAt: new Date().toISOString()
+    };
+    vault.parsedLinks.unshift(candidate);
+    vault.actionLog.unshift({ id: `${candidate.id}-log`, phase3: true, action: "Prepared local archive candidate", title: archiveTitle, createdAt: candidate.createdAt });
+    setArchiveVaultState(vault);
+    agentOps.archived.unshift(candidate);
+    phase3PushEvent(agentOps, agent, "Archive candidate created", `"${archiveTitle}" was saved locally with CEO B review pending.`);
+    showNotification("Local archive candidate created.");
+  }
+
+  if (action === "alert" && task) {
+    task.status = "Alert Draft / CEO B Review Required";
+    const draft = addSharedReviewItem({
+      id: `phase3-alert-draft-${Date.now()}`,
+      title: `Alert Draft: ${task.title}`,
+      source: "Agent Habitat Phase 3",
+      owner: "CEO B",
+      status: "Draft / Manual Review Required",
+      priority: "High",
+      output: "Research-only local draft. Source verification, risk review, and CEO B approval remain required. No broker execution."
+    }, { syncWorld: false });
+    agentOps.reviewed.unshift({ ...draft, phase3: true, agentId: agent.id, outputType: "alert-draft" });
+    phase3PushEvent(agentOps, agent, "Alert draft prepared", `"${task.title}" became a local research draft, not a live alert.`);
+    showNotification("Research-only alert draft sent to CEO B review.");
+  }
+
+  if (action === "cycle") {
+    const existing = agentOps.tasks.find((item) => item.phase3 === true && item.agentId === agent.id && !["Archived", "Complete"].includes(item.status));
+    if (existing) {
+      existing.status = existing.status === "Assigned Locally" ? "Research Packet Drafted" : "Source Verification Needed";
+      existing.updatedAt = new Date().toISOString();
+      phase3PushEvent(agentOps, agent, "Demo cycle advanced", `"${existing.title}" moved to ${existing.status}.`);
+    } else {
+      agentOps.tasks.unshift({
+        id: `phase3-demo-${Date.now()}`,
+        phase3: true,
+        title: `${agent.name}: demo source-to-review packet`,
+        agentId: agent.id,
+        agentName: agent.name,
+        departmentId: agent.departmentId,
+        status: "Assigned Locally",
+        taskType: agent.taskType,
+        outputDestination: (agent.outputDestinations || [agent.ownerRoute])[0],
+        reviewState: agent.verificationState,
+        createdAt: new Date().toISOString(),
+        createdLabel: phase3AgentTimestamp()
+      });
+      phase3PushEvent(agentOps, agent, "Demo cycle created", "A local demonstration task was created. No background agent ran.");
+    }
+    showNotification("Demo workflow state updated locally.");
+  }
+
+  if (action === "reset") {
+    agentOps.tasks = agentOps.tasks.filter((item) => item.phase3 !== true);
+    agentOps.events = agentOps.events.filter((item) => item.phase3 !== true);
+    agentOps.reviewed = agentOps.reviewed.filter((item) => item.phase3 !== true && item.source !== "Agent Habitat Phase 3");
+    agentOps.archived = agentOps.archived.filter((item) => item.phase3 !== true && item.sourceOrigin !== "Agent Habitat Phase 3");
+    setSharedQueue("pickaxeMissionQueue", getSharedQueue("pickaxeMissionQueue").filter((item) => item.source !== "Agent Habitat Phase 3"));
+    setSharedQueue("pickaxeReviewQueue", getSharedQueue("pickaxeReviewQueue").filter((item) => item.source !== "Agent Habitat Phase 3"));
+    const vault = getArchiveVaultState();
+    vault.parsedLinks = vault.parsedLinks.filter((item) => item.phase3 !== true && item.sourceOrigin !== "Agent Habitat Phase 3");
+    vault.actionLog = vault.actionLog.filter((item) => item.phase3 !== true);
+    setArchiveVaultState(vault);
+    showNotification("Phase 3 local demo records reset.");
+  }
+
+  setAgentOpsState(agentOps);
+  renderAgentsPage();
+};
 
 function getSourceHubActionLog() {
   try {
@@ -16294,6 +15588,7 @@ window.createResearchPacketDraftFromSourceHub = (sourceId) => {
   if (typeof renderResearchDeskPage === "function") renderResearchDeskPage();
 };
 
+// Final active renderer: #/source-hub.
 renderSourceHubPage = function () {
   if (!els.sourceHubContent) return;
   const matrix = Array.isArray(sharedHabitatData.sourceVerificationMatrix) ? sharedHabitatData.sourceVerificationMatrix : [];
@@ -16560,6 +15855,7 @@ renderSourceHubPage = function () {
   `;
 }
 
+// Final active renderer: #/signals supporting intelligence panel.
 renderSignalsIntelligence = function () {
   if (!els.signalsIntelligence) return;
   const cards = [
@@ -16574,6 +15870,7 @@ renderSignalsIntelligence = function () {
   `;
 }
 
+// Final active renderer: #/archive.
 renderArchiveIntelligence = function () {
   renderArchiveVaultExperience();
 }
@@ -16691,6 +15988,7 @@ renderMoneyLabPage = function () {
   `;
 }
 
+// Final active renderer: #/staging.
 renderStagingAdvanced = function () {
   if (!els.stagingAdvanced) return;
   const routeRows = [
@@ -16795,28 +16093,143 @@ renderStagingAdvanced = function () {
   `;
 }
 
+// Final active renderer: #/lifeOS and #/ai-habitat-os.
 renderLifeOSPage = function () {
-  const habitatMarkup = `
+  const lifeMarkup = `
     <div class="page-shell">
-      ${pcPageHero("14 OS / AI Habitat OS", "AI Habitat OS", "The operating-system overview for the agent city, static system status, and source-to-CEO B research flow.", ["Static Prototype", "Manual Review Required", "Provider Adapters Not Connected"])}
+      ${pcPageHero("14 LIFE / Pickaxe Life OS", "Pickaxe Life OS", "The local operating overview for Archive, agents, Jarvis research, and future device roles.", ["Static Prototype", "Explicit Permission", "Future Adapters Not Connected"])}
       <section class="split-layout" style="grid-template-columns:minmax(0,1.25fr) minmax(280px,0.75fr);">
         <article class="glass-card">
-          <span class="meta-label">Agent City Concept</span>
-          <h3>Sources feed agents. Agents prepare packets. Risk Sentinel gates. CEO B reviews. Archive compounds memory.</h3>
-          <div class="mini-flow" style="margin-top:16px;"><span>Source Hub</span><span>Signal Scout</span><span>Risk Sentinel</span><span>CEO B</span><span>Archive Vault</span></div>
+          <span class="meta-label">Life OS Overview</span>
+          <h3>Archive memory, agent research, Jarvis prototypes, and future device roles remain explicit-permission systems.</h3>
+          <div class="mini-flow" style="margin-top:16px;"><span>Archive</span><span>Agents</span><span>Jarvis Lab</span><span>CEO B</span><span>Future Devices</span></div>
         </article>
         <aside class="truth-panel">
           <span class="meta-label">System Status</span>
           <h3>Static prototype truth</h3>
           <div class="truth-list"><span><em>Backend</em><strong>Not Connected</strong></span><span><em>Agent Jobs</em><strong>Visual Only</strong></span><span><em>Device Control</em><strong>Future Adapter</strong></span></div>
-          <a class="primary-action" href="#/vision-map" style="margin-top:14px;">Open Vision Map</a>
+          <a class="primary-action" href="#/jarvisLab" style="margin-top:14px;">Open Jarvis Lab</a>
         </aside>
       </section>
     </div>
   `;
-  if (els.lifeOSContent) els.lifeOSContent.innerHTML = habitatMarkup;
+  if (els.lifeOSContent) els.lifeOSContent.innerHTML = lifeMarkup;
+
   const aiHabitat = document.querySelector("#aiHabitatOS");
-  if (aiHabitat) aiHabitat.innerHTML = habitatMarkup;
+  if (!aiHabitat) return;
+  const agentOps = getAgentOpsState();
+  const localTaskCount = agentOps.tasks.filter((task) => task.phase3 === true).length;
+  const localReviewCount = getSharedQueue("pickaxeReviewQueue").filter((item) => item.source === "Agent Habitat Phase 3").length;
+  const blockedStates = ["Missing source", "Unresolved risk", "No catalyst", "Bad liquidity", "Incomplete thesis", "No invalidation", "Demo-only context"];
+  const pipeline = agentWorkflowSteps;
+
+  aiHabitat.innerHTML = `
+    <div class="page-shell phase3-habitat-os">
+      ${pcPageHero(
+        "15 OS / Strategic System Map",
+        "AI Habitat OS",
+        "AI Habitat OS is the operating map that shows how sources, agents, memory, risk, and CEO B review connect.",
+        ["Static System Map", "Local Browser Workflow", "CEO B Final Review", "No Broker Execution"]
+      )}
+
+      <nav class="phase3-route-nav" aria-label="AI Habitat OS connected routes">
+        <a href="#/alerts">Home / Alerts</a>
+        <a href="#/dashboard">Mission Control</a>
+        <a href="#/agents">Agent Habitat</a>
+        <a class="is-current" href="#/ai-habitat-os">AI Habitat OS</a>
+        <a href="#/source-hub">Source Hub</a>
+        <a href="#/archive">Archive</a>
+      </nav>
+
+      <section class="phase3-os-summary">
+        <article><span>System Zones</span><strong>${habitatSystemZones.length}</strong><small>Static operating map</small></article>
+        <article><span>Agent Departments</span><strong>${agentHabitatDepartments.length}</strong><small>Shared with Agent Habitat</small></article>
+        <article><span>Local Tasks</span><strong>${localTaskCount}</strong><small>Browser-local only</small></article>
+        <article><span>Review Packets</span><strong>${localReviewCount}</strong><small>CEO B manual queue</small></article>
+      </section>
+
+      <section class="phase3-system-map">
+        <div class="phase3-section-head">
+          <div><span class="meta-label">Habitat Map</span><h3>Source, agent, risk, review, and memory topology</h3></div>
+          <span class="phase3-local-pill">No live telemetry</span>
+        </div>
+        <div class="phase3-zone-map">
+          ${habitatSystemZones.map((zone, index) => `
+            <a class="phase3-zone-card zone-${index + 1}" href="${escapeHtml(zone.route)}">
+              <span>${escapeHtml(zone.code)}</span>
+              <strong>${escapeHtml(zone.name)}</strong>
+              <small>${escapeHtml(zone.owner)}</small>
+              <em>${escapeHtml(zone.state)}</em>
+            </a>
+          `).join("")}
+          <div class="phase3-map-core">
+            <span>TIME · TREND · THEME</span>
+            <strong>AI HABITAT OS</strong>
+            <small>Research First · CEO B Final Review</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="phase3-os-pipeline">
+        <div class="phase3-section-head">
+          <div><span class="meta-label">Source-to-Agent-to-CEO B Flow</span><h3>Every output follows an explicit manual route</h3></div>
+        </div>
+        <ol>
+          ${pipeline.map((step, index) => `
+            <li><span>${String(index + 1).padStart(2, "0")}</span><div><strong>${escapeHtml(step.label)}</strong><p>${escapeHtml(step.note)}</p></div></li>
+          `).join("")}
+        </ol>
+      </section>
+
+      <section class="phase3-os-lower-grid">
+        <article class="phase3-ownership-panel">
+          <span class="meta-label">Habitat Ownership Matrix</span>
+          <h3>Each route has an accountable research owner</h3>
+          <div>
+            ${agentOwnershipMatrix.map((item) => `
+              <p><strong>${escapeHtml(item.agent)}</strong><span>${escapeHtml(item.route)}</span><small>${escapeHtml(item.responsibility)}</small></p>
+            `).join("")}
+          </div>
+        </article>
+
+        <article class="phase3-manual-gate">
+          <span class="meta-label">Manual Review Gate</span>
+          <h3>Nothing becomes an alert until CEO B review is complete.</h3>
+          <p>Any unresolved block keeps the output in research.</p>
+          <div>${blockedStates.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+          <a class="primary-action" href="#/agents">Open Agent Habitat</a>
+        </article>
+      </section>
+
+      <section class="phase3-learning-loop">
+        <div>
+          <span class="meta-label">Archive + Learning Feedback Loop</span>
+          <h3>Research output returns as better context for the next decision.</h3>
+          <p>Raw market noise becomes structured research. Structured research becomes better decisions. Better decisions become compounding knowledge.</p>
+        </div>
+        <div class="phase3-learning-grid">
+          <article><strong>Rejected signals</strong><span>Become training material with the failed assumption, missing evidence, and CEO B reason recorded.</span></article>
+          <article><strong>Mistakes and corrections</strong><span>Become lesson candidates and better manual rules after review, never automatic self-modification.</span></article>
+          <article><strong>Reviewed outputs</strong><span>Strengthen source lineage, contradiction checks, archive memory, and future research framing.</span></article>
+          <article><strong>Human judgment final</strong><span>The loop improves workflow quality. It does not guarantee returns, outcomes, or execution.</span></article>
+        </div>
+        <div class="phase3-learning-actions">
+          <a href="#/learning-ledger">Open Learning Ledger</a>
+          <a href="#/archive">Open Archive Memory</a>
+          <a href="#/agents">Return to Agent Habitat</a>
+        </div>
+      </section>
+
+      <section class="phase3-os-truth">
+        <div>
+          <span class="meta-label">System Truth</span>
+          <h3>A living operating model, not a claim of autonomous infrastructure.</h3>
+          <p>Planned adapters are not connected. This system map describes browser-local research routing, static ownership, and CEO B manual review.</p>
+        </div>
+        <div>${agentSafetyBoundaries.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+      </section>
+    </div>
+  `;
 }
 
 renderFutureConceptPages = function () {
@@ -16866,580 +16279,6 @@ try {
 } catch (error) {
   console.error("Phase 1.5 route refresh failed:", error);
 }
-
-/* Alerts Desk detail layer: static/local mock options research packets only. */
-renderAlertsDeskMarkup = function (optionAlerts, selectedAlert, lastUpdated) {
-  const baseAlerts = (optionAlerts.length ? optionAlerts : [normalizeResearchPacket({}, 0)]).map(normalizeResearchPacket);
-  const examplePackets = [
-    {
-      id: "tsla-put-detail-candidate",
-      symbol: "TSLA",
-      company: "Tesla Inc.",
-      contract: "18 JUN 26 $165 Put",
-      contractPrice: "$6.75 static",
-      confidence: 86,
-      type: "Put Research Candidate",
-      catalyst: "Negative headline pressure and margin concerns.",
-      researchContext: "Negative headline pressure and margin concerns. Requires CEO B review before any decision.",
-      riskNotes: "Headline velocity and spread quality require Risk Gate review.",
-      invalidationResearchNote: "Scenario weakens if source verification does not confirm the headline and margin context."
-    }
-  ];
-  const alerts = baseAlerts.concat(examplePackets.filter((item) => !baseAlerts.some((alert) => alert.symbol === item.symbol))).map(normalizeResearchPacket);
-  const selectedSeed = selectedAlert ? normalizeResearchPacket(selectedAlert) : alerts[0];
-  const selectedId = state.selectedAlertId || selectedSeed.id || alerts[0]?.id || "research-packet-0";
-  const packetOverrides = {
-    AAPL: {
-      company: "Apple Inc.",
-      side: "Call Research Candidate",
-      timeframe: "1–24 hours",
-      strike: "320C",
-      premium: "$2.75 static",
-      confidence: 92,
-      agents: ["Options Flow Agent", "Macro Engine", "Risk Agent"],
-      sourceAgent: "Options Flow Agent",
-      sourceType: "Options flow / mega-cap trend",
-      sourceStatus: "Source Verification Needed",
-      thesis: "Mega-cap leadership consolidation with options-flow interest. Source verification and liquidity checks required.",
-      whyMatters: "Apple can anchor broader mega-cap leadership context when trend and source quality align.",
-      supports: "Watchlist strength, liquidity context, and prior Archive notes support manual review.",
-      missing: "Needs fresh source verification, spread quality review, and catalyst check.",
-      riskNote: "Break below key support or loss of liquidity weakens the research case.",
-      nextAction: "Send to CEO B Review",
-      possibleUpside: "Possible upside scenario if trend support and source quality remain aligned.",
-      possibleDownside: "Possible downside scenario if support breaks or evidence quality weakens.",
-      invalidation: "Key support break placeholder",
-      sizeVolume: "Mock volume 12.4K",
-      openInterest: "Mock OI 48.2K",
-      spread: "Static spread: tight",
-      contractStatus: "Static Prototype"
-    },
-    NVDA: {
-      company: "NVIDIA Corp.",
-      side: "Call Research Candidate",
-      timeframe: "1–60 minutes",
-      strike: "230C",
-      premium: "$4.10 static",
-      confidence: 88,
-      agents: ["Trend Agent", "AI/AGI Agent", "Options Flow Agent"],
-      sourceAgent: "Trend Agent",
-      sourceType: "Trend / AI theme review",
-      sourceStatus: "Multi-Source Review",
-      thesis: "AI theme strength and semiconductor momentum. Needs risk gate and source confirmation.",
-      whyMatters: "Semiconductor leadership can influence broader AI-theme watchlists.",
-      supports: "Trend alignment, AI theme strength, and momentum context support further review.",
-      missing: "Needs risk gate, source confirmation, and liquidity review.",
-      riskNote: "High volatility and crowding risk require manual review.",
-      nextAction: "Needs More Evidence",
-      possibleUpside: "Possible upside scenario if trend and AI-theme evidence strengthen.",
-      possibleDownside: "Possible downside scenario if risk appetite fades or liquidity weakens.",
-      invalidation: "Resistance rejection placeholder",
-      sizeVolume: "Mock volume 18.8K",
-      openInterest: "Mock OI 62.1K",
-      spread: "Static spread: moderate",
-      contractStatus: "Source Verification Needed"
-    },
-    SPY: {
-      company: "SPDR S&P 500 ETF",
-      side: "Put Research Candidate",
-      timeframe: "1–24 hours",
-      strike: "182P",
-      premium: "N/A static",
-      confidence: 74,
-      agents: ["Macro Engine", "News Sentinel AI", "Risk Agent"],
-      sourceAgent: "Macro Engine",
-      sourceType: "Market breadth / regime",
-      sourceStatus: "Mock Source",
-      thesis: "Broad-market regime transition check. Needs VIX and breadth review.",
-      whyMatters: "Index context can frame risk-on, risk-off, and neutral monitoring states.",
-      supports: "Macro and breadth placeholders suggest regime review is useful.",
-      missing: "Needs VIX, breadth, and source-quality review.",
-      riskNote: "Index context is broad and requires confirmation before CEO B review.",
-      nextAction: "Source Verification Needed",
-      possibleUpside: "Possible upside scenario if breadth stabilizes and risk-on context returns.",
-      possibleDownside: "Possible downside scenario if breadth weakens and volatility context rises.",
-      invalidation: "Breadth stabilization placeholder",
-      sizeVolume: "Mock volume 21.0K",
-      openInterest: "Mock OI 83.4K",
-      spread: "Static spread: tight",
-      contractStatus: "Local Research Only"
-    },
-    TSLA: {
-      company: "Tesla Inc.",
-      side: "Put Research Candidate",
-      timeframe: "1–60 minutes",
-      strike: "165P",
-      premium: "$6.75 static",
-      confidence: 86,
-      agents: ["News Sentinel AI", "Sentiment Agent", "Risk Agent"],
-      sourceAgent: "News Sentinel AI",
-      sourceType: "News / sentiment review",
-      sourceStatus: "Source Verification Needed",
-      thesis: "Negative headline pressure and margin concerns. Requires CEO B review before any decision.",
-      whyMatters: "High-beta sentiment changes can move quickly through the review queue.",
-      supports: "Headline pressure and sentiment context support a cautious review packet.",
-      missing: "Needs source verification, margin context, and risk gate.",
-      riskNote: "Headline reversals and high volatility require manual review.",
-      nextAction: "CEO B Review",
-      possibleUpside: "Possible upside scenario if negative source context fades.",
-      possibleDownside: "Possible downside scenario if headline pressure and margin concerns persist.",
-      invalidation: "Headline confirmation failure placeholder",
-      sizeVolume: "Mock volume 9.6K",
-      openInterest: "Mock OI 41.7K",
-      spread: "Static spread: moderate",
-      contractStatus: "Manual Review Required"
-    },
-    BTC: {
-      company: "Bitcoin",
-      side: "Call Research Candidate",
-      timeframe: "1–252 trading days",
-      strike: "875C",
-      premium: "N/A static",
-      confidence: 94,
-      agents: ["Macro Engine", "Trend Agent", "Risk Agent"],
-      sourceAgent: "Macro Engine",
-      sourceType: "Macro liquidity / digital asset context",
-      sourceStatus: "Local Research Only",
-      thesis: "Liquidity and trend context are constructive in the mock queue. Manual source review required.",
-      whyMatters: "Digital asset liquidity can influence broader risk appetite notes.",
-      supports: "Trend context and macro liquidity placeholders support review.",
-      missing: "Needs source quality, volatility, and risk gate review.",
-      riskNote: "High volatility requires manual review and clear invalidation.",
-      nextAction: "Needs More Evidence",
-      possibleUpside: "Possible upside scenario if liquidity context improves.",
-      possibleDownside: "Possible downside scenario if volatility expands or source context weakens.",
-      invalidation: "Liquidity reversal placeholder",
-      sizeVolume: "Mock depth note",
-      openInterest: "N/A static",
-      spread: "Static spread: research only",
-      contractStatus: "Static Prototype"
-    }
-  };
-  const sourceRows = [
-    { label: "Macro", detail: "Economic & rates", icon: "M", status: "Active Mock", route: "#/signals" },
-    { label: "Smart Money", detail: "Top filings & flows", icon: "S", status: "Needs Source", route: "#/source-hub" },
-    { label: "Unusual Flow", detail: "Options flow review", icon: "U", status: "Future Provider Adapter Required", route: "#/source-hub" },
-    { label: "Catalyst", detail: "Event context", icon: "C", status: "Research Only", route: "#/signals" },
-    { label: "FDA", detail: "Drug pipeline", icon: "F", status: "Needs Source", route: "#/source-hub" },
-    { label: "SEC", detail: "Filings & disclosures", icon: "E", status: "Manual Review", route: "#/source-hub" },
-    { label: "Trend", detail: "Price & momentum", icon: "T", status: "Active Mock", route: "#/signals" },
-    { label: "News", detail: "News sentiment", icon: "N", status: "Needs Source", route: "#/source-hub" },
-    { label: "AI Agents", detail: "Multi-agent review", icon: "A", status: "Static Prototype", route: "#/agents" },
-    { label: "13F", detail: "Institutional filings", icon: "13", status: "Manual Review", route: "#/source-hub" },
-    { label: "Insider Activity", detail: "Public filings", icon: "I", status: "Needs Source", route: "#/source-hub" },
-    { label: "Options Flow", detail: "Contract context", icon: "O", status: "Future Provider Adapter Required", route: "#/source-hub" },
-    { label: "Market Breadth", detail: "Regime context", icon: "B", status: "Mock", route: "#/signals" },
-    { label: "Watchlists", detail: "Research universe", icon: "W", status: "Verified Local", route: "#/watchlists" },
-    { label: "Archive Memory", detail: "Cleaned prior notes", icon: "R", status: "Verified Local", route: "#/archive" }
-  ];
-  const navItems = [
-    ["Desk", "#/alerts"],
-    ["Ecosystem", "#/vision-map"],
-    ["Portfolio", "#/watchlists"],
-    ["Research", "#/signals"],
-    ["Knowledge", "#/archive"],
-    ["Settings", "#/staging"]
-  ];
-  const filters = ["Bullish", "Bearish", "Call Candidate", "Put Candidate", "FDA", "SEC", "Macro", "High Conviction"];
-  const actions = ["CEO B Review", "Needs More Evidence", "Source Verification Needed", "Archive Note"];
-  const spark = (tone = "bull", index = 0) => {
-    const paths = [
-      "4,36 16,31 28,33 40,23 52,27 64,20 76,24 88,14 100,19 112,10 124,15 136,5",
-      "4,9 16,16 28,13 40,22 52,19 64,27 76,25 88,31 100,28 112,35 124,32 136,38",
-      "4,34 16,30 28,32 40,27 52,23 64,26 76,18 88,21 100,15 112,17 124,11 136,8"
-    ];
-    return `<svg class="pcad-spark ${tone}" viewBox="0 0 140 44" role="img" aria-label="${tone === "bear" ? "Bearish mock trend" : "Bullish mock trend"}"><polyline points="${paths[index % paths.length]}"></polyline></svg>`;
-  };
-  const sideFor = (alert) => /put|bear|reject|downside|risk/i.test(`${alert.action || ""} ${alert.type || ""} ${alert.contract || ""} ${alert.status || ""}`) ? "put" : "call";
-  const strikeFor = (alert, index) => {
-    const match = String(alert.contract || "").match(/\$(\d+(?:\.\d+)?)/);
-    return match ? `${match[1]}${sideFor(alert) === "put" ? "P" : "C"}` : ["875C", "165P", "205C", "182P", "535C"][index % 5];
-  };
-  const expiryFor = (alert) => safeResearchText(alert.expiration || alert.date || "Static demo");
-  const getMonogram = (symbol) => String(symbol || "?").replace(/[^A-Z0-9]/gi, "").slice(0, 1).toUpperCase() || "?";
-  const getPacketDetail = (alert, index) => {
-    const symbol = String(alert.symbol || "AAPL").toUpperCase();
-    const override = packetOverrides[symbol] || {};
-    const sideLabel = override.side || (sideFor(alert) === "put" ? "Put Research Candidate" : "Call Research Candidate");
-    const sideTone = sideLabel.includes("Put") ? "put" : "call";
-    const confidenceBase = Number(override.confidence ?? alert.confidence ?? 0);
-    const confidenceScore = Math.max(1, Math.min(1000, Math.round(confidenceBase * 10)));
-    return {
-      ...alert,
-      symbol,
-      company: safeResearchText(override.company || alert.company || alert.title || `${symbol} Research Candidate`),
-      monogram: getMonogram(symbol),
-      sideLabel,
-      sideTone,
-      timeframe: override.timeframe || "1–24 hours",
-      expiration: override.expiration || expiryFor(alert),
-      strike: override.strike || strikeFor(alert, index),
-      premium: override.premium || safeResearchText(alert.contractPrice || "Static context"),
-      confidenceScore,
-      confidencePercent: `${(confidenceScore / 10).toFixed(1)}%`,
-      sourceAgent: override.sourceAgent || "Options Flow Agent",
-      agents: override.agents || ["Options Flow Agent", "Risk Agent", "CEO B Gate"],
-      sourceType: override.sourceType || "Local mock research",
-      sourceStatus: override.sourceStatus || "Source Verification Needed",
-      thesis: safeResearchText(override.thesis || alert.researchContext || alert.catalyst || "Research candidate requires source verification before CEO B manual review."),
-      whyMatters: safeResearchText(override.whyMatters || "Adds directional context to the static review queue."),
-      supports: safeResearchText(override.supports || "Static watchlist and local research notes support review."),
-      missing: safeResearchText(override.missing || "Needs source verification and risk gate."),
-      riskNote: safeResearchText(override.riskNote || alert.riskNotes || "Risk gate required before CEO B review."),
-      nextAction: safeResearchText(override.nextAction || alert.nextAction || "CEO B Review"),
-      possibleUpside: safeResearchText(override.possibleUpside || "Possible upside scenario requires additional evidence."),
-      possibleDownside: safeResearchText(override.possibleDownside || "Possible downside scenario requires additional evidence."),
-      invalidation: safeResearchText(override.invalidation || alert.invalidationResearchNote || "Manual invalidation placeholder"),
-      sizeVolume: override.sizeVolume || "Mock volume pending",
-      openInterest: override.openInterest || "Mock OI pending",
-      spread: override.spread || safeResearchText(alert.spreadQuality || "Static spread context"),
-      contractStatus: override.contractStatus || "Static Prototype",
-      riskStatus: sideTone === "put" ? "Risk Gate" : "Manual Review Required"
-    };
-  };
-  const candidates = alerts.map(getPacketDetail).sort((a, b) => b.confidenceScore - a.confidenceScore);
-  const activePacket = getPacketDetail(selectedSeed, 0);
-  const packet = candidates.find((candidate) => candidate.id === selectedId || candidate.symbol === activePacket.symbol) || candidates[0] || activePacket;
-  const callsCount = candidates.filter((item) => item.sideTone === "call").length;
-  const putsCount = candidates.filter((item) => item.sideTone === "put").length;
-  const bullishEdge = Math.max(50, Math.min(84, Math.round((callsCount / Math.max(1, callsCount + putsCount)) * 100)));
-  const aggregateScore = candidates.length ? Math.round(candidates.reduce((sum, item) => sum + item.confidenceScore, 0) / candidates.length) : 0;
-  const aggregatePercent = `${(aggregateScore / 10).toFixed(1)}%`;
-  const fearGreedScore = 58;
-  const watchlist = candidates.slice(0, 5);
-  const sourceStatusClass = (status) => String(status || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
-  const systemRows = [
-    ["Source Hub", "Operational", "#/source-hub"],
-    ["Research Desk", "Local Only", "#/research"],
-    ["Options Hub", "Mock", "#/options"],
-    ["Risk & Rules", "Operational", "#/risk-rules"],
-    ["Archive", "Operational", "#/archive"],
-    ["Watchlists", "Operational", "#/watchlists"],
-    ["Staging / QA", "Needs Review", "#/staging"]
-  ];
-  const sentimentRows = [
-    ["News sentiment", "Source needed"],
-    ["Social sentiment", "Mock context"],
-    ["Options sentiment", `${bullishEdge}% call mix`],
-    ["Institutional tone", "Manual review"]
-  ];
-
-  return `
-    <div class="pcad-shell" aria-label="00 Alerts Desk mock command desk">
-      <header class="pcad-topbar">
-        <a class="pcad-brand" href="#/alerts" aria-label="Pickaxe Capital Alerts Desk">
-          <span class="pcad-brand-mark">PC</span>
-          <span><strong>PICKAXE</strong><em>CAPITAL</em></span>
-        </a>
-        <div class="pcad-title-block">
-          <div>
-            <h2>00 Alerts Desk</h2>
-            <p>Options Alerts Review Queue</p>
-          </div>
-          <span class="pcad-private">CEO B Manual Review</span>
-        </div>
-        <nav class="pcad-nav" aria-label="Alerts Desk quick routes">
-          ${navItems.map(([label, route], index) => `<a class="${index === 0 ? "active" : ""}" href="${route}">${label}</a>`).join("")}
-        </nav>
-        <div class="pcad-officer">
-          <span>CB</span>
-          <strong>CEO B</strong>
-          <em>Chief Investment Officer</em>
-        </div>
-      </header>
-
-      <main class="pcad-grid">
-        <aside class="pcad-left">
-          <section class="pcad-panel pcad-source-panel">
-            <div class="pcad-panel-head">
-              <span>Intelligence Sources</span>
-              <small>Unified static inputs</small>
-            </div>
-            <div class="pcad-source-list">
-              ${sourceRows.map((source, index) => `
-                <a class="pcad-source-row" href="${escapeHtml(source.route)}" style="--row-index:${index}">
-                  <b>${escapeHtml(source.icon)}</b>
-                  <span><strong>${escapeHtml(source.label)}</strong><small>${escapeHtml(source.detail)}</small></span>
-                  <em class="pcad-status-chip ${escapeHtml(sourceStatusClass(source.status))}">${escapeHtml(source.status)}</em>
-                </a>
-              `).join("")}
-            </div>
-          </section>
-        </aside>
-
-        <section class="pcad-center">
-          <section class="pcad-purpose-strip">
-            <span>Purpose</span>
-            <p>Review complete call/put research candidates coming through the Pickaxe ecosystem before CEO B manual approval.</p>
-            <button type="button" data-alert-id="${escapeHtml(packet.id)}" data-alert-action="Send to CEO B Review">Send to CEO B Review</button>
-          </section>
-          <section class="pcad-metrics">
-            <article class="pcad-metric-card">
-              <span class="pcad-icon bell"></span>
-              <small>Today&rsquo;s Review Queue</small>
-              <strong>${candidates.length}</strong>
-              <p>Static Prototype / last local update ${escapeHtml(lastUpdated)}</p>
-            </article>
-            <article class="pcad-metric-card pcad-gauge-card">
-              <div class="pcad-gauge" style="--gauge:${bullishEdge * 3.6}deg"><strong>${bullishEdge}%</strong></div>
-              <small>Calls vs Puts</small>
-              <p><b>${callsCount}</b> call candidates / <b class="danger">${putsCount}</b> put candidates</p>
-            </article>
-            <article class="pcad-metric-card">
-              <span class="pcad-icon shield"></span>
-              <small>Today&rsquo;s Total Conviction</small>
-              <strong>${aggregateScore}<em>/1000</em></strong>
-              <p>${aggregatePercent} / Mock aggregate research score</p>
-            </article>
-            <article class="pcad-metric-card">
-              <span class="pcad-icon network"></span>
-              <small>Fear &amp; Greed</small>
-              <strong>${fearGreedScore}<em>/100</em></strong>
-              <p>Neutral / monitoring / mock static label</p>
-            </article>
-          </section>
-
-          ${renderAlertsResearchDeskIntakePanel()}
-
-          <section class="pcad-panel pcad-stream-panel">
-            <div class="pcad-stream-head">
-              <div>
-                <h3>Options Research Review Stream</h3>
-                <span>Mock / no live provider data. Research-only candidates for CEO B manual review.</span>
-              </div>
-              <small>Confidence reflects mock research completeness, not expected return.</small>
-            </div>
-            <div class="pcad-table" role="table" aria-label="Mock options research review stream">
-              <div class="pcad-table-row head" role="row">
-                <span>Company / Ticker</span><span>Review Direction</span><span>Research Horizon</span><span>Research Contract</span><span>Agents / Source</span><span>Research Thesis</span><span>Research Confidence</span>
-              </div>
-              ${candidates.map((candidate, index) => {
-                const active = candidate.id === packet.id ? "active" : "";
-                return `
-                  <details class="pcad-candidate-detail ${candidate.sideTone}" ${active ? "open" : ""}>
-                    <summary class="pcad-table-row pcad-candidate-row ${candidate.sideTone} ${active}" role="row">
-                      <span class="pcad-company-cell">
-                        <i>${escapeHtml(candidate.monogram)}</i>
-                        <span><b>${escapeHtml(candidate.symbol)}</b><strong>${escapeHtml(candidate.company)}</strong><small>Mock ${9 - index}:4${index}</small></span>
-                      </span>
-                      <span><em>${escapeHtml(candidate.sideLabel)}</em><small>Review Timeframe</small></span>
-                      <span><strong>${escapeHtml(candidate.timeframe)}</strong><small>Research Horizon</small></span>
-                      <span><strong>${escapeHtml(candidate.expiration)} / ${escapeHtml(candidate.strike)}</strong><small>${escapeHtml(candidate.premium)}</small></span>
-                      <span><strong>${escapeHtml(candidate.sourceAgent)}</strong><small>${escapeHtml(candidate.agents.join(", "))}</small><em class="pcad-status-chip ${escapeHtml(sourceStatusClass(candidate.sourceStatus))}">${escapeHtml(candidate.sourceStatus)}</em></span>
-                      <span><strong>Research Thesis</strong><small>${escapeHtml(candidate.thesis)}</small></span>
-                      <span><b>${escapeHtml(candidate.confidenceScore)} / 1000</b><small>${escapeHtml(candidate.confidencePercent)} completeness</small></span>
-                    </summary>
-                    <div class="pcad-row-packet">
-                      <span><strong>Options Contract Details</strong><small>${escapeHtml(candidate.expiration)} / ${escapeHtml(candidate.strike)} / ${escapeHtml(candidate.premium)} / ${escapeHtml(candidate.contractStatus)}</small></span>
-                      <span><strong>Agents Involved + Source</strong><small>${escapeHtml(candidate.agents.join(", "))} / ${escapeHtml(candidate.sourceType)} / ${escapeHtml(candidate.sourceStatus)}</small></span>
-                      <span><strong>Projected Scenario</strong><small>${escapeHtml(candidate.possibleUpside)} ${escapeHtml(candidate.possibleDownside)}</small></span>
-                      <span><strong>Next Action</strong><small>${escapeHtml(candidate.nextAction)} / ${escapeHtml(candidate.riskStatus)}</small></span>
-                    </div>
-                  </details>
-                `;
-              }).join("")}
-            </div>
-            <div class="pcad-stream-actions">
-              ${actions.map((label, index) => `<button type="button" class="${index === 0 ? "primary" : ""}" data-alert-id="${escapeHtml(packet.id)}" data-alert-action="${escapeHtml(label)}">${escapeHtml(label)}</button>`).join("")}
-            </div>
-          </section>
-
-          <section class="pcad-detail-layer" aria-label="Selected options research packet details">
-            <header>
-              <div class="pcad-detail-title">
-                <i>${escapeHtml(packet.monogram)}</i>
-                <span>
-                  <small>Options Research Candidate</small>
-                  <strong>${escapeHtml(packet.company)} / ${escapeHtml(packet.symbol)}</strong>
-                </span>
-              </div>
-              <div class="pcad-detail-score">
-                <span>Research Confidence</span>
-                <strong>${escapeHtml(packet.confidenceScore)} / 1000</strong>
-                <small>${escapeHtml(packet.confidencePercent)} / mock research completeness</small>
-              </div>
-            </header>
-            <div class="pcad-detail-grid">
-              <article>
-                <span>Options Contract Details</span>
-                <dl>
-                  <div><dt>Expiration</dt><dd>${escapeHtml(packet.expiration)}</dd></div>
-                  <div><dt>Strike</dt><dd>${escapeHtml(packet.strike)}</dd></div>
-                  <div><dt>Call / Put</dt><dd>${escapeHtml(packet.sideLabel)}</dd></div>
-                  <div><dt>Premium / Entry Context</dt><dd>${escapeHtml(packet.premium)}</dd></div>
-                  <div><dt>Size / Volume</dt><dd>${escapeHtml(packet.sizeVolume)}</dd></div>
-                  <div><dt>Open Interest</dt><dd>${escapeHtml(packet.openInterest)}</dd></div>
-                  <div><dt>Spread</dt><dd>${escapeHtml(packet.spread)}</dd></div>
-                  <div><dt>Contract Status</dt><dd>${escapeHtml(packet.contractStatus)}</dd></div>
-                </dl>
-              </article>
-              <article>
-                <span>Agents Involved + Source</span>
-                <dl>
-                  <div><dt>Source Agent</dt><dd>${escapeHtml(packet.sourceAgent)}</dd></div>
-                  <div><dt>Agents Involved</dt><dd>${escapeHtml(packet.agents.join(", "))}</dd></div>
-                  <div><dt>Source Type</dt><dd>${escapeHtml(packet.sourceType)}</dd></div>
-                  <div><dt>Source Status</dt><dd>${escapeHtml(packet.sourceStatus)}</dd></div>
-                  <div><dt>Risk Status</dt><dd>${escapeHtml(packet.riskStatus)}</dd></div>
-                  <div><dt>Next Action</dt><dd>${escapeHtml(packet.nextAction)}</dd></div>
-                </dl>
-              </article>
-              <article class="pcad-thesis-card">
-                <span>Research Thesis</span>
-                <p>${escapeHtml(packet.thesis)}</p>
-                <ul>
-                  <li><strong>Why it matters</strong>${escapeHtml(packet.whyMatters)}</li>
-                  <li><strong>What supports it</strong>${escapeHtml(packet.supports)}</li>
-                  <li><strong>What is missing</strong>${escapeHtml(packet.missing)}</li>
-                  <li><strong>Risk note</strong>${escapeHtml(packet.riskNote)}</li>
-                </ul>
-              </article>
-              <article>
-                <span>Projected Scenario</span>
-                <dl>
-                  <div><dt>Possible upside path</dt><dd>${escapeHtml(packet.possibleUpside)}</dd></div>
-                  <div><dt>Possible downside path</dt><dd>${escapeHtml(packet.possibleDownside)}</dd></div>
-                  <div><dt>Invalidation</dt><dd>${escapeHtml(packet.invalidation)}</dd></div>
-                  <div><dt>Timeframe</dt><dd>${escapeHtml(packet.timeframe)}</dd></div>
-                </dl>
-              </article>
-            </div>
-            <p class="pcad-safety-copy">Confidence reflects mock research completeness, not expected return. Static Prototype / Mock / No Live Provider Data / No Broker Execution.</p>
-          </section>
-
-          <section class="pcad-playbooks">
-            <article class="pcad-playbook calls">
-              <h3>Call Research Candidate Framework</h3>
-              <div class="pcad-play-chart">
-                ${spark("bull", 2)}
-                <span>Review zone</span>
-              </div>
-              <ul>
-                <li>Price pulls back to support</li>
-                <li>RSI recovers above 50</li>
-                <li>Volume confirmation</li>
-                <li>Break above resistance</li>
-                <li>Source verification required</li>
-                <li>CEO B manual review</li>
-              </ul>
-              <div class="pcad-entry"><span>Candidate context</span><strong>${escapeHtml(packet.currentPrice || "Static prototype")}</strong><em>Manual Review Required</em></div>
-            </article>
-            <article class="pcad-playbook puts">
-              <h3>Put Research Candidate Framework</h3>
-              <div class="pcad-play-chart">
-                ${spark("bear", 1)}
-                <span>Risk zone</span>
-              </div>
-              <ul>
-                <li>Price rallies into resistance</li>
-                <li>RSI below 50</li>
-                <li>Volume confirmation</li>
-                <li>Break below support</li>
-                <li>Source verification required</li>
-                <li>CEO B manual review</li>
-              </ul>
-              <div class="pcad-entry"><span>Risk Gate</span><strong>${escapeHtml(packet.invalidationResearchNote || "Manual risk gate")}</strong><em>No Broker Execution</em></div>
-            </article>
-          </section>
-        </section>
-
-        <aside class="pcad-right">
-          <section class="pcad-panel pcad-market-overview">
-            <div>
-              <span>Market Overview</span>
-              <small>Static market context</small>
-            </div>
-            <div class="pcad-market-grid">
-              <span><strong>SPY</strong><small>Neutral / monitoring</small></span>
-              <span><strong>QQQ</strong><small>Risk-on context</small></span>
-              <span><strong>VIX</strong><small>Source needed</small></span>
-              <span><strong>Breadth</strong><small>Mock overview</small></span>
-            </div>
-            <p>Mock market overview. No live data claim.</p>
-          </section>
-          <section class="pcad-panel pcad-filters">
-            <div class="pcad-panel-head">
-              <span>Alert Filters</span>
-              <small>Visual filters only</small>
-            </div>
-            <div>
-              ${filters.map((filter, index) => `<button type="button" class="${index === 0 || index === 2 || index === 7 ? "active" : ""}">${filter}</button>`).join("")}
-            </div>
-          </section>
-          <section class="pcad-panel pcad-system-card">
-            <div class="pcad-panel-head">
-              <span>System Status</span>
-              <small>Local only</small>
-            </div>
-            <div class="pcad-system-list">
-              ${systemRows.map(([label, status, route]) => `<a href="${route}"><strong>${escapeHtml(label)}</strong><em>${escapeHtml(status)}</em></a>`).join("")}
-            </div>
-          </section>
-          <section class="pcad-panel pcad-climate">
-            <div>
-              <span>Market Bias</span>
-              <small>Directional context</small>
-            </div>
-            <strong>${bullishEdge >= 55 ? "Bullish Context" : "Neutral / Monitoring"}</strong>
-            <p>Local demo queue leans toward call research candidates. Not a price movement forecast.</p>
-          </section>
-          <section class="pcad-panel pcad-projected">
-            <div class="pcad-panel-head">
-              <span>Projected Scenario</span>
-              <small>Needs confirmation</small>
-            </div>
-            <ul>
-              <li><strong>Possible upside path</strong><span>${escapeHtml(packet.possibleUpside)}</span></li>
-              <li><strong>Possible downside path</strong><span>${escapeHtml(packet.possibleDownside)}</span></li>
-              <li><strong>Invalidation</strong><span>${escapeHtml(packet.invalidation)}</span></li>
-              <li><strong>Timeframe</strong><span>${escapeHtml(packet.timeframe)}</span></li>
-            </ul>
-          </section>
-          <section class="pcad-panel pcad-sentiment">
-            <div class="pcad-panel-head">
-              <span>Sentiment</span>
-              <small>Source needed</small>
-            </div>
-            <div class="pcad-sentiment-list">
-              ${sentimentRows.map(([label, value]) => `<span><strong>${escapeHtml(label)}</strong><em>${escapeHtml(value)}</em></span>`).join("")}
-            </div>
-          </section>
-          <section class="pcad-panel pcad-watchlist">
-            <div class="pcad-panel-head">
-              <span>Watchlist</span>
-              <a href="#/watchlists">View all</a>
-            </div>
-            <div class="pcad-mini-table">
-              <span>Company</span><span>Direction</span><span>Status</span><span>Confidence</span>
-              ${watchlist.map((item) => `
-                <strong><i>${escapeHtml(item.monogram)}</i>${escapeHtml(item.symbol)}<small>${escapeHtml(item.company)}</small></strong><em>${escapeHtml(item.sideTone === "put" ? "Put" : "Call")}</em><em>${escapeHtml(item.sourceStatus)}</em><b>${escapeHtml(item.confidenceScore)}</b>
-              `).join("")}
-            </div>
-          </section>
-          <section class="pcad-panel pcad-candidate-mix">
-            <div class="pcad-panel-head">
-              <span>Call / Put Sentiment</span>
-              <small>Today</small>
-            </div>
-            <div class="pcad-sentiment-gauge" style="--gauge:${bullishEdge * 3.6}deg"><strong>+${Math.max(8, bullishEdge - 36)}%</strong><span>Candidate mix</span></div>
-            <p><b>${bullishEdge}% call candidates</b><b class="danger">${100 - bullishEdge}% put candidates</b></p>
-          </section>
-          <section class="pcad-panel pcad-regime">
-            <span>Market Regime</span>
-            <div class="pcad-wave">${spark("bull", 0)}</div>
-            <p><strong>Risk-on</strong><strong>Neutral</strong><strong class="danger">Risk-off</strong></p>
-            <a href="#/signals">View market analysis</a>
-          </section>
-        </aside>
-      </main>
-
-      <footer class="pcad-footer">
-        <span>Clarity first. Discipline always. Capital preservation is the first return.</span>
-        <strong>Pickaxe Capital / Static Prototype / No Broker Execution</strong>
-      </footer>
-    </div>
-  `;
-};
 
 try {
   renderStaticIntelligencePages();

@@ -24,6 +24,12 @@ const html = await readFile(join(root, "public", "index.html"), "utf8");
 const app = await readFile(join(root, "public", "app.js"), "utf8");
 const habitatData = await readFile(join(root, "public", "habitat-data.js"), "utf8");
 const server = await readFile(join(root, "server.mjs"), "utf8");
+if (html.includes("cdn.tailwindcss.com") || html.includes("tailwind.config")) {
+  throw new Error("Tailwind Play CDN runtime is still present.");
+}
+if (!html.includes("utility-compat.css")) {
+  throw new Error("Static utility compatibility stylesheet is not linked.");
+}
 
 for (const route of ["#/archive", "#/archive/tree", "#/archive/sources", "#/archive/agents", "#/archive/findings", "#/archive/imports", "#/archive/quarantine"]) {
   if (!html.includes(route) && !app.includes(route)) throw new Error(`Route missing from frontend: ${route}`);

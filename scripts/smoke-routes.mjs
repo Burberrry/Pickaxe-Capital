@@ -1,0 +1,177 @@
+import { spawn } from "node:child_process";
+import { createServer } from "node:net";
+import { readFile } from "node:fs/promises";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = dirname(dirname(fileURLToPath(import.meta.url)));
+const publicIndexPath = resolve(root, "public", "index.html");
+const publicAppPath = resolve(root, "public", "app.js");
+const [indexText, appText] = await Promise.all([
+  readFile(publicIndexPath, "utf8"),
+  readFile(publicAppPath, "utf8"),
+]);
+const frontendSource = `${indexText}\n${appText}`;
+
+const directRoutes = [
+  ["/", "Alerts Desk"],
+  ["/agents", "Agent Habitat"],
+  ["/vision-map", "Vision Map"],
+  ["/archive", "Archive"],
+  ["/staging", "Staging"],
+  ["/founder", "Founder"],
+  ["/ceo-b-profile", "CEO B Profile"],
+  ["/jarvis-lab", "Jarvis Lab"],
+  ["/life-os", "Pickaxe Life OS"],
+];
+
+const hashRoutes = [
+  ["#/alerts", "alerts", "Alerts Desk"],
+  ["#/dashboard", "dashboard", "Mission Control"],
+  ["#/agents", "agents", "Agent Habitat"],
+  ["#/ai-habitat-os", "aiHabitatOS", "AI Habitat OS"],
+  ["#/source-hub", "sourceHub", "Source Hub"],
+  ["#/watchlists", "watchlists", "Watchlists"],
+  ["#/research", "research", "Research Desk"],
+  ["#/roadmap", "roadmap", "Roadmap"],
+];
+
+const failures = [];
+const serverOutput = [];
+let child;
+
+try {
+  verifyStaticBoundaries();
+
+  const port = await reservePort();
+  const baseUrl = `http://127.0.0.1:${port}`;
+  child = spawn(process.execPath, ["server.mjs"], {
+    cwd: root,
+    env: {
+      ...process.env,
+      PORT: String(port),
+      PICKAXE_ENABLE_LIVE_SERVICES: "false",
+    },
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  child.stdout.on("data", (chunk) => serverOutput.push(chunk.toString()));
+  child.stderr.on("data", (chunk) => serverOutput.push(chunk.toString()));
+
+  await waitForServer(`${baseUrl}/api/health`);
+  await verifyHealthBoundary(baseUrl);
+  await verifyAssets(baseUrl);
+
+  for (const [route, marker] of directRoutes) {
+    await verifyHtmlRoute(baseUrl, route, marker);
+  }
+  for (const [route, view, marker] of hashRoutes) {
+    verifyHashRouteSource(route, view, marker);
+    await verifyHtmlRoute(baseUrl, `/${route}`, marker);
+  }
+
+  if (failures.length) {
+    throw new Error(failures.join("\n"));
+  }
+
+  console.log(`Route smoke passed: ${directRoutes.length} direct routes, ${hashRoutes.length} hash routes, 4 static assets, and static/demo health boundary.`);
+  console.log("Coverage: HTTP 200, SPA fallback HTML, route/source markers, local assets, no Tailwind CDN runtime, and no public local-vault path leakage.");
+  console.log("Browser-only checks such as console errors, rendered blank states, and horizontal overflow remain part of manual/in-app browser QA.");
+} catch (error) {
+  console.error("Route smoke failed.");
+  console.error(error.message || error);
+  if (serverOutput.length) console.error(serverOutput.join("").trim());
+  process.exitCode = 1;
+} finally {
+  await stopServer(child);
+}
+
+function verifyStaticBoundaries() {
+  if (indexText.includes("cdn.tailwindcss.com") || indexText.includes("tailwind.config")) {
+    failures.push("Tailwind Play CDN runtime remains in public/index.html");
+  }
+  if (!indexText.includes("utility-compat.css")) {
+    failures.push("public/index.html does not link utility-compat.css");
+  }
+  for (const forbidden of [
+    "/Users/b/Documents/Obsidian Vault",
+    "PICKAXE_OBSIDIAN_VAULT",
+    "Pickaxe Capital Vault Operating Prompt.md",
+  ]) {
+    if (frontendSource.includes(forbidden)) {
+      failures.push(`public frontend exposes private local-vault marker: ${forbidden}`);
+    }
+  }
+}
+
+async function verifyHealthBoundary(baseUrl) {
+  const response = await fetch(`${baseUrl}/api/health`);
+  const payload = await response.json();
+  if (!response.ok) failures.push(`/api/health returned ${response.status}`);
+  if (payload.liveServicesEnabled !== false || payload.mode !== "static-demo") {
+    failures.push("/api/health did not remain in static-demo mode");
+  }
+}
+
+async function verifyAssets(baseUrl) {
+  for (const asset of ["styles.css", "utility-compat.css", "app.js", "habitat-data.js"]) {
+    const response = await fetch(`${baseUrl}/${asset}`);
+    const body = await response.text();
+    if (!response.ok || body.length < 100) {
+      failures.push(`/${asset} failed static asset smoke (${response.status}, ${body.length} bytes)`);
+    }
+  }
+}
+
+async function verifyHtmlRoute(baseUrl, route, marker) {
+  const response = await fetch(`${baseUrl}${route}`);
+  const body = await response.text();
+  const contentType = response.headers.get("content-type") || "";
+  if (!response.ok) failures.push(`${route} returned ${response.status}`);
+  if (!contentType.includes("text/html")) failures.push(`${route} did not return HTML`);
+  if (!body.includes("<title>Pickaxe Capital</title>")) failures.push(`${route} missed the SPA shell title`);
+  if (!body.includes("utility-compat.css")) failures.push(`${route} missed the static utility stylesheet`);
+  if (!frontendSource.includes(marker)) failures.push(`${route} source marker missing: ${marker}`);
+}
+
+function verifyHashRouteSource(route, view, marker) {
+  if (!indexText.includes(`data-route="/${route}"`)) failures.push(`${route} navigation route missing`);
+  if (!indexText.includes(`data-view="${view}"`)) failures.push(`${route} navigation view missing: ${view}`);
+  if (!frontendSource.includes(marker)) failures.push(`${route} marker missing: ${marker}`);
+}
+
+async function waitForServer(url) {
+  let lastError;
+  for (let attempt = 0; attempt < 50; attempt += 1) {
+    if (child?.exitCode !== null) throw new Error("Local smoke server exited before becoming ready");
+    try {
+      const response = await fetch(url);
+      if (response.ok) return;
+    } catch (error) {
+      lastError = error;
+    }
+    await new Promise((resolveDelay) => setTimeout(resolveDelay, 100));
+  }
+  throw new Error(`Local smoke server did not become ready: ${lastError?.message || "timeout"}`);
+}
+
+async function reservePort() {
+  return new Promise((resolvePort, rejectPort) => {
+    const probe = createServer();
+    probe.once("error", rejectPort);
+    probe.listen(0, "127.0.0.1", () => {
+      const address = probe.address();
+      const port = typeof address === "object" && address ? address.port : 0;
+      probe.close((error) => error ? rejectPort(error) : resolvePort(port));
+    });
+  });
+}
+
+async function stopServer(serverProcess) {
+  if (!serverProcess || serverProcess.exitCode !== null) return;
+  serverProcess.kill("SIGTERM");
+  await Promise.race([
+    new Promise((resolveExit) => serverProcess.once("exit", resolveExit)),
+    new Promise((resolveTimeout) => setTimeout(resolveTimeout, 1500)),
+  ]);
+  if (serverProcess.exitCode === null) serverProcess.kill("SIGKILL");
+}

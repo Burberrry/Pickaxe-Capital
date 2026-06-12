@@ -2,18 +2,52 @@
 
 ## Current Active Checkpoint
 
-Phase 2 Hero + Alerts Desk is the completed local checkpoint pending CEO B review.
+Phase 5 Infrastructure Lock is complete and locally verified.
 
-- `/` and `#/alerts` now use the Phase 2 AI-native hero and institutional research review queue.
+- `.github/workflows/pages.yml` now runs build, project, Phase 1.5, agent syntax, and route smoke checks before uploading the Pages artifact.
+- The deploy job depends on the validation job and cannot publish after a failed gate.
+- GitHub Pages continues to publish only `public/`.
+- `AGENTS.md` now reflects the completed browser-local Agent Habitat and AI Habitat OS routes, Tailwind CDN removal, local compatibility CSS, and the dependency-free smoke command.
+- No application runtime or product route changed in this sprint.
+
+Highest-leverage next scope: commit and push the completed Phase 3-5 change set, then confirm the `Validate and Deploy GitHub Pages` workflow passes and the live Pages deployment still serves the expected routes and local utility stylesheet.
+
+## Previous Active Checkpoint
+
+Phase 4 Build-System Hardening is complete and locally verified.
+
+- Tailwind Play CDN and its inline runtime configuration are removed from root and deployed HTML.
+- Existing utility-dependent routes retain their appearance through the generated local `utility-compat.css` mirror.
+- `scripts/smoke-routes.mjs` provides no-new-dependency route and static validation.
+
+## Earlier Active Checkpoint
+
+Phase 3 Agent Habitat + AI Habitat OS final integration and stabilization is complete and locally verified.
+
+- `#/agents` is the browser-local command center for nine explicit research departments, task assignment, workflow routing, CEO B review packets, Archive candidates, and research-only alert drafts.
+- `#/ai-habitat-os` is the nine-zone strategic map with the full founder-input-to-learning loop, ownership matrix, blocked states, and integration truth.
+- Keep both Phase 3 routes stable unless a visible bug is found.
+
+## Earlier Active Checkpoint
+
+Active Renderer + Route-Scoped CSS Consolidation is implemented and locally verified.
+
+## Earlier Active Checkpoint
+
+The 2026-06-11 current-state audit and stabilization lock is complete. It established the verified architecture, route map, safety boundaries, mirror rules, and Phase 3 scope from repository facts.
+
+## Earlier Active Checkpoint
+
+Phase 2 Hero + Alerts Desk is the completed local product checkpoint pending CEO B review.
+
+- `/` and `#/alerts` use the Phase 2 AI-native hero and institutional research review queue.
 - Research Packet v2, LocalStorage state, source evidence, risk blocks, agent votes, Archive, and Learning actions remain intact.
 - Approval requires complete research fields, verified sources, a clear risk gate, and CEO B review.
 - Public app truth remains static/demo with no live APIs or broker execution.
-- Build, project, Phase 1.5, mirror, syntax, desktop, mobile, direct-route, and `/ai-handoff` validation passed.
-- Agents and AI Habitat OS remain untouched Phase 3 targets.
 
-Next authorized scope after CEO B reviews `PHASE_2_DELIVERABLE_REPORT.md`: Phase 3 `#/agents` plus `#/ai-habitat-os` only. Do not begin live services, backend work, broker integration, unrelated routes, or broad refactoring.
+Next authorized product scope after CEO B reviews `PHASE_2_DELIVERABLE_REPORT.md`: Phase 3 `#/agents` plus `#/ai-habitat-os` only.
 
-## Previous Active Checkpoint
+## Earlier Active Checkpoint
 
 Options Alerts Static Research Panels 1-5 were implemented and locally validated on 2026-06-09.
 

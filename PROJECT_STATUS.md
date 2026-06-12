@@ -1,5 +1,109 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Phase 5 Infrastructure Lock
+
+- Date: 2026-06-12.
+- Hardened `.github/workflows/pages.yml` into a pre-deploy quality gate without changing the existing GitHub Pages architecture.
+- The validation job uses Node 22 and runs `node --run build`, `node --run check:project`, `node --run check:phase15`, `node --run check:agents`, and `node --run smoke:routes`.
+- The existing `public/` artifact is uploaded only after every validation command passes.
+- The deploy job now uses `needs: validate`, so GitHub Pages publication cannot begin after a failed validation job.
+- Existing minimal Pages permissions and concurrency behavior remain in place. No secrets, dependencies, caches, matrix builds, or browser automation were added.
+- Corrected `AGENTS.md` truth drift: Agent Habitat and AI Habitat OS now reflect the completed Phase 3 browser-local implementation, and Phase 4 CDN/smoke tooling is documented accurately.
+- No product route, market logic, research scoring, API adapter, provider connection, broker behavior, live-data behavior, or frontend deployment boundary changed.
+
+### Phase 5 Limitations
+
+- The workflow has been validated locally and by YAML inspection but will not execute on GitHub until these changes are committed and pushed.
+- `smoke:routes` remains a dependency-free server/static check rather than full browser automation.
+- The generated `utility-compat.css` snapshot still requires explicit maintenance when new utility-style classes are introduced.
+
+## Current Checkpoint - Phase 4 Build-System Hardening
+
+- Date: 2026-06-12.
+- Removed the Tailwind Play CDN script and inline runtime configuration from both root and deployed HTML.
+- Preserved existing utility-dependent renderers with a generated local `utility-compat.css` mirror; no Tailwind build pipeline, bundler, or dependency was added.
+- Added `scripts/smoke-routes.mjs` and the `smoke:routes` package command.
+- The smoke check starts an isolated local server, confirms static/demo health boundaries, checks 9 direct routes, 8 hash routes, 4 required static assets, SPA fallback markers, Tailwind CDN removal, and selected private-vault exposure markers.
+- Build and project checks now reject a reintroduced Tailwind CDN runtime or a missing local compatibility stylesheet.
+- Mirror validation now covers 7 root/public file pairs, including `utility-compat.css`.
+- Browser QA covered all requested desktop routes plus representative 390px mobile routes with no blank views, route fallbacks, console-breaking errors, or horizontal overflow.
+- Phase 3 Agent Habitat and AI Habitat OS routes remain operational.
+- No market logic, alerts logic, research scoring, API adapters, live-data behavior, broker behavior, or execution boundaries changed.
+
+### Phase 4 Limitations
+
+- `utility-compat.css` is a generated compatibility snapshot. It must be regenerated or explicitly extended if future work introduces new Tailwind-style utility classes.
+- `smoke:routes` is intentionally dependency-free and does not provide full automated browser rendering. Browser console, computed-style, and responsive checks remain a separate QA step.
+- Google Fonts remains an external stylesheet dependency.
+- Historical duplicate renderer and CSS layers remain documented and were not consolidated in this bounded sprint.
+
+## Current Checkpoint - Phase 3 Final Integration + Stabilization
+
+- Date: 2026-06-12.
+- Finished the existing Agent Habitat and AI Habitat OS implementation without rebuilding or changing the vanilla static architecture.
+- Aligned the Agent Habitat to nine explicit departments: Market Research, Macro / Risk, Options Flow, Catalyst / News, Technical Structure, Sentiment / Theme, Archive / Memory, Quality Control, and CEO B Review / Final Judgment.
+- Added explicit department function, current status, task type, outputs, output destinations, and risk/review state to the active inspector and local task records.
+- Expanded the shared operating flow to nine stages: Raw Founder Input, Intent Extraction, Agent Routing, Research Organization, Verification, Challenge / Contradiction, CEO B Review, Final Research Output, and Archive / Learning Loop.
+- Added connected route navigation, stronger integration-truth language, and visible correction/learning-loop panels to both Phase 3 routes.
+- Clarified that rejected signals, mistakes, bad data, missed context, reviewed outputs, and CEO B corrections become manual research lessons rather than guaranteed performance.
+- Fixed task actions after refresh so review, evidence, archive, and alert-draft routing retain the task's original department owner.
+- Fixed `#/ai-habitat-os` route switching so local task and CEO B review counts refresh instead of showing stale startup values.
+- Updated the sidebar from `Agents / Future Schematic` to `Agent Habitat / Local Workflow` and bumped static asset cache keys.
+- Root/public HTML, CSS, JS, and habitat-data mirrors are synchronized.
+- Build, project, Phase 1.5, agent syntax, mirror, public safety, deployment boundary, route manifest, JavaScript syntax, and `git diff --check` validation passed.
+- Desktop and 390px QA passed for `#/agents` and `#/ai-habitat-os`: nine departments, nine zones, nine pipeline stages, nine ownership rows, no console errors, and no horizontal overflow.
+- Local interaction QA passed for department selection, task assignment, refresh persistence, CEO B review routing, research-only alert draft creation, Archive candidate creation, and Phase 3-only reset.
+- Regression QA passed for `/`, `/agents`, `/vision-map`, `/archive`, `/staging`, `/founder`, `/ceo-b-profile`, `/jarvis-lab`, `/life-os`, `#/dashboard`, `#/watchlists`, and `#/source-hub`.
+- Remaining limitations: static/browser-local state only, no live providers, no autonomous background agents, no broker execution, Tailwind CDN production warning, and no dedicated automated browser test suite.
+
+## Current Checkpoint - Active Renderer + Route-Scoped CSS Consolidation
+
+- Date: 2026-06-11.
+- Consolidated active runtime code without redesigning routes or changing LocalStorage contracts.
+- Removed three unused `renderAlertsDeskMarkup` definitions, unreachable Alerts markup, unreachable Agent Operations markup, and one overwritten Dashboard renderer with no intervening calls.
+- Reduced `public/app.js` from 17,815 to approximately 16,220 lines while preserving the active research-gated Alerts path and Phase 3 workflow.
+- Removed obsolete Agent game-board and placeholder CSS, moved the active Agents background into the Phase 3 route block, and stopped the broad Phase 2 premium selector from targeting `#agents`.
+- Reduced `public/styles.css` from 19,830 to approximately 19,216 lines.
+- Added explicit active-renderer comments and rewrote `docs/ACTIVE_RENDER_PATHS.md` with final, bootstrap-reachable, removed, and retained paths.
+- Startup-reachable duplicate declarations for Agents, Life OS, Source Hub, Archive, Staging, and Signals remain intentionally documented.
+- Tailwind CDN remains a production-readiness blocker for a later build-system sprint.
+- Full validation and browser QA are pending after mirror synchronization.
+
+## Current Checkpoint - Phase 3 Agent Habitat + AI Habitat OS
+
+- Date: 2026-06-11.
+- Rebuilt `#/agents` from the effective final placeholder into a browser-local Agent Habitat operations route.
+- Added nine shared departments: Market Scanner, News / Theme, Options Flow, Technical Structure, Risk Sentinel, Source Verification, Archive Memory, Alert Builder, and CEO B Review.
+- Added a selectable agent inspector, LocalStorage task board, source-to-review workflow rail, local demo cycle, evidence request, CEO B review packet, Archive candidate, alert draft, and Phase 3-only reset behavior.
+- Strengthened `#/ai-habitat-os` into the strategic map connecting Source Hub, Market Habitat, Agent Operations, Risk Gate, CEO B Review, Archive, Learning Ledger, Alerts Drafts, and Watchlists.
+- Added shared `agentHabitatDepartments`, `agentWorkflowSteps`, `habitatSystemZones`, `agentOwnershipMatrix`, and `agentSafetyBoundaries` data.
+- Preserved the vanilla static SPA, `public/` deployment boundary, root/public mirrors, existing shell, and unrelated routes.
+- No live APIs, provider adapters, backend jobs, fake autonomous agents, fake telemetry, broker execution, auto-trading, or financial advice behavior was added.
+- Build, project, Phase 1.5, agent syntax, mirror, public safety, deployment, route, and `git diff --check` validation passed.
+- Desktop and 390px browser QA passed for `#/agents` and `#/ai-habitat-os` with no console errors, blank content, or horizontal overflow.
+- Local workflow QA passed for task assignment, needs-review routing, CEO B packet creation, alert draft creation, Archive candidate creation, refresh-persistent state, and Phase 3-only reset.
+- Regression browser QA passed for `/`, `#/alerts`, `#/dashboard`, `#/source-hub`, `#/archive`, `#/watchlists`, and `#/staging`. `/ai-handoff` returned HTTP 200.
+- Next recommended task after Phase 3 verification: consolidate only the active renderer and route-scoped CSS layers without redesigning product routes.
+
+## Current Checkpoint - Current-State Audit and Stabilization Lock
+
+- Date: 2026-06-11.
+- Classified the repository as a working multi-page app: one static SPA with 21 sidebar routes, direct-path compatibility routes, Archive subroutes, and local-only handoff/API endpoints.
+- Confirmed the active architecture is vanilla HTML/CSS/JS in `public/`, served locally by `server.mjs` and deployed from `public/` to GitHub Pages.
+- Confirmed root/public mirrors for six file pairs and documented the full route/alias inventory in `docs/ROUTE_MAP.md`.
+- Refreshed `AGENTS.md` with actual validation commands, financial safety rules, active-runtime truth, production blockers, and future Codex behavior.
+- Refreshed `docs/ROUTE_STATUS_MATRIX.md` so it no longer describes completed Phase 2 work as pending.
+- Bumped the `habitat-data.js` asset version so browsers load the updated default completion tracker instead of a cached prior session.
+- No runtime page behavior, data model, dependency, API, broker, execution, visual-system, or LocalStorage behavior was changed.
+- Financial safety review passed. Alerts and options research already display research-only, manual-review, not-financial-advice, no-broker-execution, and demo/static boundaries where relevant.
+- No coin-flip/thinking component exists. Pricing is embedded in Founder; About is represented by Founder and CEO B Profile.
+- Baseline validation passed: build, project, Phase 1.5 checks, agent syntax checks, mirror check, public safety check, deployment boundary check, route manifest check, and `git diff --check`.
+- Desktop browser QA passed for representative strong, usable, placeholder, and future routes with no render errors or horizontal overflow.
+- 390px browser QA passed for `/`, Alerts, Dashboard, Agents, Vision Map, Archive, Staging, Founder, CEO B Profile, Jarvis Lab, Life OS, Source Hub, and Watchlists.
+- `/ai-handoff` returned HTTP 200. The only browser warning was the known Tailwind CDN production warning.
+- Biggest blockers: Agents is still a placeholder, AI Habitat OS is only a static prototype, the active JS/CSS have duplicate override layers, and Tailwind loads from a CDN.
+- Next recommended task: after CEO B approval, build `#/agents` and strengthen `#/ai-habitat-os` as one bounded static/local workflow using the existing shell, shared data, safety labels, and manual-review boundary.
+
 ## Current Checkpoint - Phase 2 Hero + Alerts Desk
 
 - Date: 2026-06-11.

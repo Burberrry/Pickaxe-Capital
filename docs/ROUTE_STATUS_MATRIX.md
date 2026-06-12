@@ -1,13 +1,15 @@
 # Route Status Matrix
 
-Phase 1.5 reconciled matrix for the current Pickaxe Capital / AI Habitat OS route set.
+Current route status summary, refreshed during the 2026-06-11 active-renderer and route-scoped CSS consolidation.
+
+The comprehensive route, alias, renderer, mobile, and local-endpoint inventory lives in `docs/ROUTE_MAP.md`.
 
 ## Core Rules
 
 - Keep Alerts Desk as the homepage and Mission Control as the pinned CEO B overview.
 - Keep Source Hub stable after Phase 2D.
 - Do not touch Watchlists unless a visible bug is found.
-- Do not rebuild Agents yet.
+- Keep Agent Habitat browser-local, research-only, and CEO B review-gated.
 - Do not start Options Hub without B approval.
 - Do not start live APIs, provider adapters, broker integrations, betting/sportsbook integrations, copy-trading, OpenClaw, or 20-section asset integration.
 
@@ -19,17 +21,17 @@ Phase 1.5 reconciled matrix for the current Pickaxe Capital / AI Habitat OS rout
 | `#/alerts` | Alerts Desk | Core | stable | Homepage and CEO B research review queue. | Medium | Maybe | Needs source-backed refinement later; no fake urgency. |
 | `#/mission-control` | Command Console | Operating System | stable legacy/static | Legacy command route and static mission context. | Low | No | Leave unless B wants command workflow cleanup. |
 | `#/vision-map` | Vision Map | Operating System | stable | Visual system brain and route/agent concept map. | Low/Medium | Maybe | Best place to absorb B's 20-section drawing later. |
-| `#/agents` | Agents Placeholder | Operating System | placeholder | Future schematic only; preserves route without fake live agents. | High | No | Do not rebuild until B approves Agent Habitat. |
+| `#/agents` | Agent Habitat | Operating System | strong / local | Local departments, inspector, task board, workflow routing, CEO B packets, and archive candidates. | Medium | No | Desktop, 390px, interactions, persistence, and reset verified. No live agents, jobs, providers, telemetry, or execution. |
 | `#/signals` | Signals Lab | Market Intelligence | stable/prototype | Research signals and options-style packets, not trade calls. | Medium/High | No | Do not expand into Options Hub without approval. |
 | `#/source-hub` | Source Hub | Core | live-locked | Trust/intelligence layer for source verification and escalation control. | Low/Medium | No | Keep stable after Phase 2D; adjacent Archive workflow is possible later. |
 | `#/risk-rules` | Risk & Rules | Market Intelligence | stable | Hard safety blocks and manual review gates. | Low | Maybe | Useful as support for any future workflow sprint. |
 | `#/learning-ledger` | Learning Ledger | Memory / Pulse | stable/prototype | Verified rules, lessons, playbooks, and CEO B memory. | Low | No | Should receive Archive outputs later. |
 | `#/trend-radar` | Trend Radar | Memory / Pulse | stable/prototype | Theme and world-pulse research board. | Medium | No | Avoid fake real-time theme feeds. |
-| `#/archive` | Archive Vault | Memory / Pulse | stable | Saved intelligence memory and research archive. | Low/Medium | Yes, if B chooses | Natural next sprint after Source Hub. |
+| `#/archive` | Archive Vault | Memory / Pulse | strong/stable | Saved intelligence memory and research archive. | Low/Medium | No | Preserve current Source Hub -> Archive workflow. |
 | `#/bookmarks` | Bookmarks Mine | Memory / Pulse | stable/prototype | Private local bookmark import and summary workflow. | Medium | Maybe | Pair with Archive/Source workflow only. |
 | `#/money-lab` | Money Lab | Research Build | stable/research-only | Research sandbox with explicit no betting/financial execution. | High | No | Do not expand unless B approves. |
 | `#/staging` | Staging / QA | Operating System | stable | Validation, build truth, tracker, route health, and storage checks. | Low | Maybe | Update when sprints complete. |
-| `#/ai-habitat-os` | Habitat OS | Operating System | stable/prototype | System map of source-to-agent-to-CEO B flow. | Medium | Maybe | Should wait for B's blueprint. |
+| `#/ai-habitat-os` | Habitat OS | Operating System | strong / static-local | Strategic map connecting sources, agents, risk, CEO B review, memory, alerts drafts, and watchlists. | Low/Medium | No | Desktop and 390px verified. Static map and browser-local workflow counters only. |
 | `#/watchlists` | Watchlists | Core | stable | Research Universe for tickers/themes/catalysts. | Medium | No | Do not touch unless bug found. |
 | `#/markets` | Markets Matrix | Market Intelligence | future concept | Future market overview and regime context. | High | No | Would require backend/live-data rules. |
 | `#/options` | Options Hub | Market Intelligence | future concept | Future research-only options cockpit. | High | No | Do not start without B approval. |
@@ -54,7 +56,7 @@ Phase 1.5 reconciled matrix for the current Pickaxe Capital / AI Habitat OS rout
 
 ## Touch Priority
 
-1. Phase 2: hero and `#/alerts` only after CEO B accepts Phase 1.5.
-2. Phase 3: `#/agents` and `#/ai-habitat-os` only after Phase 2 review.
-3. Phase 4: consistency, placeholders, mobile, and validation.
-4. Deferred: live data, provider adapters, OpenClaw, device control, broker execution, and broad refactors.
+1. Current task: finish mirror and browser verification for the active-renderer/CSS consolidation.
+2. Keep Alerts Desk, Mission Control, Source Hub, Archive, Watchlists, Staging, Agent Habitat, and Habitat OS stable.
+3. Next candidate: build-system hardening for Tailwind CDN and missing automated route tests.
+4. Deferred: live data, provider adapters, OpenClaw, device control, broker execution, and framework migration.

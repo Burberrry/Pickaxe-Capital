@@ -6,6 +6,7 @@ const pairs = [
   ["index.html", "public/index.html"],
   ["app.js", "public/app.js"],
   ["styles.css", "public/styles.css"],
+  ["utility-compat.css", "public/utility-compat.css"],
   ["habitat-data.js", "public/habitat-data.js"],
   ["agent-os.js", "public/agent-os.js"],
   ["agent-os.html", "public/agent-os.html"],
