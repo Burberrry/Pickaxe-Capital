@@ -7,10 +7,12 @@ import { fileURLToPath } from "node:url";
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const publicIndexPath = resolve(root, "public", "index.html");
 const publicAppPath = resolve(root, "public", "app.js");
+const publicHabitatDataPath = resolve(root, "public", "habitat-data.js");
 const publicFounderBridgePath = resolve(root, "public", "founder", "index.html");
-const [indexText, appText, founderBridgeText] = await Promise.all([
+const [indexText, appText, habitatDataText, founderBridgeText] = await Promise.all([
   readFile(publicIndexPath, "utf8"),
   readFile(publicAppPath, "utf8"),
+  readFile(publicHabitatDataPath, "utf8"),
   readFile(publicFounderBridgePath, "utf8"),
 ]);
 const frontendSource = `${indexText}\n${appText}`;
@@ -99,6 +101,15 @@ function verifyStaticBoundaries() {
   }
   if (!appText.includes("function initPickaxeStarlightField()")) {
     failures.push("public/app.js does not initialize the Pickaxe Starlight Field");
+  }
+  if (!appText.includes("function renderPickaxeIntelligenceOrbit()")) {
+    failures.push("public/app.js does not render the Pickaxe Intelligence Orbit");
+  }
+  if (!appText.includes("window.selectPhase8RoboticsAgent")) {
+    failures.push("public/app.js does not expose the Phase 8 robotics lineup interaction");
+  }
+  if (!habitatDataText.includes("pickaxeOrbitItems") || !habitatDataText.includes("agentRoboticsLineup")) {
+    failures.push("public/habitat-data.js does not include the Phase 8 shared static models");
   }
   if (!founderBridgeText.includes("#/founder") || !founderBridgeText.includes("window.location.replace")) {
     failures.push("public/founder/index.html does not preserve the GitHub Pages Founder route bridge");

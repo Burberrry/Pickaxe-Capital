@@ -1,5 +1,26 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Phase 8A + 8B Intelligence Orbit and Agent Visual System
+
+- Date: 2026-06-12.
+- Added the Pickaxe Intelligence Orbit to `/` and `#/alerts` with 16 static/local research nodes, four-second rotation, pause/play, previous/next controls, board selection, inspector details, and a browser-local CEO B review queue action.
+- Added three static Visual Intelligence cards with TTT context, source footers, agent ownership, CEO B review requirements, and research-only boundaries.
+- Upgraded the active Alerts Desk presentation with the premium command dashboard, CEO B authority header, denser review stream, Intelligence Sources rail, Pickaxe Steward local guide, framework cards, and safety rail.
+- Upgraded `#/agents` with seven numbered visual research-agent identities, a selectable inspector, command telemetry, and a safety rail while preserving the existing nine-department Phase 3 task board and LocalStorage workflows.
+- All new market values and statuses remain clearly labeled demo/local/static. No provider, API, scraping, autonomous execution, broker connection, trade command, or financial-advice behavior was added.
+- Desktop browser QA at `1280x720` passed for `/`, `#/alerts`, `#/agents`, `#/dashboard`, `#/founder`, `#/ai-habitat-os`, `#/source-hub`, `#/archive`, `#/watchlists`, and `#/staging`.
+- Mobile browser QA at `390x844` passed for `#/alerts`, `#/agents`, `#/founder`, `#/dashboard`, and `#/ai-habitat-os` with no document-level horizontal overflow.
+- Orbit rotation, pause/play, previous/next, node-to-inspector selection, board-to-node selection, local CEO B queue state, agent selection, and preserved Phase 3 task assignment passed interaction QA.
+- Reduced-motion mode disables Orbit auto-rotation and keeps the starfield static. Hidden-tab testing confirmed the existing starfield still pauses and resumes.
+- Phase 7 remains locked and unchanged: one initialized canvas, no duplicate layer, and the same reduced-motion and visibility lifecycle.
+- One real mobile issue was found and fixed before publication: outer Orbit nodes were partially clipped at 390px, so the mobile-only orbit radius was reduced without changing the starfield.
+
+### Phase 8 Limitations
+
+- Orbit and agent statuses are browser-local presentation state, not live telemetry.
+- The seven visual agent identities organize the existing nine Phase 3 departments; they do not replace or delete the underlying workflow ownership model.
+- The compact Orbit board scrolls internally on narrow screens while the document itself remains overflow-free.
+
 ## Current Checkpoint - Phase 7 Lock QA
 
 - Date: 2026-06-12.

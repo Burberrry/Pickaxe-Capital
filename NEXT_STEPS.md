@@ -2,17 +2,15 @@
 
 ## Current Active Checkpoint
 
-Phase 7 Pickaxe Starlight Field is committed, deployed, live verified, and lock-QA complete.
+Phase 8A + 8B Intelligence Orbit and Agent Visual System is implemented and locally verified.
 
-- One dependency-free canvas sits behind the global app shell.
-- Desktop and mobile star counts stay bounded, with slow subtle twinkle and a rare shooting star.
-- Hidden tabs pause animation; reduced-motion mode renders a static low-opacity field.
-- Founder controls and requested route regressions remain functional without console errors or horizontal overflow.
-- Product commit `a8b8c22`, README run `27409073533`, and Pages run `27409073406` passed.
-- Final lock QA verified deployed commit `288fc290558681d286af28403ebf0ccd8bcf4e9e` and successful Pages run `27409411271` across `#/alerts` and `#/founder` at `1280x720` and `390x844`.
-- Lock QA found one initialized canvas, no duplicate layer, no mobile overflow, clean console output, working reduced-motion and hidden-state behavior, and working Founder controls.
+- `/` and `#/alerts` now include the 16-node static/local Pickaxe Intelligence Orbit, synchronized board and inspector, local CEO B review queue action, three Visual Intelligence cards, premium sources rail, and Pickaxe Steward guide.
+- `#/agents` now presents seven numbered visual research-agent identities with selectable inspection and telemetry around the preserved nine-department Phase 3 workflow.
+- Desktop and 390px route, interaction, console, overflow, reduced-motion, hidden-tab, founder-carousel, packet-action, and Phase 3 task-action QA passed.
+- Phase 7 remains locked with one unchanged canvas and no duplicate starfield.
+- No live API, provider, scraping, autonomous execution, broker connection, fake live data, or paid dependency was added.
 
-Highest-leverage next scope: keep Phase 7 locked. Adjust only opacity or density if CEO B identifies a real live readability issue.
+Highest-leverage next scope: publish and live-check Phase 8, then lock it. Do not begin Options Hub, another visual sprint, or a provider integration without CEO B approval.
 
 ## Working Now
 
@@ -22,18 +20,19 @@ Highest-leverage next scope: keep Phase 7 locked. Adjust only opacity or density
 - Phase 5.3 keeps the bounded README auto-update marker contract active.
 - Phase 6 adds a verified-internal-milestone Proof of Work carousel to the public Founder page.
 - Phase 7 adds a global decorative Pickaxe Starlight Field with reduced-motion and hidden-tab safeguards.
+- Phase 8 adds the static/local Intelligence Orbit, premium Alerts alignment, and seven-agent visual command layer.
 
 ## Current State
 
 - The active product is a vanilla HTML/CSS/JavaScript static SPA served from `public/`.
-- `#/agents` is the nine-department browser-local Agent Habitat command center.
+- `#/agents` is the seven-identity visual command layer around the nine-department browser-local Agent Habitat workflow.
 - `#/ai-habitat-os` is the nine-zone browser-local strategic system map.
 - Research remains static/manual with source verification and CEO B final review.
 - No live providers, autonomous background agents, broker execution, copy-trading, fake live data, or private frontend keys are connected.
 
 ## Next Session Priority
 
-- Keep Phase 7 locked. Do not begin another visual or product sprint without CEO B approval.
+- Publish and live-check Phase 8, then keep both Phase 7 and Phase 8 locked.
 
 ## Previous Active Checkpoint
 

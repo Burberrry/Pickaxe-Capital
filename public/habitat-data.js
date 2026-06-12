@@ -265,6 +265,173 @@ window.PickaxeHabitatData = {
     { id: "habitat-builder", name: "Habitat Builder", role: "Uses open-world agent inspiration for animated agents, tasks, homes, memory, and world behavior.", classType: "World Builder", habitat: "Build System Habitat", status: "Prototype", routeOwned: "/agents", sourcesOwned: ["CraftJarvis JARVIS-1", "Agent Habitat"], currentTask: "Make habitat behavior feel alive while staying browser-safe.", progress: 71, confidence: 78, lastOutput: "Agent world has habitats, paths, missions, and review stack.", nextAction: "Improve animation routines and agent home/workstation logic.", riskFlag: "Visual simulation only", priority: "High" },
     { id: "vision-sentinel", name: "Vision Sentinel", role: "Future safe camera/visual awareness agent.", classType: "Vision Adapter", habitat: "Jarvis Lab", status: "Research", routeOwned: "/jarvis-lab", sourcesOwned: ["Addy Osmani Jarvis", "Browser camera ideas"], currentTask: "Document camera safety rules before any prototype.", progress: 26, confidence: 62, lastOutput: "Camera remains future only; no background access.", nextAction: "Add explicit-permission camera preview later.", riskFlag: "No camera auto-start", priority: "Medium" },
   ],
+  pickaxeOrbitItems: [
+    {
+      id: "spy", symbol: "SPY", title: "SPY Market Structure", type: "Stock", theme: "Index Liquidity",
+      status: "Watching", bias: "Neutral", confidence: 72, attentionScore: "High", risk: "Medium",
+      agentOwner: "Chart Agent", reviewState: "Needs CEO B Review", sourceMode: "Demo / Local Research",
+      ttt: { time: "Opening session / weekly trend check", trend: "Testing major level", theme: "Index liquidity and options positioning" },
+      signals: ["Watch premarket high/low", "Check VIX confirmation", "Confirm with QQQ and DXY"],
+      nextAction: "Send to CEO B Review only after source verification"
+    },
+    {
+      id: "qqq", symbol: "QQQ", title: "QQQ Growth Leadership", type: "Stock", theme: "Technology Breadth",
+      status: "Watching", bias: "Bullish", confidence: 76, attentionScore: "High", risk: "Medium",
+      agentOwner: "Chart Agent", reviewState: "Needs Review", sourceMode: "Demo / Local Research",
+      ttt: { time: "Daily close and weekly structure", trend: "Leadership remains constructive", theme: "AI and growth concentration" },
+      signals: ["Compare breadth with SPY", "Check NVDA participation", "Flag concentration risk"],
+      nextAction: "Verify breadth before CEO B review"
+    },
+    {
+      id: "tsla", symbol: "TSLA", title: "TSLA Event-Risk Monitor", type: "Stock", theme: "High Beta / Catalysts",
+      status: "Watching", bias: "Neutral", confidence: 64, attentionScore: "High", risk: "High",
+      agentOwner: "News & Catalyst Agent", reviewState: "Blocked", sourceMode: "Demo / Local Research",
+      ttt: { time: "Event window / daily review", trend: "Range with headline sensitivity", theme: "Delivery, policy, and product catalysts" },
+      signals: ["Require original catalyst source", "Check implied volatility context", "Document invalidation"],
+      nextAction: "Resolve catalyst and volatility blocks before review"
+    },
+    {
+      id: "nvda", symbol: "NVDA", title: "NVDA AI Leadership", type: "Stock", theme: "AI Infrastructure",
+      status: "Watching", bias: "Bullish", confidence: 81, attentionScore: "High", risk: "Medium",
+      agentOwner: "News & Catalyst Agent", reviewState: "Needs CEO B Review", sourceMode: "Demo / Local Research",
+      ttt: { time: "Weekly trend / catalyst calendar", trend: "Leadership under confirmation", theme: "AI compute and capital spending" },
+      signals: ["Confirm semiconductor breadth", "Review earnings-event risk", "Check options liquidity"],
+      nextAction: "Attach source trail and route to CEO B"
+    },
+    {
+      id: "aapl", symbol: "AAPL", title: "AAPL Mega-Cap Structure", type: "Stock", theme: "Consumer Technology",
+      status: "Watching", bias: "Neutral", confidence: 70, attentionScore: "Medium", risk: "Medium",
+      agentOwner: "Contract Data Agent", reviewState: "Needs Review", sourceMode: "Demo / Local Research",
+      ttt: { time: "Daily level / monthly product cycle", trend: "Testing relative strength", theme: "Services, devices, and AI narrative" },
+      signals: ["Review contract spread", "Confirm catalyst timing", "Compare relative strength"],
+      nextAction: "Complete contract-quality review"
+    },
+    {
+      id: "amd", symbol: "AMD", title: "AMD Competitive Momentum", type: "Stock", theme: "Semiconductor Competition",
+      status: "Watching", bias: "Bullish", confidence: 68, attentionScore: "Medium", risk: "High",
+      agentOwner: "Chart Agent", reviewState: "Needs Review", sourceMode: "Demo / Local Research",
+      ttt: { time: "Swing window / weekly structure", trend: "Momentum requires confirmation", theme: "AI accelerators and market share" },
+      signals: ["Compare with NVDA", "Verify volume context", "Review downside invalidation"],
+      nextAction: "Hold for stronger technical confirmation"
+    },
+    {
+      id: "vix", symbol: "VIX", title: "Volatility Pressure", type: "Macro", theme: "Risk Pricing",
+      status: "Watching", bias: "Neutral", confidence: 79, attentionScore: "High", risk: "High",
+      agentOwner: "Risk Agent", reviewState: "Needs CEO B Review", sourceMode: "Demo / Local Research",
+      ttt: { time: "Session and weekly regime", trend: "Pressure gauge under review", theme: "Volatility, hedging, and event risk" },
+      signals: ["Confirm term structure externally", "Compare with SPY pressure", "Flag event-calendar risk"],
+      nextAction: "Use only as risk context after verification"
+    },
+    {
+      id: "dxy", symbol: "DXY", title: "Dollar Liquidity Pressure", type: "Macro", theme: "Global Liquidity",
+      status: "Watching", bias: "Neutral", confidence: 66, attentionScore: "Medium", risk: "Medium",
+      agentOwner: "Risk Agent", reviewState: "Needs Review", sourceMode: "Demo / Local Research",
+      ttt: { time: "Daily macro check", trend: "Testing directional pressure", theme: "Dollar liquidity and risk assets" },
+      signals: ["Compare with US10Y", "Check equity divergence", "Verify macro source"],
+      nextAction: "Add verified macro context"
+    },
+    {
+      id: "us10y", symbol: "US10Y", title: "US 10Y Yield Regime", type: "Macro", theme: "Rates",
+      status: "Watching", bias: "Bearish", confidence: 74, attentionScore: "High", risk: "High",
+      agentOwner: "Risk Agent", reviewState: "Needs CEO B Review", sourceMode: "Demo / Local Research",
+      ttt: { time: "Macro session / weekly regime", trend: "Yield pressure challenges duration", theme: "Rates, valuation, and liquidity" },
+      signals: ["Verify current yield externally", "Compare with QQQ", "Document rate-sensitive risk"],
+      nextAction: "Route verified rate context to CEO B"
+    },
+    {
+      id: "btc", symbol: "BTC", title: "Bitcoin Liquidity Structure", type: "Crypto", theme: "Digital Asset Liquidity",
+      status: "Watching", bias: "Bullish", confidence: 69, attentionScore: "High", risk: "High",
+      agentOwner: "Chart Agent", reviewState: "Needs Review", sourceMode: "Demo / Local Research",
+      ttt: { time: "24-hour market / weekly close", trend: "Breakout structure under review", theme: "Liquidity and risk appetite" },
+      signals: ["Verify spot structure externally", "Check dollar pressure", "Define invalidation"],
+      nextAction: "Keep research-only until source and risk review"
+    },
+    {
+      id: "ai-theme", symbol: "AI", title: "AI Theme Leadership", type: "Theme", theme: "Artificial Intelligence",
+      status: "Watching", bias: "Bullish", confidence: 83, attentionScore: "High", risk: "Medium",
+      agentOwner: "News & Catalyst Agent", reviewState: "Needs CEO B Review", sourceMode: "Demo / Local Research",
+      ttt: { time: "Weekly theme review", trend: "Leadership remains concentrated", theme: "Compute, software, and infrastructure" },
+      signals: ["Rank verified subthemes", "Check crowding risk", "Link archive memory"],
+      nextAction: "Prepare a source-linked theme brief"
+    },
+    {
+      id: "options-flow", symbol: "FLOW", title: "Options Flow Activity", type: "Workflow", theme: "Unusual Activity",
+      status: "Watching", bias: "Neutral", confidence: 58, attentionScore: "High", risk: "High",
+      agentOwner: "Options Flow Agent", reviewState: "Blocked", sourceMode: "Demo / Local Research",
+      ttt: { time: "Manual snapshot only", trend: "No live provider connected", theme: "Contract activity and positioning" },
+      signals: ["Require manual contract entry", "Check liquidity and spread", "Do not infer smart money automatically"],
+      nextAction: "Connect approved provider later; keep blocked today"
+    },
+    {
+      id: "risk-queue", symbol: "RISK", title: "Risk Queue", type: "Workflow", theme: "Capital Preservation",
+      status: "Watching", bias: "Bearish", confidence: 88, attentionScore: "High", risk: "High",
+      agentOwner: "Risk Agent", reviewState: "Needs CEO B Review", sourceMode: "Demo / Local Research",
+      ttt: { time: "Continuous manual review", trend: "Hard blocks outrank scores", theme: "Downside, exposure, and invalidation" },
+      signals: ["Resolve source blocks", "Confirm invalidation", "Preserve capital first"],
+      nextAction: "CEO B reviews unresolved hard blocks"
+    },
+    {
+      id: "news-queue", symbol: "NEWS", title: "News & Catalyst Queue", type: "Workflow", theme: "Catalyst Verification",
+      status: "Watching", bias: "Neutral", confidence: 62, attentionScore: "Medium", risk: "Medium",
+      agentOwner: "News & Catalyst Agent", reviewState: "Needs Review", sourceMode: "Demo / Local Research",
+      ttt: { time: "Manual source review", trend: "Claims await verification", theme: "News, filings, and event intelligence" },
+      signals: ["Find original source", "Check timestamp", "Separate claim from opinion"],
+      nextAction: "Verify source before research routing"
+    },
+    {
+      id: "agent-tasks", symbol: "TASKS", title: "Agent Task Load", type: "Workflow", theme: "Research Operations",
+      status: "Watching", bias: "Neutral", confidence: 77, attentionScore: "Medium", risk: "Low",
+      agentOwner: "Memory / Archive Agent", reviewState: "Cleared", sourceMode: "Browser-Local State",
+      ttt: { time: "Current browser session", trend: "Manual tasks only", theme: "Research organization" },
+      signals: ["Review local task queue", "Confirm owner", "Archive completed output"],
+      nextAction: "Open Agent Habitat for manual task routing"
+    },
+    {
+      id: "ceo-b-review", symbol: "CEO B", title: "CEO B Review Authority", type: "Review", theme: "Final Human Judgment",
+      status: "Watching", bias: "Neutral", confidence: 100, attentionScore: "High", risk: "Medium",
+      agentOwner: "CEO B", reviewState: "Cleared", sourceMode: "Manual Founder Review",
+      ttt: { time: "After evidence and risk gates", trend: "Human judgment remains final", theme: "Decision quality and learning" },
+      signals: ["Review source lineage", "Challenge thesis", "Choose return, archive, watch, or research approval"],
+      nextAction: "Make the final manual research-route decision"
+    }
+  ],
+  agentRoboticsLineup: [
+    {
+      id: "robot-options-flow", agentId: "options-flow", number: "01", name: "Options Flow Agent", icon: "FLOW",
+      accent: "#d7b45a", mission: "Structure unusual-flow observations and smart-money hypotheses without claiming a live feed.",
+      telemetry: "Unusual Flow Detection", safety: "Manual contract and liquidity verification required."
+    },
+    {
+      id: "robot-contract-data", agentId: "quality-control", number: "02", name: "Contract Data Agent", icon: "DATA",
+      accent: "#8bb8c8", mission: "Interpret contract structure, terms, liquidity fields, and missing evidence for research packets.",
+      telemetry: "Contract Integrity", safety: "No broker connection and no automatic contract recommendation."
+    },
+    {
+      id: "robot-chart", agentId: "technical-structure", number: "03", name: "Chart Agent", icon: "CHRT",
+      accent: "#9b8fd8", mission: "Organize price action, trend structure, levels, timing, and invalidation from manual chart notes.",
+      telemetry: "Market Intelligence", safety: "No live chart feed or autonomous technical signal."
+    },
+    {
+      id: "robot-news", agentId: "catalyst-news", number: "04", name: "News & Catalyst Agent", icon: "NEWS",
+      accent: "#d08a62", mission: "Turn manually supplied news, filings, and event sources into traceable catalyst intelligence.",
+      telemetry: "Catalyst Verification", safety: "No scraping, paywall bypass, or background monitoring."
+    },
+    {
+      id: "robot-risk", agentId: "macro-risk", number: "05", name: "Risk Agent", icon: "RISK",
+      accent: "#bd6b66", mission: "Surface volatility, downside, exposure, regime, and invalidation risks before CEO B review.",
+      telemetry: "Capital Preservation Priority", safety: "Risk context can block research; it cannot authorize execution."
+    },
+    {
+      id: "robot-source", agentId: "quality-control", number: "06", name: "Source Agent", icon: "SRCE",
+      accent: "#69a98f", mission: "Verify source lineage, challenge contradictions, and keep unsupported claims visibly incomplete.",
+      telemetry: "Data Verification", safety: "Source verification and human judgment remain mandatory."
+    },
+    {
+      id: "robot-memory", agentId: "archive-memory", number: "07", name: "Memory / Archive Agent", icon: "MEM",
+      accent: "#b79a78", mission: "Preserve reviewed packets, corrections, lessons, and source-linked institutional memory.",
+      telemetry: "Archive Intelligence", safety: "Internal memory is not public performance proof."
+    }
+  ],
   agentHabitatDepartments: [
     {
       id: "market-research",
@@ -966,6 +1133,7 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-12",
     areas: [
+      { id: "phase-8-intelligence-orbit-agent-visual-system", name: "Phase 8A + 8B Intelligence Orbit and Agent Visual System", group: "CEO B Review Workflow", status: "Passed / Local", completion: 100, priority: "Critical", owner: "CEO B / Alerts Desk / Agent Habitat", notes: "Added a 16-node static/local Pickaxe Intelligence Orbit to / and #/alerts with four-second rotation, pause/play, previous/next, node and board selection, inspector details, a local CEO B review queue action, and three sourced Visual Intelligence cards. Upgraded Alerts into a denser black/gold command dashboard and added seven numbered visual research-agent identities around the preserved nine-department Phase 3 workflow. Desktop and 390px browser QA passed for required routes, interactions, reduced motion, hidden-tab lifecycle, Founder controls, console, singleton starfield, and document overflow. Fixed one real mobile issue by reducing only the 390px Orbit radius so all nodes remain visible. No live provider, API, scraping, autonomous execution, broker connection, fake live data, paid dependency, route change, data/ edit, or Phase 7 starfield change was added.", nextAction: "Publish and live-check Phase 8, then keep Phase 7 and Phase 8 locked until CEO B authorizes a separate scope." },
       { id: "phase-7-pickaxe-starlight-field", name: "Phase 7 Pickaxe Starlight Field", group: "Design System", status: "Passed / Hosted", completion: 100, priority: "High", owner: "CEO B / UI Designer / System Brain", notes: "Added one dependency-free global canvas behind the app shell with bounded ivory, silver, antique-gold, and champagne-gold stars, slow low-amplitude twinkle, and a rare 12-30 second shooting star. Product commit a8b8c22, README run 27409073533, and Pages run 27409073406 passed. Live desktop rendered a bounded field; exact 390px QA rendered 46 stars with no overflow and the Founder carousel still at one visible card. Canvas is aria-hidden, pointer-events none, fixed behind content, pixel-ratio capped, approximately 30 FPS, paused for hidden tabs, and static under reduced motion. Requested canonical hash routes, Founder controls, singleton initialization, console, readability, mirror, syntax, build, safety, deployment, and overflow checks passed. No product logic, dependency, live provider, broker, execution, fake telemetry, copy-trading, scraping, or safety-boundary change was added.", nextAction: "Keep Phase 7 locked. Tune only opacity or density if CEO B identifies a real live readability issue." },
       { id: "phase-6-proof-of-work-carousel", name: "Phase 6 Proof of Work Carousel", group: "Public Credibility", status: "Passed / Hosted", completion: 100, priority: "High", owner: "CEO B / Founder / System Brain", notes: "Added six reusable verified-internal-milestone proof cards to /founder and #/founder with two-card desktop display, one-card 390px display, accessible previous/next controls, live slide count, safe route links, and section-scoped dark/gold styling. Product commit 577fcc4 and GitHub Pages direct-route repair 0a490cb are on main. README and Pages workflows passed. Live route, carousel, route-link, desktop, 390px, console, overflow, safety, mirror, syntax, build, project, and smoke checks passed. No testimonial, customer logo, external endorsement, return, AUM, accuracy, live provider, broker, scraping, dependency, framework, or broad redesign behavior was added.", nextAction: "Keep Phase 6 locked. Perform only bounded Founder visual polish if CEO B identifies a live issue; otherwise wait for approval before Watchlists or Risk Desk planning." },
       { id: "phase-5-3-readme-marker-contract-repair", name: "Phase 5.3 README Marker Contract Repair", group: "Build Safety", status: "Passed / Hosted", completion: 100, priority: "High", owner: "CEO B / System Brain / QA", notes: "Restored the exact PICKAXE-AUTO-UPDATE README markers required by scripts/update-readme.mjs and added concise current-truth source sections so generated content does not fall back to stale historical bullets. The generator changes only its bounded README block. README workflow run #79 and Pages workflow run #69 passed. No product UI, route, dependency, Pages deployment behavior, live-data behavior, broker behavior, or safety boundary changed.", nextAction: "Begin Phase 6 Proof of Work Carousel only when authorized." },
@@ -1027,19 +1195,19 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["PROJECT_STATUS.md", "NEXT_STEPS.md", "index.html", "public/index.html", "app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "scripts/smoke-routes.mjs"],
+      filesChanged: ["PROJECT_STATUS.md", "NEXT_STEPS.md", "README.md", "docs/ACTIVE_RENDER_PATHS.md", "index.html", "public/index.html", "app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js", "scripts/smoke-routes.mjs"],
       featuresAdded: [
-        "Added a dependency-free global Pickaxe Starlight Field canvas behind the app shell.",
-        "Added bounded desktop/mobile star density, slow subtle twinkle, and a rare shooting-star pass.",
-        "Added hidden-tab pause behavior, reduced-motion static rendering, capped pixel density, and singleton initialization."
+        "Added the 16-node static/local Pickaxe Intelligence Orbit with rotation, manual controls, synchronized board and inspector selection, and a browser-local CEO B review queue action.",
+        "Added three sourced Visual Intelligence cards and the premium Alerts Desk intelligence rail, Pickaxe Steward guide, framework cards, authority header, and safety rail.",
+        "Added seven numbered visual research-agent identities, selectable inspection, and telemetry around the preserved nine-department Phase 3 Agent Habitat workflow."
       ],
       bugsFixed: [
-        "Kept the decorative layer behind all interactive content with no pointer interception.",
-        "Preserved Founder carousel controls and one-card mobile behavior while adding the global background.",
-        "Kept route rendering and horizontal overflow stable across requested desktop and 390px checks."
+        "Reduced only the mobile Orbit radius after browser QA found the outer nodes partially clipped at 390px.",
+        "Preserved Research Packet v2 selection and local Review, Watch, Archive, Reject, and Mark Lesson actions.",
+        "Preserved Phase 3 task assignment, CEO B handoff workflows, Founder carousel behavior, and the locked Phase 7 singleton starfield lifecycle."
       ],
       validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; --run check:project; --run check:phase15; --run check:agents; --run smoke:routes; --run check:mirrors; node scripts/update-readme.mjs; JavaScript syntax; git diff --check; desktop and 390px browser QA",
-      validationResult: "Passed locally and hosted on 2026-06-12: build, project, Phase 1.5 safety/deployment, agent syntax, route smoke, mirrors, JavaScript syntax, git diff, desktop canvas initialization, bounded star density, exact 390px 46-star render, reduced-motion static state, requested local compatibility routes, canonical hosted hash routes, Founder controls, singleton canvas, pointer boundary, console, overflow, /ai-handoff HTTP 200, README workflow, Pages validation, and Pages deployment.",
+      validationResult: "Passed locally on 2026-06-12: required build and project checks, route smoke, mirror and syntax checks, Orbit controls and local queue state, seven-agent selection, preserved Phase 3 task actions, Research Packet selection, required desktop and 390px routes, reduced-motion manual mode, hidden-tab pause/resume, Founder controls, singleton canvas, clean console output, and zero document-level horizontal overflow.",
       remainingProblems: [
         "Some duplicate renderer names remain because early startup calls reach their hoisted declarations before final assignments.",
         "Historical global and route CSS remains large and should be consolidated only with route-by-route browser evidence.",
@@ -1047,9 +1215,10 @@ window.PickaxeHabitatData = {
         "The route smoke command is dependency-free and does not replace full automated browser rendering, console, or responsive-layout tests.",
         "Google Fonts remains an external stylesheet dependency.",
         "Canonical GitHub Pages navigation remains hash-based; existing non-bridge direct hosted paths can return GitHub Pages 404s.",
+        "Orbit, agent telemetry, and market values remain static/local demonstration state.",
         "Live providers, backend jobs, autonomous agents, and broker execution remain intentionally unconnected."
       ],
-      nextRecommendedTask: "Keep Phase 7 locked. Tune only opacity or density if CEO B identifies a real live readability issue; otherwise wait for CEO B approval before another sprint."
+      nextRecommendedTask: "Publish and live-check Phase 8, then keep Phase 7 and Phase 8 locked until CEO B authorizes a separate scope."
     },
   },
   marketWatchlist: [

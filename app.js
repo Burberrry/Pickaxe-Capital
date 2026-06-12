@@ -33,9 +33,14 @@ const state = {
   importedBmsDupOnly: false,
   backupPreview: null,
   agentsViewMode: "fleet",
+  selectedOrbitId: "spy",
+  orbitPaused: false,
+  selectedRoboticsId: "robot-options-flow",
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
+const pickaxeOrbitItems = Array.isArray(sharedHabitatData.pickaxeOrbitItems) ? sharedHabitatData.pickaxeOrbitItems : [];
+const agentRoboticsLineup = Array.isArray(sharedHabitatData.agentRoboticsLineup) ? sharedHabitatData.agentRoboticsLineup : [];
 const agentHabitatDepartments = Array.isArray(sharedHabitatData.agentHabitatDepartments) ? sharedHabitatData.agentHabitatDepartments : [];
 const agentWorkflowSteps = Array.isArray(sharedHabitatData.agentWorkflowSteps) ? sharedHabitatData.agentWorkflowSteps : [];
 const habitatSystemZones = Array.isArray(sharedHabitatData.habitatSystemZones) ? sharedHabitatData.habitatSystemZones : [];
@@ -45,6 +50,8 @@ const researchPacketV2Config = (sharedHabitatData.researchPacketV2 && typeof sha
   ? sharedHabitatData.researchPacketV2
   : {};
 const RESEARCH_PACKETS_KEY = researchPacketV2Config.storageKey || "pickaxeResearchPackets";
+const PICKAXE_ORBIT_STATE_KEY = "pickaxeIntelligenceOrbit";
+var pickaxeOrbitRotationTimer = 0;
 const RESEARCH_APPROVAL_LABEL = "Approved for Research — Not a Trade Command";
 const RESEARCH_CARD_DISCLAIMER =
   "Research only. Not financial advice. No broker execution. Options involve substantial risk. User judgment required.";
@@ -8325,6 +8332,330 @@ function buildOptionsAlertsPanelModel(packet = {}) {
   };
 }
 
+function getPickaxeOrbitReviewState() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(PICKAXE_ORBIT_STATE_KEY) || "{}");
+    return stored && typeof stored === "object" ? stored : {};
+  } catch {
+    return {};
+  }
+}
+
+function savePickaxeOrbitReviewState(value) {
+  try {
+    localStorage.setItem(PICKAXE_ORBIT_STATE_KEY, JSON.stringify(value || {}));
+  } catch {
+    // Orbit review state is optional and browser-local only.
+  }
+}
+
+function getEffectivePickaxeOrbitItems() {
+  const reviewState = getPickaxeOrbitReviewState();
+  return pickaxeOrbitItems.map((item) => ({
+    ...item,
+    ...(reviewState[item.id] || {}),
+    ttt: { ...(item.ttt || {}), ...(reviewState[item.id]?.ttt || {}) },
+  }));
+}
+
+function getActivePickaxeOrbitItem() {
+  const items = getEffectivePickaxeOrbitItems();
+  return items.find((item) => item.id === state.selectedOrbitId) || items[0] || {};
+}
+
+function orbitBadgeClass(value = "") {
+  const normalized = String(value).toLowerCase();
+  if (normalized.includes("bull")) return "is-bullish";
+  if (normalized.includes("bear") || normalized.includes("blocked")) return "is-bearish";
+  if (normalized.includes("clear")) return "is-cleared";
+  if (normalized.includes("review") || normalized.includes("queue")) return "is-review";
+  if (normalized.includes("watch")) return "is-watching";
+  return "is-neutral";
+}
+
+function renderOrbitInspector(item) {
+  if (!item?.id) return `<p class="orbit-empty">No local Orbit item is available.</p>`;
+  return `
+    <div class="orbit-inspector-head">
+      <span>${escapeHtml(item.symbol)}</span>
+      <em class="orbit-badge ${orbitBadgeClass(item.reviewState)}">${escapeHtml(item.reviewState)}</em>
+    </div>
+    <p class="meta-label">Selected Intelligence Node</p>
+    <h3>${escapeHtml(item.title)}</h3>
+    <div class="orbit-inspector-tags">
+      <span>${escapeHtml(item.type)}</span>
+      <span class="${orbitBadgeClass(item.bias)}">${escapeHtml(item.bias)} demo bias</span>
+      <span>${escapeHtml(item.confidence)} / 100 completeness</span>
+    </div>
+    <div class="orbit-ttt-grid">
+      <article><span>Time</span><p>${escapeHtml(item.ttt?.time || "")}</p></article>
+      <article><span>Trend</span><p>${escapeHtml(item.ttt?.trend || "")}</p></article>
+      <article><span>Theme</span><p>${escapeHtml(item.ttt?.theme || "")}</p></article>
+    </div>
+    <dl class="orbit-inspector-list">
+      <div><dt>Agent Owner</dt><dd>${escapeHtml(item.agentOwner)}</dd></div>
+      <div><dt>Source Mode</dt><dd>${escapeHtml(item.sourceMode)}</dd></div>
+      <div><dt>Attention / Risk</dt><dd>${escapeHtml(item.attentionScore)} / ${escapeHtml(item.risk)}</dd></div>
+      <div><dt>Risk Notes</dt><dd>${escapeHtml((item.signals || []).join(" · "))}</dd></div>
+      <div><dt>Next Action</dt><dd>${escapeHtml(item.nextAction)}</dd></div>
+    </dl>
+    <button class="orbit-review-button" type="button" onclick="window.queueOrbitItemForCeoReview('${escapeHtml(item.id)}')">Send to CEO B Review</button>
+    <p class="orbit-inspector-boundary">Local/demo only. This updates browser state and does not transmit data or place orders.</p>
+  `;
+}
+
+function renderOrbitNodes(items, activeItem) {
+  return items.map((item, index) => `
+    <button
+      class="orbit-node ${item.id === activeItem.id ? "is-active" : ""}"
+      type="button"
+      style="--orbit-index:${index}; --orbit-total:${items.length};"
+      aria-pressed="${item.id === activeItem.id ? "true" : "false"}"
+      onclick="window.setActiveOrbitItem('${escapeHtml(item.id)}')"
+    >
+      <span>${escapeHtml(item.symbol)}</span>
+      <small>${escapeHtml(item.type)}</small>
+    </button>
+  `).join("");
+}
+
+function renderOrbitBoard(items, activeItem) {
+  return items.map((item) => `
+    <button class="orbit-board-row ${item.id === activeItem.id ? "is-active" : ""}" type="button" onclick="window.setActiveOrbitItem('${escapeHtml(item.id)}')">
+      <span><strong>${escapeHtml(item.symbol)}</strong><small>${escapeHtml(item.title)}</small></span>
+      <span>${escapeHtml(item.type)}</span>
+      <span><em class="orbit-badge ${orbitBadgeClass(item.bias)}">${escapeHtml(item.bias)}</em></span>
+      <span>${escapeHtml(item.confidence)}</span>
+      <span>${escapeHtml(item.attentionScore)}</span>
+      <span>${escapeHtml(item.risk)}</span>
+      <span>${escapeHtml(item.agentOwner)}</span>
+      <span><em class="orbit-badge ${orbitBadgeClass(item.reviewState)}">${escapeHtml(item.reviewState)}</em></span>
+    </button>
+  `).join("");
+}
+
+function renderVisualIntelligenceCards() {
+  const cards = [
+    {
+      eyebrow: "Ranked",
+      title: "Top Market Themes This Week",
+      owner: "News & Catalyst Agent",
+      visual: `
+        <div class="visual-rank-list">
+          <span><b>01</b><strong>AI Infrastructure</strong><i style="--score:88%"></i></span>
+          <span><b>02</b><strong>Index Liquidity</strong><i style="--score:74%"></i></span>
+          <span><b>03</b><strong>Rates Pressure</strong><i style="--score:67%"></i></span>
+          <span><b>04</b><strong>Volatility Defense</strong><i style="--score:61%"></i></span>
+        </div>`,
+      tags: ["Weekly", "Leadership", "Theme"],
+    },
+    {
+      eyebrow: "Charted",
+      title: "SPY vs VIX Pressure",
+      owner: "Chart Agent",
+      visual: `
+        <div class="visual-pressure-chart" aria-hidden="true">
+          <span class="spy-line"></span><span class="vix-line"></span>
+          <small>SPY structure</small><small>VIX pressure</small>
+        </div>`,
+      tags: ["Session", "Pressure", "Risk"],
+    },
+    {
+      eyebrow: "Mapped",
+      title: "Risk-On / Risk-Off Pressure",
+      owner: "Risk Agent",
+      visual: `
+        <div class="visual-risk-map" aria-hidden="true">
+          <span class="risk-on">Risk-On<small>QQQ · AI · BTC</small></span>
+          <i></i>
+          <span class="risk-off">Risk-Off<small>VIX · DXY · US10Y</small></span>
+        </div>`,
+      tags: ["Macro", "Cross-Asset", "Theme"],
+    },
+  ];
+  return cards.map((card) => `
+    <article class="visual-intelligence-card">
+      <div><span class="meta-label">${card.eyebrow}</span><em>Demo / Local</em></div>
+      <h3>${card.title}</h3>
+      ${card.visual}
+      <div class="visual-ttt-tags">${card.tags.map((tag) => `<span>${tag}</span>`).join("")}</div>
+      <footer>
+        <span>Source: Demo / Local Research</span>
+        <span>Timestamp: Static local display timestamp</span>
+        <span>Agent Owner: ${card.owner}</span>
+        <span>CEO B Review: Required</span>
+        <strong>Research only. Manual review required. No broker execution.</strong>
+      </footer>
+    </article>
+  `).join("");
+}
+
+function renderPickaxeIntelligenceOrbit() {
+  const items = getEffectivePickaxeOrbitItems();
+  const activeItem = items.find((item) => item.id === state.selectedOrbitId) || items[0] || {};
+  return `
+    <section id="pickaxeIntelligenceOrbit" class="pickaxe-intelligence-orbit" aria-labelledby="pickaxeOrbitTitle">
+      <header class="orbit-module-head">
+        <div>
+          <span class="meta-label">Phase 8A / Structured Market Attention</span>
+          <h3 id="pickaxeOrbitTitle">Pickaxe Intelligence Orbit</h3>
+          <p>Raw market noise becomes structured research. Structured research becomes better decisions. Better decisions become compounding knowledge.</p>
+        </div>
+        <div class="orbit-controls" aria-label="Intelligence Orbit controls">
+          <span id="orbitRotationStatus">${state.orbitPaused ? "Manual" : "Auto / 4 seconds"}</span>
+          <button type="button" aria-label="Previous Intelligence Orbit item" onclick="window.movePickaxeOrbit(-1)">&#8592;</button>
+          <button id="orbitPauseButton" type="button" aria-label="${state.orbitPaused ? "Play" : "Pause"} Intelligence Orbit" onclick="window.togglePickaxeOrbit()">${state.orbitPaused ? "Play" : "Pause"}</button>
+          <button type="button" aria-label="Next Intelligence Orbit item" onclick="window.movePickaxeOrbit(1)">&#8594;</button>
+        </div>
+      </header>
+      <div class="orbit-command-layout">
+        <div class="orbit-stage" aria-label="Selectable Intelligence Orbit nodes">
+          <div class="orbit-rings" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="orbit-core">
+            <span>CEO B</span>
+            <strong>${escapeHtml(activeItem.symbol || "Orbit")}</strong>
+            <small>Time. Trend. Theme.</small>
+          </div>
+          ${renderOrbitNodes(items, activeItem)}
+        </div>
+        <aside id="orbitInspector" class="orbit-inspector">${renderOrbitInspector(activeItem)}</aside>
+      </div>
+      <div class="orbit-board" aria-label="Pickaxe Intelligence Orbit board">
+        <div class="orbit-board-head">
+          ${["Asset / Theme", "Type", "TTT Bias", "Confidence", "Attention", "Risk", "Agent Owner", "Review Status"].map((label) => `<span>${label}</span>`).join("")}
+        </div>
+        <div id="orbitBoardRows" class="orbit-board-rows">${renderOrbitBoard(items, activeItem)}</div>
+      </div>
+      <div class="visual-intelligence-grid">${renderVisualIntelligenceCards()}</div>
+      <div class="orbit-doctrine">
+        <strong>Time. Trend. Theme.</strong>
+        <span>Research only. Manual review required.</span>
+        <span>Demo data only. Connect market APIs later.</span>
+        <span>No broker execution.</span>
+      </div>
+    </section>
+  `;
+}
+
+function syncPickaxeOrbitUI() {
+  const container = document.querySelector("#pickaxeIntelligenceOrbit");
+  if (!container) return;
+  const items = getEffectivePickaxeOrbitItems();
+  const activeItem = items.find((item) => item.id === state.selectedOrbitId) || items[0];
+  if (!activeItem) return;
+  container.querySelectorAll(".orbit-node").forEach((node) => {
+    const isActive = node.querySelector("span")?.textContent === activeItem.symbol;
+    node.classList.toggle("is-active", isActive);
+    node.setAttribute("aria-pressed", isActive ? "true" : "false");
+  });
+  const core = container.querySelector(".orbit-core strong");
+  if (core) core.textContent = activeItem.symbol;
+  const inspector = container.querySelector("#orbitInspector");
+  if (inspector) inspector.innerHTML = renderOrbitInspector(activeItem);
+  const board = container.querySelector("#orbitBoardRows");
+  if (board) board.innerHTML = renderOrbitBoard(items, activeItem);
+}
+
+function stopPickaxeOrbitRotation() {
+  if (pickaxeOrbitRotationTimer) window.clearInterval(pickaxeOrbitRotationTimer);
+  pickaxeOrbitRotationTimer = 0;
+}
+
+function startPickaxeOrbitRotation() {
+  stopPickaxeOrbitRotation();
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reducedMotion || state.orbitPaused || !pickaxeOrbitItems.length) return;
+  pickaxeOrbitRotationTimer = window.setInterval(() => {
+    if (document.hidden) return;
+    if (state.activeView !== "alerts" || !document.querySelector("#pickaxeIntelligenceOrbit")) {
+      stopPickaxeOrbitRotation();
+      return;
+    }
+    window.movePickaxeOrbit(1, true);
+  }, 4000);
+}
+
+function initializePickaxeOrbit() {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reducedMotion) state.orbitPaused = true;
+  const button = document.querySelector("#orbitPauseButton");
+  const status = document.querySelector("#orbitRotationStatus");
+  if (button) {
+    button.textContent = state.orbitPaused ? "Play" : "Pause";
+    button.setAttribute("aria-label", `${state.orbitPaused ? "Play" : "Pause"} Intelligence Orbit`);
+  }
+  if (status) status.textContent = reducedMotion ? "Reduced motion / Manual" : state.orbitPaused ? "Manual" : "Auto / 4 seconds";
+  startPickaxeOrbitRotation();
+}
+
+window.setActiveOrbitItem = (id) => {
+  if (!pickaxeOrbitItems.some((item) => item.id === id)) return;
+  state.selectedOrbitId = id;
+  syncPickaxeOrbitUI();
+};
+
+window.movePickaxeOrbit = (direction, automated = false) => {
+  const items = getEffectivePickaxeOrbitItems();
+  if (!items.length) return;
+  const currentIndex = Math.max(0, items.findIndex((item) => item.id === state.selectedOrbitId));
+  const nextIndex = (currentIndex + direction + items.length) % items.length;
+  state.selectedOrbitId = items[nextIndex].id;
+  syncPickaxeOrbitUI();
+  if (!automated) startPickaxeOrbitRotation();
+};
+
+window.togglePickaxeOrbit = () => {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    state.orbitPaused = true;
+    initializePickaxeOrbit();
+    showNotification("Reduced-motion mode keeps Intelligence Orbit on manual selection.");
+    return;
+  }
+  state.orbitPaused = !state.orbitPaused;
+  initializePickaxeOrbit();
+};
+
+window.queueOrbitItemForCeoReview = (id) => {
+  const item = getEffectivePickaxeOrbitItems().find((entry) => entry.id === id);
+  if (!item) return;
+  const reviewState = getPickaxeOrbitReviewState();
+  reviewState[id] = {
+    ...(reviewState[id] || {}),
+    reviewState: "Queued for CEO B Review",
+    queuedAt: new Date().toISOString(),
+  };
+  savePickaxeOrbitReviewState(reviewState);
+  state.selectedOrbitId = id;
+  syncPickaxeOrbitUI();
+  showNotification(`${item.symbol}: queued locally for CEO B Review. No data was transmitted.`);
+};
+
+window.openAlertsOrbit = () => {
+  window.location.hash = "#/alerts";
+  window.setTimeout(() => document.querySelector("#pickaxeIntelligenceOrbit")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }), 120);
+};
+
+function renderAlertsIntelligenceRail() {
+  const sourceLabels = ["Macro", "Smart Money", "Unusual Flow", "Catalyst", "FDA", "SEC", "Trend", "News", "AI Agents", "13F Filings", "Insider Activity", "Options Flow", "Market Breadth", "Watchlists", "Archive Memory"];
+  return `
+    <section class="phase8-alerts-sidecar">
+      <article class="phase8-source-panel">
+        <div><span class="meta-label">Intelligence Sources</span><em>Static / Demo Status</em></div>
+        <h3>Research context lanes</h3>
+        <div>${sourceLabels.map((label, index) => `<span><i class="${index % 4 === 0 ? "needs-review" : ""}"></i>${label}<small>${index % 4 === 0 ? "Source review" : "Local context"}</small></span>`).join("")}</div>
+        <p>No live provider connection is represented.</p>
+      </article>
+      <article class="phase8-steward-panel">
+        <span class="meta-label">Pickaxe Steward / Private OS Guide</span>
+        <h3>Current route: Alerts Desk</h3>
+        <p><strong>Tip:</strong> Select an Orbit node, verify its source mode, then compare it with the research stream.</p>
+        <p><strong>Next action:</strong> Queue only complete context for CEO B manual review.</p>
+        <p><strong>Safety reminder:</strong> Local UI guide only. No autonomous AI, live feed, or broker execution.</p>
+      </article>
+    </section>
+  `;
+}
+
 function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
   const activePackets = packets.filter((packet) => packet.routeDecision !== "SUPPRESSED_NOISE");
   const suppressedPackets = packets.filter((packet) => packet.routeDecision === "SUPPRESSED_NOISE");
@@ -8381,13 +8712,14 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       <header class="phase2-capital-hero">
         <div class="phase2-hero-copy">
           <span class="meta-label">Pickaxe Capital / AI Habitat OS / CEO B Command Layer</span>
-          <h2>AI-Native Capital Intelligence for the Options Market</h2>
-          <p>Pickaxe Capital transforms fragmented market data, options flow, technical signals, source trails, and market memory into structured, human-reviewed research packages.</p>
+          <h2>00 Alerts Desk</h2>
+          <p><strong>Options Alerts Review Queue.</strong> Pickaxe transforms fragmented market context, options research, technical structure, source trails, and archive memory into structured packages for human review.</p>
+          <span class="phase8-ceo-authority">CEO B — Final Approval Authority</span>
           <strong class="phase2-hero-boundary">Research only. Manual review required. No broker execution.</strong>
           <div class="phase2-hero-actions">
             <a class="primary" href="#/dashboard">Enter Mission Control</a>
             <a href="#/ai-habitat-os">Open AI Habitat OS</a>
-            <a href="#/alerts">Review Alerts Desk</a>
+            <button type="button" onclick="window.openAlertsOrbit()">Open Intelligence Orbit</button>
           </div>
           ${pcChipRow(["Time. Trend. Theme.", "Research First", "Manual Review Required", "No Broker Execution", "Source Verification Needed", "Capital Preservation First"])}
         </div>
@@ -8408,7 +8740,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       <section class="alerts-desk-intro">
         <div>
           <span class="meta-label">00 / Flagship Institutional Review Queue</span>
-          <h3>Alerts Desk</h3>
+          <h3>Options Alerts Review Queue</h3>
           <p>Options research packets move through source verification, quality control, risk review, and CEO B judgment. This is a review queue, not a trading terminal.</p>
         </div>
         <aside>
@@ -8420,10 +8752,10 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
 
       <section class="alerts-metric-grid" aria-label="Alerts Desk review summary">
         ${[
-          ["Review Queue Summary", `${activePackets.length} Active`, `${blockedPackets} blocked by evidence or risk`],
-          ["Calls vs Puts Overview", `${callCount} Calls / ${putCount} Puts`, "Research direction only"],
-          ["Total Conviction Score", `${averageConviction} / 100`, "Completeness, not expected return"],
-          ["Fear & Greed / Market Bias", "54 / Neutral", marketBias],
+          ["Today's Review Queue", `${activePackets.length} Active`, `${blockedPackets} blocked by evidence or risk`],
+          ["Calls vs Puts", `${callCount} Calls / ${putCount} Puts`, "Research direction only"],
+          ["Today's Total Conviction", `${averageConviction} / 100`, "Completeness, not expected return"],
+          ["Fear & Greed", "54 / Neutral", marketBias],
           ["Intelligence Sources Status", `${verifiedSources} Verified`, `${activePackets.length - verifiedSources} need source review`],
         ].map(([label, value, detail]) => `<article><span>${label}</span><strong>${value}</strong><small>${detail}</small></article>`).join("")}
       </section>
@@ -8438,10 +8770,15 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
         ].map(([label, detail]) => `<article><span>${label}</span><p>${detail}</p><small>This panel uses demo data for interface testing.</small></article>`).join("")}
       </section>
 
-      <section class="research-review-stream">
-        <div class="packet-panel-head"><span>Options Research Review Stream</span><em>Static/demo research queue</em></div>
-        <div class="research-stream-list">${streamMarkup}</div>
-      </section>
+      <div class="phase8-alerts-command-grid">
+        <section class="research-review-stream">
+          <div class="packet-panel-head"><span>Options Research Review Stream</span><em>Mock / no live provider data. Research-only candidates for CEO B manual review.</em></div>
+          <div class="research-stream-list">${streamMarkup}</div>
+        </section>
+        ${renderAlertsIntelligenceRail()}
+      </div>
+
+      ${renderPickaxeIntelligenceOrbit()}
 
       <section class="packet-engine-layout">
         <aside class="packet-queue-panel">
@@ -8646,6 +8983,12 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       <footer class="alerts-compliance-footer">
         <strong>${escapeHtml(RESEARCH_CARD_DISCLAIMER)}</strong>
         <span>Source verification needed. Past performance does not guarantee future results. Approved for Research — Not a Trade Command.</span>
+        <div class="phase8-safety-rail">
+          <span>Research Only</span>
+          <span>Manual Review Required</span>
+          <span>No Broker Execution</span>
+          <span>Source Verification Needed</span>
+        </div>
       </footer>
 
       <details class="suppressed-noise-drawer">
@@ -8677,7 +9020,7 @@ function renderAlertsPage() {
   const selectedAlert = packets.find((packet) => packet.id === state.selectedAlertId) || activePackets[0] || packets[0];
   const lastUpdated = new Date().toLocaleTimeString();
   els.alertsContent.innerHTML = renderResearchGatedAlertsDesk(packets, selectedAlert, lastUpdated);
-
+  initializePickaxeOrbit();
 }
 
 window.selectResearchPacketV2 = (id) => {
@@ -14785,6 +15128,7 @@ renderDashboardPage = function () {
           <div class="action-row">
             <a class="primary-action" href="#/archive">Review Archive Candidates</a>
             <a class="secondary-action" href="#/source-hub">Check Sources</a>
+            <button class="secondary-action" type="button" onclick="window.openAlertsOrbit()">Open Intelligence Orbit</button>
           </div>
         </article>
 
@@ -15357,23 +15701,33 @@ renderVisionCommandCenter = function () {
 // Final active renderer: #/agents Phase 3 browser-local workflow.
 renderAgentsPage = function () {
   if (!els.agentOperatingSystem) return;
-  const selectedId = state.selectedPhase3AgentId || agentHabitatDepartments[0]?.id;
+  const selectedRobot = agentRoboticsLineup.find((agent) => agent.id === state.selectedRoboticsId)
+    || agentRoboticsLineup.find((agent) => agent.agentId === state.selectedPhase3AgentId)
+    || agentRoboticsLineup[0]
+    || {};
+  const selectedId = selectedRobot.agentId || state.selectedPhase3AgentId || agentHabitatDepartments[0]?.id;
   const selectedAgent = agentHabitatDepartments.find((agent) => agent.id === selectedId) || agentHabitatDepartments[0] || {};
+  state.selectedPhase3AgentId = selectedAgent.id;
+  state.selectedRoboticsId = selectedRobot.id || state.selectedRoboticsId;
   const agentOps = getAgentOpsState();
   const localTasks = agentOps.tasks.filter((task) => task.phase3 === true);
   const latestEvents = agentOps.events.filter((event) => event.phase3 === true).slice(0, 6);
   const activeTasks = localTasks.filter((task) => !["Archived", "Complete"].includes(task.status)).length;
   const reviewCount = getSharedQueue("pickaxeReviewQueue").filter((item) => item.source === "Agent Habitat Phase 3").length;
 
-  const renderDepartmentCard = (agent) => `
-    <button class="phase3-department-card ${agent.id === selectedAgent.id ? "is-selected" : ""}" type="button" onclick="window.selectPhase3Agent('${escapeHtml(agent.id)}')">
-      <span class="phase3-department-code">${escapeHtml(agent.departmentId)}</span>
-      <span class="phase3-department-name">${escapeHtml(agent.name)}</span>
-      <small>${escapeHtml(agent.pickaxeName)} · ${escapeHtml(agent.currentState)}</small>
-      <p>${escapeHtml(agent.purpose)}</p>
-      <span class="phase3-card-meta"><b>${escapeHtml(agent.taskType || "Research organization")}</b><em>${escapeHtml(agent.verificationState)}</em></span>
+  const renderRoboticsCard = (robot) => {
+    const department = agentHabitatDepartments.find((agent) => agent.id === robot.agentId) || {};
+    const taskCount = localTasks.filter((task) => task.agentId === robot.agentId).length;
+    return `
+    <button class="phase8-robot-card ${robot.id === selectedRobot.id ? "is-selected" : ""}" style="--robot-accent:${escapeHtml(robot.accent)}" type="button" onclick="window.selectPhase8RoboticsAgent('${escapeHtml(robot.id)}')">
+      <span class="phase8-robot-number">${escapeHtml(robot.number)}</span>
+      <span class="phase8-robot-figure" aria-hidden="true"><i></i><b>${escapeHtml(robot.icon)}</b><i></i></span>
+      <span class="phase8-robot-name">${escapeHtml(robot.name)}</span>
+      <small>${escapeHtml(department.currentState || "Static / Local")} · ${taskCount} local tasks</small>
+      <p>${escapeHtml(robot.mission)}</p>
+      <span class="phase8-robot-status"><b>${escapeHtml(robot.telemetry)}</b><em>${escapeHtml(department.verificationState || "Manual Review Required")}</em></span>
     </button>
-  `;
+  `};
 
   const renderTask = (task) => `
     <article class="phase3-task-card">
@@ -15395,12 +15749,21 @@ renderAgentsPage = function () {
 
   els.agentOperatingSystem.innerHTML = `
     <div class="page-shell phase3-agent-habitat">
-      ${pcPageHero(
-        "04 AGNT / Agent Operations",
-        "Agent Habitat",
-        "Specialized research agents organize source intake, market context, risk checks, archive memory, and alert drafts before anything reaches CEO B manual review.",
-        ["Local Workflow", "Research Only", "Manual Review Required", "No Broker Execution", "No Fake Live Agents"]
-      )}
+      <header class="phase8-agent-hero">
+        <div>
+          <span class="meta-label">04 AGNT / Unified Research Robotics System</span>
+          <h2>Pickaxe Capital AI Agents</h2>
+          <p>Seven primary command identities organize market intelligence, contract context, technical structure, catalysts, risk, source trust, and archive memory.</p>
+          <strong>Browser-local research departments. No autonomous execution. Manual CEO B review required.</strong>
+          ${pcChipRow(["Research First", "Manual Review Required", "No Broker Execution", "Source Verification Needed"])}
+        </div>
+        <aside class="phase8-agent-hero-core">
+          <span>CEO B Command</span>
+          <strong>Final Human Judgment</strong>
+          <small>Seven visual agent lanes / nine underlying Phase 3 departments</small>
+          <i aria-hidden="true"></i>
+        </aside>
+      </header>
 
       <nav class="phase3-route-nav" aria-label="Agent Habitat connected routes">
         <a href="#/alerts">Home / Alerts</a>
@@ -15412,40 +15775,40 @@ renderAgentsPage = function () {
       </nav>
 
       <section class="phase3-ops-summary" aria-label="Agent Habitat local state">
-        <article><span>Defined Departments</span><strong>${agentHabitatDepartments.length}</strong><small>Shared static model</small></article>
+        <article><span>Primary Agent Lineup</span><strong>${agentRoboticsLineup.length}</strong><small>Original visual identities</small></article>
         <article><span>Local Tasks</span><strong>${activeTasks}</strong><small>Saved in this browser</small></article>
         <article><span>CEO B Packets</span><strong>${reviewCount}</strong><small>Manual review queue</small></article>
         <article><span>Execution Mode</span><strong>None</strong><small>No broker or background jobs</small></article>
       </section>
 
-      <section class="phase3-agent-layout">
-        <div class="phase3-department-panel">
+      <section class="phase8-robotics-command">
+        <div class="phase8-lineup-panel">
           <div class="phase3-section-head">
-            <div><span class="meta-label">Department Directory</span><h3>Choose an operating department</h3></div>
-            <span class="phase3-local-pill">Static definitions</span>
+            <div><span class="meta-label">Robotics Command Lineup</span><h3>Choose a research agent</h3></div>
+            <span class="phase3-local-pill">Seven primary lanes</span>
           </div>
-          <div class="phase3-department-grid">
-            ${agentHabitatDepartments.map(renderDepartmentCard).join("")}
+          <div class="phase8-robotics-lineup">
+            ${agentRoboticsLineup.map(renderRoboticsCard).join("")}
           </div>
         </div>
 
-        <aside class="phase3-agent-inspector">
+        <aside class="phase3-agent-inspector phase8-robot-inspector">
           <div class="phase3-inspector-head">
-            <span>${escapeHtml(selectedAgent.departmentId || "D-00")}</span>
+            <span>${escapeHtml(selectedRobot.number || selectedAgent.departmentId || "00")}</span>
             <small>${escapeHtml(selectedAgent.currentState || "Static / Local")}</small>
           </div>
-          <p class="meta-label">Agent Inspector</p>
-          <h3>${escapeHtml(selectedAgent.name || "Agent Department")}</h3>
-          <p class="phase3-inspector-mission">${escapeHtml(selectedAgent.mission || "")}</p>
+          <p class="meta-label">Robotics Agent Inspector</p>
+          <h3>${escapeHtml(selectedRobot.name || selectedAgent.name || "Agent Department")}</h3>
+          <p class="phase3-inspector-mission">${escapeHtml(selectedRobot.mission || selectedAgent.mission || "")}</p>
           <dl>
-            <div><dt>Department / Function</dt><dd>${escapeHtml(selectedAgent.purpose || "")}</dd></div>
-            <div><dt>Current Status</dt><dd>${escapeHtml(selectedAgent.currentState || "Static / Local")}</dd></div>
+            <div><dt>Mission</dt><dd>${escapeHtml(selectedRobot.mission || selectedAgent.mission || "")}</dd></div>
+            <div><dt>Inputs</dt><dd>${escapeHtml((selectedAgent.inputs || []).join(" · "))}</dd></div>
+            <div><dt>Outputs</dt><dd>${escapeHtml((selectedAgent.outputs || []).join(" · "))}</dd></div>
             <div><dt>Task Type</dt><dd>${escapeHtml(selectedAgent.taskType || "Research organization")}</dd></div>
             <div><dt>Owned Route</dt><dd><a href="${escapeHtml(selectedAgent.ownerRoute || "#/agents")}">${escapeHtml(selectedAgent.ownerRoute || "#/agents")}</a></dd></div>
-            <div><dt>Input Sources</dt><dd>${escapeHtml((selectedAgent.inputs || []).join(" · "))}</dd></div>
-            <div><dt>Outputs</dt><dd>${escapeHtml((selectedAgent.outputs || []).join(" · "))}</dd></div>
-            <div><dt>Output Destinations</dt><dd>${escapeHtml((selectedAgent.outputDestinations || []).join(" · "))}</dd></div>
-            <div><dt>Risk / Review State</dt><dd>${escapeHtml(selectedAgent.verificationState || "Manual Review Required")} · ${escapeHtml(selectedAgent.safetyLabel || "Research Only")}</dd></div>
+            <div><dt>Local / Demo Status</dt><dd>${escapeHtml(selectedAgent.currentState || "Static / Local")}</dd></div>
+            <div><dt>CEO B Handoff</dt><dd>${escapeHtml(selectedAgent.ceoReviewNote || "Manual review required.")}</dd></div>
+            <div><dt>Safety Boundary</dt><dd>${escapeHtml(selectedRobot.safety || selectedAgent.riskBoundary || "")}</dd></div>
             <div><dt>Current Local Tasks</dt><dd>${localTasks.filter((task) => task.agentId === selectedAgent.id).length} saved locally</dd></div>
             <div><dt>Latest Local Activity</dt><dd>${escapeHtml(latestEvents.find((event) => event.agentId === selectedAgent.id)?.message || selectedAgent.latestLocalActivity || "No local activity yet.")}</dd></div>
           </dl>
@@ -15456,6 +15819,25 @@ renderAgentsPage = function () {
           <div class="phase3-review-note"><strong>CEO B Review Note</strong><p>${escapeHtml(selectedAgent.ceoReviewNote || "")}</p></div>
           <div class="phase3-risk-boundary"><strong>Risk Boundary</strong><p>${escapeHtml(selectedAgent.riskBoundary || "")}</p></div>
           <div class="phase3-manual-next"><span>Next Manual Action</span><strong>${escapeHtml(selectedAgent.nextManualAction || "")}</strong></div>
+        </aside>
+
+        <aside class="phase8-agent-telemetry">
+          ${[
+            ["Market Intelligence", "Manual market context organized", "Nominal"],
+            ["Unusual Flow Detection", "Demo inputs / provider disconnected", "Review"],
+            ["Smart Money Signals", "Hypothesis only / verify sources", "Review"],
+            ["Options Flow Activity", "Manual contract context", "Static"],
+            ["Agent Network Status", `${activeTasks} local tasks / no background jobs`, "Local"],
+            ["System Integrity", "Phase 3 actions preserved", "Verified"],
+            ["Data Verification", "Source lineage required", "Required"],
+            ["Capital Preservation Priority", "Hard blocks outrank scores", "Highest"],
+          ].map(([label, detail, status]) => `
+            <article>
+              <span>${label}</span>
+              <strong>${status}</strong>
+              <small>${detail}</small>
+            </article>
+          `).join("")}
         </aside>
       </section>
 
@@ -15540,6 +15922,12 @@ renderAgentsPage = function () {
           `).join("") : `<p><strong>No local activity</strong><span>The Agent Habitat is waiting for a manual action.</span><small>Local workflow only</small></p>`}
         </div>
       </section>
+      <footer class="phase8-agent-safety-rail">
+        <span>Research First</span>
+        <span>Manual Review Required</span>
+        <span>No Broker Execution</span>
+        <span>Source Verification Needed</span>
+      </footer>
     </div>
   `;
 }
@@ -15567,6 +15955,16 @@ function phase3FindTask(agentOps, taskId) {
 window.selectPhase3Agent = (agentId) => {
   if (!agentHabitatDepartments.some((agent) => agent.id === agentId)) return;
   state.selectedPhase3AgentId = agentId;
+  const roboticsMatch = agentRoboticsLineup.find((robot) => robot.agentId === agentId);
+  if (roboticsMatch) state.selectedRoboticsId = roboticsMatch.id;
+  renderAgentsPage();
+};
+
+window.selectPhase8RoboticsAgent = (robotId) => {
+  const robot = agentRoboticsLineup.find((item) => item.id === robotId);
+  if (!robot || !agentHabitatDepartments.some((agent) => agent.id === robot.agentId)) return;
+  state.selectedRoboticsId = robot.id;
+  state.selectedPhase3AgentId = robot.agentId;
   renderAgentsPage();
 };
 

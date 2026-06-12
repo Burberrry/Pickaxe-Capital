@@ -125,18 +125,19 @@ Options Alerts organizes research candidates and supporting evidence for human r
 - Phase 5.3 keeps the bounded README auto-update marker contract active.
 - Phase 6 adds a verified-internal-milestone Proof of Work carousel to the public Founder page.
 - Phase 7 adds a global decorative Pickaxe Starlight Field with reduced-motion and hidden-tab safeguards.
+- Phase 8 adds the static/local Intelligence Orbit, premium Alerts alignment, and seven-agent visual command layer.
 
 ### Current State
 
 - The active product is a vanilla HTML/CSS/JavaScript static SPA served from `public/`.
-- `#/agents` is the nine-department browser-local Agent Habitat command center.
+- `#/agents` is the seven-identity visual command layer around the nine-department browser-local Agent Habitat workflow.
 - `#/ai-habitat-os` is the nine-zone browser-local strategic system map.
 - Research remains static/manual with source verification and CEO B final review.
 - No live providers, autonomous background agents, broker execution, copy-trading, fake live data, or private frontend keys are connected.
 
 ### Next Priority
 
-- Keep Phase 7 locked. Do not begin another visual or product sprint without CEO B approval.
+- Publish and live-check Phase 8, then keep both Phase 7 and Phase 8 locked.
 
 ### Non-Negotiable Build Rules
 

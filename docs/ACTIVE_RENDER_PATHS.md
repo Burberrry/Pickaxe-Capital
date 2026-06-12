@@ -1,6 +1,6 @@
 # Active Render Paths
 
-Verified: 2026-06-11 after the Active Renderer + Route-Scoped CSS Consolidation sprint.
+Verified: 2026-06-12 after the Phase 8A + 8B Intelligence Orbit and Agent Visual System sprint.
 
 ## Execution Model
 
@@ -12,9 +12,9 @@ Do not delete a duplicated name based only on source order. Confirm whether an e
 
 | Route | Effective final renderer | Earlier definition status |
 | --- | --- | --- |
-| `/`, `#/alerts` | `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `#alertsContent` | Unreachable post-return markup and all three unused `renderAlertsDeskMarkup` definitions were removed. |
+| `/`, `#/alerts` | `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `#alertsContent`, then `initializePickaxeOrbit()` | Phase 8 adds the active Intelligence Orbit, visual intelligence cards, and command sidecar around the preserved Research Packet v2 path. |
 | `#/dashboard` | Final `renderDashboardPage = function ()` -> `#dashboardContent` | One overwritten assignment with no intervening calls was removed. |
-| `#/agents` | Final `renderAgentsPage = function ()` -> `#agentOperatingSystem` | Earlier declaration remains bootstrap-reachable and is retained. Final route output is the Phase 3 local workflow. |
+| `#/agents` | Final `renderAgentsPage = function ()` -> `#agentOperatingSystem` | Earlier declaration remains bootstrap-reachable and is retained. Phase 8 adds seven visual identities and telemetry around the preserved Phase 3 local workflow. |
 | `#/ai-habitat-os` | Final `renderLifeOSPage = function ()` -> `#aiHabitatOS` | Earlier declaration remains bootstrap-reachable and is retained. |
 | `#/lifeOS` | Final `renderLifeOSPage = function ()` -> `#lifeOSContent` | Shares the final assignment with AI Habitat OS but receives separate markup. |
 | `#/source-hub` | Final `renderSourceHubPage = function ()` -> Source Hub containers | Earlier declaration and pre-override refresh calls remain; retain until startup is reorganized. |
@@ -37,12 +37,13 @@ The earlier Agents, Life OS, Source Hub, Archive, Staging, and Signals declarati
 
 ## CSS Ownership
 
-- Phase 3 Agent Habitat and AI Habitat OS styles live in the final `/* Active route: Phase 3 Agent Habitat + AI Habitat OS */` section of `public/styles.css`.
+- Phase 3 Agent Habitat and AI Habitat OS base styles live in the `/* Active route: Phase 3 Agent Habitat + AI Habitat OS */` section of `public/styles.css`.
+- Phase 8 Alerts Orbit and Agent visual alignment styles live in the route-scoped Phase 8 block immediately before the locked Phase 7 starfield block.
 - Obsolete Agent game-board and placeholder selectors were removed after their markup paths were removed.
 - The broad Phase 2 premium selector no longer targets `#agents`; Phase 3 styling owns that route directly.
-- Alerts Desk continues to use the final Phase 2 route-scoped block.
+- Alerts Desk retains its final Phase 2 base block and receives only the later route-scoped Phase 8 presentation layer.
 - Dashboard, Source Hub, Archive, Watchlists, and Staging retain their current route-scoped blocks because they remain visible and browser-verified.
 
 ## Known Remaining Risk
 
-Broad historical CSS and bootstrap render layers still exist for older routes. Consolidate them only route by route with before/after browser evidence. Tailwind remains loaded from `cdn.tailwindcss.com` and is a separate build-system blocker.
+Broad historical CSS and bootstrap render layers still exist for older routes. Consolidate them only route by route with before/after browser evidence. The local `utility-compat.css` snapshot remains the utility compatibility boundary.
