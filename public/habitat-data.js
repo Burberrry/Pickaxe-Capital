@@ -910,6 +910,7 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-12",
     areas: [
+      { id: "phase-5-2-readme-workflow-yaml-repair", name: "Phase 5.2 README Workflow YAML Repair", group: "Build Safety", status: "Passed / Local", completion: 100, priority: "High", owner: "CEO B / System Brain / QA", notes: "Quoted the README automation commit_message scalar so its embedded colon parses as valid YAML. No workflow logic, dependency, Pages deployment behavior, product route, runtime code, or safety boundary changed.", nextAction: "Confirm the hosted README workflow passes, then begin Phase 6 Proof of Work Carousel only when authorized." },
       { id: "phase-5-infrastructure-lock", name: "Phase 5 Infrastructure Lock", group: "Build Safety", status: "Passed / Local", completion: 100, priority: "Critical", owner: "CEO B / System Brain / QA", notes: "Hardened the existing GitHub Pages workflow with a Node 22 validation job that runs build, project, Phase 1.5, agent syntax, and dependency-free route smoke checks before uploading public/. The deploy job now depends on validation, preserving the existing public-only artifact, Pages permissions, and concurrency behavior. Corrected AGENTS.md truth drift for the completed browser-local Agent Habitat, AI Habitat OS, Tailwind CDN removal, local utility compatibility CSS, and smoke command. No application runtime, route, dependency, secret, live-data, provider, broker, or product behavior changed.", nextAction: "Commit and push the Phase 3-5 change set, confirm the GitHub Actions gate passes, and live-check the deployed Pages routes." },
       { id: "phase-4-build-system-hardening", name: "Phase 4 Build-System Hardening", group: "Build Safety", status: "Passed / Local", completion: 100, priority: "Critical", owner: "CEO B / System Brain / QA", notes: "Removed the Tailwind Play CDN runtime and inline configuration while preserving utility-dependent legacy views with a generated local utility-compat.css mirror. Added dependency-free route smoke coverage for static/demo health, required assets, 9 direct routes, 8 hash routes, SPA fallback markers, CDN removal, and selected privacy boundaries. Build/project guards, deployment checks, mirror coverage, desktop browser QA, and 390px regression QA passed. No framework, dependency, product feature, market logic, API adapter, live-data behavior, or broker behavior was added.", nextAction: "Add a bounded GitHub Actions pre-deploy gate for the existing build, project/Phase 1.5 checks, and route smoke command." },
       { id: "active-renderer-route-css-consolidation", name: "Active Renderer + Route-Scoped CSS Consolidation", group: "Build Safety", status: "Built / Browser QA Pending", completion: 95, priority: "Critical", owner: "CEO B / System Brain / QA", notes: "Removed three zero-reference renderAlertsDeskMarkup definitions, unreachable Alerts and Agent Operations bodies, one overwritten Dashboard renderer, obsolete Agent game-board CSS, and obsolete Agent placeholder CSS. Isolated Phase 3 Agent Habitat from the broad Phase 2 premium selector and documented final versus bootstrap-reachable render paths. No route redesign, LocalStorage key change, feature, API, adapter, broker behavior, or safety-language removal was introduced.", nextAction: "Complete mirror synchronization and desktop/390px browser regression QA, then keep active route ownership locked." },
@@ -967,29 +968,25 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: [".github/workflows/pages.yml", "AGENTS.md", "PROJECT_STATUS.md", "NEXT_STEPS.md", "habitat-data.js", "public/habitat-data.js"],
+      filesChanged: [".github/workflows/update-readme.yml", "PROJECT_STATUS.md", "NEXT_STEPS.md", "habitat-data.js", "public/habitat-data.js"],
       featuresAdded: [
-        "Added a GitHub Pages validation job that runs the existing five-command local validation stack on Node 22.",
-        "Made the Pages deploy job depend on successful validation and upload of the existing public/ artifact.",
-        "Synchronized AGENTS.md with the completed Phase 3 routes and Phase 4 build-system reality."
+        "No product features were added."
       ],
       bugsFixed: [
-        "Closed the deployment gap that allowed GitHub Pages publication without running repository validation.",
-        "Removed stale instructions claiming Agent Habitat was still a placeholder and AI Habitat OS was only an unfinished prototype.",
-        "Documented the public-only artifact boundary and dependency-free smoke command for future Codex sessions."
+        "Quoted the README workflow commit message so the embedded colon no longer causes a YAML parse failure."
       ],
-      validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; --run check:project; --run check:phase15; --run check:agents; --run smoke:routes; YAML parse/inspection; git diff --check; /ai-handoff HTTP check",
-      validationResult: "Passed locally on 2026-06-12: build, project, Phase 1.5, agent syntax, mirrors, public safety, deployment boundary, route manifest, route smoke, workflow YAML parsing and dependency inspection, git diff, and /ai-handoff. GitHub execution remains pending commit and push.",
+      validationCommand: "YAML parse; /Applications/Codex.app/Contents/Resources/node --run build; --run check:project; --run smoke:routes; git diff --check",
+      validationResult: "Passed locally on 2026-06-12: README workflow YAML parsing, build, project validation, dependency-free route smoke, mirrors, and git diff.",
       remainingProblems: [
         "Some duplicate renderer names remain because early startup calls reach their hoisted declarations before final assignments.",
         "Historical global and route CSS remains large and should be consolidated only with route-by-route browser evidence.",
         "utility-compat.css is a generated snapshot and must be regenerated or explicitly extended when new Tailwind-style utility classes are introduced.",
         "The route smoke command is dependency-free and does not replace full automated browser rendering, console, or responsive-layout tests.",
         "Google Fonts remains an external stylesheet dependency.",
-        "The new GitHub Actions gate cannot be confirmed on a hosted runner until the current changes are committed and pushed.",
+        "Hosted README workflow verification remains pending commit and push.",
         "Live providers, backend jobs, autonomous agents, and broker execution remain intentionally unconnected."
       ],
-      nextRecommendedTask: "Commit and push the completed Phase 3-5 changes, confirm the Validate and Deploy GitHub Pages workflow passes, and live-check the deployed routes."
+      nextRecommendedTask: "Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel."
     },
   },
   marketWatchlist: [

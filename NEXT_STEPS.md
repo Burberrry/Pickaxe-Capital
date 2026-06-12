@@ -2,17 +2,18 @@
 
 ## Current Active Checkpoint
 
-Phase 5 Infrastructure Lock is complete and locally verified.
+Phase 5.2 README Workflow YAML Repair is complete and locally verified.
 
-- `.github/workflows/pages.yml` now runs build, project, Phase 1.5, agent syntax, and route smoke checks before uploading the Pages artifact.
-- The deploy job depends on the validation job and cannot publish after a failed gate.
-- GitHub Pages continues to publish only `public/`.
-- `AGENTS.md` now reflects the completed browser-local Agent Habitat and AI Habitat OS routes, Tailwind CDN removal, local compatibility CSS, and the dependency-free smoke command.
-- No application runtime or product route changed in this sprint.
+- `.github/workflows/update-readme.yml` now quotes the commit message containing a colon, restoring valid YAML.
+- No README automation logic, Pages deployment logic, dependency, application runtime, or product route changed.
 
-Highest-leverage next scope: commit and push the completed Phase 3-5 change set, then confirm the `Validate and Deploy GitHub Pages` workflow passes and the live Pages deployment still serves the expected routes and local utility stylesheet.
+Highest-leverage next scope: Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel.
 
 ## Previous Active Checkpoint
+
+Phase 5 Infrastructure Lock is complete and deployed.
+
+## Earlier Active Checkpoint
 
 Phase 4 Build-System Hardening is complete and locally verified.
 

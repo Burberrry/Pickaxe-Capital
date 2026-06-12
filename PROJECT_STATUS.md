@@ -1,5 +1,13 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Phase 5.2 README Workflow YAML Repair
+
+- Date: 2026-06-12.
+- Quoted the `commit_message` scalar in `.github/workflows/update-readme.yml` so its embedded colon parses as YAML.
+- No workflow logic, dependency, Pages deployment behavior, product route, application runtime, or safety boundary changed.
+- Local YAML, build, project, route smoke, and diff checks passed before publication.
+- Next recommended task after hosted workflow verification: Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel.
+
 ## Current Checkpoint - Phase 5 Infrastructure Lock
 
 - Date: 2026-06-12.

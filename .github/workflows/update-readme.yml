@@ -33,5 +33,5 @@ jobs:
       - name: Commit README update
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: docs: auto-update README game plan
+          commit_message: "docs: auto-update README game plan"
           file_pattern: README.md
