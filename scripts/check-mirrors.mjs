@@ -10,6 +10,7 @@ const pairs = [
   ["habitat-data.js", "public/habitat-data.js"],
   ["agent-os.js", "public/agent-os.js"],
   ["agent-os.html", "public/agent-os.html"],
+  ["founder/index.html", "public/founder/index.html"],
 ];
 
 const failures = [];

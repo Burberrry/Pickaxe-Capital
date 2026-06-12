@@ -7,9 +7,11 @@ import { fileURLToPath } from "node:url";
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const publicIndexPath = resolve(root, "public", "index.html");
 const publicAppPath = resolve(root, "public", "app.js");
-const [indexText, appText] = await Promise.all([
+const publicFounderBridgePath = resolve(root, "public", "founder", "index.html");
+const [indexText, appText, founderBridgeText] = await Promise.all([
   readFile(publicIndexPath, "utf8"),
   readFile(publicAppPath, "utf8"),
+  readFile(publicFounderBridgePath, "utf8"),
 ]);
 const frontendSource = `${indexText}\n${appText}`;
 
@@ -91,6 +93,9 @@ function verifyStaticBoundaries() {
   }
   if (!indexText.includes("utility-compat.css")) {
     failures.push("public/index.html does not link utility-compat.css");
+  }
+  if (!founderBridgeText.includes("#/founder") || !founderBridgeText.includes("window.location.replace")) {
+    failures.push("public/founder/index.html does not preserve the GitHub Pages Founder route bridge");
   }
   for (const forbidden of [
     "/Users/b/Documents/Obsidian Vault",
