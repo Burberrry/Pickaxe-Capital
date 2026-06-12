@@ -26,6 +26,62 @@ window.PickaxeHabitatData = {
     { text: "Speed matters only after the source is trusted.", source: "Source Rule" },
     { text: "Process beats impulse.", source: "Mindset" },
   ],
+  proofOfWorkCards: [
+    {
+      category: "Phase 3 System",
+      title: "Agent Habitat",
+      proof: "Nine research departments route market context, source checks, risk review, archive candidates, research-only alert drafts, and CEO B review packets in a browser-local workflow.",
+      attribution: "Phase 3 verified route",
+      status: "Local Workflow Verified",
+      route: "#/agents",
+      safety: "No live autonomous background agents."
+    },
+    {
+      category: "Operating System Map",
+      title: "AI Habitat OS",
+      proof: "Founder input moves through a nine-stage research loop: intent extraction, agent routing, organization, verification, contradiction check, CEO B review, final research output, archive, and learning.",
+      attribution: "Phase 3 strategic map",
+      status: "System Map Verified",
+      route: "#/ai-habitat-os",
+      safety: "Research workflow only."
+    },
+    {
+      category: "Phase 4 Infrastructure",
+      title: "Build-System Hardening",
+      proof: "Tailwind Play CDN was removed, local utility compatibility was added, and smoke-route checks now guard core routes before future deployment.",
+      attribution: "Phase 4 verified build",
+      status: "Hardening Passed",
+      route: "#/staging",
+      safety: "No dependency or framework migration."
+    },
+    {
+      category: "Safety Doctrine",
+      title: "Research Boundary",
+      proof: "Pickaxe keeps alerts and signals framed as research packets with manual CEO B review, source verification, and no broker execution.",
+      attribution: "Risk & Rules",
+      status: "Boundary Locked",
+      route: "#/risk-rules",
+      safety: "No investment advice or guaranteed outcomes."
+    },
+    {
+      category: "Intelligence Memory",
+      title: "Source-to-Archive Loop",
+      proof: "Source Hub, Research Desk, Alerts Desk, Archive, and Learning Ledger connect into a local workflow for turning raw market noise into structured research memory.",
+      attribution: "Research Packet v2 / Source Hub flow",
+      status: "Local Pipeline Active",
+      route: "#/source-hub",
+      safety: "No private vault publishing."
+    },
+    {
+      category: "Public App Truth",
+      title: "Static-First Deployment",
+      proof: "The public site remains a static GitHub Pages-compatible app with localStorage/demo state until real backend providers are approved.",
+      attribution: "Deployment boundary",
+      status: "Static Boundary Verified",
+      route: "#/staging",
+      safety: "No fake live data."
+    }
+  ],
   agents: [
     {
       id: "ceo-b",
@@ -910,6 +966,7 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-12",
     areas: [
+      { id: "phase-6-proof-of-work-carousel", name: "Phase 6 Proof of Work Carousel", group: "Public Credibility", status: "Passed / Local", completion: 100, priority: "High", owner: "CEO B / Founder / System Brain", notes: "Added six reusable verified-internal-milestone proof cards to /founder and #/founder with two-card desktop display, one-card 390px display, accessible previous/next controls, live slide count, safe route links, and section-scoped dark/gold styling. Copy explicitly rejects customer endorsement and performance-claim framing. Desktop, direct/hash Founder, carousel interaction, route-link, 390px, regression-route, console, overflow, mirror, syntax, build, project, safety, and smoke checks passed. No testimonial, customer logo, external endorsement, return, AUM, accuracy, live provider, broker, scraping, dependency, framework, or broad redesign behavior was added.", nextAction: "Commit, push, and live-verify Phase 6 before authorizing another product sprint." },
       { id: "phase-5-3-readme-marker-contract-repair", name: "Phase 5.3 README Marker Contract Repair", group: "Build Safety", status: "Passed / Hosted", completion: 100, priority: "High", owner: "CEO B / System Brain / QA", notes: "Restored the exact PICKAXE-AUTO-UPDATE README markers required by scripts/update-readme.mjs and added concise current-truth source sections so generated content does not fall back to stale historical bullets. The generator changes only its bounded README block. README workflow run #79 and Pages workflow run #69 passed. No product UI, route, dependency, Pages deployment behavior, live-data behavior, broker behavior, or safety boundary changed.", nextAction: "Begin Phase 6 Proof of Work Carousel only when authorized." },
       { id: "phase-5-2-readme-workflow-yaml-repair", name: "Phase 5.2 README Workflow YAML Repair", group: "Build Safety", status: "Passed / Local", completion: 100, priority: "High", owner: "CEO B / System Brain / QA", notes: "Quoted the README automation commit_message scalar so its embedded colon parses as valid YAML. No workflow logic, dependency, Pages deployment behavior, product route, runtime code, or safety boundary changed.", nextAction: "Confirm the hosted README workflow passes, then begin Phase 6 Proof of Work Carousel only when authorized." },
       { id: "phase-5-infrastructure-lock", name: "Phase 5 Infrastructure Lock", group: "Build Safety", status: "Passed / Local", completion: 100, priority: "Critical", owner: "CEO B / System Brain / QA", notes: "Hardened the existing GitHub Pages workflow with a Node 22 validation job that runs build, project, Phase 1.5, agent syntax, and dependency-free route smoke checks before uploading public/. The deploy job now depends on validation, preserving the existing public-only artifact, Pages permissions, and concurrency behavior. Corrected AGENTS.md truth drift for the completed browser-local Agent Habitat, AI Habitat OS, Tailwind CDN removal, local utility compatibility CSS, and smoke command. No application runtime, route, dependency, secret, live-data, provider, broker, or product behavior changed.", nextAction: "Commit and push the Phase 3-5 change set, confirm the GitHub Actions gate passes, and live-check the deployed Pages routes." },
@@ -969,25 +1026,28 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["README.md", "PROJECT_STATUS.md", "NEXT_STEPS.md", "habitat-data.js", "public/habitat-data.js"],
+      filesChanged: ["README.md", "PROJECT_STATUS.md", "NEXT_STEPS.md", "app.js", "public/app.js", "styles.css", "public/styles.css", "habitat-data.js", "public/habitat-data.js"],
       featuresAdded: [
-        "No product features were added."
+        "Added six reusable shared-data Proof of Work cards to the public Founder page.",
+        "Added a lightweight browser-local two-card carousel with accessible controls, live slide count, route links, and one-card mobile treatment.",
+        "Added section-scoped premium dark/gold credibility-card styling and explicit internal-milestone truth boundaries."
       ],
       bugsFixed: [
-        "Restored the exact README marker contract required by scripts/update-readme.mjs.",
-        "Prevented generated README content from falling back to stale historical route and Agent Habitat status bullets."
+        "Prevented the public credibility section from implying customers, testimonials, external endorsements, or performance validation.",
+        "Kept the Founder carousel responsive without horizontal overflow at 390px."
       ],
-      validationCommand: "node scripts/update-readme.mjs; /Applications/Codex.app/Contents/Resources/node --run build; --run check:project; --run smoke:routes; --run check:mirrors; git diff --check",
-      validationResult: "Passed on 2026-06-12: README generation, bounded marker-block diff review, build, project validation, dependency-free route smoke, mirrors, privacy review, git diff, README workflow run #79, and Pages workflow run #69.",
+      validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; --run check:project; --run check:phase15; --run check:agents; --run smoke:routes; --run check:mirrors; node scripts/update-readme.mjs; JavaScript syntax; git diff --check; desktop and 390px browser QA",
+      validationResult: "Passed locally on 2026-06-12: build, project, Phase 1.5, agent syntax, route smoke, mirrors, README generation, JavaScript syntax, git diff, direct/hash Founder, carousel controls/count/links, 390px layout, requested route regressions, console, and overflow checks.",
       remainingProblems: [
         "Some duplicate renderer names remain because early startup calls reach their hoisted declarations before final assignments.",
         "Historical global and route CSS remains large and should be consolidated only with route-by-route browser evidence.",
         "utility-compat.css is a generated snapshot and must be regenerated or explicitly extended when new Tailwind-style utility classes are introduced.",
         "The route smoke command is dependency-free and does not replace full automated browser rendering, console, or responsive-layout tests.",
         "Google Fonts remains an external stylesheet dependency.",
+        "Phase 6 live GitHub Pages verification remains pending commit and push.",
         "Live providers, backend jobs, autonomous agents, and broker execution remain intentionally unconnected."
       ],
-      nextRecommendedTask: "Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel."
+      nextRecommendedTask: "Commit, push, and live-verify the Phase 6 Founder Proof of Work carousel."
     },
   },
   marketWatchlist: [

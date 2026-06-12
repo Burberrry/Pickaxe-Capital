@@ -204,6 +204,8 @@ const quantumBrainCouncil = Array.isArray(sharedHabitatData.quantumBrainCouncil)
 const appleCommandEcosystem = Array.isArray(sharedHabitatData.appleCommandEcosystem) ? sharedHabitatData.appleCommandEcosystem : [];
 
 const statusCycle = Array.isArray(sharedHabitatData.statusCycle) ? sharedHabitatData.statusCycle : ["active", "scanning", "thinking", "working", "collaborating", "completed"];
+const proofOfWorkCards = Array.isArray(sharedHabitatData.proofOfWorkCards) ? sharedHabitatData.proofOfWorkCards : [];
+let proofOfWorkIndex = 0;
 
 const mindsetQuotes = sharedHabitatData.mindsetQuotes || [
   { text: "Discipline is the edge when information is everywhere.", source: "Operating Rule" },
@@ -11410,6 +11412,7 @@ function renderFounderProfile() {
   els.founderSection.classList.toggle("command-profile", !isPublic);
   els.founderSection.classList.toggle("landing-profile", isPublic);
   if (isPublic) {
+    proofOfWorkIndex = 0;
     landing.innerHTML = renderFounderLandingPage();
     return;
   }
@@ -11439,6 +11442,50 @@ function ensureFounderLandingPage() {
   }
   return landing;
 }
+
+function renderProofOfWorkCard(card, index) {
+  if (!card) return "";
+  return `
+    <article class="proof-work-card" data-proof-card-index="${index}">
+      <div class="proof-work-card-head">
+        <span>${escapeHtml(card.category)}</span>
+        <strong>${escapeHtml(card.status)}</strong>
+      </div>
+      <blockquote>${escapeHtml(card.proof)}</blockquote>
+      <div class="proof-work-card-meta">
+        <div>
+          <small>${escapeHtml(card.attribution)}</small>
+          <h3>${escapeHtml(card.title)}</h3>
+        </div>
+        <a href="${escapeHtml(card.route)}" aria-label="Open ${escapeHtml(card.title)} route">Open route</a>
+      </div>
+      <p class="proof-work-safety">${escapeHtml(card.safety)}</p>
+    </article>
+  `;
+}
+
+function renderProofOfWorkCards(startIndex = proofOfWorkIndex) {
+  if (!proofOfWorkCards.length) return "";
+  return [0, 1].map((offset) => {
+    const index = (startIndex + offset + proofOfWorkCards.length) % proofOfWorkCards.length;
+    return renderProofOfWorkCard(proofOfWorkCards[index], index);
+  }).join("");
+}
+
+function proofOfWorkCountLabel(index = proofOfWorkIndex) {
+  const current = String(index + 1).padStart(2, "0");
+  const total = String(proofOfWorkCards.length).padStart(2, "0");
+  return `${current} / ${total}`;
+}
+
+window.moveProofOfWorkCarousel = (direction) => {
+  if (!proofOfWorkCards.length) return;
+  proofOfWorkIndex = (proofOfWorkIndex + direction + proofOfWorkCards.length) % proofOfWorkCards.length;
+  const cards = document.querySelector("#proofOfWorkCards");
+  const count = document.querySelector("#proofOfWorkCount");
+  if (cards) cards.innerHTML = renderProofOfWorkCards(proofOfWorkIndex);
+  if (count) count.textContent = proofOfWorkCountLabel(proofOfWorkIndex);
+};
 
 function renderFounderLandingPage() {
   const heroChips = ["Research Only", "Source Verified Workflow", "CEO B Manual Review", "No Broker Execution", "Static Prototype"];
@@ -11549,6 +11596,25 @@ function renderFounderLandingPage() {
             </article>
           `).join("")}
         </div>
+      </section>
+
+      <section class="access-section proof-work-section" aria-labelledby="proofOfWorkTitle">
+        <div class="proof-work-heading">
+          <div class="access-section-head">
+            <p class="access-kicker">Verified Internal Milestones</p>
+            <h2 id="proofOfWorkTitle">Proof of Work</h2>
+            <p>Proof cards reflect verified internal build milestones, not customer endorsements or performance claims.</p>
+          </div>
+          <div class="proof-work-controls" aria-label="Proof of Work carousel controls">
+            <span id="proofOfWorkCount" aria-live="polite">${proofOfWorkCountLabel()}</span>
+            <button type="button" aria-label="Show previous Proof of Work card" onclick="window.moveProofOfWorkCarousel?.(-1)">&#8592;</button>
+            <button type="button" aria-label="Show next Proof of Work card" onclick="window.moveProofOfWorkCarousel?.(1)">&#8594;</button>
+          </div>
+        </div>
+        <div id="proofOfWorkCards" class="proof-work-grid" aria-live="polite">
+          ${renderProofOfWorkCards()}
+        </div>
+        <p class="proof-work-truth">Research only. Manual review required. Source verification needed. No broker execution. No fake live data.</p>
       </section>
 
       <section class="access-section">

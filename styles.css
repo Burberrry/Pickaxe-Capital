@@ -16577,6 +16577,171 @@ body[data-active-view="alerts"] #alerts.active button.pcad-table-row {
   text-transform: uppercase;
 }
 
+.proof-work-section {
+  overflow: hidden;
+  border-color: rgba(212, 175, 55, 0.28);
+  background:
+    radial-gradient(circle at 92% 8%, rgba(212, 175, 55, 0.14), transparent 34%),
+    linear-gradient(145deg, rgba(246, 240, 228, 0.05), rgba(246, 240, 228, 0.012) 44%),
+    rgba(10, 10, 10, 0.96);
+}
+
+.proof-work-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.proof-work-heading .access-section-head {
+  margin-bottom: 0;
+}
+
+.proof-work-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.proof-work-controls span {
+  min-width: 64px;
+  color: var(--px-gold);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.proof-work-controls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(212, 175, 55, 0.32);
+  border-radius: 50%;
+  background: rgba(246, 240, 228, 0.035);
+  color: var(--px-ivory);
+  cursor: pointer;
+  font-size: 20px;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.proof-work-controls button:hover,
+.proof-work-controls button:focus-visible {
+  border-color: rgba(212, 175, 55, 0.72);
+  background: rgba(212, 175, 55, 0.12);
+  color: var(--px-gold);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.proof-work-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.proof-work-card {
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 22px;
+  min-width: 0;
+  min-height: 390px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: var(--px-radius-lg);
+  padding: clamp(22px, 3vw, 34px);
+  background:
+    linear-gradient(135deg, rgba(212, 175, 55, 0.055), transparent 42%),
+    rgba(5, 5, 5, 0.64);
+  box-shadow: inset 0 1px 0 rgba(246, 240, 228, 0.04), var(--px-shadow-soft);
+}
+
+.proof-work-card-head,
+.proof-work-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.proof-work-card-head span,
+.proof-work-card-meta small {
+  color: var(--px-gold);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.proof-work-card-head strong {
+  border: 1px solid rgba(111, 128, 104, 0.35);
+  border-radius: 999px;
+  padding: 6px 9px;
+  background: rgba(111, 128, 104, 0.09);
+  color: #b6c1ae;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.proof-work-card blockquote {
+  margin: 0;
+  color: var(--px-ivory);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 2.3vw, 38px);
+  line-height: 1.18;
+}
+
+.proof-work-card-meta {
+  align-items: end;
+}
+
+.proof-work-card-meta h3 {
+  margin: 6px 0 0;
+  color: var(--px-ivory);
+  font-size: 18px;
+}
+
+.proof-work-card-meta a {
+  flex: 0 0 auto;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.48);
+  color: var(--px-gold);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.proof-work-card-meta a:hover,
+.proof-work-card-meta a:focus-visible {
+  color: var(--px-ivory);
+  outline: none;
+}
+
+.proof-work-safety,
+.proof-work-truth {
+  margin: 0;
+  color: var(--px-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.proof-work-safety {
+  border-top: 1px solid var(--px-border-muted);
+  padding-top: 14px;
+}
+
+.proof-work-truth {
+  margin-top: 18px;
+  color: #b9b09f;
+  text-align: center;
+}
+
 .access-loop {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -16805,6 +16970,46 @@ body[data-active-view="alerts"] #alerts.active button.pcad-table-row {
 
   .access-footer {
     display: grid;
+  }
+
+  .proof-work-heading {
+    display: grid;
+    align-items: start;
+  }
+
+  .proof-work-controls {
+    justify-content: space-between;
+  }
+
+  .proof-work-controls span {
+    margin-right: auto;
+  }
+
+  .proof-work-grid {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 22px;
+  }
+
+  .proof-work-card {
+    min-height: 0;
+    padding: 20px;
+  }
+
+  .proof-work-card:nth-child(2) {
+    display: none;
+  }
+
+  .proof-work-card-head,
+  .proof-work-card-meta {
+    align-items: flex-start;
+  }
+
+  .proof-work-card-head strong {
+    max-width: 150px;
+  }
+
+  .proof-work-card blockquote {
+    font-size: clamp(22px, 7vw, 30px);
   }
 }
 

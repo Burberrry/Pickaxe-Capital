@@ -123,6 +123,7 @@ Options Alerts organizes research candidates and supporting evidence for human r
 - Phase 4 local utility CSS and dependency-free route smoke coverage are active.
 - Phase 5 pre-deploy validation and public-only Pages deployment are active.
 - Phase 5.3 keeps the bounded README auto-update marker contract active.
+- Phase 6 adds a verified-internal-milestone Proof of Work carousel to the public Founder page.
 
 ### Current State
 
@@ -134,7 +135,7 @@ Options Alerts organizes research candidates and supporting evidence for human r
 
 ### Next Priority
 
-- Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel.
+- Commit, push, and live-verify the Phase 6 Founder Proof of Work carousel.
 
 ### Non-Negotiable Build Rules
 

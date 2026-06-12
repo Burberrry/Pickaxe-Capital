@@ -2,14 +2,14 @@
 
 ## Current Active Checkpoint
 
-Phase 5.3 README Marker Contract Repair is complete and verified on GitHub Actions.
+Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel is complete and locally verified.
 
-- The exact README auto-update marker contract is restored.
-- `scripts/update-readme.mjs` updates only its bounded README block with current project truth.
-- README workflow run #79 and Pages workflow run #69 passed.
-- No application runtime, product route, dependency, or Pages deployment logic changed.
+- `/founder` and `#/founder` now include six verified internal proof cards.
+- The carousel shows two cards on desktop and one at 390px, with accessible previous/next controls and live slide count.
+- Copy clearly separates internal milestones from customer endorsements and performance claims.
+- Requested Founder and regression routes passed local browser QA without console errors or horizontal overflow.
 
-Highest-leverage next scope: Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel.
+Highest-leverage next scope: commit and push Phase 6, confirm both GitHub Actions workflows pass, and live-check the Founder carousel.
 
 ## Working Now
 
@@ -17,6 +17,7 @@ Highest-leverage next scope: Phase 6 Public Credibility Section - Pickaxe Proof 
 - Phase 4 local utility CSS and dependency-free route smoke coverage are active.
 - Phase 5 pre-deploy validation and public-only Pages deployment are active.
 - Phase 5.3 keeps the bounded README auto-update marker contract active.
+- Phase 6 adds a verified-internal-milestone Proof of Work carousel to the public Founder page.
 
 ## Current State
 
@@ -28,7 +29,7 @@ Highest-leverage next scope: Phase 6 Public Credibility Section - Pickaxe Proof 
 
 ## Next Session Priority
 
-- Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel.
+- Commit, push, and live-verify the Phase 6 Founder Proof of Work carousel.
 
 ## Previous Active Checkpoint
 
