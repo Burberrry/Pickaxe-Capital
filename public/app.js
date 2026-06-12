@@ -151,6 +151,198 @@ function isStaticMode() {
   return window.location.hostname.includes("github.io") || window.location.protocol === "file:";
 }
 
+function initPickaxeStarlightField() {
+  const canvas = document.querySelector("#pickaxe-starlight-field");
+  if (!canvas || canvas.dataset.initialized === "true") return;
+  const context = canvas.getContext?.("2d");
+  if (!context) {
+    canvas.hidden = true;
+    return;
+  }
+
+  canvas.dataset.initialized = "true";
+  const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const colors = [
+    [244, 239, 226],
+    [196, 200, 204],
+    [212, 175, 55],
+    [177, 164, 137],
+  ];
+  let width = 0;
+  let height = 0;
+  let pixelRatio = 1;
+  let stars = [];
+  let shootingStar = null;
+  let animationFrame = 0;
+  let resizeFrame = 0;
+  let lastPaintAt = 0;
+  let nextShootingStarAt = Number.POSITIVE_INFINITY;
+
+  function starCount() {
+    if (window.innerWidth <= 760) {
+      return Math.max(44, Math.min(72, Math.round((width * height) / 7200)));
+    }
+    return Math.max(90, Math.min(150, Math.round((width * height) / 8500)));
+  }
+
+  function createStars() {
+    stars = Array.from({ length: starCount() }, () => {
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      return {
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: 0.45 + Math.random() * 1.05,
+        alpha: 0.12 + Math.random() * 0.3,
+        shimmer: 0.025 + Math.random() * 0.09,
+        speed: 0.00016 + Math.random() * 0.00028,
+        phase: Math.random() * Math.PI * 2,
+        color,
+      };
+    });
+    canvas.dataset.starCount = String(stars.length);
+  }
+
+  function scheduleShootingStar(timestamp = performance.now()) {
+    nextShootingStarAt = timestamp + 12000 + Math.random() * 18000;
+  }
+
+  function createShootingStar(timestamp) {
+    const speed = 620 + Math.random() * 220;
+    const angle = 0.35 + Math.random() * 0.18;
+    shootingStar = {
+      bornAt: timestamp,
+      duration: 720 + Math.random() * 260,
+      startX: -90 + Math.random() * width * 0.55,
+      startY: 28 + Math.random() * height * 0.28,
+      velocityX: Math.cos(angle) * speed,
+      velocityY: Math.sin(angle) * speed,
+      length: 76 + Math.random() * 74,
+    };
+  }
+
+  function drawStars(timestamp, staticOnly = false) {
+    context.clearRect(0, 0, width, height);
+    stars.forEach((star) => {
+      const twinkle = staticOnly ? 0 : Math.sin(timestamp * star.speed + star.phase) * star.shimmer;
+      const alpha = Math.max(0.06, Math.min(0.48, star.alpha + twinkle));
+      context.beginPath();
+      context.fillStyle = `rgba(${star.color[0]}, ${star.color[1]}, ${star.color[2]}, ${alpha})`;
+      context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      context.fill();
+    });
+  }
+
+  function drawShootingStar(timestamp) {
+    if (!shootingStar) return;
+    const elapsed = timestamp - shootingStar.bornAt;
+    if (elapsed >= shootingStar.duration) {
+      shootingStar = null;
+      scheduleShootingStar(timestamp);
+      return;
+    }
+
+    const progress = elapsed / shootingStar.duration;
+    const seconds = elapsed / 1000;
+    const headX = shootingStar.startX + shootingStar.velocityX * seconds;
+    const headY = shootingStar.startY + shootingStar.velocityY * seconds;
+    const velocityLength = Math.hypot(shootingStar.velocityX, shootingStar.velocityY);
+    const tailX = headX - (shootingStar.velocityX / velocityLength) * shootingStar.length;
+    const tailY = headY - (shootingStar.velocityY / velocityLength) * shootingStar.length;
+    const fade = Math.sin(Math.PI * progress) * 0.42;
+    const gradient = context.createLinearGradient(tailX, tailY, headX, headY);
+    gradient.addColorStop(0, "rgba(212, 175, 55, 0)");
+    gradient.addColorStop(0.72, `rgba(226, 215, 190, ${fade * 0.42})`);
+    gradient.addColorStop(1, `rgba(255, 248, 225, ${fade})`);
+    context.beginPath();
+    context.moveTo(tailX, tailY);
+    context.lineTo(headX, headY);
+    context.strokeStyle = gradient;
+    context.lineWidth = 1.15;
+    context.lineCap = "round";
+    context.stroke();
+  }
+
+  function paint(timestamp) {
+    animationFrame = 0;
+    if (document.hidden || reducedMotionQuery.matches) return;
+    if (timestamp - lastPaintAt < 32) {
+      animationFrame = requestAnimationFrame(paint);
+      return;
+    }
+    lastPaintAt = timestamp;
+    drawStars(timestamp);
+    if (!shootingStar && timestamp >= nextShootingStarAt) createShootingStar(timestamp);
+    drawShootingStar(timestamp);
+    animationFrame = requestAnimationFrame(paint);
+  }
+
+  function start() {
+    if (animationFrame || document.hidden || reducedMotionQuery.matches) return;
+    canvas.dataset.animation = "running";
+    lastPaintAt = 0;
+    animationFrame = requestAnimationFrame(paint);
+  }
+
+  function stop(nextState = "paused") {
+    if (animationFrame) cancelAnimationFrame(animationFrame);
+    animationFrame = 0;
+    canvas.dataset.animation = nextState;
+  }
+
+  function configureMotion() {
+    shootingStar = null;
+    if (reducedMotionQuery.matches) {
+      stop("static");
+      nextShootingStarAt = Number.POSITIVE_INFINITY;
+      drawStars(0, true);
+      return;
+    }
+    scheduleShootingStar();
+    start();
+  }
+
+  function resize() {
+    width = Math.max(1, window.innerWidth);
+    height = Math.max(1, window.innerHeight);
+    pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    createStars();
+    drawStars(0, reducedMotionQuery.matches);
+  }
+
+  function queueResize() {
+    if (resizeFrame) return;
+    resizeFrame = requestAnimationFrame(() => {
+      resizeFrame = 0;
+      resize();
+    });
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stop("paused");
+      return;
+    }
+    if (reducedMotionQuery.matches) {
+      drawStars(0, true);
+      return;
+    }
+    scheduleShootingStar();
+    start();
+  });
+  window.addEventListener("resize", queueResize, { passive: true });
+  if (typeof reducedMotionQuery.addEventListener === "function") {
+    reducedMotionQuery.addEventListener("change", configureMotion);
+  } else {
+    reducedMotionQuery.addListener(configureMotion);
+  }
+
+  resize();
+  configureMotion();
+}
+
 const intelligenceSources = Array.isArray(sharedHabitatData.intelligenceSources) ? sharedHabitatData.intelligenceSources : [];
 const rkWatchlist = Array.isArray(sharedHabitatData.rkTracker?.watchlist) ? sharedHabitatData.rkTracker.watchlist : [];
 const berkshire1965 = (sharedHabitatData.berkshire1965 && typeof sharedHabitatData.berkshire1965 === "object") ? sharedHabitatData.berkshire1965 : { metrics: [], lessons: [] };
@@ -16336,6 +16528,7 @@ renderFutureConceptPages = function () {
   });
 }
 
+initPickaxeStarlightField();
 renderWatchlistsPage();
 
 try {

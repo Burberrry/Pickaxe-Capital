@@ -19541,3 +19541,47 @@ button.phase3-department-card.is-selected {
     transition: none !important;
   }
 }
+
+/* Phase 7 Pickaxe Starlight Field */
+.pickaxe-starlight-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.68;
+  pointer-events: none;
+  contain: strict;
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+.shell {
+  position: relative;
+  z-index: 1;
+}
+
+body[data-active-view="alerts"] .shell {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(226, 168, 75, 0.07), transparent 24%),
+    linear-gradient(180deg, rgba(7, 16, 18, 0.95) 0%, rgba(5, 8, 10, 0.94) 58%, rgba(2, 4, 5, 0.96) 100%) !important;
+}
+
+body[data-active-view="alerts"] main {
+  background: rgba(5, 8, 10, 0.92) !important;
+}
+
+@media (max-width: 760px) {
+  .pickaxe-starlight-field {
+    opacity: 0.54;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pickaxe-starlight-field {
+    opacity: 0.5;
+  }
+}

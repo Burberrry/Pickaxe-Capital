@@ -1,5 +1,22 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Phase 7 Pickaxe Starlight Field
+
+- Date: 2026-06-12.
+- Added one global decorative canvas behind the static app shell with sparse ivory, muted silver, antique-gold, and champagne-gold star points.
+- Desktop uses a bounded 90-150 star field; exact 390px QA rendered 46 stars and retained the one-card Founder carousel layout.
+- Added slow low-amplitude twinkle, a rare 12-30 second shooting-star schedule, capped pixel density, and a roughly 30 FPS animation cadence.
+- The canvas is `aria-hidden`, fixed behind the shell, non-interactive, and uses `pointer-events: none`.
+- Animation pauses when the document is hidden. Reduced-motion mode renders one static low-opacity frame with no twinkle loop or shooting star.
+- Requested desktop routes, Founder controls, canvas singleton behavior, console state, readability, and horizontal overflow passed local browser QA.
+- No route logic, product logic, dependency, provider, live-data, broker, execution, copy-trading, scraping, autonomous-agent, or financial-safety behavior changed.
+
+### Phase 7 Limitations
+
+- The star field is decorative and intentionally subtle; opaque route cards continue to prioritize text readability.
+- Shooting-star timing is randomized and is not exposed as fake telemetry or a user-facing status.
+- Live GitHub Pages verification remains pending commit and push.
+
 ## Current Checkpoint - Phase 6 Proof of Work Carousel
 
 - Date: 2026-06-12.

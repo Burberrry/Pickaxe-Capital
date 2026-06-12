@@ -2,15 +2,14 @@
 
 ## Current Active Checkpoint
 
-Phase 6 Public Credibility Section - Pickaxe Proof of Work Carousel is committed, deployed, and live verified.
+Phase 7 Pickaxe Starlight Field is locally implemented and browser verified.
 
-- `/founder` and `#/founder` now include six verified internal proof cards.
-- The carousel shows two cards on desktop and one at 390px, with accessible previous/next controls and live slide count.
-- Copy clearly separates internal milestones from customer endorsements and performance claims.
-- Product commit `577fcc4` and direct-route repair commit `0a490cb` are on `main`.
-- README and Pages workflows passed; requested Founder and regression routes passed live browser QA without console errors or horizontal overflow.
+- One dependency-free canvas sits behind the global app shell.
+- Desktop and mobile star counts stay bounded, with slow subtle twinkle and a rare shooting star.
+- Hidden tabs pause animation; reduced-motion mode renders a static low-opacity field.
+- Founder controls and requested route regressions remain functional without console errors or horizontal overflow.
 
-Highest-leverage next scope: Phase 6.2 Founder Page Visual QA Polish only if CEO B identifies a live spacing/readability issue. Otherwise plan Watchlists or Risk Desk after CEO B approval.
+Highest-leverage next scope: commit, deploy, and live-verify Phase 7. After live lock, adjust only opacity/density if CEO B identifies a real readability issue.
 
 ## Working Now
 
@@ -19,6 +18,7 @@ Highest-leverage next scope: Phase 6.2 Founder Page Visual QA Polish only if CEO
 - Phase 5 pre-deploy validation and public-only Pages deployment are active.
 - Phase 5.3 keeps the bounded README auto-update marker contract active.
 - Phase 6 adds a verified-internal-milestone Proof of Work carousel to the public Founder page.
+- Phase 7 adds a global decorative Pickaxe Starlight Field with reduced-motion and hidden-tab safeguards.
 
 ## Current State
 
@@ -30,7 +30,7 @@ Highest-leverage next scope: Phase 6.2 Founder Page Visual QA Polish only if CEO
 
 ## Next Session Priority
 
-- Keep Phase 6 locked. Perform only a bounded Founder spacing/readability pass if live review identifies a real issue; otherwise wait for CEO B approval before Watchlists or Risk Desk planning.
+- Commit, push, and live-verify Phase 7. Do not begin another visual or product sprint in the same lock cycle.
 
 ## Previous Active Checkpoint
 

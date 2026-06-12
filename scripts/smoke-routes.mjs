@@ -94,6 +94,12 @@ function verifyStaticBoundaries() {
   if (!indexText.includes("utility-compat.css")) {
     failures.push("public/index.html does not link utility-compat.css");
   }
+  if (!indexText.includes('id="pickaxe-starlight-field"')) {
+    failures.push("public/index.html does not include the Pickaxe Starlight Field canvas");
+  }
+  if (!appText.includes("function initPickaxeStarlightField()")) {
+    failures.push("public/app.js does not initialize the Pickaxe Starlight Field");
+  }
   if (!founderBridgeText.includes("#/founder") || !founderBridgeText.includes("window.location.replace")) {
     failures.push("public/founder/index.html does not preserve the GitHub Pages Founder route bridge");
   }
