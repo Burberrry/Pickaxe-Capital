@@ -174,10 +174,10 @@ function initPickaxeStarlightField() {
   canvas.dataset.initialized = "true";
   const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const colors = [
-    [244, 239, 226],
-    [196, 200, 204],
+    [250, 248, 240],
+    [210, 226, 246],
     [212, 175, 55],
-    [177, 164, 137],
+    [235, 221, 184],
   ];
   let width = 0;
   let height = 0;
@@ -202,9 +202,9 @@ function initPickaxeStarlightField() {
       return {
         x: Math.random() * width,
         y: Math.random() * height,
-        radius: 0.45 + Math.random() * 1.05,
-        alpha: 0.12 + Math.random() * 0.3,
-        shimmer: 0.025 + Math.random() * 0.09,
+        radius: 0.7 + Math.random() * 1.25,
+        alpha: 0.32 + Math.random() * 0.38,
+        shimmer: 0.035 + Math.random() * 0.1,
         speed: 0.00016 + Math.random() * 0.00028,
         phase: Math.random() * Math.PI * 2,
         color,
@@ -235,7 +235,7 @@ function initPickaxeStarlightField() {
     context.clearRect(0, 0, width, height);
     stars.forEach((star) => {
       const twinkle = staticOnly ? 0 : Math.sin(timestamp * star.speed + star.phase) * star.shimmer;
-      const alpha = Math.max(0.06, Math.min(0.48, star.alpha + twinkle));
+      const alpha = Math.max(0.24, Math.min(0.78, star.alpha + twinkle));
       context.beginPath();
       context.fillStyle = `rgba(${star.color[0]}, ${star.color[1]}, ${star.color[2]}, ${alpha})`;
       context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);

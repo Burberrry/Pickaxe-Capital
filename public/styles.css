@@ -21070,7 +21070,7 @@ button.phase3-department-card.is-selected {
   z-index: 0;
   width: 100vw;
   height: 100vh;
-  opacity: 0.68;
+  opacity: 0.88;
   pointer-events: none;
   contain: strict;
 }
@@ -21083,26 +21083,60 @@ body {
 .shell {
   position: relative;
   z-index: 1;
+  background: transparent !important;
 }
 
 body[data-active-view="alerts"] .shell {
-  background:
-    radial-gradient(circle at 18% 18%, rgba(226, 168, 75, 0.07), transparent 24%),
-    linear-gradient(180deg, rgba(7, 16, 18, 0.95) 0%, rgba(5, 8, 10, 0.94) 58%, rgba(2, 4, 5, 0.96) 100%) !important;
+  background: transparent !important;
 }
 
-body[data-active-view="alerts"] main {
-  background: rgba(5, 8, 10, 0.92) !important;
+body[data-active-view] main {
+  background: transparent !important;
+}
+
+.view.active {
+  background: rgba(7, 9, 13, 0.5) !important;
+}
+
+.view.active .page-shell {
+  background: transparent !important;
+}
+
+body[data-active-view="alerts"] #alerts.active {
+  background: transparent !important;
+}
+
+body[data-active-view="alerts"] #alerts.active .pcad-shell {
+  background:
+    linear-gradient(rgba(226, 168, 75, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(226, 168, 75, 0.025) 1px, transparent 1px),
+    radial-gradient(circle at 72% 18%, rgba(116, 209, 92, 0.08), transparent 24%),
+    rgba(3, 6, 8, 0.7) !important;
+}
+
+#alerts.active .phase9-alerts-product-shell {
+  background:
+    linear-gradient(145deg, rgba(215, 180, 90, 0.08), transparent 42%),
+    rgba(9, 11, 14, 0.72) !important;
+}
+
+body[data-active-view="trendRadar"] main,
+body[data-active-view="trendRadar"] #trendRadar.active {
+  background: transparent !important;
+}
+
+body[data-active-view="trendRadar"] #trendRadar.active .page-shell {
+  background: rgba(7, 9, 13, 0.58) !important;
 }
 
 @media (max-width: 760px) {
   .pickaxe-starlight-field {
-    opacity: 0.54;
+    opacity: 0.78;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .pickaxe-starlight-field {
-    opacity: 0.5;
+    opacity: 0.82;
   }
 }
