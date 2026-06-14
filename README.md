@@ -138,7 +138,8 @@ Options Alerts organizes research candidates and supporting evidence for human r
 ### Next Priority
 
 - Keep Phase 7 and Phase 8 locked.
-- Define and approve one bounded Phase 9 scope in documentation before implementation.
+- Implement Phase 9A only after an explicit CEO B implementation prompt.
+- Keep Phase 9B, Phase 9C, Signal Engine Hardening, Options Hub, providers, payments, and execution deferred.
 
 ### Non-Negotiable Build Rules
 
