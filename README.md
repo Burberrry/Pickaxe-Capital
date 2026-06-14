@@ -138,7 +138,7 @@ Options Alerts organizes research candidates and supporting evidence for human r
 ### Next Priority
 
 - Keep Phase 7, Phase 8, and the validated Phase 9A runtime stable.
-- Lock-QA Phase 9A locally and review the hosted deployment only after CEO B authorizes a push.
+- Repair only the hosted `/app/alerts` direct-path compatibility gap after explicit CEO B authorization, then re-run hosted desktop/mobile lock QA.
 - Keep Phase 9B, Phase 9C, Signal Engine Hardening, Options Hub, providers, payments, and execution deferred.
 
 ### Non-Negotiable Build Rules
