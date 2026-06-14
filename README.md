@@ -114,7 +114,7 @@ Options Alerts organizes research candidates and supporting evidence for human r
 
 ### Last README Game Plan Update
 
-- Generated: 2026-06-12
+- Generated: 2026-06-14
 - Sources: `AGENTS.md`, `PROJECT_STATUS.md`, `NEXT_STEPS.md`
 
 ### Working Now
@@ -137,7 +137,8 @@ Options Alerts organizes research candidates and supporting evidence for human r
 
 ### Next Priority
 
-- Publish and live-check Phase 8, then keep both Phase 7 and Phase 8 locked.
+- Keep Phase 7 and Phase 8 locked.
+- Define and approve one bounded Phase 9 scope in documentation before implementation.
 
 ### Non-Negotiable Build Rules
 
