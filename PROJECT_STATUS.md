@@ -1,6 +1,41 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Phase 9 Scope Definition
+## Current Checkpoint - Phase 9A Alerts Product Shell
+
+- Date: 2026-06-14.
+- Starting checkpoint: clean `main` synchronized with `origin/main` at `5d9fd4e` (`Define Phase 9 scope recommendation`).
+- Phase 9A is implemented locally on the existing `/` and `#/alerts` renderer. `/app/alerts` remains a compatibility path to the same Alerts Desk.
+- Added one static Alerts product-shell layer with conceptual `Free Preview`, `Pro Preview`, and `Elite Preview` states. These states explain presentation depth only and provide no account, payment, pricing, subscription, entitlement, delivery, or real-alert behavior.
+- Added one research-only acknowledgment gate and one accessible selected-packet detail drawer that reuses the existing Research Packet v2 selection, source/risk gates, CEO B actions, Archive/Learning handoffs, and LocalStorage contracts.
+- The drawer displays source status, hard-risk state, options context, missing evidence, review state, and CEO B next action. Missing/demo values remain labeled `Manual Entry Required`, `Demo / Static Data`, or `No Live Provider Connected`.
+- Escape closes the drawer, focus returns to the opening control, keyboard focus remains visible, and Phase 9A motion is disabled under `prefers-reduced-motion`.
+- A confirmed `/app/alerts` compatibility regression was fixed in mirrored `index.html` files by setting a deployment-aware base path for existing `/app/*` routes before relative assets load.
+- No new route, renderer, packet schema, review queue, LocalStorage key, provider, dependency, server behavior, or `data/signal-alerts.json` change was introduced.
+
+### Phase 9A Validation
+
+- Automated validation passed: build, project check, Phase 1.5 check, agent check, mirror check, JavaScript syntax, route smoke, and `git diff --check`.
+- Browser QA passed at `1280x720` and `390x844` for `/`, `#/alerts`, `/app/alerts`, `#/dashboard`, `#/agents`, `#/ai-habitat-os`, `#/founder`, `#/source-hub`, `#/archive`, `#/learning-ledger`, `#/research`, `#/signals`, and `#/staging`.
+- `/ai-handoff` returned the generated local plain-text handoff.
+- Phase 9A preview labels, acknowledgment gate, drawer content, open/close behavior, Escape behavior, focus return, selected-packet synchronization, hard-risk precedence, Starlight interaction boundary, console, and document overflow checks passed.
+- The locked Phase 8 Intelligence Orbit, Visual Intelligence cards, Sources rail, Pickaxe Steward guide, Agent Habitat, AI Habitat OS, Founder carousel, and mobile board behavior remain intact.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Hosted deployment was not exercised because this sprint ends after the local commit and does not push.
+
+### Product Boundaries
+
+- Static/browser-local and research-only.
+- CEO B manual review remains mandatory.
+- Hard source and risk blocks cannot be bypassed by preview selection.
+- No live providers, scraping, broker execution, auth, accounts, payments, private frontend keys, delivery channels, background jobs, or autonomous publishing were added.
+- Confidence and conviction continue to measure packet completeness or research quality, not expected return.
+
+### Next Recommended Bounded Phase
+
+- Run a Phase 9A lock QA and hosted review after CEO B chooses to push this commit.
+- Keep Phase 9B Lesson Engine, Phase 9C Bookmark Miner scaffold, Signal Engine Hardening, and Options Hub deferred until Phase 9A is locked.
+
+## Planning Record - Phase 9 Scope Definition
 
 - Date: 2026-06-14.
 - Sprint type: documentation and prioritization only. No runtime or product behavior changes are authorized by this checkpoint.
@@ -102,8 +137,7 @@
 
 ### Authorization Boundary
 
-- This checkpoint recommends Phase 9A but does not authorize implementation.
-- The next implementation sprint requires an explicit CEO B prompt naming Phase 9A and preserving every non-scope and stop condition above.
+- This planning checkpoint recommended Phase 9A. CEO B subsequently authorized the bounded implementation sprint recorded above.
 
 ## Current Checkpoint - Phase 8 Lock QA
 

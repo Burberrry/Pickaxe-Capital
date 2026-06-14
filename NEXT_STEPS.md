@@ -2,20 +2,18 @@
 
 ## Current Active Checkpoint
 
-Phase 9 scope definition is complete. No Phase 9 runtime work has started.
+Phase 9A - Alerts Product Shell / CEO B Review Simulator is implemented locally and fully validated.
 
-- Recommended next bounded implementation: **Phase 9A - Alerts Product Shell / CEO B Review Simulator**.
-- Owner route remains `/` and `#/alerts`; `/app/alerts` remains a compatibility path to the same experience.
-- Phase 9A should add only conceptual `Free Preview`, `Pro Preview`, and `Elite Preview` states plus one accessible selected-packet detail drawer around the existing Research Packet v2 and CEO B review workflow.
-- Preview states are not pricing, accounts, subscriptions, paywalls, entitlements, real alerts, or delivery services.
-- Reuse current packet data, source/risk gates, CEO B actions, Archive/Learning handoffs, and LocalStorage contracts. Do not create a second packet engine, review queue, route, or storage key.
-- Preserve the locked Phase 7 Starlight Field and Phase 8 Intelligence Orbit, Visual Intelligence cards, Agent Habitat, AI Habitat OS, and Founder carousel.
-- Keep visible: Research Only, Manual Review Required, Not Financial Advice, No Broker Execution, Demo / Static Data, No Live Provider Connected, CEO B Review Required, options risk language, and confidence-as-completeness language.
-- Explicitly deferred: Phase 9B Lesson Engine, Phase 9C Bookmark Miner scaffold, Signal Engine Hardening, Options Hub, live data/providers, scraping, broker execution, autonomous publishing, auth, Stripe, payments, accounts, and private keys.
+- `/`, `#/alerts`, and `/app/alerts` now resolve to one canonical Alerts Desk with a static product-shell explanation.
+- Conceptual `Free Preview`, `Pro Preview`, and `Elite Preview` states are visible and explicitly provide no account, payment, pricing, entitlement, delivery, or real-alert behavior.
+- One research-only acknowledgment gate controls access to one accessible selected-packet detail drawer.
+- The drawer reuses Research Packet v2 data and existing browser-local CEO B actions. It shows source, risk, options context, missing evidence, review state, and CEO B next action.
+- Escape close, visible focus, opener focus return, reduced-motion safeguards, desktop/mobile layout, console, overflow, mirrors, build, project, Phase 1.5, agent, and route-smoke checks passed.
+- A proven direct-path asset-resolution bug on `/app/alerts` was fixed without changing `server.mjs`.
+- Phase 7 and Phase 8 remain locked and intact.
+- No new route, duplicate renderer, packet schema, review queue, LocalStorage key, live provider, scraping, broker execution, auth, payment, private key, delivery channel, or autonomous publishing was added.
 
-Why first: Alerts is already the strongest customer-facing route and owns the existing source-verified, risk-gated, CEO B-reviewed packet workflow. Phase 9A clarifies the product without route sprawl or backend claims. Lesson, bookmark, and signal work can follow after this shell defines what reviewed output the product actually presents.
-
-Implementation remains blocked until CEO B explicitly authorizes a separate Phase 9A build sprint using the acceptance criteria, QA checklist, and stop conditions recorded in `PROJECT_STATUS.md`.
+Next bounded step: commit Phase 9A locally, then perform a separate Phase 9A lock QA and hosted review only after CEO B authorizes a push.
 
 ## Locked Product Baseline
 
@@ -29,7 +27,7 @@ Phase 8A + 8B Intelligence Orbit and Agent Visual System is implemented, pushed,
 - Phase 7 remains locked with one unchanged canvas and no duplicate starfield.
 - No live API, provider, scraping, autonomous execution, broker connection, fake live data, or paid dependency was added.
 
-Highest-leverage next scope: CEO B explicitly authorizes the bounded Phase 9A implementation contract. Do not begin Options Hub, another visual sprint, or a provider integration.
+Highest-leverage next scope: Phase 9A lock QA and hosted review after CEO B authorizes a push. Do not begin Options Hub, another visual sprint, or a provider integration.
 
 ## Working Now
 
@@ -51,8 +49,8 @@ Highest-leverage next scope: CEO B explicitly authorizes the bounded Phase 9A im
 
 ## Next Session Priority
 
-- Keep Phase 7 and Phase 8 locked.
-- Implement Phase 9A only after an explicit CEO B implementation prompt.
+- Keep Phase 7, Phase 8, and the validated Phase 9A runtime stable.
+- Lock-QA Phase 9A locally and review the hosted deployment only after CEO B authorizes a push.
 - Keep Phase 9B, Phase 9C, Signal Engine Hardening, Options Hub, providers, payments, and execution deferred.
 
 ## Previous Active Checkpoint

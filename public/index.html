@@ -4,10 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pickaxe Capital</title>
+    <script>
+      (() => {
+        const appRouteIndex = window.location.pathname.indexOf("/app/");
+        if (appRouteIndex === -1) return;
+        const base = document.createElement("base");
+        base.href = window.location.pathname.slice(0, appRouteIndex + 1);
+        document.head.appendChild(base);
+      })();
+    </script>
     <link rel="icon" type="image/png" href="brand/favicon-floating.png?v=20260531-logo3" />
     <link rel="shortcut icon" type="image/png" href="brand/favicon-floating.png?v=20260531-logo3" />
     <link rel="apple-touch-icon" href="brand/pickaxe-capital-logo.png?v=20260531-logo3" />
-    <link rel="stylesheet" href="styles.css?v=phase8-intelligence-orbit-20260612" />
+    <link rel="stylesheet" href="styles.css?v=phase9a-alerts-product-shell-20260614" />
     <link rel="stylesheet" href="utility-compat.css?v=phase4-build-hardening-20260612" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -821,7 +830,7 @@
       </main>
     </div>
 
-    <script src="habitat-data.js?v=phase8-intelligence-orbit-20260612"></script>
-    <script src="app.js?v=phase8-intelligence-orbit-20260612"></script>
+    <script src="habitat-data.js?v=phase9a-alerts-product-shell-20260614"></script>
+    <script src="app.js?v=phase9a-alerts-product-shell-20260614"></script>
   </body>
 </html>

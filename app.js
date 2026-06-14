@@ -36,6 +36,9 @@ const state = {
   selectedOrbitId: "spy",
   orbitPaused: false,
   selectedRoboticsId: "robot-options-flow",
+  phase9PreviewMode: "free",
+  phase9ResearchAcknowledged: false,
+  phase9DrawerOpen: false,
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
@@ -52,6 +55,7 @@ const researchPacketV2Config = (sharedHabitatData.researchPacketV2 && typeof sha
 const RESEARCH_PACKETS_KEY = researchPacketV2Config.storageKey || "pickaxeResearchPackets";
 const PICKAXE_ORBIT_STATE_KEY = "pickaxeIntelligenceOrbit";
 var pickaxeOrbitRotationTimer = 0;
+var phase9DrawerOpenerId = "";
 const RESEARCH_APPROVAL_LABEL = "Approved for Research — Not a Trade Command";
 const RESEARCH_CARD_DISCLAIMER =
   "Research only. Not financial advice. No broker execution. Options involve substantial risk. User judgment required.";
@@ -8656,6 +8660,181 @@ function renderAlertsIntelligenceRail() {
   `;
 }
 
+function phase9PreviewValue(value, fallback = "Manual Entry Required") {
+  const text = String(value ?? "").trim();
+  return !text || /^(n\/a|na|none|unknown|pending)$/i.test(text) ? fallback : text;
+}
+
+function renderPhase9AlertsProductShell(packet) {
+  const previewModes = [
+    {
+      id: "free",
+      label: "Free Preview",
+      summary: "Research candidate identity, safety boundary, and CEO B review requirement.",
+      detail: "Presentation concept only. No account, payment, entitlement, delivery, or real alert.",
+    },
+    {
+      id: "pro",
+      label: "Pro Preview",
+      summary: "Expanded source trail, options context, missing evidence, and risk-gate explanation.",
+      detail: "Demo / Static Data. No live provider connected and no subscription behavior.",
+    },
+    {
+      id: "elite",
+      label: "Elite Preview",
+      summary: "Full manual CEO B review simulator with Archive and Learning handoff context.",
+      detail: "Research workflow preview only. Nothing publishes, transmits, or executes.",
+    },
+  ];
+  const selectedMode = previewModes.find((mode) => mode.id === state.phase9PreviewMode) || previewModes[0];
+  return `
+    <section class="phase9-alerts-product-shell" aria-labelledby="phase9AlertsProductTitle">
+      <header>
+        <div>
+          <span class="meta-label">Phase 9A / Static Product Shell</span>
+          <h3 id="phase9AlertsProductTitle">Alerts Product Experience Preview</h3>
+          <p>This shell demonstrates how one selected Research Packet v2 record moves through source review, risk controls, CEO B judgment, and research-only memory handoffs.</p>
+        </div>
+        <aside>
+          <span>Selected concept</span>
+          <strong>${escapeHtml(selectedMode.label)}</strong>
+          <small>Selection changes explanation only. It does not change access or unlock product behavior.</small>
+        </aside>
+      </header>
+
+      <div class="phase9-preview-grid" aria-label="Conceptual Alerts product preview states">
+        ${previewModes.map((mode) => `
+          <button
+            type="button"
+            class="phase9-preview-card ${mode.id === selectedMode.id ? "is-selected" : ""}"
+            aria-pressed="${mode.id === selectedMode.id ? "true" : "false"}"
+            onclick="window.selectPhase9PreviewMode('${mode.id}')"
+          >
+            <span>${escapeHtml(mode.label)}</span>
+            <strong>${escapeHtml(mode.summary)}</strong>
+            <small>${escapeHtml(mode.detail)}</small>
+          </button>
+        `).join("")}
+      </div>
+
+      <div class="phase9-preview-truth">
+        <strong>Preview Concept - No Account, Payment, or Entitlement</strong>
+        <span>Research Only</span>
+        <span>Demo / Static Data</span>
+        <span>No Live Provider Connected</span>
+        <span>No Broker Execution</span>
+      </div>
+
+      <div class="phase9-research-acknowledgment ${state.phase9ResearchAcknowledged ? "is-acknowledged" : ""}">
+        <div>
+          <span>Research-only acknowledgment</span>
+          <strong>${state.phase9ResearchAcknowledged ? "Boundary acknowledged for this page session" : "Acknowledge the boundary before opening expanded preview detail"}</strong>
+          <p>Not Financial Advice. Options involve substantial risk. Confidence measures packet completeness or research quality, not expected return. CEO B Review Required.</p>
+        </div>
+        <button type="button" onclick="window.acknowledgePhase9ResearchBoundary()" ${state.phase9ResearchAcknowledged ? "disabled" : ""}>
+          ${state.phase9ResearchAcknowledged ? "Acknowledged" : "Acknowledge Research Boundary"}
+        </button>
+      </div>
+
+      <footer>
+        <span>Current packet: ${escapeHtml(packet.symbol)} / ${escapeHtml(packet.companyName)}</span>
+        <span>Manual Review Required</span>
+        <span>No alert is published or delivered from this simulator.</span>
+      </footer>
+    </section>
+  `;
+}
+
+function renderPhase9AlertDrawer(packet, panelModel) {
+  if (!state.phase9DrawerOpen || !packet) return "";
+  const sourceState = phase9PreviewValue(panelModel.source.verification, "No Live Provider Connected");
+  const sourcePrimary = phase9PreviewValue(panelModel.source.primary, "No Live Provider Connected");
+  const optionFlow = phase9PreviewValue(packet.optionsFlowSummary, "Manual Entry Required");
+  const premium = phase9PreviewValue(packet.premiumContext, "Manual Entry Required");
+  const bid = phase9PreviewValue(panelModel.contract.bid, "Manual Entry Required");
+  const ask = phase9PreviewValue(panelModel.contract.ask, "Manual Entry Required");
+  const missingEvidence = panelModel.source.missing.length
+    ? panelModel.source.missing
+    : ["No missing evidence recorded in this Demo / Static Data packet."];
+  return `
+    <div class="phase9-drawer-layer">
+      <button class="phase9-drawer-backdrop" type="button" aria-label="Close alert preview detail" onclick="window.closePhase9AlertDrawer()"></button>
+      <aside
+        id="phase9AlertDrawer"
+        class="phase9-alert-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="phase9DrawerTitle"
+        aria-describedby="phase9DrawerBoundary"
+        tabindex="-1"
+      >
+        <header>
+          <div>
+            <span class="meta-label">Phase 9A / Selected Research Packet v2</span>
+            <h3 id="phase9DrawerTitle">${escapeHtml(packet.symbol)} / ${escapeHtml(packet.companyName)}</h3>
+            <p>${escapeHtml(packet.thesis || packet.technicalSummary || "Research thesis requires manual review.")}</p>
+          </div>
+          <button id="phase9DrawerClose" type="button" aria-label="Close selected alert preview detail" onclick="window.closePhase9AlertDrawer()">Close</button>
+        </header>
+
+        <div class="phase9-drawer-status">
+          <span>${escapeHtml(state.phase9PreviewMode.toUpperCase())} Preview Concept</span>
+          <strong>${escapeHtml(panelModel.outputState)}</strong>
+          <em>${escapeHtml(packet.totalScore)} / 100 completeness</em>
+        </div>
+
+        <section class="phase9-drawer-grid">
+          <article>
+            <span>Source</span>
+            <strong>${escapeHtml(sourceState)}</strong>
+            <p>${escapeHtml(sourcePrimary)} · ${escapeHtml(panelModel.source.count)} evidence items · ${escapeHtml(phase9PreviewValue(panelModel.source.freshness, "Demo / Static Data"))}</p>
+          </article>
+          <article>
+            <span>Risk</span>
+            <strong>${panelModel.blockingCount ? `${panelModel.blockingCount} hard blocks` : "Risk gate clear for research review"}</strong>
+            <p>${escapeHtml(phase9PreviewValue(packet.riskMemo, "Manual risk review required."))}</p>
+          </article>
+          <article>
+            <span>Options Context</span>
+            <strong>${escapeHtml(phase9PreviewValue(panelModel.contract.strike))} · ${escapeHtml(phase9PreviewValue(panelModel.contract.expiration))}</strong>
+            <p>Bid ${escapeHtml(bid)} / Ask ${escapeHtml(ask)} · Premium ${escapeHtml(premium)} · ${escapeHtml(optionFlow)}</p>
+          </article>
+          <article>
+            <span>Review State</span>
+            <strong>${escapeHtml(panelModel.reviewStatus)}</strong>
+            <p>Hard risk blocks outrank confidence scores. Preview mode cannot bypass source, risk, or CEO B review.</p>
+          </article>
+        </section>
+
+        <section class="phase9-drawer-evidence">
+          <div>
+            <span>Missing Evidence</span>
+            ${renderPacketList(missingEvidence, "No missing evidence recorded.")}
+          </div>
+          <div>
+            <span>CEO B Next Action</span>
+            <strong>${escapeHtml(phase9PreviewValue(packet.ceoBNextAction, "Manual CEO B review required."))}</strong>
+            <p>CEO B may return for evidence, approve for research, move to Watchlists, archive, reject, or mark a lesson. No action publishes a real alert.</p>
+          </div>
+        </section>
+
+        <div class="phase9-drawer-actions" aria-label="Browser-local CEO B research actions">
+          <button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', 'Needs More Evidence')">Return for Evidence</button>
+          <button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', 'Approve for Research')">Approve for Research</button>
+          <button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', 'Watch')">Watchlist Review</button>
+          <button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', 'Archive')">Archive</button>
+          <button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', 'Reject')">Reject</button>
+          <button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', 'Mark Lesson')">Mark Lesson</button>
+        </div>
+
+        <p id="phase9DrawerBoundary" class="phase9-drawer-boundary">
+          Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · Demo / Static Data · No Live Provider Connected · CEO B Review Required · Options involve substantial risk · Preview Concept - No Account, Payment, or Entitlement · Confidence measures packet completeness or research quality, not expected return.
+        </p>
+      </aside>
+    </div>
+  `;
+}
+
 function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
   const activePackets = packets.filter((packet) => packet.routeDecision !== "SUPPRESSED_NOISE");
   const suppressedPackets = packets.filter((packet) => packet.routeDecision === "SUPPRESSED_NOISE");
@@ -8704,6 +8883,14 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       <div><span>Source</span><strong>${escapeHtml(panel.source.verification)}</strong><small>${escapeHtml(panel.source.count)} evidence items</small></div>
       <div><span>Risk Gate</span><strong>${panel.blockingCount ? `${panel.blockingCount} blocks` : "Clear"}</strong><small>${escapeHtml(item.riskLevel)}</small></div>
       <div><span>CEO B</span><strong>${escapeHtml(panel.reviewStatus)}</strong><small>${escapeHtml(item.finalDecision)}</small></div>
+      <button
+        id="phase9-open-${escapeHtml(item.id)}"
+        class="phase9-open-detail"
+        type="button"
+        aria-label="Open ${escapeHtml(item.symbol)} selected research packet preview detail"
+        onclick="event.stopPropagation(); window.openPhase9AlertDrawer('${escapeHtml(item.id)}', this.id)"
+        ${state.phase9ResearchAcknowledged ? "" : "disabled"}
+      >${state.phase9ResearchAcknowledged ? "Open Preview Detail" : "Acknowledge Boundary First"}</button>
       <p>${escapeHtml(RESEARCH_CARD_DISCLAIMER)}</p>
     </article>
   `).join("") || `<p class="research-empty-state">No research alerts approved. Signals remain in review until the quality gate is complete.</p>`;
@@ -8736,6 +8923,8 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
           <div class="phase2-pipeline-line">Raw Data → Source Verification → Agent Collection → Risk Gate → CEO B Review → Research Alert</div>
         </div>
       </header>
+
+      ${renderPhase9AlertsProductShell(packet)}
 
       <section class="alerts-desk-intro">
         <div>
@@ -9004,6 +9193,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
           `).join("") || `<p>No suppressed packets in local memory.</p>`}
         </div>
       </details>
+      ${renderPhase9AlertDrawer(packet, panelModel)}
     </div>
   `;
 }
@@ -9021,12 +9211,59 @@ function renderAlertsPage() {
   const lastUpdated = new Date().toLocaleTimeString();
   els.alertsContent.innerHTML = renderResearchGatedAlertsDesk(packets, selectedAlert, lastUpdated);
   initializePickaxeOrbit();
+  if (state.phase9DrawerOpen) {
+    window.setTimeout(() => document.querySelector("#phase9AlertDrawer")?.focus(), 0);
+  }
 }
 
 window.selectResearchPacketV2 = (id) => {
   state.selectedAlertId = id;
+  state.phase9DrawerOpen = false;
   renderAlertsPage();
 };
+
+window.selectPhase9PreviewMode = (mode) => {
+  if (!["free", "pro", "elite"].includes(mode)) return;
+  state.phase9PreviewMode = mode;
+  renderAlertsPage();
+  window.setTimeout(() => document.querySelector(`.phase9-preview-card[aria-pressed="true"]`)?.focus(), 0);
+};
+
+window.acknowledgePhase9ResearchBoundary = () => {
+  state.phase9ResearchAcknowledged = true;
+  renderAlertsPage();
+  window.setTimeout(() => document.querySelector(".phase9-open-detail:not([disabled])")?.focus(), 0);
+};
+
+window.openPhase9AlertDrawer = (packetId, openerId = "") => {
+  if (!state.phase9ResearchAcknowledged) {
+    showNotification("Acknowledge the research-only boundary before opening expanded preview detail.", "warning");
+    return;
+  }
+  if (!getUnifiedResearchPacketsForAlerts().some((packet) => packet.id === packetId)) return;
+  state.selectedAlertId = packetId;
+  state.phase9DrawerOpen = true;
+  phase9DrawerOpenerId = openerId;
+  renderAlertsPage();
+};
+
+window.closePhase9AlertDrawer = () => {
+  if (!state.phase9DrawerOpen) return;
+  const openerId = phase9DrawerOpenerId;
+  state.phase9DrawerOpen = false;
+  renderAlertsPage();
+  window.setTimeout(() => {
+    const opener = openerId ? document.getElementById(openerId) : null;
+    (opener || document.querySelector(".phase9-open-detail:not([disabled])"))?.focus();
+  }, 0);
+};
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && state.phase9DrawerOpen) {
+    event.preventDefault();
+    window.closePhase9AlertDrawer();
+  }
+});
 
 function saveResearchPacketLesson(packet, outcomeType = "", outcomeNotes = "") {
   const ledger = getLearningLedgerState();
@@ -9062,6 +9299,11 @@ window.applyResearchPacketAction = (packetId, action) => {
     patch.reviewState = "CEO B Reviewed";
     patch.ceoBStatus = "Reviewed by CEO B";
     patch.ceoBNextAction = "Record a manual decision or outcome";
+  } else if (action === "Needs More Evidence") {
+    patch.reviewState = "Needs More Evidence";
+    patch.ceoBStatus = "CEO B Review Required";
+    patch.finalDecision = "Needs More Evidence";
+    patch.ceoBNextAction = "Return to source and risk review before any research approval";
   } else if (action === "Approve for Research") {
     patch.ceoBStatus = "Reviewed by CEO B";
     const normalized = normalizeResearchPacketDraft(patch);
