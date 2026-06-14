@@ -2,6 +2,23 @@
 
 ## Current Active Checkpoint
 
+Phase 9 scope definition is complete. No Phase 9 runtime work has started.
+
+- Recommended next bounded implementation: **Phase 9A - Alerts Product Shell / CEO B Review Simulator**.
+- Owner route remains `/` and `#/alerts`; `/app/alerts` remains a compatibility path to the same experience.
+- Phase 9A should add only conceptual `Free Preview`, `Pro Preview`, and `Elite Preview` states plus one accessible selected-packet detail drawer around the existing Research Packet v2 and CEO B review workflow.
+- Preview states are not pricing, accounts, subscriptions, paywalls, entitlements, real alerts, or delivery services.
+- Reuse current packet data, source/risk gates, CEO B actions, Archive/Learning handoffs, and LocalStorage contracts. Do not create a second packet engine, review queue, route, or storage key.
+- Preserve the locked Phase 7 Starlight Field and Phase 8 Intelligence Orbit, Visual Intelligence cards, Agent Habitat, AI Habitat OS, and Founder carousel.
+- Keep visible: Research Only, Manual Review Required, Not Financial Advice, No Broker Execution, Demo / Static Data, No Live Provider Connected, CEO B Review Required, options risk language, and confidence-as-completeness language.
+- Explicitly deferred: Phase 9B Lesson Engine, Phase 9C Bookmark Miner scaffold, Signal Engine Hardening, Options Hub, live data/providers, scraping, broker execution, autonomous publishing, auth, Stripe, payments, accounts, and private keys.
+
+Why first: Alerts is already the strongest customer-facing route and owns the existing source-verified, risk-gated, CEO B-reviewed packet workflow. Phase 9A clarifies the product without route sprawl or backend claims. Lesson, bookmark, and signal work can follow after this shell defines what reviewed output the product actually presents.
+
+Implementation remains blocked until CEO B explicitly authorizes a separate Phase 9A build sprint using the acceptance criteria, QA checklist, and stop conditions recorded in `PROJECT_STATUS.md`.
+
+## Locked Product Baseline
+
 Phase 8A + 8B Intelligence Orbit and Agent Visual System is implemented, pushed, and lock-QA verified at commit `29e5f4f`.
 
 - `/` and `#/alerts` now include the 16-node static/local Pickaxe Intelligence Orbit, synchronized board and inspector, local CEO B review queue action, three Visual Intelligence cards, premium sources rail, and Pickaxe Steward guide.
@@ -12,7 +29,7 @@ Phase 8A + 8B Intelligence Orbit and Agent Visual System is implemented, pushed,
 - Phase 7 remains locked with one unchanged canvas and no duplicate starfield.
 - No live API, provider, scraping, autonomous execution, broker connection, fake live data, or paid dependency was added.
 
-Highest-leverage next scope: CEO B approves a bounded Phase 9 documentation and prioritization sprint before any new product implementation. Do not begin Options Hub, another visual sprint, or a provider integration without CEO B approval.
+Highest-leverage next scope: CEO B explicitly authorizes the bounded Phase 9A implementation contract. Do not begin Options Hub, another visual sprint, or a provider integration.
 
 ## Working Now
 
@@ -35,7 +52,8 @@ Highest-leverage next scope: CEO B approves a bounded Phase 9 documentation and 
 ## Next Session Priority
 
 - Keep Phase 7 and Phase 8 locked.
-- Define and approve one bounded Phase 9 scope in documentation before implementation.
+- Implement Phase 9A only after an explicit CEO B implementation prompt.
+- Keep Phase 9B, Phase 9C, Signal Engine Hardening, Options Hub, providers, payments, and execution deferred.
 
 ## Previous Active Checkpoint
 

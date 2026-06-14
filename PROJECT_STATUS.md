@@ -1,5 +1,110 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Phase 9 Scope Definition
+
+- Date: 2026-06-14.
+- Sprint type: documentation and prioritization only. No runtime or product behavior changes are authorized by this checkpoint.
+- Starting checkpoint: clean `main` synchronized with `origin/main` at `4630a59` (`Lock Phase 8 QA status`).
+- Recommended scope: **Phase 9A - Alerts Product Shell / CEO B Review Simulator**.
+
+### Why Phase 9A Comes First
+
+- `/` and `#/alerts` are already the strongest customer-facing route and the canonical Options Alerts owner surface.
+- The existing Research Packet v2 model, source trail, risk blocks, LocalStorage review state, Archive handoff, Learning Ledger handoff, Intelligence Orbit, and CEO B actions provide the underlying static workflow. Phase 9A should present them more clearly, not create another packet engine.
+- Phase 9B overlaps the existing `#/learning-ledger`, `#/archive`, and documented Memory OS loop. It should follow after the product shell establishes which reviewed outputs become lessons.
+- Phase 9C overlaps the existing `#/bookmarks` -> `#/source-hub` -> `#/archive` local workflow. Without approved parsing or ingestion, another scaffold would add planning duplication.
+- Signal Engine Hardening would deepen IV, flow, and market-field presentation before the customer-facing product contract is clear. Those fields should be considered later as shared static packet components, not as a separate first move.
+
+### Exact Phase 9A Scope
+
+- Strengthen the existing `/` and `#/alerts` presentation in place; do not create a second Alerts page or route.
+- Add one clearly labeled static product-shell layer explaining what the eventual Alerts experience contains and how CEO B review controls it.
+- Add `Free Preview`, `Pro Preview`, and `Elite Preview` concept states. They are presentation previews only, not pricing, accounts, entitlements, subscriptions, or access control.
+- Add one alert-detail drawer or equivalent accessible detail panel that opens from the existing research stream and reuses the selected Research Packet v2 record.
+- Show static/mock options-flow context only from existing or explicitly labeled demo fields. Missing values must display `Not Connected`, `Manual Entry Required`, or `Demo / Static Data`.
+- Reuse the existing CEO B review actions and states for approve-for-research, reject, archive, return for evidence, or watchlist review. No action may publish an alert, place an order, or transmit data.
+- Add a visible research-only acknowledgment before the preview simulator exposes expanded detail. This is an educational/manual-review gate, not authentication or legal consent storage.
+- Preserve the existing Alerts Desk, Intelligence Orbit, Visual Intelligence cards, Sources rail, Pickaxe Steward, packet scoring, source evidence, risk blocks, Archive/Learning actions, and Phase 8 visual system.
+- Keep confidence and conviction language defined as packet completeness or research quality, never expected return.
+
+### Explicit Non-Scope
+
+- No new top-level route and no `#/options` or Options Hub work.
+- No replacement Alerts renderer, duplicate packet schema, duplicate review queue, or duplicate LocalStorage key.
+- No live alerts, push notifications, email/SMS/webhook delivery, autonomous publication, background jobs, or real-time claims.
+- No auth, accounts, user profiles, Stripe, checkout, subscriptions, pricing enforcement, paywalls, or entitlement logic.
+- No live market data, options chains, provider adapters, dark-pool feeds, unusual-flow feeds, scraping, protected-site bypass, or private frontend keys.
+- No broker connection, order ticket, execution control, copy-trading, position sizing instruction, personalized advice, or performance claim.
+- No changes to Phase 7 Starlight Field, Phase 8 Intelligence Orbit, Agent Habitat, AI Habitat OS, Founder carousel, Watchlists, Source Hub, Archive, Learning Ledger, Signals, or Risk Rules except regression fixes proven by QA.
+
+### Routes Affected
+
+- Later implementation owner route: `/` and `#/alerts`.
+- Compatibility route that must continue resolving to the same experience: `/app/alerts`.
+- Regression-only routes: `#/dashboard`, `#/agents`, `#/ai-habitat-os`, `#/founder`, `#/source-hub`, `#/archive`, `#/learning-ledger`, `#/research`, `#/signals`, and `#/staging`.
+
+### Likely Later Implementation Files
+
+- `public/app.js` and mirrored `app.js`: extend only the final active `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` path and reuse current packet/review actions.
+- `public/styles.css` and mirrored `styles.css`: add route-scoped Phase 9A styles without modifying locked Phase 7 or Phase 8 blocks.
+- `public/habitat-data.js` and mirrored `habitat-data.js` only if the three preview concepts require reusable shared static definitions.
+- `public/index.html` and mirrored `index.html` only if cache keys require an intentional update.
+- `PROJECT_STATUS.md`, `NEXT_STEPS.md`, and the Build Completion Tracker for the later implementation record.
+- Do not modify `src/` Astro references, `server.mjs`, package dependencies, provider code, or `data/signal-alerts.json`.
+
+### Required Visible Safety Language
+
+- `Research Only`
+- `Manual Review Required`
+- `Not Financial Advice`
+- `No Broker Execution`
+- `Demo / Static Data`
+- `No Live Provider Connected`
+- `CEO B Review Required`
+- `Options involve substantial risk`
+- `Preview Concept - No Account, Payment, or Entitlement`
+- `Confidence measures packet completeness or research quality, not expected return`
+
+### Acceptance Criteria
+
+- `/`, `#/alerts`, and `/app/alerts` remain one canonical Alerts product experience.
+- Free, Pro, and Elite are visibly labeled preview concepts and cannot create an account, payment, entitlement, delivery channel, or real alert.
+- Selecting an existing packet can open and close one accessible detail drawer/panel without duplicating packet state.
+- The drawer reflects the selected Research Packet v2 record and displays source, risk, options context, missing evidence, review state, and CEO B next action.
+- Existing CEO B actions remain browser-local, manual, and truthfully labeled; hard risk blocks continue to outrank scores.
+- Existing Phase 8 Orbit, cards, side rail, Steward guide, packet actions, and mobile internal board scrolling remain intact.
+- No new LocalStorage key is introduced unless separately justified and added to `docs/LOCAL_STORAGE_KEYS.md`.
+- Root/public mirrors remain synchronized.
+- Desktop and 390px layouts have no console errors or document-level horizontal overflow.
+- Reduced-motion behavior remains safe, keyboard focus is visible, Escape closes the drawer, and focus returns to the opening control.
+
+### QA Checklist
+
+- Confirm clean starting Git state and inspect the final active Alerts renderer before editing.
+- Run build, project, Phase 1.5, agent, mirror, route-smoke, JavaScript syntax, and `git diff --check` validation.
+- Verify `/`, `#/alerts`, and `/app/alerts` at `1280x720` and `390x844`.
+- Verify preview-mode labels, drawer open/close, keyboard focus, Escape behavior, and selected-packet synchronization.
+- Verify CEO B approve-for-research, reject, archive, return-for-evidence, and watchlist-review behavior remains local and manual.
+- Verify source and hard-risk blocks cannot be bypassed by preview mode.
+- Verify no payment, account, live-provider, delivery, broker, scraping, autonomous-publishing, or private-key behavior exists.
+- Regression-check Phase 7/8 routes and `/ai-handoff`.
+- Confirm `data/signal-alerts.json` is unchanged.
+
+### Rollback And Stop Conditions
+
+- Stop if implementation requires a new Alerts route, duplicate renderer, duplicate packet model, or duplicate review queue.
+- Stop if Free/Pro/Elite begins to imply real paid access, actual customers, current pricing, authentication, or entitlement.
+- Stop if a preview action can publish, transmit, notify, execute, or bypass CEO B/source/risk review.
+- Stop if mock values appear live, sourced, verified, delayed, or provider-connected without evidence.
+- Stop if Phase 7 or Phase 8 locked code must be altered for anything other than a confirmed regression.
+- Stop if private notes, bookmark contents, Obsidian data, secrets, or keys enter public files.
+- Stop and revert the Phase 9A implementation scope if existing packet actions, Orbit behavior, mobile layout, accessibility, safety language, or root/public mirror checks regress.
+
+### Authorization Boundary
+
+- This checkpoint recommends Phase 9A but does not authorize implementation.
+- The next implementation sprint requires an explicit CEO B prompt naming Phase 9A and preserving every non-scope and stop condition above.
+
 ## Current Checkpoint - Phase 8 Lock QA
 
 - Date: 2026-06-14.
