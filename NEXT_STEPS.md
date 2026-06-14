@@ -2,15 +2,17 @@
 
 ## Current Active Checkpoint
 
-Phase 8A + 8B Intelligence Orbit and Agent Visual System is implemented and locally verified.
+Phase 8A + 8B Intelligence Orbit and Agent Visual System is implemented, pushed, and lock-QA verified at commit `29e5f4f`.
 
 - `/` and `#/alerts` now include the 16-node static/local Pickaxe Intelligence Orbit, synchronized board and inspector, local CEO B review queue action, three Visual Intelligence cards, premium sources rail, and Pickaxe Steward guide.
 - `#/agents` now presents seven numbered visual research-agent identities with selectable inspection and telemetry around the preserved nine-department Phase 3 workflow.
-- Desktop and 390px route, interaction, console, overflow, reduced-motion, hidden-tab, founder-carousel, packet-action, and Phase 3 task-action QA passed.
+- Phase 8 Lock QA passed on 2026-06-14 for `/`, `#/alerts`, `#/agents`, `#/ai-habitat-os`, and `#/founder` at `1280x720` and `390x844`.
+- Route rendering, Orbit controls, agent selection, nine-zone map, Founder carousel, console, document overflow, Starlight interaction boundaries, and financial-safety language passed.
+- Reduced-motion safeguards remain present; the lock-QA browser was not actively emulating reduced motion.
 - Phase 7 remains locked with one unchanged canvas and no duplicate starfield.
 - No live API, provider, scraping, autonomous execution, broker connection, fake live data, or paid dependency was added.
 
-Highest-leverage next scope: publish and live-check Phase 8, then lock it. Do not begin Options Hub, another visual sprint, or a provider integration without CEO B approval.
+Highest-leverage next scope: CEO B approves a bounded Phase 9 documentation and prioritization sprint before any new product implementation. Do not begin Options Hub, another visual sprint, or a provider integration without CEO B approval.
 
 ## Working Now
 
@@ -32,7 +34,8 @@ Highest-leverage next scope: publish and live-check Phase 8, then lock it. Do no
 
 ## Next Session Priority
 
-- Publish and live-check Phase 8, then keep both Phase 7 and Phase 8 locked.
+- Keep Phase 7 and Phase 8 locked.
+- Define and approve one bounded Phase 9 scope in documentation before implementation.
 
 ## Previous Active Checkpoint
 

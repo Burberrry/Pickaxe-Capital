@@ -1,5 +1,23 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Phase 8 Lock QA
+
+- Date: 2026-06-14.
+- Commit tested: `29e5f4f5d617485984245b5d3ecbe4bcbcb5d92f` (`Add Intelligence Orbit and agent visual system`).
+- Git state before QA was clean on `main`; `HEAD` and `origin/main` both resolved to `29e5f4f`.
+- Local routes tested: `/`, `#/alerts`, `#/agents`, `#/ai-habitat-os`, and `#/founder`.
+- Desktop QA passed at the default `1280x720` viewport with no console errors or document-level horizontal overflow.
+- Mobile QA passed at `390x844` with no console errors or document-level horizontal overflow.
+- `/` and `#/alerts` rendered the Alerts Desk homepage, 16-node Intelligence Orbit, synchronized inspector and controls, three Visual Intelligence cards, CEO B review state, Intelligence Sources rail, and Pickaxe Steward guide.
+- Orbit previous/next selection remained interactive at desktop and mobile widths. The narrow Orbit board retained intentional internal horizontal scrolling without causing document overflow.
+- `#/agents` rendered all seven visual research-agent identities around the preserved Phase 3 workflow. Agent selection updated the inspector at both widths.
+- `#/ai-habitat-os` rendered all nine system zones, the central AI Habitat OS core, and the mandatory CEO B manual-review gate.
+- `#/founder` rendered two Proof of Work cards on desktop and one visible card at 390px. The next control advanced the live count and visible card set at both widths.
+- The global Starlight Field remained fixed behind content with `pointer-events: none` and did not block interaction. Reduced-motion safeguards remain present in the stylesheet and runtime; the QA browser itself was not in reduced-motion mode.
+- Product boundaries confirmed: static/browser-local only, research-only, no live providers, no autonomous execution, no broker execution, no scraping, and CEO B review required.
+- No confirmed QA bug was found. No product behavior or locked Starlight Field code was changed.
+- Next recommended bounded phase: a CEO B-approved Phase 9 scope-definition sprint limited to documentation and prioritization before any new product implementation.
+
 ## Current Checkpoint - Phase 8A + 8B Intelligence Orbit and Agent Visual System
 
 - Date: 2026-06-12.
