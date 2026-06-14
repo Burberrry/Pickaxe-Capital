@@ -21150,3 +21150,262 @@ body[data-active-view="trendRadar"] #trendRadar.active .page-shell {
     opacity: 0.88;
   }
 }
+
+/* Pickaxe luxury atmosphere pass */
+.pickaxe-starlight-field {
+  opacity: 0.9;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(1, 2, 3, 0.9) 0%, rgba(3, 5, 7, 0.68) 34%, transparent 68%),
+    radial-gradient(circle at 92% 10%, rgba(205, 164, 78, 0.09), transparent 32%),
+    radial-gradient(circle at 4% 72%, rgba(70, 139, 143, 0.055), transparent 29%),
+    linear-gradient(180deg, #010203 0%, #07090c 54%, #020304 100%);
+}
+
+.view.active {
+  background:
+    radial-gradient(circle at 84% 4%, rgba(205, 164, 78, 0.055), transparent 25%),
+    linear-gradient(180deg, rgba(8, 10, 13, 0.32), rgba(4, 5, 7, 0.2)) !important;
+}
+
+.view.active > .intelligence-zone,
+.view.active > .page-shell,
+.view.active .page-shell {
+  position: relative;
+}
+
+.rail {
+  border-right-color: rgba(212, 175, 55, 0.16) !important;
+  background:
+    radial-gradient(circle at 50% -4%, rgba(212, 175, 55, 0.09), transparent 28%),
+    linear-gradient(180deg, rgba(14, 15, 16, 0.985), rgba(5, 6, 7, 0.99) 55%, rgba(2, 3, 4, 0.995)) !important;
+  box-shadow:
+    18px 0 54px rgba(0, 0, 0, 0.3),
+    inset -1px 0 rgba(255, 240, 200, 0.025);
+}
+
+.sidebar-group {
+  gap: 7px !important;
+}
+
+.sidebar-group + .sidebar-group {
+  margin-top: 18px !important;
+}
+
+.sidebar-group-label {
+  padding-inline: 4px;
+  color: rgba(218, 188, 116, 0.76) !important;
+  letter-spacing: 0.17em !important;
+}
+
+.nav-button.sidebar-item {
+  border-color: rgba(246, 240, 228, 0.045) !important;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.018), rgba(255, 255, 255, 0.005)) !important;
+  color: rgba(196, 192, 183, 0.74) !important;
+}
+
+.nav-button.sidebar-item:hover {
+  border-color: rgba(212, 175, 55, 0.17) !important;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.055), rgba(255, 255, 255, 0.012)) !important;
+  box-shadow: inset 1px 0 rgba(240, 208, 132, 0.32) !important;
+}
+
+.nav-button.sidebar-item.active {
+  border-color: rgba(218, 184, 101, 0.42) !important;
+  background:
+    linear-gradient(105deg, rgba(181, 136, 54, 0.2), rgba(212, 175, 55, 0.075) 46%, rgba(255, 255, 255, 0.018)) !important;
+  box-shadow:
+    inset 2px 0 0 rgba(235, 202, 119, 0.95),
+    inset 0 1px rgba(255, 244, 211, 0.07),
+    0 8px 24px rgba(0, 0, 0, 0.24) !important;
+}
+
+.nav-button.sidebar-item .sidebar-code {
+  border-color: rgba(246, 240, 228, 0.08) !important;
+  background: rgba(0, 0, 0, 0.22) !important;
+}
+
+.nav-button.sidebar-item.active .sidebar-code,
+.dashboard-pin .sidebar-code {
+  border-color: rgba(218, 184, 101, 0.46) !important;
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.12), rgba(102, 75, 26, 0.08)) !important;
+  box-shadow: inset 0 1px rgba(255, 239, 194, 0.08);
+}
+
+.brand,
+.rail-card,
+.rail-quote {
+  border-color: rgba(212, 175, 55, 0.12) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 250, 232, 0.038), transparent 45%),
+    rgba(10, 11, 12, 0.76) !important;
+  box-shadow: inset 0 1px rgba(255, 248, 226, 0.035), 0 16px 38px rgba(0, 0, 0, 0.22) !important;
+}
+
+.topbar,
+.panel,
+.glass-card,
+.command-card,
+.truth-panel,
+.metric-card,
+.mini-card,
+.signal-card,
+.summary-card,
+.vault-card,
+.compact-card,
+.source-card,
+.archive-intel-card,
+.pipeline-card,
+.pc-panel,
+.pc-card,
+.pc-metric-card {
+  border-color: rgba(212, 175, 55, 0.13) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 248, 225, 0.035), transparent 38%),
+    linear-gradient(180deg, rgba(17, 18, 20, 0.92), rgba(8, 9, 11, 0.88)) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 248, 225, 0.045),
+    0 18px 48px rgba(0, 0, 0, 0.27) !important;
+}
+
+.page-hero,
+.mission-hero,
+.source-hub-hero,
+.vault-hero {
+  border-color: rgba(212, 175, 55, 0.17) !important;
+  background:
+    radial-gradient(circle at 84% 10%, rgba(212, 175, 55, 0.09), transparent 31%),
+    linear-gradient(145deg, rgba(255, 248, 225, 0.03), transparent 44%),
+    rgba(8, 10, 12, 0.83) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 248, 225, 0.05),
+    0 26px 70px rgba(0, 0, 0, 0.3) !important;
+}
+
+.page-title,
+.page-hero h1,
+.page-hero h2,
+.topbar h1 {
+  letter-spacing: -0.025em !important;
+  text-wrap: balance;
+}
+
+.page-subtitle,
+.page-hero p {
+  max-width: 78ch;
+  line-height: 1.65 !important;
+}
+
+.eyebrow,
+.meta-label,
+.label,
+.page-kicker {
+  border: 0 !important;
+  padding: 0 !important;
+  color: rgba(220, 188, 111, 0.86) !important;
+  background: transparent !important;
+  letter-spacing: 0.16em !important;
+}
+
+body[data-active-view="alerts"] #alerts.active .phase2-alerts-desk {
+  background:
+    radial-gradient(circle at 78% 2%, rgba(205, 164, 78, 0.085), transparent 25%),
+    linear-gradient(rgba(7, 10, 15, 0.68), rgba(4, 5, 7, 0.64) 30%) !important;
+}
+
+#alerts.active .phase9-alerts-product-shell,
+body[data-active-view="alerts"] #alerts.active .pcad-shell {
+  border-color: rgba(212, 175, 55, 0.22) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 244, 211, 0.045),
+    0 30px 84px rgba(0, 0, 0, 0.32) !important;
+}
+
+#dashboard.active .launch-countdown-card {
+  border-color: rgba(212, 175, 55, 0.18) !important;
+  color: var(--px-ivory) !important;
+  background:
+    radial-gradient(circle at 88% 14%, rgba(212, 175, 55, 0.09), transparent 30%),
+    linear-gradient(145deg, rgba(255, 248, 225, 0.035), transparent 42%),
+    rgba(8, 10, 12, 0.92) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 248, 225, 0.05),
+    0 24px 64px rgba(0, 0, 0, 0.3) !important;
+}
+
+#dashboard.active .launch-countdown-card h3,
+#dashboard.active .launch-countdown-stats strong {
+  color: var(--px-ivory) !important;
+}
+
+#dashboard.active .launch-countdown-card p,
+#dashboard.active .launch-countdown-stats em,
+#dashboard.active .launch-countdown-safety {
+  color: var(--px-muted) !important;
+}
+
+#dashboard.active .launch-countdown-grid,
+#dashboard.active .launch-countdown-stats span {
+  border-color: rgba(212, 175, 55, 0.12) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 248, 225, 0.028), transparent 48%),
+    rgba(4, 6, 8, 0.7) !important;
+}
+
+#dashboard.active .launch-dot {
+  border-color: rgba(246, 240, 228, 0.1);
+  background: rgba(246, 240, 228, 0.075);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+#dashboard.active .launch-dot.is-filled {
+  border-color: rgba(212, 175, 55, 0.38);
+  background: linear-gradient(145deg, rgba(218, 184, 101, 0.92), rgba(91, 139, 140, 0.72));
+  box-shadow: 0 5px 14px rgba(212, 175, 55, 0.12);
+}
+
+#dashboard.active .mission-hero {
+  border-color: rgba(212, 175, 55, 0.18) !important;
+  color: var(--px-ivory) !important;
+  background:
+    radial-gradient(circle at 78% 16%, rgba(212, 175, 55, 0.1), transparent 31%),
+    linear-gradient(145deg, rgba(255, 248, 225, 0.035), transparent 44%),
+    rgba(8, 10, 12, 0.92) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 248, 225, 0.05),
+    0 28px 72px rgba(0, 0, 0, 0.31) !important;
+}
+
+#dashboard.active .mission-hero h2,
+#dashboard.active .mission-hero h3,
+#dashboard.active .mission-hero strong {
+  color: var(--px-ivory) !important;
+}
+
+#dashboard.active .mission-hero p,
+#dashboard.active .mission-hero small {
+  color: var(--px-muted) !important;
+}
+
+#dashboard.active .mission-hero-summary span {
+  border-color: rgba(212, 175, 55, 0.13) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 248, 225, 0.028), transparent),
+    rgba(4, 6, 8, 0.66) !important;
+  box-shadow: inset 0 1px rgba(255, 248, 225, 0.035);
+}
+
+@media (max-width: 760px) {
+  .pickaxe-starlight-field {
+    opacity: 0.78;
+  }
+
+  .sidebar-group + .sidebar-group {
+    margin-top: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pickaxe-starlight-field {
+    opacity: 0.84;
+  }
+}

@@ -175,15 +175,15 @@ function initPickaxeStarlightField() {
   canvas.dataset.version = "2";
   const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const palette = [
-    { color: [248, 245, 235], weight: 5 },
-    { color: [205, 222, 244], weight: 3 },
-    { color: [216, 180, 90], weight: 2 },
+    { color: [241, 239, 232], weight: 12 },
+    { color: [202, 216, 235], weight: 4 },
+    { color: [216, 180, 90], weight: 1 },
     { color: [112, 190, 184], weight: 1 },
   ];
   const layers = [
-    { share: 0.52, radius: [0.42, 0.9], alpha: [0.28, 0.52], drift: 0.0018 },
-    { share: 0.32, radius: [0.72, 1.38], alpha: [0.4, 0.72], drift: 0.0036 },
-    { share: 0.16, radius: [1.12, 2.05], alpha: [0.56, 0.9], drift: 0.0062 },
+    { share: 0.62, radius: [0.36, 0.72], alpha: [0.16, 0.34], drift: 0.0008 },
+    { share: 0.31, radius: [0.58, 1.08], alpha: [0.24, 0.5], drift: 0.0017 },
+    { share: 0.07, radius: [0.9, 1.5], alpha: [0.42, 0.68], drift: 0.003 },
   ];
   let width = 0;
   let height = 0;
@@ -198,9 +198,9 @@ function initPickaxeStarlightField() {
 
   function starCount() {
     if (window.innerWidth <= 760) {
-      return Math.max(118, Math.min(175, Math.round((width * height) / 3400)));
+      return Math.max(96, Math.min(150, Math.round((width * height) / 4000)));
     }
-    return Math.max(220, Math.min(360, Math.round((width * height) / 4000)));
+    return Math.max(190, Math.min(310, Math.round((width * height) / 4700)));
   }
 
   function randomBetween([minimum, maximum]) {
@@ -236,10 +236,11 @@ function initPickaxeStarlightField() {
         phase: Math.random() * Math.PI * 2,
         driftX: layer.drift * (0.72 + Math.random() * 0.56),
         driftY: layer.drift * (0.16 + Math.random() * 0.2),
+        hero: index >= count - Math.max(3, Math.round(count * 0.018)),
         color: pickColor(),
       };
     });
-    const constellationCount = Math.max(3, Math.min(8, Math.round(width / 260)));
+    const constellationCount = Math.max(2, Math.min(5, Math.round(width / 360)));
     constellations = Array.from({ length: constellationCount }, () => {
       const start = Math.floor(Math.random() * stars.length);
       const neighbors = stars
@@ -256,20 +257,20 @@ function initPickaxeStarlightField() {
   }
 
   function scheduleShootingStar(timestamp = performance.now()) {
-    nextShootingStarAt = timestamp + 12000 + Math.random() * 18000;
+    nextShootingStarAt = timestamp + 30000 + Math.random() * 30000;
   }
 
   function createShootingStar(timestamp) {
-    const speed = 620 + Math.random() * 220;
-    const angle = 0.35 + Math.random() * 0.18;
+    const speed = 820 + Math.random() * 180;
+    const angle = 0.38 + Math.random() * 0.12;
     shootingStar = {
       bornAt: timestamp,
-      duration: 720 + Math.random() * 260,
+      duration: 480 + Math.random() * 180,
       startX: -90 + Math.random() * width * 0.55,
       startY: 28 + Math.random() * height * 0.28,
       velocityX: Math.cos(angle) * speed,
       velocityY: Math.sin(angle) * speed,
-      length: 76 + Math.random() * 74,
+      length: 100 + Math.random() * 54,
     };
   }
 
@@ -307,7 +308,7 @@ function initPickaxeStarlightField() {
       context.beginPath();
       context.moveTo(points[0].x, points[0].y);
       points.slice(1).forEach((point) => context.lineTo(point.x, point.y));
-      context.strokeStyle = "rgba(178, 197, 210, 0.075)";
+      context.strokeStyle = "rgba(178, 197, 210, 0.045)";
       context.stroke();
     });
   }
@@ -318,12 +319,12 @@ function initPickaxeStarlightField() {
     drawConstellations(timestamp, staticOnly);
     stars.forEach((star) => {
       const twinkle = staticOnly ? 0 : Math.sin(timestamp * star.speed + star.phase) * star.shimmer;
-      const alpha = Math.max(0.16, Math.min(0.86, star.alpha + twinkle));
+      const alpha = Math.max(0.12, Math.min(star.hero ? 0.86 : 0.64, star.alpha + twinkle));
       const position = starPosition(star, timestamp, staticOnly);
-      if (star.radius > 1.15) {
+      if (star.hero) {
         context.beginPath();
-        context.fillStyle = `rgba(${star.color[0]}, ${star.color[1]}, ${star.color[2]}, ${alpha * 0.12})`;
-        context.arc(position.x, position.y, star.radius * 3.4, 0, Math.PI * 2);
+        context.fillStyle = `rgba(${star.color[0]}, ${star.color[1]}, ${star.color[2]}, ${alpha * 0.1})`;
+        context.arc(position.x, position.y, star.radius * 4.2, 0, Math.PI * 2);
         context.fill();
       }
       context.beginPath();
@@ -349,7 +350,7 @@ function initPickaxeStarlightField() {
     const velocityLength = Math.hypot(shootingStar.velocityX, shootingStar.velocityY);
     const tailX = headX - (shootingStar.velocityX / velocityLength) * shootingStar.length;
     const tailY = headY - (shootingStar.velocityY / velocityLength) * shootingStar.length;
-    const fade = Math.sin(Math.PI * progress) * 0.42;
+    const fade = Math.sin(Math.PI * progress) * 0.34;
     const gradient = context.createLinearGradient(tailX, tailY, headX, headY);
     gradient.addColorStop(0, "rgba(212, 175, 55, 0)");
     gradient.addColorStop(0.72, `rgba(226, 215, 190, ${fade * 0.42})`);
@@ -358,7 +359,7 @@ function initPickaxeStarlightField() {
     context.moveTo(tailX, tailY);
     context.lineTo(headX, headY);
     context.strokeStyle = gradient;
-    context.lineWidth = 1.15;
+    context.lineWidth = 1;
     context.lineCap = "round";
     context.stroke();
   }
