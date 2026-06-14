@@ -21070,9 +21070,13 @@ button.phase3-department-card.is-selected {
   z-index: 0;
   width: 100vw;
   height: 100vh;
-  opacity: 0.88;
+  opacity: 0.98;
   pointer-events: none;
   contain: strict;
+  background:
+    radial-gradient(circle at 78% 10%, rgba(212, 175, 55, 0.07), transparent 34%),
+    radial-gradient(circle at 16% 74%, rgba(72, 150, 151, 0.045), transparent 31%),
+    linear-gradient(180deg, #020304 0%, #07090d 52%, #030405 100%);
 }
 
 body {
@@ -21095,7 +21099,7 @@ body[data-active-view] main {
 }
 
 .view.active {
-  background: rgba(7, 9, 13, 0.5) !important;
+  background: rgba(7, 9, 13, 0.28) !important;
 }
 
 .view.active .page-shell {
@@ -21104,6 +21108,12 @@ body[data-active-view] main {
 
 body[data-active-view="alerts"] #alerts.active {
   background: transparent !important;
+}
+
+body[data-active-view="alerts"] #alerts.active .phase2-alerts-desk {
+  background:
+    radial-gradient(circle at 78% 2%, rgba(215, 180, 90, 0.1), transparent 24%),
+    linear-gradient(rgba(8, 13, 21, 0.54), rgba(6, 7, 8, 0.48) 28%) !important;
 }
 
 body[data-active-view="alerts"] #alerts.active .pcad-shell {
@@ -21126,17 +21136,17 @@ body[data-active-view="trendRadar"] #trendRadar.active {
 }
 
 body[data-active-view="trendRadar"] #trendRadar.active .page-shell {
-  background: rgba(7, 9, 13, 0.58) !important;
+  background: rgba(7, 9, 13, 0.38) !important;
 }
 
 @media (max-width: 760px) {
   .pickaxe-starlight-field {
-    opacity: 0.78;
+    opacity: 0.84;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .pickaxe-starlight-field {
-    opacity: 0.82;
+    opacity: 0.88;
   }
 }

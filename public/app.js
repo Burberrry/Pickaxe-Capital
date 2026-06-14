@@ -172,17 +172,24 @@ function initPickaxeStarlightField() {
   }
 
   canvas.dataset.initialized = "true";
+  canvas.dataset.version = "2";
   const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const colors = [
-    [250, 248, 240],
-    [210, 226, 246],
-    [212, 175, 55],
-    [235, 221, 184],
+  const palette = [
+    { color: [248, 245, 235], weight: 5 },
+    { color: [205, 222, 244], weight: 3 },
+    { color: [216, 180, 90], weight: 2 },
+    { color: [112, 190, 184], weight: 1 },
+  ];
+  const layers = [
+    { share: 0.52, radius: [0.42, 0.9], alpha: [0.28, 0.52], drift: 0.0018 },
+    { share: 0.32, radius: [0.72, 1.38], alpha: [0.4, 0.72], drift: 0.0036 },
+    { share: 0.16, radius: [1.12, 2.05], alpha: [0.56, 0.9], drift: 0.0062 },
   ];
   let width = 0;
   let height = 0;
   let pixelRatio = 1;
   let stars = [];
+  let constellations = [];
   let shootingStar = null;
   let animationFrame = 0;
   let resizeFrame = 0;
@@ -191,24 +198,59 @@ function initPickaxeStarlightField() {
 
   function starCount() {
     if (window.innerWidth <= 760) {
-      return Math.max(44, Math.min(72, Math.round((width * height) / 7200)));
+      return Math.max(118, Math.min(175, Math.round((width * height) / 3400)));
     }
-    return Math.max(90, Math.min(150, Math.round((width * height) / 8500)));
+    return Math.max(220, Math.min(360, Math.round((width * height) / 4000)));
+  }
+
+  function randomBetween([minimum, maximum]) {
+    return minimum + Math.random() * (maximum - minimum);
+  }
+
+  function pickColor() {
+    const totalWeight = palette.reduce((total, entry) => total + entry.weight, 0);
+    let choice = Math.random() * totalWeight;
+    for (const entry of palette) {
+      choice -= entry.weight;
+      if (choice <= 0) return entry.color;
+    }
+    return palette[0].color;
   }
 
   function createStars() {
-    stars = Array.from({ length: starCount() }, () => {
-      const color = colors[Math.floor(Math.random() * colors.length)];
+    const count = starCount();
+    stars = Array.from({ length: count }, (_, index) => {
+      const ratio = index / count;
+      const layer = ratio < layers[0].share
+        ? layers[0]
+        : ratio < layers[0].share + layers[1].share
+          ? layers[1]
+          : layers[2];
       return {
         x: Math.random() * width,
         y: Math.random() * height,
-        radius: 0.7 + Math.random() * 1.25,
-        alpha: 0.32 + Math.random() * 0.38,
-        shimmer: 0.035 + Math.random() * 0.1,
-        speed: 0.00016 + Math.random() * 0.00028,
+        radius: randomBetween(layer.radius),
+        alpha: randomBetween(layer.alpha),
+        shimmer: 0.025 + Math.random() * 0.09,
+        speed: 0.00012 + Math.random() * 0.00025,
         phase: Math.random() * Math.PI * 2,
-        color,
+        driftX: layer.drift * (0.72 + Math.random() * 0.56),
+        driftY: layer.drift * (0.16 + Math.random() * 0.2),
+        color: pickColor(),
       };
+    });
+    const constellationCount = Math.max(3, Math.min(8, Math.round(width / 260)));
+    constellations = Array.from({ length: constellationCount }, () => {
+      const start = Math.floor(Math.random() * stars.length);
+      const neighbors = stars
+        .map((star, index) => ({
+          index,
+          distance: index === start ? Number.POSITIVE_INFINITY : Math.hypot(star.x - stars[start].x, star.y - stars[start].y),
+        }))
+        .sort((left, right) => left.distance - right.distance)
+        .slice(0, 2)
+        .map((entry) => entry.index);
+      return [start, ...neighbors];
     });
     canvas.dataset.starCount = String(stars.length);
   }
@@ -231,14 +273,62 @@ function initPickaxeStarlightField() {
     };
   }
 
+  function starPosition(star, timestamp, staticOnly) {
+    if (staticOnly) return { x: star.x, y: star.y };
+    return {
+      x: (star.x + timestamp * star.driftX) % width,
+      y: (star.y + timestamp * star.driftY) % height,
+    };
+  }
+
+  function drawAtmosphere() {
+    const goldGlow = context.createRadialGradient(width * 0.78, height * 0.12, 0, width * 0.78, height * 0.12, width * 0.42);
+    goldGlow.addColorStop(0, "rgba(212, 175, 55, 0.055)");
+    goldGlow.addColorStop(1, "rgba(212, 175, 55, 0)");
+    context.fillStyle = goldGlow;
+    context.fillRect(0, 0, width, height);
+
+    const tealGlow = context.createRadialGradient(width * 0.18, height * 0.72, 0, width * 0.18, height * 0.72, width * 0.34);
+    tealGlow.addColorStop(0, "rgba(72, 150, 151, 0.035)");
+    tealGlow.addColorStop(1, "rgba(72, 150, 151, 0)");
+    context.fillStyle = tealGlow;
+    context.fillRect(0, 0, width, height);
+  }
+
+  function drawConstellations(timestamp, staticOnly) {
+    context.lineWidth = 0.55;
+    constellations.forEach((indices) => {
+      const points = indices.map((index) => starPosition(stars[index], timestamp, staticOnly));
+      const segmentsAreLocal = points.every((point, index) => {
+        if (!index) return true;
+        return Math.hypot(point.x - points[index - 1].x, point.y - points[index - 1].y) < Math.min(220, width * 0.22);
+      });
+      if (!segmentsAreLocal) return;
+      context.beginPath();
+      context.moveTo(points[0].x, points[0].y);
+      points.slice(1).forEach((point) => context.lineTo(point.x, point.y));
+      context.strokeStyle = "rgba(178, 197, 210, 0.075)";
+      context.stroke();
+    });
+  }
+
   function drawStars(timestamp, staticOnly = false) {
     context.clearRect(0, 0, width, height);
+    drawAtmosphere();
+    drawConstellations(timestamp, staticOnly);
     stars.forEach((star) => {
       const twinkle = staticOnly ? 0 : Math.sin(timestamp * star.speed + star.phase) * star.shimmer;
-      const alpha = Math.max(0.24, Math.min(0.78, star.alpha + twinkle));
+      const alpha = Math.max(0.16, Math.min(0.86, star.alpha + twinkle));
+      const position = starPosition(star, timestamp, staticOnly);
+      if (star.radius > 1.15) {
+        context.beginPath();
+        context.fillStyle = `rgba(${star.color[0]}, ${star.color[1]}, ${star.color[2]}, ${alpha * 0.12})`;
+        context.arc(position.x, position.y, star.radius * 3.4, 0, Math.PI * 2);
+        context.fill();
+      }
       context.beginPath();
       context.fillStyle = `rgba(${star.color[0]}, ${star.color[1]}, ${star.color[2]}, ${alpha})`;
-      context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      context.arc(position.x, position.y, star.radius, 0, Math.PI * 2);
       context.fill();
     });
   }
