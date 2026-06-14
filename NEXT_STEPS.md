@@ -2,18 +2,20 @@
 
 ## Current Active Checkpoint
 
-Phase 9A - Alerts Product Shell / CEO B Review Simulator is implemented locally and fully validated.
+Phase 9A Lock QA passed locally at pushed commit `d4609f4`, but the hosted lock is incomplete for one direct compatibility path.
 
-- `/`, `#/alerts`, and `/app/alerts` now resolve to one canonical Alerts Desk with a static product-shell explanation.
+- Local `/`, `#/alerts`, and `/app/alerts` resolve to one canonical Alerts Desk with a static product-shell explanation.
 - Conceptual `Free Preview`, `Pro Preview`, and `Elite Preview` states are visible and explicitly provide no account, payment, pricing, entitlement, delivery, or real-alert behavior.
 - One research-only acknowledgment gate controls access to one accessible selected-packet detail drawer.
 - The drawer reuses Research Packet v2 data and existing browser-local CEO B actions. It shows source, risk, options context, missing evidence, review state, and CEO B next action.
 - Escape close, visible focus, opener focus return, reduced-motion safeguards, desktop/mobile layout, console, overflow, mirrors, build, project, Phase 1.5, agent, and route-smoke checks passed.
-- A proven direct-path asset-resolution bug on `/app/alerts` was fixed without changing `server.mjs`.
+- Local `/app/alerts` asset resolution remains fixed without changing `server.mjs`.
+- The GitHub Pages deployment for `d4609f4` succeeded, deployed assets matched local files, and hosted `/`, `#/alerts`, `#/agents`, `#/ai-habitat-os`, and `#/founder` passed desktop and mobile review.
+- Hosted `/Pickaxe-Capital/app/alerts` currently returns the GitHub Pages HTTP 404 before the app loads. Phase 9A cannot be marked fully hosted-locked until that direct-path bridge is repaired and rechecked.
 - Phase 7 and Phase 8 remain locked and intact.
 - No new route, duplicate renderer, packet schema, review queue, LocalStorage key, live provider, scraping, broker execution, auth, payment, private key, delivery channel, or autonomous publishing was added.
 
-Next bounded step: commit Phase 9A locally, then perform a separate Phase 9A lock QA and hosted review only after CEO B authorizes a push.
+Next bounded step: CEO B authorizes one minimal GitHub Pages compatibility repair for direct `/app/alerts`, followed by a focused hosted re-lock QA. Do not begin Phase 9B, Phase 9C, Signal Engine Hardening, or Options Hub.
 
 ## Locked Product Baseline
 
@@ -27,7 +29,7 @@ Phase 8A + 8B Intelligence Orbit and Agent Visual System is implemented, pushed,
 - Phase 7 remains locked with one unchanged canvas and no duplicate starfield.
 - No live API, provider, scraping, autonomous execution, broker connection, fake live data, or paid dependency was added.
 
-Highest-leverage next scope: Phase 9A lock QA and hosted review after CEO B authorizes a push. Do not begin Options Hub, another visual sprint, or a provider integration.
+Highest-leverage next scope: repair only the hosted `/app/alerts` direct-path bridge, then finish Phase 9A hosted lock QA. Do not begin Options Hub, another visual sprint, or a provider integration.
 
 ## Working Now
 
@@ -50,7 +52,7 @@ Highest-leverage next scope: Phase 9A lock QA and hosted review after CEO B auth
 ## Next Session Priority
 
 - Keep Phase 7, Phase 8, and the validated Phase 9A runtime stable.
-- Lock-QA Phase 9A locally and review the hosted deployment only after CEO B authorizes a push.
+- Repair only the hosted `/app/alerts` direct-path compatibility gap after explicit CEO B authorization, then re-run hosted desktop/mobile lock QA.
 - Keep Phase 9B, Phase 9C, Signal Engine Hardening, Options Hub, providers, payments, and execution deferred.
 
 ## Previous Active Checkpoint

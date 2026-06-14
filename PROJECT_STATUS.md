@@ -1,6 +1,34 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Phase 9A Alerts Product Shell
+## Current Checkpoint - Phase 9A Lock QA and Hosted Review
+
+- Date: 2026-06-14.
+- Commit tested: `d4609f4a038a0d2505fdfdf7315f3b9cfe471143` (`Implement Phase 9A Alerts Product Shell`). The requested `46d09f4` hash was not present; local `HEAD` and `origin/main` both resolved to `d4609f4`.
+- Starting Git state was clean on `main` and synchronized with `origin/main`.
+- Automated validation passed: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, JavaScript syntax checks, `git diff --check`, and the locked `data/signal-alerts.json` SHA-256 check.
+- Local browser QA passed at `1280x720` and `390x844` for `/`, `#/alerts`, `/app/alerts`, `#/dashboard`, `#/agents`, `#/ai-habitat-os`, `#/founder`, `#/source-hub`, `#/archive`, `#/learning-ledger`, `#/research`, `#/signals`, `#/staging`, and `/ai-handoff`.
+- Local Phase 9A interaction QA passed for preview labels, acknowledgment gating, selected Research Packet v2 drawer content, open/close, Escape, focus return, browser-local CEO B actions, and hard-risk precedence.
+- Local `/app/alerts` loads the canonical Alerts Desk with root-relative deployed assets, so the Phase 9A asset-resolution fix remains effective under `server.mjs`.
+- Phase 7 Starlight and Phase 8 Orbit, Visual Intelligence cards, source panel, Pickaxe Steward, seven visual agents, nine-zone AI Habitat OS map, Founder carousel, and mobile Orbit board scrolling passed regression QA.
+- The GitHub Pages workflow for `d4609f4` completed successfully, and hosted `app.js` and `styles.css` hashes matched the local deployed files.
+- Hosted desktop and `390x844` QA passed for `/`, `#/alerts`, `#/agents`, `#/ai-habitat-os`, and `#/founder`, with no blank page, console error, or document overflow on those application routes.
+- Hosted `/Pickaxe-Capital/app/alerts` failed because GitHub Pages returned its own HTTP 404 before the application loaded. At `390px`, that GitHub 404 page also overflowed horizontally. This is a hosting/direct-route bridge gap, not a regression in the Phase 9A Alerts renderer or asset base logic.
+- Phase 9A is therefore **local-lock passed but hosted-lock incomplete** until the existing compatibility path receives a separately authorized static Pages bridge or equivalent deployment-safe repair and is rechecked.
+- No runtime code was changed during this lock QA.
+
+### Lock Boundaries
+
+- Product remains static/browser-local and research-only.
+- CEO B manual review remains mandatory, and source/hard-risk blocks still outrank preview or score state.
+- No live providers, scraping, broker execution, auth, accounts, payments, private frontend keys, delivery channels, background jobs, or autonomous publishing were added.
+- Phase 9B, Phase 9C, Signal Engine Hardening, and Options Hub remain deferred.
+
+### Next Recommended Bounded Phase
+
+- Authorize one minimal GitHub Pages direct-route compatibility repair for `/app/alerts`, without creating another Alerts renderer or page.
+- Re-run only the hosted `/app/alerts` desktop/mobile checks and the normal mirror, route, console, overflow, and safety regression checks before declaring Phase 9A fully locked.
+
+## Implementation Record - Phase 9A Alerts Product Shell
 
 - Date: 2026-06-14.
 - Starting checkpoint: clean `main` synchronized with `origin/main` at `5d9fd4e` (`Define Phase 9 scope recommendation`).
@@ -32,7 +60,7 @@
 
 ### Next Recommended Bounded Phase
 
-- Run a Phase 9A lock QA and hosted review after CEO B chooses to push this commit.
+- Phase 9A lock QA is recorded above. Hosted lock remains incomplete only for the direct `/app/alerts` GitHub Pages path.
 - Keep Phase 9B Lesson Engine, Phase 9C Bookmark Miner scaffold, Signal Engine Hardening, and Options Hub deferred until Phase 9A is locked.
 
 ## Planning Record - Phase 9 Scope Definition
