@@ -1,0 +1,65 @@
+name: Apply Pickaxe V3.1 Overlay
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/apply-v31-overlay.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  wire-v31-overlay:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Wire V3.1 overlay into public/index.html
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          index = Path('public/index.html')
+          text = index.read_text()
+
+          css_line = '    <link rel="stylesheet" href="pickaxe-v31-mission-control.css?v=v3-1-20260616" />'
+          demo_line = '    <script src="pickaxe-demo-data.js?v=v3-1-qqq-demo"></script>'
+          overlay_line = '    <script src="pickaxe-v31-mission-control.js?v=v3-1-20260616"></script>'
+
+          if css_line not in text:
+            anchor = '    <link rel="stylesheet" href="utility-compat.css?v=phase4-build-hardening-20260612" />'
+            if anchor not in text:
+              raise SystemExit('utility-compat stylesheet anchor not found')
+            text = text.replace(anchor, anchor + '\n' + css_line, 1)
+
+          if demo_line not in text:
+            anchor = '    <script src="habitat-data.js?v=phase9a-alerts-product-shell-20260614"></script>'
+            if anchor not in text:
+              raise SystemExit('habitat-data script anchor not found')
+            text = text.replace(anchor, anchor + '\n' + demo_line, 1)
+
+          if overlay_line not in text:
+            anchor = '    <script src="app.js?v=luxury-atmosphere-20260614"></script>'
+            if anchor not in text:
+              raise SystemExit('app.js script anchor not found')
+            text = text.replace(anchor, anchor + '\n' + overlay_line, 1)
+
+          index.write_text(text)
+          PY
+
+      - name: Commit V3.1 index wiring if changed
+        run: |
+          if git diff --quiet -- public/index.html; then
+            echo "No index wiring changes needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/index.html
+          git commit -m "Wire Pickaxe V3.1 mission control overlay"
+          git push
