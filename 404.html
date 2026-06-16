@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex" />
+  <title>Pickaxe Capital</title>
+</head>
+<body>
+  <!--
+    GitHub Pages compatibility shim.
+
+    GitHub Pages serves this file (instead of its blank built-in 404 page)
+    whenever a requested path does not match a real file in the deployed
+    `public/` directory. The Pickaxe Capital SPA only has one real entry
+    point (index.html) and routes everything else client-side via the
+    hash router in app.js. Direct paths like /app/alerts are legacy
+    compatibility routes that only resolve correctly once the SPA has
+    actually booted, so this redirect sends the browser back to the
+    canonical root with the matching hash route.
+
+    This file intentionally does not duplicate index.html or app.js.
+    It is a pure redirect and carries no app logic of its own.
+  -->
+  <script>
+    (function () {
+      var path = window.location.pathname;
+      var onGithubIo = window.location.hostname.indexOf("github.io") !== -1;
+      var segments = path.split("/").filter(Boolean);
+
+      // On a GitHub Pages project page (username.github.io/RepoName/...),
+      // the first path segment is the repo name and belongs in the base
+      // URL, not the route. On a custom domain or user/org page, the full
+      // path is the route.
+      var base = onGithubIo && segments.length ? "/" + segments[0] + "/" : "/";
+      var routePath = onGithubIo
+        ? "/" + segments.slice(1).join("/")
+        : path;
+
+      // Known direct-path compatibility routes. Extend only as additional
+      // compatibility paths are explicitly approved; everything else falls
+      // back to the Alerts Desk, matching the SPA's own default route.
+      var routeMap = {
+        "/app/alerts": "#/alerts",
+        "/alerts": "#/alerts",
+        "/founder": "#/founder",
+        "/about-founder": "#/founder",
+        "/ceo-b-profile": "#/ceo-b-profile",
+        "/app/ceo-b": "#/ceo-b-profile"
+      };
+
+      var hash = routeMap[routePath] || "#/alerts";
+      window.location.replace(base + hash);
+    })();
+  </script>
+</body>
+</html>
