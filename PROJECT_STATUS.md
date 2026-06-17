@@ -11,14 +11,17 @@
 - Confirmed lock-QA regressions were repaired: root/public `index.html` drift, dark V3.1 text overridden by the legacy light Alerts theme, and a `680px` mobile min-content overflow in `#alertsContent`.
 - Automated validation passed after repair: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, public JavaScript syntax checks, and `git diff --check`.
 - The standalone `#/signals` route loads normally. The V3.1 detailed card remains intentionally mounted directly beneath the Alerts overlay, matching commit `4e4c00c`; no route move was introduced during lock QA.
-- Pre-fix hosted review found no V3.1 assets because Pages validation had failed on the root/public mirror mismatch. This checkpoint is **PASS WITH NOTES** until the repaired commit deploys and receives final hosted desktop/mobile verification.
+- Pre-fix hosted review found no V3.1 assets because Pages validation had failed on the root/public mirror mismatch.
+- Lock-QA commit `a537da8` deployed successfully in Pages run `27726657535`.
+- Hosted desktop QA passed for singleton V3.1 panels/assets, nine watchlist cards, QQQ default state, NVDA selected-candidate synchronization across four panels, refresh persistence, simulator/reset behavior, safety language, console, and overflow.
+- Hosted `390x844` QA passed with all four V3.1 modules, nine watchlist cards, minimum `46px` button height, one non-blocking Starlight canvas, no console errors, and no document or Alerts-container overflow.
+- V3.1 Lock QA result: **PASS / HOSTED**.
 - Public output remains blocked, CEO B manual review remains required, and research-only language remains visible.
 - No live data, fake prices, fake timestamps, scraping, broker connection, trade execution, subscription system, autonomous publishing, or guaranteed outcome was added.
 
 ### V3.1 Next Step
 
-- Deploy this bounded lock-QA repair, verify the hosted V3.1 panels, selected-candidate sync, console, and `390px` overflow, then update this checkpoint to hosted PASS.
-- Do not start V3.2 or another feature until hosted V3.1 QA is clean.
+- Keep V3.1 locked. Do not start V3.2 or another feature without a separately approved bounded scope.
 
 ## Current Checkpoint - Phase 9A Lock QA and Hosted Review
 

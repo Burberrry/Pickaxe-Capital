@@ -2,7 +2,7 @@
 
 ## Current Active Checkpoint
 
-V3.1 Lock QA is **PASS WITH NOTES** against implementation checkpoint `472bff8`.
+V3.1 Lock QA is **PASS / HOSTED** against implementation checkpoint `472bff8` and lock commit `a537da8`.
 
 - QQQ is the golden-path research-card demo.
 - Mission Control/Alerts overlay, detailed research card, browser-local review simulator, nine-symbol Watchlist Review Queue, and selected-candidate synchronization are implemented.
@@ -11,11 +11,14 @@ V3.1 Lock QA is **PASS WITH NOTES** against implementation checkpoint `472bff8`.
 - Root/public mirror drift, V3.1 dark-panel contrast, and mobile min-content overflow were confirmed and repaired without changing the starfield or adding product scope.
 - Build, project, Phase 1.5, agents, mirrors, route smoke, public JavaScript syntax, and diff checks pass.
 - The V3.1 detailed card remains intentionally under the Alerts overlay; `#/signals` itself still loads normally.
-- The pre-fix hosted site did not contain V3.1 because Pages validation failed on mirror drift. Final hosted verification must follow the repaired deployment.
+- The pre-fix hosted site did not contain V3.1 because Pages validation failed on mirror drift.
+- Pages run `27726657535` succeeded for `a537da8`.
+- Hosted desktop QA passed for V3.1 assets/panels, nine watchlist cards, candidate sync, refresh persistence, simulator/reset, safety language, console, and overflow.
+- Hosted `390x844` QA passed with no document or Alerts-container overflow, clean console, readable dark panels, tappable controls, and one non-blocking Starlight canvas.
 - Public output remains blocked. CEO B manual review and research-only language remain mandatory.
 - No live data, fake timestamp, scraping, broker execution, subscription, autonomous publishing, or guaranteed outcome was added.
 
-Next bounded step: deploy the V3.1 lock-QA repair and verify hosted desktop plus `390px` behavior. Do not start V3.2 or another feature.
+Next bounded step: keep V3.1 locked. Do not start V3.2 or another feature without a separately approved bounded scope.
 
 ## Locked Product Baseline
 
