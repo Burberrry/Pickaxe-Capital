@@ -33,6 +33,23 @@
     return mount;
   }
 
+  function ensureAfter(target, anchorId, id, className = "v31-signals-deep-dive") {
+    if (!target) return null;
+    let mount = target.querySelector(`#${id}`);
+    const anchor = target.querySelector(`#${anchorId}`);
+    if (!mount) {
+      mount = document.createElement("section");
+      mount.id = id;
+      mount.className = className;
+    }
+    if (anchor && anchor.nextElementSibling !== mount) {
+      anchor.insertAdjacentElement("afterend", mount);
+    } else if (!anchor && !mount.parentElement) {
+      target.insertAdjacentElement("afterbegin", mount);
+    }
+    return mount;
+  }
+
   function renderPanel(mount, contextLabel = "Mission Control") {
     if (!mount) return;
     const demo = window.PICKAXE_DEMO_DATA || {};
@@ -177,7 +194,7 @@
     renderPanel(ensureMount(command, "v31MissionControlCommand", "afterbegin"), "Command Console");
     renderPanel(ensureMount(dashboardContent, "v31MissionControlDashboard", "afterbegin"), "Mission Control");
     renderPanel(ensureMount(alertsContent, "v31MissionControlAlerts", "afterbegin"), "Alerts Desk");
-    renderDeepSignalsCard(ensureMount(alertsContent, "v31SignalsDeepDive", "beforeend", "v31-signals-deep-dive"));
+    renderDeepSignalsCard(ensureAfter(alertsContent, "v31MissionControlAlerts", "v31SignalsDeepDive", "v31-signals-deep-dive"));
   }
 
   window.renderV31MissionControl = renderV31MissionControl;
