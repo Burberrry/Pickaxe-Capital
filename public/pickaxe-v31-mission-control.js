@@ -19,14 +19,15 @@
   }[char]));
 
   const statusText = (value, fallback) => String(value || fallback || "unknown").replace(/_/g, " ");
+  const titleCase = (value, fallback) => statusText(value, fallback).replace(/\b\w/g, (char) => char.toUpperCase());
 
-  function ensureMount(target, id, position = "afterbegin") {
+  function ensureMount(target, id, position = "afterbegin", className = "v31-mission-control") {
     if (!target) return null;
     let mount = target.querySelector(`#${id}`);
     if (!mount) {
       mount = document.createElement("section");
       mount.id = id;
-      mount.className = "v31-mission-control";
+      mount.className = className;
       target.insertAdjacentElement(position, mount);
     }
     return mount;
@@ -71,6 +72,103 @@
     `;
   }
 
+  function renderDeepSignalsCard(mount) {
+    if (!mount) return;
+    const demo = window.PICKAXE_DEMO_DATA || {};
+    const card = demo.qqqResearchCard || {};
+    const statuses = card.statuses || {};
+    const sources = Array.isArray(demo.sourceLedger) ? demo.sourceLedger : [];
+    const agents = Array.isArray(demo.agentNotes) ? demo.agentNotes : [];
+    const risk = demo.riskGate || {};
+    const ceo = demo.ceoBReview || {};
+    const memory = Array.isArray(demo.memoryVault) ? demo.memoryVault[0] : null;
+    const silence = demo.silenceGate || {};
+
+    mount.innerHTML = `
+      <article class="v31-deep-panel" aria-label="V3.1 Signals Desk QQQ demo research card">
+        <p class="v31-kicker">Signals Desk / QQQ Demo Card / Not Approved</p>
+        <div class="v31-deep-title">
+          <h3>${esc(card.ticker || "QQQ")} Demo<br />Research Card</h3>
+          <div class="v31-status-row">
+            <span class="v31-status-chip gold">${esc(card.demoLabel || "Demo Data")}</span>
+            <span class="v31-status-chip warn">Bias: ${esc(titleCase(card.bias, "Watch"))}</span>
+            <span class="v31-status-chip warn">Timeframe: ${esc(titleCase(card.timeframe, "Swing"))}</span>
+            <span class="v31-status-chip block">Public Output: ${statuses.publicOutputAllowed ? "Allowed" : "Not Allowed"}</span>
+          </div>
+        </div>
+
+        <div class="v31-card-grid">
+          <div class="v31-mini-card"><span>Setup Type</span><strong>${esc(titleCase(card.setupType, "Mean Reversion Watch"))}</strong><p>Demo-only workflow object; no trade instruction.</p></div>
+          <div class="v31-mini-card"><span>Trigger</span><strong>${esc(card.levels?.trigger || "Source Required")}</strong><p>Requires verified chart level and timestamp.</p></div>
+          <div class="v31-mini-card"><span>Invalidation</span><strong>${esc(card.levels?.invalidation || "Source Required")}</strong><p>No invalidation means Risk Gate blocks approval.</p></div>
+          <div class="v31-mini-card"><span>Options Context</span><strong>${esc(titleCase(card.optionsContext?.contractType, "Watch Only"))}</strong><p>${esc(card.optionsContext?.warning || "Options may expire worthless.")}</p></div>
+        </div>
+
+        <div class="v31-deep-grid">
+          <section class="v31-deep-section">
+            <span>Thesis</span>
+            <strong>${esc(card.thesis?.oneLine || "QQQ demo watch candidate.")}</strong>
+            <p>${esc(card.thesis?.confirm || "Requires verified price, source timestamp, and risk review.")}</p>
+          </section>
+          <section class="v31-deep-section">
+            <span>Gate Status</span>
+            <strong>Source: ${esc(statusText(statuses.sourceLedger, "unverified"))}</strong>
+            <p>Silence: ${esc(statusText(statuses.silenceGate || silence.decision, "needs_more_evidence"))} • Risk: ${esc(statusText(statuses.riskGate || risk.status, "not_passed"))} • CEO B: ${esc(statusText(statuses.ceoBReview || ceo.status, "needs_review"))}</p>
+          </section>
+
+          <section class="v31-deep-section full">
+            <span>Source Ledger Mini-Table</span>
+            <div class="v31-table-wrap">
+              <table class="v31-table">
+                <thead><tr><th>Source</th><th>Category</th><th>Status</th><th>Required Before Approval</th></tr></thead>
+                <tbody>
+                  ${sources.map((source) => `
+                    <tr>
+                      <td>${esc(source.name)}</td>
+                      <td>${esc(titleCase(source.category, "Manual"))}</td>
+                      <td>${esc(statusText(source.status, "source_required"))}</td>
+                      <td>${source.timestampRequired ? "Timestamp" : "Review"}${source.screenshotRequired ? " + Screenshot" : ""}</td>
+                    </tr>
+                  `).join("")}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="v31-deep-section">
+            <span>Agent Notes</span>
+            <ul class="v31-deep-list">
+              ${agents.map((agent) => `<li><strong>${esc(agent.agent)}</strong><p>${esc(agent.note)} ${esc(agent.escalation)}</p></li>`).join("")}
+            </ul>
+          </section>
+
+          <section class="v31-deep-section">
+            <span>Risk Gate Hard Stops</span>
+            <ul class="v31-deep-list">
+              ${(risk.hardStops || ["No verified current price", "No invalidation"]).map((item) => `<li>${esc(item)}</li>`).join("")}
+            </ul>
+          </section>
+
+          <section class="v31-deep-section full">
+            <span>CEO B Review Checklist Preview</span>
+            <div class="v31-checklist">
+              ${(ceo.checklist || []).slice(0, 8).map((item) => `<div class="v31-check-item">${esc(item)}</div>`).join("")}
+            </div>
+          </section>
+
+          <section class="v31-deep-section full">
+            <span>Memory Vault Lesson</span>
+            <strong>${esc(memory?.outcome || "no_output_correct")}</strong>
+            <p>${esc(memory?.ruleCreated || "No public output unless Source Ledger, Silence Gate, Risk Gate, and CEO B Review pass.")}</p>
+            <p>${esc(memory?.futureAgentTask || "Create verified-source checklist before public visual generation.")}</p>
+          </section>
+        </div>
+
+        <p class="v31-footer-note">Demo data only. Research only. Not financial advice. No trade execution. No guaranteed outcomes. Public output remains not allowed.</p>
+      </article>
+    `;
+  }
+
   function renderV31MissionControl() {
     const command = document.querySelector("#command");
     const dashboardContent = document.querySelector("#dashboardContent");
@@ -79,6 +177,7 @@
     renderPanel(ensureMount(command, "v31MissionControlCommand", "afterbegin"), "Command Console");
     renderPanel(ensureMount(dashboardContent, "v31MissionControlDashboard", "afterbegin"), "Mission Control");
     renderPanel(ensureMount(alertsContent, "v31MissionControlAlerts", "afterbegin"), "Alerts Desk");
+    renderDeepSignalsCard(ensureMount(alertsContent, "v31SignalsDeepDive", "beforeend", "v31-signals-deep-dive"));
   }
 
   window.renderV31MissionControl = renderV31MissionControl;
