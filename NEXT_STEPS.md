@@ -2,20 +2,20 @@
 
 ## Current Active Checkpoint
 
-Phase 9A Lock QA passed locally at pushed commit `d4609f4`, but the hosted lock is incomplete for one direct compatibility path.
+V3.1 Lock QA is **PASS WITH NOTES** against implementation checkpoint `472bff8`.
 
-- Local `/`, `#/alerts`, and `/app/alerts` resolve to one canonical Alerts Desk with a static product-shell explanation.
-- Conceptual `Free Preview`, `Pro Preview`, and `Elite Preview` states are visible and explicitly provide no account, payment, pricing, entitlement, delivery, or real-alert behavior.
-- One research-only acknowledgment gate controls access to one accessible selected-packet detail drawer.
-- The drawer reuses Research Packet v2 data and existing browser-local CEO B actions. It shows source, risk, options context, missing evidence, review state, and CEO B next action.
-- Escape close, visible focus, opener focus return, reduced-motion safeguards, desktop/mobile layout, console, overflow, mirrors, build, project, Phase 1.5, agent, and route-smoke checks passed.
-- Local `/app/alerts` asset resolution remains fixed without changing `server.mjs`.
-- The GitHub Pages deployment for `d4609f4` succeeded, deployed assets matched local files, and hosted `/`, `#/alerts`, `#/agents`, `#/ai-habitat-os`, and `#/founder` passed desktop and mobile review.
-- Hosted `/Pickaxe-Capital/app/alerts` currently returns the GitHub Pages HTTP 404 before the app loads. Phase 9A cannot be marked fully hosted-locked until that direct-path bridge is repaired and rechecked.
-- Phase 7 and Phase 8 remain locked and intact.
-- No new route, duplicate renderer, packet schema, review queue, LocalStorage key, live provider, scraping, broker execution, auth, payment, private key, delivery channel, or autonomous publishing was added.
+- QQQ is the golden-path research-card demo.
+- Mission Control/Alerts overlay, detailed research card, browser-local review simulator, nine-symbol Watchlist Review Queue, and selected-candidate synchronization are implemented.
+- `pickaxe.v31.watchlist.selected` persists the selected candidate locally.
+- Desktop and `390x844` local QA passed for all nine candidates, four synchronized candidate panels, simulator order/reset/repeat behavior, focus, console, singleton loading, and overflow.
+- Root/public mirror drift, V3.1 dark-panel contrast, and mobile min-content overflow were confirmed and repaired without changing the starfield or adding product scope.
+- Build, project, Phase 1.5, agents, mirrors, route smoke, public JavaScript syntax, and diff checks pass.
+- The V3.1 detailed card remains intentionally under the Alerts overlay; `#/signals` itself still loads normally.
+- The pre-fix hosted site did not contain V3.1 because Pages validation failed on mirror drift. Final hosted verification must follow the repaired deployment.
+- Public output remains blocked. CEO B manual review and research-only language remain mandatory.
+- No live data, fake timestamp, scraping, broker execution, subscription, autonomous publishing, or guaranteed outcome was added.
 
-Next bounded step: CEO B authorizes one minimal GitHub Pages compatibility repair for direct `/app/alerts`, followed by a focused hosted re-lock QA. Do not begin Phase 9B, Phase 9C, Signal Engine Hardening, or Options Hub.
+Next bounded step: deploy the V3.1 lock-QA repair and verify hosted desktop plus `390px` behavior. Do not start V3.2 or another feature.
 
 ## Locked Product Baseline
 

@@ -260,6 +260,27 @@
   padding: 9px;
 }
 
+/* Keep V3.1 dark panels readable inside the legacy light Alerts theme. */
+#alerts.active #alertsContent {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+#alerts.active :is(.v31-mission-control, .v31-signals-deep-dive, .v31-review-simulator, .v31-watchlist-queue) {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+#alerts.active .v31-deep-title h3,
+#alerts.active .v31-deep-section strong {
+  color: #fff7e8 !important;
+}
+
+#alerts.active .v31-deep-section p {
+  color: rgba(255, 247, 232, 0.72) !important;
+}
+
 @media (max-width: 1180px) {
   .v31-flow-line { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .v31-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

@@ -116,6 +116,29 @@
   padding: 12px;
 }
 
+/* Override the legacy light Alerts theme so this dark V3.1 panel stays readable. */
+#alerts.active .v31-watchlist-queue :is(.v31-watch-head h3, .v31-watch-state strong, .v31-watch-card strong) {
+  color: #fff7e8 !important;
+}
+
+#alerts.active .v31-watchlist-queue :is(.v31-watch-head p, .v31-watch-card p) {
+  color: rgba(255, 247, 232, 0.72) !important;
+}
+
+#alerts.active .v31-watchlist-queue :is(.v31-watch-kicker, .v31-watch-card span, .v31-watch-note) {
+  color: #f0cc64 !important;
+}
+
+#alerts.active .v31-watchlist-queue .v31-watch-chip {
+  color: rgba(255, 247, 232, 0.86) !important;
+}
+
+#alerts.active .v31-watchlist-queue .v31-watch-btn {
+  border-color: rgba(240, 204, 100, 0.5) !important;
+  background: rgba(240, 204, 100, 0.12) !important;
+  color: #fff7e8 !important;
+}
+
 @media (max-width: 1180px) {
   .v31-watch-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

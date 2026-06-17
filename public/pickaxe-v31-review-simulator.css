@@ -98,6 +98,38 @@
   color: rgba(255, 247, 232, 0.74);
 }
 
+/* Override the legacy light Alerts theme so this dark V3.1 panel stays readable. */
+#alerts.active .v31-review-simulator h3,
+#alerts.active .v31-review-simulator .v31-sim-step strong {
+  color: #fff7e8 !important;
+}
+
+#alerts.active .v31-review-simulator p {
+  color: rgba(255, 247, 232, 0.72) !important;
+}
+
+#alerts.active .v31-review-simulator :is(.v31-sim-kicker, .v31-sim-step span, .v31-sim-note) {
+  color: #f0cc64 !important;
+}
+
+#alerts.active .v31-review-simulator .v31-sim-btn {
+  border-color: rgba(240, 204, 100, 0.5) !important;
+  background: rgba(240, 204, 100, 0.12) !important;
+  color: #fff7e8 !important;
+}
+
+#alerts.active .v31-review-simulator .v31-sim-btn:disabled {
+  border-color: rgba(246, 240, 228, 0.12) !important;
+  background: rgba(255, 255, 255, 0.035) !important;
+  color: rgba(255, 247, 232, 0.34) !important;
+}
+
+#alerts.active .v31-review-simulator .v31-sim-btn.reset {
+  border-color: rgba(246, 240, 228, 0.22) !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+  color: rgba(255, 247, 232, 0.74) !important;
+}
+
 @media (max-width: 1180px) {
   .v31-sim-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

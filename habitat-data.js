@@ -1131,8 +1131,9 @@ window.PickaxeHabitatData = {
     ],
   },
   buildCompletionTracker: {
-    lastUpdated: "2026-06-14",
+    lastUpdated: "2026-06-17",
     areas: [
+      { id: "v3-1-qqq-research-card-flow", name: "V3.1 QQQ Research Card Flow Lock QA", group: "CEO B Review Workflow", status: "Passed / Local - Hosted Pending", completion: 100, priority: "Critical", owner: "CEO B / Alerts Desk / Risk Gate", notes: "Verified the QQQ golden path, Mission Control/Alerts overlay, detailed research card, five-step browser-local simulator, nine-symbol Watchlist Review Queue, selected-candidate synchronization, and pickaxe.v31.watchlist.selected persistence. Desktop and 390x844 local QA passed for all candidates, repeat/reset behavior, focus, console, singleton panels/assets, and overflow. Repaired root/public index drift, legacy light-theme contrast overrides, and mobile min-content overflow. Public output remains blocked; CEO B manual review and research-only language remain required. No live data, fake prices or timestamps, scraping, broker execution, subscriptions, autonomous publishing, or guaranteed outcomes were added.", nextAction: "Deploy the lock-QA repair and verify hosted desktop/mobile V3.1 before starting any new feature." },
       { id: "phase-9a-alerts-product-shell", name: "Phase 9A Alerts Product Shell / CEO B Review Simulator", group: "CEO B Review Workflow", status: "Passed / Local", completion: 100, priority: "Critical", owner: "CEO B / Alerts Desk / Risk Gate", notes: "Extended only the active / and #/alerts Research Packet v2 renderer with one static product-shell layer, conceptual Free Preview, Pro Preview, and Elite Preview states, a research-only acknowledgment gate, and one accessible selected-packet detail drawer. The drawer reuses existing packet selection, source/risk gates, CEO B actions, Archive/Learning handoffs, and LocalStorage contracts. Desktop 1280x720 and mobile 390x844 route, interaction, focus-return, Escape, console, overflow, Starlight, Orbit, cards, and safety-language QA passed. Fixed the existing /app/alerts asset base resolution without changing server.mjs. No new route, renderer, packet schema, review queue, storage key, live provider, scraping, broker execution, auth, payment, entitlement, private key, delivery channel, or autonomous publishing was added.", nextAction: "After CEO B authorizes a push, run Phase 9A lock QA and hosted review. Keep Phase 9B, Phase 9C, Signal Engine Hardening, and Options Hub deferred." },
       { id: "phase-8-intelligence-orbit-agent-visual-system", name: "Phase 8A + 8B Intelligence Orbit and Agent Visual System", group: "CEO B Review Workflow", status: "Passed / Local", completion: 100, priority: "Critical", owner: "CEO B / Alerts Desk / Agent Habitat", notes: "Added a 16-node static/local Pickaxe Intelligence Orbit to / and #/alerts with four-second rotation, pause/play, previous/next, node and board selection, inspector details, a local CEO B review queue action, and three sourced Visual Intelligence cards. Upgraded Alerts into a denser black/gold command dashboard and added seven numbered visual research-agent identities around the preserved nine-department Phase 3 workflow. Desktop and 390px browser QA passed for required routes, interactions, reduced motion, hidden-tab lifecycle, Founder controls, console, singleton starfield, and document overflow. Phase 8 Lock QA passed at commit 29e5f4f on 2026-06-14 with no confirmed regression. No live provider, API, scraping, autonomous execution, broker connection, fake live data, paid dependency, route change, data/ edit, or Phase 7 starfield change was added.", nextAction: "Keep Phase 7 and Phase 8 locked. CEO B should approve one bounded Phase 9 documentation and prioritization scope before implementation." },
       { id: "phase-7-pickaxe-starlight-field", name: "Phase 7 Pickaxe Starlight Field", group: "Design System", status: "Passed / Hosted", completion: 100, priority: "High", owner: "CEO B / UI Designer / System Brain", notes: "Added one dependency-free global canvas behind the app shell with bounded ivory, silver, antique-gold, and champagne-gold stars, slow low-amplitude twinkle, and a rare 12-30 second shooting star. Product commit a8b8c22, README run 27409073533, and Pages run 27409073406 passed. Live desktop rendered a bounded field; exact 390px QA rendered 46 stars with no overflow and the Founder carousel still at one visible card. Canvas is aria-hidden, pointer-events none, fixed behind content, pixel-ratio capped, approximately 30 FPS, paused for hidden tabs, and static under reduced motion. Requested canonical hash routes, Founder controls, singleton initialization, console, readability, mirror, syntax, build, safety, deployment, and overflow checks passed. No product logic, dependency, live provider, broker, execution, fake telemetry, copy-trading, scraping, or safety-boundary change was added.", nextAction: "Keep Phase 7 locked. Tune only opacity or density if CEO B identifies a real live readability issue." },
@@ -1196,29 +1197,21 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "index.html", "public/index.html", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
-      featuresAdded: [
-        "Added the static Phase 9A Alerts product shell with conceptual Free, Pro, and Elite preview states.",
-        "Added a research-only acknowledgment gate and one accessible selected Research Packet v2 detail drawer.",
-        "Reused existing packet selection, CEO B actions, source/risk gates, Archive/Learning handoffs, and LocalStorage contracts."
-      ],
+      filesChanged: ["index.html", "public/index.html", "public/pickaxe-v31-mission-control.css", "public/pickaxe-v31-review-simulator.css", "public/pickaxe-v31-watchlist-queue.css", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
+      featuresAdded: [],
       bugsFixed: [
-        "Fixed /app/alerts relative asset resolution with a deployment-aware base path in the mirrored HTML entry files."
+        "Synchronized root index.html with the deployed public/index.html V3.1 assets.",
+        "Restored readable dark-panel text and controls where the legacy light Alerts theme overrode V3.1 styles.",
+        "Removed the 680px mobile min-content overflow from the V3.1 Alerts container."
       ],
-      validationCommand: "/Applications/Codex.app/Contents/Resources/node --run build; /Applications/Codex.app/Contents/Resources/node --run check:project; /Applications/Codex.app/Contents/Resources/node --run check:phase15; /Applications/Codex.app/Contents/Resources/node --run check:agents; /Applications/Codex.app/Contents/Resources/node --run check:mirrors; /Applications/Codex.app/Contents/Resources/node --run smoke:routes; Node syntax checks; git diff --check; desktop 1280x720 and mobile 390x844 browser QA",
-      validationResult: "Passed locally on 2026-06-14 for /, #/alerts, /app/alerts, #/dashboard, #/agents, #/ai-habitat-os, #/founder, #/source-hub, #/archive, #/learning-ledger, #/research, #/signals, and #/staging. Preview labels, acknowledgment, selected-packet drawer, Escape, focus return, hard-risk precedence, locked Phase 7/8 surfaces, /ai-handoff, console, and document overflow checks passed.",
+      validationCommand: "Bundled Node --run build; --run check:project; --run check:phase15; --run check:agents; --run check:mirrors; --run smoke:routes; public JavaScript syntax checks; git diff --check; desktop 1280x720 and mobile 390x844 browser QA",
+      validationResult: "V3.1 local PASS WITH NOTES on 2026-06-17. All nine candidates synchronized across Alerts, Dashboard, Command Console, and the detailed card; LocalStorage persistence survived refresh; the complete simulator passed twice and reset independently; focus, console, singleton assets/panels, safety language, and mobile overflow passed. Hosted verification remains pending the repaired Pages deployment.",
       remainingProblems: [
-        "Some duplicate renderer names remain because early startup calls reach their hoisted declarations before final assignments.",
-        "Historical global and route CSS remains large and should be consolidated only with route-by-route browser evidence.",
-        "utility-compat.css is a generated snapshot and must be regenerated or explicitly extended when new Tailwind-style utility classes are introduced.",
-        "The route smoke command is dependency-free and does not replace full automated browser rendering, console, or responsive-layout tests.",
-        "Google Fonts remains an external stylesheet dependency.",
-        "Canonical GitHub Pages navigation remains hash-based; existing non-bridge direct hosted paths can return GitHub Pages 404s.",
-        "Preview modes, Orbit, agent telemetry, options context, and market values remain static/local demonstration state.",
-        "Live providers, backend jobs, autonomous agents, broker execution, and scraping remain intentionally unconnected.",
-        "Hosted deployment was not exercised because this sprint stops after the local commit and does not push."
+        "The pre-fix hosted site does not contain V3.1 because Pages validation failed on the now-repaired mirror mismatch.",
+        "The V3.1 detailed card is intentionally mounted beneath the Alerts overlay rather than directly inside #/signals.",
+        "Live providers, fake timestamps, broker execution, scraping, subscriptions, and autonomous publishing remain intentionally unconnected."
       ],
-      nextRecommendedTask: "After CEO B authorizes a push, run Phase 9A lock QA and hosted review. Keep Phase 9B, Phase 9C, Signal Engine Hardening, and Options Hub deferred."
+      nextRecommendedTask: "Deploy and complete hosted V3.1 desktop/mobile lock QA. Do not start V3.2 or another feature."
     },
   },
   marketWatchlist: [

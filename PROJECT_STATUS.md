@@ -1,5 +1,25 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - V3.1 Lock QA
+
+- Date: 2026-06-17.
+- V3.1 implementation checkpoint tested: `472bff8` (`Wire Pickaxe V3.1 candidate sync`).
+- QQQ remains the golden-path demo for `Market Input -> Source Ledger -> Agent Habitat -> Silence Gate -> Risk Gate -> CEO B Review -> Public Research Card -> Memory Vault`.
+- Completed V3.1 modules: QQQ demo data, Mission Control/Alerts overlay, detailed Signals Desk research card, browser-local review simulator, nine-symbol Watchlist Review Queue, and selected-candidate synchronization.
+- Selected-candidate state remains browser-local under `pickaxe.v31.watchlist.selected`.
+- Desktop and `390x844` local QA passed for Alerts, Dashboard, Command Console, the detailed research card, all nine watchlist candidates, LocalStorage persistence, the complete simulator sequence, reset/repeat behavior, focus visibility, singleton panels/assets, console, and overflow.
+- Confirmed lock-QA regressions were repaired: root/public `index.html` drift, dark V3.1 text overridden by the legacy light Alerts theme, and a `680px` mobile min-content overflow in `#alertsContent`.
+- Automated validation passed after repair: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, public JavaScript syntax checks, and `git diff --check`.
+- The standalone `#/signals` route loads normally. The V3.1 detailed card remains intentionally mounted directly beneath the Alerts overlay, matching commit `4e4c00c`; no route move was introduced during lock QA.
+- Pre-fix hosted review found no V3.1 assets because Pages validation had failed on the root/public mirror mismatch. This checkpoint is **PASS WITH NOTES** until the repaired commit deploys and receives final hosted desktop/mobile verification.
+- Public output remains blocked, CEO B manual review remains required, and research-only language remains visible.
+- No live data, fake prices, fake timestamps, scraping, broker connection, trade execution, subscription system, autonomous publishing, or guaranteed outcome was added.
+
+### V3.1 Next Step
+
+- Deploy this bounded lock-QA repair, verify the hosted V3.1 panels, selected-candidate sync, console, and `390px` overflow, then update this checkpoint to hosted PASS.
+- Do not start V3.2 or another feature until hosted V3.1 QA is clean.
+
 ## Current Checkpoint - Phase 9A Lock QA and Hosted Review
 
 - Date: 2026-06-14.
