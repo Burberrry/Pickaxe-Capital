@@ -1,0 +1,52 @@
+/* Pickaxe V3.1 Selected Candidate Sync. Demo data only. */
+.v31-selected-candidate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  border: 1px solid rgba(240, 204, 100, 0.32);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(240, 204, 100, 0.11), rgba(0, 0, 0, 0.48));
+  margin: 14px 0 0;
+  padding: 12px;
+}
+
+.v31-selected-candidate span,
+.v31-selected-candidate small {
+  color: #f0cc64;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.v31-selected-candidate strong {
+  color: #fff7e8;
+  font-size: clamp(18px, 2vw, 30px);
+  letter-spacing: -0.035em;
+}
+
+.v31-selected-candidate p {
+  margin: 4px 0 0;
+  color: rgba(255, 247, 232, 0.72);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.v31-selected-warning {
+  border: 1px solid rgba(240, 143, 109, 0.5);
+  border-radius: 999px;
+  color: #ffd1c3;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 7px 10px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 720px) {
+  .v31-selected-candidate { align-items: flex-start; }
+  .v31-selected-warning { width: 100%; text-align: center; }
+}
