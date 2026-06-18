@@ -2,17 +2,20 @@
 
 ## Current Active Checkpoint
 
-Route-by-route visual QA polish is **PASS / LOCAL**.
+Route-by-route visual QA polish is **PASS / HOSTED**.
 
-- Completed all 26 requested routes at `1280x720` and `390x844`; Alerts, Vision Map, and Agents also passed at `1440x900`.
+- Commit `eb57392` (`Polish mobile visual QA defects`) is pushed to `origin/main`.
+- GitHub Pages validation/deployment run `27754364622` (`Validate and Deploy GitHub Pages #121`) completed successfully.
+- Completed all 26 hosted routes at `1280x720` and `390x844`; Alerts, Vision Map, and Agents also passed hosted checks at `1440x900`.
 - Fixed the confirmed mobile sidebar height, Vision Map off-screen node layout, sub-44px route controls, and Alerts V3.1 deep-detail width defects.
-- All checked routes render nonblank content with no console errors or document-level horizontal overflow.
+- Hosted verification confirmed all four defects remain fixed. Route content begins between 469px and 637px on mobile instead of after the former roughly 1,000px sidebar.
+- All checked hosted routes render nonblank content with no console errors or document-level horizontal overflow.
 - One Starlight canvas remains, Alerts remains singleton, the detailed V3.1 Signals card stays beneath the Alerts overlay, and the Phase 9B candidate remains unverified/non-adopted.
-- Direct paths still load their canonical views. `/ai-handoff` remains local-server-only.
+- Direct paths and repaired bridges load their correct canonical views without GitHub Pages 404s. `/ai-handoff` remains local-server-only.
 - No route, renderer, product workflow, storage key, research logic, live service, provider, broker, auth, payment, autonomous publishing, or performance scope was added.
 - `data/signal-alerts.json` remains unchanged.
 
-Next bounded step: keep the visual QA fixes local until CEO B authorizes push and hosted verification. Do not begin another product or visual sprint automatically.
+Next bounded step: keep the hosted visual QA checkpoint locked. Begin another product, documentation, or visual sprint only after CEO B authorizes a separate bounded scope.
 
 ## Previous Active Checkpoint - Project Context Lock
 
