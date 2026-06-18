@@ -12,6 +12,12 @@ const pairs = [
   ["agent-os.html", "public/agent-os.html"],
   ["founder/index.html", "public/founder/index.html"],
   ["app/alerts/index.html", "public/app/alerts/index.html"],
+  ["agents/index.html", "public/agents/index.html"],
+  ["vision-map/index.html", "public/vision-map/index.html"],
+  ["staging/index.html", "public/staging/index.html"],
+  ["ceo-b-profile/index.html", "public/ceo-b-profile/index.html"],
+  ["jarvis-lab/index.html", "public/jarvis-lab/index.html"],
+  ["life-os/index.html", "public/life-os/index.html"],
 ];
 
 const failures = [];

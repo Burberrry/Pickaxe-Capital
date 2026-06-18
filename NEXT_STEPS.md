@@ -2,6 +2,21 @@
 
 ## Current Active Checkpoint
 
+The six-route GitHub Pages direct-path repair is **PASS / LOCAL - HOSTED QA PENDING**.
+
+- Added mirrored static bridges for `/agents`, `/vision-map`, `/staging`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
+- Each bridge forwards to the existing canonical hash route; no duplicate renderer or route owner was added.
+- Mirror validation and dependency-free route smoke now cover all six bridge pairs.
+- Build, project, Phase 1.5, agent, route-smoke, and diff checks pass.
+- Desktop local app-server and plain-static-host QA pass for correct view resolution, nonblank main content, console errors, and overflow.
+- Plain-static-host QA at `390x844` passes for all six routes with no console errors or horizontal overflow.
+- `/ai-handoff` remains local-server-only and is intentionally outside this static bridge repair.
+- No Phase 9C, V3.2, Options Hub, provider, payment, execution, autonomous publishing, performance, renderer, storage, or product-workflow scope was added.
+
+Next bounded step: commit and deploy this repair, then run hosted desktop and `390x844` route-matrix QA against the six exact GitHub Pages direct paths. Begin no new feature automatically.
+
+## Previous Active Checkpoint - Phase 9B
+
 Phase 9B Memory Vault / Archive Lesson is **FAIL / HOSTED - NEEDS BOUNDED FIX**.
 
 - The existing QQQ simulator now completes `Source Check -> No Output -> Risk Review -> CEO B Review -> Archive Lesson`.

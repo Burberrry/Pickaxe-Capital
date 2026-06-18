@@ -1,5 +1,34 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Six-Route GitHub Pages Direct-Path Repair
+
+- Date: 2026-06-18.
+- Sprint scope: one bounded static compatibility repair for `/agents`, `/vision-map`, `/staging`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
+- Added mirrored directory-index bridge files under root and `public/` that forward each direct path to its existing canonical hash route.
+- Extended mirror validation and route smoke coverage for all six bridge pairs.
+- No renderer, application route owner, app shell, product workflow, LocalStorage key, packet model, provider, broker behavior, or financial logic changed.
+- Automated validation passed: build, project check, Phase 1.5 check, agent check, route smoke, and `git diff --check`.
+- Desktop QA passed through both the local app server and a plain static host. All six routes resolved to the correct existing view, rendered nonblank, produced no console errors, and had no document overflow.
+- Plain-static-host QA passed at `390x844` for all six routes with the correct canonical hash, visible main content, no console errors, and no horizontal overflow.
+- Static-host warnings were limited to the app's existing expected `/api/*` fallback notices; no new warning or error path was introduced.
+- Hosted deployment and final GitHub Pages route-matrix QA remain pending.
+- `/ai-handoff` remains an intentional local-server text endpoint and is not converted into a public static bridge.
+- Do not start Phase 9C, V3.2, Options Hub, live providers, authentication, payments, execution, autonomous publishing, or performance work automatically.
+
+### Direct-Path Repair Files Changed
+
+- `public/agents/index.html` and `agents/index.html`
+- `public/vision-map/index.html` and `vision-map/index.html`
+- `public/staging/index.html` and `staging/index.html`
+- `public/ceo-b-profile/index.html` and `ceo-b-profile/index.html`
+- `public/jarvis-lab/index.html` and `jarvis-lab/index.html`
+- `public/life-os/index.html` and `life-os/index.html`
+- `scripts/check-mirrors.mjs`
+- `scripts/smoke-routes.mjs`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
 ## Current Checkpoint - Phase 9B Memory Vault / Archive Lesson Implemented
 
 - Date: 2026-06-18.

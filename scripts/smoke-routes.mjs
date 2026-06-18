@@ -10,12 +10,21 @@ const publicAppPath = resolve(root, "public", "app.js");
 const publicHabitatDataPath = resolve(root, "public", "habitat-data.js");
 const publicFounderBridgePath = resolve(root, "public", "founder", "index.html");
 const publicAlertsBridgePath = resolve(root, "public", "app", "alerts", "index.html");
-const [indexText, appText, habitatDataText, founderBridgeText, alertsBridgeText] = await Promise.all([
+const directBridgeSpecs = [
+  ["agents", "#/agents"],
+  ["vision-map", "#/vision-map"],
+  ["staging", "#/staging"],
+  ["ceo-b-profile", "#/ceo-b-profile"],
+  ["jarvis-lab", "#/jarvisLab"],
+  ["life-os", "#/lifeOS"],
+];
+const [indexText, appText, habitatDataText, founderBridgeText, alertsBridgeText, ...directBridgeTexts] = await Promise.all([
   readFile(publicIndexPath, "utf8"),
   readFile(publicAppPath, "utf8"),
   readFile(publicHabitatDataPath, "utf8"),
   readFile(publicFounderBridgePath, "utf8"),
   readFile(publicAlertsBridgePath, "utf8"),
+  ...directBridgeSpecs.map(([route]) => readFile(resolve(root, "public", route, "index.html"), "utf8")),
 ]);
 const frontendSource = `${indexText}\n${appText}`;
 
@@ -122,6 +131,12 @@ function verifyStaticBoundaries() {
   if (!alertsBridgeText.includes("Research only") || !alertsBridgeText.includes("No broker execution")) {
     failures.push("public/app/alerts/index.html does not preserve the Alerts research-only safety boundary");
   }
+  directBridgeSpecs.forEach(([route, hash], index) => {
+    const bridgeText = directBridgeTexts[index] || "";
+    if (!bridgeText.includes(hash) || !bridgeText.includes("window.location.replace")) {
+      failures.push(`public/${route}/index.html does not preserve the ${hash} direct-path bridge`);
+    }
+  });
   for (const forbidden of [
     "/Users/b/Documents/Obsidian Vault",
     "PICKAXE_OBSIDIAN_VAULT",
