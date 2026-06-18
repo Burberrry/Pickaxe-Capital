@@ -143,16 +143,10 @@ Options Alerts organizes research candidates and supporting evidence for human r
 
 ### Non-Negotiable Build Rules
 
-- Never delete working pages without asking.
-- Do not rebuild from scratch unless explicitly asked.
-- Do not duplicate pages; merge duplicate ideas into the stronger page.
-- Reuse components before creating new ones.
-- No duplicate data/component/page concepts.
-- Mock data must be labeled.
+- Do not rebuild from scratch.
+- Keep mock data labeled.
 - No fake live integrations.
-- No scraping or bypassing protected sites.
-- Use safe external-source fallbacks.
-- Keep design dark, premium, cyberpunk, readable, and Pickaxe Capital branded.
+- No auto-trading or broker order placement.
 
 <!-- PICKAXE-AUTO-UPDATE:END -->
 
