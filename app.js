@@ -17300,82 +17300,141 @@ renderMoneyLabPage = function () {
 renderStagingAdvanced = function () {
   if (!els.stagingAdvanced) return;
   const routeRows = [
-    ["00 Alerts Desk", "locked", "Review Queue homepage", "Static research packets only"],
-    ["01 Mission Control", "locked", "Operating overview", "No fake telemetry"],
-    ["06 Source Hub", "stable", "Trust cockpit", "No provider adapters connected"],
-    ["10 Archive Vault", "stable", "Cleaned memory vault", "No private vault publishing"],
-    ["13 Staging / QA", "active sprint", "Build-readiness room", "Declutter only"],
-    ["15 Watchlists", "stable", "Research universe", "No live quotes"],
-    ["04 Agents", "placeholder", "Future agent habitat", "No autonomous execution"],
-    ["17 Options Hub", "deferred", "Future options research", "No broker or trade execution"]
+    ["26-route hosted matrix", "PASS / HOSTED", "1280x720 and 390x844", "No blank views, console errors, or document overflow"],
+    ["Alerts / Vision Map / Agents", "PASS / HOSTED", "Additional 1440x900 checks", "Locked priority surfaces remained stable"],
+    ["/app/alerts", "PASS / HOSTED", "Direct bridge to #/alerts", "Canonical Alerts renderer remains singleton"],
+    ["/agents · /vision-map · /staging", "PASS / HOSTED", "Static direct-path bridges", "Correct canonical hash views load"],
+    ["/ceo-b-profile · /jarvis-lab · /life-os", "PASS / HOSTED", "Static direct-path bridges", "No GitHub Pages 404"],
+    ["/ai-handoff", "LOCAL ONLY", "Local-server text endpoint", "Not a public static bridge"]
   ];
-  const approvalQueue = [
-    "CSS Consolidation",
-    "Watchlists Polish",
-    "Roadmap Polish",
-    "Research Packet Studio Spec",
-    "Bookmark Intelligence Router"
+  const lockRows = [
+    ["Phase 7", "Passed / Hosted", "One locked Starlight canvas"],
+    ["Phase 8", "Locked / Hosted", "Orbit and Agent Visual System"],
+    ["V3.1", "Passed / Hosted", "QQQ golden path and Signals placement"],
+    ["Phase 9A", "Passed / Hosted", "Canonical Alerts Product Shell"],
+    ["Phase 9B", "Passed / Hosted", "One unverified, non-adopted lesson candidate"],
+    ["Direct-Path Repair", "Passed / Hosted", "Six required bridges"],
+    ["Project Context Lock", "Passed / Docs-Only", "Repository authority and scope map"],
+    ["Visual QA Polish", "Passed / Hosted", "26-route hosted verification"]
   ];
   const safetyRules = [
-    "Static-first GitHub Pages app",
+    "Research Only",
+    "Manual Review Required",
+    "Not Financial Advice",
+    "No Broker Execution",
+    "Demo / Static Data",
     "LocalStorage-only browser state",
-    "No live APIs or provider adapters",
-    "No broker execution, copy-trading, or betting execution",
-    "No fake telemetry or fake connected status",
-    "No private Obsidian note publishing",
     "CEO B approval required before the next sprint"
+  ];
+  const forbiddenWork = [
+    "Phase 9C",
+    "V3.2",
+    "Options Hub",
+    "Live providers or scraping",
+    "Authentication, payments, or subscriptions",
+    "Broker execution or copy-trading",
+    "Autonomous publishing",
+    "Performance or profit claims"
   ];
   els.stagingAdvanced.innerHTML = `
     <div class="page-shell staging-qa-shell">
-      ${pcPageHero("13 QA / Build Readiness", "Staging / QA", "A quiet release-control board for current lock status, route stability, blockers, and B's next approval decision.", ["Phase 2P Active", "Static Prototype", "No Live APIs", "CEO B Gate"])}
+      ${pcPageHero("13 QA / CEO B Command Center", "Staging / QA", "Current hosted lock status, route verification, Build Completion Tracker, and the next bounded CEO B decision.", ["PASS / HOSTED", "26 Routes Verified", "No Confirmed Defects", "CEO B Gate"])}
 
       <div class="staging-purpose-line" aria-label="Staging purpose and next action">
-        <p><strong>Purpose:</strong> verify the OS is clean enough to lock, then stop until B chooses the next sprint.</p>
-        <a class="primary-action" href="#/staging">Review Phase 2P</a>
+        <p><strong>Active checkpoint:</strong> Route-by-route Visual QA Polish — PASS / HOSTED.</p>
+        <a class="primary-action" href="#stagingTracker">Open Build Completion Tracker</a>
       </div>
 
       <section class="staging-primary-grid" aria-label="Staging command panels">
-        <article class="staging-command-panel">
-          <span class="meta-label">Current Locked Phase</span>
-          <h3>Sidebar zones are locked. Staging Declutter is active.</h3>
+        <article class="staging-command-panel staging-checkpoint-panel">
+          <span class="meta-label">Current Hosted Checkpoint</span>
+          <div class="staging-status-lock"><strong>PASS</strong><span>HOSTED</span></div>
+          <h3>Route-by-route Visual QA Polish</h3>
+          <p class="staging-panel-note">All 26 requested routes passed hosted desktop and mobile QA. No confirmed defects remain.</p>
+          <dl class="staging-key-values">
+            <div><dt>Visual fix</dt><dd><code>eb57392</code></dd></div>
+            <div><dt>Hosted record</dt><dd><code>6adeedf</code></dd></div>
+            <div><dt>Current branch</dt><dd>main / origin/main</dd></div>
+          </dl>
+        </article>
+
+        <article class="staging-command-panel staging-hosted-panel">
+          <span class="meta-label">Hosted Verification</span>
+          <h3>GitHub Pages checks are complete.</h3>
           <ul class="staging-fact-list">
-            <li><span>Latest locked checkpoint</span><strong>c28f7f7 Sidebar / Navigation Consolidation</strong></li>
-            <li><span>Current visual state</span><strong>Dark graphite shell, muted gold route state, compact OS rail</strong></li>
-            <li><span>Route structure</span><strong>COMMAND through EXPANSION, visible order 00-20</strong></li>
-            <li><span>Safety state</span><strong>Research-only, LocalStorage-only, no live execution systems</strong></li>
-            <li><span>Local caution</span><strong>data/signal-alerts.json has a pre-existing local diff; do not stage it</strong></li>
+            <li><span>Visual deployment</span><strong>Run 27754364622 · Success</strong></li>
+            <li><span>Documentation deployment</span><strong>Run 27794662992 · Success</strong></li>
+            <li><span>Desktop / mobile matrix</span><strong>1280x720 · 390x844</strong></li>
+            <li><span>Priority wide checks</span><strong>Alerts · Vision Map · Agents at 1440x900</strong></li>
           </ul>
         </article>
 
-        <article class="staging-command-panel">
-          <span class="meta-label">Route Stability Matrix</span>
-          <h3>Key routes and their build-readiness role.</h3>
-          <div class="staging-route-matrix">
-            ${routeRows.map(([route, state, role, truth]) => `
-              <span>
-                <strong>${escapeHtml(route)}</strong>
-                <em>${escapeHtml(state)}</em>
-                <small>${escapeHtml(role)} · ${escapeHtml(truth)}</small>
-              </span>
-            `).join("")}
-          </div>
+        <article class="staging-command-panel staging-tracker-panel">
+          <span class="meta-label">Build Completion Tracker</span>
+          <h3>Current project record is available below.</h3>
+          <ul class="staging-fact-list">
+            <li><span>Latest local session</span><strong>Staging QA polish · Built / Local Pass</strong></li>
+            <li><span>Hosted baseline</span><strong>Visual QA · PASS / HOSTED</strong></li>
+            <li><span>Runtime contracts</span><strong>Preserved</strong></li>
+            <li><span>Editable browser state</span><strong>Existing controls retained</strong></li>
+            <li><span>Backup / restore</span><strong>Existing controls retained</strong></li>
+          </ul>
+          <a class="secondary-action" href="#stagingTracker">Review tracker records</a>
         </article>
 
-        <article class="staging-command-panel">
-          <span class="meta-label">Next Approval Queue</span>
-          <h3>B chooses the next task. Codex does not auto-start it.</h3>
-          <ol class="staging-approval-list">
-            ${approvalQueue.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
-          </ol>
-          <p class="staging-panel-note">Staging Declutter is the active sprint. Next recommendation after lock: CSS Consolidation, then Watchlists Polish.</p>
+        <article class="staging-command-panel staging-decision-panel">
+          <span class="meta-label">Next CEO B Decision</span>
+          <h3>Choose one separately bounded sprint—or keep the lock.</h3>
+          <p class="staging-panel-note">Codex must not begin another product, data, monetization, or publishing scope without explicit CEO B authorization.</p>
+          <div class="staging-decision-actions">
+            <a class="primary-action" href="#/roadmap">Review Roadmap</a>
+            <a class="secondary-action" href="#/projectUpdate">Open Project Update</a>
+          </div>
         </article>
+      </section>
+
+      <section class="staging-lock-board" aria-label="Locked project checkpoints">
+        <header>
+          <div><span class="meta-label">Locked System Status</span><h3>Hosted and protected checkpoints</h3></div>
+          <strong>8 locks verified</strong>
+        </header>
+        <div>
+          ${lockRows.map(([name, stateLabel, detail]) => `
+            <article>
+              <span>${escapeHtml(name)}</span>
+              <strong>${escapeHtml(stateLabel)}</strong>
+              <small>${escapeHtml(detail)}</small>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+
+      <section class="staging-route-board" aria-label="Hosted route and bridge verification">
+        <header>
+          <div><span class="meta-label">QA Route Matrix</span><h3>Canonical routes and direct paths</h3></div>
+          <strong>PASS / HOSTED</strong>
+        </header>
+        <div class="staging-route-matrix">
+          ${routeRows.map(([route, stateLabel, role, truth]) => `
+            <span>
+              <strong>${escapeHtml(route)}</strong>
+              <em class="${stateLabel === "LOCAL ONLY" ? "is-local" : ""}">${escapeHtml(stateLabel)}</em>
+              <small>${escapeHtml(role)} · ${escapeHtml(truth)}</small>
+            </span>
+          `).join("")}
+        </div>
       </section>
 
       <section class="staging-quiet-band" aria-label="Concise safety boundaries">
         ${safetyRules.map((rule) => `<span>${escapeHtml(rule)}</span>`).join("")}
       </section>
 
-      <details class="mission-quiet-details staging-quiet-details">
+      <section class="staging-forbidden-work" aria-label="Work requiring separate CEO B authorization">
+        <div><span class="meta-label">Separate Authorization Required</span><h3>Do not start automatically</h3></div>
+        <div>${forbiddenWork.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+      </section>
+
+      <details id="stagingTracker" class="mission-quiet-details staging-quiet-details">
         <summary>Build Completion Tracker and editable QA records</summary>
         ${renderCompletionTracker("full")}
       </details>

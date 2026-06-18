@@ -1,5 +1,35 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Staging / QA Command Center Polish
+
+- Date: 2026-06-18.
+- Sprint type: bounded route-specific presentation and clarity polish for `#/staging` and `/staging`.
+- Starting state: clean `main` at `6adeedf`, freshly fetched and synchronized with `origin/main` (`0` ahead / `0` behind).
+- Replaced obsolete Phase 2P, `c28f7f7`, stale local-data warning, and placeholder-only Agent copy in the final active Staging renderer.
+- Staging now leads with the current `Route-by-route Visual QA Polish — PASS / HOSTED` checkpoint, commits `eb57392` and `6adeedf`, successful GitHub Pages runs `27754364622` and `27794662992`, the completed 26-route hosted matrix, and the next CEO B decision gate.
+- Added clear presentation groups for the Build Completion Tracker, hosted route QA, six direct-path bridges, `/ai-handoff` local-only truth, and the locked Phase 7, Phase 8, V3.1, Phase 9A, Phase 9B, Direct-Path Repair, Project Context Lock, and Visual QA checkpoints.
+- Required safety language is visible: `Research Only`, `Manual Review Required`, `Not Financial Advice`, `No Broker Execution`, and `Demo / Static Data`.
+- Separately authorized work is explicitly blocked from auto-start: Phase 9C, V3.2, Options Hub, providers, scraping, auth, payments, subscriptions, broker execution, autonomous publishing, and performance claims.
+- Existing Build Completion Tracker controls, browser-local tracker state, backup/restore controls, recovery details, diagnostics, route ownership, and `/ai-handoff` endpoint behavior remain unchanged.
+- Desktop and `390x844` browser QA passed for `#/staging`, `/staging`, `/`, `#/alerts`, `/app/alerts`, `#/archive`, `#/learning-ledger`, `#/agents`, `#/vision-map`, `/agents`, and `/vision-map`.
+- Every checked route resolved to the correct active view, rendered nonblank content, retained one Starlight canvas, produced no console errors, and had no document-level horizontal overflow.
+- The canonical Alerts renderer remains singleton, the V3.1 detailed Signals card remains beneath the Alerts overlay, and the Phase 9B lesson candidate remains unverified and non-adopted.
+- No new route, renderer, LocalStorage key, tracker behavior, backup/restore behavior, financial/research logic, provider, broker, authentication, payment, autonomous publishing, performance state, or product scope was added.
+- `data/signal-alerts.json` remains unchanged.
+
+### Staging / QA Command Center Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html` — cache keys only
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### Staging / QA Command Center Next Step
+
+- Keep this local checkpoint locked. CEO B may separately authorize push and hosted verification; do not begin another product sprint automatically.
+
 ## Current Checkpoint - Route-by-Route Visual QA Polish / Hosted Verification
 
 - Date: 2026-06-18.

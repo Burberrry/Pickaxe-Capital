@@ -2,6 +2,24 @@
 
 ## Current Active Checkpoint
 
+Staging / QA Command Center polish is **BUILT / LOCAL PASS**.
+
+- Started from clean synchronized `main` at `6adeedf`.
+- Updated only the final active Staging presentation plus route-scoped CSS, cache keys, tracker metadata, and session records.
+- `#/staging` and `/staging` now show the current `Route-by-route Visual QA Polish — PASS / HOSTED` checkpoint, commits `eb57392` and `6adeedf`, successful Pages runs `27754364622` and `27794662992`, and the completed 26-route hosted matrix.
+- The first command layer now includes four high-value panels: current hosted checkpoint, hosted verification, Build Completion Tracker status, and the next CEO B decision.
+- Staging clearly groups the locked Phase 7, Phase 8, V3.1, Phase 9A, Phase 9B, Direct-Path Repair, Project Context Lock, and Visual QA checkpoints.
+- Direct-path bridge status and `/ai-handoff` local-only truth are explicit.
+- Required financial-safety language and separately-authorized-only work are visible.
+- Existing tracker, backup/restore, recovery, diagnostics, route, renderer, LocalStorage, and endpoint behavior remain unchanged.
+- Desktop and `390x844` QA passed for Staging and all requested regression routes with correct active views, nonblank content, one Starlight canvas, zero console errors, and no document-level overflow.
+- Alerts remains singleton, the V3.1 detailed Signals card placement remains locked, and the Phase 9B candidate remains unverified/non-adopted.
+- No Phase 9C, V3.2, Options Hub, live provider, scraping, broker execution, auth, payment, subscription, autonomous publishing, performance, new storage key, duplicate renderer, or `data/signal-alerts.json` change was added.
+
+Next bounded step: CEO B may authorize push and hosted verification of this Staging / QA Command Center polish. Do not begin another product sprint automatically.
+
+## Previous Active Checkpoint - Route-by-Route Visual QA Polish
+
 Route-by-route visual QA polish is **PASS / HOSTED**.
 
 - Commit `eb57392` (`Polish mobile visual QA defects`) is pushed to `origin/main`.
