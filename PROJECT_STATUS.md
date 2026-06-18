@@ -1,5 +1,24 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Phase 9A Hosted Direct-Path Bridge
+
+- Date: 2026-06-17.
+- Direct-path bridge status: **PASS / HOSTED**.
+- Added one targeted static bridge at `public/app/alerts/index.html` with synchronized root mirror `app/alerts/index.html`.
+- Exact hosted URL tested: `https://burberrry.github.io/Pickaxe-Capital/app/alerts`.
+- GitHub Pages returns a normal directory redirect and HTTP 200 bridge page instead of its former 404, then forwards to the existing canonical `https://burberrry.github.io/Pickaxe-Capital/#/alerts` experience.
+- Bridge implementation commit: `ecd40b5` (`Fix hosted app alerts bridge`).
+- Bridge Pages run: `27727711420`, successful.
+- Desktop hosted QA passed for canonical Alerts resolution, four singleton V3.1 panels, nine watchlist symbols, selected-candidate synchronization, QQQ simulator reset, safety language, clean console, and no horizontal overflow.
+- Hosted `390x844` QA passed with minimum `46px` V3.1 control height, readable content, four singleton V3.1 panels, nine watchlist symbols, one non-blocking Starlight canvas, clean console, and no document or Alerts-container overflow.
+- Pages run `27726843916` remains the final V3.1 lock/tracker deployment. Run `27727711420` is the newer direct-path bridge deployment and supersedes it only as the currently deployed site build; V3.1 itself remained locked.
+- The bridge reuses the canonical Alerts Desk renderer. It adds no second shell, renderer, packet model, review queue, route owner, or LocalStorage key.
+- No V3.2 work started. No live data, fake prices or timestamps, scraping, broker execution, auth, payment, subscription, entitlement, autonomous publishing, or guaranteed outcome was added.
+
+### Phase 9A Next Step
+
+- Keep the direct-path bridge and V3.1 locked. Begin no new feature without a separately approved bounded scope.
+
 ## Current Checkpoint - V3.1 Lock QA
 
 - Date: 2026-06-17.
@@ -12,7 +31,7 @@
 - Automated validation passed after repair: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, public JavaScript syntax checks, and `git diff --check`.
 - The standalone `#/signals` route loads normally. The V3.1 detailed card remains intentionally mounted directly beneath the Alerts overlay, matching commit `4e4c00c`; no route move was introduced during lock QA.
 - Pre-fix hosted review found no V3.1 assets because Pages validation had failed on the root/public mirror mismatch.
-- Lock-QA commit `a537da8` deployed successfully in Pages run `27726657535`.
+- Lock-QA commit `a537da8` deployed successfully in Pages run `27726657535`; the final V3.1 tracker-cache deployment passed in run `27726843916`.
 - Hosted desktop QA passed for singleton V3.1 panels/assets, nine watchlist cards, QQQ default state, NVDA selected-candidate synchronization across four panels, refresh persistence, simulator/reset behavior, safety language, console, and overflow.
 - Hosted `390x844` QA passed with all four V3.1 modules, nine watchlist cards, minimum `46px` button height, one non-blocking Starlight canvas, no console errors, and no document or Alerts-container overflow.
 - V3.1 Lock QA result: **PASS / HOSTED**.
@@ -23,7 +42,7 @@
 
 - Keep V3.1 locked. Do not start V3.2 or another feature without a separately approved bounded scope.
 
-## Current Checkpoint - Phase 9A Lock QA and Hosted Review
+## Previous Checkpoint - Phase 9A Lock QA Before Direct-Path Bridge
 
 - Date: 2026-06-14.
 - Commit tested: `d4609f4a038a0d2505fdfdf7315f3b9cfe471143` (`Implement Phase 9A Alerts Product Shell`). The requested `46d09f4` hash was not present; local `HEAD` and `origin/main` both resolved to `d4609f4`.
@@ -36,7 +55,7 @@
 - The GitHub Pages workflow for `d4609f4` completed successfully, and hosted `app.js` and `styles.css` hashes matched the local deployed files.
 - Hosted desktop and `390x844` QA passed for `/`, `#/alerts`, `#/agents`, `#/ai-habitat-os`, and `#/founder`, with no blank page, console error, or document overflow on those application routes.
 - Hosted `/Pickaxe-Capital/app/alerts` failed because GitHub Pages returned its own HTTP 404 before the application loaded. At `390px`, that GitHub 404 page also overflowed horizontally. This is a hosting/direct-route bridge gap, not a regression in the Phase 9A Alerts renderer or asset base logic.
-- Phase 9A is therefore **local-lock passed but hosted-lock incomplete** until the existing compatibility path receives a separately authorized static Pages bridge or equivalent deployment-safe repair and is rechecked.
+- This historical QA ended with hosted lock incomplete. The direct-path bridge checkpoint above subsequently resolved the gap and moved Phase 9A to **PASS / HOSTED**.
 - No runtime code was changed during this lock QA.
 
 ### Lock Boundaries
@@ -46,10 +65,9 @@
 - No live providers, scraping, broker execution, auth, accounts, payments, private frontend keys, delivery channels, background jobs, or autonomous publishing were added.
 - Phase 9B, Phase 9C, Signal Engine Hardening, and Options Hub remain deferred.
 
-### Next Recommended Bounded Phase
+### Historical Next Recommended Bounded Phase
 
-- Authorize one minimal GitHub Pages direct-route compatibility repair for `/app/alerts`, without creating another Alerts renderer or page.
-- Re-run only the hosted `/app/alerts` desktop/mobile checks and the normal mirror, route, console, overflow, and safety regression checks before declaring Phase 9A fully locked.
+- The recommended minimal direct-route compatibility repair was authorized, implemented, and hosted-verified in the current checkpoint above.
 
 ## Implementation Record - Phase 9A Alerts Product Shell
 
@@ -83,7 +101,7 @@
 
 ### Next Recommended Bounded Phase
 
-- Phase 9A lock QA is recorded above. Hosted lock remains incomplete only for the direct `/app/alerts` GitHub Pages path.
+- Phase 9A is fully hosted-locked after the targeted `public/app/alerts/index.html` bridge passed desktop and `390px` hosted QA.
 - Keep Phase 9B Lesson Engine, Phase 9C Bookmark Miner scaffold, Signal Engine Hardening, and Options Hub deferred until Phase 9A is locked.
 
 ## Planning Record - Phase 9 Scope Definition

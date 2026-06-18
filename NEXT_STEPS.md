@@ -2,6 +2,20 @@
 
 ## Current Active Checkpoint
 
+Phase 9A Hosted Direct-Path Bridge is **PASS / HOSTED**.
+
+- Added the targeted mirrored bridge files `app/alerts/index.html` and `public/app/alerts/index.html`.
+- Hosted `https://burberrry.github.io/Pickaxe-Capital/app/alerts` now returns the static bridge rather than GitHub’s 404 and forwards to canonical `/#/alerts`.
+- Bridge implementation commit: `ecd40b5`.
+- Bridge Pages run: `27727711420`.
+- Desktop and `390x844` hosted QA passed for route resolution, singleton V3.1 panels, nine watchlist symbols, candidate sync, simulator reset, safety language, console, controls, Starlight boundary, and overflow.
+- `27726843916` remains the final V3.1 lock/tracker run. `27727711420` is the newer bridge deployment and current hosted build; V3.1 stayed locked.
+- No V3.2 work, duplicate Alerts renderer, live data, fake timestamp, scraping, broker execution, auth, payment, subscription, or autonomous publishing was added.
+
+Next bounded step: keep Phase 9A and V3.1 locked. Start no new feature without a separately approved bounded scope.
+
+## Locked V3.1 Checkpoint
+
 V3.1 Lock QA is **PASS / HOSTED** against implementation checkpoint `472bff8` and lock commit `a537da8`.
 
 - QQQ is the golden-path research-card demo.
@@ -12,13 +26,11 @@ V3.1 Lock QA is **PASS / HOSTED** against implementation checkpoint `472bff8` an
 - Build, project, Phase 1.5, agents, mirrors, route smoke, public JavaScript syntax, and diff checks pass.
 - The V3.1 detailed card remains intentionally under the Alerts overlay; `#/signals` itself still loads normally.
 - The pre-fix hosted site did not contain V3.1 because Pages validation failed on mirror drift.
-- Pages run `27726657535` succeeded for `a537da8`.
+- Pages run `27726657535` succeeded for `a537da8`; final V3.1 tracker-cache run `27726843916` also succeeded.
 - Hosted desktop QA passed for V3.1 assets/panels, nine watchlist cards, candidate sync, refresh persistence, simulator/reset, safety language, console, and overflow.
 - Hosted `390x844` QA passed with no document or Alerts-container overflow, clean console, readable dark panels, tappable controls, and one non-blocking Starlight canvas.
 - Public output remains blocked. CEO B manual review and research-only language remain mandatory.
 - No live data, fake timestamp, scraping, broker execution, subscription, autonomous publishing, or guaranteed outcome was added.
-
-Next bounded step: keep V3.1 locked. Do not start V3.2 or another feature without a separately approved bounded scope.
 
 ## Locked Product Baseline
 
@@ -32,7 +44,7 @@ Phase 8A + 8B Intelligence Orbit and Agent Visual System is implemented, pushed,
 - Phase 7 remains locked with one unchanged canvas and no duplicate starfield.
 - No live API, provider, scraping, autonomous execution, broker connection, fake live data, or paid dependency was added.
 
-Highest-leverage next scope: repair only the hosted `/app/alerts` direct-path bridge, then finish Phase 9A hosted lock QA. Do not begin Options Hub, another visual sprint, or a provider integration.
+The hosted `/app/alerts` direct-path bridge is repaired and Phase 9A hosted lock QA is complete. Do not begin Options Hub, another visual sprint, or a provider integration without a separately approved scope.
 
 ## Working Now
 
@@ -55,7 +67,7 @@ Highest-leverage next scope: repair only the hosted `/app/alerts` direct-path br
 ## Next Session Priority
 
 - Keep Phase 7, Phase 8, and the validated Phase 9A runtime stable.
-- Repair only the hosted `/app/alerts` direct-path compatibility gap after explicit CEO B authorization, then re-run hosted desktop/mobile lock QA.
+- Keep the hosted `/app/alerts` bridge, Phase 9A, and V3.1 locked.
 - Keep Phase 9B, Phase 9C, Signal Engine Hardening, Options Hub, providers, payments, and execution deferred.
 
 ## Previous Active Checkpoint
