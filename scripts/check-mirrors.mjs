@@ -11,6 +11,7 @@ const pairs = [
   ["agent-os.js", "public/agent-os.js"],
   ["agent-os.html", "public/agent-os.html"],
   ["founder/index.html", "public/founder/index.html"],
+  ["app/alerts/index.html", "public/app/alerts/index.html"],
 ];
 
 const failures = [];

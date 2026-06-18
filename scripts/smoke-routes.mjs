@@ -9,11 +9,13 @@ const publicIndexPath = resolve(root, "public", "index.html");
 const publicAppPath = resolve(root, "public", "app.js");
 const publicHabitatDataPath = resolve(root, "public", "habitat-data.js");
 const publicFounderBridgePath = resolve(root, "public", "founder", "index.html");
-const [indexText, appText, habitatDataText, founderBridgeText] = await Promise.all([
+const publicAlertsBridgePath = resolve(root, "public", "app", "alerts", "index.html");
+const [indexText, appText, habitatDataText, founderBridgeText, alertsBridgeText] = await Promise.all([
   readFile(publicIndexPath, "utf8"),
   readFile(publicAppPath, "utf8"),
   readFile(publicHabitatDataPath, "utf8"),
   readFile(publicFounderBridgePath, "utf8"),
+  readFile(publicAlertsBridgePath, "utf8"),
 ]);
 const frontendSource = `${indexText}\n${appText}`;
 
@@ -113,6 +115,12 @@ function verifyStaticBoundaries() {
   }
   if (!founderBridgeText.includes("#/founder") || !founderBridgeText.includes("window.location.replace")) {
     failures.push("public/founder/index.html does not preserve the GitHub Pages Founder route bridge");
+  }
+  if (!alertsBridgeText.includes("#/alerts") || !alertsBridgeText.includes("window.location.replace")) {
+    failures.push("public/app/alerts/index.html does not preserve the GitHub Pages Alerts route bridge");
+  }
+  if (!alertsBridgeText.includes("Research only") || !alertsBridgeText.includes("No broker execution")) {
+    failures.push("public/app/alerts/index.html does not preserve the Alerts research-only safety boundary");
   }
   for (const forbidden of [
     "/Users/b/Documents/Obsidian Vault",
