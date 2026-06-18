@@ -2,6 +2,21 @@
 
 ## Current Active Checkpoint
 
+Project Context Lock / `AGENTS.md` Upgrade is **PASS / DOCS-ONLY**.
+
+- `AGENTS.md` now contains concise permanent rules for authority, architecture, financial/data safety, locked runtime checkpoints, sprint discipline, validation, and session records.
+- `docs/00_MASTER/PICKAXE_PROJECT_CONTEXT_LOCK.md` now contains the expanded Pickaxe mission, doctrine, architecture, locked phases, active surfaces, module registry, removed module, brand/data rules, Codex behavior, and future planning queue.
+- The existing `docs/00_MASTER` structure was reused; no duplicate master-document system was created.
+- Actual canonical route truth is preserved, including `#/jarvisLab` and `#/lifeOS`.
+- Tracker changes are metadata-only in the synchronized `habitat-data.js` pair.
+- No runtime, product, route, renderer, bridge, style, storage contract, or `data/signal-alerts.json` change was made.
+- Build, project, Phase 1.5, agent, mirror, route-smoke, public JavaScript syntax, and diff checks pass.
+- Browser QA was not required because no runtime behavior changed.
+
+Next bounded step: wait for CEO B to authorize a separate `AGENTS.md` + docs verification pass or another bounded sprint.
+
+## Previous Active Checkpoint - Direct-Path Repair
+
 The six-route GitHub Pages direct-path repair is **PASS / HOSTED**.
 
 - Added mirrored static bridges for `/agents`, `/vision-map`, `/staging`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.

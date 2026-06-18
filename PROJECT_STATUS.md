@@ -1,5 +1,32 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Project Context Lock / AGENTS.md Upgrade
+
+- Date: 2026-06-18.
+- Sprint type: bounded documentation-only context lock.
+- Starting state: clean `main` at `e9a565e`, synchronized with `origin/main` (`0` ahead / `0` behind).
+- Reworked `AGENTS.md` into concise permanent repository guidance covering authority, product truth, financial/data safety, locked runtime boundaries, sprint discipline, actual validation commands, and session-record expectations.
+- Added `docs/00_MASTER/PICKAXE_PROJECT_CONTEXT_LOCK.md` as the single expanded Codex context file within the existing master-document system.
+- The context lock records the core mission, CEO B doctrine, current static architecture, locked phases, major product surfaces, project module registry, removed/forbidden module, visual brand, source/data rules, Codex behavior, and a planning-only future sprint queue.
+- Preserved actual deployed route truth: `/jarvis-lab` targets `#/jarvisLab` and `/life-os` targets `#/lifeOS`; `/ai-handoff` remains local-server-only.
+- Build Completion Tracker default metadata was updated in the synchronized `habitat-data.js` mirror pair. No LocalStorage key, data contract, renderer, route, page, bridge, style, application logic, or runtime behavior changed.
+- Validation passed: build, project check, Phase 1.5 check, agent check, explicit mirror check, route smoke, syntax checks for `habitat-data.js`, `public/habitat-data.js`, and all `public/*.js`, plus `git diff --check`.
+- Browser QA was not required because this sprint changed documentation and Build Completion Tracker metadata only.
+- No Phase 9C, V3.2, Options Hub, live data, provider, scraping, broker execution, authentication, payments, subscriptions, autonomous publishing, rule updates, or performance claims were started.
+- `data/signal-alerts.json` remains unchanged.
+
+### Project Context Lock Files Changed
+
+- `AGENTS.md`
+- `docs/00_MASTER/PICKAXE_PROJECT_CONTEXT_LOCK.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+
+### Project Context Lock Next Step
+
+- Run one bounded `AGENTS.md` + docs verification pass only if CEO B authorizes it. Do not begin product implementation automatically.
+
 ## Current Checkpoint - Six-Route GitHub Pages Direct-Path Repair
 
 - Date: 2026-06-18.
