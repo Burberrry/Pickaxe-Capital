@@ -1,5 +1,80 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Phase 9B Memory Vault / Archive Lesson Scope Definition
+
+- Date: 2026-06-18.
+- Sprint type: **docs-only scope definition**. No Phase 9B runtime implementation, micro-scaffold, route change, renderer change, storage migration, or UI behavior was added.
+- Starting state: clean `main` at `99a8882`, freshly fetched and synchronized with `origin/main` (`0` ahead / `0` behind).
+- V3.1 and Phase 9A remain locked. The QQQ golden path, detailed Signals card placement, starfield, canonical Alerts renderer, direct `/app/alerts` bridge, packet models, LocalStorage contracts, and `data/signal-alerts.json` remain unchanged.
+- Phase 9B owner surfaces are the existing QQQ simulator `Archive Lesson` endpoint, `#/archive`, and `#/learning-ledger`. Alerts remains the originating review context; Phase 9B does not create another Alerts or memory route.
+
+### What An Archived Lesson Is
+
+- An archived lesson is a browser-local, internal research-memory record derived from a reviewed research packet, including a no-trade or blocked-output packet.
+- It captures what evidence was present, what evidence was missing, which source or risk gate controlled the result, what CEO B concluded, and what research-process improvement should be considered later.
+- It is a **lesson candidate** until CEO B reviews it. It is not automatically a rule, signal, recommendation, performance result, or proof of edge.
+- A lesson may preserve no-trade intelligence, an evidence gap, a rejected thesis, a risk-gate decision, or a reusable research checklist improvement. A trade or market outcome is not required.
+
+### Internal Lesson Candidate Fields
+
+- Identity: lesson candidate ID, linked Research Packet v2 ID, symbol, packet title/setup context, originating route, and static/demo provenance.
+- Memory classification: lesson type, category, internal-memory status, privacy tier, and whether it represents no-trade intelligence, an evidence gap, a risk-gate lesson, or a research-improvement proposal.
+- Evidence snapshot: source status at capture, source references already present on the packet, missing evidence, risk warnings, fatal-risk flags, and the preserved gate result.
+- Lesson content: concise observation, why it matters, proposed research improvement, what should remain unchanged, and any follow-up verification required.
+- CEO B review: review status, review decision, review notes, reviewed-at value when manually supplied by the browser-local workflow, and whether the candidate is retained, returned for evidence, rejected, or approved as internal memory.
+- Safety: `CEO B review required`, `Risk gate preserved`, `Static demo lesson`, `Internal memory`, and `Not performance proof`.
+- Existing implementation fields should be reused where they already express this contract: `id`, `linkedPacketId`, `linked_records`, `category`, `lesson_type`, `text`/`statement`, `severity`, `adopted_rule`, `verified`, `privacy_tier`, `source`, `reviewStatus`, `outcomeType`, and the packet's existing learning, source, missing-evidence, and risk fields.
+
+### QQQ Archive Lesson Handoff
+
+1. The existing QQQ simulator reaches `Archive Lesson` only after `Source Check -> No Output -> Risk Review -> CEO B Review`.
+2. The handoff reuses the selected QQQ Research Packet v2 record and its existing candidate synchronization. It must not create another packet object, review queue, renderer, or LocalStorage key.
+3. The handoff creates or updates one linked lesson candidate with the packet ID, preserved source/risk state, evidence gaps, CEO B review requirement, and a static internal-memory label.
+4. `No Output` remains meaningful memory: the lesson may explain why publication stayed blocked, what evidence was absent, or which risk gate prevented advancement.
+5. The handoff does not mark the candidate verified, adopted, successful, profitable, or automatically learned.
+
+### CEO B Review Contract
+
+- CEO B checks that the lesson accurately reflects the linked packet, preserves source and risk context, contains no invented outcome, and separates observation from proposed process improvement.
+- Allowed manual dispositions for a later implementation: `Retain as internal memory`, `Return for evidence`, `Reject lesson candidate`, or `Approve research improvement for later rule review`.
+- Approval does not automatically modify scoring, gates, prompts, alerts, watchlists, publication state, or research rules. Any rule change requires a separate bounded review and implementation.
+- Source uncertainty and hard-risk state continue to outrank completeness or conviction scores. Public output remains blocked.
+
+### Archive / Learning Ledger Representation
+
+- `#/archive` is the preserved evidence-and-lineage view: linked packet identity, source/risk snapshot, CEO B review state, privacy/static status, and why the memory was retained.
+- `#/learning-ledger` is the lesson-review view: pending lesson candidates, lesson type, concise lesson text, proposed research improvement, evidence gap, and CEO B disposition.
+- Both surfaces must refer to the same linked lesson candidate and existing memory contracts. Phase 9B must not create duplicate records, conflicting status vocabularies, or another storage key.
+- Archive and Learning Ledger remain browser-local/static. Neither surface may imply live learning, autonomous improvement, broker activity, backtested performance, verified profit, or public track record.
+
+### Allowed And Banned Language
+
+- Allowed: `Lesson candidate`, `Internal memory`, `Research improvement`, `No-trade intelligence`, `Evidence gap`, `Risk gate preserved`, `CEO B review required`, `Static demo lesson`, `Not performance proof`.
+- Banned: `This trade won`, `This alert made money`, `Guaranteed`, `Proven edge`, `Buy next time`, `Auto-improved`, `Live learning`, `Backtested result`, `Real P/L`, `Verified profit`.
+
+### Explicit Non-Scope
+
+- No V3.2, Options Hub, live market data, fake prices, fake timestamps, scraping, broker execution, auth, payment, subscription, entitlement, autonomous publication, autonomous rule updates, or performance tracker work.
+- No starfield change, detailed Signals card move, second Alerts renderer, duplicate packet model, duplicate lesson model, duplicate review queue, or duplicate LocalStorage key.
+- No `data/signal-alerts.json` change and no implementation edits to HTML, CSS, JavaScript, server, route, or application data beyond the required Build Completion Tracker session metadata.
+
+### Acceptance Criteria For A Separately Authorized Implementation
+
+- The QQQ simulator can create or update exactly one packet-linked lesson candidate after the preserved five-step review flow.
+- The candidate remains unverified and non-adopted until manual CEO B review.
+- `#/archive` and `#/learning-ledger` show consistent identity, source/risk lineage, evidence-gap context, review state, and internal-memory safety labels.
+- A no-output or rejected packet can become useful no-trade intelligence without implying a market result.
+- No candidate can publish, execute, update rules, claim performance, or bypass source/risk/CEO B gates.
+- Existing V3.1 panels, selected-candidate key, Phase 9A shell, `/app/alerts` bridge, starfield, mirrors, mobile layout, and hosted behavior remain unchanged.
+
+### Phase 9B Validation And Session Record
+
+- Baseline validation passed: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, all public JavaScript syntax checks, and `git diff --check`.
+- Because this sprint changes documentation and tracker metadata only, desktop and `390px` visual QA are regression-by-inspection plus unchanged-runtime validation; no new UI exists to exercise.
+- The hosted `/Pickaxe-Capital/app/alerts` bridge remains the deployed Phase 9A build. Hosted regression is checked without deploying this docs-only scope commit; the existing bridge and canonical `#/alerts` destination remain unchanged.
+- Build Completion Tracker default metadata records this scope-definition session. No application behavior or new storage contract is introduced.
+- Next bounded task: CEO B reviews and locks this Phase 9B contract. If approved, authorize one implementation sprint limited to the existing QQQ `Archive Lesson` handoff plus consistent `#/archive` and `#/learning-ledger` representation. Do not start V3.2.
+
 ## Current Checkpoint - Phase 9A Hosted Direct-Path Bridge
 
 - Date: 2026-06-17.

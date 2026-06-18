@@ -2,6 +2,23 @@
 
 ## Current Active Checkpoint
 
+Phase 9B Memory Vault / Archive Lesson is **SCOPE DEFINED / IMPLEMENTATION BLOCKED**.
+
+- This was a docs-only scope session on 2026-06-18. No Phase 9B UI, route, JavaScript behavior, CSS, storage migration, or micro-scaffold was added.
+- An archived lesson is defined as browser-local internal research memory linked to one existing Research Packet v2 record. It may preserve no-trade intelligence, an evidence gap, a rejected thesis, a risk-gate decision, or a proposed research-process improvement.
+- A record remains a `Lesson candidate` until manual CEO B review. It is not a rule, signal, recommendation, performance result, verified outcome, or proof of edge.
+- The later lesson-candidate contract should reuse existing packet and Learning Ledger fields for identity, packet linkage, memory classification, source/risk snapshot, missing evidence, lesson content, CEO B review, privacy, verification, and adoption state.
+- The QQQ simulator handoff remains `Source Check -> No Output -> Risk Review -> CEO B Review -> Archive Lesson`. `Archive Lesson` creates or updates one packet-linked candidate; it does not create another packet, renderer, review queue, or LocalStorage key.
+- `#/archive` owns evidence lineage and preserved-memory context. `#/learning-ledger` owns candidate review and proposed research improvement. Both must represent the same linked candidate and consistent status.
+- CEO B may later retain internal memory, return it for evidence, reject it, or approve a research improvement for separate rule review. Approval cannot automatically alter scoring, gates, prompts, alerts, watchlists, publication state, or rules.
+- Required labels include `Internal memory`, `No-trade intelligence`, `Evidence gap`, `Risk gate preserved`, `CEO B review required`, `Static demo lesson`, and `Not performance proof`.
+- Performance, profit, live-learning, automatic-improvement, and buy-next-time language is prohibited.
+- V3.1, Phase 9A, the detailed Signals card placement, starfield, canonical Alerts renderer, `/app/alerts` bridge, selected-candidate key, packet models, and `data/signal-alerts.json` remain locked and unchanged.
+
+Next bounded step: CEO B reviews and locks the Phase 9B contract. If approved, authorize one implementation sprint limited to the existing QQQ `Archive Lesson` handoff and consistent Archive / Learning Ledger representation. Do not start V3.2 or Options Hub.
+
+## Previous Active Checkpoint - Phase 9A
+
 Phase 9A Hosted Direct-Path Bridge is **PASS / HOSTED**.
 
 - Added the targeted mirrored bridge files `app/alerts/index.html` and `public/app/alerts/index.html`.
