@@ -77,7 +77,11 @@
     if (action === "silence" && s.source) s.silence = true;
     if (action === "risk" && s.silence) s.risk = true;
     if (action === "ceo" && s.risk) s.ceo = true;
-    if (action === "archive" && s.ceo) s.archive = true;
+    if (action === "archive" && s.ceo) {
+      const candidate = window.archiveV31QqqLesson?.();
+      if (!candidate) return;
+      s.archive = true;
+    }
     save(s);
     render();
   }

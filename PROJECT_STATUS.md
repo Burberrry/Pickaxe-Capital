@@ -1,5 +1,41 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Phase 9B Memory Vault / Archive Lesson Implemented
+
+- Date: 2026-06-18.
+- Phase 9B is implemented as one bounded browser-local workflow. No Phase 9C, V3.2, Options Hub, provider, authentication, payment, broker, publishing, scoring-engine, or performance work was started.
+- The existing QQQ simulator now completes `Source Check -> No Output -> Risk Review -> CEO B Review -> Archive Lesson`.
+- `Archive Lesson` reuses the V3.1 QQQ demo research object and persists one canonical Research Packet v2 record with stable ID `PC-DEMO-QQQ-001`.
+- The handoff creates or updates one stable linked lesson candidate, `lesson-packet-PC-DEMO-QQQ-001`, using the existing `pickaxeResearchPackets` and `pickaxeLearningLedger` contracts.
+- Repeated complete simulator runs update the same packet and lesson candidate. They do not create duplicate packet objects, candidates, routes, renderers, review queues, or LocalStorage keys.
+- The candidate preserves source status, evidence snapshot, missing evidence, risk warnings, No Output context, risk-gate state, packet lineage, CEO B review state, and a proposed research improvement.
+- The candidate remains unverified, non-adopted, research-only, browser-local internal memory. It is explicitly labeled as no-trade intelligence, a static demo lesson, and not performance proof.
+- `#/archive` now includes a packet-linked Archive Lesson Lineage panel with QQQ packet identity, source status, evidence gaps, risk lineage, disposition, verification/adoption state, and required safety language.
+- `#/learning-ledger` now represents the same candidate and provides four manual CEO B dispositions: retain as internal memory, return for evidence, reject lesson candidate, or approve the research improvement for later rule review.
+- A disposition updates the candidate and linked packet memory metadata only. Approval does not automatically alter research rules, strategy rules, prompts, scoring, gates, alerts, watchlists, publication state, signal generation, autonomous behavior, or performance state.
+- Required language is visible across the Phase 9B surfaces: `Lesson candidate`, `Internal memory`, `Research improvement`, `No-trade intelligence`, `Evidence gap`, `Risk gate preserved`, `CEO B review required`, `Static demo lesson`, `Not performance proof`, `Research Only`, `Manual Review Required`, `Not Financial Advice`, and `No Broker Execution`.
+- Root/public `app.js`, `styles.css`, and `index.html` mirrors remain synchronized. The simulator remains a deployed `public/` runtime asset and now calls the existing app storage bridge only after the preserved CEO B step.
+- No new LocalStorage key was added. `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+
+### Phase 9B Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `public/pickaxe-v31-review-simulator.js`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### Phase 9B Validation
+
+- Passed build, project check, Phase 1.5 check, agent check, mirror check, route smoke, JavaScript syntax checks, and `git diff --check`.
+- Desktop browser QA passed for the complete QQQ five-step ritual, one-candidate creation, repeated-run deduplication, linked packet identity, Archive lineage, Learning Ledger consistency, all four disposition controls, unverified/non-adopted state, preserved risk/evidence context, one unchanged Starlight canvas, no console warnings/errors, and no horizontal overflow.
+- `390x844` QA passed for Alerts, Archive, and Learning Ledger with one simulator, one detailed Signals card, one Archive Lesson control, one linked candidate, no document/Phase 9B panel overflow, and disposition controls with a minimum `46px` height.
+- Required route QA passed for `/`, `#/alerts`, `#/archive`, `#/learning-ledger`, `/agents`, `/vision-map`, `/staging`, `/founder`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
+- The in-app browser blocked direct navigation to `/ai-handoff`; dependency-free route smoke and a direct local HTTP check verified the endpoint separately.
+- Next recommended task remains separate: CEO B reviews the completed local Phase 9B workflow and decides whether to authorize hosted deployment/QA. Do not start Phase 9C, V3.2, or Options Hub automatically.
+
 ## Current Checkpoint - Phase 9B Memory Vault / Archive Lesson Scope Definition
 
 - Date: 2026-06-18.

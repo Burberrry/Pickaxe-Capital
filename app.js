@@ -5464,6 +5464,8 @@ function renderArchiveVaultExperience() {
       ].map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join("")}
     </section>
 
+    ${renderPhase9BArchiveLessons()}
+
     <details class="packet-archive-outcomes" ${packetOutcomeCandidates.length ? "open" : ""}>
       <summary>Research Packet Outcomes <span>${packetOutcomeCandidates.length}</span></summary>
       <p>Save paper-review outcomes and lesson candidates locally. No live performance or broker activity is implied.</p>
@@ -5807,6 +5809,9 @@ function normalizeResearchPacketDraft(packet = {}) {
       outcomeNotes: packet.learning?.outcomeNotes || packet.outcomeNotes || "",
       outcomeAt: packet.learning?.outcomeAt || packet.outcomeAt || null,
       lessonCandidate: Boolean(packet.learning?.lessonCandidate || packet.lessonCandidate),
+      lessonCandidateId: packet.learning?.lessonCandidateId || packet.lessonCandidateId || "",
+      lessonReviewStatus: packet.learning?.lessonReviewStatus || "",
+      lessonDisposition: packet.learning?.lessonDisposition || "",
     },
     localOnly: packet.localOnly !== false,
   };
@@ -9360,7 +9365,7 @@ function saveResearchPacketLesson(packet, outcomeType = "", outcomeNotes = "") {
   const ledger = getLearningLedgerState();
   const existingIndex = ledger.findIndex((entry) => entry.linkedPacketId === packet.id);
   const entry = {
-    id: existingIndex >= 0 ? ledger[existingIndex].id : `lesson-packet-${packet.id}-${Date.now()}`,
+    id: existingIndex >= 0 ? ledger[existingIndex].id : `lesson-packet-${packet.id}`,
     category: "Research Packet Outcome",
     lesson_type: outcomeType || "Lesson Candidate",
     text: outcomeNotes || `${packet.symbol}: ${packet.thesis}`,
@@ -9379,6 +9384,259 @@ function saveResearchPacketLesson(packet, outcomeType = "", outcomeNotes = "") {
   if (existingIndex >= 0) ledger[existingIndex] = { ...ledger[existingIndex], ...entry };
   else ledger.unshift(entry);
   saveLearningLedgerState(ledger);
+}
+
+function getPhase9BLessonCandidates() {
+  return getLearningLedgerState().filter((entry) => entry.phase === "9B" && entry.linkedPacketId);
+}
+
+function getPhase9BLessonPacket(entry) {
+  return entry?.linkedPacketId ? getResearchPacketById(entry.linkedPacketId) : null;
+}
+
+function buildV31QqqResearchPacket() {
+  const demo = window.PICKAXE_DEMO_DATA || {};
+  const card = demo.qqqResearchCard || {};
+  const sources = Array.isArray(demo.sourceLedger) ? demo.sourceLedger : [];
+  const risk = demo.riskGate || {};
+  const silence = demo.silenceGate || {};
+  const memory = Array.isArray(demo.memoryVault) ? demo.memoryVault[0] || {} : {};
+  const sourceEvidence = sources.map((source) => `${source.name}: ${String(source.status || "source_required").replaceAll("_", " ")}`);
+  const missingEvidence = sources
+    .filter((source) => source.approvedForPublicOutput !== true)
+    .map((source) => `${source.dataPoint}: ${source.timestampRequired ? "timestamp required" : "manual verification required"}`);
+  return normalizeResearchPacketDraft({
+    id: card.id || "PC-DEMO-QQQ-001",
+    symbol: card.ticker || "QQQ",
+    companyName: "Invesco QQQ Trust",
+    title: "QQQ Demo Research Packet v2",
+    assetClass: card.assetType || "ETF",
+    direction: card.bias || "Watch / No Output",
+    setupType: card.setupType || "Mean Reversion Watch",
+    timeframe: card.timeframe || "Swing research window",
+    theme: card.thesis?.theme || "Technology and AI leadership",
+    sourceOrigin: "V3.1 QQQ Source Ledger",
+    sourceType: "Manual demo source ledger",
+    sourceStatus: `Unverified / ${String(card.statuses?.sourceLedger || "source_required").replaceAll("_", " ")}`,
+    sourceSummary: memory.whatSystemSaw || card.thesis?.oneLine || "QQQ demonstrates the source-to-memory review workflow.",
+    sourceConfidence: 0,
+    thesis: card.thesis?.oneLine || "QQQ is a demo watch candidate used to demonstrate the Pickaxe review workflow.",
+    whyNow: card.thesis?.whyNow || "Used only to demonstrate the research workflow.",
+    catalystContext: card.thesis?.theme || "Theme context requires current source review.",
+    tttContext: {
+      time: card.thesis?.time || "Timing requires verification.",
+      trend: card.thesis?.trend || "Trend context requires verification.",
+      theme: card.thesis?.theme || "Theme context requires verification.",
+    },
+    technicalContext: card.thesis?.confirm || "Verified chart levels are required.",
+    optionsContext: card.optionsContext?.expirationContext || "No contract selected. Demo only.",
+    liquidityContext: card.optionsContext?.liquidityStatus || "Options liquidity unverified.",
+    archiveMemoryContext: memory.ruleCreated || "No public output unless every review gate passes.",
+    evidence: sourceEvidence,
+    missingEvidence,
+    invalidation: card.thesis?.invalidate || "No verified invalidation.",
+    riskWarnings: [...(risk.softWarnings || []), ...(risk.hardStops || [])],
+    fatalRiskFlags: [],
+    riskLevel: "Critical / No Output",
+    riskMemo: memory.riskIssue || (risk.hardStops || []).join(" | "),
+    bullCase: card.thesis?.oneLine || "Research thesis remains unverified.",
+    bearCase: card.thesis?.invalidate || "Risk gate blocks public output.",
+    reviewState: "No Output / CEO B Reviewed",
+    ceoBStatus: "CEO B Review Complete",
+    ceoBAction: "Archive Lesson",
+    ceoBNextAction: "Retain as internal memory pending lesson review",
+    finalDecision: "No Output",
+    routeOverride: "SUPPRESSED_NOISE",
+    totalScore: 0,
+    learning: {
+      lessonCandidate: true,
+      outcomeType: "No-trade intelligence",
+      outcomeNotes: memory.whatHappened || silence.reason || "No Output preserved as internal research memory.",
+    },
+  });
+}
+
+function upsertPhase9BLessonCandidate(packet) {
+  const ledger = getLearningLedgerState();
+  const existingIndex = ledger.findIndex((entry) => entry.phase === "9B" && entry.linkedPacketId === packet.id);
+  const existing = existingIndex >= 0 ? ledger[existingIndex] : {};
+  const demoMemory = Array.isArray(window.PICKAXE_DEMO_DATA?.memoryVault)
+    ? window.PICKAXE_DEMO_DATA.memoryVault[0] || {}
+    : {};
+  const now = new Date().toISOString();
+  const candidate = {
+    ...existing,
+    id: existing.id || `lesson-packet-${packet.id}`,
+    phase: "9B",
+    category: "Internal Research Memory",
+    lesson_type: "No-trade intelligence",
+    text: demoMemory.whatSystemSaw || `${packet.symbol}: No Output preserved because source and risk gates remained unresolved.`,
+    statement: demoMemory.whatSystemSaw || `${packet.symbol}: No Output preserved because source and risk gates remained unresolved.`,
+    linkedPacketId: packet.id,
+    linked_records: [packet.id],
+    sourceTicker: packet.symbol,
+    sourcePacketTitle: packet.title,
+    sourceWorkflowStage: "Archive Lesson",
+    sourceCheckStatus: packet.sourceStatus,
+    gateResult: "No Output / Risk gate preserved",
+    evidenceSnapshot: [...packet.evidence],
+    missingEvidence: [...packet.missingEvidence],
+    riskWarnings: [...packet.riskWarnings],
+    fatalRiskFlags: [...packet.fatalRiskFlags],
+    observation: demoMemory.whatHappened || packet.thesis,
+    whyItMatters: demoMemory.sourceIssue || "Incomplete evidence must remain visible so silence is treated as a valid research result.",
+    proposedResearchImprovement: demoMemory.futureAgentTask || "Create a verified-source checklist before allowing public research output.",
+    whatShouldRemainUnchanged: "Source uncertainty and hard-risk state continue to outrank completeness or conviction scores.",
+    followUpVerification: "Verify source timestamps, chart levels, invalidation, options liquidity, and current risk context before any later research review.",
+    severity: packet.riskLevel === "Critical / No Output" ? "critical" : "high",
+    adopted_rule: false,
+    verified: false,
+    internalMemory: true,
+    researchOnly: true,
+    privacy_tier: "local_only",
+    source: "Research Packet v2 / V3.1 QQQ simulator",
+    reviewStatus: existing.reviewStatus || "CEO B Review Required",
+    disposition: existing.disposition || "Pending CEO B review",
+    outcomeType: "No-trade intelligence",
+    status: "Lesson candidate",
+    timestamp: existing.timestamp || now,
+    updatedAt: now,
+    safetyLabels: [
+      "Lesson candidate",
+      "Internal memory",
+      "No-trade intelligence",
+      "Evidence gap",
+      "Risk gate preserved",
+      "CEO B review required",
+      "Static demo lesson",
+      "Not performance proof",
+    ],
+  };
+  if (existingIndex >= 0) ledger[existingIndex] = candidate;
+  else ledger.unshift(candidate);
+  saveLearningLedgerState(ledger);
+  return candidate;
+}
+
+window.archiveV31QqqLesson = () => {
+  const packet = buildV31QqqResearchPacket();
+  const candidateId = `lesson-packet-${packet.id}`;
+  const savedPacket = saveResearchPacketRecord({
+    ...packet,
+    learning: {
+      ...packet.learning,
+      lessonCandidate: true,
+      lessonCandidateId: candidateId,
+      lessonReviewStatus: "CEO B Review Required",
+      lessonDisposition: "Pending CEO B review",
+    },
+  });
+  const candidate = upsertPhase9BLessonCandidate(savedPacket);
+  renderArchiveIntelligence();
+  renderLearningLedgerPage();
+  showNotification("QQQ Archive Lesson saved as one linked, unverified lesson candidate.");
+  return candidate;
+};
+
+window.reviewPhase9BLessonCandidate = (candidateId, disposition) => {
+  const allowed = {
+    retain: ["Retain as internal memory", "Retained as internal memory"],
+    evidence: ["Return for evidence", "Returned for evidence"],
+    reject: ["Reject lesson candidate", "Rejected lesson candidate"],
+    improvement: ["Approve research improvement for later rule review", "Approved for later rule review"],
+  };
+  if (!allowed[disposition]) return;
+  const ledger = getLearningLedgerState();
+  const index = ledger.findIndex((entry) => entry.id === candidateId && entry.phase === "9B");
+  if (index < 0) return;
+  const [decision, reviewStatus] = allowed[disposition];
+  const now = new Date().toISOString();
+  ledger[index] = {
+    ...ledger[index],
+    disposition: decision,
+    reviewStatus,
+    verified: false,
+    adopted_rule: false,
+    updatedAt: now,
+  };
+  saveLearningLedgerState(ledger);
+  const packet = getResearchPacketById(ledger[index].linkedPacketId);
+  if (packet) {
+    saveResearchPacketRecord({
+      ...packet,
+      learning: {
+        ...packet.learning,
+        lessonCandidate: true,
+        lessonCandidateId: ledger[index].id,
+        lessonReviewStatus: reviewStatus,
+        lessonDisposition: decision,
+      },
+    });
+  }
+  renderLearningLedgerPage();
+  renderArchiveIntelligence();
+  showNotification(`${ledger[index].sourceTicker || "Lesson"}: ${decision}. No research rule changed.`);
+};
+
+function renderPhase9BSafetyLabels(labels = []) {
+  return `<div class="phase9b-safety-row">${labels.map((label) => `<span>${escapeHtml(label)}</span>`).join("")}</div>`;
+}
+
+function renderPhase9BArchiveLessons() {
+  const candidates = getPhase9BLessonCandidates();
+  return `
+    <section class="phase9b-memory-vault" aria-labelledby="phase9bArchiveTitle">
+      <header>
+        <div>
+          <span class="meta-label">Phase 9B / Packet-Linked Internal Memory</span>
+          <h3 id="phase9bArchiveTitle">Archive Lesson Lineage</h3>
+          <p>Reviewed No Output context can become internal research memory without becoming a signal, rule, recommendation, or performance claim.</p>
+        </div>
+        <aside><strong>${candidates.length}</strong><span>linked lesson candidate${candidates.length === 1 ? "" : "s"}</span></aside>
+      </header>
+      <div class="phase9b-archive-grid">
+        ${candidates.map((candidate) => {
+          const packet = getPhase9BLessonPacket(candidate);
+          return `
+            <article class="phase9b-lesson-card" data-phase9b-candidate="${escapeHtml(candidate.id)}">
+              <div class="phase9b-card-head">
+                <div><span>${escapeHtml(candidate.status)}</span><strong>${escapeHtml(candidate.sourceTicker || packet?.symbol || "Research")}</strong></div>
+                <em>${escapeHtml(candidate.reviewStatus)}</em>
+              </div>
+              <h4>${escapeHtml(candidate.sourcePacketTitle || packet?.title || "Packet-linked lesson")}</h4>
+              <p>${escapeHtml(candidate.observation || candidate.text)}</p>
+              <dl>
+                <div><dt>Source packet</dt><dd>${escapeHtml(candidate.linkedPacketId)}</dd></div>
+                <div><dt>Source check</dt><dd>${escapeHtml(candidate.sourceCheckStatus || packet?.sourceStatus || "Source verification required")}</dd></div>
+                <div><dt>Gate result</dt><dd>${escapeHtml(candidate.gateResult || "Risk gate preserved")}</dd></div>
+                <div><dt>Disposition</dt><dd>${escapeHtml(candidate.disposition)}</dd></div>
+                <div><dt>Verification</dt><dd>Unverified</dd></div>
+                <div><dt>Adoption</dt><dd>Non-adopted</dd></div>
+              </dl>
+              <section>
+                <span>Evidence gap</span>
+                ${renderPacketList(candidate.missingEvidence || packet?.missingEvidence || [], "No evidence gap recorded.")}
+              </section>
+              <section>
+                <span>Risk lineage</span>
+                ${renderPacketList(candidate.riskWarnings || packet?.riskWarnings || [], "Manual risk review remains required.")}
+              </section>
+              ${renderPhase9BSafetyLabels(candidate.safetyLabels)}
+              <footer>
+                <a href="#/learning-ledger">Open manual lesson review</a>
+                <small>Research Only · Manual Review Required · Not Financial Advice · No Broker Execution</small>
+              </footer>
+            </article>
+          `;
+        }).join("") || `
+          <article class="phase9b-empty-memory">
+            <strong>No Phase 9B lesson candidate yet.</strong>
+            <p>Complete Source Check → No Output → Risk Review → CEO B Review → Archive Lesson in the QQQ simulator.</p>
+          </article>
+        `}
+      </div>
+    </section>
+  `;
 }
 
 window.applyResearchPacketAction = (packetId, action) => {
@@ -16897,7 +17155,8 @@ renderLearningLedgerPage = function () {
   const ledger = getLearningLedgerState();
   const packets = getResearchPacketsState();
   const outcomePackets = packets.filter((packet) => packet.learning.lessonCandidate || packet.ceoBAction === "Mark Lesson" || packet.reviewState === "Outcome Recorded");
-  const lessonCandidates = ledger.filter((entry) => !entry.verified);
+  const phase9bCandidates = getPhase9BLessonCandidates();
+  const lessonCandidates = ledger.filter((entry) => !entry.verified && entry.phase !== "9B");
   const verifiedRules = ledger.filter((entry) => entry.verified);
   els.learningLedgerContent.innerHTML = `
     <div class="page-shell learning-ledger-v2">
@@ -16907,6 +17166,66 @@ renderLearningLedgerPage = function () {
         <article><span>Lesson candidates</span><strong>${lessonCandidates.length}</strong></article>
         <article><span>Verified rules</span><strong>${verifiedRules.length}</strong></article>
         <article><span>Outcome types</span><strong>${RESEARCH_OUTCOMES.length}</strong></article>
+      </section>
+
+      <section class="phase9b-learning-review" aria-labelledby="phase9bLearningTitle">
+        <header>
+          <div>
+            <span class="meta-label">Phase 9B / Manual CEO B Disposition</span>
+            <h3 id="phase9bLearningTitle">Internal Memory Lesson Candidates</h3>
+            <p>Review packet-linked no-trade intelligence. Approval means approved for later rule review only; it never changes the operating system automatically.</p>
+          </div>
+          <aside><strong>${phase9bCandidates.length}</strong><span>packet-linked candidate${phase9bCandidates.length === 1 ? "" : "s"}</span></aside>
+        </header>
+        <div class="phase9b-learning-grid">
+          ${phase9bCandidates.map((candidate) => {
+            const packet = getPhase9BLessonPacket(candidate);
+            return `
+              <article class="phase9b-lesson-card" data-phase9b-candidate="${escapeHtml(candidate.id)}">
+                <div class="phase9b-card-head">
+                  <div><span>${escapeHtml(candidate.lesson_type)}</span><strong>${escapeHtml(candidate.sourceTicker || packet?.symbol || "Research")}</strong></div>
+                  <em>${escapeHtml(candidate.reviewStatus)}</em>
+                </div>
+                <h4>${escapeHtml(candidate.sourcePacketTitle || packet?.title || "Lesson candidate")}</h4>
+                <p>${escapeHtml(candidate.text || candidate.statement)}</p>
+                <dl>
+                  <div><dt>Internal memory</dt><dd>${candidate.internalMemory ? "Yes / browser-local" : "Pending"}</dd></div>
+                  <div><dt>Source packet</dt><dd>${escapeHtml(candidate.linkedPacketId)}</dd></div>
+                  <div><dt>Risk gate</dt><dd>${escapeHtml(candidate.gateResult || "Risk gate preserved")}</dd></div>
+                  <div><dt>Disposition</dt><dd>${escapeHtml(candidate.disposition)}</dd></div>
+                  <div><dt>Verification</dt><dd>Unverified</dd></div>
+                  <div><dt>Adoption</dt><dd>Non-adopted</dd></div>
+                </dl>
+                <section>
+                  <span>Research improvement</span>
+                  <strong>${escapeHtml(candidate.proposedResearchImprovement)}</strong>
+                  <p>${escapeHtml(candidate.followUpVerification)}</p>
+                </section>
+                <section>
+                  <span>Evidence gap</span>
+                  ${renderPacketList(candidate.missingEvidence || packet?.missingEvidence || [], "No evidence gap recorded.")}
+                </section>
+                ${renderPhase9BSafetyLabels(candidate.safetyLabels)}
+                <div class="phase9b-disposition-actions" aria-label="Manual CEO B lesson disposition">
+                  <button type="button" onclick="window.reviewPhase9BLessonCandidate('${escapeHtml(candidate.id)}', 'retain')">Retain as internal memory</button>
+                  <button type="button" onclick="window.reviewPhase9BLessonCandidate('${escapeHtml(candidate.id)}', 'evidence')">Return for evidence</button>
+                  <button type="button" onclick="window.reviewPhase9BLessonCandidate('${escapeHtml(candidate.id)}', 'reject')">Reject lesson candidate</button>
+                  <button type="button" onclick="window.reviewPhase9BLessonCandidate('${escapeHtml(candidate.id)}', 'improvement')">Approve research improvement for later rule review</button>
+                </div>
+                <footer>
+                  <strong>CEO B review required</strong>
+                  <small>Approval does not alter rules, prompts, scoring, gates, alerts, watchlists, publication state, signal generation, or performance state.</small>
+                </footer>
+              </article>
+            `;
+          }).join("") || `
+            <article class="phase9b-empty-memory">
+              <strong>No packet-linked lesson candidate yet.</strong>
+              <p>Use the QQQ simulator Archive Lesson control after completing the required five-step review sequence.</p>
+            </article>
+          `}
+        </div>
+        <p class="phase9b-boundary">Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · Static demo lesson · Not performance proof</p>
       </section>
 
       <section class="packet-outcome-section">

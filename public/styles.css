@@ -21409,3 +21409,256 @@ body[data-active-view="alerts"] #alerts.active .pcad-shell {
     opacity: 0.84;
   }
 }
+
+/* Phase 9B / packet-linked Archive Lesson */
+.phase9b-memory-vault,
+.phase9b-learning-review {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+  padding: clamp(18px, 2.5vw, 30px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 18px;
+  background: radial-gradient(circle at 92% 4%, rgba(212, 175, 55, 0.09), transparent 28%), linear-gradient(145deg, rgba(255, 248, 225, 0.035), transparent 42%), rgba(7, 9, 12, 0.92);
+  box-shadow: inset 0 1px rgba(255, 248, 225, 0.045), 0 24px 64px rgba(0, 0, 0, 0.26);
+}
+
+.phase9b-memory-vault > header,
+.phase9b-learning-review > header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.phase9b-memory-vault h3,
+.phase9b-learning-review h3 {
+  margin: 5px 0 7px;
+  color: #f3eee2;
+  font-size: clamp(20px, 2vw, 30px);
+}
+
+.phase9b-memory-vault header p,
+.phase9b-learning-review header p,
+.phase9b-lesson-card > p,
+.phase9b-empty-memory p {
+  margin: 0;
+  color: #aaa69d;
+  line-height: 1.65;
+}
+
+.phase9b-memory-vault header aside,
+.phase9b-learning-review header aside {
+  display: grid;
+  min-width: 126px;
+  padding: 13px;
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.24);
+  text-align: right;
+}
+
+.phase9b-memory-vault header aside strong,
+.phase9b-learning-review header aside strong {
+  color: #d8b45a;
+  font-size: 28px;
+}
+
+.phase9b-memory-vault header aside span,
+.phase9b-learning-review header aside span {
+  color: #8e8b84;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.phase9b-archive-grid,
+.phase9b-learning-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.phase9b-lesson-card,
+.phase9b-empty-memory {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: linear-gradient(160deg, rgba(212, 175, 55, 0.045), transparent 36%), #0a0c0f;
+}
+
+.phase9b-card-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.phase9b-card-head div {
+  display: grid;
+  gap: 4px;
+}
+
+.phase9b-card-head span,
+.phase9b-lesson-card section > span {
+  color: #d8b45a;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.phase9b-card-head strong,
+.phase9b-lesson-card section > strong,
+.phase9b-lesson-card h4 {
+  color: #f3eee2;
+}
+
+.phase9b-card-head em {
+  max-width: 190px;
+  color: #d8b45a;
+  font-size: 10px;
+  font-style: normal;
+  text-align: right;
+}
+
+.phase9b-lesson-card h4 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.phase9b-lesson-card dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.phase9b-lesson-card dl div,
+.phase9b-lesson-card section {
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.phase9b-lesson-card dt {
+  color: #77746e;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.phase9b-lesson-card dd {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+  color: #d8d2c6;
+  font-size: 11px;
+}
+
+.phase9b-lesson-card section p,
+.phase9b-lesson-card section ul {
+  margin: 8px 0 0;
+  color: #aaa69d;
+  line-height: 1.55;
+}
+
+.phase9b-lesson-card section ul {
+  padding-left: 18px;
+}
+
+.phase9b-safety-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.phase9b-safety-row span,
+.phase9b-boundary {
+  padding: 5px 8px;
+  border: 1px solid rgba(212, 175, 55, 0.19);
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.055);
+  color: #caa951;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.phase9b-lesson-card footer {
+  display: grid;
+  gap: 6px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.phase9b-lesson-card footer a,
+.phase9b-lesson-card footer strong {
+  color: #d8b45a;
+  font-weight: 850;
+}
+
+.phase9b-lesson-card footer small {
+  color: #8e8b84;
+  line-height: 1.5;
+}
+
+.phase9b-disposition-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.phase9b-disposition-actions button {
+  min-height: 46px !important;
+  padding: 9px;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  border-radius: 9px;
+  background: rgba(212, 175, 55, 0.07);
+  color: #d8b45a;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.phase9b-disposition-actions button:hover,
+.phase9b-disposition-actions button:focus-visible {
+  border-color: rgba(239, 204, 116, 0.66);
+  background: rgba(212, 175, 55, 0.14);
+  outline: none;
+}
+
+.phase9b-boundary {
+  margin: 0;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .phase9b-memory-vault > header,
+  .phase9b-learning-review > header,
+  .phase9b-card-head {
+    display: grid;
+  }
+
+  .phase9b-memory-vault header aside,
+  .phase9b-learning-review header aside {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .phase9b-archive-grid,
+  .phase9b-learning-grid,
+  .phase9b-lesson-card dl,
+  .phase9b-disposition-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .phase9b-card-head em {
+    max-width: none;
+    text-align: left;
+  }
+}
