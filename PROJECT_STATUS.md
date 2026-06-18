@@ -1,6 +1,6 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Staging / QA Command Center Polish
+## Current Checkpoint - Staging / QA Command Center Polish / Hosted Verification
 
 - Date: 2026-06-18.
 - Sprint type: bounded route-specific presentation and clarity polish for `#/staging` and `/staging`.
@@ -16,6 +16,13 @@
 - The canonical Alerts renderer remains singleton, the V3.1 detailed Signals card remains beneath the Alerts overlay, and the Phase 9B lesson candidate remains unverified and non-adopted.
 - No new route, renderer, LocalStorage key, tracker behavior, backup/restore behavior, financial/research logic, provider, broker, authentication, payment, autonomous publishing, performance state, or product scope was added.
 - `data/signal-alerts.json` remains unchanged.
+- Commit `83b32e1` (`Polish Staging QA command center`) is pushed to `origin/main`.
+- GitHub Pages validation/deployment run `27795750801` completed successfully; both `Validate and Build` and `Deploy` jobs passed.
+- Hosted QA passed at `1280x720` and `390x844` for `/#/staging`, `/staging`, `/`, `/#/alerts`, `/app/alerts`, `/#/archive`, `/#/learning-ledger`, `/#/agents`, `/agents`, `/#/vision-map`, and `/vision-map`.
+- Hosted Staging displays the current checkpoint, both required commit IDs, both prior successful Pages run IDs, Build Completion Tracker status, bridge status, `/ai-handoff` local-only truth, CEO B decision gate, required safety language, and separately-authorized-only work.
+- Existing tracker, backup/restore, and diagnostics controls render on hosted Staging. Every checked route remained nonblank with one Starlight canvas, zero console errors, and no document-level horizontal overflow.
+- Direct paths forwarded to their correct canonical hash views. Hosted `/ai-handoff` returns GitHub Pages `404`, confirming that it remains local-server-only and was not converted into a public bridge.
+- Final Staging / QA Command Center result: **PASS / HOSTED**.
 
 ### Staging / QA Command Center Files Changed
 
@@ -28,7 +35,7 @@
 
 ### Staging / QA Command Center Next Step
 
-- Keep this local checkpoint locked. CEO B may separately authorize push and hosted verification; do not begin another product sprint automatically.
+- Keep this hosted checkpoint locked. Begin no further sprint without a separate bounded authorization from CEO B.
 
 ## Current Checkpoint - Route-by-Route Visual QA Polish / Hosted Verification
 

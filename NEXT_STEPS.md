@@ -2,7 +2,7 @@
 
 ## Current Active Checkpoint
 
-Staging / QA Command Center polish is **BUILT / LOCAL PASS**.
+Staging / QA Command Center polish is **PASS / HOSTED**.
 
 - Started from clean synchronized `main` at `6adeedf`.
 - Updated only the final active Staging presentation plus route-scoped CSS, cache keys, tracker metadata, and session records.
@@ -15,8 +15,13 @@ Staging / QA Command Center polish is **BUILT / LOCAL PASS**.
 - Desktop and `390x844` QA passed for Staging and all requested regression routes with correct active views, nonblank content, one Starlight canvas, zero console errors, and no document-level overflow.
 - Alerts remains singleton, the V3.1 detailed Signals card placement remains locked, and the Phase 9B candidate remains unverified/non-adopted.
 - No Phase 9C, V3.2, Options Hub, live provider, scraping, broker execution, auth, payment, subscription, autonomous publishing, performance, new storage key, duplicate renderer, or `data/signal-alerts.json` change was added.
+- Commit `83b32e1` (`Polish Staging QA command center`) is pushed to `origin/main`.
+- GitHub Pages validation/deployment run `27795750801` completed successfully, including both validation/build and deployment jobs.
+- Hosted desktop and `390x844` QA passed for `/#/staging`, `/staging`, `/`, `/#/alerts`, `/app/alerts`, `/#/archive`, `/#/learning-ledger`, `/#/agents`, `/agents`, `/#/vision-map`, and `/vision-map`.
+- All hosted routes loaded the correct canonical view with nonblank content, one Starlight canvas, zero console errors, and no document-level horizontal overflow.
+- Hosted `/ai-handoff` remains a GitHub Pages `404`, preserving its local-server-only boundary.
 
-Next bounded step: CEO B may authorize push and hosted verification of this Staging / QA Command Center polish. Do not begin another product sprint automatically.
+Next bounded step: keep the Staging / QA Command Center hosted checkpoint locked. CEO B must authorize any next bounded sprint; do not begin one automatically.
 
 ## Previous Active Checkpoint - Route-by-Route Visual QA Polish
 
