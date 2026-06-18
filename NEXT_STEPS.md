@@ -2,6 +2,20 @@
 
 ## Current Active Checkpoint
 
+Route-by-route visual QA polish is **PASS / LOCAL**.
+
+- Completed all 26 requested routes at `1280x720` and `390x844`; Alerts, Vision Map, and Agents also passed at `1440x900`.
+- Fixed the confirmed mobile sidebar height, Vision Map off-screen node layout, sub-44px route controls, and Alerts V3.1 deep-detail width defects.
+- All checked routes render nonblank content with no console errors or document-level horizontal overflow.
+- One Starlight canvas remains, Alerts remains singleton, the detailed V3.1 Signals card stays beneath the Alerts overlay, and the Phase 9B candidate remains unverified/non-adopted.
+- Direct paths still load their canonical views. `/ai-handoff` remains local-server-only.
+- No route, renderer, product workflow, storage key, research logic, live service, provider, broker, auth, payment, autonomous publishing, or performance scope was added.
+- `data/signal-alerts.json` remains unchanged.
+
+Next bounded step: keep the visual QA fixes local until CEO B authorizes push and hosted verification. Do not begin another product or visual sprint automatically.
+
+## Previous Active Checkpoint - Project Context Lock
+
 Project Context Lock / `AGENTS.md` Upgrade is **PASS / DOCS-ONLY**.
 
 - `AGENTS.md` now contains concise permanent rules for authority, architecture, financial/data safety, locked runtime checkpoints, sprint discipline, validation, and session records.

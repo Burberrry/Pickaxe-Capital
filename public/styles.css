@@ -21662,3 +21662,102 @@ body[data-active-view="alerts"] #alerts.active .pcad-shell {
     text-align: left;
   }
 }
+
+/* Route visual QA: keep mobile navigation compact and route content usable. */
+@media (max-width: 760px) {
+  body[data-active-view] .rail {
+    padding: 10px !important;
+  }
+
+  body[data-active-view] .rail .home-brand {
+    min-height: 76px;
+    padding: 14px !important;
+  }
+
+  body[data-active-view] .rail .home-brand small,
+  body[data-active-view] .rail .rail-card,
+  body[data-active-view] .rail .rail-quote,
+  body[data-active-view] .rail .sidebar-status {
+    display: none !important;
+  }
+
+  body[data-active-view] .rail .nav.sidebar-shell {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+    margin-top: 10px;
+    padding: 10px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline proximity;
+  }
+
+  body[data-active-view] .rail .sidebar-group {
+    flex: 0 0 184px;
+    width: 184px !important;
+    min-width: 184px;
+    scroll-snap-align: start;
+  }
+
+  body[data-active-view] .rail .sidebar-item {
+    min-height: 44px !important;
+    grid-template-columns: 36px minmax(0, 1fr) !important;
+    padding: 6px 8px !important;
+  }
+
+  .view.active button {
+    min-height: 44px !important;
+  }
+
+  #sourceHub.active .source-action-row.compact button {
+    min-height: 44px !important;
+  }
+
+  #alerts.active .v31-deep-grid {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #alerts.active .v31-deep-section {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  #vision.active .agent-network {
+    min-height: auto !important;
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  #vision.active .agent-paths,
+  #vision.active .data-pulse,
+  #vision.active .agent-network::before,
+  #vision.active .agent-network::after {
+    display: none;
+  }
+
+  #vision.active .agent-node,
+  #vision.active .agent-node.core {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100% !important;
+    min-height: 88px !important;
+    margin: 0 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  #vision.active .agent-node:hover,
+  #vision.active .agent-node:focus-visible {
+    transform: none !important;
+  }
+
+  #vision.active .agent-tooltip {
+    display: none;
+  }
+}

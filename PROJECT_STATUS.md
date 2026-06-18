@@ -1,5 +1,33 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Route-by-Route Visual QA Polish
+
+- Date: 2026-06-18.
+- Sprint type: bounded visual QA and confirmed-defect polish.
+- Starting state: clean `main` at `6bbd345`, synchronized with `origin/main` (`0` ahead / `0` behind).
+- Completed the requested 26-route local matrix at `1280x720` and `390x844`, plus priority-route checks at `1440x900`.
+- Confirmed and fixed four mobile defects: the full sidebar delayed route content by roughly 1,000px; Vision Map nodes rendered off-screen; route review/action buttons remained 36-40px tall; and Alerts V3.1 deep-detail sections exceeded the mobile content width.
+- Mobile navigation now uses a contained horizontal zone rail, route content begins around 469-616px instead of after the full vertical sidebar, and route controls use a 44px minimum where applicable.
+- Vision Map now renders all 11 nodes as compact in-flow cards at `390x844`; desktop keeps the locked network visualization.
+- Alerts deep-detail sections fit within the mobile viewport. Existing Alerts Orbit and Agent Robotics horizontal rails remain intentionally scroll-contained and do not create document-level overflow.
+- Every checked route rendered nonblank content with one Starlight canvas, no console errors, and no document-level horizontal overflow.
+- The canonical Alerts renderer remains singleton, the detailed V3.1 Signals card remains beneath the Alerts overlay, and the Phase 9B lesson candidate remains unverified and non-adopted.
+- Direct paths continued to load their existing canonical views without a GitHub Pages-style 404. `/ai-handoff` remains local-server-only.
+- No renderer, route, LocalStorage key, research logic, scoring, gate, packet model, alert behavior, provider, broker, authentication, payment, autonomous publishing, or performance state changed.
+- `data/signal-alerts.json` remains unchanged.
+
+### Visual QA Polish Files Changed
+
+- `styles.css` and `public/styles.css`
+- `index.html` and `public/index.html` — stylesheet cache key only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `habitat-data.js` and `public/habitat-data.js` — Build Completion Tracker metadata only
+
+### Visual QA Polish Next Step
+
+- Keep this route matrix and all locked phases stable. Begin no new feature or visual redesign without a separately approved bounded scope.
+
 ## Current Checkpoint - Project Context Lock / AGENTS.md Upgrade
 
 - Date: 2026-06-18.
