@@ -2,6 +2,21 @@
 
 ## Current Active Checkpoint
 
+Codex Prompt Template Refinement is **PASS / DOCS-ONLY**.
+
+- Reused the existing `docs/05_CODEX` governance structure and created no competing prompt system.
+- Added copy-paste-ready, variable-driven templates for checkpoint selection, bounded implementation, push/hosted verification, hosted failure reporting, docs/tracker hosted recording, visual QA, and final report formats.
+- Centralized the current Pickaxe safety guardrails and actual `package.json` validation command family.
+- Clarified baseline checks, allowed/forbidden files, route/viewports, hard stops, commit messages, separate push authority, direct-path checks, `/ai-handoff` local-only behavior, and failure-versus-test-harness classification.
+- Updated the sprint checklist to match the successful three-stage workflow: select one checkpoint, implement one bounded scope, then separately authorize push and hosted verification.
+- Added only a concise pointer in `AGENTS.md`; the prompt library and checklist never grant scope by themselves.
+- No runtime, route, renderer, product behavior, LocalStorage, tracker data, bridge, server behavior, or `data/signal-alerts.json` change was made.
+- Browser QA was not required for this documentation-only sprint.
+
+Next bounded step: CEO B may authorize one docs-only Pickaxe X Visual Intelligence Engine prototype specification sprint. Do not begin runtime implementation automatically.
+
+## Previous Active Checkpoint - Staging / QA Command Center
+
 Staging / QA Command Center polish is **PASS / HOSTED**.
 
 - Started from clean synchronized `main` at `6adeedf`.

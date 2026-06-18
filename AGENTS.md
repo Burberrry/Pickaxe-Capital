@@ -62,6 +62,8 @@ Do not add routes, storage keys, renderers, packet models, review queues, or dup
 
 ## Sprint Protocol
 
+Copy-paste authorization templates live in `docs/05_CODEX/CODEX_PROMPT_LIBRARY.md`; the required preflight, validation, and stop gates live in `docs/05_CODEX/SPRINT_LOCK_CHECKLIST.md`. These documents organize authorization but never grant scope by themselves.
+
 Every Codex sprint must:
 
 1. Confirm a clean starting git state and compare with `origin/main`.

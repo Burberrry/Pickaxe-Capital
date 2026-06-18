@@ -1,5 +1,39 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Codex Prompt Template Refinement
+
+- Date: 2026-06-18.
+- Sprint type: bounded documentation-only governance and reusable-prompt refinement.
+- Starting state: clean `main` at `4cd45ec`, freshly fetched and synchronized with `origin/main` (`0` ahead / `0` behind).
+- Reused the existing `docs/05_CODEX` prompt-library and sprint-checklist structure; no parallel prompt system or duplicate project brain was created.
+- Expanded `docs/05_CODEX/CODEX_PROMPT_LIBRARY.md` into a variable-driven, copy-paste-ready authorization library with shared Pickaxe guardrails, the current repository validation family, and seven bounded templates:
+  - checkpoint selection;
+  - bounded implementation;
+  - push and hosted verification;
+  - hosted QA failure reporting;
+  - docs/tracker hosted recording;
+  - visual QA;
+  - final report formats.
+- Standardized report formats for planning, local implementation, push/hosted verification, hosted failure, docs-only work, and no-change verification.
+- Updated `docs/05_CODEX/SPRINT_LOCK_CHECKLIST.md` to require current baseline comparison, explicit commit-versus-push authority, runtime/mobile QA gates, hosted deployment checks, failure classification, direct-path verification, and current `node --run` commands.
+- Added one concise `AGENTS.md` pointer to the existing prompt library and sprint checklist. The templates organize authorization but do not grant scope.
+- Preserved required Pickaxe safety boundaries: research-only language, CEO B final review, no fake live data or timestamps, no providers, scraping, execution, authentication, payments, subscriptions, autonomous publishing, performance claims, unapproved storage keys, duplicate renderers, or `data/signal-alerts.json` changes.
+- No runtime, route, renderer, bridge, LocalStorage, tracker behavior, product workflow, app shell, server behavior, or hosted-page presentation changed.
+- Browser QA was not required because the sprint changes documentation only.
+- `data/signal-alerts.json` remains unchanged.
+
+### Codex Prompt Template Refinement Files Changed
+
+- `AGENTS.md` — concise template-library pointer only
+- `docs/05_CODEX/CODEX_PROMPT_LIBRARY.md`
+- `docs/05_CODEX/SPRINT_LOCK_CHECKLIST.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### Codex Prompt Template Refinement Next Step
+
+- Keep the prompt-governance library stable. CEO B may authorize one bounded Pickaxe X Visual Intelligence Engine prototype specification sprint; do not begin implementation automatically.
+
 ## Current Checkpoint - Staging / QA Command Center Polish / Hosted Verification
 
 - Date: 2026-06-18.
