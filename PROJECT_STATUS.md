@@ -71,7 +71,8 @@
 
 - Baseline validation passed: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, all public JavaScript syntax checks, and `git diff --check`.
 - Because this sprint changes documentation and tracker metadata only, desktop and `390px` visual QA are regression-by-inspection plus unchanged-runtime validation; no new UI exists to exercise.
-- The hosted `/Pickaxe-Capital/app/alerts` bridge remains the deployed Phase 9A build. Hosted regression is checked without deploying this docs-only scope commit; the existing bridge and canonical `#/alerts` destination remain unchanged.
+- Commit `a40eda6` (`Define Phase 9B memory vault scope`) was pushed to `main` and deployed successfully in GitHub Pages run `27730462394`.
+- Hosted desktop and `390x844` regression QA passed at `https://burberrry.github.io/Pickaxe-Capital/app/alerts`: the direct bridge forwarded to canonical `#/alerts`; V3.1 panels remained singleton; all nine watchlist symbols and one `Archive Lesson` control remained present; mobile controls retained a `46px` minimum height; the starfield remained one non-blocking canvas; and console, document overflow, and Alerts-container overflow checks were clean.
 - Build Completion Tracker default metadata records this scope-definition session. No application behavior or new storage contract is introduced.
 - Next bounded task: CEO B reviews and locks this Phase 9B contract. If approved, authorize one implementation sprint limited to the existing QQQ `Archive Lesson` handoff plus consistent `#/archive` and `#/learning-ledger` representation. Do not start V3.2.
 

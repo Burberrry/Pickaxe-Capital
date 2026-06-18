@@ -14,6 +14,7 @@ Phase 9B Memory Vault / Archive Lesson is **SCOPE DEFINED / IMPLEMENTATION BLOCK
 - Required labels include `Internal memory`, `No-trade intelligence`, `Evidence gap`, `Risk gate preserved`, `CEO B review required`, `Static demo lesson`, and `Not performance proof`.
 - Performance, profit, live-learning, automatic-improvement, and buy-next-time language is prohibited.
 - V3.1, Phase 9A, the detailed Signals card placement, starfield, canonical Alerts renderer, `/app/alerts` bridge, selected-candidate key, packet models, and `data/signal-alerts.json` remain locked and unchanged.
+- Scope commit `a40eda6` deployed successfully in Pages run `27730462394`; hosted desktop and `390x844` bridge regression QA passed with clean console and overflow checks.
 
 Next bounded step: CEO B reviews and locks the Phase 9B contract. If approved, authorize one implementation sprint limited to the existing QQQ `Archive Lesson` handoff and consistent Archive / Learning Ledger representation. Do not start V3.2 or Options Hub.
 

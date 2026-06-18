@@ -1208,7 +1208,7 @@ window.PickaxeHabitatData = {
         "No runtime bug fix was needed; V3.1 and Phase 9A remained locked."
       ],
       validationCommand: "Available bundled Node --run build; --run check:project; --run check:phase15; --run check:agents; --run check:mirrors; --run smoke:routes; all public JavaScript syntax checks; git diff --check; unchanged-runtime desktop, 390px, and hosted bridge regression review",
-      validationResult: "Phase 9B docs-only scope definition passed on 2026-06-18. The repository began clean on main and synchronized with origin/main at 99a8882. No Phase 9B runtime scaffold or V3.1 / Phase 9A behavior changed.",
+      validationResult: "Phase 9B docs-only scope definition passed on 2026-06-18. The repository began clean on main and synchronized with origin/main at 99a8882. Scope commit a40eda6 deployed successfully in Pages run 27730462394. Hosted desktop and 390x844 direct-bridge QA passed for canonical #/alerts routing, singleton V3.1 panels, nine watchlist symbols, one Archive Lesson control, 46px mobile controls, one Starlight canvas, clean console, and no document or Alerts-container overflow. No Phase 9B runtime scaffold or V3.1 / Phase 9A behavior changed.",
       remainingProblems: [
         "The V3.1 detailed card is intentionally mounted beneath the Alerts overlay rather than directly inside #/signals.",
         "Phase 9B is not implemented; the QQQ Archive Lesson handoff and Archive / Learning Ledger representation require separate CEO B authorization.",
