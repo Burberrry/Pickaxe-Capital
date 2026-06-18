@@ -11,7 +11,10 @@
 - Desktop QA passed through both the local app server and a plain static host. All six routes resolved to the correct existing view, rendered nonblank, produced no console errors, and had no document overflow.
 - Plain-static-host QA passed at `390x844` for all six routes with the correct canonical hash, visible main content, no console errors, and no horizontal overflow.
 - Static-host warnings were limited to the app's existing expected `/api/*` fallback notices; no new warning or error path was introduced.
-- Hosted deployment and final GitHub Pages route-matrix QA remain pending.
+- Implementation commit `3a20b2c` (`Fix required GitHub Pages direct routes`) was pushed to `origin/main`.
+- GitHub Pages validation/deployment run `27749184317` (`Validate and Deploy GitHub Pages #118`) completed successfully.
+- Hosted desktop and `390x844` QA passed for all six exact direct paths. Each route forwarded to its intended canonical hash view, rendered nonblank main content, produced zero console errors, and had no horizontal overflow.
+- Overall required hosted route-matrix result: **PASS / HOSTED**.
 - `/ai-handoff` remains an intentional local-server text endpoint and is not converted into a public static bridge.
 - Do not start Phase 9C, V3.2, Options Hub, live providers, authentication, payments, execution, autonomous publishing, or performance work automatically.
 
@@ -28,6 +31,10 @@
 - `public/habitat-data.js` and `habitat-data.js`
 - `PROJECT_STATUS.md`
 - `NEXT_STEPS.md`
+
+### Direct-Path Repair Next Step
+
+- Keep the six bridges and Phase 9B locked. Begin no new feature without a separately approved bounded scope.
 
 ## Current Checkpoint - Phase 9B Memory Vault / Archive Lesson Implemented
 

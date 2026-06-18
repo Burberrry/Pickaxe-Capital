@@ -2,7 +2,7 @@
 
 ## Current Active Checkpoint
 
-The six-route GitHub Pages direct-path repair is **PASS / LOCAL - HOSTED QA PENDING**.
+The six-route GitHub Pages direct-path repair is **PASS / HOSTED**.
 
 - Added mirrored static bridges for `/agents`, `/vision-map`, `/staging`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
 - Each bridge forwards to the existing canonical hash route; no duplicate renderer or route owner was added.
@@ -10,10 +10,13 @@ The six-route GitHub Pages direct-path repair is **PASS / LOCAL - HOSTED QA PEND
 - Build, project, Phase 1.5, agent, route-smoke, and diff checks pass.
 - Desktop local app-server and plain-static-host QA pass for correct view resolution, nonblank main content, console errors, and overflow.
 - Plain-static-host QA at `390x844` passes for all six routes with no console errors or horizontal overflow.
+- Implementation commit `3a20b2c` was pushed to `main`.
+- GitHub Pages run `27749184317` completed successfully.
+- Hosted desktop and `390x844` route-matrix QA passes for all six exact direct paths with correct canonical views, nonblank main content, zero console errors, and no horizontal overflow.
 - `/ai-handoff` remains local-server-only and is intentionally outside this static bridge repair.
 - No Phase 9C, V3.2, Options Hub, provider, payment, execution, autonomous publishing, performance, renderer, storage, or product-workflow scope was added.
 
-Next bounded step: commit and deploy this repair, then run hosted desktop and `390x844` route-matrix QA against the six exact GitHub Pages direct paths. Begin no new feature automatically.
+Next bounded step: keep Phase 9B and the six direct-path bridges locked. Begin no new feature without a separately approved bounded scope.
 
 ## Previous Active Checkpoint - Phase 9B
 
