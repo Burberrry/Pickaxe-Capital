@@ -2,7 +2,7 @@
 
 ## Current Active Checkpoint
 
-Phase 9B Memory Vault / Archive Lesson is **IMPLEMENTED / LOCAL QA PASS**.
+Phase 9B Memory Vault / Archive Lesson is **FAIL / HOSTED - NEEDS BOUNDED FIX**.
 
 - The existing QQQ simulator now completes `Source Check -> No Output -> Risk Review -> CEO B Review -> Archive Lesson`.
 - Archive Lesson reuses one canonical Research Packet v2 record, `PC-DEMO-QQQ-001`, and creates or updates one stable linked lesson candidate, `lesson-packet-PC-DEMO-QQQ-001`.
@@ -16,8 +16,13 @@ Phase 9B Memory Vault / Archive Lesson is **IMPLEMENTED / LOCAL QA PASS**.
 - V3.1, Phase 9A, the detailed Signals card placement, starfield, canonical Alerts renderer, `/app/alerts` bridge, and selected-candidate behavior remain locked.
 - `data/signal-alerts.json` remains unchanged.
 - Automated validation passed. Desktop and `390x844` browser QA passed for the ritual, deduplication, Archive/Learning consistency, controls, console, single-canvas boundary, and overflow.
+- Commit `33bf861` pushed successfully and Pages run `27748144647` completed successfully.
+- Hosted Phase 9B workflow QA passed on canonical `#/alerts`, `#/archive`, `#/learning-ledger`, and `/app/alerts`.
+- The overall required hosted matrix failed because `/agents`, `/vision-map`, `/staging`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os` return GitHub Pages 404 before the SPA loads; the mobile GitHub 404 page overflows at `390x844`.
+- Canonical hash routes for those surfaces load normally. `/ai-handoff` remains local-server-only and is not supported by static GitHub Pages.
+- No direct-path repair or new product scope was started.
 
-Next bounded step: CEO B reviews the completed local Phase 9B workflow and decides whether to authorize commit/push and hosted QA. Do not start Phase 9C, V3.2, Options Hub, providers, payments, execution, autonomous publishing, or performance work automatically.
+Next bounded step: CEO B may authorize one static direct-path compatibility repair limited to the six failed GitHub Pages paths, followed by hosted route-matrix QA. Do not start Phase 9C, V3.2, Options Hub, providers, payments, execution, autonomous publishing, or performance work automatically.
 
 ## Previous Active Checkpoint - Phase 9A
 

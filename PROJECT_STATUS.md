@@ -3,6 +3,11 @@
 ## Current Checkpoint - Phase 9B Memory Vault / Archive Lesson Implemented
 
 - Date: 2026-06-18.
+- Implementation commit `33bf861` (`Implement Phase 9B archive lesson handoff`) was pushed to `origin/main`.
+- GitHub Pages validation/deployment run `27748144647` (`Validate and Deploy GitHub Pages #116`) completed successfully.
+- Hosted Phase 9B workflow QA passed at `https://burberrry.github.io/Pickaxe-Capital/#/alerts`, `#/archive`, `#/learning-ledger`, and `/app/alerts`: the QQQ five-step ritual completed, a repeated ritual retained exactly one candidate, packet ID `PC-DEMO-QQQ-001` remained consistent, disposition persisted, the candidate remained unverified/non-adopted, risk and evidence lineage remained visible, safety language remained present, one Starlight canvas remained, and desktop/390px console and overflow checks were clean.
+- Overall required hosted route-matrix result: **FAIL / HOSTED - needs bounded fix**. Direct GitHub Pages paths `/agents`, `/vision-map`, `/staging`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os` return HTTP 404 before the static SPA loads. The GitHub mobile 404 page also overflows at `390x844`. Their canonical hash routes load without document overflow. `/ai-handoff` remains a local-server text endpoint and returns 404 on static GitHub Pages.
+- This direct-path failure is outside the Phase 9B workflow and existed because GitHub Pages has no general SPA fallback/direct-route bridge for those paths. No bounded fix was started in this session.
 - Phase 9B is implemented as one bounded browser-local workflow. No Phase 9C, V3.2, Options Hub, provider, authentication, payment, broker, publishing, scoring-engine, or performance work was started.
 - The existing QQQ simulator now completes `Source Check -> No Output -> Risk Review -> CEO B Review -> Archive Lesson`.
 - `Archive Lesson` reuses the V3.1 QQQ demo research object and persists one canonical Research Packet v2 record with stable ID `PC-DEMO-QQQ-001`.
@@ -34,7 +39,7 @@
 - `390x844` QA passed for Alerts, Archive, and Learning Ledger with one simulator, one detailed Signals card, one Archive Lesson control, one linked candidate, no document/Phase 9B panel overflow, and disposition controls with a minimum `46px` height.
 - Required route QA passed for `/`, `#/alerts`, `#/archive`, `#/learning-ledger`, `/agents`, `/vision-map`, `/staging`, `/founder`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
 - The in-app browser blocked direct navigation to `/ai-handoff`; dependency-free route smoke and a direct local HTTP check verified the endpoint separately.
-- Next recommended task remains separate: CEO B reviews the completed local Phase 9B workflow and decides whether to authorize hosted deployment/QA. Do not start Phase 9C, V3.2, or Options Hub automatically.
+- Next recommended task remains separate: CEO B may authorize one bounded static direct-path compatibility repair for the six required GitHub Pages paths, followed by hosted route-matrix QA. Do not start Phase 9C, V3.2, or Options Hub automatically.
 
 ## Current Checkpoint - Phase 9B Memory Vault / Archive Lesson Scope Definition
 
