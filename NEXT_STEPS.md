@@ -2,8 +2,11 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Finance Terminal / Options Intelligence Specification is **PASS / DOCS-ONLY SPECIFICATION COMPLETE**.
+Pickaxe Finance Terminal / Options Intelligence Specification is **PASS / HOSTED DOCS VERIFIED**.
 
+- Specification commit `64cf635` (`Define Finance Terminal options intelligence spec`) is pushed to `origin/main`.
+- GitHub Pages run `27809649762` (`Validate and Deploy GitHub Pages #132`) passed both validation/build and deployment.
+- Hosted repository verification confirmed the canonical specification exists, matches the committed content, and contains all 26 required sections.
 - Created one canonical future-product specification at `docs/02_RESEARCH/PICKAXE_FINANCE_TERMINAL_OPTIONS_INTELLIGENCE_SPEC.md`.
 - Preserved the existing Options Alerts specification and current `/` and `#/alerts` ownership; Finance Terminal is a separate future research cockpit, not a replacement route or renderer.
 - Defined relationships with Research Desk, Source Hub, Pickaxe X, Archive, Learning Ledger, and future Options Hub without creating or selecting an implementation route.
@@ -13,7 +16,7 @@ Pickaxe Finance Terminal / Options Intelligence Specification is **PASS / DOCS-O
 - No runtime, route, renderer, CSS, HTML, LocalStorage, packet, queue, provider, alert, server, bridge, tracker, or `data/signal-alerts.json` change was made.
 - Browser QA was not required because the sprint is documentation-only.
 
-Next bounded step: CEO B may authorize one push and hosted documentation-verification sprint for the local `Define Finance Terminal options intelligence spec` commit. Do not begin owner-route selection, UI implementation, Options Hub, provider, or runtime work.
+Next bounded step: keep the hosted Finance Terminal / Options Intelligence specification locked. Any owner-route selection, UI implementation, Options Hub, provider, or runtime work requires separate CEO B authorization.
 
 ## Previous Active Checkpoint - Pickaxe X Static / Manual Research Preview
 

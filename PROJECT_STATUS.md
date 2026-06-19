@@ -3,9 +3,12 @@
 ## Current Checkpoint - Pickaxe Finance Terminal / Options Intelligence Specification
 
 - Date: 2026-06-19.
-- Result: **PASS / DOCS-ONLY SPECIFICATION COMPLETE**.
-- Sprint type: bounded documentation-only future product specification.
+- Result: **PASS / HOSTED DOCS VERIFIED**.
+- Sprint type: bounded documentation-only future product specification, push, and hosted verification.
 - Starting state: clean synchronized `main` at `19c023f` (`0` ahead / `0` behind).
+- Specification commit `64cf635` (`Define Finance Terminal options intelligence spec`) is pushed to `origin/main`.
+- GitHub Pages run `27809649762` (`Validate and Deploy GitHub Pages #132`) completed successfully for `64cf635`; both `Validate and Build` and `Deploy` passed.
+- Hosted repository verification confirmed the canonical specification exists, matches the committed content, and contains all 26 required sections.
 - Added one canonical specification at `docs/02_RESEARCH/PICKAXE_FINANCE_TERMINAL_OPTIONS_INTELLIGENCE_SPEC.md`.
 - Preserved the existing `docs/02_RESEARCH/PICKAXE_OPTIONS_ALERTS_SPEC.md` as the specification for the current Alerts review unit at `/` and `#/alerts`; the Finance Terminal is a separate future research cockpit and does not replace current route ownership.
 - Defined the product relationship map across Alerts Desk, Research Desk, Source Hub, Pickaxe X, Archive, Learning Ledger, and future Options Hub without selecting or creating a route.
@@ -26,7 +29,7 @@
 
 ### Finance Terminal Specification Next Step
 
-- CEO B may authorize one bounded push and hosted documentation-verification sprint for the local `Define Finance Terminal options intelligence spec` commit. Do not begin owner-route selection, UI implementation, Options Hub, provider, or runtime work.
+- Keep the hosted Finance Terminal / Options Intelligence specification locked. Any owner-route selection, UI implementation, Options Hub, provider, or runtime work requires separate CEO B authorization.
 
 ## Current Checkpoint - Pickaxe X Static / Manual Research Preview Implementation
 
