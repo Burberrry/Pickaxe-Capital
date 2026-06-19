@@ -2,6 +2,23 @@
 
 ## Current Active Checkpoint
 
+Pickaxe X Static / Manual Research Preview Implementation is **PASS / LOCAL IMPLEMENTATION VERIFIED**.
+
+- Added one bounded `Pickaxe X Visual Intelligence Preview` inside the existing `#/research` renderer.
+- Manual/static/source-required/omitted fields update one internal five-band preview and visible 1000-point QA panel.
+- Default state is source-required and demo/static; no live values or current timestamps are prefilled.
+- Below `900/1000` remains internal. Hard blocks override scores. A qualifying candidate still requires CEO B approval and cannot publish or export.
+- Banned command/certainty language and unsupported live/provider wording produce a visible `NO_OUTPUT` warning.
+- Options context adds substantial-risk language.
+- State is ephemeral and clears when the Research route rerenders. No LocalStorage key, persistence, packet write, queue write, or cross-route handoff was added.
+- Desktop and `390x844` owner-route and eight-route regression QA passed with no new console errors, no overflow, one Starlight canvas, and locked Alerts/V3.1/Phase 9B behavior preserved.
+- Build, project, Phase 1.5, agent, mirror, route-smoke, JavaScript syntax, and diff checks passed.
+- `data/signal-alerts.json` remains unchanged.
+
+Next bounded step: CEO B may authorize one push and hosted QA sprint for the local `Implement Pickaxe X static research preview` commit. Do not begin another feature or add persistence.
+
+## Previous Active Checkpoint - Pickaxe X Static / Manual Scope
+
 Pickaxe X Static / Manual Prototype Implementation-Scope Definition is **PASS / HOSTED DOCS VERIFIED**.
 
 - Scope commit `4c12af2` (`Define Pickaxe X static prototype scope`) is pushed to `origin/main`.

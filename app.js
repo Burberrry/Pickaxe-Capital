@@ -1713,6 +1713,353 @@ function renderResearchPacketCard(packet, index = 0) {
   `;
 }
 
+function getPickaxeXFieldStates() {
+  return [
+    ["SOURCE_REQUIRED", "Source Required"],
+    ["MANUAL", "Manual"],
+    ["STATIC_DEMO", "Static / Demo"],
+    ["OMITTED", "Omitted"],
+  ];
+}
+
+function getPickaxeXQaWeights() {
+  return [
+    ["Source quality", 150],
+    ["Data freshness", 125],
+    ["Chart clarity", 125],
+    ["Scenario clarity", 125],
+    ["Risk clarity", 150],
+    ["Compliance language", 100],
+    ["Visual hierarchy", 100],
+    ["CEO B usefulness", 125],
+  ];
+}
+
+function getPickaxeXBannedPhrases() {
+  return [
+    "buy now",
+    "sell now",
+    "guaranteed profit",
+    "this will go up",
+    "can't lose",
+    "can’t lose",
+    "proven profitable",
+    "verified alpha",
+    "live signal",
+    "autopilot trading",
+    "ai prediction",
+    "trade command",
+  ];
+}
+
+function renderPickaxeXStateOptions(selected = "SOURCE_REQUIRED") {
+  return getPickaxeXFieldStates().map(([value, label]) => (
+    `<option value="${value}" ${value === selected ? "selected" : ""}>${label}</option>`
+  )).join("");
+}
+
+function renderPickaxeXManualField({ label, id, type = "text", options = [], wide = false }) {
+  const control = type === "textarea"
+    ? `<textarea id="${id}" placeholder="Manual entry required"></textarea>`
+    : type === "select"
+      ? `<select id="${id}">${options.map(([value, text]) => `<option value="${value}">${text}</option>`).join("")}</select>`
+      : `<input id="${id}" type="text" placeholder="Manual entry required" autocomplete="off">`;
+  return `
+    <label class="pickaxe-x-field ${wide ? "wide" : ""}">
+      <span>${escapeHtml(label)}</span>
+      ${control}
+      <select id="${id}State" class="pickaxe-x-state-select" aria-label="${escapeHtml(label)} data state">
+        ${renderPickaxeXStateOptions()}
+      </select>
+    </label>
+  `;
+}
+
+function renderPickaxeXPreviewModule() {
+  const fields = [
+    { label: "Ticker or topic", id: "pickaxeXTicker" },
+    { label: "Asset class", id: "pickaxeXAssetClass", type: "select", options: [["Equity", "Equity"], ["Options", "Options"], ["ETF", "ETF"], ["Index", "Index"], ["Crypto", "Crypto"], ["Macro", "Macro"], ["Other", "Other"]] },
+    { label: "Timeframe", id: "pickaxeXTimeframe" },
+    { label: "Setup label", id: "pickaxeXSetup" },
+    { label: "Chart / screenshot label", id: "pickaxeXChartLabel", wide: true },
+    { label: "Timestamp", id: "pickaxeXTimestamp" },
+    { label: "Bull case", id: "pickaxeXBullCase", type: "textarea", wide: true },
+    { label: "Bear case", id: "pickaxeXBearCase", type: "textarea", wide: true },
+    { label: "Neutral / wait case", id: "pickaxeXNeutralCase", type: "textarea", wide: true },
+    { label: "Counter-thesis", id: "pickaxeXCounterThesis", type: "textarea", wide: true },
+    { label: "Risk flags", id: "pickaxeXRiskFlags", type: "textarea", wide: true },
+    { label: "Confirmation", id: "pickaxeXConfirmation", type: "textarea", wide: true },
+    { label: "Invalidation", id: "pickaxeXInvalidation", type: "textarea", wide: true },
+  ];
+  return `
+    <section class="pickaxe-x-preview-module" id="pickaxeXPreviewModule">
+      <header class="pickaxe-x-module-head">
+        <div>
+          <span class="meta-label">Internal Visual Draft</span>
+          <h3>Pickaxe X Visual Intelligence Preview</h3>
+          <p>Static / Manual · Source-Gated · CEO B Review Required</p>
+        </div>
+        <div class="pickaxe-x-default-badges" aria-label="Prototype boundaries">
+          <span>SOURCE_REQUIRED</span>
+          <span>Manual Entry Required</span>
+          <span>Demo / Static Data</span>
+          <span>No Live Provider Connected</span>
+          <span>Research Only</span>
+          <span>CEO B Review Required</span>
+        </div>
+      </header>
+
+      <div class="pickaxe-x-workspace">
+        <article class="pickaxe-x-composer">
+          <div class="pickaxe-x-section-head">
+            <div>
+              <span class="meta-label">Ephemeral Composer</span>
+              <h4>Manual fields</h4>
+            </div>
+            <span>No save · No export · Clears on route render</span>
+          </div>
+          <div class="pickaxe-x-form-grid" oninput="window.updatePickaxeXPreview?.()" onchange="window.updatePickaxeXPreview?.()">
+            ${fields.map(renderPickaxeXManualField).join("")}
+            <label class="pickaxe-x-field">
+              <span>Source status</span>
+              <select id="pickaxeXSourceStatus">
+                ${renderPickaxeXStateOptions()}
+              </select>
+            </label>
+            <label class="pickaxe-x-field">
+              <span>Quote type</span>
+              <select id="pickaxeXQuoteType">
+                <option value="SOURCE_REQUIRED">Source Required</option>
+                <option value="OMITTED">Omitted</option>
+                <option value="MANUAL_QUOTE">Manually Supplied Quote</option>
+                <option value="SCREENSHOT_QUOTE">Screenshot Quote</option>
+                <option value="STATIC_DEMO_QUOTE">Static / Demo Quote</option>
+              </select>
+            </label>
+            <label class="pickaxe-x-field">
+              <span>Timezone</span>
+              <select id="pickaxeXTimezone">
+                <option value="SOURCE_REQUIRED">Source Required</option>
+                <option value="OMITTED">Omitted</option>
+                <option value="ET">ET</option>
+                <option value="PT">PT</option>
+                <option value="UTC">UTC</option>
+                <option value="EXCHANGE_LOCAL">Exchange-local time</option>
+              </select>
+            </label>
+            <label class="pickaxe-x-field wide">
+              <span>CEO B disposition</span>
+              <select id="pickaxeXDisposition">
+                <option value="">Select disposition — required</option>
+                <option>Draft internal only</option>
+                <option>Approve internal use</option>
+                <option>Request edits</option>
+                <option>Return for evidence</option>
+                <option>Archive as no-trade intelligence</option>
+                <option>Reject</option>
+              </select>
+            </label>
+          </div>
+          <p class="pickaxe-x-form-note">Each material field is explicitly Manual, Static / Demo, Source Required, or Omitted. No value is treated as live or verified automatically.</p>
+        </article>
+
+        <div class="pickaxe-x-output-stack">
+          <article class="pickaxe-x-card" data-pickaxe-x-card aria-live="polite"></article>
+          <aside class="pickaxe-x-qa-panel" data-pickaxe-x-qa></aside>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function readPickaxeXPreviewInput() {
+  const valueFor = (id) => document.getElementById(id)?.value?.trim() || "";
+  const stateFor = (id) => document.getElementById(`${id}State`)?.value || "SOURCE_REQUIRED";
+  return {
+    ticker: valueFor("pickaxeXTicker"),
+    tickerState: stateFor("pickaxeXTicker"),
+    assetClass: valueFor("pickaxeXAssetClass") || "Equity",
+    assetClassState: stateFor("pickaxeXAssetClass"),
+    timeframe: valueFor("pickaxeXTimeframe"),
+    timeframeState: stateFor("pickaxeXTimeframe"),
+    setup: valueFor("pickaxeXSetup"),
+    setupState: stateFor("pickaxeXSetup"),
+    chartLabel: valueFor("pickaxeXChartLabel"),
+    chartLabelState: stateFor("pickaxeXChartLabel"),
+    sourceStatus: valueFor("pickaxeXSourceStatus") || "SOURCE_REQUIRED",
+    quoteType: valueFor("pickaxeXQuoteType") || "SOURCE_REQUIRED",
+    timestamp: valueFor("pickaxeXTimestamp"),
+    timestampState: stateFor("pickaxeXTimestamp"),
+    timezone: valueFor("pickaxeXTimezone") || "SOURCE_REQUIRED",
+    bullCase: valueFor("pickaxeXBullCase"),
+    bullCaseState: stateFor("pickaxeXBullCase"),
+    bearCase: valueFor("pickaxeXBearCase"),
+    bearCaseState: stateFor("pickaxeXBearCase"),
+    neutralCase: valueFor("pickaxeXNeutralCase"),
+    neutralCaseState: stateFor("pickaxeXNeutralCase"),
+    counterThesis: valueFor("pickaxeXCounterThesis"),
+    counterThesisState: stateFor("pickaxeXCounterThesis"),
+    riskFlags: valueFor("pickaxeXRiskFlags"),
+    riskFlagsState: stateFor("pickaxeXRiskFlags"),
+    confirmation: valueFor("pickaxeXConfirmation"),
+    confirmationState: stateFor("pickaxeXConfirmation"),
+    invalidation: valueFor("pickaxeXInvalidation"),
+    invalidationState: stateFor("pickaxeXInvalidation"),
+    disposition: valueFor("pickaxeXDisposition"),
+  };
+}
+
+function evaluatePickaxeXPreview(input) {
+  const isPresent = (value, state) => Boolean(value) && (state === "MANUAL" || state === "STATIC_DEMO");
+  const allUserText = [
+    input.ticker, input.timeframe, input.setup, input.chartLabel, input.timestamp,
+    input.bullCase, input.bearCase, input.neutralCase, input.counterThesis,
+    input.riskFlags, input.confirmation, input.invalidation,
+  ].join(" ").toLowerCase();
+  const bannedMatches = getPickaxeXBannedPhrases().filter((phrase) => allUserText.includes(phrase));
+  const unsafeLiveWording = /\b(live|real[- ]?time|provider connected)\b/i.test(allUserText);
+  const quoteOmitted = input.quoteType === "OMITTED";
+  const timestampReady = isPresent(input.timestamp, input.timestampState) && !["SOURCE_REQUIRED", "OMITTED"].includes(input.timezone);
+  const scenariosReady = [
+    isPresent(input.bullCase, input.bullCaseState),
+    isPresent(input.bearCase, input.bearCaseState),
+    isPresent(input.neutralCase, input.neutralCaseState),
+  ];
+  const hardBlocks = [];
+  if (["SOURCE_REQUIRED", "OMITTED"].includes(input.sourceStatus)) hardBlocks.push("Source verification required");
+  if (!quoteOmitted && !timestampReady) hardBlocks.push("Timestamp and timezone required for the selected quote type");
+  if (!isPresent(input.riskFlags, input.riskFlagsState)) hardBlocks.push("Risk flags required");
+  if (!isPresent(input.counterThesis, input.counterThesisState)) hardBlocks.push("Counter-thesis required");
+  if (!isPresent(input.invalidation, input.invalidationState)) hardBlocks.push("Invalidation required");
+  if (!input.disposition) hardBlocks.push("CEO B disposition required");
+  if (bannedMatches.length) hardBlocks.push(`Banned language: ${bannedMatches.join(", ")}`);
+  if (unsafeLiveWording) hardBlocks.push("Live/provider wording is not permitted in this static/manual prototype");
+
+  const scores = {
+    "Source quality": Math.min(150, (isPresent(input.ticker, input.tickerState) ? 30 : 0) + ({ MANUAL: 120, STATIC_DEMO: 90, SOURCE_REQUIRED: 25, OMITTED: 0 }[input.sourceStatus] || 0)),
+    "Data freshness": quoteOmitted ? 125 : timestampReady ? 125 : input.timestamp ? 45 : 0,
+    "Chart clarity": isPresent(input.chartLabel, input.chartLabelState) ? 125 : input.chartLabelState === "OMITTED" ? 80 : 35,
+    "Scenario clarity": (scenariosReady.filter(Boolean).length * 30) + (isPresent(input.confirmation, input.confirmationState) ? 15 : 0) + (isPresent(input.invalidation, input.invalidationState) ? 20 : 0),
+    "Risk clarity": (isPresent(input.riskFlags, input.riskFlagsState) ? 50 : 0) + (isPresent(input.counterThesis, input.counterThesisState) ? 50 : 0) + (isPresent(input.invalidation, input.invalidationState) ? 30 : 0) + (scenariosReady[2] ? 20 : 0),
+    "Compliance language": bannedMatches.length || unsafeLiveWording ? 0 : 100,
+    "Visual hierarchy": 100,
+    "CEO B usefulness": (isPresent(input.ticker, input.tickerState) ? 25 : 0) + (isPresent(input.setup, input.setupState) ? 20 : 0) + (isPresent(input.confirmation, input.confirmationState) ? 20 : 0) + (input.disposition ? 30 : 0) + (scenariosReady.every(Boolean) ? 30 : 0),
+  };
+  const total = getPickaxeXQaWeights().reduce((sum, [name, max]) => sum + Math.min(max, scores[name] || 0), 0);
+  const isPublicReady = total >= 900 && hardBlocks.length === 0;
+  const outputState = hardBlocks.length
+    ? (bannedMatches.length || unsafeLiveWording ? "NO_OUTPUT" : "SOURCE_REQUIRED")
+    : isPublicReady
+      ? "PUBLIC_READY_CANDIDATE"
+      : "INTERNAL_ONLY";
+  return { scores, total, hardBlocks, bannedMatches, isPublicReady, outputState };
+}
+
+function pickaxeXDisplay(value, state, fallback = "Manual entry required") {
+  if (state === "OMITTED") return "OMITTED";
+  if (!value || state === "SOURCE_REQUIRED") return "SOURCE_REQUIRED";
+  return value;
+}
+
+function updatePickaxeXPreview() {
+  const card = document.querySelector("[data-pickaxe-x-card]");
+  const qaPanel = document.querySelector("[data-pickaxe-x-qa]");
+  if (!card || !qaPanel) return;
+  const input = readPickaxeXPreviewInput();
+  const result = evaluatePickaxeXPreview(input);
+  const optionsMentioned = input.assetClass === "Options" || /\boptions?\b/i.test([
+    input.setup, input.bullCase, input.bearCase, input.neutralCase, input.riskFlags,
+  ].join(" "));
+  const sourceLabel = input.sourceStatus.replaceAll("_", " ");
+  const quoteLabel = input.quoteType.replaceAll("_", " ");
+  const timeLabel = input.quoteType === "OMITTED"
+    ? "Quote omitted · timestamp not required"
+    : `${pickaxeXDisplay(input.timestamp, input.timestampState)} · ${input.timezone.replaceAll("_", " ")}`;
+  const footer = [
+    "Research Only",
+    "Manual Review Required",
+    "Not Financial Advice",
+    "No Broker Execution",
+    "No Guaranteed Outcomes",
+    "Demo / Static Data",
+    ...(optionsMentioned ? ["Options involve substantial risk"] : []),
+  ];
+  card.className = `pickaxe-x-card output-${result.outputState.toLowerCase()}`;
+  card.innerHTML = `
+    <section class="pickaxe-x-band pickaxe-x-hero-band">
+      <div>
+        <span>Pickaxe Capital · Research Only</span>
+        <h4>${escapeHtml(pickaxeXDisplay(input.ticker, input.tickerState, "TOPIC UNDER REVIEW"))}</h4>
+        <p>${escapeHtml(pickaxeXDisplay(input.assetClass, input.assetClassState))} · ${escapeHtml(pickaxeXDisplay(input.timeframe, input.timeframeState))}</p>
+      </div>
+      <strong>${escapeHtml(sourceLabel)}</strong>
+    </section>
+    <section class="pickaxe-x-band pickaxe-x-market-band">
+      <div class="pickaxe-x-chart-placeholder">
+        <span>Core Market Panel</span>
+        <strong>${escapeHtml(pickaxeXDisplay(input.chartLabel, input.chartLabelState, "NO VERIFIED CHART — SOURCE REQUIRED"))}</strong>
+        <small>No generated chart · No live provider connected</small>
+      </div>
+      <dl>
+        <div><dt>Quote type</dt><dd>${escapeHtml(quoteLabel)}</dd></div>
+        <div><dt>Time context</dt><dd>${escapeHtml(timeLabel)}</dd></div>
+        <div><dt>Source state</dt><dd>${escapeHtml(sourceLabel)}</dd></div>
+      </dl>
+    </section>
+    <section class="pickaxe-x-band pickaxe-x-context-band">
+      <div><span>Setup</span><strong>${escapeHtml(pickaxeXDisplay(input.setup, input.setupState))}</strong></div>
+      <div><span>Confirmation</span><strong>${escapeHtml(pickaxeXDisplay(input.confirmation, input.confirmationState))}</strong></div>
+      <div><span>Invalidation</span><strong>${escapeHtml(pickaxeXDisplay(input.invalidation, input.invalidationState))}</strong></div>
+      <div class="pickaxe-x-context-chips" aria-label="Manual indicator slots">
+        ${["EMA", "VWAP", "RSI", "MACD", "Volume", "Fibonacci", "Gap", "Catalyst"].map((label) => `<em>${label}: SOURCE_REQUIRED</em>`).join("")}
+      </div>
+    </section>
+    <section class="pickaxe-x-band pickaxe-x-scenario-band">
+      <article class="bull"><span>Bull case</span><p>${escapeHtml(pickaxeXDisplay(input.bullCase, input.bullCaseState))}</p></article>
+      <article class="bear"><span>Bear case</span><p>${escapeHtml(pickaxeXDisplay(input.bearCase, input.bearCaseState))}</p></article>
+      <article class="neutral"><span>Neutral / wait</span><p>${escapeHtml(pickaxeXDisplay(input.neutralCase, input.neutralCaseState))}</p></article>
+      <article class="wide"><span>Counter-thesis</span><p>${escapeHtml(pickaxeXDisplay(input.counterThesis, input.counterThesisState))}</p></article>
+      <article class="wide risk"><span>Risk flags</span><p>${escapeHtml(pickaxeXDisplay(input.riskFlags, input.riskFlagsState))}</p></article>
+    </section>
+    <footer class="pickaxe-x-band pickaxe-x-decision-band">
+      <div>
+        <span>Final Decision Footer</span>
+        <strong>${escapeHtml(result.outputState.replaceAll("_", " "))}</strong>
+        <small>${result.isPublicReady ? "Public-ready candidate — CEO B approval still required" : "Internal only"}</small>
+      </div>
+      <div>
+        <span>QA score</span>
+        <strong>${result.total} / 1000</strong>
+        <small>${escapeHtml(input.disposition || "CEO B disposition required")}</small>
+      </div>
+      <div>
+        <span>Hard blocks</span>
+        <strong>${result.hardBlocks.length ? result.hardBlocks.length : "Clear"}</strong>
+        <small>No publish, export, transmission, or execution</small>
+      </div>
+      <p>${footer.map(escapeHtml).join(" · ")}</p>
+    </footer>
+  `;
+  qaPanel.innerHTML = `
+    <div class="pickaxe-x-section-head">
+      <div><span class="meta-label">1000-Point QA</span><h4>Artifact readiness only</h4></div>
+      <strong>${result.total} / 1000</strong>
+    </div>
+    <p>This score does not measure expected return, prediction accuracy, profitability, trade edge, win probability, or performance.</p>
+    <div class="pickaxe-x-qa-grid">
+      ${getPickaxeXQaWeights().map(([name, max]) => `
+        <div><span>${escapeHtml(name)}</span><strong>${result.scores[name]} / ${max}</strong></div>
+      `).join("")}
+    </div>
+    <div class="pickaxe-x-block-list ${result.hardBlocks.length ? "blocked" : "clear"}">
+      <span>${result.hardBlocks.length ? result.outputState : "No hard blocks"}</span>
+      ${result.hardBlocks.length
+        ? `<ul>${result.hardBlocks.map((block) => `<li>${escapeHtml(block)}</li>`).join("")}</ul>`
+        : "<p>Score gates still require CEO B review. Nothing is published.</p>"}
+    </div>
+  `;
+}
+
 // Active renderer: #/research. This definition is not replaced later.
 function renderResearchDeskPage() {
   if (!els.researchContent) return;
@@ -1818,6 +2165,8 @@ function renderResearchDeskPage() {
         </article>
       </section>
 
+      ${renderPickaxeXPreviewModule()}
+
       <section class="research-anatomy-grid">
         <article class="command-card">
           <span class="meta-label">Agent Lanes</span>
@@ -1852,6 +2201,7 @@ function renderResearchDeskPage() {
       </section>
     </div>
   `;
+  updatePickaxeXPreview();
 }
 
 function getResearchPacketById(packetId) {
