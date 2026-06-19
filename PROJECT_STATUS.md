@@ -1,5 +1,34 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Finance Terminal Owner-Route / Static-Manual Prototype Scope
+
+- Date: 2026-06-19.
+- Result: **PASS / DOCS-ONLY SCOPE DEFINITION COMPLETE**.
+- Sprint type: bounded documentation-only owner-route and static/manual prototype scope definition.
+- Starting state: clean synchronized `main` at `ad5724e` (`0` ahead / `0` behind).
+- Added one canonical scope document at `docs/02_RESEARCH/PICKAXE_FINANCE_TERMINAL_OWNER_ROUTE_SCOPE.md`.
+- Compared existing `/` and `#/alerts`, `#/research`, `#/source-hub`, `#/dashboard`, `#/staging`, future `#/finance-terminal`, and future `#/options-intelligence`.
+- Recommended existing `#/research` as the sole future first-prototype owner because it already owns manual research composition and has one active renderer. No owner decision was implemented.
+- Rejected Alerts as an owner because its Options Alerts/V3.1 review workflow is locked; kept Source Hub as provenance reference, Dashboard as summary reference, and Staging as QA reference.
+- Deferred a dedicated `#/finance-terminal` route until an owner-route-limited prototype proves it necessary; rejected `#/options-intelligence` for the first prototype because it risks Options Alerts duplication and Options Hub drift.
+- Defined one future ephemeral static/manual cockpit panel with market, options, technical, scenario, risk, readiness, CEO B disposition, and descriptive manual-handoff labels.
+- Defined the minimal conceptual field set and required `VERIFIED_SAME_WORKFLOW`, `MANUAL_CEO_B`, `STATIC_DEMO`, `SOURCE_REQUIRED`, and `OMITTED` states without creating a runtime schema.
+- Recommended no new LocalStorage key, no persistence, and no writes to Research Packets, Options Alerts, review queues, Source Hub, Pickaxe X, Archive, Learning Ledger, or any existing storage contract.
+- Preserved the complete 1000-point readiness framework, the `900/1000` review threshold, hard-block precedence, required safety footer, allowed/banned language, likely later files, and desktop/mobile regression QA.
+- No runtime, route, renderer, CSS, HTML, LocalStorage, packet, queue, provider, alert, data, server, bridge, simulator, tracker, or hosted behavior changed.
+- Browser QA was not required because no runtime-visible file changed.
+- `/ai-handoff` and `data/signal-alerts.json` remain unchanged.
+
+### Finance Terminal Owner-Route Scope Files Changed
+
+- `docs/02_RESEARCH/PICKAXE_FINANCE_TERMINAL_OWNER_ROUTE_SCOPE.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### Finance Terminal Owner-Route Scope Next Step
+
+- CEO B may authorize one bounded `Pickaxe Finance Terminal static/manual prototype implementation — #/research owner-route-limited` sprint. Do not begin it automatically.
+
 ## Current Checkpoint - Pickaxe Finance Terminal / Options Intelligence Specification
 
 - Date: 2026-06-19.

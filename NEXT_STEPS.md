@@ -2,6 +2,23 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Finance Terminal / Options Intelligence Owner-Route and Static / Manual Prototype Scope is **PASS / DOCS-ONLY SCOPE DEFINITION COMPLETE**.
+
+- Created one canonical scope document at `docs/02_RESEARCH/PICKAXE_FINANCE_TERMINAL_OWNER_ROUTE_SCOPE.md`.
+- Compared the required existing and future owner candidates and recommended existing `#/research` as the sole future first-prototype owner.
+- The recommendation is planning only. No route, renderer, panel, interaction, storage, or runtime behavior was implemented.
+- Alerts remains the locked Options Alerts/V3.1 review owner; Source Hub remains provenance owner; Pickaxe X remains the hosted visual-preview owner inside Research Desk; Archive and Learning Ledger retain memory and lesson-review ownership.
+- Defined one smallest-safe ephemeral static/manual cockpit panel with market, options, technical, scenario, risk, readiness, CEO B disposition, and descriptive manual-handoff labels.
+- Defined the minimal conceptual field set and the five required evidence states without creating a runtime schema.
+- Recommended no LocalStorage key, no persistence, and no writes to existing packets, queues, source records, Pickaxe X, Archive, Learning Ledger, or any storage contract.
+- Preserved the 1000-point research-quality rubric, the `900/1000` review threshold, hard-block precedence, safety language, likely later files, and full future QA matrix.
+- No runtime, route, renderer, CSS, HTML, provider, data, alert, export, publication, execution, PAX, Options Hub, `/ai-handoff`, or `data/signal-alerts.json` change was made.
+- Browser QA was not required because the sprint is documentation-only.
+
+Next bounded step: CEO B may authorize one `Pickaxe Finance Terminal static/manual prototype implementation — #/research owner-route-limited` sprint. Do not begin it automatically.
+
+## Previous Active Checkpoint - Finance Terminal / Options Intelligence Specification
+
 Pickaxe Finance Terminal / Options Intelligence Specification is **PASS / HOSTED DOCS VERIFIED**.
 
 - Specification commit `64cf635` (`Define Finance Terminal options intelligence spec`) is pushed to `origin/main`.
