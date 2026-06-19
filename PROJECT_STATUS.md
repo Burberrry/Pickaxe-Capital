@@ -1,5 +1,32 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe X Visual Intelligence Engine v2.0 Prototype Specification
+
+- Date: 2026-06-19.
+- Sprint type: bounded documentation-only product specification.
+- Starting state: clean `main` at `2900cc0`, freshly fetched and synchronized with `origin/main` (`0` ahead / `0` behind).
+- Added one canonical implementation-ready specification at `docs/02_RESEARCH/PICKAXE_X_VISUAL_INTELLIGENCE_ENGINE_SPEC.md`; the existing `docs/02_RESEARCH` structure was reused and no competing documentation system was created.
+- Defined the research-only operator workflow from CEO B input through input classification, source verification, labeled visual draft or safety state, 1000-point QA, CEO B review, and internal/public-candidate/archive disposition.
+- Defined accepted inputs, allowed and blocked outputs, conceptual static/manual data handling, source-quality levels, timestamp/timezone/quote-type requirements, privacy states, and explicit `SOURCE_REQUIRED` and `NO_OUTPUT` safety outcomes.
+- Specified the `1200x1200` five-band card standard: Hero Bar, Core Market Panel, Indicator + Context Band, Scenario + Risk Band, and Final Decision Footer.
+- Defined balanced bull, bear, and neutral/wait scenarios, counter-thesis and uncertainty requirements, CEO B dispositions, required safety footer, allowed/banned language, publication gates, and automatic rejection triggers.
+- Added the complete 1000-point QA rubric with the required `900/1000` public-ready threshold. The score measures artifact readiness and research presentation quality, never expected return, prediction accuracy, or performance.
+- Documented Pickaxe VIC as a future optional, research-only indicator that cannot affect scoring before separate multi-ticker backtest validation and CEO B authorization.
+- Documented future dependencies and sequencing without implementing provider adapters, chart automation, image export, publishing, backend, authentication, payments, or subscriptions.
+- Added a narrow future boundary for PAX as a visual review companion only, requiring a separate docs/spec sprint.
+- Preserved every locked phase, route, renderer, LocalStorage contract, root/public mirror, direct-path bridge, `/ai-handoff` local-only behavior, and `data/signal-alerts.json`.
+- No runtime-visible content changed, so browser QA was not required.
+
+### Pickaxe X Prototype Specification Files Changed
+
+- `docs/02_RESEARCH/PICKAXE_X_VISUAL_INTELLIGENCE_ENGINE_SPEC.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### Pickaxe X Prototype Specification Next Step
+
+- CEO B may authorize one bounded push and hosted documentation-verification sprint for the local specification commit. Do not begin runtime implementation.
+
 ## Current Checkpoint - Codex Prompt Template Refinement
 
 - Date: 2026-06-18.
