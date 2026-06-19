@@ -1,5 +1,33 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Finance Terminal / Options Intelligence Specification
+
+- Date: 2026-06-19.
+- Result: **PASS / DOCS-ONLY SPECIFICATION COMPLETE**.
+- Sprint type: bounded documentation-only future product specification.
+- Starting state: clean synchronized `main` at `19c023f` (`0` ahead / `0` behind).
+- Added one canonical specification at `docs/02_RESEARCH/PICKAXE_FINANCE_TERMINAL_OPTIONS_INTELLIGENCE_SPEC.md`.
+- Preserved the existing `docs/02_RESEARCH/PICKAXE_OPTIONS_ALERTS_SPEC.md` as the specification for the current Alerts review unit at `/` and `#/alerts`; the Finance Terminal is a separate future research cockpit and does not replace current route ownership.
+- Defined the product relationship map across Alerts Desk, Research Desk, Source Hub, Pickaxe X, Archive, Learning Ledger, and future Options Hub without selecting or creating a route.
+- Defined accepted inputs and required verified/manual/static-demo/source-required/omitted labels.
+- Defined allowed research outputs and blocked alerts, instructions, execution, publishing, performance, and Options Hub outputs.
+- Defined market, options, technical, VIC, source-ledger, timestamp/quote-type, risk-gate, scenario, and contract-quality frameworks.
+- Added a complete 1000-point readiness rubric. Scores below `900/1000` remain internal; `900/1000` does not publish or execute; hard blocks and automatic rejection conditions override scores.
+- Defined CEO B dispositions, Archive/Learning Ledger boundaries, Pickaxe X connection, PAX limits, allowed/banned language, future dependencies, acceptance criteria, a reusable CEO B prompt, and hard stops.
+- No runtime, route, renderer, CSS, HTML, LocalStorage, persistence, packet, review queue, provider, alert, data, server, bridge, tracker, or hosted behavior changed.
+- Browser QA was not required because no runtime-visible file changed.
+- `data/signal-alerts.json` remains unchanged.
+
+### Finance Terminal Specification Files Changed
+
+- `docs/02_RESEARCH/PICKAXE_FINANCE_TERMINAL_OPTIONS_INTELLIGENCE_SPEC.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### Finance Terminal Specification Next Step
+
+- CEO B may authorize one bounded push and hosted documentation-verification sprint for the local `Define Finance Terminal options intelligence spec` commit. Do not begin owner-route selection, UI implementation, Options Hub, provider, or runtime work.
+
 ## Current Checkpoint - Pickaxe X Static / Manual Research Preview Implementation
 
 - Date: 2026-06-19.

@@ -2,6 +2,21 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Finance Terminal / Options Intelligence Specification is **PASS / DOCS-ONLY SPECIFICATION COMPLETE**.
+
+- Created one canonical future-product specification at `docs/02_RESEARCH/PICKAXE_FINANCE_TERMINAL_OPTIONS_INTELLIGENCE_SPEC.md`.
+- Preserved the existing Options Alerts specification and current `/` and `#/alerts` ownership; Finance Terminal is a separate future research cockpit, not a replacement route or renderer.
+- Defined relationships with Research Desk, Source Hub, Pickaxe X, Archive, Learning Ledger, and future Options Hub without creating or selecting an implementation route.
+- Defined verified/manual/static-demo/source-required/omitted inputs, allowed research outputs, and blocked alerts, instructions, execution, publishing, performance, and Options Hub outputs.
+- Defined market, options, technical, source, timestamp, quote-type, risk, scenario, contract-quality, VIC, Pickaxe X, and PAX boundaries.
+- Added a complete 1000-point readiness rubric with the `900/1000` internal-to-public-candidate review threshold, hard-block precedence, automatic rejection triggers, and mandatory CEO B review.
+- No runtime, route, renderer, CSS, HTML, LocalStorage, packet, queue, provider, alert, server, bridge, tracker, or `data/signal-alerts.json` change was made.
+- Browser QA was not required because the sprint is documentation-only.
+
+Next bounded step: CEO B may authorize one push and hosted documentation-verification sprint for the local `Define Finance Terminal options intelligence spec` commit. Do not begin owner-route selection, UI implementation, Options Hub, provider, or runtime work.
+
+## Previous Active Checkpoint - Pickaxe X Static / Manual Research Preview
+
 Pickaxe X Static / Manual Research Preview Implementation is **PASS / HOSTED QA VERIFIED**.
 
 - Implementation commit `a59353c` (`Implement Pickaxe X static research preview`) is pushed to `origin/main`.
