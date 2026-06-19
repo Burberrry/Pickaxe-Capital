@@ -3,9 +3,12 @@
 ## Current Checkpoint - Pickaxe X Static / Manual Prototype Implementation-Scope Definition
 
 - Date: 2026-06-19.
-- Result: **PASS / DOCS-ONLY / LOCAL**.
-- Sprint type: bounded documentation-only implementation-scope definition.
+- Result: **PASS / HOSTED DOCS VERIFIED**.
+- Sprint type: bounded documentation-only implementation-scope definition and hosted verification.
 - Starting state: clean synchronized `main` at `e26815e` (`0` ahead / `0` behind).
+- Scope commit `4c12af2` (`Define Pickaxe X static prototype scope`) is pushed to `origin/main`.
+- GitHub Pages run `27806931132` (`Validate and Deploy GitHub Pages #128`) completed successfully for `4c12af2`; both `Validate and Build` and `Deploy` passed.
+- Hosted repository verification confirmed the canonical scope document exists with all 13 required sections and matches the committed content.
 - Added one canonical scope document at `docs/02_RESEARCH/PICKAXE_X_STATIC_MANUAL_PROTOTYPE_SCOPE.md`; the existing research-spec documentation system was reused.
 - Selected existing `#/research` as the sole recommended future owner surface because it already owns manual source-linked Research Packet creation and has one active renderer.
 - Rejected Alerts, Source Hub, Archive, Staging, and a new route as first-prototype owners: Alerts/V3.1 are locked, Source Hub owns provenance, Archive/Learning own memory, Staging owns QA, and a new route is unnecessary.
