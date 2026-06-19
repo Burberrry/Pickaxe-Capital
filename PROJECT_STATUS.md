@@ -1,5 +1,32 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe X Static / Manual Prototype Implementation-Scope Definition
+
+- Date: 2026-06-19.
+- Result: **PASS / DOCS-ONLY / LOCAL**.
+- Sprint type: bounded documentation-only implementation-scope definition.
+- Starting state: clean synchronized `main` at `e26815e` (`0` ahead / `0` behind).
+- Added one canonical scope document at `docs/02_RESEARCH/PICKAXE_X_STATIC_MANUAL_PROTOTYPE_SCOPE.md`; the existing research-spec documentation system was reused.
+- Selected existing `#/research` as the sole recommended future owner surface because it already owns manual source-linked Research Packet creation and has one active renderer.
+- Rejected Alerts, Source Hub, Archive, Staging, and a new route as first-prototype owners: Alerts/V3.1 are locked, Source Hub owns provenance, Archive/Learning own memory, Staging owns QA, and a new route is unnecessary.
+- Defined an ephemeral static/manual workflow from CEO B intake through source-required fields, one internal five-band preview, the documented 1000-point QA rubric, the `900/1000` public-ready gate, and manual CEO B disposition.
+- Defined the minimal conceptual fields and required `MANUAL`, `STATIC_DEMO`, `SOURCE_REQUIRED`, and `OMITTED` states without creating a runtime schema.
+- Recommended no new LocalStorage and no first-prototype persistence. Any later persistence need requires a separate storage-contract authorization.
+- Defined safe read-only conceptual reuse of Research Packet v2, Source Hub, Archive, Learning Ledger, CEO B review language, and static/demo patterns without repurposing locked data or models.
+- Defined future visual boundaries, PAX future-only limits, implementation acceptance criteria, likely later files, desktop/mobile and regression QA, and hard stops.
+- No runtime-visible file changed, so browser QA was not required.
+- Preserved all locked phases, routes, renderers, LocalStorage contracts, mirrors, bridges, `/ai-handoff`, and `data/signal-alerts.json`.
+
+### Pickaxe X Static / Manual Scope Files Changed
+
+- `docs/02_RESEARCH/PICKAXE_X_STATIC_MANUAL_PROTOTYPE_SCOPE.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### Pickaxe X Static / Manual Scope Next Step
+
+- CEO B may authorize one bounded `Pickaxe X static/manual prototype implementation — #/research owner-route-limited` sprint. Do not begin it automatically.
+
 ## Current Checkpoint - Pickaxe X Visual Intelligence Engine v2.0 Prototype Specification
 
 - Date: 2026-06-19.

@@ -2,6 +2,21 @@
 
 ## Current Active Checkpoint
 
+Pickaxe X Static / Manual Prototype Implementation-Scope Definition is **PASS / DOCS-ONLY / LOCAL**.
+
+- Created one canonical implementation-scope document in `docs/02_RESEARCH`.
+- Selected existing `#/research` as the sole recommended future owner surface; no new route or renderer is proposed.
+- Defined one ephemeral static/manual preview workflow with manual/static/source-required/omitted fields, five-band preview, 1000-point QA, `900/1000` gate, hard blocks, and CEO B disposition.
+- Recommended no new LocalStorage and no persistence for the first prototype.
+- Preserved Research Packet v2, Source Hub, Archive, Learning Ledger, Alerts/V3.1, Phase 9B, bridges, mirrors, and current storage contracts.
+- Defined likely later files and full desktop/mobile/regression QA without authorizing runtime work.
+- No runtime, tracker data, route, renderer, packet, queue, storage, bridge, server, or `data/signal-alerts.json` change was made.
+- Browser QA was not required because no runtime-visible content changed.
+
+Next bounded step: CEO B may authorize one `Pickaxe X static/manual prototype implementation — #/research owner-route-limited` sprint. Do not begin it automatically.
+
+## Previous Active Checkpoint - Pickaxe X Prototype Specification
+
 Pickaxe X Visual Intelligence Engine v2.0 Prototype Specification is **PASS / HOSTED DOCS VERIFIED**.
 
 - Implementation commit `e3e2695` (`Define Pickaxe X visual intelligence spec`) is pushed to `origin/main`.
