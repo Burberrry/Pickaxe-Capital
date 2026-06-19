@@ -2,8 +2,11 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Finance Terminal / Options Intelligence Owner-Route and Static / Manual Prototype Scope is **PASS / DOCS-ONLY SCOPE DEFINITION COMPLETE**.
+Pickaxe Finance Terminal / Options Intelligence Owner-Route and Static / Manual Prototype Scope is **PASS / HOSTED DOCS VERIFIED**.
 
+- Scope commit `ec12024` (`Define Finance Terminal owner route scope`) is pushed to `origin/main`.
+- GitHub Pages run `27810596783` (`Validate and Deploy GitHub Pages #134`) passed both validation/build and deployment.
+- Hosted repository verification confirmed the canonical scope document exists, matches the committed content, and contains all 22 required sections.
 - Created one canonical scope document at `docs/02_RESEARCH/PICKAXE_FINANCE_TERMINAL_OWNER_ROUTE_SCOPE.md`.
 - Compared the required existing and future owner candidates and recommended existing `#/research` as the sole future first-prototype owner.
 - The recommendation is planning only. No route, renderer, panel, interaction, storage, or runtime behavior was implemented.
@@ -15,7 +18,7 @@ Pickaxe Finance Terminal / Options Intelligence Owner-Route and Static / Manual 
 - No runtime, route, renderer, CSS, HTML, provider, data, alert, export, publication, execution, PAX, Options Hub, `/ai-handoff`, or `data/signal-alerts.json` change was made.
 - Browser QA was not required because the sprint is documentation-only.
 
-Next bounded step: CEO B may authorize one `Pickaxe Finance Terminal static/manual prototype implementation — #/research owner-route-limited` sprint. Do not begin it automatically.
+Next bounded step: keep the hosted Finance Terminal owner-route scope locked. CEO B may separately authorize one `Pickaxe Finance Terminal static/manual prototype implementation — #/research owner-route-limited` sprint; do not begin it automatically.
 
 ## Previous Active Checkpoint - Finance Terminal / Options Intelligence Specification
 

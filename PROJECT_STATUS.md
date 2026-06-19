@@ -3,9 +3,12 @@
 ## Current Checkpoint - Finance Terminal Owner-Route / Static-Manual Prototype Scope
 
 - Date: 2026-06-19.
-- Result: **PASS / DOCS-ONLY SCOPE DEFINITION COMPLETE**.
-- Sprint type: bounded documentation-only owner-route and static/manual prototype scope definition.
+- Result: **PASS / HOSTED DOCS VERIFIED**.
+- Sprint type: bounded documentation-only owner-route and static/manual prototype scope definition, push, and hosted verification.
 - Starting state: clean synchronized `main` at `ad5724e` (`0` ahead / `0` behind).
+- Scope commit `ec12024` (`Define Finance Terminal owner route scope`) is pushed to `origin/main`.
+- GitHub Pages run `27810596783` (`Validate and Deploy GitHub Pages #134`) completed successfully for `ec12024`; both `Validate and Build` and `Deploy` passed.
+- Hosted repository verification confirmed the canonical scope document exists, matches the committed content, and contains all 22 required sections.
 - Added one canonical scope document at `docs/02_RESEARCH/PICKAXE_FINANCE_TERMINAL_OWNER_ROUTE_SCOPE.md`.
 - Compared existing `/` and `#/alerts`, `#/research`, `#/source-hub`, `#/dashboard`, `#/staging`, future `#/finance-terminal`, and future `#/options-intelligence`.
 - Recommended existing `#/research` as the sole future first-prototype owner because it already owns manual research composition and has one active renderer. No owner decision was implemented.
@@ -27,7 +30,7 @@
 
 ### Finance Terminal Owner-Route Scope Next Step
 
-- CEO B may authorize one bounded `Pickaxe Finance Terminal static/manual prototype implementation — #/research owner-route-limited` sprint. Do not begin it automatically.
+- Keep the hosted Finance Terminal owner-route scope locked. CEO B may separately authorize one bounded `Pickaxe Finance Terminal static/manual prototype implementation — #/research owner-route-limited` sprint; do not begin it automatically.
 
 ## Current Checkpoint - Pickaxe Finance Terminal / Options Intelligence Specification
 
