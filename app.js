@@ -2060,6 +2060,380 @@ function updatePickaxeXPreview() {
   `;
 }
 
+function getFinanceTerminalEvidenceStates() {
+  return [
+    ["SOURCE_REQUIRED", "Source Required"],
+    ["MANUAL_CEO_B", "Manual CEO B"],
+    ["VERIFIED_SAME_WORKFLOW", "Verified Same Workflow"],
+    ["STATIC_DEMO", "Static / Demo"],
+    ["OMITTED", "Omitted"],
+  ];
+}
+
+function getFinanceTerminalFields() {
+  return [
+    { id: "ftTicker", label: "Ticker / topic", group: "identity" },
+    { id: "ftAssetClass", label: "Asset class", group: "identity", type: "select", options: ["", "Equity", "Options", "ETF", "Index", "Macro", "Crypto", "Other"] },
+    { id: "ftTimeframe", label: "Timeframe", group: "identity" },
+    { id: "ftMarketRegime", label: "Market regime label", group: "market" },
+    { id: "ftMarketContext", label: "Market context note", group: "market", type: "textarea", wide: true },
+    { id: "ftOptionsDirection", label: "Options direction under review", group: "options" },
+    { id: "ftContractLabel", label: "Contract candidate label", group: "options" },
+    { id: "ftStrike", label: "Strike", group: "options" },
+    { id: "ftExpiry", label: "Expiry", group: "options" },
+    { id: "ftPremium", label: "Premium", group: "options" },
+    { id: "ftBid", label: "Bid", group: "options" },
+    { id: "ftAsk", label: "Ask", group: "options" },
+    { id: "ftSpread", label: "Spread", group: "options" },
+    { id: "ftVolume", label: "Volume", group: "options" },
+    { id: "ftOpenInterest", label: "Open interest", group: "options" },
+    { id: "ftImpliedVolatility", label: "Implied volatility", group: "options" },
+    { id: "ftTimestamp", label: "Timestamp", group: "source" },
+    { id: "ftTechnicalContext", label: "Technical context", group: "technical", type: "textarea", wide: true },
+    { id: "ftBullCase", label: "Bull case", group: "scenario", type: "textarea", wide: true },
+    { id: "ftBearCase", label: "Bear case", group: "scenario", type: "textarea", wide: true },
+    { id: "ftNeutralCase", label: "Neutral / wait case", group: "scenario", type: "textarea", wide: true },
+    { id: "ftNoTradeNote", label: "No-trade intelligence note", group: "scenario", type: "textarea", wide: true },
+    { id: "ftCounterThesis", label: "Counter-thesis", group: "risk", type: "textarea", wide: true },
+    { id: "ftRiskGates", label: "Risk gates", group: "risk", type: "textarea", wide: true },
+    { id: "ftConfirmation", label: "Confirmation", group: "technical", type: "textarea", wide: true },
+    { id: "ftInvalidation", label: "Invalidation", group: "risk", type: "textarea", wide: true },
+    { id: "ftNextAction", label: "Next manual action", group: "review", type: "textarea", wide: true },
+  ];
+}
+
+function getFinanceTerminalQaWeights() {
+  return [
+    ["Source quality", 150],
+    ["Data freshness", 125],
+    ["Contract / liquidity clarity", 125],
+    ["Market context", 100],
+    ["Technical context", 100],
+    ["Scenario clarity", 125],
+    ["Risk clarity", 150],
+    ["CEO B usefulness", 125],
+  ];
+}
+
+function getFinanceTerminalBannedPhrases() {
+  return [
+    "buy now",
+    "sell now",
+    "guaranteed profit",
+    "this will go up",
+    "can't lose",
+    "can’t lose",
+    "proven profitable",
+    "verified alpha",
+    "live signal",
+    "autopilot trading",
+    "ai prediction",
+    "trade command",
+    "best contract to buy now",
+    "performance proof",
+  ];
+}
+
+function renderFinanceTerminalStateOptions(selected = "SOURCE_REQUIRED") {
+  return getFinanceTerminalEvidenceStates().map(([value, label]) => (
+    `<option value="${value}" ${value === selected ? "selected" : ""}>${label}</option>`
+  )).join("");
+}
+
+function renderFinanceTerminalField(field) {
+  const control = field.type === "textarea"
+    ? `<textarea id="${field.id}" placeholder="Manual CEO B input required"></textarea>`
+    : field.type === "select"
+      ? `<select id="${field.id}">${field.options.map((value) => `<option value="${value}">${value || "Select manually"}</option>`).join("")}</select>`
+      : `<input id="${field.id}" type="text" placeholder="Manual CEO B input required" autocomplete="off">`;
+  return `
+    <label class="finance-terminal-field ${field.wide ? "wide" : ""}" data-field-group="${field.group}">
+      <span>${escapeHtml(field.label)}</span>
+      ${control}
+      <select id="${field.id}State" class="finance-terminal-state-select" aria-label="${escapeHtml(field.label)} evidence state">
+        ${renderFinanceTerminalStateOptions()}
+      </select>
+    </label>
+  `;
+}
+
+function renderFinanceTerminalModule() {
+  return `
+    <section class="finance-terminal-module" id="financeTerminalModule">
+      <header class="finance-terminal-head">
+        <div>
+          <span class="meta-label">Internal Research Cockpit</span>
+          <h3>Pickaxe Finance Terminal / Options Intelligence</h3>
+          <p>Static / Manual · Source-Gated · CEO B Review Required</p>
+        </div>
+        <div class="finance-terminal-boundaries" aria-label="Finance Terminal prototype boundaries">
+          <span>SOURCE_REQUIRED</span>
+          <span>Manual CEO B Input Required</span>
+          <span>Static / Demo Data</span>
+          <span>No Live Provider Connected</span>
+          <span>Research Only</span>
+          <span>CEO B Review Required</span>
+          <span>Internal Only</span>
+        </div>
+      </header>
+
+      <div class="finance-terminal-layout">
+        <article class="finance-terminal-composer">
+          <div class="finance-terminal-section-head">
+            <div>
+              <span class="meta-label">Ephemeral Composer</span>
+              <h4>Manual research fields</h4>
+            </div>
+            <span>No save · No routing · Clears on route render</span>
+          </div>
+          <div class="finance-terminal-form" oninput="window.updateFinanceTerminalPreview?.()" onchange="window.updateFinanceTerminalPreview?.()">
+            ${getFinanceTerminalFields().map(renderFinanceTerminalField).join("")}
+            <label class="finance-terminal-field">
+              <span>Source status</span>
+              <select id="ftSourceStatus">${renderFinanceTerminalStateOptions()}</select>
+            </label>
+            <label class="finance-terminal-field">
+              <span>Quote type</span>
+              <select id="ftQuoteType">
+                <option value="SOURCE_REQUIRED">Source Required</option>
+                <option value="OMITTED">Omitted</option>
+                <option value="MANUAL_QUOTE">Manually Supplied Quote</option>
+                <option value="VERIFIED_QUOTE">Verified Same Workflow Quote</option>
+                <option value="SCREENSHOT_QUOTE">Screenshot Quote</option>
+                <option value="STATIC_DEMO_QUOTE">Static / Demo Quote</option>
+              </select>
+            </label>
+            <label class="finance-terminal-field">
+              <span>Timezone</span>
+              <select id="ftTimezone">
+                <option value="SOURCE_REQUIRED">Source Required</option>
+                <option value="OMITTED">Omitted</option>
+                <option value="ET">ET</option>
+                <option value="PT">PT</option>
+                <option value="UTC">UTC</option>
+                <option value="EXCHANGE_LOCAL">Exchange-local time</option>
+              </select>
+            </label>
+            <label class="finance-terminal-field wide">
+              <span>CEO B disposition</span>
+              <select id="ftDisposition">
+                <option value="">Select disposition — required</option>
+                <option>Draft internal only</option>
+                <option>Approve internal research</option>
+                <option>Request edits</option>
+                <option>Return for evidence</option>
+                <option>Archive as no-trade intelligence</option>
+                <option>Reject</option>
+              </select>
+            </label>
+          </div>
+          <p class="finance-terminal-form-note">Every material field carries an explicit evidence state. Values remain manual, same-workflow verified, static/demo, source-required, or omitted.</p>
+        </article>
+
+        <div class="finance-terminal-output-stack">
+          <article class="finance-terminal-cockpit" data-finance-terminal-preview aria-live="polite"></article>
+          <aside class="finance-terminal-readiness" data-finance-terminal-readiness></aside>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function readFinanceTerminalInput() {
+  const valueFor = (id) => document.getElementById(id)?.value?.trim() || "";
+  const stateFor = (id) => document.getElementById(`${id}State`)?.value || "SOURCE_REQUIRED";
+  const values = {};
+  getFinanceTerminalFields().forEach((field) => {
+    values[field.id] = valueFor(field.id);
+    values[`${field.id}State`] = stateFor(field.id);
+  });
+  return {
+    ...values,
+    sourceStatus: valueFor("ftSourceStatus") || "SOURCE_REQUIRED",
+    quoteType: valueFor("ftQuoteType") || "SOURCE_REQUIRED",
+    timezone: valueFor("ftTimezone") || "SOURCE_REQUIRED",
+    disposition: valueFor("ftDisposition"),
+  };
+}
+
+function financeTerminalValueReady(value, state) {
+  return Boolean(value) && ["VERIFIED_SAME_WORKFLOW", "MANUAL_CEO_B", "STATIC_DEMO"].includes(state);
+}
+
+function evaluateFinanceTerminal(input) {
+  const ready = (id) => financeTerminalValueReady(input[id], input[`${id}State`]);
+  const text = getFinanceTerminalFields().map((field) => input[field.id]).join(" ").toLowerCase();
+  const bannedMatches = getFinanceTerminalBannedPhrases().filter((phrase) => text.includes(phrase));
+  const unsafeLive = /\b(live|real[- ]?time|provider connected|live chain)\b/i.test(text);
+  const executionWording = /\b(broker|order ticket|execute|execution|auto[- ]?route)\b/i.test(text);
+  const optionsHubDrift = /\boptions hub\b/i.test(text);
+  const optionNumberIds = ["ftStrike", "ftPremium", "ftBid", "ftAsk", "ftSpread", "ftVolume", "ftOpenInterest", "ftImpliedVolatility"];
+  const hasOptionNumber = optionNumberIds.some((id) => Boolean(input[id]));
+  const quoteReady = !["SOURCE_REQUIRED", "OMITTED"].includes(input.quoteType);
+  const timeReady = ready("ftTimestamp") && !["SOURCE_REQUIRED", "OMITTED"].includes(input.timezone);
+  const sourceReady = !["SOURCE_REQUIRED", "OMITTED"].includes(input.sourceStatus);
+  const hardBlocks = [];
+  if (!sourceReady) hardBlocks.push("Missing source status for material research context");
+  if (hasOptionNumber && !quoteReady) hardBlocks.push("Quote type required for entered options numbers");
+  if (hasOptionNumber && !timeReady) hardBlocks.push("Timestamp and timezone required for entered options numbers");
+  if (!ready("ftRiskGates")) hardBlocks.push("Risk gates required");
+  if (!ready("ftCounterThesis")) hardBlocks.push("Counter-thesis required");
+  if (!ready("ftInvalidation")) hardBlocks.push("Invalidation required");
+  if (!input.disposition) hardBlocks.push("CEO B disposition required");
+  if (bannedMatches.length) hardBlocks.push(`Banned language: ${bannedMatches.join(", ")}`);
+  if (unsafeLive) hardBlocks.push("Fake live data or provider wording is not permitted");
+  if (executionWording) hardBlocks.push("Broker, order, routing, or execution wording is not permitted");
+  if (optionsHubDrift) hardBlocks.push("Options Hub drift is outside this prototype");
+
+  const contractReadyCount = ["ftContractLabel", "ftStrike", "ftExpiry", "ftPremium", "ftBid", "ftAsk", "ftSpread", "ftVolume", "ftOpenInterest", "ftImpliedVolatility"].filter(ready).length;
+  const scenarioReadyCount = ["ftBullCase", "ftBearCase", "ftNeutralCase", "ftNoTradeNote"].filter(ready).length;
+  const sourceScore = sourceReady
+    ? ({ VERIFIED_SAME_WORKFLOW: 150, MANUAL_CEO_B: 130, STATIC_DEMO: 110 }[input.sourceStatus] || 100)
+    : 20;
+  const scores = {
+    "Source quality": sourceScore,
+    "Data freshness": hasOptionNumber ? (quoteReady && timeReady ? 125 : quoteReady ? 55 : 15) : 125,
+    "Contract / liquidity clarity": Math.min(125, contractReadyCount * 12.5),
+    "Market context": (ready("ftMarketRegime") ? 40 : 0) + (ready("ftMarketContext") ? 60 : 0),
+    "Technical context": (ready("ftTechnicalContext") ? 50 : 0) + (ready("ftConfirmation") ? 25 : 0) + (ready("ftInvalidation") ? 25 : 0),
+    "Scenario clarity": Math.min(125, scenarioReadyCount * 25 + (ready("ftCounterThesis") ? 15 : 0) + (ready("ftInvalidation") ? 10 : 0)),
+    "Risk clarity": (ready("ftRiskGates") ? 60 : 0) + (ready("ftCounterThesis") ? 45 : 0) + (ready("ftInvalidation") ? 30 : 0) + (ready("ftNoTradeNote") ? 15 : 0),
+    "CEO B usefulness": (ready("ftTicker") ? 25 : 0) + (ready("ftTimeframe") ? 20 : 0) + (ready("ftOptionsDirection") ? 20 : 0) + (input.disposition ? 30 : 0) + (ready("ftNextAction") ? 30 : 0),
+  };
+  const total = getFinanceTerminalQaWeights().reduce((sum, [name, max]) => sum + Math.min(max, scores[name] || 0), 0);
+  const unsafeLanguage = bannedMatches.length || unsafeLive || executionWording || optionsHubDrift;
+  const outputState = unsafeLanguage
+    ? "NO_OUTPUT"
+    : !sourceReady || (hasOptionNumber && (!quoteReady || !timeReady))
+      ? "SOURCE_REQUIRED"
+      : hardBlocks.length
+        ? "INTERNAL_ONLY"
+        : total >= 900
+          ? "PUBLIC_READY_CANDIDATE"
+          : "INTERNAL_ONLY";
+  return { scores, total, hardBlocks, bannedMatches, outputState, isPublicReady: outputState === "PUBLIC_READY_CANDIDATE", hasOptionNumber };
+}
+
+function financeTerminalDisplay(value, state, fallback = "SOURCE_REQUIRED") {
+  if (state === "OMITTED") return "OMITTED";
+  if (!value || state === "SOURCE_REQUIRED") return fallback;
+  return value;
+}
+
+function updateFinanceTerminalPreview() {
+  const preview = document.querySelector("[data-finance-terminal-preview]");
+  const readiness = document.querySelector("[data-finance-terminal-readiness]");
+  if (!preview || !readiness) return;
+  const input = readFinanceTerminalInput();
+  const result = evaluateFinanceTerminal(input);
+  const display = (id, fallback) => financeTerminalDisplay(input[id], input[`${id}State`], fallback);
+  const sourceLabel = input.sourceStatus.replaceAll("_", " ");
+  const quoteLabel = input.quoteType.replaceAll("_", " ");
+  const timeLabel = input.quoteType === "OMITTED"
+    ? "Quote omitted"
+    : `${display("ftTimestamp")} · ${input.timezone.replaceAll("_", " ")}`;
+  const stateBadge = (id) => input[`${id}State`].replaceAll("_", " ");
+  preview.className = `finance-terminal-cockpit output-${result.outputState.toLowerCase()}`;
+  preview.innerHTML = `
+    <header class="finance-terminal-preview-head">
+      <div>
+        <span>Pickaxe Capital · Research Identity</span>
+        <h4>${escapeHtml(display("ftTicker", "TOPIC UNDER REVIEW"))}</h4>
+        <p>${escapeHtml(display("ftAssetClass"))} · ${escapeHtml(display("ftTimeframe"))}</p>
+      </div>
+      <div class="finance-terminal-preview-badges">
+        <strong>${escapeHtml(sourceLabel)}</strong>
+        <em>${escapeHtml(quoteLabel)}</em>
+        <em>${escapeHtml(timeLabel)}</em>
+        <em>Research Only</em>
+      </div>
+    </header>
+    <div class="finance-terminal-preview-grid">
+      <section>
+        <span>Market Context</span>
+        <h5>${escapeHtml(display("ftMarketRegime", "MARKET REGIME — SOURCE_REQUIRED"))}</h5>
+        <p>${escapeHtml(display("ftMarketContext", "Market context requires manual or verified evidence."))}</p>
+        <small>${escapeHtml(sourceLabel)} · ${escapeHtml(quoteLabel)} · ${escapeHtml(timeLabel)} · No Live Provider Connected</small>
+      </section>
+      <section>
+        <span>Options Context</span>
+        <h5>${escapeHtml(display("ftOptionsDirection", "OPTIONS DIRECTION — SOURCE_REQUIRED"))}</h5>
+        <dl>
+          ${[
+            ["Contract", "ftContractLabel"], ["Strike", "ftStrike"], ["Expiry", "ftExpiry"], ["Premium", "ftPremium"],
+            ["Bid", "ftBid"], ["Ask", "ftAsk"], ["Spread", "ftSpread"], ["Volume", "ftVolume"],
+            ["Open interest", "ftOpenInterest"], ["Implied volatility", "ftImpliedVolatility"],
+          ].map(([label, id]) => `<div><dt>${label}</dt><dd>${escapeHtml(display(id))}<small>${escapeHtml(stateBadge(id))}</small></dd></div>`).join("")}
+        </dl>
+        <small>No live chain · No executable contract · No order controls</small>
+      </section>
+      <section>
+        <span>Technical Context</span>
+        <p>${escapeHtml(display("ftTechnicalContext", "Technical context requires manual evidence."))}</p>
+        <dl class="finance-terminal-compact-dl">
+          <div><dt>Confirmation</dt><dd>${escapeHtml(display("ftConfirmation"))}</dd></div>
+          <div><dt>Invalidation</dt><dd>${escapeHtml(display("ftInvalidation"))}</dd></div>
+        </dl>
+        <div class="finance-terminal-indicators">
+          ${["VWAP", "EMA", "RSI", "MACD", "KDJ", "KST", "Bollinger", "Fibonacci", "Volume profile", "Gap", "Support / resistance", "VIC"].map((label) => `<em>${label}: SOURCE_REQUIRED / MANUAL</em>`).join("")}
+        </div>
+      </section>
+      <section class="finance-terminal-scenarios">
+        <span>Scenario + Risk</span>
+        <div>
+          <article class="bull"><strong>Bull case</strong><p>${escapeHtml(display("ftBullCase"))}</p></article>
+          <article class="bear"><strong>Bear case</strong><p>${escapeHtml(display("ftBearCase"))}</p></article>
+          <article><strong>Neutral / wait</strong><p>${escapeHtml(display("ftNeutralCase"))}</p></article>
+          <article><strong>No-trade intelligence</strong><p>${escapeHtml(display("ftNoTradeNote"))}</p></article>
+          <article class="wide"><strong>Counter-thesis</strong><p>${escapeHtml(display("ftCounterThesis"))}</p></article>
+          <article class="wide risk"><strong>Risk gates</strong><p>${escapeHtml(display("ftRiskGates"))}</p></article>
+        </div>
+      </section>
+      <section class="finance-terminal-decision">
+        <span>Readiness + CEO B Disposition</span>
+        <div>
+          <strong>${result.total} / 1000</strong>
+          <em>${escapeHtml(result.outputState.replaceAll("_", " "))}</em>
+          <p>${result.isPublicReady ? "Public-ready candidate — CEO B approval still required" : "Internal Only"}</p>
+          <small>${escapeHtml(input.disposition || "CEO B disposition required")}</small>
+          <small>Next manual action: ${escapeHtml(display("ftNextAction", "SOURCE_REQUIRED"))}</small>
+        </div>
+      </section>
+      <section class="finance-terminal-handoffs">
+        <span>Manual Handoff Labels · No Actions</span>
+        <div>
+          <em>Source Hub: source review required</em>
+          <em>Pickaxe X: visual candidate may be manually recreated later</em>
+          <em>Archive: no-trade intelligence candidate</em>
+          <em>Learning Ledger: lesson candidate</em>
+          <em>Alerts Desk: CEO B review required before any alert concept</em>
+        </div>
+      </section>
+    </div>
+    <footer class="finance-terminal-safety-footer">
+      Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · Options Involve Substantial Risk · No Guaranteed Outcomes · Static / Demo Data · Manual CEO B Input · ${result.outputState === "SOURCE_REQUIRED" ? "Source Required · " : ""}No Live Provider Connected · Internal Only · CEO B Review Required
+    </footer>
+  `;
+  readiness.innerHTML = `
+    <div class="finance-terminal-section-head">
+      <div><span class="meta-label">1000-Point Readiness</span><h4>Research quality only</h4></div>
+      <strong>${result.total} / 1000</strong>
+    </div>
+    <p>This score does not measure expected return, win probability, profitability, trade edge, prediction accuracy, signal strength, contract profitability, or investment performance.</p>
+    <div class="finance-terminal-score-grid">
+      ${getFinanceTerminalQaWeights().map(([name, max]) => `<div><span>${escapeHtml(name)}</span><strong>${result.scores[name]} / ${max}</strong></div>`).join("")}
+    </div>
+    <div class="finance-terminal-blocks ${result.hardBlocks.length ? "blocked" : "clear"}">
+      <span>${result.hardBlocks.length ? result.outputState : "No hard blocks"}</span>
+      ${result.hardBlocks.length
+        ? `<ul>${result.hardBlocks.map((block) => `<li>${escapeHtml(block)}</li>`).join("")}</ul>`
+        : "<p>Hard blocks are clear. CEO B approval is still required. Nothing is published, routed, written, exported, alerted, or executed.</p>"}
+    </div>
+  `;
+}
+
+window.updateFinanceTerminalPreview = updateFinanceTerminalPreview;
+
 // Active renderer: #/research. This definition is not replaced later.
 function renderResearchDeskPage() {
   if (!els.researchContent) return;
@@ -2165,6 +2539,8 @@ function renderResearchDeskPage() {
         </article>
       </section>
 
+      ${renderFinanceTerminalModule()}
+
       ${renderPickaxeXPreviewModule()}
 
       <section class="research-anatomy-grid">
@@ -2201,6 +2577,7 @@ function renderResearchDeskPage() {
       </section>
     </div>
   `;
+  updateFinanceTerminalPreview();
   updatePickaxeXPreview();
 }
 

@@ -1,5 +1,42 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Finance Terminal Static / Manual Research Panel
+
+- Date: 2026-06-19.
+- Result: **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+- Sprint type: bounded `#/research` owner-route-limited static/manual runtime implementation.
+- Starting state: clean synchronized `main` at `6cc6bbc` (`0` ahead / `0` behind).
+- Added one `Pickaxe Finance Terminal / Options Intelligence` panel inside the existing `renderResearchDeskPage()` owner path. No route, alias, bridge, navigation item, or second renderer was created.
+- Placed the panel between the existing Research Packet builder and the unchanged hosted Pickaxe X Visual Intelligence Preview.
+- Added an ephemeral manual composer for research identity, market context, options contract context, source/quote/time labels, technical context, bull/bear/neutral/no-trade scenarios, counter-thesis, risk gates, confirmation, invalidation, CEO B disposition, and next manual action.
+- Every material field supports `VERIFIED_SAME_WORKFLOW`, `MANUAL_CEO_B`, `STATIC_DEMO`, `SOURCE_REQUIRED`, and `OMITTED`.
+- Default state is source-required, static/manual, no-live-provider, CEO B review required, and internal only. No current prices, quotes, timestamps, provider status, IV, open interest, volume, spread, premium, expiry, or market-regime claim is prefilled.
+- Added one internal cockpit preview with Research Identity, Market Context, Options Context, Technical Context, Scenario + Risk, Readiness + CEO B Disposition, descriptive manual-only handoff labels, and the required safety footer.
+- Added the Finance Terminal 1000-point readiness categories and deterministic DOM-local scoring. Below `900/1000` remains internal; hard blocks override scores; a qualifying state displays only `Public-ready candidate — CEO B approval still required`.
+- Added hard blocks for missing source/quote/time context, missing risk/counter-thesis/invalidation/disposition, banned instruction/certainty/performance language, fake live/provider wording, execution implications, and Options Hub drift.
+- The module has no save, route, publish, export, download, alert, transmit, order, or execution control.
+- State is ephemeral and resets when the Research route rerenders or navigation returns to it.
+- No LocalStorage key, persistence, Research Packet write, Alerts write, Source Hub write, Archive write, Learning Ledger write, Pickaxe X write, or review-queue write was added.
+- Existing Research Packet builder behavior and hosted Pickaxe X preview behavior remain unchanged.
+- Updated synchronized root/public app, style, and HTML cache-key mirrors with `finance-terminal-static-preview-20260619`.
+- Automated validation passed: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, JavaScript syntax checks, and `git diff --check`.
+- Local desktop `1280x720` and mobile `390x844` owner-route QA passed for safe defaults, manual updates, all cockpit blocks, exact 1000-point rubric, `1000/1000` gated state, `850/1000` internal-only state, banned-language `NO_OUTPUT`, source-required fallback, disposition, route reset, safety footer, 44px mobile controls, one Starlight canvas, zero console errors, and no overflow.
+- Local desktop and mobile regression QA passed for `/`, `#/alerts`, `/app/alerts`, `#/research`, `#/source-hub`, `#/archive`, `#/learning-ledger`, and `#/staging`.
+- `/ai-handoff` behavior and `data/signal-alerts.json` remain unchanged.
+- This result is local only. It has not been pushed or hosted-verified.
+
+### Finance Terminal Static Panel Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html` — cache keys only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### Finance Terminal Static Panel Next Step
+
+- CEO B may authorize one bounded push and hosted QA verification sprint for the local `Implement Finance Terminal static research panel` commit. Do not begin other Finance Terminal, Options Hub, provider, storage, or runtime expansion.
+
 ## Current Checkpoint - Finance Terminal Owner-Route / Static-Manual Prototype Scope
 
 - Date: 2026-06-19.

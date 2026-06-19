@@ -2,6 +2,26 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Finance Terminal Static / Manual Research Panel is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+
+- Added one bounded `Pickaxe Finance Terminal / Options Intelligence` panel inside the existing `#/research` renderer, between the Research Packet builder and unchanged Pickaxe X preview.
+- The ephemeral composer covers identity, market, options, source/quote/time, technical, scenario, no-trade, counter-thesis, risk, confirmation, invalidation, CEO B disposition, and next manual action.
+- Every material field supports same-workflow verified, manual CEO B, static/demo, source-required, and omitted states.
+- The default state contains no current market truth and remains source-required, no-live-provider, CEO B review required, and internal only.
+- One internal cockpit preview shows all required research blocks, manual-only handoff labels, the 1000-point readiness rubric, hard blocks, and required safety footer.
+- Below `900/1000` remains internal. Hard blocks override scores. A qualifying state still requires CEO B approval and cannot publish, alert, export, route, write, or execute.
+- Banned language produces `NO_OUTPUT`; missing material source context produces `SOURCE_REQUIRED`.
+- State clears on route rerender/navigation. No LocalStorage key or persistence was added.
+- No Research Packet, Alerts, Source Hub, Archive, Learning Ledger, Pickaxe X, or review-queue write was added.
+- Local desktop `1280x720` and mobile `390x844` owner-route and regression QA passed with zero console errors, no overflow, one Starlight canvas, and unchanged adjacent workflows.
+- Root/public app, style, and HTML cache-key mirrors remain synchronized.
+- `/ai-handoff` and `data/signal-alerts.json` remain unchanged.
+- This result is local only and has not been pushed or hosted-verified.
+
+Next bounded step: CEO B may authorize one push and hosted QA verification sprint for the local `Implement Finance Terminal static research panel` commit. Do not begin other Finance Terminal, Options Hub, provider, storage, or runtime expansion.
+
+## Previous Active Checkpoint - Finance Terminal Owner-Route Scope
+
 Pickaxe Finance Terminal / Options Intelligence Owner-Route and Static / Manual Prototype Scope is **PASS / HOSTED DOCS VERIFIED**.
 
 - Scope commit `ec12024` (`Define Finance Terminal owner route scope`) is pushed to `origin/main`.
