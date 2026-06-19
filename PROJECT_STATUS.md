@@ -3,9 +3,11 @@
 ## Current Checkpoint - Pickaxe X Static / Manual Research Preview Implementation
 
 - Date: 2026-06-19.
-- Result: **PASS / LOCAL IMPLEMENTATION VERIFIED**.
-- Sprint type: bounded `#/research` owner-route runtime implementation.
+- Result: **PASS / HOSTED QA VERIFIED**.
+- Sprint type: bounded `#/research` owner-route runtime implementation, push, and hosted QA verification.
 - Starting state: clean synchronized `main` at `9ad160f` (`0` ahead / `0` behind).
+- Implementation commit `a59353c` (`Implement Pickaxe X static research preview`) is pushed to `origin/main`.
+- GitHub Pages run `27807783625` (`Validate and Deploy GitHub Pages #130`) completed successfully for `a59353c`; both `Validate and Build` and `Deploy` passed.
 - Added one `Pickaxe X Visual Intelligence Preview` module inside the existing `renderResearchDeskPage()` owner path. No route, alias, bridge, or second renderer was created.
 - The module provides manual/static/source-required/omitted field states for ticker/topic, asset class, timeframe, setup, chart label, source/quote/time context, bull/bear/neutral scenarios, counter-thesis, risk, confirmation, invalidation, and CEO B disposition.
 - Added one internal `1200x1200`-proportioned five-band preview: Hero Bar, Core Market Panel, Indicator + Context Band, Scenario + Risk Band, and Final Decision Footer.
@@ -16,8 +18,9 @@
 - The module does not write to Research Packet v2, Alerts, Source Hub, Archive, Learning Ledger, or any review queue and provides no export, download, publishing, transmission, provider, or execution action.
 - Updated synchronized root/public app, style, and HTML cache-key mirrors with `pickaxe-x-static-preview-20260619`.
 - Automated validation passed: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, JavaScript syntax checks, and `git diff --check`.
-- Desktop `1280x720` and mobile `390x844` owner-route QA passed for default safety state, manual updates, five bands, 1000-point candidate, below-threshold internal state, banned-language `NO_OUTPUT`, route reset, options-risk copy, one Starlight canvas, and no overflow.
-- Desktop and mobile regression QA passed for `/`, `#/alerts`, `/app/alerts`, `#/research`, `#/source-hub`, `#/archive`, `#/learning-ledger`, and `#/staging`, with correct active views, nonblank content, no new console errors, no overflow, one Starlight canvas, singleton Alerts/V3.1 panels, and unchanged Phase 9B safety state.
+- Hosted desktop `1280x720` and mobile `390x844` owner-route QA passed for default safety state, immediate manual updates, five bands, a `1000/1000` candidate that still requires CEO B approval, an `855/1000` internal-only state, banned-language `NO_OUTPUT`, source-required fallback, route reset, options-risk copy, one Starlight canvas, zero console errors, and no overflow.
+- Hosted desktop and mobile regression QA passed for `/`, `#/alerts`, `/app/alerts`, `#/research`, `#/source-hub`, `#/archive`, `#/learning-ledger`, and `#/staging`, with correct active views, nonblank content, zero console errors, no overflow, one Starlight canvas, singleton Alerts/V3.1 panels, unchanged detailed Signals placement, and unchanged Phase 9B unverified/non-adopted state.
+- Hosted `/ai-handoff` returns `404`, confirming that it remains local-server-only.
 - `data/signal-alerts.json` remains unchanged.
 
 ### Pickaxe X Static Preview Files Changed
@@ -30,7 +33,7 @@
 
 ### Pickaxe X Static Preview Next Step
 
-- CEO B may authorize one bounded push and hosted QA sprint for the local `Implement Pickaxe X static research preview` commit. Do not begin another feature or add persistence.
+- Keep the hosted Pickaxe X static/manual preview locked. CEO B may authorize one bounded docs-only Finance Terminal / Options Intelligence specification sprint; this is not Options Hub, live-data, provider, or execution authorization.
 
 ## Current Checkpoint - Pickaxe X Static / Manual Prototype Implementation-Scope Definition
 

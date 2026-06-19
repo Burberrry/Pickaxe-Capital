@@ -2,8 +2,10 @@
 
 ## Current Active Checkpoint
 
-Pickaxe X Static / Manual Research Preview Implementation is **PASS / LOCAL IMPLEMENTATION VERIFIED**.
+Pickaxe X Static / Manual Research Preview Implementation is **PASS / HOSTED QA VERIFIED**.
 
+- Implementation commit `a59353c` (`Implement Pickaxe X static research preview`) is pushed to `origin/main`.
+- GitHub Pages run `27807783625` (`Validate and Deploy GitHub Pages #130`) passed both validation/build and deployment.
 - Added one bounded `Pickaxe X Visual Intelligence Preview` inside the existing `#/research` renderer.
 - Manual/static/source-required/omitted fields update one internal five-band preview and visible 1000-point QA panel.
 - Default state is source-required and demo/static; no live values or current timestamps are prefilled.
@@ -11,11 +13,13 @@ Pickaxe X Static / Manual Research Preview Implementation is **PASS / LOCAL IMPL
 - Banned command/certainty language and unsupported live/provider wording produce a visible `NO_OUTPUT` warning.
 - Options context adds substantial-risk language.
 - State is ephemeral and clears when the Research route rerenders. No LocalStorage key, persistence, packet write, queue write, or cross-route handoff was added.
-- Desktop and `390x844` owner-route and eight-route regression QA passed with no new console errors, no overflow, one Starlight canvas, and locked Alerts/V3.1/Phase 9B behavior preserved.
+- Hosted desktop `1280x720` and mobile `390x844` owner-route QA passed for safe defaults, immediate manual updates, five bands, the 1000-point gate, below-threshold internal state, banned-language `NO_OUTPUT`, source-required fallback, options-risk language, ephemeral route reset, zero console errors, no overflow, and one Starlight canvas.
+- Hosted desktop and mobile regression QA passed for `/`, `#/alerts`, `/app/alerts`, `#/research`, `#/source-hub`, `#/archive`, `#/learning-ledger`, and `#/staging`; Alerts/V3.1 singleton placement and Phase 9B unverified/non-adopted behavior remain unchanged.
+- Hosted `/ai-handoff` returns `404` and remains local-server-only.
 - Build, project, Phase 1.5, agent, mirror, route-smoke, JavaScript syntax, and diff checks passed.
 - `data/signal-alerts.json` remains unchanged.
 
-Next bounded step: CEO B may authorize one push and hosted QA sprint for the local `Implement Pickaxe X static research preview` commit. Do not begin another feature or add persistence.
+Next bounded step: CEO B may authorize one docs-only Finance Terminal / Options Intelligence specification sprint. This does not authorize Options Hub, live data, providers, backend work, or broker execution.
 
 ## Previous Active Checkpoint - Pickaxe X Static / Manual Scope
 
