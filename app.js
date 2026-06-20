@@ -18063,7 +18063,7 @@ renderStagingAdvanced = function () {
     ["Visual QA Polish", "Passed / Hosted", "26-route hosted verification"],
     ["Finance Terminal", "Passed / Hosted", "Static/manual Research Desk panel"],
     ["Product Coherence Audit", "Passed / Docs-Only", "Current experience and game-plan audit"],
-    ["V3.1 Contrast Restoration", "Passed / Local", "Validated locally; deployment pending"]
+    ["V3.1 Contrast Restoration", "Passed / Hosted", "Deployed with the Staging refresh series"]
   ];
   const safetyRules = [
     "Research Only",
@@ -18086,28 +18086,28 @@ renderStagingAdvanced = function () {
   ];
   els.stagingAdvanced.innerHTML = `
     <div class="page-shell staging-qa-shell">
-      ${pcPageHero("13 QA / CEO B Command Center", "Staging / QA", "Hosted baseline, validated local state, Build Completion Tracker, and the next bounded CEO B deployment decision.", ["HOSTED BASELINE", "PASS / LOCAL", "NOT PUSHED", "CEO B GATE"])}
+      ${pcPageHero("13 QA / CEO B Command Center", "Staging / QA", "Current hosted checkpoint, deployment evidence, Build Completion Tracker, and the next bounded CEO B decision.", ["PASS / HOSTED", "DEPLOY VERIFIED", "STATIC / MANUAL", "CEO B GATE"])}
 
       <div class="staging-purpose-line" aria-label="Staging purpose and next action">
-        <p><strong>Active local checkpoint:</strong> Staging Currentness Refresh — PASS / LOCAL · NOT PUSHED.</p>
+        <p><strong>Active hosted checkpoint:</strong> Staging Currentness Refresh — PASS / HOSTED · DEPLOY VERIFIED.</p>
         <a class="primary-action" href="#stagingTracker">Open Build Completion Tracker</a>
       </div>
 
       <section class="staging-primary-grid" aria-label="Staging command panels">
         <article class="staging-command-panel staging-checkpoint-panel">
-          <span class="meta-label">Current Local Checkpoint</span>
-          <div class="staging-status-lock"><strong>PASS</strong><span>LOCAL</span></div>
+          <span class="meta-label">Current Hosted Checkpoint</span>
+          <div class="staging-status-lock"><strong>PASS</strong><span>HOSTED</span></div>
           <h3>Staging Currentness Refresh</h3>
-          <p class="staging-panel-note">Build truth now separates the hosted baseline from validated local work. This checkpoint is not deployed.</p>
+          <p class="staging-panel-note">The refreshed Staging command layer and tracker-group repair are deployed and hosted-verified.</p>
           <dl class="staging-key-values">
-            <div><dt>Scope lock</dt><dd><code>d8d6685</code></dd></div>
-            <div><dt>Prior runtime fix</dt><dd><code>e7aeace</code></dd></div>
-            <div><dt>Deployment</dt><dd>NOT PUSHED</dd></div>
+            <div><dt>Implementation</dt><dd><code>018c288</code></dd></div>
+            <div><dt>Tracker repair</dt><dd><code>f6f0248</code></dd></div>
+            <div><dt>Deployment</dt><dd>RUN 27864954632 · SUCCESS</dd></div>
           </dl>
         </article>
 
         <article class="staging-command-panel staging-hosted-panel">
-          <span class="meta-label">Current Hosted Baseline</span>
+          <span class="meta-label">Previous Hosted Baseline</span>
           <h3>Finance Terminal Static / Manual Research Panel</h3>
           <ul class="staging-fact-list">
             <li><span>Implementation commit</span><strong>e7df530</strong></li>
@@ -18118,24 +18118,24 @@ renderStagingAdvanced = function () {
         </article>
 
         <article class="staging-command-panel staging-tracker-panel">
-          <span class="meta-label">Local Commits Pending Authorization</span>
-          <h3>Validated local series after the hosted baseline</h3>
+          <span class="meta-label">Hosted Deployment Evidence</span>
+          <h3>Validated series now on origin/main</h3>
           <ul class="staging-fact-list">
-            <li><span>Finance Terminal hosted record</span><strong>993b622 · Docs only</strong></li>
-            <li><span>Product-coherence audit</span><strong>c754edc · Docs only</strong></li>
-            <li><span>V3.1 contrast restoration</span><strong>e7aeace · PASS / LOCAL</strong></li>
-            <li><span>Staging refresh scope</span><strong>d8d6685 · Docs only</strong></li>
-            <li><span>Current Staging implementation</span><strong>PASS / LOCAL · NOT PUSHED</strong></li>
+            <li><span>Product-coherence audit</span><strong>c754edc · Hosted docs</strong></li>
+            <li><span>V3.1 contrast restoration</span><strong>e7aeace · PASS / HOSTED</strong></li>
+            <li><span>Staging refresh scope</span><strong>d8d6685 · Hosted docs</strong></li>
+            <li><span>Staging implementation</span><strong>018c288 · PASS / HOSTED</strong></li>
+            <li><span>Tracker-group repair</span><strong>f6f0248 · PASS / HOSTED</strong></li>
           </ul>
           <a class="secondary-action" href="#stagingTracker">Review tracker records</a>
         </article>
 
         <article class="staging-command-panel staging-decision-panel">
           <span class="meta-label">Next CEO B Decision</span>
-          <h3>Authorize deployment verification—or keep the local lock.</h3>
-          <p class="staging-panel-note">The next bounded action is push plus hosted QA for the expected local commit series. No new product or workflow scope is included.</p>
+          <h3>Keep this hosted checkpoint locked—or authorize one new bounded scope.</h3>
+          <p class="staging-panel-note">Deployment verification is complete. No product, workflow, provider, storage, navigation, or Options Hub work is authorized by this record.</p>
           <div class="staging-decision-actions">
-            <a class="primary-action" href="#stagingTracker">Review Local Records</a>
+            <a class="primary-action" href="#stagingTracker">Review Hosted Records</a>
             <a class="secondary-action" href="#/roadmap">Review Roadmap</a>
           </div>
         </article>

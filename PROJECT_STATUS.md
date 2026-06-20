@@ -1,31 +1,33 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Staging Currentness Refresh Implementation
+## Current Checkpoint - Staging Currentness Refresh Hosted Verification
 
 - Date: 2026-06-20.
-- Result: **PASS / LOCAL IMPLEMENTATION COMPLETE**.
-- Sprint type: bounded `#/staging` build-truth presentation and tracker-metadata refresh.
-- Starting state: clean local `main` at `d8d6685`, with the expected local series unpushed.
+- Result: **PASS / HOSTED QA VERIFIED**.
+- Sprint type: bounded push follow-through, hosted verification, and Staging hosted-truth recording.
+- Starting state: clean synchronized `main` at `94a8e28` after fast-forwarding the README automation commit.
+- Confirmed implementation commit `018c288` and tracker-group repair `f6f0248` are on `origin/main`.
+- GitHub Pages run `27864954632` completed successfully for `f6f0248`; both `Validate and Build` and `Deploy` passed.
 - Updated only the final active `renderStagingAdvanced` owner path and synchronized root/public mirrors.
-- The first command layer now separates Current Local Checkpoint, Current Hosted Baseline, Local Commits Pending Authorization, and Next CEO B Decision.
-- Finance Terminal commit `e7df530` and GitHub Pages run `27811973984` are labeled as the hosted baseline.
-- Local records `993b622`, `c754edc`, `e7aeace`, and `d8d6685` are listed without being described as hosted.
-- The current Staging implementation is labeled `PASS / LOCAL` and `NOT PUSHED`; no self-invalidating permanent branch-ahead count or current-commit hash is embedded.
+- The first command layer now separates Current Hosted Checkpoint, Previous Hosted Baseline, Hosted Deployment Evidence, and Next CEO B Decision.
+- The current Staging refresh is labeled `PASS / HOSTED` and `DEPLOY VERIFIED`.
+- Finance Terminal commit `e7df530` and GitHub Pages run `27811973984` remain visible as the previous hosted baseline.
+- Hosted evidence records `c754edc`, `e7aeace`, `d8d6685`, `018c288`, and `f6f0248` without embedding a self-invalidating current-commit claim.
 - Added current default tracker records for Staging Currentness, V3.1 Contrast Restoration, Product Coherence Audit, and Finance Terminal hosted verification.
 - Repaired the full tracker category list so Build Safety, Design System, Public Credibility, Agent Operations, Research Habitat, Source Habitat, and future custom groups are rendered instead of silently omitted.
 - Added the same current groups to the existing tracker editor choices without changing the tracker schema or LocalStorage key.
 - Existing user-saved `pickaxeCompletionTracker` state remains untouched. New defaults apply to clean/reset tracker state, preserving the established LocalStorage contract.
 - Preserved tracker editing, mission board, backup/export, import, reset, recovery, diagnostics, direct-path bridge, route ownership, and all safety boundaries.
-- Updated synchronized HTML cache keys for `app.js` and `habitat-data.js` to `staging-tracker-groups-20260620`.
+- Updated synchronized HTML cache keys for `app.js` and `habitat-data.js` to `staging-hosted-record-20260620`.
 - No CSS, new route, renderer, storage key, tracker schema, research workflow, provider, alert logic, V3.1 behavior, Finance Terminal behavior, Starlight behavior, or `data/signal-alerts.json` change was added.
 - Automated validation passed: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, JavaScript syntax checks, and `git diff --check`.
-- Local desktop `1280x720` and mobile `390x844` QA passed for `#/staging` and `/staging`: correct active view, readable hosted/local truth, four 46px command actions, one Starlight field, zero console errors, and no document-level horizontal overflow.
+- Hosted desktop `1280x720` and mobile `390x844` QA passed for `#/staging` and `/staging`: correct active view, nonblank content, one Starlight field, zero console errors, and no document-level horizontal overflow.
 - Existing editable tracker controls and mission-board backup/import/reset controls remained present.
 - Clean-origin desktop and mobile QA confirmed all four new default records, all current tracker groups, and the expanded editor choices are visible.
-- Desktop and mobile regression QA passed for `/`, `#/alerts`, `/app/alerts`, `#/research`, and `#/staging`; V3.1 contrast and Finance Terminal visibility remained intact.
-- This result is local only and has not been pushed or hosted-verified.
+- Hosted desktop and mobile regression QA passed for `/`, `#/alerts`, `/app/alerts`, and `#/research`; V3.1 contrast and Finance Terminal visibility remained intact.
+- Hosted `/ai-handoff` remains a GitHub Pages `404`, preserving the local-server-only boundary.
 
-### Staging Currentness Implementation Files Changed
+### Staging Hosted Record Files Changed
 
 - `public/app.js` and `app.js`
 - `public/habitat-data.js` and `habitat-data.js`
@@ -34,9 +36,9 @@
 - `PROJECT_STATUS.md`
 - `NEXT_STEPS.md`
 
-### Staging Currentness Implementation Next Step
+### Staging Hosted Verification Next Step
 
-- CEO B may authorize one bounded push and hosted-verification sprint for the expected local commit series. Do not combine deployment with another product, navigation, provider, Options Hub, storage, or workflow sprint.
+- Keep this hosted checkpoint locked. Any new product, navigation, provider, Options Hub, storage, or workflow sprint requires separate CEO B authorization.
 
 ## Current Checkpoint - Staging Currentness Refresh Scope
 

@@ -200,4 +200,7 @@ The bounded implementation was started from scope commit `d8d6685`.
 - Desktop `1280x720` and mobile `390x844` QA passed for `#/staging`, `/staging`, and required regression routes with one Starlight field, zero console errors, and no document-level horizontal overflow.
 - Clean-origin desktop and mobile QA confirmed the four refreshed default records and all current group headings render in the expanded tracker.
 - Existing tracker and backup/import/reset controls remained present, and the four first-layer Staging actions measured 46px high at desktop and mobile.
-- Push and hosted verification remain separately authorized.
+- Push authorization was subsequently provided and the series through `f6f0248` reached `origin/main`.
+- GitHub Pages run `27864954632` passed both `Validate and Build` and `Deploy`.
+- Hosted desktop `1280x720` and mobile `390x844` QA passed for `#/staging`, `/staging`, `/`, `#/alerts`, `/app/alerts`, and `#/research` with correct nonblank views, one Starlight field, zero console errors, and no document-level horizontal overflow.
+- The final hosted-truth recording replaces `PASS / LOCAL` and `NOT PUSHED` with `PASS / HOSTED` and `DEPLOY VERIFIED` while preserving the renderer, tracker schema, LocalStorage contract, routes, workflows, and safety boundaries.

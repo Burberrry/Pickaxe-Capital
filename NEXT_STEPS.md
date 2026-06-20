@@ -2,23 +2,25 @@
 
 ## Current Active Checkpoint
 
-Staging Currentness Refresh is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+Staging Currentness Refresh is **PASS / HOSTED QA VERIFIED**.
 
-- `#/staging` and `/staging` now distinguish the hosted Finance Terminal baseline from validated local work.
-- The first command layer shows Current Local Checkpoint, Current Hosted Baseline, Local Commits Pending Authorization, and Next CEO B Decision.
-- Hosted truth is tied to `e7df530` and Pages run `27811973984`.
-- Local records `993b622`, `c754edc`, `e7aeace`, and `d8d6685` are not labeled hosted.
-- Current Staging state is explicitly `PASS / LOCAL` and `NOT PUSHED`.
+- Implementation commit `018c288` and tracker-group repair `f6f0248` are on `origin/main`.
+- GitHub Pages run `27864954632` passed both Validate and Build and Deploy.
+- `#/staging` and `/staging` now present the Staging refresh as the Current Hosted Checkpoint.
+- The first command layer shows Current Hosted Checkpoint, Previous Hosted Baseline, Hosted Deployment Evidence, and Next CEO B Decision.
+- Current Staging state is explicitly `PASS / HOSTED` and `DEPLOY VERIFIED`.
+- Finance Terminal commit `e7df530` and Pages run `27811973984` remain identified as the previous hosted baseline.
 - Default tracker metadata now includes the current hosted, audit, contrast, and Staging records. Existing browser-saved tracker edits remain untouched.
 - The full tracker now renders every current group plus future custom groups; the editor offers the same canonical group set.
 - Tracker editing, backup/export, import, reset, recovery, diagnostics, routes, direct bridges, LocalStorage contracts, and product workflows remain unchanged.
-- Desktop `1280x720` and mobile `390x844` QA passed for Staging and its direct path with zero console errors, no overflow, one Starlight field, and 46px primary actions.
+- Hosted desktop `1280x720` and mobile `390x844` QA passed for Staging and its direct path with zero console errors, no overflow, and one Starlight field.
 - Clean-origin desktop and mobile QA confirmed all four new default records and current group headings are visible.
 - Regression QA passed for `/`, `#/alerts`, `/app/alerts`, `#/research`, and `#/staging`.
 - Full automated validation passed.
-- This result is local only and has not been pushed or hosted-verified.
+- Hosted regression QA passed for `/`, `#/alerts`, `/app/alerts`, and `#/research`; V3.1 contrast and Finance Terminal remain intact.
+- Hosted `/ai-handoff` remains a GitHub Pages `404`.
 
-Next bounded step: CEO B may authorize one push and hosted-verification sprint for the expected local commit series. Do not combine deployment with another sprint.
+Next bounded step: keep this hosted checkpoint locked. Begin another sprint only after CEO B authorizes one new bounded scope.
 
 ## Previous Active Checkpoint - Staging Currentness Refresh Scope
 
