@@ -1,5 +1,26 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Product Coherence Audit / Next Visual Defect Selection
+
+- Date: 2026-06-20.
+- Result: **PASS / PLANNING-ONLY AUDIT COMPLETE**.
+- Sprint type: bounded read-only hosted product-coherence audit and next-sprint selection.
+- Baseline: local `HEAD` `993b622`; hosted runtime `e7df530`.
+- Audited `#/alerts`, `#/dashboard`, `#/source-hub`, `#/research`, `#/archive`, `#/learning-ledger`, `#/agents`, and `#/staging` at desktop `1280x720` and mobile `390x844`.
+- All audited routes loaded the correct nonblank view with zero observed console errors, no document-level horizontal overflow, and one locked Starlight field.
+- Confirmed that the Source Hub -> Research Packet -> Risk / CEO B Review -> Archive -> Learning Ledger operating spine exists and preserves static/manual/source-required truth.
+- Confirmed one P0 visual defect: broad active-route theme selectors override the intended light-on-dark V3.1 text colors on the visible QQQ Research Card Flow and detailed Signals card at Alerts and Mission Control.
+- Confirmed a separate structural mobile issue: route content begins at approximately `468.5px` under the 21-item navigation at `390x844`. Navigation restructuring remains blocked pending CEO B’s visual blueprint.
+- Recorded lower-priority hierarchy, Source Hub visual-language, and Staging-currentness gaps without changing runtime behavior.
+- Added the evidence-backed audit at `docs/01_PRODUCT/PICKAXE_PRODUCT_COHERENCE_AUDIT_2026-06-20.md`.
+- No runtime, route, renderer, CSS, HTML, LocalStorage, packet, queue, provider, alert, bridge, tracker, or `data/signal-alerts.json` change was made.
+- Browser QA was audit evidence only; the sprint is documentation-only.
+
+### Product Coherence Audit Next Step
+
+- CEO B may authorize one bounded CSS-only sprint: `V3.1 dark-panel contrast restoration — Alerts + Mission Control only`.
+- Preserve V3.1 placement, behavior, data, synchronization, simulator, watchlist queue, storage, routes, renderers, and all financial-safety boundaries.
+
 ## Current Checkpoint - Finance Terminal Static / Manual Research Panel
 
 - Date: 2026-06-19.
