@@ -2,8 +2,10 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Finance Terminal Static / Manual Research Panel is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+Pickaxe Finance Terminal Static / Manual Research Panel is **PASS / HOSTED QA VERIFIED**.
 
+- Implementation commit `e7df530` (`Implement Finance Terminal static research panel`) is pushed to `origin/main`.
+- GitHub Pages run `27811973984` passed both validation/build and deployment.
 - Added one bounded `Pickaxe Finance Terminal / Options Intelligence` panel inside the existing `#/research` renderer, between the Research Packet builder and unchanged Pickaxe X preview.
 - The ephemeral composer covers identity, market, options, source/quote/time, technical, scenario, no-trade, counter-thesis, risk, confirmation, invalidation, CEO B disposition, and next manual action.
 - Every material field supports same-workflow verified, manual CEO B, static/demo, source-required, and omitted states.
@@ -14,11 +16,12 @@ Pickaxe Finance Terminal Static / Manual Research Panel is **PASS / LOCAL IMPLEM
 - State clears on route rerender/navigation. No LocalStorage key or persistence was added.
 - No Research Packet, Alerts, Source Hub, Archive, Learning Ledger, Pickaxe X, or review-queue write was added.
 - Local desktop `1280x720` and mobile `390x844` owner-route and regression QA passed with zero console errors, no overflow, one Starlight canvas, and unchanged adjacent workflows.
+- Hosted desktop `1280x720` and mobile `390x844` owner-route QA confirmed one Finance Terminal module, one unchanged Pickaxe X module, safe `SOURCE_REQUIRED` defaults, the visible 1000-point readiness state, one Starlight field, zero console errors, and no document-level horizontal overflow.
+- Hosted desktop and mobile regression QA passed for `/`, `#/alerts`, `/app/alerts`, `#/research`, `#/source-hub`, `#/archive`, `#/learning-ledger`, and `#/staging`.
 - Root/public app, style, and HTML cache-key mirrors remain synchronized.
-- `/ai-handoff` and `data/signal-alerts.json` remain unchanged.
-- This result is local only and has not been pushed or hosted-verified.
+- Hosted `/ai-handoff` remains a GitHub Pages `404`; `data/signal-alerts.json` remains unchanged.
 
-Next bounded step: CEO B may authorize one push and hosted QA verification sprint for the local `Implement Finance Terminal static research panel` commit. Do not begin other Finance Terminal, Options Hub, provider, storage, or runtime expansion.
+Next bounded step: keep the hosted Finance Terminal static/manual panel locked. CEO B must separately authorize the next bounded product-coherence, provider-architecture, Options Hub, storage, or runtime sprint.
 
 ## Previous Active Checkpoint - Finance Terminal Owner-Route Scope
 
