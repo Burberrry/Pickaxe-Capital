@@ -34,7 +34,8 @@ Current repository truth is:
 - Local documentation record: `993b622` (`Record Finance Terminal hosted verification`).
 - Local product-coherence audit: `c754edc` (`Audit Pickaxe product coherence`).
 - Local V3.1 contrast repair: `e7aeace` (`Restore V3.1 dark panel contrast`).
-- Branch state: local `main` is three commits ahead of `origin/main`.
+- Local Staging scope: `d8d6685` (`Define Staging currentness refresh scope`).
+- Pre-implementation branch state: local `main` is four commits ahead of `origin/main`.
 - The V3.1 contrast repair is validated locally but is not hosted.
 
 Staging owns release and build truth. Presenting old state weakens CEO B decision quality and auditability.
@@ -55,10 +56,11 @@ Update only the current Staging presentation and Build Completion Tracker metada
 ### First command layer
 
 1. **Current Local Checkpoint**
-   - `V3.1 Dark-Panel Contrast Restoration`
+   - `Staging Currentness Refresh`
    - `PASS / LOCAL`
-   - commit `e7aeace`
-   - automated and browser QA passed
+   - scope commit `d8d6685`
+   - prior runtime fix `e7aeace`
+   - automated and browser QA required
    - not pushed / not hosted
 
 2. **Current Hosted Baseline**
@@ -72,11 +74,12 @@ Update only the current Staging presentation and Build Completion Tracker metada
    - `993b622` — hosted Finance Terminal record
    - `c754edc` — product-coherence audit
    - `e7aeace` — V3.1 contrast restoration
-   - local `main` is `3` commits ahead of `origin/main`
+   - `d8d6685` — Staging currentness scope
+   - current Staging implementation — local only
    - do not describe these commits as hosted
 
 4. **Next CEO B Decision**
-   - authorize one bounded push and hosted-verification sprint for the three expected local commits;
+   - authorize one bounded push and hosted-verification sprint for the expected local commit series;
    - or keep the local lock;
    - no product, navigation, provider, Options Hub, storage, or workflow work is implied.
 
@@ -144,7 +147,8 @@ Do not change:
 
 - `#/staging` and `/staging` show the correct canonical Staging view.
 - The first command layer distinguishes hosted baseline from local pending state in under 10 seconds.
-- Commit IDs, run ID, branch-ahead count, and deployment labels match actual git and GitHub Pages evidence.
+- Commit IDs, run ID, and deployment labels match actual git and GitHub Pages evidence.
+- The page avoids self-invalidating static claims about its own final commit hash or permanent branch-ahead count.
 - No local-only commit is labeled hosted.
 - Existing tracker, editing, backup, restore, recovery, diagnostics, and details controls remain present and functional.
 - Required safety language remains visible.
@@ -182,3 +186,16 @@ The existing Staging route accurately communicates current hosted truth, current
 Stop if implementation requires a style redesign, new route, new renderer, new storage key, tracker-schema change, workflow change, or edits outside the allowed files.
 
 Do not push as part of the implementation sprint unless push authority is separately explicit.
+
+## 12. Implementation Follow-Up
+
+The bounded implementation was started from scope commit `d8d6685`.
+
+- The final active Staging renderer now distinguishes the hosted Finance Terminal baseline from the validated local series.
+- The first command layer identifies the current Staging refresh as `PASS / LOCAL` and `NOT PUSHED`.
+- Stable named checkpoints replace the self-invalidating permanent branch-count requirement.
+- Current tracker metadata was updated without changing tracker schema, editing, backup/restore, recovery, or diagnostics behavior.
+- Existing browser-saved tracker state remains untouched; refreshed defaults apply to clean/reset state.
+- Desktop `1280x720` and mobile `390x844` QA passed for `#/staging`, `/staging`, and required regression routes with one Starlight field, zero console errors, and no document-level horizontal overflow.
+- Existing tracker and backup/import/reset controls remained present, and the four first-layer Staging actions measured 46px high at desktop and mobile.
+- Push and hosted verification remain separately authorized.

@@ -2,6 +2,24 @@
 
 ## Current Active Checkpoint
 
+Staging Currentness Refresh is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+
+- `#/staging` and `/staging` now distinguish the hosted Finance Terminal baseline from validated local work.
+- The first command layer shows Current Local Checkpoint, Current Hosted Baseline, Local Commits Pending Authorization, and Next CEO B Decision.
+- Hosted truth is tied to `e7df530` and Pages run `27811973984`.
+- Local records `993b622`, `c754edc`, `e7aeace`, and `d8d6685` are not labeled hosted.
+- Current Staging state is explicitly `PASS / LOCAL` and `NOT PUSHED`.
+- Default tracker metadata now includes the current hosted, audit, contrast, and Staging records. Existing browser-saved tracker edits remain untouched.
+- Tracker editing, backup/export, import, reset, recovery, diagnostics, routes, direct bridges, LocalStorage contracts, and product workflows remain unchanged.
+- Desktop `1280x720` and mobile `390x844` QA passed for Staging and its direct path with zero console errors, no overflow, one Starlight field, and 46px primary actions.
+- Regression QA passed for `/`, `#/alerts`, `/app/alerts`, `#/research`, and `#/staging`.
+- Full automated validation passed.
+- This result is local only and has not been pushed or hosted-verified.
+
+Next bounded step: CEO B may authorize one push and hosted-verification sprint for the expected local commit series. Do not combine deployment with another sprint.
+
+## Previous Active Checkpoint - Staging Currentness Refresh Scope
+
 Staging Currentness Refresh Scope is **PASS / DOCS-ONLY SCOPE COMPLETE**.
 
 - Confirmed `#/staging` still leads with obsolete June 18 visual-QA state and incorrectly implies local/remote synchronization.
