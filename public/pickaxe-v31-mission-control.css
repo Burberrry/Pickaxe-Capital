@@ -260,7 +260,7 @@
   padding: 9px;
 }
 
-/* Keep V3.1 dark panels readable inside the legacy light Alerts theme. */
+/* Keep locked V3.1 dark panels readable inside broad route-level themes. */
 #alerts.active #alertsContent {
   min-width: 0;
   grid-template-columns: minmax(0, 1fr);
@@ -272,13 +272,46 @@
   min-width: 0;
 }
 
-#alerts.active .v31-deep-title h3,
-#alerts.active .v31-deep-section strong {
+:is(#alerts, #dashboard).active :is(.v31-mission-control, .v31-signals-deep-dive) :is(
+  .v31-title-row h2,
+  .v31-deep-title h3,
+  .v31-flow-step strong,
+  .v31-mini-card strong,
+  .v31-deep-section strong,
+  .v31-selected-candidate strong
+) {
   color: #fff7e8 !important;
 }
 
-#alerts.active .v31-deep-section p {
+:is(#alerts, #dashboard).active :is(.v31-mission-control, .v31-signals-deep-dive) :is(
+  .v31-kicker,
+  .v31-standard strong,
+  .v31-flow-step span,
+  .v31-mini-card span,
+  .v31-deep-section span,
+  .v31-table th,
+  .v31-selected-candidate span,
+  .v31-selected-candidate small
+) {
+  color: #f0cc64 !important;
+}
+
+:is(#alerts, #dashboard).active :is(.v31-mission-control, .v31-signals-deep-dive) :is(
+  .v31-mini-card p,
+  .v31-deep-section p,
+  .v31-deep-list li,
+  .v31-table td,
+  .v31-selected-candidate p
+) {
   color: rgba(255, 247, 232, 0.72) !important;
+}
+
+:is(#alerts, #dashboard).active :is(.v31-mission-control, .v31-signals-deep-dive) .v31-standard {
+  color: rgba(255, 247, 232, 0.82) !important;
+}
+
+:is(#alerts, #dashboard).active :is(.v31-mission-control, .v31-signals-deep-dive) .v31-footer-note {
+  color: rgba(255, 247, 232, 0.66) !important;
 }
 
 @media (max-width: 1180px) {

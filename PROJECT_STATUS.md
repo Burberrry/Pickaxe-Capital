@@ -1,5 +1,34 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - V3.1 Dark-Panel Contrast Restoration
+
+- Date: 2026-06-20.
+- Result: **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+- Sprint type: bounded CSS-only visual defect repair for `/`, `#/alerts`, `/app/alerts`, and `#/dashboard`.
+- Starting state: clean local `main` at `c754edc`, two documentation commits ahead of `origin/main`.
+- Restored the intended light-on-dark V3.1 typography hierarchy for the visible QQQ Research Card Flow and detailed Signals card.
+- Scoped the override to `.v31-mission-control` and `.v31-signals-deep-dive` inside active Alerts and Mission Control only.
+- Restored ivory headings, flow-step values, selected-candidate identity, mini-card values, descriptive copy, safety footer, and gold labels without changing panel backgrounds or layout.
+- Preserved the V3.1 renderer, QQQ demo content, selected-candidate model, simulator order, watchlist queue, detailed Signals card placement, LocalStorage contracts, and public-output block.
+- Updated synchronized `public/index.html` and `index.html` cache keys to `v3-1-contrast-20260620`.
+- No JavaScript, route, renderer, packet, queue, storage, provider, signal data, alert logic, Source Hub, Research Desk, Archive, Learning Ledger, Agents, Staging, Watchlists, or Starlight behavior changed.
+- Automated validation passed: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, and `git diff --check`.
+- Local desktop `1280x720` and mobile `390x844` QA passed for `/`, `#/alerts`, `/app/alerts`, and `#/dashboard`: correct active views, nonblank content, intended computed V3.1 colors, one Starlight field, zero console errors, and no document-level horizontal overflow.
+- Interaction regression QA passed: TSLA synchronized across the visible V3.1 candidate panels and persisted after refresh; QQQ was restored afterward. The Source Check advanced the simulator correctly and Reset Demo restored the initial five-step state.
+- This result is local only and has not been pushed or hosted-verified.
+
+### V3.1 Contrast Restoration Files Changed
+
+- `public/pickaxe-v31-mission-control.css`
+- `public/index.html` and `index.html` — cache key only
+- `docs/01_PRODUCT/PICKAXE_PRODUCT_COHERENCE_AUDIT_2026-06-20.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### V3.1 Contrast Restoration Next Step
+
+- CEO B may authorize one bounded push and hosted-verification sprint for the local V3.1 contrast restoration commit. Do not combine that deployment with navigation, hierarchy, Source Hub, Staging, provider, Options Hub, storage, or workflow changes.
+
 ## Current Checkpoint - Product Coherence Audit / Next Visual Defect Selection
 
 - Date: 2026-06-20.

@@ -2,6 +2,21 @@
 
 ## Current Active Checkpoint
 
+V3.1 Dark-Panel Contrast Restoration is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+
+- Restored the intended ivory/gold-on-dark typography for the QQQ Research Card Flow on `/`, `#/alerts`, `/app/alerts`, and `#/dashboard`.
+- The fix is route-scoped CSS only. No JavaScript, renderer, placement, data, workflow, or storage behavior changed.
+- Desktop `1280x720` and mobile `390x844` passed with correct active views, nonblank content, one Starlight field, zero console errors, and no horizontal overflow.
+- Computed colors now match the V3.1 dark-panel design for headings, flow steps, selected candidate, mini cards, supporting copy, and safety footer.
+- Selected-candidate synchronization and refresh persistence passed; QQQ was restored after the test.
+- Simulator Source Check and Reset Demo behavior passed.
+- Root/public HTML cache keys remain synchronized.
+- The result is local only and has not been pushed or hosted-verified.
+
+Next bounded step: CEO B may authorize one push and hosted-verification sprint for the local V3.1 contrast restoration commit. Do not combine deployment with another product or visual sprint.
+
+## Previous Active Checkpoint - Product Coherence Audit
+
 Pickaxe Product Coherence Audit is **PASS / PLANNING-ONLY AUDIT COMPLETE**.
 
 - Audited the live operating spine and flagship routes against the Project Context Lock, Master Build Bible, game plan, design system, and institutional quality gate.

@@ -199,3 +199,13 @@ Acceptance criteria:
 ## Stop Condition
 
 Do not begin the CSS repair until CEO B authorizes this exact bounded sprint. Do not combine it with navigation, hierarchy, Source Hub, Staging, provider, Options Hub, storage, or workflow changes.
+
+## Implementation Follow-Up
+
+The separately continued bounded work implemented this recommendation locally on 2026-06-20.
+
+- Restored the V3.1 light-on-dark hierarchy with route-scoped CSS only.
+- Preserved renderer ownership, card placement, data, synchronization, simulator, watchlist queue, storage, routes, and safety gates.
+- Desktop `1280x720` and mobile `390x844` QA passed for `/`, `#/alerts`, `/app/alerts`, and `#/dashboard`.
+- Selected-candidate synchronization, refresh persistence, simulator advancement/reset, one Starlight field, zero console errors, and no horizontal overflow were verified.
+- The implementation remains local until a separately authorized push and hosted-verification sprint.
