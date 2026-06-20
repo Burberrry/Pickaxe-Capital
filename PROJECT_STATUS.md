@@ -1,5 +1,24 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Staging Currentness Refresh Scope
+
+- Date: 2026-06-20.
+- Result: **PASS / DOCS-ONLY SCOPE COMPLETE**.
+- Sprint type: bounded planning-only scope for correcting stale Staging build truth.
+- Confirmed the final active `renderStagingAdvanced` owner still presents the June 18 route-visual-QA checkpoint, old commit IDs, old Pages runs, stale latest-session copy, and an inaccurate synchronized-branch label.
+- Defined one narrow future Staging refresh that separates hosted Finance Terminal baseline `e7df530` / run `27811973984` from the three validated local commits `993b622`, `c754edc`, and `e7aeace`.
+- Defined first-screen panels for Current Local Checkpoint, Current Hosted Baseline, Local Commit Stack, and Next CEO B Decision.
+- Defined minimal Build Completion Tracker metadata updates without rewriting historical entries or changing tracker behavior.
+- Preserved the existing `#/staging` renderer, `/staging` bridge, LocalStorage contracts, tracker editor, backup/restore, recovery, diagnostics, routes, workflows, and safety boundaries.
+- Added the canonical scope at `docs/01_PRODUCT/PICKAXE_STAGING_CURRENTNESS_REFRESH_SCOPE.md`.
+- No runtime, renderer, route, CSS, HTML, tracker data, LocalStorage, product behavior, or `data/signal-alerts.json` change was made.
+- Browser QA was not required because this sprint is documentation-only.
+
+### Staging Currentness Scope Next Step
+
+- CEO B may authorize one bounded `Staging currentness refresh — hosted baseline + local pending truth` implementation sprint using the exact files and acceptance criteria in the scope document.
+- Push remains a separate authorization boundary.
+
 ## Current Checkpoint - V3.1 Dark-Panel Contrast Restoration
 
 - Date: 2026-06-20.

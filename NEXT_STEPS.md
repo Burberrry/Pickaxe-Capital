@@ -2,6 +2,19 @@
 
 ## Current Active Checkpoint
 
+Staging Currentness Refresh Scope is **PASS / DOCS-ONLY SCOPE COMPLETE**.
+
+- Confirmed `#/staging` still leads with obsolete June 18 visual-QA state and incorrectly implies local/remote synchronization.
+- Defined a narrow future refresh that distinguishes the hosted Finance Terminal baseline from three validated local commits waiting for push authorization.
+- The future first screen will show Current Local Checkpoint, Current Hosted Baseline, Local Commit Stack, and Next CEO B Decision.
+- Tracker changes are limited to current metadata; historical entries and tracker behavior remain untouched.
+- Canonical scope: `docs/01_PRODUCT/PICKAXE_STAGING_CURRENTNESS_REFRESH_SCOPE.md`.
+- No runtime-visible file or behavior changed.
+
+Next bounded step: CEO B may authorize `Staging currentness refresh — hosted baseline + local pending truth`. Push remains separately authorized.
+
+## Previous Active Checkpoint - V3.1 Dark-Panel Contrast Restoration
+
 V3.1 Dark-Panel Contrast Restoration is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
 
 - Restored the intended ivory/gold-on-dark typography for the QQQ Research Card Flow on `/`, `#/alerts`, `/app/alerts`, and `#/dashboard`.
