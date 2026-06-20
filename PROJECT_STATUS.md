@@ -1,5 +1,26 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - CEO B / Founder Identity System Scope
+
+- Date: 2026-06-20.
+- Result: **PASS / DOCS-ONLY SCOPE COMPLETE**.
+- Sprint type: institutional identity-system planning only.
+- Added `docs/00_MASTER/CEO_B_FOUNDER_IDENTITY_SYSTEM_SCOPE.md` as the reusable future-work scope for masked CEO B and human Founder B.
+- Defined the executive identity split, invariant masked identity, six outfit families, five-version mask system, module mapping, public/private policy, conceptual visual tokens, composition rules, reusable prompt library, website placement, voice, brand safety, asset versioning, future sprint sequence, acceptance criteria, and hard stops.
+- Human founder materials remain approval-required and private by default. The scope bans raw local paths, private metadata, face-swap documentary claims, fake public-company proof, fake investor proof, celebrity likeness, superhero/villain/horror/military/royalty drift, guaranteed outcomes, and execution implications.
+- No image was generated. No runtime, route, renderer, navigation, CSS, HTML, asset, LocalStorage, tracker schema, packet model, review queue, workflow, provider, or `data/signal-alerts.json` change was made.
+- Stage 1 remains `PASS / HOSTED QA VERIFIED`: implementation commit `2b99dfa`, hosted-record commit `76a3c2b`, implementation Pages run `27886335888`, and hosted-record Pages run `27886665996` all passed their required gates.
+
+### CEO B / Founder Identity System Scope Files Changed
+
+- `docs/00_MASTER/CEO_B_FOUNDER_IDENTITY_SYSTEM_SCOPE.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### CEO B / Founder Identity System Next Step
+
+- CEO B may authorize one bounded `CEO B Outfit Variant Pack — image generation only` sprint. It must create no runtime placement, route, renderer, storage, workflow, or public founder-photo change.
+
 ## Current Checkpoint - CEO B Masked Visual Anchor v1
 
 - Date: 2026-06-20.
