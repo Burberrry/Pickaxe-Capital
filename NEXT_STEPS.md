@@ -2,8 +2,10 @@
 
 ## Current Active Checkpoint
 
-CEO B Masked Visual Anchor v1 is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+CEO B Masked Visual Anchor v1 is **PASS / HOSTED QA VERIFIED**.
 
+- Implementation commit `2b99dfa` is on `origin/main`.
+- GitHub Pages run `27886335888` passed both Validate and Build and Deploy.
 - CEO B now has one original symbolic gold-mask identity on `#/ceo-b-profile` and `/ceo-b-profile`.
 - The invariant is the sculptural metallic-gold full-face mask, dark luxury tailoring, restrained Pickaxe details, and calm institutional authority.
 - Outfits may change by scene, module, or status while the masked identity remains consistent.
@@ -14,10 +16,12 @@ CEO B Masked Visual Anchor v1 is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
 - No route, renderer, storage, workflow, provider, financial, or product behavior changed.
 - Canonical rules: `docs/00_MASTER/CEO_B_VISUAL_IDENTITY_LOCK.md`.
 - Full automated validation passed.
-- Desktop `1280x720` and mobile `390x844` QA passed for both CEO B profile paths with the full-resolution anchor loaded, one Starlight field, zero console errors, and no overflow.
-- Founder-route and homepage regression QA passed.
+- Hosted desktop `1280x720` and mobile `390x844` QA passed for both CEO B profile paths with the full-resolution `1122x1402` anchor loaded, the gold mask visible and dominant, readable content, one Starlight field, zero console errors, and no overflow.
+- Hosted regression QA passed for `/`, Alerts, Research, Source Hub, Archive, Learning Ledger, Staging, and both Founder paths.
+- Founder routes remain in their separate public-founder mode and do not display the masked command-profile hero.
+- Alerts remains singleton, Finance Terminal and Pickaxe X remain unchanged, hosted `/ai-handoff` remains `404`, and `data/signal-alerts.json` remains unchanged.
 
-Next bounded step: keep v1 locked. Create additional mask versions, outfit tiers, or cross-module avatar usage only after CEO B authorizes one visual-system sprint.
+Next bounded step: complete the separately authorized docs-only CEO B / Founder Identity System scope. Do not implement runtime, alter profile UI, or generate additional images.
 
 ## Previous Active Checkpoint - Staging Currentness Refresh Hosted Verification
 
