@@ -12695,8 +12695,14 @@ function renderCompletionTracker(mode = "full") {
     areasByGroup[groupName].push(area);
   });
 
-  const categoriesOrder = [
+  const preferredCategories = [
+    "Build Safety",
+    "Design System",
+    "Public Credibility",
     "Builder Habitat",
+    "Agent Operations",
+    "Research Habitat",
+    "Source Habitat",
     "Risk Habitat",
     "Signal Habitat",
     "Archive Habitat",
@@ -12704,6 +12710,12 @@ function renderCompletionTracker(mode = "full") {
     "Data Backup / Portability",
     "CEO B Review Workflow",
     "General Areas"
+  ];
+  const categoriesOrder = [
+    ...preferredCategories,
+    ...Object.keys(areasByGroup)
+      .filter(groupName => !preferredCategories.includes(groupName))
+      .sort((a, b) => a.localeCompare(b)),
   ];
 
   const groupedHtml = categoriesOrder.map(groupName => {
@@ -12844,7 +12856,13 @@ function renderSessionList(label, items) {
 function renderTrackerEditor(tracker) {
   const session = tracker.latestSession || {};
   const groups = [
+    "Build Safety",
+    "Design System",
+    "Public Credibility",
     "Builder Habitat",
+    "Agent Operations",
+    "Research Habitat",
+    "Source Habitat",
     "Risk Habitat",
     "Signal Habitat",
     "Archive Habitat",

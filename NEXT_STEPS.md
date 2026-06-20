@@ -10,8 +10,10 @@ Staging Currentness Refresh is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
 - Local records `993b622`, `c754edc`, `e7aeace`, and `d8d6685` are not labeled hosted.
 - Current Staging state is explicitly `PASS / LOCAL` and `NOT PUSHED`.
 - Default tracker metadata now includes the current hosted, audit, contrast, and Staging records. Existing browser-saved tracker edits remain untouched.
+- The full tracker now renders every current group plus future custom groups; the editor offers the same canonical group set.
 - Tracker editing, backup/export, import, reset, recovery, diagnostics, routes, direct bridges, LocalStorage contracts, and product workflows remain unchanged.
 - Desktop `1280x720` and mobile `390x844` QA passed for Staging and its direct path with zero console errors, no overflow, one Starlight field, and 46px primary actions.
+- Clean-origin desktop and mobile QA confirmed all four new default records and current group headings are visible.
 - Regression QA passed for `/`, `#/alerts`, `/app/alerts`, `#/research`, and `#/staging`.
 - Full automated validation passed.
 - This result is local only and has not been pushed or hosted-verified.

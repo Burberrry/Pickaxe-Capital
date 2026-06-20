@@ -12,13 +12,16 @@
 - Local records `993b622`, `c754edc`, `e7aeace`, and `d8d6685` are listed without being described as hosted.
 - The current Staging implementation is labeled `PASS / LOCAL` and `NOT PUSHED`; no self-invalidating permanent branch-ahead count or current-commit hash is embedded.
 - Added current default tracker records for Staging Currentness, V3.1 Contrast Restoration, Product Coherence Audit, and Finance Terminal hosted verification.
+- Repaired the full tracker category list so Build Safety, Design System, Public Credibility, Agent Operations, Research Habitat, Source Habitat, and future custom groups are rendered instead of silently omitted.
+- Added the same current groups to the existing tracker editor choices without changing the tracker schema or LocalStorage key.
 - Existing user-saved `pickaxeCompletionTracker` state remains untouched. New defaults apply to clean/reset tracker state, preserving the established LocalStorage contract.
 - Preserved tracker editing, mission board, backup/export, import, reset, recovery, diagnostics, direct-path bridge, route ownership, and all safety boundaries.
-- Updated synchronized HTML cache keys for `app.js` and `habitat-data.js` to `staging-currentness-20260620`.
+- Updated synchronized HTML cache keys for `app.js` and `habitat-data.js` to `staging-tracker-groups-20260620`.
 - No CSS, new route, renderer, storage key, tracker schema, research workflow, provider, alert logic, V3.1 behavior, Finance Terminal behavior, Starlight behavior, or `data/signal-alerts.json` change was added.
 - Automated validation passed: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, JavaScript syntax checks, and `git diff --check`.
 - Local desktop `1280x720` and mobile `390x844` QA passed for `#/staging` and `/staging`: correct active view, readable hosted/local truth, four 46px command actions, one Starlight field, zero console errors, and no document-level horizontal overflow.
 - Existing editable tracker controls and mission-board backup/import/reset controls remained present.
+- Clean-origin desktop and mobile QA confirmed all four new default records, all current tracker groups, and the expanded editor choices are visible.
 - Desktop and mobile regression QA passed for `/`, `#/alerts`, `/app/alerts`, `#/research`, and `#/staging`; V3.1 contrast and Finance Terminal visibility remained intact.
 - This result is local only and has not been pushed or hosted-verified.
 

@@ -195,7 +195,9 @@ The bounded implementation was started from scope commit `d8d6685`.
 - The first command layer identifies the current Staging refresh as `PASS / LOCAL` and `NOT PUSHED`.
 - Stable named checkpoints replace the self-invalidating permanent branch-count requirement.
 - Current tracker metadata was updated without changing tracker schema, editing, backup/restore, recovery, or diagnostics behavior.
+- The existing full-tracker renderer was repaired to show all current groups and append future custom groups instead of silently omitting them; the editor group choices now match the canonical current groups.
 - Existing browser-saved tracker state remains untouched; refreshed defaults apply to clean/reset state.
 - Desktop `1280x720` and mobile `390x844` QA passed for `#/staging`, `/staging`, and required regression routes with one Starlight field, zero console errors, and no document-level horizontal overflow.
+- Clean-origin desktop and mobile QA confirmed the four refreshed default records and all current group headings render in the expanded tracker.
 - Existing tracker and backup/import/reset controls remained present, and the four first-layer Staging actions measured 46px high at desktop and mobile.
 - Push and hosted verification remain separately authorized.

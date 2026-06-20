@@ -1214,7 +1214,8 @@ window.PickaxeHabitatData = {
       bugsFixed: [
         "Removed obsolete June 18 visual-QA state from the active Staging first screen.",
         "Replaced the inaccurate synchronized-branch presentation with stable hosted-baseline and local-pending labels.",
-        "Recorded the Finance Terminal hosted baseline and current local audit, contrast, and Staging checkpoints without implying deployment."
+        "Recorded the Finance Terminal hosted baseline and current local audit, contrast, and Staging checkpoints without implying deployment.",
+        "Restored full-tracker visibility for all current groups and future custom groups while preserving the existing tracker schema and LocalStorage contract."
       ],
       validationCommand: "node --run build; node --run check:project; node --run check:phase15; node --run check:agents; node --run check:mirrors; node --run smoke:routes; node --check app.js; node --check public/app.js; node --check habitat-data.js; node --check public/habitat-data.js; git diff --check; git status --short --branch",
       validationResult: "Automated validation and local desktop/mobile browser QA passed for the bounded Staging currentness refresh. Staging and regression routes remained nonblank with one Starlight field, zero console errors, no document-level overflow, preserved direct routing, and unchanged tracker, backup/restore, recovery, diagnostics, V3.1, Research Desk, and financial-safety behavior. This checkpoint is local and not hosted.",
