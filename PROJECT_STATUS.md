@@ -1,5 +1,41 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - CEO B Masked Visual Anchor v1
+
+- Date: 2026-06-20.
+- Result: **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+- Sprint type: bounded CEO B visual-identity lock and `#/ceo-b-profile` portrait integration.
+- Created one original canonical CEO B portrait with a full-face metallic-gold mask, black/charcoal tailored overcoat, restrained Pickaxe details, and dark institutional command-room framing.
+- Added versioned synchronized assets at `public/assets/ceo-b-masked-visual-anchor-v1.png` and `assets/ceo-b-masked-visual-anchor-v1.png`.
+- Updated only the existing CEO B profile hero; no route, renderer, navigation item, storage key, workflow, or product behavior was added.
+- Replaced the command-profile portrait reference without deleting the existing unmasked founder portrait asset.
+- Reduced the oversized CEO B text overlay so the mask is the primary visual anchor.
+- Added the visible rule: `Gold mask stays. Outfit follows the mission.`
+- Locked the invariant identity and allowed outfit families in `docs/00_MASTER/CEO_B_VISUAL_IDENTITY_LOCK.md`.
+- Added the concise identity rule to the Project Context Lock.
+- Separated the symbolic masked CEO B layer from the human founder layer.
+- The supplied founder photograph remains private source material unless CEO B separately approves cleaned public use.
+- Added Build Completion Tracker metadata without changing its schema or LocalStorage contract.
+- No Alerts, V3.1, Finance Terminal, Staging, Source Hub, Archive, Learning Ledger, Starlight, provider, execution, publishing, or `data/signal-alerts.json` behavior changed.
+- Automated validation passed: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, asset mirror comparison, and `git diff --check`.
+- Local desktop `1280x720` and mobile `390x844` QA passed for `#/ceo-b-profile` and `/ceo-b-profile`: correct command-profile view, full-resolution masked asset loaded, nonblank content, one Starlight field, zero console errors, and no document-level horizontal overflow.
+- Desktop and mobile regression QA passed for `#/founder`, `/founder`, and `/`; the public Founder landing remains unchanged and does not display the masked command-profile hero.
+
+### CEO B Visual Anchor Files Changed
+
+- `public/assets/ceo-b-masked-visual-anchor-v1.png` and root mirror
+- `public/index.html` and `index.html`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js`
+- `docs/00_MASTER/CEO_B_VISUAL_IDENTITY_LOCK.md`
+- `docs/00_MASTER/PICKAXE_PROJECT_CONTEXT_LOCK.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### CEO B Visual Anchor Next Step
+
+- Keep v1 locked as the current symbolic identity. A future separately authorized sprint may define mask versions, outfit tiers, role-based looks, and website/avatar/illustration consistency.
+
 ## Current Checkpoint - Staging Currentness Refresh Hosted Verification
 
 - Date: 2026-06-20.

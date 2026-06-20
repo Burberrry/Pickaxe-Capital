@@ -2,6 +2,25 @@
 
 ## Current Active Checkpoint
 
+CEO B Masked Visual Anchor v1 is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+
+- CEO B now has one original symbolic gold-mask identity on `#/ceo-b-profile` and `/ceo-b-profile`.
+- The invariant is the sculptural metallic-gold full-face mask, dark luxury tailoring, restrained Pickaxe details, and calm institutional authority.
+- Outfits may change by scene, module, or status while the masked identity remains consistent.
+- Approved future outfit families: executive, research command, restrained tactical market operator, luxury overcoat, founder/public-company, and ceremonial Pickaxe signature.
+- The human founder remains a separate visual layer.
+- The supplied founder photograph remains private source material unless separately approved for cleaned public use.
+- The existing unmasked founder portrait asset was preserved.
+- No route, renderer, storage, workflow, provider, financial, or product behavior changed.
+- Canonical rules: `docs/00_MASTER/CEO_B_VISUAL_IDENTITY_LOCK.md`.
+- Full automated validation passed.
+- Desktop `1280x720` and mobile `390x844` QA passed for both CEO B profile paths with the full-resolution anchor loaded, one Starlight field, zero console errors, and no overflow.
+- Founder-route and homepage regression QA passed.
+
+Next bounded step: keep v1 locked. Create additional mask versions, outfit tiers, or cross-module avatar usage only after CEO B authorizes one visual-system sprint.
+
+## Previous Active Checkpoint - Staging Currentness Refresh Hosted Verification
+
 Staging Currentness Refresh is **PASS / HOSTED QA VERIFIED**.
 
 - Implementation commit `018c288` and tracker-group repair `f6f0248` are on `origin/main`.

@@ -239,6 +239,16 @@ Restore only if CEO B explicitly asks for a separately scoped reconsideration.
 - Less words, more visual clarity.
 - X posts should be compact, chart-led, source-labeled, timestamped when market data is used, and research-only.
 
+### CEO B Visual Anchor
+
+- CEO B uses one consistent symbolic masked identity across Pickaxe Capital and AI Habitat OS.
+- Permanent identity cues: sculptural full-face metallic gold mask, black/charcoal luxury tailoring, restrained antique-gold details, and calm institutional authority.
+- The mask remains consistent while outfits may change by scene, module, or status.
+- Approved outfit families include executive suit, research command suit, restrained tactical market-operator look, luxury overcoat, founder/public-company tailoring, and ceremonial Pickaxe signature attire.
+- CEO B masked identity and the human founder portrait are separate visual layers.
+- The supplied founder photograph remains private source material unless CEO B separately approves a cleaned public use.
+- Canonical detailed rules: `docs/00_MASTER/CEO_B_VISUAL_IDENTITY_LOCK.md`.
+
 ## 9. Data / Source Rules
 
 - Source verification is mandatory before research can advance.
