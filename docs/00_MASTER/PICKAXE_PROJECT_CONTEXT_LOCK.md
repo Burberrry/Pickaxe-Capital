@@ -1,7 +1,7 @@
-# Pickaxe Capital / AI Habitat OS — Project Context Lock
+# Pickaxe Capital — Project Context Lock
 
 Status: Durable Codex project context.
-Updated: 2026-06-18.
+Updated: 2026-06-21.
 Authority: CEO B.
 Scope: Mission, architecture, locked checkpoints, module context, brand/data rules, and future planning boundaries.
 
@@ -16,6 +16,8 @@ The near-term business goal is a minimal-spend private options alert and researc
 The platform does not sell predictions. It sells the pickaxe: verified tools, disciplined rituals, scarce objects, and research-first artifacts for people who build conviction before they act.
 
 Pickaxe Capital is the public brand and product layer. AI Habitat OS is the internal command center connecting research, source verification, risk, memory, agents, and CEO B review. CEO B remains the founder decision layer; the system organizes and prepares decisions but never replaces the founder.
+
+The canonical naming and memory rules are defined in `docs/00_MASTER/PICKAXE_BRAND_SIMPLIFICATION_AND_MEMORY_HYGIENE.md`. `Pickaxe Capital / AI Habitat OS` is retained only as historical wording where needed; it is no longer the public-facing project title.
 
 ## 2. CEO B Operating Doctrine
 

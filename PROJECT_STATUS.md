@@ -1,9 +1,36 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - CEO B Outfit Variant Pack V1
+## Current Checkpoint - Pickaxe Brand Reset Governance
+
+- Date: 2026-06-21.
+- Result: **PASS / LOCAL DOCS-ONLY GOVERNANCE COMPLETE**.
+- Sprint type: brand simplification, memory hygiene, website reset blueprint, and Starlight signature-system scope.
+- Locked the public project name as `Pickaxe Capital`.
+- Preserved `AI Habitat OS` as the internal intelligence and operating-system layer.
+- Preserved CEO B as the masked symbolic command identity and Founder B as the separately governed human founder layer.
+- Confirmed the official circular crossed-pickaxe badge exists and is already used by public pages through `brand/pickaxe-capital-logo.png` and `public/brand/pickaxe-capital-logo.png`.
+- Documented redundant alternate logo files and a stale non-identical source copy without changing or replacing any asset.
+- Created the canonical naming, public/internal copy, memory classification, route-audit, and Codex-context rules.
+- Created a two-world website reset blueprint that preserves the working internal OS while defining a simpler future public front door.
+- Created a docs-only Starlight V2 signature scope preserving one canvas, reduced motion, hidden-tab lifecycle, performance caps, and route/product behavior.
+- No runtime, route, renderer, navigation, CSS, HTML, JavaScript, LocalStorage, tracker schema, packet model, review queue, product workflow, provider, image, or `data/signal-alerts.json` change was made.
+- Browser QA was not required because no runtime-visible file changed.
+- Recommended next bounded sprint: `Push + hosted docs verification for Pickaxe brand reset governance`.
+
+### Pickaxe Brand Reset Governance Files Changed
+
+- `AGENTS.md`
+- `docs/00_MASTER/PICKAXE_PROJECT_CONTEXT_LOCK.md`
+- `docs/00_MASTER/PICKAXE_BRAND_SIMPLIFICATION_AND_MEMORY_HYGIENE.md`
+- `docs/01_PRODUCT/PICKAXE_WEBSITE_RESET_BLUEPRINT.md`
+- `docs/01_PRODUCT/PICKAXE_STARLIGHT_SIGNATURE_SYSTEM_SCOPE.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - CEO B Outfit Variant Pack V1
 
 - Date: 2026-06-20.
-- Result: **PASS / LOCAL CANDIDATE PACK COMPLETE**.
+- Result: **PASS / PUSHED CANDIDATE PACK COMPLETE; HOSTED VERIFICATION NOT RECORDED**.
 - Sprint type: bounded image generation, asset review, mirroring, and docs-only recording.
 - Generated and retained exactly six symbolic masked CEO B outfit candidates: Executive Suit, Research Command Suit, Restrained Tactical Market-Operator Look, Luxury Overcoat, Founder / Public-Company Tailoring, and Ceremonial Pickaxe Signature Outfit.
 - Every retained image is a `1000x1250` PNG with a `4:5` aspect ratio and scored at least `900/1000` under the authorized identity, mask, outfit, institutional luxury, crop safety, brand safety, technical quality, and future usefulness rubric.
@@ -15,7 +42,8 @@
 - No runtime placement occurred. The canonical CEO B v1 anchor and current CEO B profile image were not replaced.
 - No human founder photograph, likeness, raw source path, or private metadata was published. No generated image is represented as documentary photography.
 - No route, renderer, navigation, CSS, HTML, JavaScript runtime, LocalStorage, tracker schema, packet model, review queue, workflow, provider, or `data/signal-alerts.json` change was made.
-- This result is local only. No push or hosted verification is claimed.
+- Commit `06b0647` (`Create CEO B outfit variant image pack`) is on `origin/main`.
+- No separate hosted verification is recorded or claimed for the outfit pack.
 
 ### CEO B Outfit Variant Pack V1 Files Changed
 

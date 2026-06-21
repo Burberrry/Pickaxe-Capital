@@ -2,7 +2,23 @@
 
 ## Current Active Checkpoint
 
-CEO B Outfit Variant Pack V1 is **PASS / LOCAL CANDIDATE PACK COMPLETE**.
+Pickaxe Brand Reset Governance is **PASS / LOCAL DOCS-ONLY GOVERNANCE COMPLETE**.
+
+- Public brand: `Pickaxe Capital`.
+- Internal operating system: `AI Habitat OS`.
+- Identity layers: masked symbolic `CEO B` and separately governed human `Founder B`.
+- Official logo: the circular crossed-pickaxe Pickaxe Capital badge.
+- Canonical governance lock: `docs/00_MASTER/PICKAXE_BRAND_SIMPLIFICATION_AND_MEMORY_HYGIENE.md`.
+- Website reset blueprint: `docs/01_PRODUCT/PICKAXE_WEBSITE_RESET_BLUEPRINT.md`.
+- Starlight signature scope: `docs/01_PRODUCT/PICKAXE_STARLIGHT_SIGNATURE_SYSTEM_SCOPE.md`.
+- No runtime, route, renderer, navigation, CSS, HTML, JavaScript, LocalStorage, tracker schema, packet model, review queue, workflow, provider, asset, or `data/signal-alerts.json` change was made.
+- No hosted verification is claimed.
+
+Next bounded step: `Push + hosted docs verification for Pickaxe brand reset governance`. Do not begin homepage implementation in that sprint.
+
+## Previous Active Checkpoint - CEO B Outfit Variant Pack V1
+
+CEO B Outfit Variant Pack V1 is **PASS / PUSHED CANDIDATE PACK COMPLETE; HOSTED VERIFICATION NOT RECORDED**.
 
 - Canonical manifest: `docs/00_MASTER/CEO_B_OUTFIT_VARIANT_PACK_V1.md`.
 - Six versioned symbolic masked CEO B candidates are retained and exactly mirrored under `public/assets/ceo-b/` and `assets/ceo-b/`.
@@ -12,9 +28,10 @@ CEO B Outfit Variant Pack V1 is **PASS / LOCAL CANDIDATE PACK COMPLETE**.
 - The canonical v1 anchor and the current CEO B profile image remain unchanged.
 - No human founder photograph or likeness was published, and no generated image is represented as documentary photography.
 - No runtime, route, renderer, navigation, CSS, HTML, JavaScript runtime, LocalStorage, tracker schema, packet model, review queue, workflow, provider, or `data/signal-alerts.json` change was made.
-- The pack is local only. It has not been pushed or hosted-verified.
+- Commit `06b0647` is on `origin/main`.
+- No separate hosted verification is recorded or claimed.
 
-Next bounded step: `CEO B Outfit Variant Placement Audit — docs-only`. Do not begin it or place any candidate into the website without separate CEO B authorization.
+The prior placement-audit recommendation is superseded by the approved Pickaxe brand reset sequence. Candidate placement remains blocked without separate CEO B authorization.
 
 ## Previous Active Checkpoint - CEO B / Founder Identity System Scope
 

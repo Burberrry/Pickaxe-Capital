@@ -1,11 +1,12 @@
-# Pickaxe Capital / AI Habitat OS Rules
+# Pickaxe Capital Rules
 
 This file contains permanent repository rules. For the complete mission, locked-phase map, route registry, module context, brand rules, and future queue, read `docs/00_MASTER/PICKAXE_PROJECT_CONTEXT_LOCK.md` before planning product, route, data, or architecture work.
 
 ## Identity And Authority
 
-- Project: Pickaxe Capital / AI Habitat OS.
-- Pickaxe Capital is the public brand layer. AI Habitat OS is the internal command center.
+- Project and public brand: Pickaxe Capital.
+- AI Habitat OS is the internal command center inside Pickaxe Capital, not part of the main public project title.
+- Public-facing project naming must use `Pickaxe Capital`; use `AI Habitat OS` only when the internal architecture is relevant.
 - CEO B is the final human review and decision layer.
 - Codex is a scoped builder inside the repository, not the decision-maker.
 - No output, route, rule, prompt, alert, publication, research state, or product workflow may bypass source checks, risk controls, and CEO B review.
