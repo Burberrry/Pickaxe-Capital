@@ -18035,51 +18035,51 @@ renderStagingAdvanced = function () {
       ${pcPageHero("13 QA / CEO B Command Center", "Staging / QA", "Current hosted checkpoint, deployment evidence, Build Completion Tracker, and the next bounded CEO B decision.", ["PASS / HOSTED", "DEPLOY VERIFIED", "STATIC / MANUAL", "CEO B GATE"])}
 
       <div class="staging-purpose-line" aria-label="Staging purpose and next action">
-        <p><strong>Active hosted checkpoint:</strong> Staging Currentness Refresh — PASS / HOSTED · DEPLOY VERIFIED.</p>
+        <p><strong>Latest hosted repository checkpoint:</strong> Pickaxe Website Bug Sweep — PASS / HOSTED DOCS VERIFIED.</p>
         <a class="primary-action" href="#stagingTracker">Open Build Completion Tracker</a>
       </div>
 
       <section class="staging-primary-grid" aria-label="Staging command panels">
         <article class="staging-command-panel staging-checkpoint-panel">
-          <span class="meta-label">Current Hosted Checkpoint</span>
+          <span class="meta-label">Latest Hosted Repository Checkpoint</span>
           <div class="staging-status-lock"><strong>PASS</strong><span>HOSTED</span></div>
-          <h3>Staging Currentness Refresh</h3>
-          <p class="staging-panel-note">The refreshed Staging command layer and tracker-group repair are deployed and hosted-verified.</p>
+          <h3>Pickaxe Website Bug Sweep</h3>
+          <p class="staging-panel-note">The hosted audit found no P0 issues. This build repairs its confirmed stale Staging current-checkpoint presentation without changing product behavior.</p>
           <dl class="staging-key-values">
-            <div><dt>Implementation</dt><dd><code>018c288</code></dd></div>
-            <div><dt>Tracker repair</dt><dd><code>f6f0248</code></dd></div>
-            <div><dt>Deployment</dt><dd>RUN 27864954632 · SUCCESS</dd></div>
+            <div><dt>Audit commit</dt><dd><code>8a79794</code></dd></div>
+            <div><dt>Audit result</dt><dd>PASS · NO P0 ISSUES</dd></div>
+            <div><dt>Deployment</dt><dd>RUN 27920025039 · SUCCESS</dd></div>
           </dl>
         </article>
 
         <article class="staging-command-panel staging-hosted-panel">
-          <span class="meta-label">Previous Hosted Baseline</span>
-          <h3>Finance Terminal Static / Manual Research Panel</h3>
+          <span class="meta-label">Runtime-Visible App Baseline</span>
+          <h3>Staging Currentness Refresh</h3>
           <ul class="staging-fact-list">
-            <li><span>Implementation commit</span><strong>e7df530</strong></li>
-            <li><span>GitHub Pages run</span><strong>27811973984 · Success</strong></li>
-            <li><span>Deployment jobs</span><strong>Validate / Build · Deploy passed</strong></li>
+            <li><span>Implementation commit</span><strong>018c288</strong></li>
+            <li><span>Tracker repair</span><strong>f6f0248</strong></li>
+            <li><span>GitHub Pages run</span><strong>27864954632 · Success</strong></li>
             <li><span>Hosted QA</span><strong>Desktop 1280x720 · Mobile 390x844</strong></li>
           </ul>
         </article>
 
         <article class="staging-command-panel staging-tracker-panel">
           <span class="meta-label">Hosted Deployment Evidence</span>
-          <h3>Validated series now on origin/main</h3>
+          <h3>Latest verified repository series</h3>
           <ul class="staging-fact-list">
-            <li><span>Product-coherence audit</span><strong>c754edc · Hosted docs</strong></li>
-            <li><span>V3.1 contrast restoration</span><strong>e7aeace · PASS / HOSTED</strong></li>
-            <li><span>Staging refresh scope</span><strong>d8d6685 · Hosted docs</strong></li>
-            <li><span>Staging implementation</span><strong>018c288 · PASS / HOSTED</strong></li>
-            <li><span>Tracker-group repair</span><strong>f6f0248 · PASS / HOSTED</strong></li>
+            <li><span>Staging runtime baseline</span><strong>f6f0248 · PASS / HOSTED</strong></li>
+            <li><span>Founder front door</span><strong>cfea555 · PASS / HOSTED</strong></li>
+            <li><span>Public route clarity</span><strong>1c037d2 · Hosted docs</strong></li>
+            <li><span>Public link policy</span><strong>3301fdd · Hosted docs</strong></li>
+            <li><span>Website bug sweep</span><strong>8a79794 · Hosted docs</strong></li>
           </ul>
           <a class="secondary-action" href="#stagingTracker">Review tracker records</a>
         </article>
 
         <article class="staging-command-panel staging-decision-panel">
           <span class="meta-label">Next CEO B Decision</span>
-          <h3>Keep this hosted checkpoint locked—or authorize one new bounded scope.</h3>
-          <p class="staging-panel-note">Deployment verification is complete. No product, workflow, provider, storage, navigation, or Options Hub work is authorized by this record.</p>
+          <h3>Push and hosted-verify this bounded Staging metadata repair.</h3>
+          <p class="staging-panel-note">The runtime remains static/manual and research-only. No provider, live-data, broker, execution, subscription, product, workflow, storage, navigation, or Options Hub work is authorized by this repair.</p>
           <div class="staging-decision-actions">
             <a class="primary-action" href="#stagingTracker">Review Hosted Records</a>
             <a class="secondary-action" href="#/roadmap">Review Roadmap</a>

@@ -2,6 +2,22 @@
 
 ## Current Active Checkpoint
 
+Staging Current Hosted Checkpoint Repair is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Baseline audit commit `8a79794` is on `origin/main` and hosted-verified through GitHub Pages run `27920025039`.
+- `/#/staging` and `/staging` now present `Pickaxe Website Bug Sweep` as the latest hosted repository checkpoint with `PASS · NO P0 ISSUES`.
+- The current hosted fields show audit commit `8a79794` and Pages run `27920025039`.
+- `Staging Currentness Refresh` remains available as the historical runtime-visible app baseline, not the active current checkpoint.
+- Default tracker metadata records the hosted audit and local repair without changing the tracker schema or existing browser-saved LocalStorage behavior.
+- Full automated validation passed.
+- Manual local desktop `1280x720` and mobile `390x844` QA passed across both Staging owner routes and all required regression routes.
+- `/` remains Alerts; `/founder` remains the public Founder front door; `/ai-handoff` remains local-only and hosted `404`.
+- Routes, navigation, bridges, Starlight, LocalStorage contracts, product workflows, providers, execution systems, and `data/signal-alerts.json` remain unchanged.
+
+Next bounded step: `Push and hosted verification for Staging current hosted checkpoint repair`. Do not begin mobile tap-target work before this repair is pushed and hosted verified.
+
+## Previous Active Checkpoint - Pickaxe Public Link Policy Lock
+
 Pickaxe Public Link Policy Lock is **PASS / DOCS-ONLY PUBLIC LINK POLICY LOCK COMPLETE**.
 
 - Canonical policy: `docs/01_PRODUCT/PICKAXE_PUBLIC_LINK_POLICY_LOCK_2026-06-21.md`.

@@ -1,5 +1,31 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Staging Current Hosted Checkpoint Repair
+
+- Date: 2026-06-21.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded Staging owner-renderer and tracker-metadata repair.
+- Baseline commit: `8a79794 Record website bug sweep`.
+- Baseline hosted verification: GitHub Pages run `27920025039` passed Validate and Deploy.
+- Updated the existing `renderStagingAdvanced` first screen so `Staging Currentness Refresh` is no longer presented as the latest hosted checkpoint.
+- Staging now identifies `Pickaxe Website Bug Sweep`, audit commit `8a79794`, Pages run `27920025039`, and `PASS · NO P0 ISSUES` as the latest hosted repository checkpoint.
+- `Staging Currentness Refresh` remains visible only as the historical runtime-visible app baseline with commits `018c288` and `f6f0248` and Pages run `27864954632`.
+- Default Build Completion Tracker metadata now records the hosted bug sweep and this local repair while preserving the existing schema and browser-saved LocalStorage behavior.
+- Manual local desktop `1280x720` and mobile `390x844` QA passed for `/#/staging`, `/staging`, `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/research`, `/#/source-hub`, `/#/archive`, `/#/learning-ledger`, and `/#/ai-habitat-os`.
+- Every checked route loaded the correct nonblank view with zero observed console errors, no document-level horizontal overflow, one visible Starlight canvas, preserved bridge behavior, and relevant safety language.
+- `/` remains Alerts. `/founder` remains the public Founder front door. `/ai-handoff` remains local-only and hosted `404`.
+- Routes, navigation, bridges, Starlight, LocalStorage contracts, packet models, review queues, Archive, Learning Ledger, providers, broker/execution systems, subscriptions, live data, and signal data remain unchanged.
+- `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Next bounded recommendation: `Push and hosted verification for Staging current hosted checkpoint repair`.
+
+### Staging Current Hosted Checkpoint Repair Files Changed
+
+- `public/app.js` and `app.js`
+- `public/habitat-data.js` and `habitat-data.js`
+- `public/index.html` and `index.html` — runtime cache keys only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
 ## Current Checkpoint - Pickaxe Public Link Policy Lock
 
 - Date: 2026-06-21.
