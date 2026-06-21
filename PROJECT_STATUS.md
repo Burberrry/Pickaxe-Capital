@@ -3,8 +3,12 @@
 ## Current Checkpoint - Pickaxe Brand Reset Governance
 
 - Date: 2026-06-21.
-- Result: **PASS / LOCAL DOCS-ONLY GOVERNANCE COMPLETE**.
-- Sprint type: brand simplification, memory hygiene, website reset blueprint, and Starlight signature-system scope.
+- Result: **PASS / HOSTED DOCS VERIFIED**.
+- Sprint type: brand simplification, memory hygiene, website reset blueprint, Starlight signature-system scope, push, and hosted repository verification.
+- Governance commit `63a92db` (`Define Pickaxe brand reset governance`) is on `origin/main`.
+- GitHub Pages run `27888862637` completed successfully for `63a92db`; both `Validate and Build` and `Deploy` passed.
+- GitHub Pages deployment `5137381146` completed successfully at `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted repository verification confirmed all seven governance files match their committed content byte-for-byte.
 - Locked the public project name as `Pickaxe Capital`.
 - Preserved `AI Habitat OS` as the internal intelligence and operating-system layer.
 - Preserved CEO B as the masked symbolic command identity and Founder B as the separately governed human founder layer.
@@ -15,7 +19,8 @@
 - Created a docs-only Starlight V2 signature scope preserving one canvas, reduced motion, hidden-tab lifecycle, performance caps, and route/product behavior.
 - No runtime, route, renderer, navigation, CSS, HTML, JavaScript, LocalStorage, tracker schema, packet model, review queue, product workflow, provider, image, or `data/signal-alerts.json` change was made.
 - Browser QA was not required because no runtime-visible file changed.
-- Recommended next bounded sprint: `Push + hosted docs verification for Pickaxe brand reset governance`.
+- Hosted homepage availability returned `200`; hosted `/ai-handoff` remains a GitHub Pages `404`.
+- Recommended next bounded sprint: `Pickaxe public homepage copy simplification — static front-door scope`.
 
 ### Pickaxe Brand Reset Governance Files Changed
 

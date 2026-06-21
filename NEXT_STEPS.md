@@ -2,8 +2,12 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Brand Reset Governance is **PASS / LOCAL DOCS-ONLY GOVERNANCE COMPLETE**.
+Pickaxe Brand Reset Governance is **PASS / HOSTED DOCS VERIFIED**.
 
+- Governance commit `63a92db` is on `origin/main`.
+- GitHub Pages run `27888862637` passed both Validate and Build and Deploy.
+- GitHub Pages deployment `5137381146` completed successfully.
+- All seven governance files matched their committed content byte-for-byte during hosted repository verification.
 - Public brand: `Pickaxe Capital`.
 - Internal operating system: `AI Habitat OS`.
 - Identity layers: masked symbolic `CEO B` and separately governed human `Founder B`.
@@ -12,9 +16,9 @@ Pickaxe Brand Reset Governance is **PASS / LOCAL DOCS-ONLY GOVERNANCE COMPLETE**
 - Website reset blueprint: `docs/01_PRODUCT/PICKAXE_WEBSITE_RESET_BLUEPRINT.md`.
 - Starlight signature scope: `docs/01_PRODUCT/PICKAXE_STARLIGHT_SIGNATURE_SYSTEM_SCOPE.md`.
 - No runtime, route, renderer, navigation, CSS, HTML, JavaScript, LocalStorage, tracker schema, packet model, review queue, workflow, provider, asset, or `data/signal-alerts.json` change was made.
-- No hosted verification is claimed.
+- Hosted homepage availability returned `200`; hosted `/ai-handoff` remains `404`.
 
-Next bounded step: `Push + hosted docs verification for Pickaxe brand reset governance`. Do not begin homepage implementation in that sprint.
+Next bounded step: `Pickaxe public homepage copy simplification — static front-door scope`. Keep it docs-first; do not change `/`, Alerts ownership, navigation, routes, renderers, storage, or runtime behavior without a separately approved implementation sprint.
 
 ## Previous Active Checkpoint - CEO B Outfit Variant Pack V1
 
