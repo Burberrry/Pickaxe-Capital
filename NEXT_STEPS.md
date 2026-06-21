@@ -2,6 +2,23 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Public Homepage Runtime Implementation Scope is **PASS / DOCS-ONLY RUNTIME SCOPE COMPLETE**.
+
+- Canonical runtime scope: `docs/01_PRODUCT/PICKAXE_PUBLIC_HOMEPAGE_COPY_SIMPLIFICATION_RUNTIME_SCOPE.md`.
+- Verified owner truth: `/` and `#/alerts` remain the canonical Alerts Desk; `#/founder` and `/founder` already own the public Founder landing renderer.
+- Recommended route strategy: Option A, simplify only the existing Founder public route through `renderFounderLandingPage()`.
+- Do not reassign `/`, place marketing content inside Alerts, create a route, duplicate a renderer, or redesign navigation.
+- The future Founder front door should contain Hero, Problem, Solution, Operating Loop, What Pickaxe Does, What Pickaxe Does Not Do, Proof of Work, Private Access / Founder-Led Build, and Final CTA.
+- Reuse the existing Proof of Work carousel. Remove the current pricing/access tiers, simulated request form, future-generator list, and long internal-module inventory from the public route.
+- Safe CTA map: **Enter Research OS** -> `#/alerts`; **View Founder Proof of Work** -> same-page proof section; **Review System Status** -> `#/staging`; **Request Private Access** -> static same-page information only.
+- All current Alerts/V3.1, research, source, archive, learning, Staging, Founder/CEO B, AI Habitat OS, bridge, Starlight, reduced-motion, LocalStorage, mirror, and financial-safety boundaries remain locked.
+- No runtime-visible file or Build Completion Tracker data was changed. Browser QA was not required.
+- `data/signal-alerts.json` remains unchanged.
+
+Next bounded step: CEO B may authorize `Pickaxe public front door simplification — #/founder owner-route-limited runtime implementation`. Limit it to the existing Founder public renderer, route-scoped styles, synchronized mirrors, cache keys, and required status records. Do not change `/`, Alerts, navigation, bridges, storage, Starlight, internal workflows, or assets.
+
+## Previous Active Checkpoint - Pickaxe Public Homepage Copy Simplification Scope
+
 Pickaxe Public Homepage Copy Simplification Scope is **PASS / DOCS-ONLY SCOPE COMPLETE**.
 
 - Canonical scope: `docs/01_PRODUCT/PICKAXE_PUBLIC_HOMEPAGE_COPY_SIMPLIFICATION_SCOPE.md`.

@@ -1,5 +1,29 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Public Homepage Runtime Implementation Scope
+
+- Date: 2026-06-21.
+- Result: **PASS / DOCS-ONLY RUNTIME SCOPE COMPLETE**.
+- Sprint type: bounded implementation planning for the hosted public-homepage copy scope.
+- Starting state: clean synchronized `main` at `f0d9ea4` (`Define public homepage copy scope`).
+- Hosted baseline: GitHub Pages run `27893499854` passed Validate and Build and Deploy; the canonical scope, `PROJECT_STATUS.md`, and `NEXT_STEPS.md` matched hosted repository content byte-for-byte.
+- Created `docs/01_PRODUCT/PICKAXE_PUBLIC_HOMEPAGE_COPY_SIMPLIFICATION_RUNTIME_SCOPE.md`.
+- Audited the active route and renderer truth: `/` and `#/alerts` are the locked Alerts owner through `renderAlertsPage()`; `#/founder` and `/founder` already own the public mode of `renderFounderProfile()` through `renderFounderLandingPage()`.
+- Compared three strategies: simplify the existing Founder route, add public content to Alerts, or reassign `/`.
+- Recommended the lowest-risk strategy: simplify only `#/founder` and `/founder`; preserve `/`, `#/alerts`, `/app/alerts`, navigation, routes, bridges, and the canonical Alerts renderer.
+- Defined the exact future nine-section front door, approved copy blocks, existing-safe CTA destinations, static/manual truth, likely files, blocked files, and desktop/mobile QA matrix.
+- Recommended reusing the existing Founder landing injection point and Proof of Work carousel while removing public-route pricing tiers, the simulated access-request form, future-generator inventory, and long internal-module clutter.
+- Preserved Alerts/V3.1, Research Packet v2, CEO B Review Queue, Source Hub, Archive, Learning Ledger, Research Desk, Finance Terminal, Pickaxe X, Staging, Founder/CEO B route-mode boundaries, AI Habitat OS, direct bridges, Starlight, reduced motion, LocalStorage contracts, mirrors, and `data/signal-alerts.json`.
+- No runtime, route, renderer, navigation, CSS, HTML, JavaScript, LocalStorage, tracker data, packet model, review queue, workflow, provider, image, asset, bridge, server, API, or `data/signal-alerts.json` change was made.
+- Browser QA was not required because no runtime-visible file changed.
+- Next bounded recommendation: `Pickaxe public front door simplification — #/founder owner-route-limited runtime implementation`.
+
+### Pickaxe Public Homepage Runtime Scope Files Changed
+
+- `docs/01_PRODUCT/PICKAXE_PUBLIC_HOMEPAGE_COPY_SIMPLIFICATION_RUNTIME_SCOPE.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
 ## Current Checkpoint - Pickaxe Public Homepage Copy Simplification Scope
 
 - Date: 2026-06-21.
