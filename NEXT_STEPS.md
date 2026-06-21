@@ -2,6 +2,26 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Public Founder Front Door Simplification is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+
+- Owner routes: `#/founder` and `/founder`.
+- Existing owner preserved: public mode of `renderFounderProfile()` through `renderFounderLandingPage()`.
+- Implemented one concise nine-section Pickaxe Capital front door with the approved hero, problem, solution, operating loop, capabilities, exclusions, existing Proof of Work carousel, static private-build boundary, final CTA, and exact compliance line.
+- Removed the rendered pricing tiers, pricing language, request form, simulated request behavior, future-generator inventory, long module wall, speculative access products, and repeated internal route list.
+- Founder-local Proof and Private Access links scroll without changing the hash route. Enter Research OS reaches `#/alerts`; Review System Status reaches `#/staging`.
+- No request workflow, account, payment, subscription, entitlement, provider, email, transmission, or LocalStorage write was added.
+- `/`, `#/alerts`, `/app/alerts`, Alerts/V3.1, navigation, routes, bridges, Starlight, LocalStorage, internal research workflows, CEO B profile mode, assets, tracker data, and `data/signal-alerts.json` remain unchanged.
+- Full automated validation passed.
+- Desktop `1280x720` and mobile `390x844` QA passed across all 13 required routes with correct active views, nonblank content, one Starlight canvas, zero console errors, and no horizontal overflow.
+- Founder QA passed for section order, approved copy, four badges, responsive loop, removed clutter, carousel behavior, CTA destinations, and compliance visibility.
+- Alerts regression passed for canonical ownership, initial V3.1 singleton placement, QQQ synchronization, functional CEO B Review Queue, and no visible Founder content.
+- Cache key: `founder-front-door-20260621-v2`.
+- `data/signal-alerts.json` retains SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+
+Next bounded step: CEO B may authorize `Pickaxe public Founder front door simplification — push and hosted verification only`. Do not combine deployment with route, navigation, Alerts, Starlight, storage, provider, access, asset, or additional public-shell work.
+
+## Previous Active Checkpoint - Pickaxe Public Homepage Runtime Implementation Scope
+
 Pickaxe Public Homepage Runtime Implementation Scope is **PASS / DOCS-ONLY RUNTIME SCOPE COMPLETE**.
 
 - Canonical runtime scope: `docs/01_PRODUCT/PICKAXE_PUBLIC_HOMEPAGE_COPY_SIMPLIFICATION_RUNTIME_SCOPE.md`.

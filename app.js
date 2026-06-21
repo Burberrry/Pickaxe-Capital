@@ -917,6 +917,14 @@ window.addEventListener("hashchange", openRequestedView);
 
 // Global Link Click Interceptor for GitHub Pages / Static Subdirectories compatibility
 document.addEventListener("click", (event) => {
+  const founderScrollLink = event.target.closest("[data-founder-scroll]");
+  if (founderScrollLink) {
+    event.preventDefault();
+    const target = document.querySelector(founderScrollLink.dataset.founderScroll);
+    target?.scrollIntoView({ block: "start" });
+    return;
+  }
+
   const alertSelectButton = event.target.closest("[data-alert-select]");
   if (alertSelectButton) {
     event.preventDefault();
@@ -13359,122 +13367,122 @@ window.moveProofOfWorkCarousel = (direction) => {
 };
 
 function renderFounderLandingPage() {
-  const heroChips = ["Research Only", "Source Verified Workflow", "CEO B Manual Review", "No Broker Execution", "Static Prototype"];
-  const actions = [
-    ["Capture", "Collect ideas, tickers, sources, screenshots, bookmarks, notes, and market observations into one operating system."],
-    ["Verify", "Route source material through Source Hub before it influences research, watchlists, archive, or alerts."],
-    ["Build", "Turn messy information into structured research packets, investment maps, watch criteria, and CEO B review queues."],
-    ["Decide", "Keep final decisions manual, calm, documented, and separated from broker execution."]
+  const heroBadges = ["Research Only", "Source Verified", "CEO B Reviewed", "No Broker Execution"];
+  const operatingLoop = ["Capture", "Verify", "Analyze", "Risk Check", "CEO B Review", "Archive", "Learn"];
+  const capabilities = [
+    ["Options Alert Candidates", "Static/manual candidates organized for source, liquidity, event-risk, and CEO B review. Options involve substantial risk."],
+    ["Source Verification", "Provenance, freshness, evidence quality, and unresolved-source states remain visible."],
+    ["Research Packets", "Structured thesis, counter-thesis, risk, missing evidence, and manual decision context."],
+    ["Market Command Center", "An internal view of research status, review gates, and next manual actions."],
+    ["AI Habitat OS", "The internal system connecting research, source checks, risk controls, memory, and CEO B review."],
+    ["Archive / Learning Ledger", "Packet lineage and unverified lesson candidates preserved for later human review."],
+    ["Visual Intelligence", "Clear static/manual research visuals built from approved, labeled evidence."],
+    ["Manual CEO B Review", "The final human decision layer before any research output moves forward."]
   ];
-  const modules = [
-    ["00 Alerts Desk", "Options research review queue for static/manual candidate packets.", "#/alerts"],
-    ["01 Mission Control", "Operating overview for review queues, source health, archive memory, and next actions.", "#/dashboard"],
-    ["06 Source Hub", "Trust cockpit for source verification, lineage, privacy boundaries, and route handoffs.", "#/source-hub"],
-    ["10 Archive Vault", "Cleaned source-linked memory vault for research, lessons, and reviewed intelligence.", "#/archive"],
-    ["15 Watchlists", "Research universe organized by ticker, theme, priority, and review status.", "#/watchlists"],
-    ["19 Research Desk", "Implemented local workflow for building structured research packets and reusable research maps.", "#/research"]
+  const exclusions = [
+    "No financial advice",
+    "No brokerage",
+    "No exchange services",
+    "No custody",
+    "No execution",
+    "No guaranteed performance",
+    "No autonomous trading",
+    "No copy-trading",
+    "No personalized buy/sell commands",
+    "No signal-selling or AI trading bot framing"
   ];
-  const tiers = [
-    {
-      label: "Founder Preview",
-      price: "Application only",
-      cta: "Request Preview",
-      items: ["private OS walkthrough", "Alerts Desk preview", "Source Hub preview", "static research packet examples", "feedback loop with B"]
-    },
-    {
-      label: "Private Research OS",
-      price: "Pricing under review",
-      cta: "Join Access List",
-      featured: true,
-      items: ["private cockpit access", "research packet workflow", "watchlist organization", "source-verification workflow", "archive memory workflow", "manual review process"]
-    },
-    {
-      label: "Founder’s Edition",
-      price: "Limited / application only",
-      cta: "Apply for Founder’s Edition",
-      items: ["priority onboarding", "personalized research OS setup", "private workflow mapping", "custom watchlist structure", "research generator planning", "advanced source/archive workflow"]
-    }
-  ];
-  const builtFor = ["founder-led traders", "research-heavy investors", "market operators", "analysts who save too much information", "people who need source discipline", "users who want a private research cockpit, not another noisy dashboard"];
-  const differences = ["Research-first, not execution-first", "Source verification before decisions", "Manual CEO B review gate", "Archive memory that compounds", "Watchlists as research shelves", "Future research generators", "No fake live-data theater"];
-  const generators = ["Company Investment Map", "13F Ownership Map", "Insider Activity Map", "Supply Chain Map", "AI Exposure Map", "Catalyst Map", "Options Flow Map", "Smart Money Map", "Market Regime Map"];
 
   return `
-    <div class="access-page-shell">
-      <section class="access-hero" aria-labelledby="accessHeroTitle">
-        <div class="access-hero-copy">
-          <p class="access-kicker">Private Founder Intelligence Desk</p>
-          <h2 id="accessHeroTitle">Pickaxe Capital</h2>
-          <h3>Private Market Research OS for Founder-Led Decision Making</h3>
-          <p>Capture market information, verify sources, build research packets, organize intelligence, and route every decision through a calm manual review process.</p>
+    <div class="access-page-shell founder-front-door" data-founder-front-door="true">
+      <section class="access-hero founder-front-door-hero" data-front-door-section="hero" aria-labelledby="accessHeroTitle">
+        <div class="access-hero-copy founder-front-door-hero-copy">
+          <p class="access-kicker">Pickaxe Capital</p>
+          <h2 id="accessHeroTitle">Market intelligence, verified before it becomes action.</h2>
+          <p class="founder-front-door-lede">Pickaxe Capital organizes research, sources, risk checks, and AI-assisted market workflows into one founder-led intelligence system — with CEO B review before anything moves forward.</p>
           <div class="access-hero-actions">
-            <a class="primary-action" href="#pickaxeAccessRequest">Request Private Access</a>
-            <a class="secondary-action" href="#/dashboard">View Research OS</a>
+            <a class="primary-action" href="#/alerts">Enter Research OS</a>
+            <a class="secondary-action" href="#proofOfWorkTitle" data-founder-scroll="#proofOfWorkTitle">View Founder Proof of Work</a>
           </div>
-          <div class="access-chip-row">${heroChips.map((chip) => `<span>${escapeHtml(chip)}</span>`).join("")}</div>
+          <div class="access-chip-row founder-front-door-badges" aria-label="Pickaxe trust boundaries">
+            ${heroBadges.map((badge) => `<span>${escapeHtml(badge)}</span>`).join("")}
+          </div>
+          <p class="founder-front-door-state">Demo/Static Data. Manual Review Required. No Broker Execution.</p>
         </div>
-        <aside class="access-product-preview" aria-label="Pickaxe static product preview">
-          <div class="access-preview-top">
-            <span>CEO B Review Queue</span>
-            <strong>Static Prototype</strong>
-          </div>
-          <div class="access-preview-card strong">
-            <small>Research Packet</small>
-            <b>Source-verified watch criteria</b>
-            <p>No broker connection. No account linking. Manual review only.</p>
-          </div>
-          <div class="access-preview-grid">
-            <span><small>Source Hub</small><strong>Verification required</strong></span>
-            <span><small>Risk Gate</small><strong>Manual boundary</strong></span>
-            <span><small>Archive</small><strong>Cleaned memory</strong></span>
-            <span><small>Watchlists</small><strong>Research shelves</strong></span>
+        <aside class="founder-front-door-trust" aria-label="Pickaxe review doctrine">
+          <p class="access-kicker">Evidence Before Output</p>
+          <strong>Source checks and risk gates can stop a packet.</strong>
+          <p>CEO B remains the final human review layer. No live provider, brokerage, execution, or autonomous publication is connected.</p>
+          <div class="founder-front-door-trust-grid">
+            <span><small>Sources</small><b>Verification required</b></span>
+            <span><small>Risk</small><b>Hard blocks preserved</b></span>
+            <span><small>Review</small><b>Manual CEO B gate</b></span>
+            <span><small>Output</small><b>Research only</b></span>
           </div>
         </aside>
       </section>
 
-      <section class="access-section">
+      <section class="access-section founder-front-door-narrative" data-front-door-section="problem">
         <div class="access-section-head">
-          <p class="access-kicker">Operating Discipline</p>
-          <h2>What Pickaxe Does</h2>
-        </div>
-        <div class="access-card-grid four-up">
-          ${actions.map(([title, copy]) => `<article class="access-card"><span>${escapeHtml(title)}</span><p>${escapeHtml(copy)}</p></article>`).join("")}
+          <p class="access-kicker">The Problem</p>
+          <h2>Markets move faster than fragmented tools can explain.</h2>
+          <p>Charts, filings, news, options flow, watchlists, social sentiment, and screenshots live across too many places. Pickaxe Capital is being built to turn that chaos into structured research packets.</p>
         </div>
       </section>
 
-      <section class="access-section access-loop-section">
+      <section class="access-section founder-front-door-narrative founder-front-door-solution" data-front-door-section="solution">
         <div class="access-section-head">
-          <p class="access-kicker">Decision Workflow</p>
-          <h2>The Pickaxe Operating Loop</h2>
-          <p>Pickaxe is designed to reduce information chaos. The system does not replace judgment. It organizes evidence so CEO B can review better.</p>
-        </div>
-        <div class="access-loop">
-          ${["Capture", "Classify", "Source Verify", "Research Packet", "Risk Gate", "CEO B Review", "Archive / Watchlist / Reject", "Learn"].map((step) => `<span>${escapeHtml(step)}</span>`).join("")}
+          <p class="access-kicker">The Solution</p>
+          <h2>The system does not chase signals. It builds evidence.</h2>
+          <p>Pickaxe Capital organizes market research into source-verified, risk-reviewed, CEO B-reviewed intelligence. The result is a clearer research record for a better manual decision, not a trade command.</p>
         </div>
       </section>
 
-      <section class="access-section">
+      <section class="access-section access-loop-section founder-front-door-loop-section" data-front-door-section="operating-loop">
         <div class="access-section-head">
-          <p class="access-kicker">Private OS Modules</p>
-          <h2>Inside the Private OS</h2>
+          <p class="access-kicker">Operating Loop</p>
+          <h2>One research loop. Every gate visible.</h2>
+          <p>Sources must be checked. Risk can block the packet. CEO B remains the final human review layer. Archived lessons cannot change the system on their own.</p>
         </div>
-        <div class="access-card-grid modules">
-          ${modules.map(([title, copy, route]) => `
-            <article class="access-card module-card">
+        <div class="access-loop founder-front-door-loop" aria-label="Capture, Verify, Analyze, Risk Check, CEO B Review, Archive, Learn">
+          ${operatingLoop.map((step, index) => `
+            <span><b>${String(index + 1).padStart(2, "0")}</b>${escapeHtml(step)}</span>
+          `).join("")}
+        </div>
+      </section>
+
+      <section class="access-section founder-front-door-capabilities" data-front-door-section="what-pickaxe-does">
+        <div class="access-section-head">
+          <p class="access-kicker">What Pickaxe Does</p>
+          <h2>Research infrastructure for disciplined market decisions.</h2>
+          <p>Current capabilities are static/manual and research-only. No live provider or autonomous agent workflow is implied.</p>
+        </div>
+        <div class="founder-front-door-card-grid">
+          ${capabilities.map(([title, copy]) => `
+            <article class="founder-front-door-card">
               <span>${escapeHtml(title)}</span>
               <p>${escapeHtml(copy)}</p>
-              <a href="${escapeHtml(route)}">Open module</a>
             </article>
           `).join("")}
         </div>
       </section>
 
-      <section class="access-section proof-work-section" aria-labelledby="proofOfWorkTitle">
+      <section class="access-section founder-front-door-exclusions" data-front-door-section="what-pickaxe-does-not-do">
+        <div class="access-section-head">
+          <p class="access-kicker">What Pickaxe Does Not Do</p>
+          <h2>Built for research. Not execution.</h2>
+          <p>Pickaxe Capital is not a broker, exchange, custodian, investment adviser, signal-selling platform, or execution platform.</p>
+        </div>
+        <div class="founder-front-door-exclusion-grid">
+          ${exclusions.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+        </div>
+      </section>
+
+      <section class="access-section proof-work-section founder-front-door-proof" data-front-door-section="proof-of-work" aria-labelledby="proofOfWorkTitle">
         <div class="proof-work-heading">
           <div class="access-section-head">
             <p class="access-kicker">Verified Internal Milestones</p>
-            <h2 id="proofOfWorkTitle">Proof of Work</h2>
-            <p>Proof cards reflect verified internal build milestones, not customer endorsements or performance claims.</p>
+            <h2 id="proofOfWorkTitle">Show the system. Verify the work.</h2>
+            <p>Proof of Work represents verified internal build milestones, not endorsements, returns, accuracy, profit, customer scale, or track-record proof.</p>
           </div>
           <div class="proof-work-controls" aria-label="Proof of Work carousel controls">
             <span id="proofOfWorkCount" aria-live="polite">${proofOfWorkCountLabel()}</span>
@@ -13485,104 +13493,42 @@ function renderFounderLandingPage() {
         <div id="proofOfWorkCards" class="proof-work-grid" aria-live="polite">
           ${renderProofOfWorkCards()}
         </div>
-        <p class="proof-work-truth">Research only. Manual review required. Source verification needed. No broker execution. No fake live data.</p>
+        <p class="proof-work-truth">Build evidence only. Research Only. Manual Review Required. No performance claims. No Broker Execution.</p>
       </section>
 
-      <section class="access-section">
+      <section id="privateAccess" class="access-section founder-front-door-private" data-front-door-section="private-access">
         <div class="access-section-head">
-          <p class="access-kicker">Planning Concepts</p>
-          <h2>Private Access Options</h2>
-          <p>These are early access concepts for planning and review. There is no checkout, payment processing, or account creation in this static prototype.</p>
+          <p class="access-kicker">Private Access / Founder-Led Build</p>
+          <h2>Private first. Disciplined by design.</h2>
+          <p>Pickaxe Capital is being built as a private, founder-led research OS first. The priority is to improve research quality, strengthen risk discipline, preserve evidence, and keep the final decision human.</p>
         </div>
-        <div class="access-tier-grid">
-          ${tiers.map((tier) => `
-            <article class="access-tier-card${tier.featured ? " featured" : ""}">
-              <span>${escapeHtml(tier.label)}</span>
-              <strong>${escapeHtml(tier.price)}</strong>
-              <ul>${tier.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-              <a href="#pickaxeAccessRequest">${escapeHtml(tier.cta)}</a>
-            </article>
-          `).join("")}
+        <div class="founder-front-door-private-grid">
+          <span>No request workflow connected</span>
+          <span>No account system connected</span>
+          <span>No payment connected</span>
+          <span>No subscription connected</span>
+          <span>No entitlement system connected</span>
+          <span>No form submitted or transmitted</span>
         </div>
       </section>
 
-      <section class="access-section">
+      <section class="access-section founder-front-door-final" data-front-door-section="final-cta">
         <div class="access-section-head">
-          <p class="access-kicker">Audience</p>
-          <h2>Built For</h2>
+          <p class="access-kicker">Enter The Research System</p>
+          <h2>Enter the research system behind Pickaxe Capital.</h2>
+          <p>Explore the static/manual research environment, review verified proof of work, and see how source, risk, and CEO B gates shape every packet.</p>
         </div>
-        <div class="access-tag-grid">${builtFor.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+        <div class="founder-front-door-final-actions">
+          <a class="primary-action" href="#/alerts">Enter Research OS</a>
+          <a class="secondary-action" href="#proofOfWorkTitle" data-founder-scroll="#proofOfWorkTitle">View Founder Proof of Work</a>
+          <a class="secondary-action" href="#/staging">Review System Status</a>
+          <a class="secondary-action" href="#privateAccess" data-founder-scroll="#privateAccess">Request Private Access</a>
+        </div>
+        <p class="founder-front-door-compliance">Research only. Not financial advice. Pickaxe Capital is not a broker-dealer, investment adviser, exchange, custodian, or execution platform. Options involve substantial risk. All alert candidates require source verification and CEO B manual review.</p>
       </section>
-
-      <section class="access-section">
-        <div class="access-section-head">
-          <p class="access-kicker">Positioning</p>
-          <h2>Why Pickaxe Is Different</h2>
-        </div>
-        <div class="access-card-grid difference-grid">
-          ${differences.map((item) => `<article class="access-card compact"><span>${escapeHtml(item)}</span></article>`).join("")}
-        </div>
-      </section>
-
-      <section class="access-section">
-        <div class="access-section-head">
-          <p class="access-kicker">Future Concept / Source Verification Required</p>
-          <h2>Future Research Generators</h2>
-          <p>Pickaxe is designed to turn one-off research images and AI prompts into reusable ticker-based research tools.</p>
-        </div>
-        <div class="access-generator-grid">${generators.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
-      </section>
-
-      <section class="access-safety-band">
-        <div>
-          <p class="access-kicker">Research Boundary</p>
-          <h2>Visible Safety Boundary</h2>
-        </div>
-        <p>Pickaxe Capital OS is a research and organization platform. It is not a broker, bank, registered investment adviser, or financial adviser. It does not execute trades, provide individualized investment advice, guarantee returns, or connect to brokerage accounts. All decisions remain manual and user-controlled.</p>
-        <strong>No broker execution. No auto-trading. No copy-trading. No guaranteed signals. No fake live data.</strong>
-      </section>
-
-      <section id="pickaxeAccessRequest" class="access-section access-request-section">
-        <div class="access-section-head">
-          <p class="access-kicker">Private Intake</p>
-          <h2>Request Private Access</h2>
-          <p>Static prototype. No request is transmitted yet. Use this card to prepare the access request shape for future review.</p>
-        </div>
-        <div class="access-request-card">
-          <label>Name<input type="text" placeholder="Your name" autocomplete="off" /></label>
-          <label>Email<input type="email" placeholder="you@example.com" autocomplete="off" /></label>
-          <label>Role<input type="text" placeholder="Founder, operator, analyst..." autocomplete="off" /></label>
-          <label>What do you want Pickaxe to help organize?<textarea placeholder="Sources, watchlists, research packets, archive memory..." rows="4"></textarea></label>
-          <label>Access interest<select><option>Founder Preview</option><option>Private Research OS</option><option>Founder’s Edition</option></select></label>
-          <button type="button" onclick="window.preparePickaxeAccessRequest?.()">Prepare Access Request</button>
-          <p id="pickaxeAccessNote">Static prototype. No request is transmitted yet.</p>
-        </div>
-      </section>
-
-      <footer class="access-footer">
-        <div>
-          <strong>Pickaxe Capital</strong>
-          <span>AI Habitat OS</span>
-          <small>Research-only disclosure / No broker execution / No investment advice / CEO B manual review</small>
-        </div>
-        <nav aria-label="Pickaxe internal OS links">
-          <a href="#/alerts">Alerts Desk</a>
-          <a href="#/dashboard">Mission Control</a>
-          <a href="#/source-hub">Source Hub</a>
-          <a href="#/archive">Archive</a>
-          <a href="#/watchlists">Watchlists</a>
-          <a href="#/roadmap">Roadmap</a>
-        </nav>
-      </footer>
     </div>
   `;
 }
-
-window.preparePickaxeAccessRequest = () => {
-  const note = document.querySelector("#pickaxeAccessNote");
-  if (note) note.textContent = "Access request prepared locally. Static prototype: nothing was transmitted.";
-  showNotification("Access request prepared locally. No request was transmitted.");
-};
 
 function renderFounderTrait(title, detail, icon) {
   return `

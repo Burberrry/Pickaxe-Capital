@@ -1,5 +1,37 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Public Founder Front Door Simplification
+
+- Date: 2026-06-21.
+- Result: **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+- Sprint type: bounded owner-route-limited runtime implementation on `#/founder` and `/founder`.
+- Starting state: clean synchronized `main` at hosted scope commit `bd93728`; GitHub Pages run `27893827487` had passed Validate and Build and Deploy.
+- Replaced only the public-mode output of the existing `renderFounderLandingPage()` owner with one concise nine-section Pickaxe Capital front door.
+- The implemented order is Hero, Problem, Solution, Operating Loop, What Pickaxe Does, What Pickaxe Does Not Do, Proof of Work, Private Access / Founder-Led Build, and Final CTA.
+- Added the approved headline, subheadline, four trust badges, static/manual state label, seven-stage operating loop, eight concise capability cards, ten explicit exclusions, static private-build boundaries, and exact compliance line.
+- Reused the existing Proof of Work data, card renderer, and carousel. No proof data, tracker schema, customer claim, performance claim, accuracy claim, return claim, profit claim, scale claim, AUM claim, or institutional-client claim was added.
+- Removed the rendered pricing/access tiers, pricing language, static request form, local request preparation behavior, future-generator inventory, long internal-module inventory, speculative access products, and repeated internal route list.
+- Founder-local Proof of Work and Private Access links now use a narrowly scoped scroll branch in the existing click interceptor, preventing the hash router from leaving the Founder route.
+- `Enter Research OS` reaches `#/alerts`; `Review System Status` reaches `#/staging`; Founder-local CTAs scroll only and do not transmit, store, authenticate, create accounts, create entitlements, join a list, or write LocalStorage.
+- Updated synchronized app/style cache keys to `founder-front-door-20260621-v2`.
+- `/`, `#/alerts`, `/app/alerts`, route mapping, navigation, direct-path bridges, CEO B profile command mode, Starlight code, LocalStorage contracts, Research Packet v2, Source Hub, Research Desk, Finance Terminal, Pickaxe X, Archive, Learning Ledger, Staging, AI Habitat OS, and `data/signal-alerts.json` remain unchanged.
+- Automated validation passed: build, project check, Phase 1.5 check, agent check, mirror check, route smoke, JavaScript syntax checks, and `git diff --check`.
+- Local desktop `1280x720` and mobile `390x844` QA passed for `/`, `#/alerts`, `/app/alerts`, `#/founder`, `/founder`, `#/ceo-b-profile`, `/ceo-b-profile`, `#/research`, `#/source-hub`, `#/archive`, `#/learning-ledger`, `#/ai-habitat-os`, and `#/staging`.
+- Every required route loaded the correct nonblank view with one Starlight canvas, zero console errors, and no document-level horizontal overflow.
+- Founder QA confirmed one visible public front door, exactly nine sections in order, four badges, required copy, no pricing/form/generator/module-wall content, working carousel, safe CTA behavior, public-mode ownership, and visible compliance.
+- Alerts regression QA confirmed one canonical Alerts container, one initial V3.1 mission-control card, one initial detailed Signals card, synchronized QQQ candidate labels, a functional four-packet CEO B Review Queue, and no visible Founder front door.
+- Browser navigation and CTA checks added no LocalStorage keys and removed none.
+- `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Next bounded recommendation: `Pickaxe public Founder front door simplification — push and hosted verification only`.
+
+### Pickaxe Public Founder Front Door Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html` — app/style cache keys only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
 ## Current Checkpoint - Pickaxe Public Homepage Runtime Implementation Scope
 
 - Date: 2026-06-21.
