@@ -2,6 +2,23 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Public Route Clarity Audit is **PASS / DOCS-ONLY ROUTE CLARITY AUDIT COMPLETE**.
+
+- Canonical audit: `docs/01_PRODUCT/PICKAXE_PUBLIC_ROUTE_CLARITY_AUDIT_2026-06-21.md`.
+- Baseline commits: `cfea555`, `1383ea5`, and `0438566`.
+- Latest hosted documentation verification: GitHub Pages run `27916220101`.
+- Hosted desktop `1280x720` and mobile `390x844` review covered all 13 required routes with the correct nonblank view, zero observed console errors, no document-level horizontal overflow, and one visible Starlight field/canvas.
+- Strategy winner: keep `/` as Alerts and use `/founder` as the public link everywhere outside the app, scored `962/1000`.
+- Public arrival model: `/` remains the operational Alerts entry; `/founder` remains the canonical public story and share URL; visitors enter the Research OS intentionally from Founder.
+- Public-link policy: public profiles, decks, investor/partner introductions, press references, and general brand sharing should point to `/founder`; direct Alerts links remain operational or product-review links.
+- No new route, bridge, navigation concept, or root discovery UI is recommended now.
+- No runtime, route, navigation, bridge, Starlight, LocalStorage, asset, tracker, provider, access, package, workflow, or `data/signal-alerts.json` change was made.
+- `data/signal-alerts.json` remains at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+
+Next bounded step: `Pickaxe public link policy lock — docs-only`. Do not start it automatically. It must formalize public versus operational URL use without changing runtime, routes, navigation, Alerts, Founder copy, bridges, Starlight, LocalStorage, assets, tracker data, providers, access flows, packages, workflows, or `data/signal-alerts.json`.
+
+## Previous Active Checkpoint - Pickaxe Public Front Door Visual Polish Audit
+
 Pickaxe Public Front Door Visual Polish Audit is **PASS / DOCS-ONLY VISUAL POLISH AUDIT COMPLETE**.
 
 - Canonical audit: `docs/01_PRODUCT/PICKAXE_PUBLIC_FRONT_DOOR_VISUAL_POLISH_AUDIT_2026-06-21.md`.
@@ -16,8 +33,6 @@ Pickaxe Public Front Door Visual Polish Audit is **PASS / DOCS-ONLY VISUAL POLIS
 - Ranked winner: `/` versus `/founder` public-route clarity audit at `958/1000`.
 - No runtime, route, navigation, bridge, Starlight, LocalStorage, asset, tracker, provider, access, workflow, package, or `data/signal-alerts.json` change was made.
 - `data/signal-alerts.json` remains at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
-
-Next bounded step: `Pickaxe public route clarity audit — docs-only`. Do not start it automatically. The audit must preserve `/` as Alerts and must not edit routes, navigation, bridges, runtime, CSS, copy, Starlight, storage, providers, access workflows, assets, tracker data, or `data/signal-alerts.json`.
 
 ## Previous Active Checkpoint - Pickaxe Public Founder Front Door Simplification
 

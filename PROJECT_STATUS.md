@@ -1,5 +1,23 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Public Route Clarity Audit
+
+- Date: 2026-06-21.
+- Result: **PASS / DOCS-ONLY ROUTE CLARITY AUDIT COMPLETE**.
+- Sprint type: docs-only public route/discovery governance audit.
+- Baseline commits: `cfea555`, `1383ea5`, and `0438566`.
+- Latest hosted documentation verification: GitHub Pages run `27916220101`.
+- Canonical audit: `docs/01_PRODUCT/PICKAXE_PUBLIC_ROUTE_CLARITY_AUDIT_2026-06-21.md`.
+- Audited hosted desktop `1280x720` and mobile `390x844` routes: `/`, `/#/alerts`, `/app/alerts`, `/#/founder`, `/founder`, `/#/ceo-b-profile`, `/ceo-b-profile`, `/#/research`, `/#/source-hub`, `/#/archive`, `/#/learning-ledger`, `/#/ai-habitat-os`, and `/#/staging`.
+- Every audited route loaded the correct nonblank active view with zero observed console errors, no document-level horizontal overflow, and one visible Starlight field/canvas.
+- Strategy winner: keep `/` as Alerts and use `/founder` as the public link everywhere outside the app, scored `962/1000`.
+- Recommended public arrival model: dual entry with one public canonical—`/` remains the operational Alerts entry; `/founder` remains the public story and share URL; the existing Founder CTA provides intentional entry to the Research OS.
+- Recommended public-link policy: outward-facing links for first-time visitors point to `/founder`; operational and product-review links may point directly to Alerts.
+- Recommended next bounded sprint: `Pickaxe public link policy lock — docs-only`.
+- No runtime file changed. `/` remains Alerts and `/founder` remains the public Founder front door.
+- Routes, navigation, bridges, Starlight, LocalStorage, assets, tracker data, providers, access workflows, packages, and workflows remain unchanged.
+- `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+
 ## Current Checkpoint - Pickaxe Public Front Door Visual Polish Audit
 
 - Date: 2026-06-21.
