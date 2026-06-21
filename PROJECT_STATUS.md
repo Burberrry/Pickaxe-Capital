@@ -1,5 +1,29 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Public Homepage Copy Simplification Scope
+
+- Date: 2026-06-21.
+- Result: **PASS / DOCS-ONLY SCOPE COMPLETE**.
+- Sprint type: bounded public-homepage copy and structure definition.
+- Starting state: clean synchronized `main` at record commit `a0a5f63`, with governance commit `63a92db` already on `origin/main`.
+- Created `docs/01_PRODUCT/PICKAXE_PUBLIC_HOMEPAGE_COPY_SIMPLIFICATION_SCOPE.md` as the canonical future front-door copy contract.
+- Defined the current first-impression problem, future homepage goal, and the public/internal split between Pickaxe Capital, AI Habitat OS, CEO B, and Founder B.
+- Defined nine recommended homepage sections: Hero, Problem, Solution, Operating Loop, What Pickaxe Does, What Pickaxe Does Not Do, Proof of Work, Private Access / Founder-Led Build, and Final Call to Action.
+- Added a complete concise copy draft led by `Market intelligence, verified before it becomes action.`
+- Preserved research-only, source-verification, risk-review, CEO B manual-review, options-risk, no-advice, and no-broker-execution language.
+- Defined proof of work as verified build, validation, deployment, and product-state evidence rather than customer, scale, performance, profit, accuracy, or track-record claims.
+- Explicitly recorded that `/` is currently the canonical Alerts homepage and that any future separate public front door requires a CEO B-approved route-owner and active-renderer decision.
+- Preserved `#/alerts`, `/app/alerts`, every existing route and bridge, Starlight, V3.1, Phase 9A, Phase 9B, Research, Source Hub, Archive, Learning Ledger, Staging, Founder, CEO B Profile, AI Habitat OS, LocalStorage contracts, root/public mirrors, and `data/signal-alerts.json`.
+- No runtime, route, renderer, navigation, CSS, HTML, JavaScript, LocalStorage, tracker schema, packet model, review queue, workflow, provider, image, asset, Build Completion Tracker data, or `data/signal-alerts.json` change was made.
+- Browser QA was not required because no runtime-visible file changed.
+- Next bounded recommendation: CEO B review and lock the copy, then separately authorize `Pickaxe public homepage static front-door implementation — route-owner decision required`.
+
+### Pickaxe Public Homepage Copy Simplification Files Changed
+
+- `docs/01_PRODUCT/PICKAXE_PUBLIC_HOMEPAGE_COPY_SIMPLIFICATION_SCOPE.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
 ## Current Checkpoint - Pickaxe Brand Reset Governance
 
 - Date: 2026-06-21.

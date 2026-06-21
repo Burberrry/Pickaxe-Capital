@@ -2,6 +2,23 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Public Homepage Copy Simplification Scope is **PASS / DOCS-ONLY SCOPE COMPLETE**.
+
+- Canonical scope: `docs/01_PRODUCT/PICKAXE_PUBLIC_HOMEPAGE_COPY_SIMPLIFICATION_SCOPE.md`.
+- Defined one simpler public Pickaxe Capital front door before the deeper AI Habitat OS.
+- Defined the public/internal identity split: Pickaxe Capital, AI Habitat OS, symbolic command identity CEO B, and separately governed human Founder B.
+- Defined the future section order: Hero, Problem, Solution, Operating Loop, What Pickaxe Does, What Pickaxe Does Not Do, Proof of Work, Private Access / Founder-Led Build, and Final Call to Action.
+- Added a complete public-readable copy draft with concise institutional language and required research, source, risk, CEO B review, options-risk, and no-execution boundaries.
+- Proof of work is limited to verifiable build and operating evidence; no customer, performance, profit, accuracy, scale, or track-record claim is authorized.
+- Current `/` and `#/alerts` ownership remains unchanged. The scope does not authorize implementation, navigation changes, route changes, renderer changes, or CTA workflows.
+- All existing routes, direct-path bridges, Starlight, Alerts/V3.1 singleton behavior, Research, Source Hub, Archive, Learning Ledger, Staging, Founder, CEO B Profile, AI Habitat OS, LocalStorage contracts, mirrors, and `data/signal-alerts.json` remain unchanged.
+- Build Completion Tracker data was not updated because its default metadata is a runtime-visible file outside this docs-only scope.
+- Browser QA was not required because no runtime-visible file changed.
+
+Next bounded step: CEO B should review and lock the canonical copy. After approval, CEO B may separately authorize `Pickaxe public homepage static front-door implementation — route-owner decision required`, with the `/` owner, active renderer, CTA destinations, exact files, and desktop/mobile QA matrix named in advance. Do not implement automatically.
+
+## Previous Active Checkpoint - Pickaxe Brand Reset Governance
+
 Pickaxe Brand Reset Governance is **PASS / HOSTED DOCS VERIFIED**.
 
 - Governance commit `63a92db` is on `origin/main`.
