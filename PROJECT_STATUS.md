@@ -1,5 +1,23 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Public Link Policy Lock
+
+- Date: 2026-06-21.
+- Result: **PASS / DOCS-ONLY PUBLIC LINK POLICY LOCK COMPLETE**.
+- Sprint type: docs-only public URL policy governance lock.
+- Baseline commit: `1c037d2 Audit public route clarity`.
+- Latest hosted documentation verification: GitHub Pages run `27917464169`.
+- Canonical policy: `docs/01_PRODUCT/PICKAXE_PUBLIC_LINK_POLICY_LOCK_2026-06-21.md`.
+- Canonical public URL: `/founder`.
+- Operational URLs: `/`, `/#/alerts`, and `/app/alerts`.
+- Public-link policy: public profiles, investor/partner/collaborator introductions, public decks and documents, media references, QR codes, campaigns, portfolio/proof-of-work sharing, and first-time visitor links use `/founder`.
+- Operational-link policy: CEO B bookmarks, direct Research OS access, Alerts QA, informed demos, internal product review, Alerts-focused technical review, and Founder-to-Research-OS links may use the operational URLs.
+- `/ceo-b-profile` and `/#/ai-habitat-os` are subject-specific internal surfaces, not the public brand homepage. `/ai-handoff` remains local-only and must not be published.
+- Next bounded recommendation: `Pickaxe public profile and README link alignment — docs-only`.
+- No runtime file changed. `/` remains Alerts and `/founder` remains the public Founder front door.
+- Routes, navigation, bridges, Starlight, LocalStorage, assets, tracker data, providers, access workflows, packages, and workflows remain unchanged.
+- `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+
 ## Current Checkpoint - Pickaxe Public Route Clarity Audit
 
 - Date: 2026-06-21.

@@ -2,6 +2,24 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Public Link Policy Lock is **PASS / DOCS-ONLY PUBLIC LINK POLICY LOCK COMPLETE**.
+
+- Canonical policy: `docs/01_PRODUCT/PICKAXE_PUBLIC_LINK_POLICY_LOCK_2026-06-21.md`.
+- Baseline commit: `1c037d2 Audit public route clarity`.
+- Latest hosted documentation verification: GitHub Pages run `27917464169`.
+- Canonical public URL: `/founder`.
+- Operational URLs: `/`, `/#/alerts`, and `/app/alerts`.
+- Use `/founder` for public profiles, investor/partner/collaborator introductions, public decks and documents, media references, QR codes, campaigns, portfolio/proof-of-work sharing, first-time visitors, and general Pickaxe Capital introductions.
+- Use operational URLs for CEO B bookmarks, direct Research OS access, Alerts QA, informed demos, internal product review, Alerts-focused technical review, and Founder-to-Research-OS links.
+- Do not use `/` as the default public introduction. Do not use CEO B Profile or AI Habitat OS as the public brand homepage. Do not publish `/ai-handoff`.
+- No runtime, route, navigation, bridge, Starlight, LocalStorage, asset, tracker, provider, access, package, workflow, or `data/signal-alerts.json` change was made.
+- `/` remains Alerts; `/founder` remains the public Founder front door.
+- `data/signal-alerts.json` remains at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+
+Next bounded step: `Pickaxe public profile and README link alignment — docs-only`. Do not start it automatically. Runtime implementation, route changes, navigation changes, and root discovery UI remain unauthorized.
+
+## Previous Active Checkpoint - Pickaxe Public Route Clarity Audit
+
 Pickaxe Public Route Clarity Audit is **PASS / DOCS-ONLY ROUTE CLARITY AUDIT COMPLETE**.
 
 - Canonical audit: `docs/01_PRODUCT/PICKAXE_PUBLIC_ROUTE_CLARITY_AUDIT_2026-06-21.md`.
@@ -14,8 +32,6 @@ Pickaxe Public Route Clarity Audit is **PASS / DOCS-ONLY ROUTE CLARITY AUDIT COM
 - No new route, bridge, navigation concept, or root discovery UI is recommended now.
 - No runtime, route, navigation, bridge, Starlight, LocalStorage, asset, tracker, provider, access, package, workflow, or `data/signal-alerts.json` change was made.
 - `data/signal-alerts.json` remains at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
-
-Next bounded step: `Pickaxe public link policy lock — docs-only`. Do not start it automatically. It must formalize public versus operational URL use without changing runtime, routes, navigation, Alerts, Founder copy, bridges, Starlight, LocalStorage, assets, tracker data, providers, access flows, packages, workflows, or `data/signal-alerts.json`.
 
 ## Previous Active Checkpoint - Pickaxe Public Front Door Visual Polish Audit
 
