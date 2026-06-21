@@ -1,5 +1,24 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Public Front Door Visual Polish Audit
+
+- Date: 2026-06-21.
+- Result: **PASS / DOCS-ONLY VISUAL POLISH AUDIT COMPLETE**.
+- Sprint type: read-only hosted visual/product audit.
+- Baseline commits: `cfea555 Simplify Founder public front door` and `1383ea5 Record Founder front door hosted verification`.
+- Baseline GitHub Pages run: `27915296323`.
+- Canonical audit: `docs/01_PRODUCT/PICKAXE_PUBLIC_FRONT_DOOR_VISUAL_POLISH_AUDIT_2026-06-21.md`.
+- Audited hosted desktop `1280x720` and mobile `390x844` routes: `/`, `/#/alerts`, `/app/alerts`, `/#/founder`, `/founder`, `/#/ceo-b-profile`, `/ceo-b-profile`, `/#/research`, `/#/source-hub`, `/#/archive`, `/#/learning-ledger`, `/#/ai-habitat-os`, and `/#/staging`.
+- Every route loaded the correct nonblank active view with zero observed console errors, no document-level horizontal overflow, and one visible Starlight field/canvas.
+- Founder verdict: the route is premium, credible, research-first, and understandable once reached; the largest weakness is public discovery because `/` remains the internal QQQ Alerts experience and exposes no visible first-screen path to `/founder`.
+- Desktop Founder evidence: the persistent command shell narrows the public canvas; the hero is approximately `1037px` tall at `1280x720`, placing the primary CTA below the first viewport.
+- Mobile evidence: all audited routes begin below an approximately `469px` navigation block; the Founder proposition begins near `710px`, the hero is approximately `1406px` tall, and the full page is approximately `7862px`.
+- Operating Loop, capability framing, compliance, and static/manual trust boundaries are strong. Proof of Work is credible but text-dense; four final CTAs dilute the primary Research OS path.
+- Ranked winner: `/` versus `/founder` public-route clarity audit at `958/1000`.
+- Next bounded recommendation: `Pickaxe public route clarity audit — docs-only`.
+- No runtime, route, navigation, bridge, Starlight, LocalStorage, asset, tracker, provider, access, workflow, or package file changed.
+- `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+
 ## Current Checkpoint - Pickaxe Public Founder Front Door Simplification
 
 - Date: 2026-06-21.

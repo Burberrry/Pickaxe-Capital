@@ -2,18 +2,32 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Public Front Door Visual Polish Audit is **PASS / DOCS-ONLY VISUAL POLISH AUDIT COMPLETE**.
+
+- Canonical audit: `docs/01_PRODUCT/PICKAXE_PUBLIC_FRONT_DOOR_VISUAL_POLISH_AUDIT_2026-06-21.md`.
+- Baseline commits: `cfea555 Simplify Founder public front door` and `1383ea5 Record Founder front door hosted verification`.
+- Baseline Pages run: `27915296323`.
+- Hosted desktop `1280x720` and mobile `390x844` review covered all 13 required routes.
+- Every route loaded the correct nonblank active view with zero observed console errors, no document-level horizontal overflow, and one visible Starlight field/canvas.
+- `/founder` is a strong premium first version with clear source, risk, CEO B review, static/manual, options-risk, and no-execution boundaries.
+- The highest-impact weakness is public arrival ambiguity: `/` remains the internal QQQ Alerts experience, while the public story is at `/founder` with no visible first-screen discovery path from the root.
+- Desktop Founder hierarchy is oversized for the shell-constrained canvas; mobile Founder content begins after the shared navigation block and requires excessive vertical travel.
+- The Operating Loop and capability framing are strong. Proof of Work is credible but dense. Four final CTAs dilute the primary Research OS action.
+- Ranked winner: `/` versus `/founder` public-route clarity audit at `958/1000`.
+- No runtime, route, navigation, bridge, Starlight, LocalStorage, asset, tracker, provider, access, workflow, package, or `data/signal-alerts.json` change was made.
+- `data/signal-alerts.json` remains at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+
+Next bounded step: `Pickaxe public route clarity audit — docs-only`. Do not start it automatically. The audit must preserve `/` as Alerts and must not edit routes, navigation, bridges, runtime, CSS, copy, Starlight, storage, providers, access workflows, assets, tracker data, or `data/signal-alerts.json`.
+
+## Previous Active Checkpoint - Pickaxe Public Founder Front Door Simplification
+
 Pickaxe Public Founder Front Door Simplification is **PASS / HOSTED QA VERIFIED**.
 
 - Hosted implementation commit: `cfea555 Simplify Founder public front door`.
 - GitHub Pages run `27894327510` passed Validate and Build and Deploy.
-- The Founder front door is live on `/founder` and `/#/founder`; `/` remains Alerts and `/ai-handoff` remains HTTP `404`.
-- All 13 required hosted routes passed desktop and mobile QA with the correct active view, nonblank content, zero console errors, no document-level horizontal overflow, and one Starlight field/canvas.
-- Founder hosted QA passed the nine-section order, approved headline and subheadline, four trust badges, static/manual label, operating loop, existing Proof of Work carousel, safe CTA behavior, exact compliance line, and prohibited-content absence checks.
-- Alerts hosted regression passed for canonical ownership, the V3.1 singleton cards and locked placement, synchronized QQQ labels, the functional four-packet CEO B Review Queue, and absence of Founder front-door content.
-- Routes, navigation, bridges, Starlight, LocalStorage contracts, CEO B profile command mode, AI Habitat OS, internal research workflows, assets, and tracker data remain unchanged.
-- `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
-
-Next bounded step: `Pickaxe public front door visual polish audit — docs-only`. Do not start visual polish automatically. No runtime, route, navigation, Alerts, Starlight, storage, provider, access, or asset work is authorized. Any future visual polish must begin with a separate read-only/docs-first audit before implementation.
+- `/founder` and `/#/founder` are live; `/` remains Alerts and `/ai-handoff` remains HTTP `404`.
+- All 13 required hosted routes passed desktop and mobile regression QA.
+- Routes, navigation, bridges, Starlight, LocalStorage contracts, internal workflows, assets, tracker data, and `data/signal-alerts.json` remained unchanged.
 
 ## Previous Active Checkpoint - Pickaxe Public Homepage Runtime Implementation Scope
 
