@@ -2,6 +2,25 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Intelligence Core v0.1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Baseline commit: `a0fbcf6 Repair Staging current hosted checkpoint`.
+- Owner routes: `/`, `/#/alerts`, and `/app/alerts`, using the existing canonical Alerts renderer.
+- The new layer is ephemeral and demo-only. It does not add persistence, a packet model, a review queue, a route, or a renderer.
+- Five selectable candidates, deterministic scoring, dynamic risk controls, options quality, market regime, source status, rejected alerts, lesson preview, CEO B strategic command, and the permanent watchlist heat map are implemented.
+- All displayed market intelligence is `DEMO`; future connector placeholders are `UNAVAILABLE`.
+- CEO B final review, source verification, risk gates, Manual Review Required, Research Only, Not Financial Advice, No Broker Execution, and options-risk language remain mandatory.
+- Locked V3.1, Phase 9A, Phase 9B, Orbit, Starlight, bridges, LocalStorage contracts, and `data/signal-alerts.json` remain unchanged.
+- Full automated validation passed.
+- Desktop `1280x720` and mobile `390x844` browser QA passed for all three Alerts entries plus Founder and Staging regression routes with zero console errors or warnings, no document-level overflow, and one Starlight canvas.
+- Candidate switching, score/classification updates, selected focus, dynamic risk content, V3.1 singleton placement, and direct-path behavior passed.
+
+Next bounded step: create the authorized local implementation commit. Push is not authorized.
+
+Next recommended sprint after this: `Pickaxe Data Connector v0.2 — provider abstraction + approved free API integration + stale-data warnings + source fallback logic`. Do not start it automatically.
+
+## Previous Active Checkpoint - Staging Current Hosted Checkpoint Repair
+
 Staging Current Hosted Checkpoint Repair is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - Baseline audit commit `8a79794` is on `origin/main` and hosted-verified through GitHub Pages run `27920025039`.

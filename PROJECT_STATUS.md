@@ -1,5 +1,23 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Intelligence Core v0.1
+
+- Date: 2026-06-22.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded runtime/UI implementation on the existing Alerts owner route.
+- Baseline commit: `a0fbcf6 Repair Staging current hosted checkpoint`.
+- Added one ephemeral demo intelligence layer to `/`, `/#/alerts`, and `/app/alerts` without creating a route, renderer, LocalStorage key, packet model, review queue, or backend.
+- Added five schema-complete demo candidates: QQQ Momentum Breakout, NVDA VWAP Reclaim, TSLA Volatility Expansion, SPY Pullback to Trend, and GLD Mean Reversion.
+- Added the required 100-point scoring model and classifications, data-mode system, Market Regime, Dynamic Risk Matrix, Options Quality, Source Status, Rejected Alerts, Learning Ledger Preview, CEO B Strategic Command, and permanent watchlist heat map.
+- All market and options context is labeled `DEMO`; future provider placeholders return `UNAVAILABLE`. No live price, fake live timestamp, provider connection, alert delivery, broker action, or financial recommendation was added.
+- CEO B remains the final review and decision layer. Automatic scoring organizes and escalates demo candidates but cannot publish research or bypass source/risk/manual review gates.
+- Locked V3.1 QQQ behavior, Phase 9A Alerts shell, detailed Signals placement, Research Packet v2, Archive/Learning contracts, Intelligence Orbit, Starlight, direct-path bridges, and existing LocalStorage contracts remain unchanged.
+- Full automated validation passed.
+- Desktop `1280x720` and mobile `390x844` browser QA passed for `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, and `/staging`.
+- Candidate switching passed for NVDA and GLD with score, classification, risk, focus, and selected-state updates. Browser QA observed zero console errors or warnings, no document-level horizontal overflow, one Starlight canvas, one active Alerts view, one Intelligence Core, and one V3.1 Signals detail immediately beneath its locked overlay.
+- `data/signal-alerts.json` remains unchanged.
+- Next bounded recommendation: `Pickaxe Data Connector v0.2 — provider abstraction + approved free API integration + stale-data warnings + source fallback logic`. Do not start automatically.
+
 ## Current Checkpoint - Staging Current Hosted Checkpoint Repair
 
 - Date: 2026-06-21.

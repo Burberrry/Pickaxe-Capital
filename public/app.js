@@ -39,6 +39,7 @@ const state = {
   phase9PreviewMode: "free",
   phase9ResearchAcknowledged: false,
   phase9DrawerOpen: false,
+  selectedIntelligenceCandidateId: "PIC-DEMO-QQQ-001",
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
@@ -59,6 +60,186 @@ var phase9DrawerOpenerId = "";
 const RESEARCH_APPROVAL_LABEL = "Approved for Research — Not a Trade Command";
 const RESEARCH_CARD_DISCLAIMER =
   "Research only. Not financial advice. No broker execution. Options involve substantial risk. User judgment required.";
+const INTELLIGENCE_CORE_DATA_MODES = ["DEMO", "DELAYED", "LIVE", "STALE", "UNAVAILABLE"];
+const INTELLIGENCE_CORE_DISCLAIMER =
+  "Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · Demo/Static Data · Options involve substantial risk.";
+const INTELLIGENCE_CORE_CANDIDATES = [
+  {
+    id: "PIC-DEMO-QQQ-001",
+    ticker: "QQQ",
+    bias: "Bullish / Conditional",
+    setupType: "Momentum Breakout",
+    timeframe: "Intraday to 2 sessions",
+    optionWindow: "7–14 DTE",
+    strikeLogic: "Demo near-the-money call with liquid neighboring strikes",
+    entryTrigger: "Demo trigger: acceptance above the prior range after breadth confirmation",
+    invalidation: "Demo invalidation: return inside the prior range with weakening breadth",
+    stopLogic: "Structure stop first; premium guardrail tightens only after confirmation",
+    targetLogic: "Scale research targets at the next demo range and extension zone",
+    riskRating: "Moderate",
+    confidence: 86,
+    liquidityStatus: "Strong demo profile",
+    catalyst: "Broad technology participation and index momentum",
+    marketRegime: "Constructive / selective risk-on",
+    sourceTimestamp: "DEMO static scenario · no live timestamp",
+    dataQuality: "DEMO",
+    ceoBNote: "Best current demo candidate; escalate only if breadth and structure agree.",
+    learningTag: "Great setup",
+    disclaimer: INTELLIGENCE_CORE_DISCLAIMER,
+    scores: { marketRegime: 13, technicalSetup: 18, optionsQuality: 22, catalystStrength: 11, riskReward: 14, learningSimilarity: 8 },
+    risk: {
+      stopType: "Underlying structure + premium guardrail",
+      premiumStopRange: "Demo range: 18–24%, adjusted for spread and IV",
+      timeStop: "Exit research thesis if momentum does not confirm within two review windows",
+      ivRisk: "Moderate",
+      liquidityRisk: "Low in demo profile",
+      spreadRisk: "Accept only a tight, stable spread",
+      positionWarning: "Size for a full premium loss scenario; no averaging down",
+      noTrade: "No breadth confirmation, expanding spread, or failed range acceptance",
+    },
+    options: { spreadStatus: "Tight / DEMO", volumeOiStatus: "Healthy / DEMO", ivWarning: "Avoid chasing a volatility expansion", grade: "A-" },
+  },
+  {
+    id: "PIC-DEMO-NVDA-002",
+    ticker: "NVDA",
+    bias: "Bullish / Reclaim",
+    setupType: "VWAP Reclaim",
+    timeframe: "Intraday",
+    optionWindow: "5–10 DTE",
+    strikeLogic: "Demo at-the-money call after reclaim confirmation",
+    entryTrigger: "Demo trigger: reclaim and hold above VWAP with volume confirmation",
+    invalidation: "Demo invalidation: failed reclaim and lower-high rejection",
+    stopLogic: "Fast structure stop because failed reclaims can unwind quickly",
+    targetLogic: "Prior demo high, then measured intraday extension",
+    riskRating: "Elevated",
+    confidence: 81,
+    liquidityStatus: "Strong liquidity / faster tape",
+    catalyst: "AI leadership attention; catalyst must be source-checked",
+    marketRegime: "Selective leadership",
+    sourceTimestamp: "DEMO static scenario · no live timestamp",
+    dataQuality: "DEMO",
+    ceoBNote: "High-quality instrument, but avoid late entry and volatility chasing.",
+    learningTag: "Bad timing",
+    disclaimer: INTELLIGENCE_CORE_DISCLAIMER,
+    scores: { marketRegime: 12, technicalSetup: 17, optionsQuality: 23, catalystStrength: 12, riskReward: 10, learningSimilarity: 7 },
+    risk: {
+      stopType: "VWAP failure + lower-high confirmation",
+      premiumStopRange: "Demo range: 20–28%, widened only for verified structure",
+      timeStop: "One review window after reclaim",
+      ivRisk: "High",
+      liquidityRisk: "Low, but speed risk elevated",
+      spreadRisk: "Low in demo profile",
+      positionWarning: "Reduce size when IV or opening volatility is elevated",
+      noTrade: "Late extension, weak volume, failed reclaim, or event risk not verified",
+    },
+    options: { spreadStatus: "Tight / DEMO", volumeOiStatus: "Strong / DEMO", ivWarning: "High premium sensitivity", grade: "A" },
+  },
+  {
+    id: "PIC-DEMO-TSLA-003",
+    ticker: "TSLA",
+    bias: "Bearish / Conditional",
+    setupType: "Volatility Expansion",
+    timeframe: "1–3 sessions",
+    optionWindow: "10–21 DTE",
+    strikeLogic: "Demo near-the-money put; avoid far out-of-the-money convexity traps",
+    entryTrigger: "Demo trigger: range breakdown with sustained volume and market confirmation",
+    invalidation: "Demo invalidation: reclaim of the broken range",
+    stopLogic: "Underlying reclaim stop; premium stop is secondary because IV can distort",
+    targetLogic: "Demo lower range, then reassess rather than assume continuation",
+    riskRating: "High",
+    confidence: 72,
+    liquidityStatus: "Liquid but volatility-sensitive",
+    catalyst: "Narrative volatility; source verification required",
+    marketRegime: "Mixed / event-sensitive",
+    sourceTimestamp: "DEMO static scenario · no live timestamp",
+    dataQuality: "DEMO",
+    ceoBNote: "Watchlist only until catalyst, spread, and invalidation are unusually clear.",
+    learningTag: "IV crush risk",
+    disclaimer: INTELLIGENCE_CORE_DISCLAIMER,
+    scores: { marketRegime: 8, technicalSetup: 15, optionsQuality: 18, catalystStrength: 12, riskReward: 12, learningSimilarity: 7 },
+    risk: {
+      stopType: "Underlying range reclaim",
+      premiumStopRange: "Demo range: 22–32%; never use a fixed stop without IV context",
+      timeStop: "End-of-session review if breakdown does not accelerate",
+      ivRisk: "Very high",
+      liquidityRisk: "Moderate",
+      spreadRisk: "Can expand rapidly",
+      positionWarning: "Smallest size tier; event gaps can exceed modeled risk",
+      noTrade: "Unverified headline, inflated IV, wide spread, or no clean range",
+    },
+    options: { spreadStatus: "Variable / DEMO", volumeOiStatus: "Healthy / DEMO", ivWarning: "Major IV crush and gap risk", grade: "B" },
+  },
+  {
+    id: "PIC-DEMO-SPY-004",
+    ticker: "SPY",
+    bias: "Bullish / Pullback",
+    setupType: "Pullback to Trend",
+    timeframe: "1–5 sessions",
+    optionWindow: "14–30 DTE",
+    strikeLogic: "Demo slightly in-the-money call prioritizing delta and liquidity",
+    entryTrigger: "Demo trigger: higher-low confirmation at a trend support zone",
+    invalidation: "Demo invalidation: close below trend support with deteriorating breadth",
+    stopLogic: "Daily structure stop with a wider premium tolerance",
+    targetLogic: "Return to demo range high; no extension assumption",
+    riskRating: "Moderate",
+    confidence: 78,
+    liquidityStatus: "Institutional-grade demo profile",
+    catalyst: "Breadth stabilization and macro calm",
+    marketRegime: "Neutral-to-constructive",
+    sourceTimestamp: "DEMO static scenario · no live timestamp",
+    dataQuality: "DEMO",
+    ceoBNote: "Prefer patience and confirmation over catching the first pullback.",
+    learningTag: "Great setup",
+    disclaimer: INTELLIGENCE_CORE_DISCLAIMER,
+    scores: { marketRegime: 11, technicalSetup: 16, optionsQuality: 24, catalystStrength: 9, riskReward: 11, learningSimilarity: 7 },
+    risk: {
+      stopType: "Daily trend structure",
+      premiumStopRange: "Demo range: 16–22%",
+      timeStop: "Two sessions without higher-low confirmation",
+      ivRisk: "Low to moderate",
+      liquidityRisk: "Low",
+      spreadRisk: "Low",
+      positionWarning: "Do not increase size because the instrument is familiar",
+      noTrade: "Breadth deterioration, macro event uncertainty, or failed trend support",
+    },
+    options: { spreadStatus: "Tight / DEMO", volumeOiStatus: "Strong / DEMO", ivWarning: "Check macro-event premium", grade: "A" },
+  },
+  {
+    id: "PIC-DEMO-GLD-005",
+    ticker: "GLD",
+    bias: "Neutral / Reversal Watch",
+    setupType: "Mean Reversion",
+    timeframe: "2–7 sessions",
+    optionWindow: "21–45 DTE",
+    strikeLogic: "Demo at-the-money contract with additional time for macro sensitivity",
+    entryTrigger: "Demo trigger: exhaustion reversal with dollar/rates confirmation",
+    invalidation: "Demo invalidation: continuation through the exhaustion zone",
+    stopLogic: "Macro-confirmation stop plus underlying structure",
+    targetLogic: "Demo mean zone only; avoid treating reversion as a new trend",
+    riskRating: "Moderate / Macro-sensitive",
+    confidence: 68,
+    liquidityStatus: "Acceptable demo profile",
+    catalyst: "Rates, dollar, and defensive-flow context",
+    marketRegime: "Cross-asset uncertainty",
+    sourceTimestamp: "DEMO static scenario · no live timestamp",
+    dataQuality: "DEMO",
+    ceoBNote: "Needs confirmation from rates and dollar context before escalation.",
+    learningTag: "False breakout",
+    disclaimer: INTELLIGENCE_CORE_DISCLAIMER,
+    scores: { marketRegime: 8, technicalSetup: 13, optionsQuality: 19, catalystStrength: 10, riskReward: 11, learningSimilarity: 7 },
+    risk: {
+      stopType: "Macro confirmation + underlying continuation",
+      premiumStopRange: "Demo range: 18–26%",
+      timeStop: "Three sessions without mean-reversion progress",
+      ivRisk: "Moderate",
+      liquidityRisk: "Moderate",
+      spreadRisk: "Moderate outside core strikes",
+      positionWarning: "Keep size conservative around macro releases",
+      noTrade: "Rates/dollar conflict, thin strike, or no exhaustion evidence",
+    },
+    options: { spreadStatus: "Acceptable / DEMO", volumeOiStatus: "Mixed / DEMO", ivWarning: "Macro release repricing risk", grade: "B-" },
+  },
+];
 const RESEARCH_AGENT_LANES = Array.isArray(researchPacketV2Config.agentLanes) ? researchPacketV2Config.agentLanes : [
   "Chief Research Officer",
   "Market Regime Agent",
@@ -9666,6 +9847,281 @@ function renderPhase9AlertDrawer(packet, panelModel) {
   `;
 }
 
+function scoreIntelligenceCandidate(candidate) {
+  const weights = {
+    marketRegime: 15,
+    technicalSetup: 20,
+    optionsQuality: 25,
+    catalystStrength: 15,
+    riskReward: 15,
+    learningSimilarity: 10,
+  };
+  const parts = Object.fromEntries(Object.entries(weights).map(([key, maximum]) => {
+    const value = Math.max(0, Math.min(maximum, Number(candidate.scores?.[key] || 0)));
+    return [key, { value, maximum }];
+  }));
+  const total = Object.values(parts).reduce((sum, part) => sum + part.value, 0);
+  const classification = total >= 90
+    ? "ELITE"
+    : total >= 80
+      ? "STRONG"
+      : total >= 70
+        ? "WATCHLIST"
+        : total >= 60
+          ? "NEEDS CONFIRMATION"
+          : "REJECT / OBSERVE ONLY";
+  return { total, classification, parts };
+}
+
+function renderIntelligenceDataMode(mode = "DEMO") {
+  const normalized = INTELLIGENCE_CORE_DATA_MODES.includes(mode) ? mode : "UNAVAILABLE";
+  return `<span class="pic-data-mode is-${normalized.toLowerCase()}">${normalized}</span>`;
+}
+
+// Future provider abstraction boundary. These placeholders intentionally return no market values.
+// A separately approved backend/provider/security sprint may replace them without changing the UI contract.
+function getQuote(ticker) { return { ticker, mode: "UNAVAILABLE", value: null, source: "Future API connector" }; }
+function getOptionsChain(ticker) { return { ticker, mode: "UNAVAILABLE", contracts: [], source: "Future API connector" }; }
+function getNews(ticker) { return { ticker, mode: "UNAVAILABLE", items: [], source: "Future API connector" }; }
+function getTechnicals(ticker) { return { ticker, mode: "UNAVAILABLE", indicators: {}, source: "Future API connector" }; }
+function getMarketRegime() { return { mode: "DEMO", label: "Constructive / selective risk-on", source: "Static scenario" }; }
+function getSourceStatus() {
+  return {
+    priceData: "DEMO",
+    optionsChain: "DEMO",
+    newsCatalyst: "DEMO",
+    technicalIndicators: "DEMO",
+    marketRegime: "DEMO",
+    lastChecked: "Static demo dataset · no live check performed",
+  };
+}
+
+function renderPickaxeIntelligenceCore() {
+  const candidate = INTELLIGENCE_CORE_CANDIDATES.find((item) => item.id === state.selectedIntelligenceCandidateId)
+    || INTELLIGENCE_CORE_CANDIDATES[0];
+  const score = scoreIntelligenceCandidate(candidate);
+  const regime = getMarketRegime();
+  const sourceStatus = getSourceStatus();
+  const rejectedAlerts = [
+    { id: "PIC-REJECT-AAPL-006", ticker: "AAPL", setup: "Catalyst Pre-Run", reason: "Catalyst already priced in · no clean invalidation", tag: "Bad timing" },
+    { id: "PIC-REJECT-AMD-007", ticker: "AMD", setup: "Momentum Breakout", reason: "Spread too wide · IV too inflated", tag: "Bad contract" },
+    { id: "PIC-REJECT-SLV-008", ticker: "SLV", setup: "Mean Reversion", reason: "Low liquidity · weak market regime", tag: "Liquidity trap" },
+  ];
+  const ledgerRows = [
+    ...INTELLIGENCE_CORE_CANDIDATES.map((item) => ({
+      id: item.id,
+      ticker: item.ticker,
+      setup: item.setupType,
+      status: "Open Candidate",
+      tag: item.learningTag,
+      review: "Needs Review",
+    })),
+    ...rejectedAlerts.map((item) => ({
+      id: item.id,
+      ticker: item.ticker,
+      setup: item.setup,
+      status: "Rejected",
+      tag: item.tag,
+      review: "Future lesson review",
+    })),
+  ];
+  const watchlist = [
+    ["SPY", "Constructive", "bull"], ["QQQ", "Leadership", "bull"], ["NVDA", "Reclaim watch", "bull"],
+    ["AAPL", "Observe", "neutral"], ["TSLA", "High volatility", "bear"], ["AMD", "Spread risk", "bear"],
+    ["MSFT", "Trend watch", "bull"], ["GOOGL", "Neutral", "neutral"], ["GLD", "Reversal watch", "neutral"],
+    ["SLV", "Liquidity caution", "bear"], ["USO / WTI", "Macro watch", "neutral"], ["VIX", "Risk gauge", "bear"],
+    ["BTC", "Volatility watch", "neutral"], ["ETH", "Volatility watch", "neutral"], ["BRK.B", "Defensive", "bull"],
+    ["Sectors", "Mixed breadth", "neutral"],
+  ];
+  const scoreLabels = {
+    marketRegime: "Market regime",
+    technicalSetup: "Technical setup",
+    optionsQuality: "Options quality",
+    catalystStrength: "Catalyst strength",
+    riskReward: "Risk / reward",
+    learningSimilarity: "Learning similarity",
+  };
+  return `
+    <section id="pickaxeIntelligenceCore" class="pic-core" aria-labelledby="picCoreTitle">
+      <header class="pic-core-header">
+        <div>
+          <span>Pickaxe Intelligence Core v0.1</span>
+          <h3 id="picCoreTitle">Alerts Desk Intelligence Engine</h3>
+          <p>Demo candidate scoring, dynamic risk controls, options-quality review, source status, rejected-alert discipline, and lesson preparation.</p>
+        </div>
+        <aside>
+          ${renderIntelligenceDataMode("DEMO")}
+          <strong>Static intelligence structure</strong>
+          <small>No live provider, alert delivery, or broker connection.</small>
+        </aside>
+      </header>
+
+      <div class="pic-mode-legend" aria-label="Supported data modes">
+        <span>Data modes</span>
+        ${INTELLIGENCE_CORE_DATA_MODES.map((mode) => renderIntelligenceDataMode(mode)).join("")}
+        <small>Only DEMO is active in this sprint.</small>
+      </div>
+
+      <div class="pic-candidate-tabs" aria-label="Demo alert candidates">
+        ${INTELLIGENCE_CORE_CANDIDATES.map((item) => {
+          const itemScore = scoreIntelligenceCandidate(item);
+          return `
+            <button type="button" class="${item.id === candidate.id ? "is-active" : ""}" aria-pressed="${item.id === candidate.id}" onclick="window.selectIntelligenceCandidate('${item.id}')">
+              <span>${escapeHtml(item.ticker)}</span>
+              <strong>${itemScore.total}</strong>
+              <small>${escapeHtml(item.setupType)}</small>
+              ${renderIntelligenceDataMode(item.dataQuality)}
+            </button>
+          `;
+        }).join("")}
+      </div>
+
+      <div class="pic-command-grid">
+        <article class="pic-panel pic-selected-candidate">
+          <header>
+            <div><span>Selected Alert Candidate</span><h4>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</h4></div>
+            <div class="pic-score-orb"><strong>${score.total}</strong><small>${escapeHtml(score.classification)}</small></div>
+          </header>
+          <div class="pic-candidate-summary">
+            <span class="${/bear/i.test(candidate.bias) ? "is-bear" : /bull/i.test(candidate.bias) ? "is-bull" : ""}">${escapeHtml(candidate.bias)}</span>
+            <span>${escapeHtml(candidate.timeframe)}</span>
+            <span>${escapeHtml(candidate.riskRating)} risk</span>
+            ${renderIntelligenceDataMode(candidate.dataQuality)}
+          </div>
+          <dl class="pic-definition-grid">
+            <div><dt>Entry Trigger</dt><dd>${escapeHtml(candidate.entryTrigger)}</dd></div>
+            <div><dt>Invalidation</dt><dd>${escapeHtml(candidate.invalidation)}</dd></div>
+            <div><dt>Target Logic</dt><dd>${escapeHtml(candidate.targetLogic)}</dd></div>
+            <div><dt>Catalyst</dt><dd>${escapeHtml(candidate.catalyst)}</dd></div>
+            <div><dt>Market Regime</dt><dd>${escapeHtml(candidate.marketRegime)}</dd></div>
+            <div><dt>CEO B Note</dt><dd>${escapeHtml(candidate.ceoBNote)}</dd></div>
+          </dl>
+          <p class="pic-source-time">${escapeHtml(candidate.sourceTimestamp)}</p>
+        </article>
+
+        <article class="pic-panel pic-score-panel">
+          <header><div><span>Scoring Engine</span><h4>Weighted research quality</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
+          <div class="pic-score-list">
+            ${Object.entries(score.parts).map(([key, part]) => `
+              <div>
+                <span>${scoreLabels[key]}</span>
+                <i><b style="width:${(part.value / part.maximum) * 100}%"></b></i>
+                <strong>${part.value} / ${part.maximum}</strong>
+              </div>
+            `).join("")}
+          </div>
+          <p>Classification: <strong>${escapeHtml(score.classification)}</strong>. Scores measure demo research quality, not expected return.</p>
+        </article>
+
+        <article class="pic-panel pic-regime-panel">
+          <header><div><span>Market Regime</span><h4>${escapeHtml(regime.label)}</h4></div>${renderIntelligenceDataMode(regime.mode)}</header>
+          <dl>
+            <div><dt>SPY / QQQ Bias</dt><dd>Constructive / selective</dd></div>
+            <div><dt>VIX Condition</dt><dd>Contained but event-sensitive</dd></div>
+            <div><dt>Breadth Status</dt><dd>Mixed participation</dd></div>
+            <div><dt>Macro Risk</dt><dd>Moderate / source check required</dd></div>
+          </dl>
+          <div class="pic-risk-meter"><span>Risk-on</span><i><b></b></i><span>Risk-off</span></div>
+          <small>Timestamp: static scenario · no live market check performed.</small>
+        </article>
+      </div>
+
+      <div class="pic-detail-grid">
+        <article class="pic-panel">
+          <header><div><span>Dynamic Risk Matrix</span><h4>${escapeHtml(candidate.ticker)} risk controls</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
+          <dl class="pic-stacked-list">
+            <div><dt>Suggested stop type</dt><dd>${escapeHtml(candidate.risk.stopType)}</dd></div>
+            <div><dt>Premium stop range</dt><dd>${escapeHtml(candidate.risk.premiumStopRange)}</dd></div>
+            <div><dt>Underlying invalidation</dt><dd>${escapeHtml(candidate.invalidation)}</dd></div>
+            <div><dt>Time stop</dt><dd>${escapeHtml(candidate.risk.timeStop)}</dd></div>
+            <div><dt>IV / Liquidity / Spread</dt><dd>${escapeHtml(candidate.risk.ivRisk)} · ${escapeHtml(candidate.risk.liquidityRisk)} · ${escapeHtml(candidate.risk.spreadRisk)}</dd></div>
+            <div><dt>Position-size warning</dt><dd>${escapeHtml(candidate.risk.positionWarning)}</dd></div>
+            <div class="is-warning"><dt>No-trade conditions</dt><dd>${escapeHtml(candidate.risk.noTrade)}</dd></div>
+          </dl>
+        </article>
+
+        <article class="pic-panel">
+          <header><div><span>Options Quality</span><h4>Contract grade ${escapeHtml(candidate.options.grade)}</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
+          <dl class="pic-stacked-list">
+            <div><dt>Expiration window</dt><dd>${escapeHtml(candidate.optionWindow)}</dd></div>
+            <div><dt>Strike logic</dt><dd>${escapeHtml(candidate.strikeLogic)}</dd></div>
+            <div><dt>Liquidity status</dt><dd>${escapeHtml(candidate.liquidityStatus)}</dd></div>
+            <div><dt>Spread status</dt><dd>${escapeHtml(candidate.options.spreadStatus)}</dd></div>
+            <div><dt>Volume / OI</dt><dd>${escapeHtml(candidate.options.volumeOiStatus)}</dd></div>
+            <div class="is-warning"><dt>IV warning</dt><dd>${escapeHtml(candidate.options.ivWarning)}</dd></div>
+          </dl>
+        </article>
+
+        <aside class="pic-panel pic-source-rail">
+          <header><div><span>Source Status</span><h4>Connector boundary</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
+          ${[
+            ["Price data", sourceStatus.priceData],
+            ["Options chain", sourceStatus.optionsChain],
+            ["News / catalyst", sourceStatus.newsCatalyst],
+            ["Technical indicators", sourceStatus.technicalIndicators],
+            ["Market regime", sourceStatus.marketRegime],
+          ].map(([label, mode]) => `<div><span>${label}</span>${renderIntelligenceDataMode(mode)}</div>`).join("")}
+          <p><strong>Last checked:</strong> ${escapeHtml(sourceStatus.lastChecked)}</p>
+          <p><strong>Future connector:</strong> provider abstraction placeholder only.</p>
+          <small>Current sprint uses demo intelligence structure. Live providers can replace this layer later.</small>
+        </aside>
+      </div>
+
+      <div class="pic-operations-grid">
+        <article class="pic-panel pic-rejections">
+          <header><div><span>Rejected Alerts</span><h4>Risk discipline evidence</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
+          ${rejectedAlerts.map((item) => `
+            <div><strong>${escapeHtml(item.ticker)}</strong><span>${escapeHtml(item.setup)}</span><p>${escapeHtml(item.reason)}</p><small>${escapeHtml(item.tag)}</small></div>
+          `).join("")}
+        </article>
+
+        <article class="pic-panel pic-ceo-command">
+          <header><div><span>CEO B Strategic Command</span><h4>System oversight and exceptions</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
+          <dl>
+            <div><dt>Market stance</dt><dd>Selective risk-on; capital preservation first</dd></div>
+            <div><dt>Top opportunity</dt><dd>QQQ momentum breakout · demo only</dd></div>
+            <div><dt>Biggest risk</dt><dd>IV expansion without breadth confirmation</dd></div>
+            <div><dt>System confidence</dt><dd>82 / 100 research-structure confidence</dd></div>
+            <div><dt>Alerts requiring escalation</dt><dd>TSLA volatility and GLD macro confirmation</dd></div>
+            <div><dt>Weekly improvement note</dt><dd>Reject earlier when invalidation or contract quality is unclear.</dd></div>
+          </dl>
+          <p>CEO B reviews the system, the market regime, and high-impact exceptions. Alert candidates are automatically scored and escalated by the intelligence engine. Final research output remains manually reviewed.</p>
+        </article>
+      </div>
+
+      <article class="pic-panel pic-watchlist">
+        <header><div><span>Permanent Watchlist Heat Map</span><h4>Static research universe</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
+        <div class="pic-heatmap">
+          ${watchlist.map(([symbol, status, tone]) => `<div class="is-${tone}"><strong>${escapeHtml(symbol)}</strong><span>${escapeHtml(status)}</span></div>`).join("")}
+          <div class="is-unavailable"><strong>SPCX / SpaceX Watch</strong><span>Unavailable until valid public/tradable data is confirmed.</span></div>
+        </div>
+      </article>
+
+      <article class="pic-panel pic-ledger">
+        <header><div><span>Learning Ledger Preview</span><h4>Every candidate prepares a lesson</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
+        <div class="pic-table-wrap">
+          <table>
+            <thead><tr><th>Alert ID</th><th>Ticker</th><th>Setup</th><th>Status</th><th>Lesson Tag</th><th>Future Review State</th></tr></thead>
+            <tbody>${ledgerRows.map((row) => `
+              <tr><td>${escapeHtml(row.id)}</td><td><strong>${escapeHtml(row.ticker)}</strong></td><td>${escapeHtml(row.setup)}</td><td>${escapeHtml(row.status)}</td><td>${escapeHtml(row.tag)}</td><td>${escapeHtml(row.review)}</td></tr>
+            `).join("")}</tbody>
+          </table>
+        </div>
+      </article>
+
+      <footer class="pic-core-boundary">${INTELLIGENCE_CORE_DISCLAIMER} · Confidence and scores represent research quality or packet completeness, never expected return.</footer>
+    </section>
+  `;
+}
+
+window.selectIntelligenceCandidate = (id) => {
+  if (!INTELLIGENCE_CORE_CANDIDATES.some((item) => item.id === id)) return;
+  state.selectedIntelligenceCandidateId = id;
+  const container = document.querySelector("#pickaxeIntelligenceCore");
+  if (container) container.outerHTML = renderPickaxeIntelligenceCore();
+  window.setTimeout(() => document.querySelector(`.pic-candidate-tabs button[aria-pressed="true"]`)?.focus(), 0);
+};
+
 function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
   const activePackets = packets.filter((packet) => packet.routeDecision !== "SUPPRESSED_NOISE");
   const suppressedPackets = packets.filter((packet) => packet.routeDecision === "SUPPRESSED_NOISE");
@@ -9756,6 +10212,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       </header>
 
       ${renderPhase9AlertsProductShell(packet)}
+      ${renderPickaxeIntelligenceCore()}
 
       <section class="alerts-desk-intro">
         <div>
