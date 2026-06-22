@@ -2,9 +2,14 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Data Connector v0.2 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+Pickaxe Data Connector v0.2 is **PASS / HOSTED QA VERIFIED**.
 
 - Baseline commit: `c87a8be Record Pickaxe Intelligence Core hosted verification`.
+- Hosted implementation commit: `b433f6d Build Pickaxe Data Connector v0.2`.
+- The implementation commit was already present on `origin/main`; no duplicate push was performed.
+- GitHub Pages run `27936340345` passed validation and deployment.
+- Deployment ID `5147646743` completed successfully.
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
 - Owner routes remain `/`, `/#/alerts`, and `/app/alerts` through the existing canonical Alerts renderer.
 - Provider abstraction now covers the active demo provider, structured unavailable fallback, manual snapshot concept, local proxy placeholder, and future Alpha Vantage, Finnhub, Tradier, and Polygon/Massive placeholders.
 - Quote, options chain, options contract, news, technical, and market-regime data have normalized contracts.
@@ -14,13 +19,14 @@ Pickaxe Data Connector v0.2 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMP
 - Source Status now presents provider mode, per-service state, freshness, stale warnings, confidence, fallback order, and future/manual connector truth.
 - Current data remains `DEMO` through `demoProvider`; manual and future connectors remain placeholders and future connectors report `UNAVAILABLE`.
 - No API key, secret, backend deployment requirement, persistence, storage key, packet model, review queue, route, renderer, alert delivery, broker connection, or execution behavior was added.
-- Automated validation and local desktop `1280x720` plus mobile `390x844` browser QA passed across all required Alerts, Founder, and Staging entries.
+- Automated validation and hosted desktop `1280x720` plus mobile `390x844` browser QA passed across all required Alerts, Founder, and Staging entries.
 - Candidate switching, score/classification, Dynamic Risk Matrix, Options Quality, Source Status, V3.1 locked placement, one active Alerts view, one Intelligence Core, one Starlight canvas, console, overflow, and mobile readability checks passed.
+- Hosted resources required no provider API, private endpoint, key, credential, backend, or proxy. Only the static Pages artifact and public font resources loaded.
 - `data/signal-alerts.json` remains unchanged.
 
-Next bounded step: `Pickaxe Data Connector v0.2 Hosted Verification`. Push and hosted verification require a separate authorized sprint.
+Next bounded step: `Pickaxe Data Connector v0.3 — first approved provider activation using a secure local proxy or backend-safe pattern`.
 
-Do not start v0.3 automatically.
+v0.3 is recommended next, not started. It requires separate CEO B authorization.
 
 ## Previous Active Checkpoint - Pickaxe Intelligence Core v0.1
 

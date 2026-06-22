@@ -3,9 +3,14 @@
 ## Current Checkpoint - Pickaxe Data Connector v0.2
 
 - Date: 2026-06-22.
-- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Result: **PASS / HOSTED QA VERIFIED**.
 - Sprint type: bounded provider abstraction, stale-data firewall, source-confidence, and Source Status integration.
 - Baseline commit: `c87a8be Record Pickaxe Intelligence Core hosted verification`.
+- Implementation commit: `b433f6d Build Pickaxe Data Connector v0.2`.
+- Push result: implementation commit was already present on `origin/main`; no duplicate push was performed.
+- GitHub Pages run: `27936340345` passed `Validate and Deploy GitHub Pages`.
+- Deployment ID: `5147646743`; deployment status ID `14649878529` completed successfully.
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
 - Added a normalized provider registry for `demoProvider`, `unavailableProvider`, `manualSnapshotProvider`, `localProxyProvider`, `futureAlphaVantageProvider`, `futureFinnhubProvider`, `futureTradierProvider`, and `futurePolygonOrMassiveProvider`.
 - Added plain-object contracts for Quote, Options Chain, Options Contract, News, Technical, and Market Regime snapshots.
 - Added safe provider functions for quote, options chain, news, technicals, market regime, and source status. Unconfigured or malformed requests return structured `UNAVAILABLE` or `ERROR` responses instead of breaking the UI.
@@ -15,13 +20,15 @@
 - Current provider behavior remains `DEMO` through `demoProvider`. Manual and future provider definitions are placeholders; future connectors return `UNAVAILABLE` and make no network calls.
 - The fallback hierarchy is explicit: configured provider, future authorized snapshot only, otherwise `UNAVAILABLE`; demo data is never silently substituted for unavailable provider data.
 - No API key, secret, backend requirement, network provider call, persistence, LocalStorage key, alert delivery, route, renderer, packet model, review queue, broker integration, or execution behavior was added.
-- Local desktop `1280x720` and mobile `390x844` QA passed for `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, and `/staging`.
-- Alerts QA passed with five candidates, candidate switching, score/classification updates, Dynamic Risk Matrix and Options Quality updates, one active Alerts view, one Intelligence Core, one Starlight canvas, and the V3.1 Signals detail in its locked placement.
+- Hosted desktop `1280x720` and mobile `390x844` QA passed for `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, and `/staging`.
+- Hosted Alerts QA passed with five candidates, candidate switching on all three Alerts entries, score/classification updates, Dynamic Risk Matrix and Options Quality updates, one active Alerts view, one Intelligence Core, one Starlight canvas, and the V3.1 Signals detail in its locked placement.
 - Founder remains the public front door. Staging remains the existing status/QA owner. Direct-path bridges remain correct.
-- Current-browser console checks passed with zero errors or warnings from the v0.2 runtime, and all required routes had no document-level horizontal overflow.
+- Hosted console checks passed with zero errors or warnings, and all required routes had no document-level horizontal overflow.
 - Mobile Source Status labels, provider names, and stale/failure explanations remain visible and readable; candidate controls remain tappable.
+- Hosted resource inspection found only the static Pickaxe scripts/styles/assets and public Google Fonts resources. No provider API request, private endpoint, local environment artifact, API key, paid-provider credential, broker credential, or backend dependency was present.
 - `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
-- Next bounded recommendation: `Pickaxe Data Connector v0.2 Hosted Verification`. Do not start automatically.
+- Known limitations remain: demo-only data, no real market timestamps, no active provider beyond `demoProvider`, no persistence, backend/proxy, alert delivery, execution, API keys, live data, or options-chain provider activation.
+- Next bounded recommendation: `Pickaxe Data Connector v0.3 — first approved provider activation using a secure local proxy or backend-safe pattern`. Recommended next, not started.
 
 ### Pickaxe Data Connector v0.2 Files Changed
 
@@ -29,6 +36,13 @@
 - `public/styles.css` and `styles.css`
 - `public/index.html` and `index.html` — app/style/tracker cache keys only
 - `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### Pickaxe Data Connector v0.2 Hosted Status Recording Files Changed
+
+- `public/habitat-data.js` and `habitat-data.js`
+- `public/index.html` and `index.html` — tracker cache key only
 - `PROJECT_STATUS.md`
 - `NEXT_STEPS.md`
 
