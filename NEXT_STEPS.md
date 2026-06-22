@@ -2,9 +2,12 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Intelligence Core v0.1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+Pickaxe Intelligence Core v0.1 is **PASS / HOSTED QA VERIFIED**.
 
 - Baseline commit: `a0fbcf6 Repair Staging current hosted checkpoint`.
+- Hosted implementation commit: `8f607ee Build Pickaxe Intelligence Core v0.1`.
+- GitHub Pages run `27934898715` passed validation/build and deployment; deployment ID `5147370401`.
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
 - Owner routes: `/`, `/#/alerts`, and `/app/alerts`, using the existing canonical Alerts renderer.
 - The new layer is ephemeral and demo-only. It does not add persistence, a packet model, a review queue, a route, or a renderer.
 - Five selectable candidates, deterministic scoring, dynamic risk controls, options quality, market regime, source status, rejected alerts, lesson preview, CEO B strategic command, and the permanent watchlist heat map are implemented.
@@ -12,10 +15,11 @@ Pickaxe Intelligence Core v0.1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA C
 - CEO B final review, source verification, risk gates, Manual Review Required, Research Only, Not Financial Advice, No Broker Execution, and options-risk language remain mandatory.
 - Locked V3.1, Phase 9A, Phase 9B, Orbit, Starlight, bridges, LocalStorage contracts, and `data/signal-alerts.json` remain unchanged.
 - Full automated validation passed.
-- Desktop `1280x720` and mobile `390x844` browser QA passed for all three Alerts entries plus Founder and Staging regression routes with zero console errors or warnings, no document-level overflow, and one Starlight canvas.
-- Candidate switching, score/classification updates, selected focus, dynamic risk content, V3.1 singleton placement, and direct-path behavior passed.
+- Hosted desktop `1280x720` and mobile `390x844` browser QA passed for all three Alerts entries plus Founder and Staging regression routes with zero console errors or warnings, no document-level overflow, and one Starlight canvas.
+- Hosted candidate switching, score/classification updates, selected focus, Dynamic Risk Matrix, Options Quality, Source Status, rejected alerts, Learning Ledger Preview, CEO B Strategic Command, watchlist heat map, SPCX unavailable boundary, V3.1 singleton placement, and direct-path behavior passed.
+- Data mode remains `DEMO` only. No live provider, timestamp, persistence, alert delivery, backend, API key, or execution was added.
 
-Next bounded step: create the authorized local implementation commit. Push is not authorized.
+Next bounded step: keep v0.1 hosted and locked.
 
 Next recommended sprint after this: `Pickaxe Data Connector v0.2 — provider abstraction + approved free API integration + stale-data warnings + source fallback logic`. Do not start it automatically.
 
