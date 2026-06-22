@@ -3,9 +3,14 @@
 ## Current Checkpoint - Pickaxe Data Connector v0.3A
 
 - Date: 2026-06-22.
-- Result: **PASS / LOCAL SCOPE AND PROXY-READINESS COMPLETE**.
+- Result: **PASS / HOSTED QA VERIFIED**.
 - Sprint type: bounded provider-activation scope plus disabled local-proxy contract scaffold.
 - Baseline commit: `dda736f Record Data Connector v0.2 hosted verification`.
+- Implementation commit: `e55534c Define Data Connector v0.3A proxy scope`.
+- Push result: implementation commit was already present on `origin/main`; no duplicate push was performed.
+- GitHub Pages run: `27938130514` passed `Validate and Deploy GitHub Pages`.
+- Deployment ID: `5148007623`; deployment status ID `14650910933` completed successfully.
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
 - Canonical scope: `docs/02_RESEARCH/PICKAXE_DATA_CONNECTOR_V03_PROVIDER_ACTIVATION_SCOPE.md`.
 - Selected first external-provider candidate: Alpha Vantage, subject to a fresh official terms, attribution, entitlement, quote-basis, timestamp, and rate-limit review before activation.
 - Selected first data type: one `QuoteSnapshot` for `QQQ`, manually requested during local QA only.
@@ -16,8 +21,12 @@
 - No `.env`, `.env.example`, key, token, credential, private endpoint, dependency, cache, persistence, polling, retry, LocalStorage key, provider response, live-data label, alert delivery, Options Hub, broker connection, or execution behavior was added.
 - GitHub Pages behavior remains unchanged: `demoProvider` is active; `localProxyProvider` and future providers remain `UNAVAILABLE`; the public frontend does not call the scaffold and requires no backend.
 - Source Status remains the existing v0.2 provider-truth surface. No duplicate panel or Alerts redesign was added.
-- Full automated validation and local desktop `1280x720` plus mobile `390x844` browser QA passed for `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, and `/staging`.
+- Full automated validation and hosted desktop `1280x720` plus mobile `390x844` browser QA passed for `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, and `/staging`.
 - Alerts remained singleton with one Intelligence Core and one Starlight canvas. Founder remained the public front door. Staging remained the QA/status surface. Console and document-overflow checks passed.
+- Hosted candidate switching passed on all three Alerts entries with score/classification, Dynamic Risk Matrix, and Options Quality updates.
+- Hosted resource inspection found no `/api/provider/quote`, Alpha Vantage, Finnhub, Tradier, Polygon, Massive, or other provider API resource. GitHub Pages remained independent from `server.mjs`.
+- Hosted Source Status remained the singleton v0.2 provider-truth surface: `demoProvider` active, local proxy and future providers `UNAVAILABLE`, freshness `UNKNOWN`, source/data confidence distinct from trade confidence, and no unlabeled demo fallback.
+- Security QA found no committed `.env`, API key, token, provider credential, broker credential, private endpoint, arbitrary proxy, environment value, fake live price, or fake market timestamp.
 - `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
 - Next bounded recommendation: `Pickaxe Data Connector v0.3B — First QuoteSnapshot Provider Activation through secure local proxy`. Recommended next, not started; separate CEO B authorization required.
 
@@ -27,6 +36,13 @@
 - `server.mjs`
 - `scripts/smoke-routes.mjs`
 - `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `public/index.html` and `index.html` — tracker cache key only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+### Pickaxe Data Connector v0.3A Hosted Status Recording Files Changed
+
+- `public/habitat-data.js` and `habitat-data.js`
 - `public/index.html` and `index.html` — tracker cache key only
 - `PROJECT_STATUS.md`
 - `NEXT_STEPS.md`

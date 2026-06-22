@@ -2,9 +2,14 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Data Connector v0.3A is **PASS / LOCAL SCOPE AND PROXY-READINESS COMPLETE**.
+Pickaxe Data Connector v0.3A is **PASS / HOSTED QA VERIFIED**.
 
 - Baseline commit: `dda736f Record Data Connector v0.2 hosted verification`.
+- Hosted implementation commit: `e55534c Define Data Connector v0.3A proxy scope`.
+- The implementation commit was already present on `origin/main`; no duplicate push was performed.
+- GitHub Pages run `27938130514` passed validation and deployment.
+- Deployment ID `5148007623` completed successfully.
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
 - Canonical activation scope: `docs/02_RESEARCH/PICKAXE_DATA_CONNECTOR_V03_PROVIDER_ACTIVATION_SCOPE.md`.
 - The first recommended external provider is Alpha Vantage.
 - The first recommended data type is one `QuoteSnapshot` for `QQQ`.
@@ -15,7 +20,11 @@ Pickaxe Data Connector v0.3A is **PASS / LOCAL SCOPE AND PROXY-READINESS COMPLET
 - The browser frontend remains disconnected from the scaffold.
 - `demoProvider` remains the only active hosted provider; local proxy and future providers remain `UNAVAILABLE`.
 - No API key, secret, private endpoint, provider activation, cache, persistence, polling, LocalStorage key, alert delivery, Options Hub, broker connection, or execution behavior was added.
-- Automated validation and desktop/mobile regression QA passed across all required Alerts, Founder, and Staging entries.
+- Automated validation and hosted desktop/mobile regression QA passed across all required Alerts, Founder, and Staging entries.
+- Candidate switching and dynamic score/risk/options updates passed on `/`, `/#/alerts`, and `/app/alerts`.
+- Hosted resource inspection confirmed that no browser request or asset referenced the local proxy or an external provider API.
+- Source Status remained DEMO / UNAVAILABLE with one active provider, truthful stale/confidence language, and no backend requirement.
+- Security QA found no committed environment file, key, credential, private endpoint, arbitrary proxy, fake live data, or environment-value exposure.
 - `data/signal-alerts.json` remains unchanged.
 
 Next bounded step: `Pickaxe Data Connector v0.3B — First QuoteSnapshot Provider Activation through secure local proxy`.
