@@ -2,6 +2,28 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Data Connector v0.3A is **PASS / LOCAL SCOPE AND PROXY-READINESS COMPLETE**.
+
+- Baseline commit: `dda736f Record Data Connector v0.2 hosted verification`.
+- Canonical activation scope: `docs/02_RESEARCH/PICKAXE_DATA_CONNECTOR_V03_PROVIDER_ACTIVATION_SCOPE.md`.
+- The first recommended external provider is Alpha Vantage.
+- The first recommended data type is one `QuoteSnapshot` for `QQQ`.
+- The required transport is the existing local Node server; GitHub Pages remains static and backend-independent.
+- A disabled-by-default `/api/provider/quote` contract scaffold now returns normalized `UNAVAILABLE` or `ERROR` responses and never makes an external call in v0.3A.
+- Disabled, missing-key, invalid-ticker, and credential-present-but-not-authorized stop states were verified.
+- Environment variable names are documented without values. No `.env` or `.env.example` was added.
+- The browser frontend remains disconnected from the scaffold.
+- `demoProvider` remains the only active hosted provider; local proxy and future providers remain `UNAVAILABLE`.
+- No API key, secret, private endpoint, provider activation, cache, persistence, polling, LocalStorage key, alert delivery, Options Hub, broker connection, or execution behavior was added.
+- Automated validation and desktop/mobile regression QA passed across all required Alerts, Founder, and Staging entries.
+- `data/signal-alerts.json` remains unchanged.
+
+Next bounded step: `Pickaxe Data Connector v0.3B — First QuoteSnapshot Provider Activation through secure local proxy`.
+
+v0.3B is recommended next, not started. It requires separate CEO B authorization and a fresh official provider/legal/rate-limit review.
+
+## Previous Active Checkpoint - Pickaxe Data Connector v0.2
+
 Pickaxe Data Connector v0.2 is **PASS / HOSTED QA VERIFIED**.
 
 - Baseline commit: `c87a8be Record Pickaxe Intelligence Core hosted verification`.

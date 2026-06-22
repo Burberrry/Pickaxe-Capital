@@ -32,6 +32,9 @@ const LIVE_SERVICES_ENABLED =
   String(process.env.PICKAXE_ENABLE_LIVE_SERVICES || "").toLowerCase() === "true";
 const LIVE_SERVICES_DISABLED_MESSAGE =
   "Live services are disabled in this static prototype. This endpoint returns demo/static data only.";
+const PROVIDER_PROXY_MODE = String(process.env.PICKAXE_PROVIDER_MODE || "disabled").trim().toLowerCase();
+const FIRST_PROVIDER_MODE = "alpha-vantage-quote";
+const FIRST_PROVIDER_KEY_NAME = "PICKAXE_ALPHA_VANTAGE_API_KEY";
 
 const contentTypes = {
   ".html": "text/html; charset=utf-8",
@@ -88,6 +91,12 @@ createServer(async (req, res) => {
         message: LIVE_SERVICES_ENABLED ? "Local development live services are enabled." : LIVE_SERVICES_DISABLED_MESSAGE,
         time: new Date().toISOString(),
       });
+    }
+
+    if (url.pathname === "/api/provider/quote") {
+      const ticker = cleanProviderTicker(url.searchParams.get("ticker") || "");
+      const result = getLocalQuoteProxyScaffold(ticker);
+      return json(res, result.payload, result.status);
     }
 
     if (url.pathname === "/api/market") {
@@ -1235,6 +1244,80 @@ function json(res, payload, status = 200) {
 
 function cleanText(value, maxLength) {
   return String(value || "").replace(/\s+/g, " ").trim().slice(0, maxLength);
+}
+
+function cleanProviderTicker(value) {
+  const ticker = String(value || "").trim().toUpperCase();
+  return /^[A-Z0-9.-]{1,12}$/.test(ticker) ? ticker : "";
+}
+
+function getLocalQuoteProxyScaffold(ticker) {
+  const base = {
+    ticker,
+    price: null,
+    change: null,
+    changePercent: null,
+    marketTime: null,
+    source: "Pickaxe Local Proxy Scaffold",
+    sourceUrl: "",
+    dataMode: "UNAVAILABLE",
+    quoteType: "Unavailable",
+    timezone: null,
+    receivedAt: null,
+    isStale: false,
+    staleReason: "",
+    providerId: "localProxyProvider",
+    providerCandidate: "futureAlphaVantageProvider",
+    proxyMode: PROVIDER_PROXY_MODE === FIRST_PROVIDER_MODE ? FIRST_PROVIDER_MODE : "disabled",
+    activationAuthorized: false,
+  };
+
+  if (!ticker) {
+    return {
+      status: 400,
+      payload: {
+        ...base,
+        dataMode: "ERROR",
+        errorCode: "INVALID_TICKER",
+        errorMessage: "Ticker must contain 1–12 letters, numbers, periods, or hyphens.",
+        staleReason: "No provider request was made.",
+      },
+    };
+  }
+
+  if (PROVIDER_PROXY_MODE !== FIRST_PROVIDER_MODE) {
+    return {
+      status: 503,
+      payload: {
+        ...base,
+        errorCode: "PROVIDER_NOT_CONFIGURED",
+        errorMessage: "The local QuoteSnapshot proxy is disabled. Hosted GitHub Pages remains DEMO / UNAVAILABLE.",
+        staleReason: "No provider request was made.",
+      },
+    };
+  }
+
+  if (!String(process.env[FIRST_PROVIDER_KEY_NAME] || "").trim()) {
+    return {
+      status: 503,
+      payload: {
+        ...base,
+        errorCode: "API_KEY_MISSING",
+        errorMessage: `${FIRST_PROVIDER_KEY_NAME} is required in the local server environment. Never place it in frontend code.`,
+        staleReason: "No provider request was made.",
+      },
+    };
+  }
+
+  return {
+    status: 501,
+    payload: {
+      ...base,
+      errorCode: "ACTIVATION_NOT_AUTHORIZED",
+      errorMessage: "Credential presence was detected locally, but external provider calls are not authorized in v0.3A.",
+      staleReason: "No provider request was made. v0.3B requires separate CEO B authorization.",
+    },
+  };
 }
 
 function formatPct(value) {

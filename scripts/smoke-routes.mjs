@@ -66,6 +66,7 @@ try {
       ...process.env,
       PORT: String(port),
       PICKAXE_ENABLE_LIVE_SERVICES: "false",
+      PICKAXE_PROVIDER_MODE: "disabled",
     },
     stdio: ["ignore", "pipe", "pipe"],
   });
@@ -74,6 +75,7 @@ try {
 
   await waitForServer(`${baseUrl}/api/health`);
   await verifyHealthBoundary(baseUrl);
+  await verifyProviderProxyBoundary(baseUrl);
   await verifyAssets(baseUrl);
 
   for (const [route, marker] of directRoutes) {
@@ -88,8 +90,8 @@ try {
     throw new Error(failures.join("\n"));
   }
 
-  console.log(`Route smoke passed: ${directRoutes.length} direct routes, ${hashRoutes.length} hash routes, 4 static assets, and static/demo health boundary.`);
-  console.log("Coverage: HTTP 200, SPA fallback HTML, route/source markers, local assets, no Tailwind CDN runtime, and no public local-vault path leakage.");
+  console.log(`Route smoke passed: ${directRoutes.length} direct routes, ${hashRoutes.length} hash routes, 4 static assets, static/demo health boundary, and disabled local provider-proxy boundary.`);
+  console.log("Coverage: HTTP 200, SPA fallback HTML, route/source markers, local assets, normalized UNAVAILABLE proxy response, no Tailwind CDN runtime, and no public local-vault path leakage.");
   console.log("Browser-only checks such as console errors, rendered blank states, and horizontal overflow remain part of manual/in-app browser QA.");
 } catch (error) {
   console.error("Route smoke failed.");
@@ -154,6 +156,21 @@ async function verifyHealthBoundary(baseUrl) {
   if (!response.ok) failures.push(`/api/health returned ${response.status}`);
   if (payload.liveServicesEnabled !== false || payload.mode !== "static-demo") {
     failures.push("/api/health did not remain in static-demo mode");
+  }
+}
+
+async function verifyProviderProxyBoundary(baseUrl) {
+  const response = await fetch(`${baseUrl}/api/provider/quote?ticker=QQQ`);
+  const payload = await response.json();
+  if (response.status !== 503) failures.push(`/api/provider/quote returned ${response.status} instead of disabled 503`);
+  if (payload.dataMode !== "UNAVAILABLE" || payload.errorCode !== "PROVIDER_NOT_CONFIGURED") {
+    failures.push("/api/provider/quote did not return the normalized disabled UNAVAILABLE boundary");
+  }
+  if (payload.price !== null || payload.receivedAt !== null || payload.activationAuthorized !== false || payload.proxyMode !== "disabled") {
+    failures.push("/api/provider/quote implied provider data or activation while disabled");
+  }
+  if (JSON.stringify(payload).includes("apikey=") || JSON.stringify(payload).includes("Authorization")) {
+    failures.push("/api/provider/quote exposed a credential-shaped value");
   }
 }
 
