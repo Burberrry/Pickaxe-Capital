@@ -1,6 +1,38 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Intelligence Core v0.1
+## Current Checkpoint - Pickaxe Data Connector v0.2
+
+- Date: 2026-06-22.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded provider abstraction, stale-data firewall, source-confidence, and Source Status integration.
+- Baseline commit: `c87a8be Record Pickaxe Intelligence Core hosted verification`.
+- Added a normalized provider registry for `demoProvider`, `unavailableProvider`, `manualSnapshotProvider`, `localProxyProvider`, `futureAlphaVantageProvider`, `futureFinnhubProvider`, `futureTradierProvider`, and `futurePolygonOrMassiveProvider`.
+- Added plain-object contracts for Quote, Options Chain, Options Contract, News, Technical, and Market Regime snapshots.
+- Added safe provider functions for quote, options chain, news, technicals, market regime, and source status. Unconfigured or malformed requests return structured `UNAVAILABLE` or `ERROR` responses instead of breaking the UI.
+- Added configurable starter freshness thresholds and classifications: `FRESH`, `AGING`, `STALE`, `EXPIRED`, `UNKNOWN`, and `UNAVAILABLE`, with received time, current time, age, maximum age, and reason diagnostics.
+- Added source/data confidence scoring from 0–100 with `VERIFIED STRUCTURE`, `USABLE WITH CAUTION`, `LIMITED`, `WEAK`, and `UNAVAILABLE / DO NOT USE` classifications. This is explicitly not trade or prediction confidence.
+- Expanded the existing Intelligence Core Source Status rail with active provider mode, per-service provider status, architecture-check time, freshness truth, stale warning, source confidence, fallback path, and future/manual provider registry.
+- Current provider behavior remains `DEMO` through `demoProvider`. Manual and future provider definitions are placeholders; future connectors return `UNAVAILABLE` and make no network calls.
+- The fallback hierarchy is explicit: configured provider, future authorized snapshot only, otherwise `UNAVAILABLE`; demo data is never silently substituted for unavailable provider data.
+- No API key, secret, backend requirement, network provider call, persistence, LocalStorage key, alert delivery, route, renderer, packet model, review queue, broker integration, or execution behavior was added.
+- Local desktop `1280x720` and mobile `390x844` QA passed for `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, and `/staging`.
+- Alerts QA passed with five candidates, candidate switching, score/classification updates, Dynamic Risk Matrix and Options Quality updates, one active Alerts view, one Intelligence Core, one Starlight canvas, and the V3.1 Signals detail in its locked placement.
+- Founder remains the public front door. Staging remains the existing status/QA owner. Direct-path bridges remain correct.
+- Current-browser console checks passed with zero errors or warnings from the v0.2 runtime, and all required routes had no document-level horizontal overflow.
+- Mobile Source Status labels, provider names, and stale/failure explanations remain visible and readable; candidate controls remain tappable.
+- `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Next bounded recommendation: `Pickaxe Data Connector v0.2 Hosted Verification`. Do not start automatically.
+
+### Pickaxe Data Connector v0.2 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html` — app/style/tracker cache keys only
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Intelligence Core v0.1
 
 - Date: 2026-06-22.
 - Result: **PASS / HOSTED QA VERIFIED**.

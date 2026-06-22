@@ -60,7 +60,7 @@ var phase9DrawerOpenerId = "";
 const RESEARCH_APPROVAL_LABEL = "Approved for Research — Not a Trade Command";
 const RESEARCH_CARD_DISCLAIMER =
   "Research only. Not financial advice. No broker execution. Options involve substantial risk. User judgment required.";
-const INTELLIGENCE_CORE_DATA_MODES = ["DEMO", "DELAYED", "LIVE", "STALE", "UNAVAILABLE"];
+const INTELLIGENCE_CORE_DATA_MODES = ["DEMO", "MANUAL", "DELAYED", "LIVE", "STALE", "UNAVAILABLE", "ERROR"];
 const INTELLIGENCE_CORE_DISCLAIMER =
   "Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · Demo/Static Data · Options involve substantial risk.";
 const INTELLIGENCE_CORE_CANDIDATES = [
@@ -1091,9 +1091,6 @@ try { loadVisionMap(); } catch (e) { console.error("Error during startup loadVis
 try { renderAgentsPage(); } catch (e) { console.error("Error during startup renderAgentsPage:", e); }
 try { renderFounderProfile(); } catch (e) { console.error("Error during startup renderFounderProfile:", e); }
 try { renderActionCenter(); } catch (e) { console.error("Error during startup renderActionCenter:", e); }
-try { renderStaticIntelligencePages(); } catch (e) { console.error("Error during startup renderStaticIntelligencePages:", e); }
-try { renderHomeCommandCenter(); } catch (e) { console.error("Error during startup renderHomeCommandCenter:", e); }
-try { openRequestedView(); } catch (e) { console.error("Error during startup openRequestedView:", e); }
 window.addEventListener("hashchange", openRequestedView);
 
 // Global Link Click Interceptor for GitHub Pages / Static Subdirectories compatibility
@@ -9878,23 +9875,480 @@ function renderIntelligenceDataMode(mode = "DEMO") {
   return `<span class="pic-data-mode is-${normalized.toLowerCase()}">${normalized}</span>`;
 }
 
-// Future provider abstraction boundary. These placeholders intentionally return no market values.
-// A separately approved backend/provider/security sprint may replace them without changing the UI contract.
-function getQuote(ticker) { return { ticker, mode: "UNAVAILABLE", value: null, source: "Future API connector" }; }
-function getOptionsChain(ticker) { return { ticker, mode: "UNAVAILABLE", contracts: [], source: "Future API connector" }; }
-function getNews(ticker) { return { ticker, mode: "UNAVAILABLE", items: [], source: "Future API connector" }; }
-function getTechnicals(ticker) { return { ticker, mode: "UNAVAILABLE", indicators: {}, source: "Future API connector" }; }
-function getMarketRegime() { return { mode: "DEMO", label: "Constructive / selective risk-on", source: "Static scenario" }; }
-function getSourceStatus() {
+const PICKAXE_PROVIDER_DATA_MODES = ["DEMO", "MANUAL", "DELAYED", "LIVE", "STALE", "UNAVAILABLE", "ERROR"];
+const PICKAXE_PROVIDER_DATA_TYPES = ["quote", "optionsChain", "news", "technicals", "marketRegime"];
+const PICKAXE_PROVIDER_ERROR_MESSAGES = {
+  PROVIDER_NOT_CONFIGURED: "Provider not configured.",
+  API_KEY_MISSING: "API key missing. Frontend secrets are not permitted.",
+  BACKEND_PROXY_UNAVAILABLE: "Required backend proxy is unavailable.",
+  RATE_LIMITED: "Provider rate limit reached.",
+  INVALID_TICKER: "Ticker is invalid.",
+  UNSUPPORTED_DATA_TYPE: "Provider does not support this data type.",
+  MALFORMED_RESPONSE: "Provider response is malformed.",
+  STALE_DATA: "Provider data exceeded the starter freshness threshold.",
+  NETWORK_DISABLED: "Network access is disabled for this static provider layer.",
+  CORS_BLOCKED: "Browser request blocked by provider CORS policy.",
+  PROVIDER_TERMS_REQUIRE_PROXY: "Provider terms require an approved backend or proxy.",
+};
+
+const PICKAXE_PROVIDER_REGISTRY = Object.freeze({
+  demoProvider: {
+    id: "demoProvider",
+    name: "Pickaxe Demo Intelligence",
+    status: "ACTIVE_DEMO",
+    dataMode: "DEMO",
+    supportedDataTypes: [...PICKAXE_PROVIDER_DATA_TYPES],
+    requiresApiKey: false,
+    requiresBackendProxy: false,
+    isFrontendSafe: true,
+    rateLimitNote: "No network calls. Static in-memory structures only.",
+    costTier: "Free / Built-in",
+    lastChecked: null,
+    failureReason: "",
+    legalOrUsageNote: "Interface demonstration only. Demo data must never be represented as current market data.",
+  },
+  unavailableProvider: {
+    id: "unavailableProvider",
+    name: "Unavailable Provider Fallback",
+    status: "FALLBACK",
+    dataMode: "UNAVAILABLE",
+    supportedDataTypes: [...PICKAXE_PROVIDER_DATA_TYPES],
+    requiresApiKey: false,
+    requiresBackendProxy: false,
+    isFrontendSafe: true,
+    rateLimitNote: "Not applicable.",
+    costTier: "None",
+    lastChecked: null,
+    failureReason: "No approved provider is configured.",
+    legalOrUsageNote: "Returns structured UNAVAILABLE responses and never substitutes unlabeled demo data.",
+  },
+  manualSnapshotProvider: {
+    id: "manualSnapshotProvider",
+    name: "CEO B Manual Snapshot",
+    status: "AVAILABLE_NOT_ACTIVE",
+    dataMode: "MANUAL",
+    supportedDataTypes: [...PICKAXE_PROVIDER_DATA_TYPES],
+    requiresApiKey: false,
+    requiresBackendProxy: false,
+    isFrontendSafe: true,
+    rateLimitNote: "Manual entry or approved static JSON import only.",
+    costTier: "Free / Manual",
+    lastChecked: null,
+    failureReason: "No manual snapshot supplied.",
+    legalOrUsageNote: "CEO B entered; timestamp and source required; not live and not automatically verified.",
+  },
+  localProxyProvider: {
+    id: "localProxyProvider",
+    name: "Local Development Proxy",
+    status: "PLACEHOLDER",
+    dataMode: "UNAVAILABLE",
+    supportedDataTypes: [...PICKAXE_PROVIDER_DATA_TYPES],
+    requiresApiKey: true,
+    requiresBackendProxy: true,
+    isFrontendSafe: false,
+    rateLimitNote: "Provider-specific; local proxy must enforce limits.",
+    costTier: "Provider dependent",
+    lastChecked: null,
+    failureReason: "No approved local proxy adapter is configured.",
+    legalOrUsageNote: "Local development placeholder only. Must fail safely on GitHub Pages.",
+  },
+  futureAlphaVantageProvider: {
+    id: "futureAlphaVantageProvider",
+    name: "Alpha Vantage",
+    status: "FUTURE_APPROVAL_REQUIRED",
+    dataMode: "UNAVAILABLE",
+    supportedDataTypes: ["quote", "technicals"],
+    requiresApiKey: true,
+    requiresBackendProxy: true,
+    isFrontendSafe: false,
+    rateLimitNote: "Free tiers are rate limited; exact limits require provider review.",
+    costTier: "Free / Paid",
+    lastChecked: null,
+    failureReason: "Not configured or approved.",
+    legalOrUsageNote: "Terms, attribution, caching, and redistribution must be reviewed before activation.",
+  },
+  futureFinnhubProvider: {
+    id: "futureFinnhubProvider",
+    name: "Finnhub",
+    status: "FUTURE_APPROVAL_REQUIRED",
+    dataMode: "UNAVAILABLE",
+    supportedDataTypes: ["quote", "news"],
+    requiresApiKey: true,
+    requiresBackendProxy: true,
+    isFrontendSafe: false,
+    rateLimitNote: "Free tiers are rate limited; exact limits require provider review.",
+    costTier: "Free / Paid",
+    lastChecked: null,
+    failureReason: "Not configured or approved.",
+    legalOrUsageNote: "Terms, exchange entitlements, attribution, and redistribution require review.",
+  },
+  futureTradierProvider: {
+    id: "futureTradierProvider",
+    name: "Tradier",
+    status: "FUTURE_APPROVAL_REQUIRED",
+    dataMode: "UNAVAILABLE",
+    supportedDataTypes: ["quote", "optionsChain"],
+    requiresApiKey: true,
+    requiresBackendProxy: true,
+    isFrontendSafe: false,
+    rateLimitNote: "Sandbox and production limits differ; provider approval required.",
+    costTier: "Provider dependent",
+    lastChecked: null,
+    failureReason: "Not configured or approved.",
+    legalOrUsageNote: "Market-data agreements and options-chain usage must be approved before activation.",
+  },
+  futurePolygonOrMassiveProvider: {
+    id: "futurePolygonOrMassiveProvider",
+    name: "Polygon / Massive",
+    status: "FUTURE_APPROVAL_REQUIRED",
+    dataMode: "UNAVAILABLE",
+    supportedDataTypes: ["quote", "optionsChain", "news"],
+    requiresApiKey: true,
+    requiresBackendProxy: true,
+    isFrontendSafe: false,
+    rateLimitNote: "Plan and entitlement limits require verification.",
+    costTier: "Free trial / Paid",
+    lastChecked: null,
+    failureReason: "Not configured or approved.",
+    legalOrUsageNote: "Exchange licensing, display rights, attribution, and caching rules require review.",
+  },
+});
+
+const PICKAXE_PROVIDER_SELECTION = Object.freeze({
+  quote: "demoProvider",
+  optionsChain: "demoProvider",
+  news: "demoProvider",
+  technicals: "demoProvider",
+  marketRegime: "demoProvider",
+});
+
+const PICKAXE_DATA_CONTRACTS = Object.freeze({
+  QuoteSnapshot: ["ticker", "price", "change", "changePercent", "marketTime", "source", "sourceUrl", "dataMode", "quoteType", "timezone", "receivedAt", "isStale", "staleReason"],
+  OptionsChainSnapshot: ["ticker", "expiration", "contracts", "source", "dataMode", "receivedAt", "isStale", "staleReason"],
+  OptionsContract: ["symbol", "type", "strike", "expiration", "bid", "ask", "mid", "last", "volume", "openInterest", "impliedVolatility", "delta", "gamma", "theta", "vega", "spread", "spreadPercent", "liquidityGrade", "dataMode"],
+  NewsSnapshot: ["ticker", "headline", "source", "url", "publishedAt", "receivedAt", "dataMode", "isStale"],
+  TechnicalSnapshot: ["ticker", "timeframe", "indicators", "source", "receivedAt", "dataMode", "isStale"],
+  MarketRegimeSnapshot: ["spyBias", "qqqBias", "vixCondition", "breadthStatus", "macroRisk", "riskMode", "source", "receivedAt", "dataMode", "isStale"],
+});
+
+const PICKAXE_STALE_THRESHOLDS = Object.freeze({
+  quote: { freshMax: 60_000, agingMax: 120_000, staleMax: 300_000 },
+  optionsChain: { freshMax: 120_000, agingMax: 300_000, staleMax: 900_000 },
+  news: { freshMax: 900_000, agingMax: 3_600_000, staleMax: 21_600_000 },
+  technicalsIntraday: { freshMax: 300_000, agingMax: 900_000, staleMax: 3_600_000 },
+  technicalsSwing: { freshMax: 3_600_000, agingMax: 14_400_000, staleMax: 86_400_000 },
+  marketRegime: { freshMax: 900_000, agingMax: 1_800_000, staleMax: 7_200_000 },
+});
+
+function getStaleThresholds(dataType, timeframe = "") {
+  if (dataType === "technicals") {
+    return /intraday|minute|hour/i.test(timeframe)
+      ? PICKAXE_STALE_THRESHOLDS.technicalsIntraday
+      : PICKAXE_STALE_THRESHOLDS.technicalsSwing;
+  }
+  return PICKAXE_STALE_THRESHOLDS[dataType] || null;
+}
+
+function classifyDataFreshness({ dataType, receivedAt, currentTime = new Date().toISOString(), timeframe = "", dataMode = "UNAVAILABLE" } = {}) {
+  const thresholds = getStaleThresholds(dataType, timeframe);
+  const currentMs = Date.parse(currentTime);
+  const receivedMs = Date.parse(receivedAt || "");
+  const base = {
+    receivedAt: receivedAt || null,
+    currentTime,
+    maxAge: thresholds?.staleMax ?? null,
+    age: null,
+    reason: "",
+  };
+  if (dataMode === "UNAVAILABLE" || dataMode === "ERROR") {
+    return { ...base, classification: "UNAVAILABLE", reason: "No usable provider snapshot is available." };
+  }
+  if (!thresholds) {
+    return { ...base, classification: "UNKNOWN", reason: "No starter threshold exists for this data type." };
+  }
+  if (!receivedAt || !Number.isFinite(receivedMs) || !Number.isFinite(currentMs)) {
+    return { ...base, classification: "UNKNOWN", reason: "A valid provider receivedAt timestamp is required before freshness can be claimed." };
+  }
+  const age = Math.max(0, currentMs - receivedMs);
+  if (age <= thresholds.freshMax) {
+    return { ...base, age, classification: "FRESH", reason: "Snapshot is inside the starter fresh threshold." };
+  }
+  if (age <= thresholds.agingMax) {
+    return { ...base, age, classification: "AGING", reason: "Snapshot is approaching the starter stale threshold." };
+  }
+  if (age <= thresholds.staleMax) {
+    return { ...base, age, classification: "STALE", reason: "Snapshot exceeded the starter aging threshold." };
+  }
+  return { ...base, age, classification: "EXPIRED", reason: "Snapshot exceeded the starter maximum age and must not be used." };
+}
+
+function classifySourceConfidence(score) {
+  if (score >= 90) return "VERIFIED STRUCTURE";
+  if (score >= 75) return "USABLE WITH CAUTION";
+  if (score >= 50) return "LIMITED";
+  if (score >= 25) return "WEAK";
+  return "UNAVAILABLE / DO NOT USE";
+}
+
+function scoreSourceConfidence({ provider, dataMode, freshness, fieldCompleteness = 0, sourceIdentity = false, hasFailure = false, isManual = false, requiresFutureApproval = false } = {}) {
+  const providerPoints = provider?.status === "ACTIVE_DEMO" ? 12 : provider?.status === "ACTIVE" ? 20 : provider?.status === "AVAILABLE_NOT_ACTIVE" ? 8 : 0;
+  const modePoints = { LIVE: 25, DELAYED: 18, MANUAL: 12, DEMO: 10, STALE: 5, UNAVAILABLE: 0, ERROR: 0 }[dataMode] || 0;
+  const freshnessPoints = { FRESH: 20, AGING: 15, STALE: 5, EXPIRED: 0, UNKNOWN: 3, UNAVAILABLE: 0 }[freshness?.classification] || 0;
+  let score = providerPoints + modePoints + freshnessPoints + Math.round(Math.max(0, Math.min(1, fieldCompleteness)) * 20) + (sourceIdentity ? 10 : 0);
+  if (hasFailure) score -= 30;
+  if (isManual) score -= 8;
+  if (requiresFutureApproval) score -= 15;
+  score = Math.max(0, Math.min(100, score));
+  return { score, classification: classifySourceConfidence(score) };
+}
+
+function normalizeProviderDataMode(mode) {
+  return PICKAXE_PROVIDER_DATA_MODES.includes(mode) ? mode : "ERROR";
+}
+
+function normalizeProviderTicker(ticker) {
+  const normalized = String(ticker || "").trim().toUpperCase();
+  return /^[A-Z0-9.-]{1,12}$/.test(normalized) ? normalized : "";
+}
+
+function emptySnapshot(dataType, ticker = "", expiration = "") {
+  if (dataType === "quote") return { ticker, price: null, change: null, changePercent: null, marketTime: null, source: "", sourceUrl: "", dataMode: "UNAVAILABLE", quoteType: "Unavailable", timezone: null, receivedAt: null, isStale: false, staleReason: "" };
+  if (dataType === "optionsChain") return { ticker, expiration: expiration || null, contracts: [], source: "", dataMode: "UNAVAILABLE", receivedAt: null, isStale: false, staleReason: "" };
+  if (dataType === "news") return { ticker, headline: "", source: "", url: "", publishedAt: null, receivedAt: null, dataMode: "UNAVAILABLE", isStale: false, staleReason: "" };
+  if (dataType === "technicals") return { ticker, timeframe: "Unspecified", indicators: {}, source: "", receivedAt: null, dataMode: "UNAVAILABLE", isStale: false, staleReason: "" };
+  return { spyBias: "Unavailable", qqqBias: "Unavailable", vixCondition: "Unavailable", breadthStatus: "Unavailable", macroRisk: "Unavailable", riskMode: "Unavailable", source: "", receivedAt: null, dataMode: "UNAVAILABLE", isStale: false, staleReason: "" };
+}
+
+function attachProviderDiagnostics(snapshot, { provider, dataType, expectedFields = [], timeframe = "", errorCode = "" } = {}) {
+  const dataMode = normalizeProviderDataMode(snapshot.dataMode);
+  const freshness = classifyDataFreshness({ dataType, receivedAt: snapshot.receivedAt, timeframe, dataMode });
+  const completedFields = expectedFields.filter((field) => {
+    const value = snapshot[field];
+    return value !== null && value !== undefined && value !== "" && (!Array.isArray(value) || value.length > 0);
+  }).length;
+  const confidence = scoreSourceConfidence({
+    provider,
+    dataMode,
+    freshness,
+    fieldCompleteness: expectedFields.length ? completedFields / expectedFields.length : 0,
+    sourceIdentity: Boolean(snapshot.source),
+    hasFailure: Boolean(errorCode),
+    isManual: dataMode === "MANUAL",
+    requiresFutureApproval: /FUTURE_APPROVAL/.test(provider?.status || ""),
+  });
   return {
-    priceData: "DEMO",
-    optionsChain: "DEMO",
-    newsCatalyst: "DEMO",
-    technicalIndicators: "DEMO",
-    marketRegime: "DEMO",
-    lastChecked: "Static demo dataset · no live check performed",
+    ...snapshot,
+    dataMode,
+    isStale: ["STALE", "EXPIRED"].includes(freshness.classification),
+    staleReason: freshness.reason,
+    providerId: provider?.id || "unavailableProvider",
+    providerStatus: provider?.status || "UNAVAILABLE",
+    freshness,
+    sourceConfidence: confidence,
+    errorCode: errorCode || "",
+    errorMessage: errorCode ? PICKAXE_PROVIDER_ERROR_MESSAGES[errorCode] || "Unknown provider error." : "",
   };
 }
+
+function createProviderError(dataType, { ticker = "", expiration = "", providerId = "unavailableProvider", errorCode = "PROVIDER_NOT_CONFIGURED" } = {}) {
+  const provider = PICKAXE_PROVIDER_REGISTRY[providerId] || PICKAXE_PROVIDER_REGISTRY.unavailableProvider;
+  const snapshot = emptySnapshot(dataType, ticker, expiration);
+  snapshot.source = provider.name;
+  snapshot.dataMode = "UNAVAILABLE";
+  snapshot.staleReason = PICKAXE_PROVIDER_ERROR_MESSAGES[errorCode] || "Provider unavailable.";
+  return attachProviderDiagnostics(snapshot, { provider, dataType, errorCode });
+}
+
+function getConfiguredProvider(dataType) {
+  const providerId = PICKAXE_PROVIDER_SELECTION[dataType];
+  return PICKAXE_PROVIDER_REGISTRY[providerId] || PICKAXE_PROVIDER_REGISTRY.unavailableProvider;
+}
+
+function safeProviderResult(dataType, factory, fallback) {
+  try {
+    return factory();
+  } catch (error) {
+    console.warn(`Pickaxe provider boundary returned a safe ${dataType} fallback.`, error);
+    return createProviderError(dataType, { ...fallback, errorCode: "MALFORMED_RESPONSE" });
+  }
+}
+
+function getQuote(ticker) {
+  const normalizedTicker = normalizeProviderTicker(ticker);
+  if (!normalizedTicker) return createProviderError("quote", { ticker: String(ticker || ""), errorCode: "INVALID_TICKER" });
+  return safeProviderResult("quote", () => {
+    const provider = getConfiguredProvider("quote");
+    if (provider.id !== "demoProvider") return createProviderError("quote", { ticker: normalizedTicker, providerId: provider.id });
+    return attachProviderDiagnostics({
+      ...emptySnapshot("quote", normalizedTicker),
+      source: provider.name,
+      sourceUrl: "",
+      dataMode: "DEMO",
+      quoteType: "Static demo structure",
+      staleReason: "No market timestamp exists in demo mode.",
+    }, { provider, dataType: "quote", expectedFields: ["ticker", "source", "dataMode", "quoteType"] });
+  }, { ticker: normalizedTicker });
+}
+
+function getOptionsChain(ticker, expiration = "") {
+  const normalizedTicker = normalizeProviderTicker(ticker);
+  if (!normalizedTicker) return createProviderError("optionsChain", { ticker: String(ticker || ""), expiration, errorCode: "INVALID_TICKER" });
+  return safeProviderResult("optionsChain", () => {
+    const provider = getConfiguredProvider("optionsChain");
+    if (provider.id !== "demoProvider") return createProviderError("optionsChain", { ticker: normalizedTicker, expiration, providerId: provider.id });
+    return attachProviderDiagnostics({
+      ...emptySnapshot("optionsChain", normalizedTicker, expiration),
+      source: provider.name,
+      dataMode: "DEMO",
+      staleReason: "No live or delayed options chain is connected.",
+    }, { provider, dataType: "optionsChain", expectedFields: ["ticker", "source", "dataMode"] });
+  }, { ticker: normalizedTicker, expiration });
+}
+
+function getNews(ticker) {
+  const normalizedTicker = normalizeProviderTicker(ticker);
+  if (!normalizedTicker) return createProviderError("news", { ticker: String(ticker || ""), errorCode: "INVALID_TICKER" });
+  return safeProviderResult("news", () => {
+    const provider = getConfiguredProvider("news");
+    if (provider.id !== "demoProvider") return createProviderError("news", { ticker: normalizedTicker, providerId: provider.id });
+    return attachProviderDiagnostics({
+      ...emptySnapshot("news", normalizedTicker),
+      headline: "Demo catalyst structure only — verified source required.",
+      source: provider.name,
+      dataMode: "DEMO",
+      staleReason: "No publishedAt or provider receivedAt timestamp exists in demo mode.",
+    }, { provider, dataType: "news", expectedFields: ["ticker", "headline", "source", "dataMode"] });
+  }, { ticker: normalizedTicker });
+}
+
+function getTechnicals(ticker, timeframe = "Intraday") {
+  const normalizedTicker = normalizeProviderTicker(ticker);
+  if (!normalizedTicker) return createProviderError("technicals", { ticker: String(ticker || ""), errorCode: "INVALID_TICKER" });
+  return safeProviderResult("technicals", () => {
+    const provider = getConfiguredProvider("technicals");
+    if (provider.id !== "demoProvider") return createProviderError("technicals", { ticker: normalizedTicker, providerId: provider.id });
+    return attachProviderDiagnostics({
+      ...emptySnapshot("technicals", normalizedTicker),
+      timeframe,
+      indicators: { status: "Demo structure; verified indicator inputs required." },
+      source: provider.name,
+      dataMode: "DEMO",
+      staleReason: "No provider technical timestamp exists in demo mode.",
+    }, { provider, dataType: "technicals", timeframe, expectedFields: ["ticker", "timeframe", "indicators", "source", "dataMode"] });
+  }, { ticker: normalizedTicker });
+}
+
+function getMarketRegime() {
+  return safeProviderResult("marketRegime", () => {
+    const provider = getConfiguredProvider("marketRegime");
+    if (provider.id !== "demoProvider") return createProviderError("marketRegime", { providerId: provider.id });
+    return attachProviderDiagnostics({
+      ...emptySnapshot("marketRegime"),
+      spyBias: "Constructive / selective",
+      qqqBias: "Leadership / confirmation required",
+      vixCondition: "Contained but event-sensitive",
+      breadthStatus: "Mixed participation",
+      macroRisk: "Moderate / source check required",
+      riskMode: "Constructive / selective risk-on",
+      source: provider.name,
+      dataMode: "DEMO",
+      label: "Constructive / selective risk-on",
+      mode: "DEMO",
+      staleReason: "No live market-regime timestamp exists in demo mode.",
+    }, { provider, dataType: "marketRegime", expectedFields: ["spyBias", "qqqBias", "vixCondition", "breadthStatus", "macroRisk", "riskMode", "source", "dataMode"] });
+  }, {});
+}
+
+function createManualSnapshot(dataType, payload = {}) {
+  const provider = PICKAXE_PROVIDER_REGISTRY.manualSnapshotProvider;
+  if (!PICKAXE_PROVIDER_DATA_TYPES.includes(dataType)) return createProviderError("quote", { providerId: provider.id, errorCode: "UNSUPPORTED_DATA_TYPE" });
+  const ticker = dataType === "marketRegime" ? "" : normalizeProviderTicker(payload.ticker);
+  if (dataType !== "marketRegime" && !ticker) return createProviderError(dataType, { ticker: payload.ticker, providerId: provider.id, errorCode: "INVALID_TICKER" });
+  if (!payload.source || !payload.receivedAt) {
+    return createProviderError(dataType, { ticker, expiration: payload.expiration, providerId: provider.id, errorCode: "MALFORMED_RESPONSE" });
+  }
+  const snapshot = { ...emptySnapshot(dataType, ticker, payload.expiration), ...payload, ticker, dataMode: "MANUAL" };
+  return attachProviderDiagnostics(snapshot, { provider, dataType, timeframe: payload.timeframe, expectedFields: PICKAXE_DATA_CONTRACTS[{
+    quote: "QuoteSnapshot",
+    optionsChain: "OptionsChainSnapshot",
+    news: "NewsSnapshot",
+    technicals: "TechnicalSnapshot",
+    marketRegime: "MarketRegimeSnapshot",
+  }[dataType]] || [] });
+}
+
+function requestPlaceholderProvider(providerId, dataType, context = {}) {
+  const provider = PICKAXE_PROVIDER_REGISTRY[providerId];
+  if (!provider) return createProviderError(dataType, { ...context, errorCode: "PROVIDER_NOT_CONFIGURED" });
+  if (!provider.supportedDataTypes.includes(dataType)) return createProviderError(dataType, { ...context, providerId, errorCode: "UNSUPPORTED_DATA_TYPE" });
+  if (provider.requiresBackendProxy) return createProviderError(dataType, { ...context, providerId, errorCode: "BACKEND_PROXY_UNAVAILABLE" });
+  if (provider.requiresApiKey) return createProviderError(dataType, { ...context, providerId, errorCode: "API_KEY_MISSING" });
+  return createProviderError(dataType, { ...context, providerId, errorCode: "NETWORK_DISABLED" });
+}
+
+function getSourceStatus() {
+  const evaluatedAt = new Date().toISOString();
+  const snapshots = {
+    quote: getQuote("QQQ"),
+    optionsChain: getOptionsChain("QQQ"),
+    news: getNews("QQQ"),
+    technicals: getTechnicals("QQQ", "Intraday"),
+    marketRegime: getMarketRegime(),
+  };
+  const services = [
+    ["Quote provider", "quote"],
+    ["Options provider", "optionsChain"],
+    ["News provider", "news"],
+    ["Technical provider", "technicals"],
+    ["Market regime provider", "marketRegime"],
+  ].map(([label, key]) => ({
+    label,
+    key,
+    provider: PICKAXE_PROVIDER_REGISTRY[snapshots[key].providerId],
+    snapshot: snapshots[key],
+  }));
+  const aggregateScore = Math.round(services.reduce((sum, item) => sum + item.snapshot.sourceConfidence.score, 0) / services.length);
+  return {
+    activeProviderMode: "DEMO",
+    activeProvider: PICKAXE_PROVIDER_REGISTRY.demoProvider,
+    services,
+    lastChecked: evaluatedAt,
+    lastCheckedLabel: `${evaluatedAt} · architecture evaluation, not market time`,
+    freshness: "UNKNOWN",
+    staleWarning: "No provider market timestamps exist in DEMO mode; freshness cannot be claimed.",
+    sourceConfidence: { score: aggregateScore, classification: classifySourceConfidence(aggregateScore) },
+    fallbackPath: "Configured provider → no persistence fallback authorized → UNAVAILABLE. Demo remains separately labeled.",
+    connectors: Object.values(PICKAXE_PROVIDER_REGISTRY).filter((provider) => provider.id !== "demoProvider" && provider.id !== "unavailableProvider"),
+    priceData: snapshots.quote.dataMode,
+    optionsChain: snapshots.optionsChain.dataMode,
+    newsCatalyst: snapshots.news.dataMode,
+    technicalIndicators: snapshots.technicals.dataMode,
+    marketRegime: snapshots.marketRegime.dataMode,
+  };
+}
+
+window.PickaxeDataConnectorV02 = Object.freeze({
+  providerRegistry: PICKAXE_PROVIDER_REGISTRY,
+  dataContracts: PICKAXE_DATA_CONTRACTS,
+  staleThresholds: PICKAXE_STALE_THRESHOLDS,
+  fallbackOrder: [
+    "Try configured provider.",
+    "Use last valid snapshot only if persistence is separately authorized.",
+    "Without a valid snapshot, return UNAVAILABLE.",
+    "Keep DEMO UI separate and clearly labeled.",
+    "Never silently replace unavailable provider data with demo data.",
+  ],
+  classifyDataFreshness,
+  scoreSourceConfidence,
+  getQuote,
+  getOptionsChain,
+  getNews,
+  getTechnicals,
+  getMarketRegime,
+  getSourceStatus,
+  createManualSnapshot,
+  requestPlaceholderProvider,
+});
 
 function renderPickaxeIntelligenceCore() {
   const candidate = INTELLIGENCE_CORE_CANDIDATES.find((item) => item.id === state.selectedIntelligenceCandidateId)
@@ -9945,21 +10399,21 @@ function renderPickaxeIntelligenceCore() {
     <section id="pickaxeIntelligenceCore" class="pic-core" aria-labelledby="picCoreTitle">
       <header class="pic-core-header">
         <div>
-          <span>Pickaxe Intelligence Core v0.1</span>
+          <span>Pickaxe Intelligence Core v0.1 · Data Connector v0.2</span>
           <h3 id="picCoreTitle">Alerts Desk Intelligence Engine</h3>
           <p>Demo candidate scoring, dynamic risk controls, options-quality review, source status, rejected-alert discipline, and lesson preparation.</p>
         </div>
         <aside>
-          ${renderIntelligenceDataMode("DEMO")}
-          <strong>Static intelligence structure</strong>
-          <small>No live provider, alert delivery, or broker connection.</small>
+          ${renderIntelligenceDataMode(sourceStatus.activeProviderMode)}
+          <strong>Provider architecture active</strong>
+          <small>demoProvider only · no live provider, persistence, alert delivery, or broker connection.</small>
         </aside>
       </header>
 
       <div class="pic-mode-legend" aria-label="Supported data modes">
         <span>Data modes</span>
         ${INTELLIGENCE_CORE_DATA_MODES.map((mode) => renderIntelligenceDataMode(mode)).join("")}
-        <small>Only DEMO is active in this sprint.</small>
+        <small>Only DEMO is active. Future connectors remain UNAVAILABLE.</small>
       </div>
 
       <div class="pic-candidate-tabs" aria-label="Demo alert candidates">
@@ -10014,12 +10468,12 @@ function renderPickaxeIntelligenceCore() {
         </article>
 
         <article class="pic-panel pic-regime-panel">
-          <header><div><span>Market Regime</span><h4>${escapeHtml(regime.label)}</h4></div>${renderIntelligenceDataMode(regime.mode)}</header>
+          <header><div><span>Market Regime</span><h4>${escapeHtml(regime.label || regime.riskMode)}</h4></div>${renderIntelligenceDataMode(regime.dataMode)}</header>
           <dl>
-            <div><dt>SPY / QQQ Bias</dt><dd>Constructive / selective</dd></div>
-            <div><dt>VIX Condition</dt><dd>Contained but event-sensitive</dd></div>
-            <div><dt>Breadth Status</dt><dd>Mixed participation</dd></div>
-            <div><dt>Macro Risk</dt><dd>Moderate / source check required</dd></div>
+            <div><dt>SPY / QQQ Bias</dt><dd>${escapeHtml(regime.spyBias)} · ${escapeHtml(regime.qqqBias)}</dd></div>
+            <div><dt>VIX Condition</dt><dd>${escapeHtml(regime.vixCondition)}</dd></div>
+            <div><dt>Breadth Status</dt><dd>${escapeHtml(regime.breadthStatus)}</dd></div>
+            <div><dt>Macro Risk</dt><dd>${escapeHtml(regime.macroRisk)}</dd></div>
           </dl>
           <div class="pic-risk-meter"><span>Risk-on</span><i><b></b></i><span>Risk-off</span></div>
           <small>Timestamp: static scenario · no live market check performed.</small>
@@ -10053,17 +10507,40 @@ function renderPickaxeIntelligenceCore() {
         </article>
 
         <aside class="pic-panel pic-source-rail">
-          <header><div><span>Source Status</span><h4>Connector boundary</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
-          ${[
-            ["Price data", sourceStatus.priceData],
-            ["Options chain", sourceStatus.optionsChain],
-            ["News / catalyst", sourceStatus.newsCatalyst],
-            ["Technical indicators", sourceStatus.technicalIndicators],
-            ["Market regime", sourceStatus.marketRegime],
-          ].map(([label, mode]) => `<div><span>${label}</span>${renderIntelligenceDataMode(mode)}</div>`).join("")}
-          <p><strong>Last checked:</strong> ${escapeHtml(sourceStatus.lastChecked)}</p>
-          <p><strong>Future connector:</strong> provider abstraction placeholder only.</p>
-          <small>Current sprint uses demo intelligence structure. Live providers can replace this layer later.</small>
+          <header><div><span>Source Status / Data Connector v0.2</span><h4>Provider truth and stale-data firewall</h4></div>${renderIntelligenceDataMode(sourceStatus.activeProviderMode)}</header>
+          <section class="pic-source-overview">
+            <div><span>Active provider mode</span><strong>${escapeHtml(sourceStatus.activeProvider.name)}</strong>${renderIntelligenceDataMode(sourceStatus.activeProviderMode)}</div>
+            <div><span>Last checked</span><strong>${escapeHtml(sourceStatus.lastCheckedLabel)}</strong></div>
+            <div><span>Data freshness</span><strong>${escapeHtml(sourceStatus.freshness)}</strong><small>${escapeHtml(sourceStatus.staleWarning)}</small></div>
+            <div><span>Source confidence</span><strong>${escapeHtml(sourceStatus.sourceConfidence.score)} / 100 · ${escapeHtml(sourceStatus.sourceConfidence.classification)}</strong><small>Source/data confidence only — not trade or prediction confidence.</small></div>
+          </section>
+          <div class="pic-source-services">
+            ${sourceStatus.services.map(({ label, provider, snapshot }) => `
+              <article>
+                <span>${escapeHtml(label)}</span>
+                <strong>${escapeHtml(provider.name)}</strong>
+                <div>${renderIntelligenceDataMode(snapshot.dataMode)}<em>${escapeHtml(snapshot.freshness.classification)}</em></div>
+                <small>${escapeHtml(snapshot.sourceConfidence.score)} / 100 source confidence · ${escapeHtml(snapshot.staleReason)}</small>
+              </article>
+            `).join("")}
+          </div>
+          <section class="pic-fallback-path">
+            <span>Fallback path</span>
+            <p>${escapeHtml(sourceStatus.fallbackPath)}</p>
+          </section>
+          <section class="pic-provider-registry">
+            <span>Registered future / manual connectors</span>
+            <div>
+              ${sourceStatus.connectors.map((provider) => `
+                <article>
+                  <strong>${escapeHtml(provider.name)}</strong>
+                  ${renderIntelligenceDataMode(provider.dataMode)}
+                  <small>${escapeHtml(provider.failureReason || provider.status)} · ${provider.requiresBackendProxy ? "Approved proxy required" : provider.dataMode === "MANUAL" ? "Timestamp + source required" : "No network call"}</small>
+                </article>
+              `).join("")}
+            </div>
+          </section>
+          <small class="pic-source-boundary">Current hosted system remains DEMO only. Future providers return structured UNAVAILABLE responses until separately approved and configured. No live provider connected.</small>
         </aside>
       </div>
 

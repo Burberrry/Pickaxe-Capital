@@ -2,6 +2,28 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Data Connector v0.2 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Baseline commit: `c87a8be Record Pickaxe Intelligence Core hosted verification`.
+- Owner routes remain `/`, `/#/alerts`, and `/app/alerts` through the existing canonical Alerts renderer.
+- Provider abstraction now covers the active demo provider, structured unavailable fallback, manual snapshot concept, local proxy placeholder, and future Alpha Vantage, Finnhub, Tradier, and Polygon/Massive placeholders.
+- Quote, options chain, options contract, news, technical, and market-regime data have normalized contracts.
+- Provider calls fail safely with normalized `UNAVAILABLE` or `ERROR` responses; the hosted/static app requires no backend and makes no provider network calls.
+- Starter stale-data logic classifies `FRESH`, `AGING`, `STALE`, `EXPIRED`, `UNKNOWN`, and `UNAVAILABLE` with explicit age and threshold reasons.
+- Source/data confidence is scored separately from trade or prediction confidence.
+- Source Status now presents provider mode, per-service state, freshness, stale warnings, confidence, fallback order, and future/manual connector truth.
+- Current data remains `DEMO` through `demoProvider`; manual and future connectors remain placeholders and future connectors report `UNAVAILABLE`.
+- No API key, secret, backend deployment requirement, persistence, storage key, packet model, review queue, route, renderer, alert delivery, broker connection, or execution behavior was added.
+- Automated validation and local desktop `1280x720` plus mobile `390x844` browser QA passed across all required Alerts, Founder, and Staging entries.
+- Candidate switching, score/classification, Dynamic Risk Matrix, Options Quality, Source Status, V3.1 locked placement, one active Alerts view, one Intelligence Core, one Starlight canvas, console, overflow, and mobile readability checks passed.
+- `data/signal-alerts.json` remains unchanged.
+
+Next bounded step: `Pickaxe Data Connector v0.2 Hosted Verification`. Push and hosted verification require a separate authorized sprint.
+
+Do not start v0.3 automatically.
+
+## Previous Active Checkpoint - Pickaxe Intelligence Core v0.1
+
 Pickaxe Intelligence Core v0.1 is **PASS / HOSTED QA VERIFIED**.
 
 - Baseline commit: `a0fbcf6 Repair Staging current hosted checkpoint`.
