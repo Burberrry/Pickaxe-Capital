@@ -26290,3 +26290,197 @@ body[data-active-view="alerts"] #alerts.active .alerts-operator-process > button
     animation: none !important;
   }
 }
+
+/* Pickaxe Options Alerts Website v1 — product clarity layer. */
+body[data-active-view="alerts"] #alerts.active :is(h2, h3, h4, strong, b) {
+  letter-spacing: 0 !important;
+}
+
+#alerts.active .alerts-operator-workspace,
+#alerts.active .alerts-operator-boundary,
+#alerts.active .alerts-investor-frame article,
+#alerts.active .alerts-operator-candidates button,
+#alerts.active .alerts-operator-verdict,
+#alerts.active .alerts-operator-candidate,
+#alerts.active .alerts-operator-summary > div,
+#alerts.active .alerts-operator-columns > article,
+#alerts.active .alerts-operator-process,
+#alerts.active .alerts-advanced-research,
+#alerts.active .v31-golden-path-group {
+  border-radius: 8px !important;
+}
+
+#alerts.active .alerts-operator-workspace {
+  border-color: rgba(202, 176, 116, 0.42);
+  background:
+    radial-gradient(circle at 82% 0%, rgba(201, 173, 114, 0.11), transparent 26%),
+    linear-gradient(135deg, rgba(10, 15, 24, 0.97), rgba(3, 5, 8, 0.98) 54%, rgba(7, 9, 12, 0.98));
+}
+
+#alerts.active .alerts-operator-title p {
+  max-width: 570px;
+  font-size: 11px;
+  line-height: 1.42;
+}
+
+#alerts.active .alerts-operator-status > div {
+  border-radius: 8px;
+}
+
+#alerts.active .alerts-investor-frame article {
+  min-height: 74px;
+  padding: 10px 11px;
+}
+
+#alerts.active .alerts-investor-frame strong {
+  font-size: 12px;
+}
+
+#alerts.active .alerts-investor-frame p {
+  font-size: 9px;
+  line-height: 1.38;
+}
+
+#alerts.active .alerts-operator-candidates button,
+body[data-active-view="alerts"] #alerts.active .alerts-operator-candidates button {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-content: start;
+  gap: 4px 8px;
+  min-height: 112px !important;
+}
+
+#alerts.active .alerts-operator-candidates button strong {
+  grid-column: 2 / 3;
+  font-size: 20px;
+  line-height: 1;
+}
+
+#alerts.active .alerts-operator-candidates button span,
+#alerts.active .alerts-operator-candidates button small,
+#alerts.active .alerts-operator-candidates button p {
+  grid-column: 1 / -1;
+}
+
+#alerts.active .alerts-operator-candidates button i {
+  grid-column: 3 / 4;
+  grid-row: 1 / 2;
+  justify-self: end;
+}
+
+#alerts.active .alerts-operator-candidates button p {
+  margin: 2px 0 0;
+  color: rgba(201, 209, 217, 0.64);
+  font: 600 8.5px/1.28 var(--phase2-font-sans);
+}
+
+#alerts.active .alerts-operator-verdict {
+  grid-template-columns: minmax(160px, 0.34fr) minmax(250px, 0.72fr) minmax(0, 1.5fr);
+  border-color: rgba(196, 95, 90, 0.66);
+}
+
+#alerts.active .alerts-operator-verdict small {
+  line-height: 1.38;
+}
+
+#alerts.active .alerts-operator-summary {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+#alerts.active .alerts-operator-summary > div {
+  min-height: 76px;
+}
+
+#alerts.active .alerts-operator-missing strong {
+  border-radius: 999px;
+}
+
+#sourceHub.active .source-alerts-support-grid,
+#staging.active .status-product-truth-grid,
+#riskRules.active .rules-alerts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+#staging.active .status-product-truth-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#sourceHub.active .source-alerts-support-grid article,
+#staging.active .status-product-truth-grid article,
+#riskRules.active .rules-alerts-grid article {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: 138px;
+  padding: 16px;
+  border: 1px solid rgba(202, 176, 116, 0.24);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(244, 239, 229, 0.04), rgba(255, 255, 255, 0.008)),
+    rgba(8, 11, 16, 0.86);
+  box-shadow: inset 0 1px rgba(255, 246, 220, 0.04), 0 18px 42px rgba(0, 0, 0, 0.24);
+}
+
+#sourceHub.active .source-alerts-support-grid span,
+#staging.active .status-product-truth-grid span,
+#riskRules.active .rules-alerts-grid span {
+  color: var(--lean-alerts-gold, #c9ad72);
+  font: 800 9px/1.2 var(--phase2-font-mono);
+  text-transform: uppercase;
+}
+
+#sourceHub.active .source-alerts-support-grid strong,
+#staging.active .status-product-truth-grid strong,
+#riskRules.active .rules-alerts-grid strong {
+  color: var(--lean-alerts-ivory, #f4efe5);
+  font: 800 17px/1.15 var(--phase2-font-sans);
+}
+
+#sourceHub.active .source-alerts-support-grid p,
+#staging.active .status-product-truth-grid p,
+#riskRules.active .rules-alerts-grid p {
+  margin: 0;
+  color: rgba(201, 209, 217, 0.72);
+  font: 600 12px/1.45 var(--phase2-font-sans);
+}
+
+#riskRules.active .rules-support-split {
+  margin-top: 14px;
+}
+
+@media (max-width: 980px) {
+  #alerts.active .alerts-operator-summary,
+  #staging.active .status-product-truth-grid,
+  #sourceHub.active .source-alerts-support-grid,
+  #riskRules.active .rules-alerts-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  #alerts.active .alerts-operator-title p {
+    max-width: 100%;
+    font-size: 10px;
+  }
+
+  #alerts.active .alerts-operator-candidates button,
+  body[data-active-view="alerts"] #alerts.active .alerts-operator-candidates button {
+    min-height: 128px !important;
+  }
+
+  #alerts.active .alerts-operator-summary,
+  #sourceHub.active .source-alerts-support-grid,
+  #staging.active .status-product-truth-grid,
+  #riskRules.active .rules-alerts-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #sourceHub.active .source-alerts-support-grid article,
+  #staging.active .status-product-truth-grid article,
+  #riskRules.active .rules-alerts-grid article {
+    min-height: 0;
+  }
+}

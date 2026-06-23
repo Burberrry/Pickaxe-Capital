@@ -10003,6 +10003,13 @@ function renderAlertsOperatorWorkspace() {
     "Verified options chain",
     "Source freshness check",
   ];
+  const cardReasons = {
+    QQQ: "Needs verified breadth, quote time, and chain freshness.",
+    NVDA: "Needs source-checked catalyst and no late-volatility chase.",
+    SPY: "Needs breadth stability and verified trend-support evidence.",
+    TSLA: "Needs catalyst verification and tight spread discipline.",
+    GLD: "Needs rates/dollar confirmation and macro source freshness.",
+  };
 
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
@@ -10011,7 +10018,7 @@ function renderAlertsOperatorWorkspace() {
           <span aria-hidden="true">Pickaxe Capital</span>
           <small>Pickaxe Capital</small>
           <h2 id="alertsOperatorTitle">Options Alerts Research OS</h2>
-          <p>Source-verified options research for ranking setups, gates, and evidence before any external action.</p>
+          <p>Pickaxe ranks options setups by research readiness, source quality, options quality, risk gates, and System Intelligence before any external action.</p>
         </div>
         <dl class="alerts-operator-status">
           <div>
@@ -10029,30 +10036,30 @@ function renderAlertsOperatorWorkspace() {
         </dl>
         <div class="alerts-operator-boundary">
           <strong>Research Only</strong>
-          <span>Not Live · Not Advice · No Broker Execution · Options involve substantial risk</span>
+          <span>Demo Data Only · Source Required · Not Financial Advice · No Broker Execution · Options involve substantial risk</span>
         </div>
       </header>
 
       <section class="alerts-investor-frame" aria-label="Investor preview product framing">
         <article>
-          <span>Product Thesis</span>
-          <strong>Focused Options Alerts Research OS</strong>
-          <p>Source-verified setup review.</p>
+          <span>How it works</span>
+          <strong>Rank the research packet.</strong>
+          <p>Readiness shows packet completeness, not expected return.</p>
         </article>
         <article>
-          <span>How Pickaxe Works</span>
-          <strong>System Intelligence gates readiness</strong>
-          <p>Readiness ranks; gates decide status.</p>
+          <span>Source gate</span>
+          <strong>Verify market evidence.</strong>
+          <p>No provider, timestamp, or options chain is active.</p>
         </article>
         <article>
-          <span>Current Version</span>
-          <strong>Demo Data Only · Source Required</strong>
-          <p>No live provider, timestamp, advice, or execution.</p>
+          <span>Risk gate</span>
+          <strong>Block weak setups early.</strong>
+          <p>Spread, liquidity, IV, invalidation, and no-trade rules remain visible.</p>
         </article>
         <article>
-          <span>What Comes Later</span>
-          <strong>Approved providers, server-only</strong>
-          <p>Approval, protected credentials, separate authorization.</p>
+          <span>Governance</span>
+          <strong>Founder-led standard.</strong>
+          <p>CEO B standard is governance language, not an accept/decline workflow.</p>
         </article>
       </section>
 
@@ -10076,6 +10083,7 @@ function renderAlertsOperatorWorkspace() {
               <small>${itemScore.total}/100 readiness · ${escapeHtml(item.options.grade)} grade</small>
               <i>${escapeHtml(itemDecision.cardLabel)}</i>
               <b>${escapeHtml(sourceStatus.activeProviderMode)} / Source Required</b>
+              <p>${escapeHtml(cardReasons[item.ticker] || "Source freshness and options-chain verification required.")}</p>
             </button>
           `;
         }).join("")}
@@ -10090,7 +10098,7 @@ function renderAlertsOperatorWorkspace() {
         <span>${escapeHtml(decisionState.label)}</span>
         <div>
           <strong>System Intelligence Verdict</strong>
-          <small>${escapeHtml(decisionState.title)}</small>
+          <small>${escapeHtml(decisionState.title)}. System Intelligence ranks research readiness. Gates control action boundaries.</small>
         </div>
         <dl>
           <div><dt>Status</dt><dd>${escapeHtml(decisionState.status)}</dd></div>
@@ -10126,6 +10134,8 @@ function renderAlertsOperatorWorkspace() {
         </div>
 
         <section class="alerts-operator-summary" aria-label="Selected setup summary">
+          <div><span>Setup Name</span><strong>${escapeHtml(candidate.setupType)}</strong><small>${escapeHtml(candidate.timeframe)}</small></div>
+          <div><span>Research Readiness</span><strong>${score.total}/100</strong><small>${escapeHtml(score.classification)} · packet completeness</small></div>
           <div><span>Options Quality</span><strong>${escapeHtml(candidate.options.grade)}</strong><small>${escapeHtml(candidate.options.spreadStatus)}</small></div>
           <div><span>Source State</span><strong>Source Required</strong><small>${escapeHtml(sourceStatus.freshness)} / no market timestamp</small></div>
           <div><span>Risk State</span><strong>${escapeHtml(candidate.riskRating)}</strong><small>${escapeHtml(candidate.risk.noTrade)}</small></div>
@@ -11048,10 +11058,10 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
         ${state.alertsAdvancedOpen ? "open" : ""}
       >
         <summary>
-          <span>
-            <strong>Research Packet</strong>
-            <small>Evidence packet, source checks, contract quality, risk analysis, Archive and Learning handoffs</small>
-          </span>
+            <span>
+              <strong>Research Packet</strong>
+            <small>Selected setup evidence, source gaps, contract quality, risk gates, and no-action boundary</small>
+            </span>
           <em>${activePackets.length} packets · ${blockedPackets} blocked · DEMO only</em>
         </summary>
         <div class="alerts-advanced-research-body">
@@ -18898,27 +18908,46 @@ renderSourceHubPage = function () {
   ];
   const needsVerificationCount = queue.filter((item) => /missing|required|verification/i.test(`${item.sourceStatus} ${item.trustStatus}`)).length;
   const trustedMatrixCount = matrix.filter((source) => /primary|verified|manual|local/i.test(`${source.trustLevel} ${source.connectionStatus}`)).length;
+  const alertSourceTruth = [
+    ["Current State", "Demo / Source Required", "Alerts are blocked until verified market evidence exists."],
+    ["Source Freshness", "UNKNOWN", "No usable market timestamp is available in the static workflow."],
+    ["Options Chain", "Not Verified", "No approved options-chain provider is active in the browser."],
+    ["Provider Boundary", "Server-only later", "Future providers require approval, protected credentials, and separate authorization."]
+  ];
 
   els.sourceHubContent.innerHTML = `
     <div class="page-shell source-hub-shell source-declutter-shell">
       <header class="source-hub-hero source-declutter-hero">
         <div>
-          <span class="meta-label">06 / Intelligence Trust Layer</span>
-          <h2>Source Hub</h2>
-          <p>A calm trust cockpit where sources are verified before research enters Alerts, Archive, Watchlists, or Mission Control.</p>
+          <span class="meta-label">Sources / Alerts Support</span>
+          <h2>Why Alerts Are Source Required</h2>
+          <p>Sources support the Options Alerts Research OS by showing exactly what evidence is missing before any setup can move beyond research review.</p>
           <div class="source-trust-summary">
-            <span><strong>${trustedMatrixCount}</strong><em>trusted/manual source lanes</em></span>
-            <span><strong>${needsVerificationCount}</strong><em>items need verification</em></span>
-            <span><strong>${archivedSourceCount}</strong><em>clean archive candidates</em></span>
+            ${alertSourceTruth.map(([label, value, note]) => `<span><strong>${escapeHtml(value)}</strong><em>${escapeHtml(label)} · ${escapeHtml(note)}</em></span>`).join("")}
           </div>
         </div>
         <aside class="truth-panel source-hub-boundary-card">
-          <span class="meta-label">Source Hub Truth</span>
-          <h3>Verify source before research enters the OS.</h3>
-          <p>Manual/source-required layer. No scraping, no live provider calls, no broker execution.</p>
-          <a class="primary-action" href="#/archive">Review Archive Candidates</a>
+          <span class="meta-label">Current Source Truth</span>
+          <h3>Blocked until provider, timestamp, and chain are verified.</h3>
+          <p>Demo/static data only. No browser provider request is active. No scraping, live adapter, broker execution, auth, payment, or alert delivery exists.</p>
+          <a class="primary-action" href="#/alerts">Return to Alerts</a>
         </aside>
       </header>
+
+      <section class="source-alerts-support-grid" aria-label="Options Alerts source truth">
+        ${[
+          ["No verified market provider", "The app uses static/demo structures and does not request Alpha Vantage, Massive, Tradier, Polygon, Finnhub, or broker data from the browser.", "Blocked"],
+          ["No usable market timestamp", "Any future live number must carry source, quote type, timestamp, timezone, and verification status from the same workflow.", "Source Required"],
+          ["No verified options chain", "Contract quality is a demo research field until an approved server-side options provider is connected and reviewed.", "Manual Review Required"],
+          ["Future provider activation", "Provider approval, commercial rights, server-only credentials, and a separate bounded sprint are required before activation.", "Not Active"]
+        ].map(([title, body, stateLabel]) => `
+          <article>
+            <span>${escapeHtml(stateLabel)}</span>
+            <strong>${escapeHtml(title)}</strong>
+            <p>${escapeHtml(body)}</p>
+          </article>
+        `).join("")}
+      </section>
 
       <section class="source-core-bento" aria-label="Source Hub core trust panels">
         <article class="command-card source-research-flow-card">
@@ -19164,13 +19193,32 @@ renderBookmarksPage = function () {
 
 renderRiskRulesPage = function () {
   if (!els.riskRulesContent) return;
-  const forbidden = ["No broker execution", "No auto-trading", "No betting execution", "No sportsbook connection", "No copy-trading", "No certainty claims", "No fake connected labels"];
+  const gateRows = [
+    ["Source Gate", "Verified provider/source identity must exist before any setup can advance.", "BLOCKED"],
+    ["Timestamp Gate", "Market data needs a usable source timestamp, quote type, timezone, and verification status.", "BLOCKED"],
+    ["Options-Chain Gate", "Contract, bid/ask, spread, volume, open interest, IV, and Greeks require verified chain data.", "BLOCKED"],
+    ["Spread / Liquidity Gate", "Wide spreads, thin open interest, unstable quotes, or event-sensitive liquidity keep the setup in research.", "Manual Review"],
+    ["Risk Gate", "Invalidation, no-trade conditions, sizing boundaries, and options-risk language must be visible.", "Required"],
+    ["System Intelligence", "Readiness ranks packet completeness. Gates control action boundaries.", "Status Authority"],
+    ["Governance Standard", "CEO B standard is founder-led governance language only.", "Manual Standard"],
+    ["External Action", "No external action unless gates pass in a separately authorized workflow.", "No External Action"]
+  ];
+  const forbidden = ["No broker execution", "No auto-trading", "No copy-trading", "No certainty claims", "No fake connected labels", "No buy/sell commands", "No payment or subscription flow"];
   els.riskRulesContent.innerHTML = `
-    <div class="page-shell">
-      ${pcPageHero("07 RISK / Safety Matrix", "Risk & Rules", "One clear safety matrix for manual review gates, forbidden actions, and research-only boundaries.", ["Research Only", "Manual Review Required", "No Execution", "No Fake Live Data"])}
-      <section class="split-layout" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);">
-        <article class="truth-panel"><span class="meta-label">Forbidden Actions</span><h3>Hard Blocks</h3><div class="truth-list">${forbidden.map((item) => `<span><em>${escapeHtml(item)}</em><strong>Blocked</strong></span>`).join("")}</div></article>
-        <article class="glass-card"><span class="meta-label">Risk Gates</span><h3>Before CEO B Review</h3><ul class="pc-list">${["Source confidence documented", "Risk and invalidation noted", "Manual verification required", "No private URLs or API keys", "Static prototype truth visible"].map((item) => `<li><span>${escapeHtml(item)}</span><strong>Required</strong></li>`).join("")}</ul></article>
+    <div class="page-shell rules-alerts-shell">
+      ${pcPageHero("Rules / Alerts Support", "Rules", "The gate model behind the Options Alerts Research OS. Rules explain why research can rank setups while action remains blocked.", ["Research Only", "Manual Review Required", "No Broker Execution", "Demo / Static Data"])}
+      <section class="rules-alerts-grid" aria-label="Options Alerts gate model">
+        ${gateRows.map(([name, detail, statusLabel]) => `
+          <article>
+            <span>${escapeHtml(statusLabel)}</span>
+            <strong>${escapeHtml(name)}</strong>
+            <p>${escapeHtml(detail)}</p>
+          </article>
+        `).join("")}
+      </section>
+      <section class="split-layout rules-support-split" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);">
+        <article class="truth-panel"><span class="meta-label">Hard Blocks</span><h3>No external action from this website.</h3><div class="truth-list">${forbidden.map((item) => `<span><em>${escapeHtml(item)}</em><strong>Blocked</strong></span>`).join("")}</div></article>
+        <article class="glass-card"><span class="meta-label">Current Rule Outcome</span><h3>BLOCKED — NO EXTERNAL ACTION</h3><ul class="pc-list">${["No verified market provider", "No usable market timestamp", "No verified options chain", "Source freshness unknown", "Options involve substantial risk"].map((item) => `<li><span>${escapeHtml(item)}</span><strong>Required</strong></li>`).join("")}</ul></article>
       </section>
     </div>
   `;
@@ -19326,6 +19374,11 @@ renderMoneyLabPage = function () {
 renderStagingAdvanced = function () {
   if (!els.stagingAdvanced) return;
   const routeRows = [
+    ["/", "ALERTS", "Options Alerts Research OS", "Homepage remains the canonical Alerts product surface"],
+    ["/#/alerts", "ALERTS", "Canonical hash route", "Same Alerts renderer; no duplicate Alerts page"],
+    ["/app/alerts", "BRIDGE", "Direct path bridge", "Forwards to canonical Alerts route"],
+    ["/founder", "AVAILABLE", "Founder route", "Secondary public founder surface"],
+    ["/ai-handoff", "LOCAL ONLY", "Local-server text endpoint", "Not a public static bridge"],
     ["26-route hosted matrix", "PASS / HOSTED", "1280x720 and 390x844", "No blank views, console errors, or document overflow"],
     ["Alerts / Vision Map / Agents", "PASS / HOSTED", "Additional 1440x900 checks", "Locked priority surfaces remained stable"],
     ["/app/alerts", "PASS / HOSTED", "Direct bridge to #/alerts", "Canonical Alerts renderer remains singleton"],
@@ -19352,6 +19405,8 @@ renderStagingAdvanced = function () {
     "Not Financial Advice",
     "No Broker Execution",
     "Demo / Static Data",
+    "Source Required",
+    "No live provider active",
     "LocalStorage-only browser state",
     "CEO B approval required before the next sprint"
   ];
@@ -19367,23 +19422,40 @@ renderStagingAdvanced = function () {
   ];
   els.stagingAdvanced.innerHTML = `
     <div class="page-shell staging-qa-shell">
-      ${pcPageHero("13 QA / CEO B Command Center", "Staging / QA", "Current hosted checkpoint, deployment evidence, Build Completion Tracker, and the next bounded CEO B decision.", ["PASS / HOSTED", "DEPLOY VERIFIED", "STATIC / MANUAL", "CEO B GATE"])}
+      ${pcPageHero("Status / Product Truth", "Status", "Current runtime truth for the Pickaxe Capital Options Alerts Research OS: static, demo, source-required, and blocked from external action.", ["DEMO / STATIC", "SOURCE REQUIRED", "BLOCKED", "NO BROKER EXECUTION"])}
 
       <div class="staging-purpose-line" aria-label="Staging purpose and next action">
-        <p><strong>Latest hosted repository checkpoint:</strong> Pickaxe Website Bug Sweep — PASS / HOSTED DOCS VERIFIED.</p>
+        <p><strong>Current product state:</strong> Pickaxe Options Alerts Website v1 in implementation. GitHub Pages serves a static public artifact. No live data, approved provider, broker execution, auth, payment, subscription, or alert-delivery system is active.</p>
         <a class="primary-action" href="#/staging" data-staging-tracker>Open Build Completion Tracker</a>
       </div>
+
+      <section class="status-product-truth-grid" aria-label="Options Alerts product status">
+        ${[
+          ["Current Version", "Pickaxe Options Alerts Website v1", "Options Alerts first; Sources, Rules, and Status support the alert logic."],
+          ["Hosted / Static Truth", "GitHub Pages static SPA", "Browser state is LocalStorage/static only; server endpoints are local development helpers."],
+          ["Market Data", "Demo / Source Required", "No live numbers are active without source, quote type, timestamp, timezone, and verification status."],
+          ["System Status", "BLOCKED — NO EXTERNAL ACTION", "No verified provider, usable timestamp, verified options chain, or source freshness exists."],
+          ["Provider State", "Not Active", "Alpha Vantage remains local/server-only and blocked; Massive remains licensing-blocked; Tradier remains disconnected."],
+          ["Commercial Systems", "None", "No broker, order, account, auth, payment, subscription, or alert-delivery behavior exists."]
+        ].map(([label, value, detail]) => `
+          <article>
+            <span>${escapeHtml(label)}</span>
+            <strong>${escapeHtml(value)}</strong>
+            <p>${escapeHtml(detail)}</p>
+          </article>
+        `).join("")}
+      </section>
 
       <section class="staging-primary-grid" aria-label="Staging command panels">
         <article class="staging-command-panel staging-checkpoint-panel">
           <span class="meta-label">Latest Hosted Repository Checkpoint</span>
           <div class="staging-status-lock"><strong>PASS</strong><span>HOSTED</span></div>
-          <h3>Pickaxe Website Bug Sweep</h3>
-          <p class="staging-panel-note">The hosted audit found no P0 issues. This build repairs its confirmed stale Staging current-checkpoint presentation without changing product behavior.</p>
+          <h3>Pickaxe Investor-Ready Lean Alerts OS v1</h3>
+          <p class="staging-panel-note">The prior hosted baseline passed QA. This sprint keeps the runtime static/demo and refines the Options Alerts website presentation inside the existing route model.</p>
           <dl class="staging-key-values">
-            <div><dt>Audit commit</dt><dd><code>8a79794</code></dd></div>
-            <div><dt>Audit result</dt><dd>PASS · NO P0 ISSUES</dd></div>
-            <div><dt>Deployment</dt><dd>RUN 27920025039 · SUCCESS</dd></div>
+            <div><dt>Implementation commit</dt><dd><code>2b3303b</code></dd></div>
+            <div><dt>Merge commit</dt><dd><code>6bba22e</code></dd></div>
+            <div><dt>Deployment</dt><dd>RUN 28059124056 · SUCCESS</dd></div>
           </dl>
         </article>
 
