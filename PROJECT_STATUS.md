@@ -1,6 +1,27 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Data Connector v0.3B Secure Readiness
+## Current Checkpoint - Options Data Provider Decision v0.1
+
+- Date: 2026-06-23.
+- Result: **PASS / DOCS-ONLY PROVIDER DECISION COMPLETE**.
+- Sprint type: current official options-data capability, timestamp, licensing, and architecture review.
+- Baseline commit: `2a43dea Prepare secure QQQ data connector`.
+- Selected Massive business options data as the first options-chain provider candidate, pending written commercial and market-data approval.
+- Massive's option-chain snapshot best matches the required contract fields: bid, ask, quote sizes, quote timestamps, trades, volume, prior-session open interest, IV, Greeks, and underlying context.
+- Selected first future request scope: QQQ, one expiration, one contract type, bounded strikes, at most 50 contracts, and one manual request per server process.
+- Rejected Tradier as the first source because realtime market data requires brokerage-account coupling and official guidance says Greeks are hourly.
+- Kept Alpha Vantage as a fallback because its realtime options endpoint can return full chains and Greeks, but current public documentation does not prove the per-contract timestamp semantics required by Pickaxe.
+- Defined chain and contract normalization fields, per-contract freshness rules, liquidity hard blocks, security controls, legal gates, and stop conditions.
+- No runtime, provider call, endpoint, key, token, dependency, route, renderer, LocalStorage key, packet model, review queue, alert delivery, broker connection, execution behavior, frontend file, tracker metadata, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: obtain Massive business/licensing confirmation, then implement one pure fixture-backed options-chain normalizer without a live request.
+
+### Options Data Provider Decision v0.1 Files Changed
+
+- `docs/02_RESEARCH/PICKAXE_OPTIONS_DATA_PROVIDER_DECISION_V01.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Data Connector v0.3B Secure Readiness
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL ADAPTER READY; EXTERNAL ACTIVATION BLOCKED**.

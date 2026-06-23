@@ -2,6 +2,19 @@
 
 ## Current Active Checkpoint
 
+Options Data Provider Decision v0.1 is **PASS / DOCS-ONLY PROVIDER DECISION COMPLETE**.
+
+- Massive business options data is the selected first options-chain provider candidate, pending written commercial and market-data approval.
+- The target endpoint provides the strongest fit for per-contract quote timestamps, bid/ask, quote sizes, trades, volume, prior-session open interest, IV, and Greeks without requiring a brokerage account.
+- The first future request is limited to QQQ, one expiration, one contract type, bounded strikes, at most 50 contracts, and one manual request per server process.
+- Tradier is not selected because realtime access is brokerage-coupled and Greeks are hourly.
+- Alpha Vantage options remains a fallback until a real sample proves per-contract timestamp semantics.
+- No runtime or provider activation was added.
+
+Next bounded step: obtain Massive business/licensing confirmation, then implement a pure fixture-backed options-chain normalizer. Do not make a live request or connect the browser.
+
+## Previous Active Checkpoint - Pickaxe Data Connector v0.3B Secure Readiness
+
 Pickaxe Data Connector v0.3B Secure Readiness is **PASS / LOCAL ADAPTER READY; EXTERNAL ACTIVATION BLOCKED**.
 
 - Baseline commit: `744d846 Clarify V3.1 golden path`.
