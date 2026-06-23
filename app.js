@@ -40,6 +40,7 @@ const state = {
   phase9ResearchAcknowledged: false,
   phase9DrawerOpen: false,
   selectedIntelligenceCandidateId: "PIC-DEMO-QQQ-001",
+  alertsAdvancedOpen: false,
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
@@ -10748,10 +10749,19 @@ window.selectIntelligenceCandidate = (id) => {
 };
 
 window.openAlertsDeepReview = () => {
-  document.querySelector("#pickaxeIntelligenceCore")?.scrollIntoView({
-    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-    block: "start",
-  });
+  state.alertsAdvancedOpen = true;
+  const advanced = document.querySelector("#alertsAdvancedResearch");
+  if (advanced) advanced.open = true;
+  window.setTimeout(() => {
+    document.querySelector("#pickaxeIntelligenceCore")?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start",
+    });
+  }, 0);
+};
+
+window.syncAlertsAdvancedState = (isOpen) => {
+  state.alertsAdvancedOpen = Boolean(isOpen);
 };
 
 function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
@@ -10816,6 +10826,20 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
   return `
     <div class="packet-engine-shell phase2-alerts-desk">
       ${renderAlertsOperatorWorkspace()}
+      <details
+        id="alertsAdvancedResearch"
+        class="alerts-advanced-research"
+        ontoggle="window.syncAlertsAdvancedState(this.open)"
+        ${state.alertsAdvancedOpen ? "open" : ""}
+      >
+        <summary>
+          <span>
+            <strong>Advanced Research OS</strong>
+            <small>Intelligence Core, packet evidence, Orbit, Archive and Learning handoffs</small>
+          </span>
+          <em>${activePackets.length} packets · ${blockedPackets} blocked · DEMO only</em>
+        </summary>
+        <div class="alerts-advanced-research-body">
       <header class="phase2-capital-hero">
         <div class="phase2-hero-copy">
           <span class="meta-label">Pickaxe Capital / AI Habitat OS / CEO B Command Layer</span>
@@ -11112,6 +11136,8 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
               <small>${escapeHtml(RESEARCH_CARD_DISCLAIMER)}</small>
             </button>
           `).join("") || `<p>No suppressed packets in local memory.</p>`}
+        </div>
+      </details>
         </div>
       </details>
       ${renderPhase9AlertDrawer(packet, panelModel)}

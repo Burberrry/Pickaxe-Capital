@@ -1,6 +1,33 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Alerts Clarity v1
+## Current Checkpoint - Alerts Structure v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded Alerts information-architecture simplification.
+- Baseline commit: `b596ae8 Build Alerts Clarity v1`.
+- Added one accessible `Advanced Research OS` disclosure after the operator workspace and preserved V3.1 pair.
+- The old institutional hero, Phase 9A product preview, Intelligence Core, queue metrics, context cards, research stream, Orbit, packet engine, frameworks, vote matrix, compliance footer, and suppressed-noise view remain intact inside the disclosure.
+- Default desktop document height decreased from approximately `19,301px` to `4,634px` while preserving access to every deep surface.
+- `Review Candidate` and `View Deep Evidence` automatically open the disclosure and scroll to the existing Intelligence Core.
+- Disclosure state is ephemeral browser state only. It survives candidate re-renders during the page session but adds no LocalStorage key or persistence contract.
+- Candidate switching while advanced research is open preserves the open state and updates the existing operator and Intelligence Core content.
+- V3.1 remains one overlay with one detailed Signals card immediately beneath it; both remain visible above the advanced disclosure.
+- Desktop `1280x720` and mobile `390x844` QA passed with correct closed/open behavior, working review navigation, one Alerts owner, one Intelligence Core, one V3.1 pair, one Starlight canvas, zero observed console errors or warnings, and no document-level horizontal overflow.
+- Current data remains `DEMO`; freshness remains `UNKNOWN`; no live market number or timestamp is represented.
+- No route, renderer, packet model, review queue, LocalStorage key, provider, API key, alert delivery, broker connection, execution, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: `Alerts Structure v1 push and hosted verification`.
+
+### Alerts Structure v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html` — runtime cache keys only
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Alerts Clarity v1
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.

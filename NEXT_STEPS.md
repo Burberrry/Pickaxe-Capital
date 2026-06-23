@@ -2,6 +2,26 @@
 
 ## Current Active Checkpoint
 
+Alerts Structure v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Baseline commit: `b596ae8 Build Alerts Clarity v1`.
+- Owner routes remain `/`, `/#/alerts`, and `/app/alerts` through the existing canonical Alerts renderer.
+- The operator workspace and locked V3.1 overlay/detail pair remain visible.
+- Repetitive legacy and deep-research sections are preserved inside one accessible `Advanced Research OS` disclosure.
+- Default desktop document height decreased from approximately `19,301px` to `4,634px`.
+- Review Candidate and View Deep Evidence open the disclosure and navigate to the existing Intelligence Core.
+- Disclosure state is ephemeral only and survives candidate re-rendering during the page session.
+- Desktop `1280x720` and mobile `390x844` browser QA passed with correct closed/open behavior, working candidate switching, no document-level overflow, and zero observed console errors or warnings.
+- Singleton Alerts, Intelligence Core, V3.1 overlay, detailed Signals card, and Starlight contracts remain intact.
+- Current data remains `DEMO`; freshness remains `UNKNOWN`.
+- No provider, API key, live data, alert delivery, broker execution, route, renderer, LocalStorage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+
+Next bounded step: `Alerts Structure v1 push and hosted verification`.
+
+After hosted verification, the next high-value product checkpoint is a focused audit of the remaining locked V3.1 mobile length and candidate-to-packet consistency. Real provider activation remains a separate secure-data sprint.
+
+## Previous Active Checkpoint - Alerts Clarity v1
+
 Alerts Clarity v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - Baseline commit: `e295b80 Record Data Connector v0.3A hosted verification`.
