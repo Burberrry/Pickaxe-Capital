@@ -2,9 +2,13 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Lean Alerts Visual Theme v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+Pickaxe Lean Alerts Visual Theme v1 is **PASS / HOSTED QA VERIFIED**.
 
 - Visual sprint only; no data, logic, route, storage, provider, broker, payment, subscription, auth, or alert-delivery behavior was added.
+- Implementation commit: `a8361e0`.
+- Merge/push commit on `origin/main`: `11c72fa`.
+- GitHub Pages run `28044533639` passed `Validate and Build` and `Deploy`; deployment `5169928624` is `success`.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
 - Options Alerts remains the product focus.
 - The first screen now has a more premium Pickaxe visual system: obsidian/graphite surfaces, champagne-gold structure, readable silver/white text, amber source-required accents, and restrained crimson no-action emphasis.
 - Setup cards, selected-state styling, status chips, and rank/grade hierarchy are easier to scan.
@@ -20,8 +24,10 @@ Pickaxe Lean Alerts Visual Theme v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER
 - `/ai-handoff` remains local-only server text with no public static bridge.
 - `data/signal-alerts.json` remained unchanged.
 - Desktop and mobile browser QA passed across the owner/regression routes with no horizontal overflow, one Starlight canvas, no new console warnings/errors, and no browser provider requests.
+- Hosted HTTP checks passed for `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, `/staging`, `/agents`, and `/vision-map`; `/ai-handoff` remained hosted `404`.
+- Hosted source/network safety QA found no real API keys, credentials, source maps, provider URLs, provider requests, local-server dependency, live-data activation, broker/execution/payment/subscription/auth, or alert-delivery system.
 
-Next bounded step: push and hosted-verify Pickaxe Lean Alerts Visual Theme v1 when CEO B authorizes push.
+Next bounded step: Hosted Lean Alerts visual/readability review — read-only.
 
 ## Previous Active Checkpoint - Pickaxe Lean Options Alerts OS v1
 

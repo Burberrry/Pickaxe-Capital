@@ -3,11 +3,16 @@
 ## Current Checkpoint - Pickaxe Lean Alerts Visual Theme v1
 
 - Date: 2026-06-23.
-- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Result: **PASS / HOSTED QA VERIFIED**.
 - Sprint type: CSS-first premium Options Alerts visual refinement.
 - Starting git state: branch `main` was clean and aligned with `origin/main` at `a5ecef2`.
 - Safety branch created: `backup/pre-lean-alerts-visual-theme-v1-20260623`.
 - Work branch created: `feature/lean-alerts-visual-theme-v1`.
+- Implementation commit: `a8361e0 Refine Lean Alerts visual theme`.
+- Merge/push commit on `origin/main`: `11c72fa Merge pull request #2 from Burberrry/feature/lean-alerts-visual-theme-v1`.
+- GitHub Pages workflow run: `28044533639` (`Validate and Deploy GitHub Pages`) — `Validate and Build` passed and `Deploy` passed.
+- GitHub Pages deployment: `5169928624` — deployment status `success`.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
 - Refined the Lean Alerts color system with deeper obsidian/graphite surfaces, champagne-gold structure, silver/white type, amber source-required accents, and restrained crimson no-action emphasis.
 - Improved the first-screen visual hierarchy without changing the Options Alerts product focus.
 - Setup cards now have stronger spacing, depth, selected-state contrast, readable status chips, and clearer rank/grade hierarchy.
@@ -23,10 +28,14 @@
 - Desktop `1280x720` and mobile `390x844` browser QA passed for `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, `/staging`, `/#/research`, `/#/source-hub`, `/#/archive`, `/#/learning-ledger`, `/agents`, and `/vision-map`.
 - Alerts interaction QA passed for NVDA selected-state sync, `BLOCKED — NO EXTERNAL ACTION` verdict visibility, Research Packet opening, Evidence Packet opening, options-risk phrase visibility, one Starlight canvas, no horizontal overflow, and no new console warnings or errors.
 - Browser resource inspection found no Alpha Vantage, Massive, Tradier, provider-proxy, quote, or options-provider request from the browser.
+- Hosted HTTP checks passed after GitHub Pages slash redirects: `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, `/staging`, `/agents`, and `/vision-map` resolved to HTTP `200`; `/ai-handoff` resolved to HTTP `404`.
+- Hosted desktop `1280x720` and mobile `390x844` QA passed across the owner and regression routes with correct active views, nonblank content, one visible Starlight canvas, no document-level horizontal overflow, direct bridge behavior preserved, and no hosted console errors or warnings.
+- Hosted Alerts QA passed for product focus, visible primary navigation, deferred internal routes under Later, DEMO / Source Required data status, UNKNOWN / no market timestamp source freshness, BLOCKED system status, safety strip, QQQ/NVDA/SPY/TSLA/GLD setup cards, NVDA selected-state sync, central System Intelligence Verdict, Research Packet, Evidence Packet, secondary V3.1 Golden Path, no accept/decline alert UI, and CEO B governance language.
+- Hosted source/network safety QA found no real API keys, credentials, source maps, provider URLs, provider requests, local-server dependency, live-data activation, broker execution, order placement, account connection, payment, subscription, auth, or alert-delivery behavior. The only credential-pattern-like `sk-...` matches were tracker IDs, not secrets.
 - No setup data, research-readiness values, scores, source/risk gates, system-status logic, route, storage key, packet model, review queue, provider adapter, browser provider request, live data claim, alert delivery, broker execution, authentication, payment, subscription, dependency, or `data/signal-alerts.json` change was added.
 - `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
-- Screenshots saved outside the repo: `/tmp/pickaxe-lean-theme-desktop.png`, `/tmp/pickaxe-lean-theme-mobile.png`, and `/tmp/pickaxe-lean-theme-mobile-evidence.png`.
-- Next bounded recommendation: `Push and hosted verification for Pickaxe Lean Alerts Visual Theme v1` after CEO B authorizes push.
+- Screenshots saved outside the repo: `/tmp/pickaxe-hosted-lean-theme-desktop.png`, `/tmp/pickaxe-hosted-lean-theme-mobile.png`, and `/tmp/pickaxe-hosted-lean-theme-mobile-evidence.png`.
+- Next bounded recommendation: `Hosted Lean Alerts visual/readability review — read-only`.
 
 ### Pickaxe Lean Alerts Visual Theme v1 Files Changed
 
