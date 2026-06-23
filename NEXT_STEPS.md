@@ -2,6 +2,26 @@
 
 ## Current Active Checkpoint
 
+Alerts Clarity v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Baseline commit: `e295b80 Record Data Connector v0.3A hosted verification`.
+- Owner routes remain `/`, `/#/alerts`, and `/app/alerts` through the existing canonical Alerts renderer.
+- The Alerts first viewport now presents one operator workspace focused on candidate selection, source/freshness truth, setup, options quality, risk, and CEO B review.
+- Five existing demo candidates remain selectable and update the workspace without a new storage contract.
+- The V3.1 QQQ flow and detailed Signals card remain paired directly beneath the new clarity layer.
+- Existing Intelligence Core, Phase 9A, Phase 9B, Orbit, Starlight, packet, storage, and bridge contracts remain present.
+- Alerts mobile navigation now uses one compact horizontal route rail, reducing the pre-content block from approximately `479px` to `140px`.
+- Desktop `1280x720` and mobile `390x844` browser QA passed with zero observed console errors or warnings and no document-level horizontal overflow.
+- Full automated validation passed.
+- Current data remains `DEMO`; freshness remains `UNKNOWN`; no live price, market timestamp, provider, delivery, broker, or execution behavior is represented.
+- No API key, provider activation, route, renderer, LocalStorage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+
+Next bounded step: `Alerts Clarity v1 push and hosted verification`.
+
+After hosted verification, the next product/data checkpoint remains `Pickaxe Data Connector v0.3B — First QuoteSnapshot Provider Activation through secure local proxy`. Provider activation requires a current official terms, attribution, entitlement, quote-basis, timestamp, and rate-limit review plus secure local credential setup.
+
+## Previous Active Checkpoint - Pickaxe Data Connector v0.3A
+
 Pickaxe Data Connector v0.3A is **PASS / HOSTED QA VERIFIED**.
 
 - Baseline commit: `dda736f Record Data Connector v0.2 hosted verification`.

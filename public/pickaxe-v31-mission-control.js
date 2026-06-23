@@ -193,7 +193,12 @@
 
     renderPanel(ensureMount(command, "v31MissionControlCommand", "afterbegin"), "Command Console");
     renderPanel(ensureMount(dashboardContent, "v31MissionControlDashboard", "afterbegin"), "Mission Control");
-    renderPanel(ensureMount(alertsContent, "v31MissionControlAlerts", "afterbegin"), "Alerts Desk");
+    const alertsMount = ensureMount(alertsContent, "v31MissionControlAlerts", "afterbegin");
+    const operatorWorkspace = alertsContent?.querySelector(".alerts-operator-workspace");
+    if (operatorWorkspace && operatorWorkspace.nextElementSibling !== alertsMount) {
+      operatorWorkspace.insertAdjacentElement("afterend", alertsMount);
+    }
+    renderPanel(alertsMount, "Alerts Desk");
     renderDeepSignalsCard(ensureAfter(alertsContent, "v31MissionControlAlerts", "v31SignalsDeepDive", "v31-signals-deep-dive"));
   }
 

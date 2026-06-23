@@ -9875,6 +9875,155 @@ function renderIntelligenceDataMode(mode = "DEMO") {
   return `<span class="pic-data-mode is-${normalized.toLowerCase()}">${normalized}</span>`;
 }
 
+function renderAlertsOperatorWorkspace() {
+  const candidate = INTELLIGENCE_CORE_CANDIDATES.find((item) => item.id === state.selectedIntelligenceCandidateId)
+    || INTELLIGENCE_CORE_CANDIDATES[0];
+  const score = scoreIntelligenceCandidate(candidate);
+  const sourceStatus = getSourceStatus();
+  const regime = getMarketRegime();
+  const directionClass = /bear/i.test(candidate.bias) ? "is-bear" : /bull/i.test(candidate.bias) ? "is-bull" : "";
+  const reviewState = candidate.dataQuality === "DEMO" ? "CEO B Review Required" : "Manual Review Required";
+
+  return `
+    <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
+      <header class="alerts-operator-header">
+        <div class="alerts-operator-title">
+          <span>Pickaxe Capital</span>
+          <h2 id="alertsOperatorTitle">Alerts Desk</h2>
+          <p>Options research workspace · ${escapeHtml(sourceStatus.activeProviderMode)} data only</p>
+        </div>
+        <dl class="alerts-operator-status">
+          <div>
+            <dt>Data Status</dt>
+            <dd>${renderIntelligenceDataMode(sourceStatus.activeProviderMode)}<strong>Source required</strong></dd>
+          </div>
+          <div>
+            <dt>Source Freshness</dt>
+            <dd><strong>${escapeHtml(sourceStatus.freshness)}</strong><small>No market timestamp</small></dd>
+          </div>
+          <div>
+            <dt>Market Regime</dt>
+            <dd><strong>${escapeHtml(regime.label || regime.riskMode)}</strong><small>Demo scenario</small></dd>
+          </div>
+        </dl>
+        <div class="alerts-operator-boundary">
+          <strong>Research Only</strong>
+          <span>Not live · Not advice</span>
+        </div>
+      </header>
+
+      <div class="alerts-operator-candidates" aria-label="Options research candidates">
+        ${INTELLIGENCE_CORE_CANDIDATES.map((item) => {
+          const itemScore = scoreIntelligenceCandidate(item);
+          return `
+            <button
+              type="button"
+              class="${item.id === candidate.id ? "is-active" : ""}"
+              aria-pressed="${item.id === candidate.id}"
+              onclick="window.selectIntelligenceCandidate('${item.id}')"
+            >
+              <strong>${escapeHtml(item.ticker)}</strong>
+              <span>${escapeHtml(item.setupType)}</span>
+              <small>${itemScore.total} research quality</small>
+            </button>
+          `;
+        }).join("")}
+      </div>
+
+      <div class="alerts-operator-candidate">
+        <div class="alerts-operator-candidate-head">
+          <div class="alerts-operator-identity">
+            <strong>${escapeHtml(candidate.ticker)}</strong>
+            <span>Setup <b>${escapeHtml(candidate.setupType)}</b></span>
+            <span>Direction <b class="${directionClass}">${escapeHtml(candidate.bias)}</b></span>
+          </div>
+          <div class="alerts-operator-score">
+            <span>Research Quality</span>
+            <strong>${score.total}<small>/ 100</small></strong>
+            <em>Not expected return</em>
+          </div>
+          <div class="alerts-operator-grade">
+            <span>Contract Grade</span>
+            <strong>${escapeHtml(candidate.options.grade)}</strong>
+            <em>Demo options quality</em>
+          </div>
+          <div class="alerts-operator-review">
+            <span>CEO B Review</span>
+            <strong>Required</strong>
+            <em>Manual decision required</em>
+          </div>
+        </div>
+
+        <div class="alerts-operator-columns">
+          <article>
+            <header><span>Setup &amp; Thesis</span></header>
+            <dl>
+              <div><dt>Thesis</dt><dd>${escapeHtml(candidate.ceoBNote)}</dd></div>
+              <div><dt>Catalyst</dt><dd>${escapeHtml(candidate.catalyst)}</dd></div>
+              <div><dt>Entry Trigger</dt><dd>${escapeHtml(candidate.entryTrigger)}</dd></div>
+              <div class="is-risk"><dt>Invalidation</dt><dd>${escapeHtml(candidate.invalidation)}</dd></div>
+              <div class="is-risk"><dt>No-Trade Conditions</dt><dd>${escapeHtml(candidate.risk.noTrade)}</dd></div>
+            </dl>
+          </article>
+
+          <article>
+            <header><span>Contract &amp; Options Quality</span></header>
+            <dl class="is-compact">
+              <div><dt>Expiration Window</dt><dd>${escapeHtml(candidate.optionWindow)}</dd></div>
+              <div><dt>Strike Logic</dt><dd>${escapeHtml(candidate.strikeLogic)}</dd></div>
+              <div><dt>Liquidity</dt><dd>${escapeHtml(candidate.liquidityStatus)}</dd></div>
+              <div><dt>Spread</dt><dd>${escapeHtml(candidate.options.spreadStatus)}</dd></div>
+              <div><dt>Volume / OI</dt><dd>${escapeHtml(candidate.options.volumeOiStatus)}</dd></div>
+              <div class="is-warning"><dt>IV Warning</dt><dd>${escapeHtml(candidate.options.ivWarning)}</dd></div>
+            </dl>
+            <div class="alerts-operator-quality">
+              <span>Overall Options Quality</span>
+              <strong>${escapeHtml(candidate.options.grade)}</strong>
+            </div>
+          </article>
+
+          <article>
+            <header><span>Source, Risk &amp; Review</span></header>
+            <dl class="is-compact">
+              <div><dt>Provider</dt><dd>${escapeHtml(sourceStatus.activeProvider.name)}</dd></div>
+              <div class="is-risk"><dt>Primary Source Status</dt><dd>Demo / unverified</dd></div>
+              <div class="is-warning"><dt>Source Freshness</dt><dd>${escapeHtml(sourceStatus.freshness)}</dd></div>
+              <div><dt>Risk State</dt><dd>${escapeHtml(candidate.riskRating)}</dd></div>
+              <div><dt>Data Confidence</dt><dd>${escapeHtml(candidate.dataQuality)} only</dd></div>
+            </dl>
+            <div class="alerts-operator-decision">
+              <span>Manual Review Status</span>
+              <strong>${escapeHtml(reviewState)}</strong>
+              <small>Validate sources, risk, and contract data before any external action.</small>
+            </div>
+            <button type="button" class="alerts-operator-review-button" onclick="window.openAlertsDeepReview()">
+              Review Candidate
+            </button>
+          </article>
+        </div>
+      </div>
+
+      <div class="alerts-operator-process">
+        <strong>Research Process · Gated</strong>
+        <ol>
+          <li><span>1</span><div><b>Source Check</b><small>Verify source and freshness</small></div></li>
+          <li><span>2</span><div><b>Risk Gate</b><small>Validate setup and no-trade conditions</small></div></li>
+          <li><span>3</span><div><b>CEO B Review</b><small>Human review and final decision</small></div></li>
+        </ol>
+        <button type="button" onclick="window.openAlertsDeepReview()">View Deep Evidence</button>
+      </div>
+
+      <footer class="alerts-operator-safety">
+        <span>Research Only</span>
+        <span>Manual Review Required</span>
+        <span>Not Financial Advice</span>
+        <span>No Broker Execution</span>
+        <strong>Options involve substantial risk.</strong>
+      </footer>
+    </section>
+  `;
+}
+
 const PICKAXE_PROVIDER_DATA_MODES = ["DEMO", "MANUAL", "DELAYED", "LIVE", "STALE", "UNAVAILABLE", "ERROR"];
 const PICKAXE_PROVIDER_DATA_TYPES = ["quote", "optionsChain", "news", "technicals", "marketRegime"];
 const PICKAXE_PROVIDER_ERROR_MESSAGES = {
@@ -10594,9 +10743,15 @@ function renderPickaxeIntelligenceCore() {
 window.selectIntelligenceCandidate = (id) => {
   if (!INTELLIGENCE_CORE_CANDIDATES.some((item) => item.id === id)) return;
   state.selectedIntelligenceCandidateId = id;
-  const container = document.querySelector("#pickaxeIntelligenceCore");
-  if (container) container.outerHTML = renderPickaxeIntelligenceCore();
-  window.setTimeout(() => document.querySelector(`.pic-candidate-tabs button[aria-pressed="true"]`)?.focus(), 0);
+  renderAlertsPage();
+  window.setTimeout(() => document.querySelector(`.alerts-operator-candidates button[aria-pressed="true"]`)?.focus(), 0);
+};
+
+window.openAlertsDeepReview = () => {
+  document.querySelector("#pickaxeIntelligenceCore")?.scrollIntoView({
+    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    block: "start",
+  });
 };
 
 function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
@@ -10660,6 +10815,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
   `).join("") || `<p class="research-empty-state">No research alerts approved. Signals remain in review until the quality gate is complete.</p>`;
   return `
     <div class="packet-engine-shell phase2-alerts-desk">
+      ${renderAlertsOperatorWorkspace()}
       <header class="phase2-capital-hero">
         <div class="phase2-hero-copy">
           <span class="meta-label">Pickaxe Capital / AI Habitat OS / CEO B Command Layer</span>
@@ -10976,6 +11132,7 @@ function renderAlertsPage() {
   const lastUpdated = new Date().toLocaleTimeString();
   els.alertsContent.innerHTML = renderResearchGatedAlertsDesk(packets, selectedAlert, lastUpdated);
   initializePickaxeOrbit();
+  if (typeof window.renderV31MissionControl === "function") window.renderV31MissionControl();
   if (state.phase9DrawerOpen) {
     window.setTimeout(() => document.querySelector("#phase9AlertDrawer")?.focus(), 0);
   }

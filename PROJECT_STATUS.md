@@ -1,6 +1,35 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Data Connector v0.3A
+## Current Checkpoint - Alerts Clarity v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded Alerts owner-route simplification and responsive-layout improvement.
+- Baseline commit: `e295b80 Record Data Connector v0.3A hosted verification`.
+- Added an operator-first Alerts workspace before the preserved V3.1 and deep-review surfaces.
+- The first viewport now prioritizes provider mode, source freshness, market-regime truth, five selectable candidates, selected setup, research-quality score, options grade, entry trigger, invalidation, no-trade conditions, contract quality, source/risk state, and CEO B manual review.
+- Candidate switching updates QQQ, NVDA, TSLA, SPY, and GLD setup content, score, grade, options context, and risk content without adding persistence or a storage key.
+- `Review Candidate` and `View Deep Evidence` scroll to the existing Intelligence Core; they do not publish, transmit, alert, execute, or create a new review workflow.
+- Preserved one canonical Alerts renderer, one Intelligence Core, one V3.1 overlay, one detailed V3.1 Signals card immediately beneath it, and one Starlight canvas.
+- The existing V3.1 insertion logic now mounts the locked V3.1 pair immediately after the operator workspace and remounts correctly after candidate selection.
+- Alerts-only mobile navigation was reduced from approximately `479px` to `140px` before route content by presenting the existing routes as one horizontal scroll rail.
+- Browser QA passed at desktop `1280x720` and mobile `390x844` with correct nonblank content, zero observed console errors or warnings, no document-level horizontal overflow, working candidate selection, working deep-review navigation, and preserved singleton surfaces.
+- Full build, project, Phase 1.5, agent, mirror, route smoke, JavaScript syntax, public safety, deploy-boundary, and diff validation passed.
+- Current market data remains `DEMO`. Freshness remains `UNKNOWN`; no market timestamp or provider connection is claimed.
+- No API key, provider activation, live quote, fake timestamp, alert delivery, broker connection, execution, route, renderer, LocalStorage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: `Alerts Clarity v1 hosted verification`, then `Pickaxe Data Connector v0.3B` only after a current official provider/legal/rate-limit review and secure local credential setup.
+
+### Alerts Clarity v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html` — runtime cache keys only
+- `public/pickaxe-v31-mission-control.js`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Data Connector v0.3A
 
 - Date: 2026-06-22.
 - Result: **PASS / HOSTED QA VERIFIED**.
