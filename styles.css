@@ -22703,6 +22703,28 @@ body[data-active-view="alerts"] #alerts.active .pcad-shell {
   text-transform: uppercase;
 }
 
+#alerts.active .alerts-operator-queue-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 2px -5px;
+}
+
+#alerts.active .alerts-operator-queue-head strong {
+  color: #d6b45d;
+  font: 850 8px/1.3 var(--phase2-font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#alerts.active .alerts-operator-queue-head span {
+  color: #827d75;
+  font-size: 8px;
+  line-height: 1.35;
+  text-align: right;
+}
+
 #alerts.active .alerts-operator-candidates {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -22710,6 +22732,7 @@ body[data-active-view="alerts"] #alerts.active .pcad-shell {
 }
 
 #alerts.active .alerts-operator-candidates button {
+  position: relative;
   display: grid;
   gap: 3px;
   min-width: 0;
@@ -22720,6 +22743,15 @@ body[data-active-view="alerts"] #alerts.active .pcad-shell {
   color: #a7a39c !important;
   background: rgba(255, 255, 255, 0.014) !important;
   text-align: left;
+}
+
+#alerts.active .alerts-operator-candidates button em {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  color: #6f6a62;
+  font: 800 7px/1 var(--phase2-font-mono);
+  font-style: normal;
 }
 
 #alerts.active .alerts-operator-candidates button:hover,
@@ -22750,6 +22782,10 @@ body[data-active-view="alerts"] #alerts.active .pcad-shell {
 
 #alerts.active .alerts-operator-candidates button.is-active small {
   color: #cfad5a;
+}
+
+#alerts.active .alerts-operator-candidates button.is-active em {
+  color: #dfbd68;
 }
 
 #alerts.active .alerts-operator-language-key {
@@ -23208,6 +23244,16 @@ body[data-active-view="alerts"] #alerts.active .pcad-shell {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: inline mandatory;
+  }
+
+  #alerts.active .alerts-operator-queue-head {
+    display: grid;
+    gap: 3px;
+    margin-bottom: -3px;
+  }
+
+  #alerts.active .alerts-operator-queue-head span {
+    text-align: left;
   }
 
   #alerts.active .alerts-operator-candidates button {

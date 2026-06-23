@@ -1,6 +1,32 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Alerts Decision State v1
+## Current Checkpoint - Alerts Review Order v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded setup-order clarity using the existing research-readiness score.
+- Baseline commit: `901e629 Add Alerts decision state`.
+- Derived the operator setup order from the existing score without changing candidate data, weights, classifications, selected-state behavior, routes, storage, packets, or review queues.
+- The visible order is now QQQ `86`, NVDA `81`, SPY `78`, TSLA `72`, and GLD `68`.
+- Fixed the prior inconsistency where TSLA `72` appeared before SPY `78`.
+- Added visible `#1` through `#5` review-order ranks.
+- Added a queue header stating `Research readiness only · source and risk verdict controls action`.
+- Extended the terminology key to state that the verdict represents source, risk, and CEO B gates.
+- Selecting rank `#3` SPY synchronized the selected card, SPY setup detail, and SPY `NO EXTERNAL ACTION` verdict.
+- Desktop `1280x720` and mobile `390x844` browser QA passed with the correct order, one Alerts owner, one Intelligence Core, one Starlight canvas, zero observed console errors or warnings, and no document-level horizontal overflow.
+- No score logic, source/risk gate, route, renderer, packet model, review queue, LocalStorage key, provider call, live-data claim, broker connection, execution behavior, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: push and hosted-verify this review-order checkpoint when CEO B authorizes push.
+
+### Alerts Review Order v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `public/index.html` and `index.html` — app/style/tracker cache keys only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Alerts Decision State v1
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.

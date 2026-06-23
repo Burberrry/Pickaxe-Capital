@@ -9906,6 +9906,12 @@ function scoreIntelligenceCandidate(candidate) {
   return { total, classification, parts };
 }
 
+function getAlertsOperatorReviewOrder() {
+  return INTELLIGENCE_CORE_CANDIDATES
+    .map((item, sourceIndex) => ({ item, itemScore: scoreIntelligenceCandidate(item), sourceIndex }))
+    .sort((left, right) => right.itemScore.total - left.itemScore.total || left.sourceIndex - right.sourceIndex);
+}
+
 function renderIntelligenceDataMode(mode = "DEMO") {
   const normalized = INTELLIGENCE_CORE_DATA_MODES.includes(mode) ? mode : "UNAVAILABLE";
   return `<span class="pic-data-mode is-${normalized.toLowerCase()}">${normalized}</span>`;
@@ -9948,6 +9954,7 @@ function renderAlertsOperatorWorkspace() {
   const directionClass = /bear/i.test(candidate.bias) ? "is-bear" : /bull/i.test(candidate.bias) ? "is-bull" : "";
   const reviewState = candidate.dataQuality === "DEMO" ? "CEO B Review Required" : "Manual Review Required";
   const decisionState = getAlertsOperatorDecisionState(candidate, sourceStatus);
+  const reviewOrder = getAlertsOperatorReviewOrder();
 
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
@@ -9977,9 +9984,12 @@ function renderAlertsOperatorWorkspace() {
         </div>
       </header>
 
-      <div class="alerts-operator-candidates" aria-label="Options setups to review">
-        ${INTELLIGENCE_CORE_CANDIDATES.map((item) => {
-          const itemScore = scoreIntelligenceCandidate(item);
+      <div class="alerts-operator-queue-head">
+        <strong>Review order</strong>
+        <span>Research readiness only · source and risk verdict controls action</span>
+      </div>
+      <div class="alerts-operator-candidates" aria-label="Options setups in research-readiness review order">
+        ${reviewOrder.map(({ item, itemScore }, reviewIndex) => {
           return `
             <button
               type="button"
@@ -9987,6 +9997,7 @@ function renderAlertsOperatorWorkspace() {
               aria-pressed="${item.id === candidate.id}"
               onclick="window.selectIntelligenceCandidate('${item.id}')"
             >
+              <em>#${reviewIndex + 1}</em>
               <strong>${escapeHtml(item.ticker)}</strong>
               <span>${escapeHtml(item.setupType)}</span>
               <small>${itemScore.total}/100 research readiness</small>
@@ -9997,6 +10008,7 @@ function renderAlertsOperatorWorkspace() {
       <p class="alerts-operator-language-key">
         <span><strong>Setup</strong> = quick operator view</span>
         <span><strong>Research packet</strong> = full evidence record after review</span>
+        <span><strong>Verdict</strong> = source, risk, and CEO B gates</span>
       </p>
 
       <section class="alerts-operator-verdict ${decisionState.tone}" aria-label="Current operator decision state">

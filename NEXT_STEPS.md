@@ -2,6 +2,20 @@
 
 ## Current Active Checkpoint
 
+Alerts Review Order v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- The setup row is now sorted by existing research readiness: QQQ `86`, NVDA `81`, SPY `78`, TSLA `72`, GLD `68`.
+- SPY no longer appears behind the lower-scoring TSLA setup.
+- Each setup shows its `#1` through `#5` review-order rank.
+- The queue explicitly says readiness controls review order only.
+- The source/risk verdict and CEO B gates continue to control action.
+- Selecting `#3` SPY updates the selected setup and `NO EXTERNAL ACTION` verdict correctly.
+- Desktop/mobile QA passed with singleton mounts, zero observed console errors or warnings, and no document-level overflow.
+
+Next bounded step: push and hosted-verify Alerts Review Order v1 when CEO B authorizes push.
+
+## Previous Active Checkpoint - Alerts Decision State v1
+
 Alerts Decision State v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - The first screen now states whether any external action is allowed before showing detailed setup evidence.
