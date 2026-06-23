@@ -10008,9 +10008,10 @@ function renderAlertsOperatorWorkspace() {
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
       <header class="alerts-operator-header">
         <div class="alerts-operator-title">
-          <span>Pickaxe Capital</span>
+          <span aria-hidden="true">Pickaxe Capital</span>
+          <small>Pickaxe Capital</small>
           <h2 id="alertsOperatorTitle">Options Alerts Research OS</h2>
-          <p>Source-verified options setups ranked by system intelligence.</p>
+          <p>Source-verified options research for ranking setups, gates, and evidence before any external action.</p>
         </div>
         <dl class="alerts-operator-status">
           <div>
@@ -10031,6 +10032,29 @@ function renderAlertsOperatorWorkspace() {
           <span>Not Live · Not Advice · No Broker Execution · Options involve substantial risk</span>
         </div>
       </header>
+
+      <section class="alerts-investor-frame" aria-label="Investor preview product framing">
+        <article>
+          <span>Product Thesis</span>
+          <strong>Focused Options Alerts Research OS</strong>
+          <p>Source-verified setup review.</p>
+        </article>
+        <article>
+          <span>How Pickaxe Works</span>
+          <strong>System Intelligence gates readiness</strong>
+          <p>Readiness ranks; gates decide status.</p>
+        </article>
+        <article>
+          <span>Current Version</span>
+          <strong>Demo Data Only · Source Required</strong>
+          <p>No live provider, timestamp, advice, or execution.</p>
+        </article>
+        <article>
+          <span>What Comes Later</span>
+          <strong>Approved providers, server-only</strong>
+          <p>Approval, protected credentials, separate authorization.</p>
+        </article>
+      </section>
 
       <div class="alerts-operator-queue-head">
         <strong>Setups to Review</strong>
