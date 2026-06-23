@@ -2,33 +2,35 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Investor-Ready Lean Alerts OS v1 is **PASS / HOSTED QA VERIFIED**.
+Pickaxe Options Alerts Website v1 is **PASS / HOSTED QA VERIFIED**.
 
-- Bounded investor-preview polish for the existing static Options Alerts Research OS.
-- Starting `main` was clean and aligned with `origin/main` at `e288206`.
-- Safety branch: `backup/pre-investor-ready-lean-alerts-os-v1-20260623`.
-- Work branch: `feature/investor-ready-lean-alerts-os-v1`.
-- Implementation commit: `2b3303b`.
-- Merge/push commit on `origin/main`: `6bba22e`.
-- GitHub Pages run `28059124056` passed `Validate and Build` and `Deploy`; deployment `5172899022` is `success`.
+- One-shot Options Alerts-first website simplification and hosted verification.
+- Starting `main` was clean and aligned with `origin/main` at `785a0d8`.
+- Safety branch: `backup/pre-options-alerts-website-v1-20260623`.
+- Work branch: `feature/options-alerts-website-v1`.
+- Implementation and merge/push commit on `origin/main`: `8b5985d`.
+- GitHub Pages run `28060698268` passed `Validate and Build` and `Deploy`; deployment `5173186246` is `success`.
 - Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
-- Added a concise investor framing strip inside Alerts: Product Thesis, How Pickaxe Works, Current Version, and What Comes Later.
-- Pickaxe Capital identity is now visible in the product header, with `Options Alerts Research OS` still the main product title.
+- The public website is now clearer around one flagship product: `Options Alerts Research OS`.
+- Alerts explains that Pickaxe ranks options setups by research readiness, source quality, options quality, risk gates, and System Intelligence before any external action.
 - Current product state remains `DEMO / Source Required`, `UNKNOWN / No market timestamp`, and `BLOCKED — NO EXTERNAL ACTION`.
-- System Intelligence remains the visible status authority.
-- The page now explains, in short form, that readiness ranks research packets while source, timestamp, options-chain, risk, and governance gates control action boundaries.
-- Future provider activation is framed as server-only and subject to commercial approval, protected credentials, and separate authorization.
-- Research Only, Manual Review Required, Demo/Static Data, Not Financial Advice, No Broker Execution, and options-risk boundaries remain visible where relevant.
-- Desktop `1280x720` now shows product identity, status, safety strip, investor framing, setup cards, System Intelligence Verdict, and the selected setup preview in the first viewport.
-- Mobile `390x844` remains readable and free of document-level horizontal overflow, with setup cards accessible in the first screen.
-- Research Packet and Evidence Packet actions remain unchanged.
+- Setup cards now show ticker, setup name, readiness, status, source state, options grade, and a short missing-condition reason.
+- Selected setup preview now exposes setup name, readiness, options quality / contract grade, source state, risk state, System Verdict, top missing requirements, and the existing Research Packet / Evidence Packet actions.
+- Sources now explains why Alerts is source-required: no verified provider, usable timestamp, verified options chain, or active browser provider request.
+- Rules now explains the Alerts gate model: source, timestamp, options-chain, spread/liquidity, risk, System Intelligence, governance, and no external action.
+- Status now explains static/demo product truth, provider state, route ownership, and absent broker/auth/payment/subscription/alert-delivery systems.
+- Desktop `1280x720` and mobile `390x844` browser QA passed locally and hosted with no document-level horizontal overflow, no console errors/warnings, and one visible Starlight canvas.
+- Research Packet and Evidence Packet actions work.
 - V3.1 Golden Path remains preserved and secondary.
 - No data, scores, gates, routes, storage, provider adapters, browser provider requests, live data, broker execution, alert delivery, auth, payment, subscription, dependency, or `data/signal-alerts.json` change was added.
-- Hosted desktop and mobile browser QA passed across owner and regression routes with correct active views, nonblank content, one visible Starlight canvas, no document-level horizontal overflow, no console errors/warnings, and preserved direct-path bridges.
-- Hosted Alerts QA passed for investor framing, setup selection, NVDA selected-state sync, `BLOCKED — NO EXTERNAL ACTION`, Research Packet, Evidence Packet, secondary V3.1 Golden Path, and no accept/decline alert UI.
-- Hosted static asset inspection found the new cache keys, no source maps, no real secrets, no active provider URLs, no provider request path activation, no live data, no broker/execution/payment/subscription/auth, and no alert-delivery behavior.
+- Hosted Alerts QA passed for setup selection, NVDA selected-state sync, `BLOCKED — NO EXTERNAL ACTION`, Research Packet, Evidence Packet, and no accept/decline alert UI.
+- Hosted static asset inspection found no active provider URLs, no provider requests, no live data, no real secrets, no broker/execution/payment/subscription/auth, and no alert-delivery behavior.
 
-Next bounded step: Hosted investor preview read-through — read-only.
+Next bounded step: Investor demo script and walkthrough — docs-only.
+
+## Previous Active Checkpoint - Pickaxe Investor-Ready Lean Alerts OS v1
+
+Pickaxe Investor-Ready Lean Alerts OS v1 is **PASS / HOSTED QA VERIFIED**.
 
 ## Previous Active Checkpoint - Pickaxe Lean Alerts Visual Theme v1
 
