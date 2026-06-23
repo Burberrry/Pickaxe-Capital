@@ -2,6 +2,29 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Investor-Ready Lean Alerts OS v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Bounded investor-preview polish for the existing static Options Alerts Research OS.
+- Starting `main` was clean and aligned with `origin/main` at `e288206`.
+- Safety branch: `backup/pre-investor-ready-lean-alerts-os-v1-20260623`.
+- Work branch: `feature/investor-ready-lean-alerts-os-v1`.
+- Added a concise investor framing strip inside Alerts: Product Thesis, How Pickaxe Works, Current Version, and What Comes Later.
+- Pickaxe Capital identity is now visible in the product header, with `Options Alerts Research OS` still the main product title.
+- Current product state remains `DEMO / Source Required`, `UNKNOWN / No market timestamp`, and `BLOCKED — NO EXTERNAL ACTION`.
+- System Intelligence remains the visible status authority.
+- The page now explains, in short form, that readiness ranks research packets while source, timestamp, options-chain, risk, and governance gates control action boundaries.
+- Future provider activation is framed as server-only and subject to commercial approval, protected credentials, and separate authorization.
+- Research Only, Manual Review Required, Demo/Static Data, Not Financial Advice, No Broker Execution, and options-risk boundaries remain visible where relevant.
+- Desktop `1280x720` now shows product identity, status, safety strip, investor framing, setup cards, System Intelligence Verdict, and the selected setup preview in the first viewport.
+- Mobile `390x844` remains readable and free of document-level horizontal overflow, with setup cards accessible in the first screen.
+- Research Packet and Evidence Packet actions remain unchanged.
+- V3.1 Golden Path remains preserved and secondary.
+- No data, scores, gates, routes, storage, provider adapters, browser provider requests, live data, broker execution, alert delivery, auth, payment, subscription, dependency, or `data/signal-alerts.json` change was added.
+
+Next bounded step: merge to `main`, push, wait for GitHub Pages deployment, and run hosted verification for Pickaxe Investor-Ready Lean Alerts OS v1.
+
+## Previous Active Checkpoint - Pickaxe Lean Alerts Visual Theme v1
+
 Pickaxe Lean Alerts Visual Theme v1 is **PASS / HOSTED QA VERIFIED**.
 
 - Visual sprint only; no data, logic, route, storage, provider, broker, payment, subscription, auth, or alert-delivery behavior was added.

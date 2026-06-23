@@ -1,6 +1,38 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Lean Alerts Visual Theme v1
+## Current Checkpoint - Pickaxe Investor-Ready Lean Alerts OS v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded investor-preview polish for the existing Options Alerts Research OS.
+- Starting git state: branch `main` was clean and aligned with `origin/main` at `e288206`.
+- Safety branch created: `backup/pre-investor-ready-lean-alerts-os-v1-20260623`.
+- Work branch created: `feature/investor-ready-lean-alerts-os-v1`.
+- Added a compact investor-readable framing strip inside the existing Alerts workspace: `Product Thesis`, `How Pickaxe Works`, `Current Version`, and `What Comes Later`.
+- Made Pickaxe Capital identity visible inside the Alerts product header while preserving the public product title `Options Alerts Research OS`.
+- Tightened the first-screen copy around source-verified options research, System Intelligence gates, demo/source-required status, no advice, no execution, and future provider activation boundaries.
+- Preserved Data Status `DEMO / Source Required`, Source Freshness `UNKNOWN / No market timestamp`, and System Status `BLOCKED / No external action`.
+- Preserved the visible `BLOCKED — NO EXTERNAL ACTION` System Intelligence Verdict and its source/options-chain blocker language.
+- Tightened setup-card height, the terminology key, verdict spacing, and selected setup preview spacing so desktop `1280x720` shows identity, status, safety strip, investor framing, setup cards, System Intelligence Verdict, and the selected setup preview.
+- Mobile `390x844` keeps the title, status cards, safety strip, investor framing, setup cards, and blocked state accessible without document-level horizontal overflow.
+- Research Packet and Evidence Packet actions remain unchanged and available.
+- CEO B remains governance/brand language only; no accept/decline/approval workflow was added.
+- `/` remains Alerts; `/#/alerts` remains canonical Alerts; `/app/alerts` remains the Alerts bridge; `/founder` remains available; `/ai-handoff` remains hosted 404 / local-only.
+- No live data, provider activation, browser provider request, broker execution, order placement, alert delivery, authentication, payment, subscription, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Local browser QA passed for desktop `1280x720` and mobile `390x844` first-screen layout with one visible Starlight canvas and no document-level horizontal overflow.
+- Next bounded recommendation: `Push, hosted deploy verification, and hosted QA for Pickaxe Investor-Ready Lean Alerts OS v1`.
+
+### Pickaxe Investor-Ready Lean Alerts OS v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Lean Alerts Visual Theme v1
 
 - Date: 2026-06-23.
 - Result: **PASS / HOSTED QA VERIFIED**.

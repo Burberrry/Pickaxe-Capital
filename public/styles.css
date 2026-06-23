@@ -25461,7 +25461,7 @@ body[data-active-view="alerts"] #alerts.active .alerts-operator-process > button
   }
 }
 
-/* Pickaxe Lean Alerts Visual Theme v1 — premium Options Alerts visual refinement. */
+/* Pickaxe Investor-Ready Lean Alerts OS v1 — premium Options Alerts product polish. */
 :root {
   --lean-alerts-obsidian: #030508;
   --lean-alerts-charcoal: #080b10;
@@ -25575,7 +25575,7 @@ body[data-active-view="alerts"] #alerts.active .phase2-alerts-desk {
 }
 
 #alerts.active .alerts-operator-workspace {
-  gap: 14px;
+  gap: 12px;
   border-color: rgba(201, 173, 114, 0.38);
   border-radius: 20px;
   color: var(--lean-alerts-ivory);
@@ -25591,12 +25591,17 @@ body[data-active-view="alerts"] #alerts.active .phase2-alerts-desk {
 }
 
 #alerts.active .alerts-operator-header {
-  gap: 22px;
-  padding-bottom: 16px;
+  gap: 18px;
+  padding-bottom: 14px;
   border-bottom-color: rgba(201, 173, 114, 0.2);
 }
 
+#alerts.active .alerts-operator-title {
+  grid-template-rows: auto auto auto;
+}
+
 #alerts.active .alerts-operator-title > span {
+  grid-row: 1 / 4;
   border-color: rgba(201, 173, 114, 0.46);
   border-radius: 12px;
   background:
@@ -25607,6 +25612,14 @@ body[data-active-view="alerts"] #alerts.active .phase2-alerts-desk {
   box-shadow: inset 0 1px rgba(255, 246, 220, 0.08), 0 14px 26px rgba(0, 0, 0, 0.24);
 }
 
+#alerts.active .alerts-operator-title > small {
+  margin: 0 0 1px;
+  color: rgba(201, 173, 114, 0.82);
+  font: 800 8px/1.15 var(--phase2-font-mono);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
 #alerts.active .alerts-operator-title h2 {
   color: var(--lean-alerts-ivory);
   text-shadow: 0 1px 0 rgba(255, 246, 220, 0.12), 0 14px 38px rgba(201, 173, 114, 0.11);
@@ -25614,6 +25627,7 @@ body[data-active-view="alerts"] #alerts.active .phase2-alerts-desk {
 
 #alerts.active .alerts-operator-title p {
   color: rgba(201, 209, 217, 0.72);
+  max-width: 390px;
   font-size: 10px;
 }
 
@@ -25663,8 +25677,48 @@ body[data-active-view="alerts"] #alerts.active .phase2-alerts-desk {
   color: rgba(224, 215, 195, 0.72);
 }
 
+#alerts.active .alerts-investor-frame {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+#alerts.active .alerts-investor-frame article {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  min-width: 0;
+  min-height: 58px;
+  padding: 8px 10px;
+  border: 1px solid rgba(236, 225, 201, 0.085);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(201, 173, 114, 0.075), transparent 36%),
+    linear-gradient(180deg, rgba(244, 239, 229, 0.025), rgba(255, 255, 255, 0.006)),
+    rgba(7, 10, 14, 0.74);
+  box-shadow: inset 0 1px rgba(255, 246, 220, 0.035);
+}
+
+#alerts.active .alerts-investor-frame span {
+  color: rgba(201, 173, 114, 0.9);
+  font: 800 7px/1.25 var(--phase2-font-mono);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+#alerts.active .alerts-investor-frame strong {
+  color: var(--lean-alerts-ivory);
+  font: 700 10.5px/1.18 var(--phase2-font-sans);
+}
+
+#alerts.active .alerts-investor-frame p {
+  margin: 0;
+  color: rgba(201, 209, 217, 0.68);
+  font: 500 8px/1.3 var(--phase2-font-sans);
+}
+
 #alerts.active .alerts-operator-queue-head {
-  margin-top: 2px;
+  margin-top: 0;
 }
 
 #alerts.active .alerts-operator-queue-head strong {
@@ -25681,8 +25735,8 @@ body[data-active-view="alerts"] #alerts.active .phase2-alerts-desk {
 
 #alerts.active .alerts-operator-candidates button,
 body[data-active-view="alerts"] #alerts.active .alerts-operator-candidates button {
-  min-height: 96px !important;
-  padding: 11px 12px !important;
+  min-height: 78px !important;
+  padding: 10px 11px !important;
   border-color: rgba(236, 225, 201, 0.1) !important;
   border-radius: 13px !important;
   color: rgba(201, 209, 217, 0.74) !important;
@@ -25741,8 +25795,13 @@ body[data-active-view="alerts"] #alerts.active .alerts-operator-candidates butto
 }
 
 #alerts.active .alerts-operator-language-key {
-  margin: 0 20px 16px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: -2px 20px 4px;
   color: rgba(201, 209, 217, 0.78);
+  font-size: 10px;
+  line-height: 1.25;
 }
 
 #alerts.active .alerts-operator-language-key strong {
@@ -25752,7 +25811,7 @@ body[data-active-view="alerts"] #alerts.active .alerts-operator-candidates butto
 #alerts.active .alerts-operator-verdict {
   grid-template-columns: minmax(190px, 0.42fr) minmax(260px, 0.72fr) minmax(0, 1.36fr);
   gap: 16px;
-  padding: 15px;
+  padding: 13px;
   border-color: rgba(196, 95, 90, 0.62);
   border-radius: 15px;
   background:
@@ -25763,7 +25822,7 @@ body[data-active-view="alerts"] #alerts.active .alerts-operator-candidates butto
 }
 
 #alerts.active .alerts-operator-verdict > span {
-  min-height: 42px;
+  min-height: 38px;
   border-color: rgba(196, 95, 90, 0.7);
   border-radius: 10px;
   color: #f0aaa4;
@@ -25785,7 +25844,7 @@ body[data-active-view="alerts"] #alerts.active .alerts-operator-candidates butto
 }
 
 #alerts.active .alerts-operator-verdict dl > div {
-  padding: 9px 10px;
+  padding: 8px 9px;
   border-color: rgba(236, 225, 201, 0.1);
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.22);
@@ -25814,7 +25873,7 @@ body[data-active-view="alerts"] #alerts.active .alerts-operator-candidates butto
 }
 
 #alerts.active .alerts-operator-candidate-head > div {
-  padding: 14px 16px;
+  padding: 12px 15px;
   border-right-color: rgba(236, 225, 201, 0.08);
   background: linear-gradient(180deg, rgba(244, 239, 229, 0.022), transparent);
 }
@@ -25860,7 +25919,7 @@ body[data-active-view="alerts"] #alerts.active .alerts-operator-candidates butto
 }
 
 #alerts.active .alerts-operator-summary > div {
-  padding: 13px 15px;
+  padding: 11px 14px;
   background: rgba(3, 5, 8, 0.28);
 }
 
@@ -26075,6 +26134,7 @@ body[data-active-view="alerts"] #alerts.active .alerts-operator-process > button
   #alerts.active .alerts-operator-header,
   #alerts.active .alerts-operator-status,
   #alerts.active .alerts-operator-boundary,
+  #alerts.active .alerts-investor-frame,
   #alerts.active .alerts-operator-verdict,
   #alerts.active .alerts-operator-candidate,
   #alerts.active .alerts-operator-process,
@@ -26123,6 +26183,25 @@ body[data-active-view="alerts"] #alerts.active .alerts-operator-process > button
     line-height: 1.35;
   }
 
+  #alerts.active .alerts-investor-frame {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  #alerts.active .alerts-investor-frame article {
+    min-height: 78px;
+    padding: 10px;
+  }
+
+  #alerts.active .alerts-investor-frame strong {
+    font-size: 11px;
+  }
+
+  #alerts.active .alerts-investor-frame p {
+    font-size: 8.5px;
+    line-height: 1.35;
+  }
+
   #alerts.active .alerts-operator-candidates button,
   body[data-active-view="alerts"] #alerts.active .alerts-operator-candidates button {
     flex-basis: 156px;
@@ -26130,6 +26209,9 @@ body[data-active-view="alerts"] #alerts.active .alerts-operator-process > button
   }
 
   #alerts.active .alerts-operator-language-key {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
     margin: 0 10px 12px;
   }
 
@@ -26187,6 +26269,16 @@ body[data-active-view="alerts"] #alerts.active .alerts-operator-process > button
   #alerts.active .v31-golden-path-group > summary {
     min-height: 74px;
     padding: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  #alerts.active .alerts-investor-frame {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #alerts.active .alerts-investor-frame article {
+    min-height: 0;
   }
 }
 
