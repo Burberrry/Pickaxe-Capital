@@ -9948,7 +9948,7 @@ function renderAlertsOperatorWorkspace() {
         </div>
       </header>
 
-      <div class="alerts-operator-candidates" aria-label="Options research candidates">
+      <div class="alerts-operator-candidates" aria-label="Options setups to review">
         ${INTELLIGENCE_CORE_CANDIDATES.map((item) => {
           const itemScore = scoreIntelligenceCandidate(item);
           return `
@@ -9960,11 +9960,15 @@ function renderAlertsOperatorWorkspace() {
             >
               <strong>${escapeHtml(item.ticker)}</strong>
               <span>${escapeHtml(item.setupType)}</span>
-              <small>${itemScore.total} research quality</small>
+              <small>${itemScore.total}/100 research readiness</small>
             </button>
           `;
         }).join("")}
       </div>
+      <p class="alerts-operator-language-key">
+        <span><strong>Setup</strong> = quick operator view</span>
+        <span><strong>Research packet</strong> = full evidence record after review</span>
+      </p>
 
       <div class="alerts-operator-candidate">
         <div class="alerts-operator-candidate-head">
@@ -10033,7 +10037,7 @@ function renderAlertsOperatorWorkspace() {
               <small>Validate sources, risk, and contract data before any external action.</small>
             </div>
             <button type="button" class="alerts-operator-review-button" onclick="window.openAlertsDeepReview()">
-              Review Candidate
+              Open Full Review
             </button>
           </article>
         </div>
@@ -10046,7 +10050,7 @@ function renderAlertsOperatorWorkspace() {
           <li><span>2</span><div><b>Risk Gate</b><small>Validate setup and no-trade conditions</small></div></li>
           <li><span>3</span><div><b>CEO B Review</b><small>Human review and final decision</small></div></li>
         </ol>
-        <button type="button" onclick="window.openAlertsDeepReview()">View Deep Evidence</button>
+        <button type="button" onclick="window.openAlertsDeepReview()">Open Research System</button>
       </div>
 
       <footer class="alerts-operator-safety">
@@ -10869,8 +10873,8 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       >
         <summary>
           <span>
-            <strong>Advanced Research OS</strong>
-            <small>Intelligence Core, packet evidence, Orbit, Archive and Learning handoffs</small>
+            <strong>Full Research &amp; Evidence</strong>
+            <small>Packet details, source checks, risk analysis, Archive and Learning handoffs</small>
           </span>
           <em>${activePackets.length} packets · ${blockedPackets} blocked · DEMO only</em>
         </summary>

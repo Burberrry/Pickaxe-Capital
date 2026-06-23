@@ -22752,6 +22752,27 @@ body[data-active-view="alerts"] #alerts.active .pcad-shell {
   color: #cfad5a;
 }
 
+#alerts.active .alerts-operator-language-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: -2px 20px 18px;
+  color: rgba(211, 216, 226, 0.72);
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+}
+
+#alerts.active .alerts-operator-language-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#alerts.active .alerts-operator-language-key strong {
+  color: #f1d681;
+  font-weight: 800;
+}
+
 #alerts.active .alerts-operator-candidate {
   overflow: hidden;
   border: 1px solid rgba(212, 175, 55, 0.27);
@@ -23131,6 +23152,12 @@ body[data-active-view="alerts"] #alerts.active .pcad-shell {
     flex: 0 0 136px;
     min-height: 64px;
     scroll-snap-align: start;
+  }
+
+  #alerts.active .alerts-operator-language-key {
+    display: grid;
+    gap: 5px;
+    margin: -4px 14px 14px;
   }
 
   #alerts.active .alerts-operator-candidate-head > div {

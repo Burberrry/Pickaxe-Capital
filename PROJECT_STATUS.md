@@ -1,6 +1,32 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Options Data Connector v0.2 Fixture Normalizer
+## Current Checkpoint - Alerts Operator Language v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+- Sprint type: bounded operator-facing naming and terminology simplification.
+- Baseline commit: `0263945 Normalize options chain fixtures`.
+- Renamed the first-screen candidate region to `Options setups to review`.
+- Changed candidate score copy from `research quality` to `research readiness` while preserving the existing score and its non-return meaning.
+- Added a compact visible key: `Setup = quick operator view` and `Research packet = full evidence record after review`.
+- Renamed `Review Candidate` to `Open Full Review`.
+- Renamed `View Deep Evidence` to `Open Research System`.
+- Renamed the existing `Advanced Research OS` disclosure to `Full Research & Evidence` and clarified its contents.
+- Preserved canonical packet terminology inside the deep workflow, one Alerts renderer, V3.1 placement, Intelligence Core, packet/review/storage contracts, providers, scoring, and safety language.
+- Desktop `1280x720` and mobile `390x844` browser QA passed for label visibility, NVDA setup selection, both deep-review actions, disclosure opening, Intelligence Core singleton state, Staging tracker visibility, one Starlight canvas, route preservation, and no document-level horizontal overflow.
+- No live data, provider call, route, renderer, LocalStorage key, packet model, review queue, broker connection, execution behavior, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: push and hosted-verify the complete local simplification and secure-data readiness series when CEO B authorizes push.
+
+### Alerts Operator Language v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `public/index.html` and `index.html` — app/style/tracker cache keys only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Options Data Connector v0.2 Fixture Normalizer
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL FIXTURE NORMALIZER COMPLETE; PROVIDER DISCONNECTED**.

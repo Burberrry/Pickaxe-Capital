@@ -2,6 +2,20 @@
 
 ## Current Active Checkpoint
 
+Alerts Operator Language v1 is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
+
+- The first-screen choice is now framed as `Options setups to review`.
+- Research scores are labeled `research readiness`, not expected return.
+- A visible key distinguishes the quick setup view from the full research packet.
+- Operator actions now read `Open Full Review` and `Open Research System`.
+- The deep disclosure is now `Full Research & Evidence`.
+- Canonical packet workflow, data contracts, scores, routes, storage, V3.1, providers, and safety gates remain unchanged.
+- Desktop/mobile QA passed for the new labels, setup selection, both review actions, disclosure opening, tracker visibility, singleton state, route preservation, and horizontal overflow.
+
+Next bounded step: push and hosted-verify the complete local series when CEO B authorizes push.
+
+## Previous Active Checkpoint - Options Data Connector v0.2 Fixture Normalizer
+
 Options Data Connector v0.2 Fixture Normalizer is **PASS / LOCAL FIXTURE NORMALIZER COMPLETE; PROVIDER DISCONNECTED**.
 
 - A pure Massive option-chain normalizer now handles contract identity, quotes, sizes, spreads, volume, prior-session open interest, IV, Greeks, timestamps, freshness, and hard blocks.
