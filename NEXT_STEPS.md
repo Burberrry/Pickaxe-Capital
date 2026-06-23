@@ -2,12 +2,16 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Investor-Ready Lean Alerts OS v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+Pickaxe Investor-Ready Lean Alerts OS v1 is **PASS / HOSTED QA VERIFIED**.
 
 - Bounded investor-preview polish for the existing static Options Alerts Research OS.
 - Starting `main` was clean and aligned with `origin/main` at `e288206`.
 - Safety branch: `backup/pre-investor-ready-lean-alerts-os-v1-20260623`.
 - Work branch: `feature/investor-ready-lean-alerts-os-v1`.
+- Implementation commit: `2b3303b`.
+- Merge/push commit on `origin/main`: `6bba22e`.
+- GitHub Pages run `28059124056` passed `Validate and Build` and `Deploy`; deployment `5172899022` is `success`.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
 - Added a concise investor framing strip inside Alerts: Product Thesis, How Pickaxe Works, Current Version, and What Comes Later.
 - Pickaxe Capital identity is now visible in the product header, with `Options Alerts Research OS` still the main product title.
 - Current product state remains `DEMO / Source Required`, `UNKNOWN / No market timestamp`, and `BLOCKED — NO EXTERNAL ACTION`.
@@ -20,8 +24,11 @@ Pickaxe Investor-Ready Lean Alerts OS v1 is **PASS / LOCAL IMPLEMENTATION AND BR
 - Research Packet and Evidence Packet actions remain unchanged.
 - V3.1 Golden Path remains preserved and secondary.
 - No data, scores, gates, routes, storage, provider adapters, browser provider requests, live data, broker execution, alert delivery, auth, payment, subscription, dependency, or `data/signal-alerts.json` change was added.
+- Hosted desktop and mobile browser QA passed across owner and regression routes with correct active views, nonblank content, one visible Starlight canvas, no document-level horizontal overflow, no console errors/warnings, and preserved direct-path bridges.
+- Hosted Alerts QA passed for investor framing, setup selection, NVDA selected-state sync, `BLOCKED — NO EXTERNAL ACTION`, Research Packet, Evidence Packet, secondary V3.1 Golden Path, and no accept/decline alert UI.
+- Hosted static asset inspection found the new cache keys, no source maps, no real secrets, no active provider URLs, no provider request path activation, no live data, no broker/execution/payment/subscription/auth, and no alert-delivery behavior.
 
-Next bounded step: merge to `main`, push, wait for GitHub Pages deployment, and run hosted verification for Pickaxe Investor-Ready Lean Alerts OS v1.
+Next bounded step: Hosted investor preview read-through — read-only.
 
 ## Previous Active Checkpoint - Pickaxe Lean Alerts Visual Theme v1
 

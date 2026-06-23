@@ -3,11 +3,16 @@
 ## Current Checkpoint - Pickaxe Investor-Ready Lean Alerts OS v1
 
 - Date: 2026-06-23.
-- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Result: **PASS / HOSTED QA VERIFIED**.
 - Sprint type: bounded investor-preview polish for the existing Options Alerts Research OS.
 - Starting git state: branch `main` was clean and aligned with `origin/main` at `e288206`.
 - Safety branch created: `backup/pre-investor-ready-lean-alerts-os-v1-20260623`.
 - Work branch created: `feature/investor-ready-lean-alerts-os-v1`.
+- Implementation commit: `2b3303b Polish investor-ready Alerts preview`.
+- Merge/push commit on `origin/main`: `6bba22e Merge investor-ready Lean Alerts OS v1`.
+- GitHub Pages workflow run: `28059124056` (`Validate and Deploy GitHub Pages`) — `Validate and Build` passed and `Deploy` passed.
+- GitHub Pages deployment: `5172899022` — deployment status `success`.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
 - Added a compact investor-readable framing strip inside the existing Alerts workspace: `Product Thesis`, `How Pickaxe Works`, `Current Version`, and `What Comes Later`.
 - Made Pickaxe Capital identity visible inside the Alerts product header while preserving the public product title `Options Alerts Research OS`.
 - Tightened the first-screen copy around source-verified options research, System Intelligence gates, demo/source-required status, no advice, no execution, and future provider activation boundaries.
@@ -21,7 +26,12 @@
 - No live data, provider activation, browser provider request, broker execution, order placement, alert delivery, authentication, payment, subscription, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
 - `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
 - Local browser QA passed for desktop `1280x720` and mobile `390x844` first-screen layout with one visible Starlight canvas and no document-level horizontal overflow.
-- Next bounded recommendation: `Push, hosted deploy verification, and hosted QA for Pickaxe Investor-Ready Lean Alerts OS v1`.
+- Hosted HTTP checks passed after GitHub Pages slash redirects: `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, `/staging`, `/agents`, and `/vision-map` resolved correctly; `/ai-handoff` remained hosted `404`.
+- Hosted desktop `1280x720` and mobile `390x844` browser QA passed across `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, `/staging`, `/#/research`, `/#/source-hub`, `/#/archive`, `/#/learning-ledger`, `/agents`, and `/vision-map`.
+- Hosted Alerts interaction QA passed for setup selection, NVDA selected-state sync, `BLOCKED — NO EXTERNAL ACTION`, Research Packet opening, Evidence Packet opening, secondary V3.1 Golden Path visibility, no accept/decline alert UI, one visible Starlight canvas, no console errors/warnings, and no document-level horizontal overflow.
+- Hosted static asset inspection confirmed the new cache keys, no source maps, no real secrets, no active provider URLs, no provider request path activation, no live data, no broker/execution/payment/subscription/auth, and no alert-delivery behavior. Credential-pattern-like matches were existing tracker IDs, not secrets; provider-name matches were inactive future-provider labels or historical blocked-provider notes.
+- Screenshots saved outside the repo: `/tmp/pickaxe-hosted-investor-ready-alerts-desktop.png` and `/tmp/pickaxe-hosted-investor-ready-alerts-mobile.png`.
+- Next bounded recommendation: `Hosted investor preview read-through — read-only`.
 
 ### Pickaxe Investor-Ready Lean Alerts OS v1 Files Changed
 
