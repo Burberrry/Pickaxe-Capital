@@ -2,6 +2,22 @@
 
 ## Current Active Checkpoint
 
+Alerts Mobile Evidence v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Desktop keeps the full three-column selected-setup evidence visible.
+- Mobile defaults to a compact selected-setup summary plus one `Selected setup evidence` disclosure.
+- No thesis, contract, source, risk, or review field was removed.
+- Default mobile document height decreased from about `2,783px` to `1,978px`.
+- Default mobile operator-workspace height decreased from about `2,307px` to `1,501px`.
+- Expanded evidence includes the existing `Open Full Review` action.
+- Evidence open state survives setup switching in the page session without persistence.
+- SPY selection preserved open evidence and synchronized the verdict.
+- Desktop/mobile QA passed with no console warnings/errors or horizontal overflow.
+
+Next bounded step: push and hosted-verify Alerts Mobile Evidence v1 when CEO B authorizes push.
+
+## Previous Active Checkpoint - Alerts Readiness Consistency v1
+
 Alerts Readiness Consistency v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - The operator detail and Intelligence Core now use `Research Readiness`.

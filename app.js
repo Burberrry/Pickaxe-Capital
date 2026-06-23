@@ -41,6 +41,7 @@ const state = {
   phase9DrawerOpen: false,
   selectedIntelligenceCandidateId: "PIC-DEMO-QQQ-001",
   alertsAdvancedOpen: false,
+  alertsOperatorEvidenceOpen: false,
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
@@ -9955,6 +9956,7 @@ function renderAlertsOperatorWorkspace() {
   const reviewState = candidate.dataQuality === "DEMO" ? "CEO B Review Required" : "Manual Review Required";
   const decisionState = getAlertsOperatorDecisionState(candidate, sourceStatus);
   const reviewOrder = getAlertsOperatorReviewOrder();
+  const evidenceOpen = state.alertsOperatorEvidenceOpen || !window.matchMedia("(max-width: 760px)").matches;
 
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
@@ -10044,53 +10046,63 @@ function renderAlertsOperatorWorkspace() {
           </div>
         </div>
 
-        <div class="alerts-operator-columns">
-          <article>
-            <header><span>Setup &amp; Thesis</span></header>
-            <dl>
-              <div><dt>Thesis</dt><dd>${escapeHtml(candidate.ceoBNote)}</dd></div>
-              <div><dt>Catalyst</dt><dd>${escapeHtml(candidate.catalyst)}</dd></div>
-              <div><dt>Entry Trigger</dt><dd>${escapeHtml(candidate.entryTrigger)}</dd></div>
-              <div class="is-risk"><dt>Invalidation</dt><dd>${escapeHtml(candidate.invalidation)}</dd></div>
-              <div class="is-risk"><dt>No-Trade Conditions</dt><dd>${escapeHtml(candidate.risk.noTrade)}</dd></div>
-            </dl>
-          </article>
+        <details
+          class="alerts-operator-evidence"
+          ontoggle="window.syncAlertsOperatorEvidenceState(this.open)"
+          ${evidenceOpen ? "open" : ""}
+        >
+          <summary>
+            <span>Selected setup evidence</span>
+            <small>Thesis, contract quality, source, risk, and review state</small>
+          </summary>
+          <div class="alerts-operator-columns">
+            <article>
+              <header><span>Setup &amp; Thesis</span></header>
+              <dl>
+                <div><dt>Thesis</dt><dd>${escapeHtml(candidate.ceoBNote)}</dd></div>
+                <div><dt>Catalyst</dt><dd>${escapeHtml(candidate.catalyst)}</dd></div>
+                <div><dt>Entry Trigger</dt><dd>${escapeHtml(candidate.entryTrigger)}</dd></div>
+                <div class="is-risk"><dt>Invalidation</dt><dd>${escapeHtml(candidate.invalidation)}</dd></div>
+                <div class="is-risk"><dt>No-Trade Conditions</dt><dd>${escapeHtml(candidate.risk.noTrade)}</dd></div>
+              </dl>
+            </article>
 
-          <article>
-            <header><span>Contract &amp; Options Quality</span></header>
-            <dl class="is-compact">
-              <div><dt>Expiration Window</dt><dd>${escapeHtml(candidate.optionWindow)}</dd></div>
-              <div><dt>Strike Logic</dt><dd>${escapeHtml(candidate.strikeLogic)}</dd></div>
-              <div><dt>Liquidity</dt><dd>${escapeHtml(candidate.liquidityStatus)}</dd></div>
-              <div><dt>Spread</dt><dd>${escapeHtml(candidate.options.spreadStatus)}</dd></div>
-              <div><dt>Volume / OI</dt><dd>${escapeHtml(candidate.options.volumeOiStatus)}</dd></div>
-              <div class="is-warning"><dt>IV Warning</dt><dd>${escapeHtml(candidate.options.ivWarning)}</dd></div>
-            </dl>
-            <div class="alerts-operator-quality">
-              <span>Overall Options Quality</span>
-              <strong>${escapeHtml(candidate.options.grade)}</strong>
-            </div>
-          </article>
+            <article>
+              <header><span>Contract &amp; Options Quality</span></header>
+              <dl class="is-compact">
+                <div><dt>Expiration Window</dt><dd>${escapeHtml(candidate.optionWindow)}</dd></div>
+                <div><dt>Strike Logic</dt><dd>${escapeHtml(candidate.strikeLogic)}</dd></div>
+                <div><dt>Liquidity</dt><dd>${escapeHtml(candidate.liquidityStatus)}</dd></div>
+                <div><dt>Spread</dt><dd>${escapeHtml(candidate.options.spreadStatus)}</dd></div>
+                <div><dt>Volume / OI</dt><dd>${escapeHtml(candidate.options.volumeOiStatus)}</dd></div>
+                <div class="is-warning"><dt>IV Warning</dt><dd>${escapeHtml(candidate.options.ivWarning)}</dd></div>
+              </dl>
+              <div class="alerts-operator-quality">
+                <span>Overall Options Quality</span>
+                <strong>${escapeHtml(candidate.options.grade)}</strong>
+              </div>
+            </article>
 
-          <article>
-            <header><span>Source, Risk &amp; Review</span></header>
-            <dl class="is-compact">
-              <div><dt>Provider</dt><dd>${escapeHtml(sourceStatus.activeProvider.name)}</dd></div>
-              <div class="is-risk"><dt>Primary Source Status</dt><dd>Demo / unverified</dd></div>
-              <div class="is-warning"><dt>Source Freshness</dt><dd>${escapeHtml(sourceStatus.freshness)}</dd></div>
-              <div><dt>Risk State</dt><dd>${escapeHtml(candidate.riskRating)}</dd></div>
-              <div><dt>Data Confidence</dt><dd>${escapeHtml(candidate.dataQuality)} only</dd></div>
-            </dl>
-            <div class="alerts-operator-decision">
-              <span>Manual Review Status</span>
-              <strong>${escapeHtml(reviewState)}</strong>
-              <small>Validate sources, risk, and contract data before any external action.</small>
-            </div>
-            <button type="button" class="alerts-operator-review-button" onclick="window.openAlertsDeepReview()">
-              Open Full Review
-            </button>
-          </article>
-        </div>
+            <article>
+              <header><span>Source, Risk &amp; Review</span></header>
+              <dl class="is-compact">
+                <div><dt>Provider</dt><dd>${escapeHtml(sourceStatus.activeProvider.name)}</dd></div>
+                <div class="is-risk"><dt>Primary Source Status</dt><dd>Demo / unverified</dd></div>
+                <div class="is-warning"><dt>Source Freshness</dt><dd>${escapeHtml(sourceStatus.freshness)}</dd></div>
+                <div><dt>Risk State</dt><dd>${escapeHtml(candidate.riskRating)}</dd></div>
+                <div><dt>Data Confidence</dt><dd>${escapeHtml(candidate.dataQuality)} only</dd></div>
+              </dl>
+              <div class="alerts-operator-decision">
+                <span>Manual Review Status</span>
+                <strong>${escapeHtml(reviewState)}</strong>
+                <small>Validate sources, risk, and contract data before any external action.</small>
+              </div>
+              <button type="button" class="alerts-operator-review-button" onclick="window.openAlertsDeepReview()">
+                Open Full Review
+              </button>
+            </article>
+          </div>
+        </details>
       </div>
 
       <div class="alerts-operator-process">
@@ -10851,6 +10863,12 @@ window.openAlertsDeepReview = () => {
 
 window.syncAlertsAdvancedState = (isOpen) => {
   state.alertsAdvancedOpen = Boolean(isOpen);
+};
+
+window.syncAlertsOperatorEvidenceState = (isOpen) => {
+  if (window.matchMedia("(max-width: 760px)").matches) {
+    state.alertsOperatorEvidenceOpen = Boolean(isOpen);
+  }
 };
 
 function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {

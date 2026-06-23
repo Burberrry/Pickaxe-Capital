@@ -1,6 +1,34 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Alerts Readiness Consistency v1
+## Current Checkpoint - Alerts Mobile Evidence v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded responsive evidence-density simplification.
+- Baseline commit: `6e7999c Align Alerts readiness language`.
+- Converted the selected setup evidence area into one responsive disclosure while preserving every thesis, catalyst, trigger, invalidation, no-trade condition, contract-quality field, source state, risk state, review state, and Full Review action.
+- Desktop remains expanded by default and hides the disclosure summary, preserving the established three-column operator layout.
+- Mobile defaults closed after the selected setup identity/readiness/grade/CEO-review summary.
+- Default mobile document height decreased from approximately `2,783px` to `1,978px`.
+- Default mobile operator-workspace height decreased from approximately `2,307px` to `1,501px`.
+- The mobile disclosure summary is 48px tall and explicitly names `Selected setup evidence` plus its thesis, contract, source, risk, and review contents.
+- Expanding the disclosure restores all evidence and the `Open Full Review` action.
+- Evidence open state is ephemeral page state only; it persists when switching setups without adding a LocalStorage key.
+- Selecting rank `#3` SPY while evidence was open preserved the disclosure and synchronized SPY identity and `NO EXTERNAL ACTION` verdict.
+- Desktop `1280x720` and mobile `390x844` browser QA passed with zero observed console errors or warnings, one Alerts owner, one Starlight canvas, correct disclosure behavior, and no document-level horizontal overflow.
+- No route, renderer, packet model, review queue, LocalStorage key, candidate data, score, source/risk gate, provider call, broker connection, execution behavior, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: push and hosted-verify Alerts Mobile Evidence v1 when CEO B authorizes push.
+
+### Alerts Mobile Evidence v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `public/index.html` and `index.html` — app/style/tracker cache keys only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Alerts Readiness Consistency v1
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
