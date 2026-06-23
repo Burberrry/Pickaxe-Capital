@@ -1,6 +1,43 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Lean Options Alerts OS v1
+## Current Checkpoint - Pickaxe Lean Alerts Visual Theme v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: CSS-first premium Options Alerts visual refinement.
+- Starting git state: branch `main` was clean and aligned with `origin/main` at `a5ecef2`.
+- Safety branch created: `backup/pre-lean-alerts-visual-theme-v1-20260623`.
+- Work branch created: `feature/lean-alerts-visual-theme-v1`.
+- Refined the Lean Alerts color system with deeper obsidian/graphite surfaces, champagne-gold structure, silver/white type, amber source-required accents, and restrained crimson no-action emphasis.
+- Improved the first-screen visual hierarchy without changing the Options Alerts product focus.
+- Setup cards now have stronger spacing, depth, selected-state contrast, readable status chips, and clearer rank/grade hierarchy.
+- `System Intelligence Verdict` is now visually centered as the main action-boundary panel, with clearer status, why, missing-gate, next-requirement, and action-boundary fields.
+- Selected setup summary now reads more like a live operator packet while preserving Research Only, Manual Review Required, Demo/Static Data, Not Financial Advice, No Broker Execution, and options-risk boundaries.
+- Added the exact visible options-risk phrase `Options involve substantial risk` to the Alerts boundary copy.
+- `Research Packet` and `Evidence Packet` readability was improved with darker cards, stronger borders, and clearer button hierarchy.
+- Mobile Alerts title, status cards, setup cards, verdict panel, and packet sections were tightened for `390x844` without introducing horizontal overflow.
+- Complex/reset/internal modules remain deferred; older internal routes remain preserved under the existing route model.
+- `/` remains Alerts; `/founder` remains available; `/app/alerts` remains the Alerts bridge.
+- `/ai-handoff` remains local-server text only with no public static bridge.
+- V3.1 Golden Path, Phase 9A shell, Phase 9B handoff, route ownership, LocalStorage contracts, root/public mirrors, Build Completion Tracker schema, and the canonical Alerts renderer were preserved.
+- Desktop `1280x720` and mobile `390x844` browser QA passed for `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, `/staging`, `/#/research`, `/#/source-hub`, `/#/archive`, `/#/learning-ledger`, `/agents`, and `/vision-map`.
+- Alerts interaction QA passed for NVDA selected-state sync, `BLOCKED — NO EXTERNAL ACTION` verdict visibility, Research Packet opening, Evidence Packet opening, options-risk phrase visibility, one Starlight canvas, no horizontal overflow, and no new console warnings or errors.
+- Browser resource inspection found no Alpha Vantage, Massive, Tradier, provider-proxy, quote, or options-provider request from the browser.
+- No setup data, research-readiness values, scores, source/risk gates, system-status logic, route, storage key, packet model, review queue, provider adapter, browser provider request, live data claim, alert delivery, broker execution, authentication, payment, subscription, dependency, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Screenshots saved outside the repo: `/tmp/pickaxe-lean-theme-desktop.png`, `/tmp/pickaxe-lean-theme-mobile.png`, and `/tmp/pickaxe-lean-theme-mobile-evidence.png`.
+- Next bounded recommendation: `Push and hosted verification for Pickaxe Lean Alerts Visual Theme v1` after CEO B authorizes push.
+
+### Pickaxe Lean Alerts Visual Theme v1 Files Changed
+
+- `public/styles.css` and `styles.css`
+- `public/app.js` and `app.js` — safety copy only
+- `public/index.html` and `index.html` — visual/script cache keys only
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Lean Options Alerts OS v1
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.

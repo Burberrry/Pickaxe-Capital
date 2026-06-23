@@ -10028,7 +10028,7 @@ function renderAlertsOperatorWorkspace() {
         </dl>
         <div class="alerts-operator-boundary">
           <strong>Research Only</strong>
-          <span>Not Live · Not Advice · No Broker Execution</span>
+          <span>Not Live · Not Advice · No Broker Execution · Options involve substantial risk</span>
         </div>
       </header>
 

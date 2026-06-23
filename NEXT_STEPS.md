@@ -2,6 +2,29 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Lean Alerts Visual Theme v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Visual sprint only; no data, logic, route, storage, provider, broker, payment, subscription, auth, or alert-delivery behavior was added.
+- Options Alerts remains the product focus.
+- The first screen now has a more premium Pickaxe visual system: obsidian/graphite surfaces, champagne-gold structure, readable silver/white text, amber source-required accents, and restrained crimson no-action emphasis.
+- Setup cards, selected-state styling, status chips, and rank/grade hierarchy are easier to scan.
+- `System Intelligence Verdict` is the clearest central action-boundary panel.
+- Selected setup summary reads more cleanly as a research packet preview while preserving Research Only, Manual Review Required, Demo/Static Data, Not Financial Advice, No Broker Execution, and options-risk boundaries.
+- Alerts boundary copy now includes the exact visible options-risk phrase: `Options involve substantial risk`.
+- `Research Packet` and `Evidence Packet` readability improved.
+- Mobile Alerts layout was tightened at `390x844` without horizontal overflow.
+- Complex/reset/internal modules remain deferred.
+- `/` remains Alerts.
+- `/founder` remains available.
+- `/app/alerts` remains the Alerts bridge.
+- `/ai-handoff` remains local-only server text with no public static bridge.
+- `data/signal-alerts.json` remained unchanged.
+- Desktop and mobile browser QA passed across the owner/regression routes with no horizontal overflow, one Starlight canvas, no new console warnings/errors, and no browser provider requests.
+
+Next bounded step: push and hosted-verify Pickaxe Lean Alerts Visual Theme v1 when CEO B authorizes push.
+
+## Previous Active Checkpoint - Pickaxe Lean Options Alerts OS v1
+
 Pickaxe Lean Options Alerts OS v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - Strategy changed from complex everything-first to Options Alerts-first.
