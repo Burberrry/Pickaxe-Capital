@@ -2,6 +2,23 @@
 
 ## Current Active Checkpoint
 
+Alerts Mobile Summary v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Mobile keeps selected setup identity full width.
+- Research readiness and contract grade now share one row.
+- CEO B review remains visible in one compact full-width row.
+- All existing selected-setup summary fields remain present.
+- Header height decreased from about `292px` to `203px`.
+- Default mobile workspace height decreased from about `1,501px` to `1,412px`.
+- Default mobile document height decreased from about `1,978px` to `1,889px`.
+- Evidence expansion and SPY selection synchronization still pass.
+- Desktop retains the original four-column summary.
+- Desktop/mobile QA passed with no console warnings/errors or horizontal overflow.
+
+Next bounded step: push and hosted-verify Alerts Mobile Summary v1 when CEO B authorizes push.
+
+## Previous Active Checkpoint - Alerts Mobile Evidence v1
+
 Alerts Mobile Evidence v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - Desktop keeps the full three-column selected-setup evidence visible.

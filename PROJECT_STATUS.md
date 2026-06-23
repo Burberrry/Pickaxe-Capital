@@ -1,6 +1,33 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Alerts Mobile Evidence v1
+## Current Checkpoint - Alerts Mobile Summary v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded responsive selected-setup summary compaction.
+- Baseline commit: `0e44d7a Compact mobile Alerts evidence`.
+- Preserved selected ticker identity, setup, direction, research readiness, contract grade, CEO B review requirement, and manual-decision language.
+- Mobile identity remains full width.
+- Mobile research readiness and contract grade now share one two-column row.
+- Mobile CEO B review now uses one compact full-width row with the requirement aligned opposite its label.
+- Selected-setup header height decreased from approximately `292px` to `203px`.
+- Default mobile operator-workspace height decreased from approximately `1,501px` to `1,412px`.
+- Default mobile document height decreased from approximately `1,978px` to `1,889px`.
+- Expanding selected setup evidence and switching to rank `#3` SPY preserved disclosure state and synchronized SPY identity and `NO EXTERNAL ACTION` verdict.
+- Desktop retained its original four-column selected-setup header at approximately `76px`, expanded evidence, and hidden disclosure summary.
+- Desktop `1280x720` and mobile `390x844` browser QA passed with zero observed console errors or warnings and no document-level horizontal overflow.
+- No HTML/JavaScript behavior, route, renderer, packet model, review queue, LocalStorage key, candidate data, score, source/risk gate, provider call, broker connection, execution behavior, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: push and hosted-verify Alerts Mobile Summary v1 when CEO B authorizes push.
+
+### Alerts Mobile Summary v1 Files Changed
+
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `public/index.html` and `index.html` — style/tracker cache keys only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Alerts Mobile Evidence v1
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
