@@ -10028,7 +10028,7 @@ function renderAlertsOperatorWorkspace() {
             <span>Direction <b class="${directionClass}">${escapeHtml(candidate.bias)}</b></span>
           </div>
           <div class="alerts-operator-score">
-            <span>Research Quality</span>
+            <span>Research Readiness</span>
             <strong>${score.total}<small>/ 100</small></strong>
             <em>Not expected return</em>
           </div>
@@ -10593,6 +10593,7 @@ function renderPickaxeIntelligenceCore() {
   const candidate = INTELLIGENCE_CORE_CANDIDATES.find((item) => item.id === state.selectedIntelligenceCandidateId)
     || INTELLIGENCE_CORE_CANDIDATES[0];
   const score = scoreIntelligenceCandidate(candidate);
+  const reviewOrder = getAlertsOperatorReviewOrder();
   const regime = getMarketRegime();
   const sourceStatus = getSourceStatus();
   const rejectedAlerts = [
@@ -10640,7 +10641,7 @@ function renderPickaxeIntelligenceCore() {
         <div>
           <span>Pickaxe Intelligence Core v0.1 · Data Connector v0.2</span>
           <h3 id="picCoreTitle">Alerts Desk Intelligence Engine</h3>
-          <p>Demo candidate scoring, dynamic risk controls, options-quality review, source status, rejected-alert discipline, and lesson preparation.</p>
+          <p>Demo setup scoring, dynamic risk controls, options-quality review, source status, rejected-alert discipline, and lesson preparation.</p>
         </div>
         <aside>
           ${renderIntelligenceDataMode(sourceStatus.activeProviderMode)}
@@ -10655,9 +10656,8 @@ function renderPickaxeIntelligenceCore() {
         <small>Only DEMO is active. Future connectors remain UNAVAILABLE.</small>
       </div>
 
-      <div class="pic-candidate-tabs" aria-label="Demo alert candidates">
-        ${INTELLIGENCE_CORE_CANDIDATES.map((item) => {
-          const itemScore = scoreIntelligenceCandidate(item);
+      <div class="pic-candidate-tabs" aria-label="Demo setups in research-readiness review order">
+        ${reviewOrder.map(({ item, itemScore }) => {
           return `
             <button type="button" class="${item.id === candidate.id ? "is-active" : ""}" aria-pressed="${item.id === candidate.id}" onclick="window.selectIntelligenceCandidate('${item.id}')">
               <span>${escapeHtml(item.ticker)}</span>
@@ -10672,7 +10672,7 @@ function renderPickaxeIntelligenceCore() {
       <div class="pic-command-grid">
         <article class="pic-panel pic-selected-candidate">
           <header>
-            <div><span>Selected Alert Candidate</span><h4>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</h4></div>
+            <div><span>Selected Setup</span><h4>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</h4></div>
             <div class="pic-score-orb"><strong>${score.total}</strong><small>${escapeHtml(score.classification)}</small></div>
           </header>
           <div class="pic-candidate-summary">
@@ -10693,7 +10693,7 @@ function renderPickaxeIntelligenceCore() {
         </article>
 
         <article class="pic-panel pic-score-panel">
-          <header><div><span>Scoring Engine</span><h4>Weighted research quality</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
+          <header><div><span>Scoring Engine</span><h4>Weighted research readiness</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
           <div class="pic-score-list">
             ${Object.entries(score.parts).map(([key, part]) => `
               <div>
@@ -10703,7 +10703,7 @@ function renderPickaxeIntelligenceCore() {
               </div>
             `).join("")}
           </div>
-          <p>Classification: <strong>${escapeHtml(score.classification)}</strong>. Scores measure demo research quality, not expected return.</p>
+          <p>Classification: <strong>${escapeHtml(score.classification)}</strong>. Scores measure demo research readiness and packet completeness, not expected return.</p>
         </article>
 
         <article class="pic-panel pic-regime-panel">

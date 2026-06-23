@@ -1,6 +1,32 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Alerts Review Order v1
+## Current Checkpoint - Alerts Readiness Consistency v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded cross-surface order and terminology alignment.
+- Baseline commit: `ea18662 Order Alerts review queue`.
+- Changed the operator detail score label from `Research Quality` to `Research Readiness`.
+- Reused the same derived review order in Intelligence Core: QQQ `86`, NVDA `81`, SPY `78`, TSLA `72`, GLD `68`.
+- Renamed `Selected Alert Candidate` to `Selected Setup`.
+- Renamed `Weighted research quality` to `Weighted research readiness`.
+- Clarified that scores measure research readiness and packet completeness, never expected return.
+- Updated the Intelligence Core introduction from candidate scoring to setup scoring.
+- Selecting operator rank `#3` SPY and opening `Open Full Review` preserved SPY selection in Intelligence Core and showed the same five-item order.
+- Mobile `Open Research System` also opened the aligned Full Research & Evidence surface with no overflow or duplicate mounts.
+- Desktop `1280x720` and mobile `390x844` browser QA passed with zero observed console errors or warnings, one Alerts owner, one Intelligence Core, one Starlight canvas, and no document-level horizontal overflow.
+- No candidate data, scoring weights, classifications, source/risk gate, route, renderer, packet model, review queue, LocalStorage key, provider call, broker connection, execution behavior, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: push and hosted-verify the Alerts clarity series when CEO B authorizes push.
+
+### Alerts Readiness Consistency v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `public/index.html` and `index.html` — app/style/tracker cache keys only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Alerts Review Order v1
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
