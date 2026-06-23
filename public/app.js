@@ -9922,6 +9922,7 @@ function getAlertsOperatorDecisionState(candidate, sourceStatus) {
   const blockers = [];
   const usableModes = ["LIVE", "DELAYED", "MANUAL"];
   const blockedFreshness = ["UNKNOWN", "STALE", "EXPIRED", "UNAVAILABLE"];
+  const score = scoreIntelligenceCandidate(candidate);
 
   if (!usableModes.includes(sourceStatus.activeProviderMode)) blockers.push("No verified market provider");
   if (blockedFreshness.includes(sourceStatus.freshness)) blockers.push("No usable market timestamp");
@@ -9930,19 +9931,59 @@ function getAlertsOperatorDecisionState(candidate, sourceStatus) {
   if (blockers.length) {
     return {
       tone: "is-blocked",
-      label: "NO EXTERNAL ACTION",
-      title: `${candidate.ticker} is blocked before decision review`,
+      status: "BLOCKED",
+      label: "BLOCKED — NO EXTERNAL ACTION",
+      cardLabel: "BLOCKED",
+      why: "Source data is incomplete",
+      title: `${candidate.ticker} blocked by source and options-chain gates`,
       reason: blockers.join(" · "),
-      next: "Next gate: verify source, quote timestamp, and contract data.",
+      missingGate: "Verified quote timestamp + options chain",
+      nextRequirement: "Connect approved provider later",
+      actionBoundary: "No external action",
+    };
+  }
+
+  if (score.total < 60) {
+    return {
+      tone: "is-no-setup",
+      status: "NO SETUP",
+      label: "NO SETUP",
+      cardLabel: "NO SETUP",
+      why: "Current setup does not meet research criteria",
+      title: `${candidate.ticker} does not meet setup criteria`,
+      reason: `${score.total}/100 research readiness · ${candidate.options.grade} contract grade`,
+      missingGate: "Research-quality threshold",
+      nextRequirement: "Wait for a cleaner setup",
+      actionBoundary: "No external action",
+    };
+  }
+
+  if (score.total < 80) {
+    return {
+      tone: "is-watch",
+      status: "WATCH",
+      label: "WATCH",
+      cardLabel: "WATCH",
+      why: "Setup is interesting but incomplete",
+      title: `${candidate.ticker} remains on watch`,
+      reason: `${score.total}/100 research readiness · ${candidate.riskRating} risk`,
+      missingGate: "Stronger confirmation and risk clarity",
+      nextRequirement: "Complete evidence packet",
+      actionBoundary: "Research review only",
     };
   }
 
   return {
     tone: "is-review",
-    label: "REVIEW ONLY",
-    title: `${candidate.ticker} requires risk and CEO B review`,
+    status: "REVIEW CANDIDATE",
+    label: "REVIEW CANDIDATE",
+    cardLabel: "REVIEW CANDIDATE",
+    why: "Research packet is complete enough for deeper review",
+    title: `${candidate.ticker} qualifies for deeper research review`,
     reason: `${candidate.riskRating} risk · ${candidate.options.grade} contract-quality grade`,
-    next: "Next gate: clear risk controls, then complete CEO B manual review.",
+    missingGate: "Final source and risk review",
+    nextRequirement: "Review evidence packet",
+    actionBoundary: "No trading action",
   };
 }
 
@@ -9953,45 +9994,51 @@ function renderAlertsOperatorWorkspace() {
   const sourceStatus = getSourceStatus();
   const regime = getMarketRegime();
   const directionClass = /bear/i.test(candidate.bias) ? "is-bear" : /bull/i.test(candidate.bias) ? "is-bull" : "";
-  const reviewState = candidate.dataQuality === "DEMO" ? "CEO B Review Required" : "Manual Review Required";
   const decisionState = getAlertsOperatorDecisionState(candidate, sourceStatus);
   const reviewOrder = getAlertsOperatorReviewOrder();
   const evidenceOpen = state.alertsOperatorEvidenceOpen || !window.matchMedia("(max-width: 760px)").matches;
+  const missingRequirements = [
+    "Verified market provider",
+    "Usable quote timestamp",
+    "Verified options chain",
+    "Source freshness check",
+  ];
 
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
       <header class="alerts-operator-header">
         <div class="alerts-operator-title">
           <span>Pickaxe Capital</span>
-          <h2 id="alertsOperatorTitle">Alerts Desk</h2>
-          <p>Options research workspace · ${escapeHtml(sourceStatus.activeProviderMode)} data only</p>
+          <h2 id="alertsOperatorTitle">Options Alerts Research OS</h2>
+          <p>Source-verified options setups ranked by system intelligence.</p>
         </div>
         <dl class="alerts-operator-status">
           <div>
             <dt>Data Status</dt>
-            <dd>${renderIntelligenceDataMode(sourceStatus.activeProviderMode)}<strong>Source required</strong></dd>
+            <dd>${renderIntelligenceDataMode(sourceStatus.activeProviderMode)}<strong>Source Required</strong></dd>
           </div>
           <div>
             <dt>Source Freshness</dt>
             <dd><strong>${escapeHtml(sourceStatus.freshness)}</strong><small>No market timestamp</small></dd>
           </div>
           <div>
-            <dt>Market Regime</dt>
-            <dd><strong>${escapeHtml(regime.label || regime.riskMode)}</strong><small>Demo scenario</small></dd>
+            <dt>System Status</dt>
+            <dd><strong>${escapeHtml(decisionState.status)}</strong><small>${escapeHtml(decisionState.actionBoundary)}</small></dd>
           </div>
         </dl>
         <div class="alerts-operator-boundary">
           <strong>Research Only</strong>
-          <span>Not live · Not advice</span>
+          <span>Not Live · Not Advice · No Broker Execution</span>
         </div>
       </header>
 
       <div class="alerts-operator-queue-head">
-        <strong>Review order</strong>
-        <span>Research readiness only · source and risk verdict controls action</span>
+        <strong>Setups to Review</strong>
+        <span>Research readiness only · system intelligence controls status</span>
       </div>
       <div class="alerts-operator-candidates" aria-label="Options setups in research-readiness review order">
         ${reviewOrder.map(({ item, itemScore }, reviewIndex) => {
+          const itemDecision = getAlertsOperatorDecisionState(item, sourceStatus);
           return `
             <button
               type="button"
@@ -10002,32 +10049,40 @@ function renderAlertsOperatorWorkspace() {
               <em>#${reviewIndex + 1}</em>
               <strong>${escapeHtml(item.ticker)}</strong>
               <span>${escapeHtml(item.setupType)}</span>
-              <small>${itemScore.total}/100 research readiness</small>
+              <small>${itemScore.total}/100 readiness · ${escapeHtml(item.options.grade)} grade</small>
+              <i>${escapeHtml(itemDecision.cardLabel)}</i>
+              <b>${escapeHtml(sourceStatus.activeProviderMode)} / Source Required</b>
             </button>
           `;
         }).join("")}
       </div>
       <p class="alerts-operator-language-key">
-        <span><strong>Setup</strong> = quick operator view</span>
-        <span><strong>Research packet</strong> = full evidence record after review</span>
-        <span><strong>Verdict</strong> = source, risk, and CEO B gates</span>
+        <span><strong>Setup</strong> = research-only idea under review</span>
+        <span><strong>Readiness</strong> = packet completeness, not expected return</span>
+        <span><strong>CEO B standard</strong> = governance watermark, not an accept/decline button</span>
       </p>
 
       <section class="alerts-operator-verdict ${decisionState.tone}" aria-label="Current operator decision state">
         <span>${escapeHtml(decisionState.label)}</span>
         <div>
-          <strong>${escapeHtml(decisionState.title)}</strong>
-          <small>${escapeHtml(decisionState.reason)}</small>
+          <strong>System Intelligence Verdict</strong>
+          <small>${escapeHtml(decisionState.title)}</small>
         </div>
-        <p>${escapeHtml(decisionState.next)}</p>
+        <dl>
+          <div><dt>Status</dt><dd>${escapeHtml(decisionState.status)}</dd></div>
+          <div><dt>Why</dt><dd>${escapeHtml(decisionState.why)}</dd></div>
+          <div><dt>Missing Gate</dt><dd>${escapeHtml(decisionState.missingGate)}</dd></div>
+          <div><dt>Next Requirement</dt><dd>${escapeHtml(decisionState.nextRequirement)}</dd></div>
+          <div><dt>Action Boundary</dt><dd>${escapeHtml(decisionState.actionBoundary)}</dd></div>
+        </dl>
       </section>
 
       <div class="alerts-operator-candidate">
         <div class="alerts-operator-candidate-head">
           <div class="alerts-operator-identity">
             <strong>${escapeHtml(candidate.ticker)}</strong>
-            <span>Setup <b>${escapeHtml(candidate.setupType)}</b></span>
-            <span>Direction <b class="${directionClass}">${escapeHtml(candidate.bias)}</b></span>
+            <span>Setup Type <b>${escapeHtml(candidate.setupType)}</b></span>
+            <span>Research Bias <b class="${directionClass}">${escapeHtml(candidate.bias)}</b></span>
           </div>
           <div class="alerts-operator-score">
             <span>Research Readiness</span>
@@ -10040,10 +10095,31 @@ function renderAlertsOperatorWorkspace() {
             <em>Demo options quality</em>
           </div>
           <div class="alerts-operator-review">
-            <span>CEO B Review</span>
-            <strong>Required</strong>
-            <em>Manual decision required</em>
+            <span>Final System Status</span>
+            <strong>${escapeHtml(decisionState.status)}</strong>
+            <em>${escapeHtml(decisionState.actionBoundary)}</em>
           </div>
+        </div>
+
+        <section class="alerts-operator-summary" aria-label="Selected setup summary">
+          <div><span>Options Quality</span><strong>${escapeHtml(candidate.options.grade)}</strong><small>${escapeHtml(candidate.options.spreadStatus)}</small></div>
+          <div><span>Source State</span><strong>Source Required</strong><small>${escapeHtml(sourceStatus.freshness)} / no market timestamp</small></div>
+          <div><span>Risk State</span><strong>${escapeHtml(candidate.riskRating)}</strong><small>${escapeHtml(candidate.risk.noTrade)}</small></div>
+          <div><span>System Verdict</span><strong>${escapeHtml(decisionState.label)}</strong><small>${escapeHtml(decisionState.reason)}</small></div>
+        </section>
+
+        <section class="alerts-operator-missing" aria-label="Top missing requirements">
+          <span>Top missing requirements</span>
+          <div>${missingRequirements.map((item) => `<strong>${escapeHtml(item)}</strong>`).join("")}</div>
+        </section>
+
+        <div class="alerts-operator-actions" aria-label="Research packet actions">
+          <button type="button" class="alerts-operator-review-button" onclick="window.openAlertsDeepReview()">
+            Open Research Packet
+          </button>
+          <button type="button" class="alerts-operator-review-button secondary" onclick="window.openAlertsSelectedEvidence()">
+            View Evidence
+          </button>
         </div>
 
         <details
@@ -10052,7 +10128,7 @@ function renderAlertsOperatorWorkspace() {
           ${evidenceOpen ? "open" : ""}
         >
           <summary>
-            <span>Selected setup evidence</span>
+            <span>Evidence Packet</span>
             <small>Thesis, contract quality, source, risk, and review state</small>
           </summary>
           <div class="alerts-operator-columns">
@@ -10093,13 +10169,10 @@ function renderAlertsOperatorWorkspace() {
                 <div><dt>Data Confidence</dt><dd>${escapeHtml(candidate.dataQuality)} only</dd></div>
               </dl>
               <div class="alerts-operator-decision">
-                <span>Manual Review Status</span>
-                <strong>${escapeHtml(reviewState)}</strong>
+                <span>System Status</span>
+                <strong>${escapeHtml(decisionState.label)}</strong>
                 <small>Validate sources, risk, and contract data before any external action.</small>
               </div>
-              <button type="button" class="alerts-operator-review-button" onclick="window.openAlertsDeepReview()">
-                Open Full Review
-              </button>
             </article>
           </div>
         </details>
@@ -10109,10 +10182,10 @@ function renderAlertsOperatorWorkspace() {
         <strong>Research Process · Gated</strong>
         <ol>
           <li><span>1</span><div><b>Source Check</b><small>Verify source and freshness</small></div></li>
-          <li><span>2</span><div><b>Risk Gate</b><small>Validate setup and no-trade conditions</small></div></li>
-          <li><span>3</span><div><b>CEO B Review</b><small>Human review and final decision</small></div></li>
+          <li><span>2</span><div><b>Options Chain</b><small>Verify contract and timestamp</small></div></li>
+          <li><span>3</span><div><b>CEO B Standard</b><small>Governance and research quality</small></div></li>
         </ol>
-        <button type="button" onclick="window.openAlertsDeepReview()">Open Research System</button>
+        <button type="button" onclick="window.openAlertsDeepReview()">Open Research Packet</button>
       </div>
 
       <footer class="alerts-operator-safety">
@@ -10861,6 +10934,17 @@ window.openAlertsDeepReview = () => {
   }, 0);
 };
 
+window.openAlertsSelectedEvidence = () => {
+  state.alertsOperatorEvidenceOpen = true;
+  renderAlertsPage();
+  window.setTimeout(() => {
+    document.querySelector(".alerts-operator-evidence")?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start",
+    });
+  }, 0);
+};
+
 window.syncAlertsAdvancedState = (isOpen) => {
   state.alertsAdvancedOpen = Boolean(isOpen);
 };
@@ -10941,22 +11025,22 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       >
         <summary>
           <span>
-            <strong>Full Research &amp; Evidence</strong>
-            <small>Packet details, source checks, risk analysis, Archive and Learning handoffs</small>
+            <strong>Research Packet</strong>
+            <small>Evidence packet, source checks, contract quality, risk analysis, Archive and Learning handoffs</small>
           </span>
           <em>${activePackets.length} packets · ${blockedPackets} blocked · DEMO only</em>
         </summary>
         <div class="alerts-advanced-research-body">
       <header class="phase2-capital-hero">
         <div class="phase2-hero-copy">
-          <span class="meta-label">Pickaxe Capital / AI Habitat OS / CEO B Command Layer</span>
-          <h2>00 Alerts Desk</h2>
-          <p><strong>Options Alerts Review Queue.</strong> Pickaxe transforms fragmented market context, options research, technical structure, source trails, and archive memory into structured packages for human review.</p>
-          <span class="phase8-ceo-authority">CEO B — Final Approval Authority</span>
+          <span class="meta-label">Pickaxe Capital / Options Alerts Research OS</span>
+          <h2>Evidence Packet</h2>
+          <p><strong>Secondary research view.</strong> Pickaxe keeps packet details, source trails, risk checks, and archive context available after the simplified first screen.</p>
+          <span class="phase8-ceo-authority">CEO B standard — governance and source discipline</span>
           <strong class="phase2-hero-boundary">Research only. Manual review required. No broker execution.</strong>
           <div class="phase2-hero-actions">
-            <a class="primary" href="#/dashboard">Enter Mission Control</a>
-            <a href="#/ai-habitat-os">Open AI Habitat OS</a>
+            <a class="primary" href="#/source-hub">Open Sources</a>
+            <a href="#/risk-rules">Open Rules</a>
             <button type="button" onclick="window.openAlertsOrbit()">Open Intelligence Orbit</button>
           </div>
           ${pcChipRow(["Time. Trend. Theme.", "Research First", "Manual Review Required", "No Broker Execution", "Source Verification Needed", "Capital Preservation First"])}

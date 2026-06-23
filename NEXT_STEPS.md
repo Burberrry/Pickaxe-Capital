@@ -2,6 +2,30 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Lean Options Alerts OS v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Strategy changed from complex everything-first to Options Alerts-first.
+- Visible website simplified to `Pickaxe Capital — Options Alerts Research OS`.
+- Visible navigation is now Alerts, Sources, Rules, Status, and Founder, with older internal routes preserved under Later.
+- CEO B is now presented as a brand/governance standard, not a visible manual accept/decline operator.
+- System Intelligence now decides visible setup status with `BLOCKED`, `WATCH`, `REVIEW CANDIDATE`, or `NO SETUP`.
+- Current demo/source-required state shows `BLOCKED — NO EXTERNAL ACTION`.
+- Main setup cards show QQQ, NVDA, SPY, TSLA, and GLD with research readiness, source-required state, system status, and options quality grade.
+- Selected setup summary now exposes options quality, source state, risk state, system verdict, and top missing requirements.
+- Primary action is `Open Research Packet`; secondary action is `View Evidence`.
+- Deep research remains secondary as Research Packet / Evidence Packet.
+- `/` remains Alerts.
+- `/founder` remains available.
+- `/app/alerts` remains the Alerts bridge.
+- `/ai-handoff` remains local-only server text with no public static bridge.
+- No live data, provider/browser connection, broker execution, order placement, alert delivery, payments, subscriptions, auth, new route, second Alerts renderer, storage key, packet model, or review queue was added.
+- `data/signal-alerts.json` remained unchanged.
+- Desktop and mobile browser QA passed with no console errors or warnings, one Starlight canvas, correct active views, no document-level horizontal overflow, and no browser provider requests.
+
+Next bounded step: push and hosted-verify Pickaxe Lean Options Alerts OS v1 when CEO B authorizes push.
+
+## Previous Active Checkpoint - Alerts Mobile Status v1
+
 Alerts Mobile Status v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - Data Status and Source Freshness share one mobile row.
