@@ -1,6 +1,48 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Alerts Mobile Status v1
+## Current Checkpoint - Pickaxe Lean Options Alerts OS v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: one-shot premium simplified Options Alerts Research OS shell.
+- Starting git state: branch `main` was clean and aligned with `origin/main` (`0 0` ahead/behind). This differed from the pasted prior-session context that said local `main` was six commits ahead.
+- Safety branch created: `backup/pre-lean-options-alerts-os-v1-20260623`.
+- Work branch created: `feature/lean-options-alerts-os-v1`.
+- Visible strategy changed from complex everything-first to Options Alerts-first.
+- `/` and `/#/alerts` now present `Pickaxe Capital — Options Alerts Research OS`.
+- Visible primary navigation is simplified to Alerts, Sources, Rules, Status, and Founder; Overview, Research, Archive, Learning, AI Habitat OS, Agent Habitat, Vision Map, Watchlists, More Tools, and future modules remain preserved but de-emphasized under Later / internal routes.
+- The Alerts first screen now shows Data Status `DEMO / Source Required`, Source Freshness `UNKNOWN / No market timestamp`, and safety language `Research Only · Not Live · Not Advice · No Broker Execution`.
+- Setup cards for QQQ, NVDA, SPY, TSLA, and GLD now show ticker, setup name, research-only bias context, research readiness, system status, source status, and options quality grade.
+- CEO B is framed as a brand/governance standard, not a visible manual accept/decline workflow.
+- Removed/de-emphasized main-experience language and actions including `Open Full Review`, `Open Research System`, and visible manual decision bottleneck copy.
+- System Intelligence now assigns the visible setup status from deterministic gate state: `BLOCKED`, `WATCH`, `REVIEW CANDIDATE`, or `NO SETUP`.
+- Current demo/source-required state shows `BLOCKED — NO EXTERNAL ACTION` because no verified market provider, usable quote timestamp, verified options chain, or known source freshness is available.
+- Added a premium `System Intelligence Verdict` panel with Status, Why, Missing Gate, Next Requirement, and Action Boundary.
+- Selected setup summary now includes setup type, research readiness, contract grade, options quality, source state, risk state, system verdict, and top missing requirements.
+- Primary action is now `Open Research Packet`; secondary action is `View Evidence`.
+- Deep research remains available as `Research Packet` / `Evidence Packet` and remains secondary.
+- V3.1 Golden Path, Phase 9A shell, Phase 9B handoff, direct bridges, route ownership, LocalStorage contracts, root/public mirrors, Build Completion Tracker schema, and the canonical Alerts renderer were preserved.
+- `/` remains Alerts; `/founder` remains available; `/app/alerts` remains the Alerts bridge; `/ai-handoff` remains local-server text only with no public static bridge.
+- Desktop `1280x720` browser QA passed for `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, `/staging`, `/#/research`, `/#/source-hub`, `/#/archive`, `/#/learning-ledger`, `/agents`, and `/vision-map`.
+- Mobile `390x844` browser QA passed for `/`, `/#/alerts`, and `/app/alerts`.
+- Alerts QA passed for simplified premium theme, setup selection, NVDA selected-state sync, system verdict visibility, research packet opening, evidence opening, safety language, no main-experience accept/decline alert UI, and no horizontal overflow.
+- Route regression QA confirmed correct active views, nonblank content, one Starlight canvas, no new console errors or warnings, bridge behavior preserved, and relevant safety language visible.
+- Browser resource inspection found no Alpha Vantage, Massive, Tradier, provider-proxy, quote, or options-provider request from the browser.
+- No live data, live provider activation, browser provider connection, broker execution, order placement, alert delivery, authentication, payments, subscriptions, private frontend keys, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Screenshots saved outside the repo: `/tmp/pickaxe-lean-alerts-desktop.png`, `/tmp/pickaxe-lean-alerts-mobile.png`, and `/tmp/pickaxe-lean-alerts-mobile-evidence.png`.
+- Next bounded recommendation: `Push and hosted verification for Pickaxe Lean Options Alerts OS v1`.
+
+### Pickaxe Lean Options Alerts OS v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Alerts Mobile Status v1
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
