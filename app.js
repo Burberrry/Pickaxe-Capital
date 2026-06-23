@@ -1179,6 +1179,22 @@ function renderRouteErrorFallback(routeName, error) {
   `;
 }
 
+function setSidebarMoreToolsOpen(isOpen) {
+  const container = document.querySelector("#sidebarMoreTools");
+  const toggle = container?.querySelector(".sidebar-more-toggle");
+  const list = container?.querySelector(".sidebar-more-list");
+  if (!container || !toggle || !list) return;
+  const open = Boolean(isOpen);
+  container.dataset.open = String(open);
+  toggle.setAttribute("aria-expanded", String(open));
+  list.hidden = !open;
+}
+
+window.toggleSidebarMoreTools = () => {
+  const container = document.querySelector("#sidebarMoreTools");
+  setSidebarMoreToolsOpen(container?.dataset.open !== "true");
+};
+
 function setView(view) {
   state.activeView = view;
   document.body.dataset.activeView = view;
@@ -1199,6 +1215,16 @@ function setView(view) {
     const routeMatches = !route || route === window.location.pathname || sameHash || agentAlias || founderAlias || ceoAlias || archiveAlias || signalsAlias || marketAlias || homeAlertsAlias || (route === "/" && window.location.pathname === "/");
     node.classList.toggle("active", sameView && sameFounderMode && routeMatches);
   });
+  if (!document.querySelector(".nav-button.active")) {
+    const fallbackNav = [...document.querySelectorAll(".nav-button")].find((node) => {
+      const sameView = node.dataset.view === view;
+      const sameFounderMode = view !== "founder" || node.dataset.founderMode === state.founderMode;
+      return sameView && sameFounderMode;
+    });
+    fallbackNav?.classList.add("active");
+  }
+  const sidebarMoreTools = document.querySelector("#sidebarMoreTools");
+  if (sidebarMoreTools) setSidebarMoreToolsOpen(Boolean(sidebarMoreTools.querySelector(".nav-button.active")));
   const titles = {
     command: "Command Console",
     signals: "Signals Lab",

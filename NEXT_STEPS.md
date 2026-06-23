@@ -2,6 +2,24 @@
 
 ## Current Active Checkpoint
 
+Navigation Clarity v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Baseline commit: `89b3605 Simplify Alerts research structure`.
+- All 21 route destinations remain unchanged.
+- Nine core operator routes are visible directly: Alerts, Overview, Research, Sources, Risk Rules, Watchlists, Archive, Learning, and QA & Status.
+- Twelve secondary, legacy, system, and future-concept routes remain available through More Tools.
+- More Tools uses an accessible button with synchronized `aria-expanded` and hidden-list state.
+- Secondary routes automatically expose their active item; core routes return the rail to its compact state.
+- Mobile navigation remains one horizontal rail instead of a multi-column vertical block.
+- Desktop/mobile browser QA passed for representative core and secondary routes with correct route identity, nonblank content, zero observed console errors or warnings, and no document-level overflow.
+- Routes, direct-path bridges, renderers, LocalStorage contracts, V3.1, Intelligence Core, Starlight, packet models, review queues, providers, execution boundaries, and `data/signal-alerts.json` remain unchanged.
+
+Next bounded step: `Navigation Clarity v1 push and hosted verification`.
+
+After hosted verification, audit the remaining V3.1 mobile length and operator-candidate versus packet-queue terminology. Real provider activation remains separate and credential-dependent.
+
+## Previous Active Checkpoint - Alerts Structure v1
+
 Alerts Structure v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - Baseline commit: `b596ae8 Build Alerts Clarity v1`.

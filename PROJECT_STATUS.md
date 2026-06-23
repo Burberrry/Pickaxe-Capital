@@ -1,6 +1,32 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Alerts Structure v1
+## Current Checkpoint - Navigation Clarity v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded global navigation naming and organization simplification.
+- Baseline commit: `89b3605 Simplify Alerts research structure`.
+- Preserved all 21 existing route destinations and route contracts.
+- Promoted nine operator-critical routes into `Core Workspace`: Alerts, Overview, Research, Sources, Risk Rules, Watchlists, Archive, Learning, and QA & Status.
+- Moved twelve secondary, legacy, system, and future-concept routes into one accessible `More Tools` disclosure.
+- Simplified visible route labels while preserving `data-view`, `data-route`, hash routes, direct-path bridges, and owner renderers.
+- Added synchronized `aria-expanded`, hidden-list, and active-route behavior without a storage key.
+- Secondary routes automatically expose More Tools and their active item; core routes automatically return the rail to its compact state.
+- Mobile navigation remains one horizontal rail. Alerts content begins around `158px`; a representative secondary Signals route begins around `289px` including its existing topbar, with the rail itself approximately `145px` high.
+- Desktop and mobile browser QA passed for Alerts, Sources, Vision Map, Agents, Signals, and manual More Tools open/close behavior with correct active labels, nonblank content, zero observed console errors or warnings, and no document-level horizontal overflow.
+- No route, renderer, bridge destination, packet model, review queue, LocalStorage key, provider, live data, broker connection, execution, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: `Navigation Clarity v1 push and hosted verification`.
+
+### Navigation Clarity v1 Files Changed
+
+- `public/index.html` and `index.html`
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Alerts Structure v1
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
