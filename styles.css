@@ -23217,30 +23217,47 @@ body[data-active-view="alerts"] #alerts.active .pcad-shell {
   }
 
   #alerts.active .alerts-operator-header,
-  #alerts.active .alerts-operator-status,
   #alerts.active .alerts-operator-columns,
   #alerts.active .alerts-operator-process,
   #alerts.active .alerts-operator-safety {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  #alerts.active .alerts-operator-header {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding-bottom: 10px;
+  }
+
   #alerts.active .alerts-operator-title {
+    grid-column: 1 / -1;
     min-height: 52px;
   }
 
   #alerts.active .alerts-operator-status {
-    gap: 7px;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
   }
 
   #alerts.active .alerts-operator-status > div {
-    padding: 9px;
+    min-height: 58px;
+    padding: 8px;
     border: 1px solid rgba(255, 255, 255, 0.065);
     border-radius: 7px;
   }
 
+  #alerts.active .alerts-operator-status > div:last-child {
+    grid-column: 1 / -1;
+    min-height: 52px;
+  }
+
   #alerts.active .alerts-operator-boundary {
-    grid-column: auto;
-    grid-template-columns: minmax(0, 1fr);
+    grid-column: 1 / -1;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 11px;
   }
 
   #alerts.active .alerts-operator-candidates {

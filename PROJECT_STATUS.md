@@ -1,6 +1,35 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Alerts Mobile Summary v1
+## Current Checkpoint - Alerts Mobile Status v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded responsive status-header compaction.
+- Baseline commit: `653fa9b Compact mobile setup summary`.
+- Preserved Data Status, Source Freshness, Market Regime, Research Only, and Not Live / Not Advice.
+- Mobile Data Status and Source Freshness now share the first two-column row.
+- Mobile Market Regime remains full width on a second row.
+- The mobile research boundary is now a compact horizontal strip.
+- Mobile header height decreased from approximately `356px` to `244px`.
+- Mobile status area decreased from approximately `204px` to `135px`.
+- Mobile research boundary decreased from approximately `50px` to `30px`.
+- Default mobile operator-workspace height decreased from approximately `1,412px` to `1,300px`.
+- Default mobile document height decreased from approximately `1,889px` to `1,777px`.
+- Selecting rank `#2` NVDA preserved the compact header and synchronized NVDA identity plus the `NO EXTERNAL ACTION` verdict.
+- Desktop retained its original three-column status header at approximately `74px`, expanded evidence, and full research boundary.
+- Browser QA confirmed the intended content, one Alerts owner, one Starlight canvas, and no document-level horizontal overflow. Four fallback warnings visible in the browser log were historical entries from an earlier transient local-server interruption at `07:41:41`; the active `/api/health` endpoint returned HTTP `200`, and the repeated layout/interaction run produced no new warnings.
+- No HTML/JavaScript behavior, route, renderer, packet model, review queue, LocalStorage key, candidate data, score, source/risk gate, provider call, broker connection, execution behavior, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: push and hosted-verify Alerts Mobile Status v1 when CEO B authorizes push.
+
+### Alerts Mobile Status v1 Files Changed
+
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `public/index.html` and `index.html` — style/tracker cache keys only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Alerts Mobile Summary v1
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.

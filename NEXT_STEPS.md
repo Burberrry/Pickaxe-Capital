@@ -2,6 +2,22 @@
 
 ## Current Active Checkpoint
 
+Alerts Mobile Status v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Data Status and Source Freshness share one mobile row.
+- Market Regime remains full width.
+- Research Only and Not Live / Not Advice remain visible in a compact strip.
+- Header height decreased from about `356px` to `244px`.
+- Default mobile workspace height decreased from about `1,412px` to `1,300px`.
+- Default mobile document height decreased from about `1,889px` to `1,777px`.
+- NVDA selection and the `NO EXTERNAL ACTION` verdict remain synchronized.
+- Desktop retains its original three-column status header.
+- Browser QA passed for layout, interaction, singleton state, and horizontal overflow. Historical fallback warnings from a prior local-server interruption did not recur after `/api/health` returned HTTP `200`.
+
+Next bounded step: push and hosted-verify Alerts Mobile Status v1 when CEO B authorizes push.
+
+## Previous Active Checkpoint - Alerts Mobile Summary v1
+
 Alerts Mobile Summary v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - Mobile keeps selected setup identity full width.
