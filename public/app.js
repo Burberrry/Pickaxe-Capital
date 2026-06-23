@@ -11185,6 +11185,9 @@ function renderAlertsPage() {
   els.alertsContent.innerHTML = renderResearchGatedAlertsDesk(packets, selectedAlert, lastUpdated);
   initializePickaxeOrbit();
   if (typeof window.renderV31MissionControl === "function") window.renderV31MissionControl();
+  if (typeof window.renderV31CandidateSync === "function") window.renderV31CandidateSync();
+  if (typeof window.renderV31ReviewSimulator === "function") window.renderV31ReviewSimulator();
+  if (typeof window.renderV31WatchlistQueue === "function") window.renderV31WatchlistQueue();
   if (state.phase9DrawerOpen) {
     window.setTimeout(() => document.querySelector("#phase9AlertDrawer")?.focus(), 0);
   }

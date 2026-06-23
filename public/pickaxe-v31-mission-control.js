@@ -50,6 +50,39 @@
     return mount;
   }
 
+  function ensureAlertsGoldenPath(target) {
+    if (!target) return null;
+    let group = target.querySelector("#v31GoldenPathGroup");
+    if (!group) {
+      group = document.createElement("details");
+      group.id = "v31GoldenPathGroup";
+      group.className = "v31-golden-path-group";
+      group.innerHTML = `
+        <summary>
+          <span>
+            <strong>QQQ Golden Path · Demo Reference</strong>
+            <small>Locked V3.1 source, risk, CEO B review, simulator, and watchlist workflow</small>
+          </span>
+          <em>Not the selected alert above · No live data</em>
+        </summary>
+        <div class="v31-golden-path-body"></div>
+      `;
+      const operatorWorkspace = target.querySelector(".alerts-operator-workspace");
+      if (operatorWorkspace) operatorWorkspace.insertAdjacentElement("afterend", group);
+      else target.insertAdjacentElement("afterbegin", group);
+      group.open = Boolean(window.PickaxeV31GoldenPathOpen);
+      group.addEventListener("toggle", () => {
+        window.PickaxeV31GoldenPathOpen = group.open;
+      });
+    }
+    const body = group.querySelector(".v31-golden-path-body");
+    ["v31MissionControlAlerts", "v31SignalsDeepDive", "v31ReviewSimulator", "v31WatchlistQueue"].forEach((id) => {
+      const existing = target.querySelector(`#${id}`);
+      if (existing && existing.parentElement !== body) body.append(existing);
+    });
+    return body;
+  }
+
   function renderPanel(mount, contextLabel = "Mission Control") {
     if (!mount) return;
     const demo = window.PICKAXE_DEMO_DATA || {};
@@ -193,13 +226,10 @@
 
     renderPanel(ensureMount(command, "v31MissionControlCommand", "afterbegin"), "Command Console");
     renderPanel(ensureMount(dashboardContent, "v31MissionControlDashboard", "afterbegin"), "Mission Control");
-    const alertsMount = ensureMount(alertsContent, "v31MissionControlAlerts", "afterbegin");
-    const operatorWorkspace = alertsContent?.querySelector(".alerts-operator-workspace");
-    if (operatorWorkspace && operatorWorkspace.nextElementSibling !== alertsMount) {
-      operatorWorkspace.insertAdjacentElement("afterend", alertsMount);
-    }
+    const alertsGoldenPath = ensureAlertsGoldenPath(alertsContent);
+    const alertsMount = ensureMount(alertsGoldenPath, "v31MissionControlAlerts", "afterbegin");
     renderPanel(alertsMount, "Alerts Desk");
-    renderDeepSignalsCard(ensureAfter(alertsContent, "v31MissionControlAlerts", "v31SignalsDeepDive", "v31-signals-deep-dive"));
+    renderDeepSignalsCard(ensureAfter(alertsGoldenPath, "v31MissionControlAlerts", "v31SignalsDeepDive", "v31-signals-deep-dive"));
   }
 
   window.renderV31MissionControl = renderV31MissionControl;

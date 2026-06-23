@@ -2,6 +2,25 @@
 
 ## Current Active Checkpoint
 
+Golden Path Clarity v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Baseline commit: `88e4f84 Simplify global navigation`.
+- The operator workspace remains the default Alerts experience.
+- The locked V3.1 overlay, detailed Signals card, simulator, and Watchlist Review Queue now live inside one `QQQ Golden Path · Demo Reference` disclosure.
+- Internal V3.1 placement remains overlay → detail → simulator → watchlist.
+- The disclosure clarifies that V3.1 is a fixed demo/reference workflow separate from the selected operator candidate.
+- V3.1 open state is ephemeral and survives Alerts re-renders without a new storage key.
+- Candidate sync, simulator, and watchlist mounts now recreate after Alerts candidate re-rendering.
+- Default desktop document height is approximately `1,166px`; default mobile document height is approximately `2,541px`.
+- Desktop/mobile QA passed for closed/open behavior, V3.1 NVDA synchronization, TSLA operator re-render separation, singleton mounts, console health, and horizontal overflow.
+- Current data remains `DEMO`; no live data, provider, delivery, broker, or execution behavior was added.
+
+Next bounded step: `Golden Path Clarity v1 push and hosted verification`.
+
+After hosted verification, prioritize candidate/packet terminology and a secure-data readiness audit. Real provider activation remains credential-dependent and requires current provider/legal/rate-limit verification.
+
+## Previous Active Checkpoint - Navigation Clarity v1
+
 Navigation Clarity v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - Baseline commit: `89b3605 Simplify Alerts research structure`.

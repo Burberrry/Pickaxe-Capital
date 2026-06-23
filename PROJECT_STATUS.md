@@ -1,6 +1,35 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Navigation Clarity v1
+## Current Checkpoint - Golden Path Clarity v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded V3.1 presentation and lifecycle simplification.
+- Baseline commit: `88e4f84 Simplify global navigation`.
+- Preserved the locked V3.1 overlay, detailed Signals card immediately beneath it, five-step simulator, nine-symbol Watchlist Review Queue, selected-candidate synchronization, and existing LocalStorage keys.
+- Grouped the complete V3.1 Alerts workflow inside one clearly labeled `QQQ Golden Path · Demo Reference` disclosure directly beneath the operator workspace.
+- The disclosure explicitly distinguishes the fixed demo/reference workflow from the selected alert candidate above.
+- V3.1 internal order remains overlay → detailed Signals card → review simulator → watchlist queue.
+- Added ephemeral open-state preservation across Alerts re-renders without a new LocalStorage key.
+- Repaired the V3.1 lifecycle after Alerts candidate re-rendering by explicitly recreating candidate sync, review simulator, and watchlist queue after the mission-control pair.
+- V3.1 watchlist selection synchronized NVDA across overlay, detail, and queue during QA; a subsequent TSLA operator-candidate render preserved the separate NVDA V3.1 reference state and all singleton mounts.
+- Default desktop document height decreased from approximately `4,634px` to `1,166px`; default mobile height decreased from approximately `10,320px` to `2,541px`.
+- Desktop `1280x720` and mobile `390x844` QA passed with closed/open behavior, correct adjacency, working watchlist synchronization, preserved simulator and queue, one Alerts owner, one Starlight canvas, zero observed console errors or warnings, and no document-level horizontal overflow.
+- Current V3.1 and Alerts data remains `DEMO`; no live price, timestamp, provider connection, or execution behavior is represented.
+- No route, packet model, review queue model, LocalStorage key, provider, API key, broker connection, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: `Golden Path Clarity v1 push and hosted verification`.
+
+### Golden Path Clarity v1 Files Changed
+
+- `public/pickaxe-v31-mission-control.js`
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html` — runtime cache keys only
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Navigation Clarity v1
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
