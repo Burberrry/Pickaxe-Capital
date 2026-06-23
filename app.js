@@ -1096,6 +1096,15 @@ window.addEventListener("hashchange", openRequestedView);
 
 // Global Link Click Interceptor for GitHub Pages / Static Subdirectories compatibility
 document.addEventListener("click", (event) => {
+  const stagingTrackerLink = event.target.closest("[data-staging-tracker]");
+  if (stagingTrackerLink) {
+    event.preventDefault();
+    const target = document.querySelector("#stagingTracker");
+    if (target instanceof HTMLDetailsElement) target.open = true;
+    target?.scrollIntoView({ block: "start" });
+    return;
+  }
+
   const founderScrollLink = event.target.closest("[data-founder-scroll]");
   if (founderScrollLink) {
     event.preventDefault();
@@ -19182,7 +19191,7 @@ renderStagingAdvanced = function () {
 
       <div class="staging-purpose-line" aria-label="Staging purpose and next action">
         <p><strong>Latest hosted repository checkpoint:</strong> Pickaxe Website Bug Sweep — PASS / HOSTED DOCS VERIFIED.</p>
-        <a class="primary-action" href="#stagingTracker">Open Build Completion Tracker</a>
+        <a class="primary-action" href="#/staging" data-staging-tracker>Open Build Completion Tracker</a>
       </div>
 
       <section class="staging-primary-grid" aria-label="Staging command panels">
@@ -19219,7 +19228,7 @@ renderStagingAdvanced = function () {
             <li><span>Public link policy</span><strong>3301fdd · Hosted docs</strong></li>
             <li><span>Website bug sweep</span><strong>8a79794 · Hosted docs</strong></li>
           </ul>
-          <a class="secondary-action" href="#stagingTracker">Review tracker records</a>
+          <a class="secondary-action" href="#/staging" data-staging-tracker>Review tracker records</a>
         </article>
 
         <article class="staging-command-panel staging-decision-panel">
@@ -19227,7 +19236,7 @@ renderStagingAdvanced = function () {
           <h3>Push and hosted-verify this bounded Staging metadata repair.</h3>
           <p class="staging-panel-note">The runtime remains static/manual and research-only. No provider, live-data, broker, execution, subscription, product, workflow, storage, navigation, or Options Hub work is authorized by this repair.</p>
           <div class="staging-decision-actions">
-            <a class="primary-action" href="#stagingTracker">Review Hosted Records</a>
+            <a class="primary-action" href="#/staging" data-staging-tracker>Review Hosted Records</a>
             <a class="secondary-action" href="#/roadmap">Review Roadmap</a>
           </div>
         </article>

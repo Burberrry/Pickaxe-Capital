@@ -2,6 +2,22 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Data Connector v0.3B Secure Readiness is **PASS / LOCAL ADAPTER READY; EXTERNAL ACTIVATION BLOCKED**.
+
+- Baseline commit: `744d846 Clarify V3.1 golden path`.
+- The local provider endpoint remains disabled by default and the public browser remains disconnected.
+- One server-only Alpha Vantage intraday adapter is implemented for exactly `QQQ`.
+- The adapter requires live services, the approved provider mode, a server-only key, explicit realtime/delayed entitlement, and commercial-use approval before it can make a request.
+- Fixed-host request construction, a one-request-per-process guard, timeout, size limit, response normalization, timestamp/timezone preservation, stale-data classification, and structured failure handling are implemented.
+- Deterministic fixture validation passed without a real key or external request.
+- The existing Staging tracker actions now open and scroll to the tracker while preserving `#/staging`; they no longer fall through to Alerts via an invalid anchor hash.
+- Desktop and mobile browser QA passed for Alerts, Staging, and the opened tracker with no document-level overflow.
+- Current public data remains `DEMO`; no live number or provider claim was added.
+
+Next bounded step: obtain written Alpha Vantage commercial-use approval and a premium server-only entitlement, then perform one credentialed local QQQ verification. Do not connect this endpoint to the public/browser Alerts workspace until that result is reviewed and separately authorized.
+
+## Previous Active Checkpoint - Golden Path Clarity v1
+
 Golden Path Clarity v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - Baseline commit: `88e4f84 Simplify global navigation`.

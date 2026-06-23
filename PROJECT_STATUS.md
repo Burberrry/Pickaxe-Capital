@@ -1,6 +1,40 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Golden Path Clarity v1
+## Current Checkpoint - Pickaxe Data Connector v0.3B Secure Readiness
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL ADAPTER READY; EXTERNAL ACTIVATION BLOCKED**.
+- Sprint type: bounded server-only provider adapter, legal/entitlement gate, normalization, and deterministic test coverage.
+- Baseline commit: `744d846 Clarify V3.1 golden path`.
+- Refreshed current official Alpha Vantage documentation, support limits, realtime-data policy, and terms before implementation.
+- Confirmed that default/simple quote data is not sufficient for Pickaxe's exact timestamp rule; the adapter uses one-minute `TIME_SERIES_INTRADAY` for the single approved ticker `QQQ`.
+- Confirmed that realtime and 15-minute delayed U.S. data requires premium entitlement and that company/public-product use requires commercial approval.
+- Added a fixed-host, fixed-function local adapter with one manual request per server process, an eight-second timeout, 1 MB response limit, no retries, no polling, no persistence, no cache, and no arbitrary proxy behavior.
+- Added fail-closed gates for live-services mode, provider mode, exact QQQ authorization, server-only key, explicit realtime/delayed entitlement, and commercial-use approval.
+- Added normalized source, quote basis, provider market time, timezone, proxy receipt time, freshness classification, age, maximum age, stale reason, and verification status.
+- Daily change and change percent remain `null`; the adapter does not misrepresent one-minute bar movement as documented daily change.
+- Added deterministic provider-fixture checks covering disabled mode, legal approval, ticker allowlist, normalized timestamped success, freshness, provider rejection, and secret-response leakage.
+- Browser QA exposed and repaired a pre-existing Staging defect: all three Build Completion Tracker actions now open the existing tracker disclosure and scroll to it without replacing `#/staging` with an invalid anchor route.
+- Desktop `1280x720` and mobile `390x844` browser QA passed for Alerts, Staging, and the opened tracker with correct route ownership, one Starlight canvas, visible v0.3B checkpoint metadata, and no document-level horizontal overflow.
+- No real API key was added or requested. No external provider request was made during implementation or validation.
+- The public frontend remains disconnected from the endpoint. GitHub Pages remains static and `DEMO`; no live number, provider status, timestamp, or actionability claim was added to user-facing pages.
+- No route, renderer, packet model, review queue, LocalStorage key, browser provider call, options-chain integration, broker connection, execution behavior, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: obtain written Alpha Vantage commercial-use approval and a premium server-only entitlement, then run one credentialed local QQQ verification. Do not connect the browser yet.
+
+### Pickaxe Data Connector v0.3B Secure Readiness Files Changed
+
+- `lib/alpha-vantage-quote.mjs`
+- `server.mjs`
+- `scripts/check-provider-quote.mjs`
+- `package.json`
+- `docs/02_RESEARCH/PICKAXE_DATA_CONNECTOR_V03_PROVIDER_ACTIVATION_SCOPE.md`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `public/app.js` and `app.js` — existing Staging tracker-link repair only
+- `public/index.html` and `index.html` — app/tracker cache keys only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Golden Path Clarity v1
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.

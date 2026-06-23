@@ -1,6 +1,6 @@
 # Pickaxe Data Connector v0.3 — Secure Provider Activation Scope
 
-Status: v0.3A local scope and proxy-readiness plan. No external provider is activated.
+Status: v0.3B secure adapter implemented locally; external activation remains blocked pending commercial approval, a server-only credential, and explicit realtime/delayed entitlement.
 Baseline: Pickaxe Data Connector v0.2 at implementation commit `b433f6d`, hosted through GitHub Pages run `27936340345` and deployment `5147646743`.
 Final reviewer: CEO B.
 Recommended first provider: Alpha Vantage.
@@ -9,21 +9,21 @@ Required transport: local/server proxy only.
 
 ## 1. Decision
 
-The first real-provider activation should be deliberately narrow:
+The first real-provider activation remains deliberately narrow:
 
 ```text
 Local browser
   -> existing provider abstraction
   -> GET /api/provider/quote?ticker=QQQ
   -> local server reads PICKAXE_ALPHA_VANTAGE_API_KEY
-  -> Alpha Vantage GLOBAL_QUOTE
+  -> Alpha Vantage TIME_SERIES_INTRADAY (1-minute)
   -> normalized QuoteSnapshot
   -> stale-data firewall
   -> source/data confidence
   -> explicitly labeled UI state
 ```
 
-The v0.3A implementation stops before the external-provider call. The local endpoint exists only as a disabled-by-default contract scaffold and always returns a structured `UNAVAILABLE` or `ERROR` response. The public frontend does not call it.
+The v0.3B local implementation contains the normalized adapter and timestamp/freshness parser, but it fails closed before any external request unless live services, the approved provider mode, the exact `QQQ` ticker, a server-only key, an explicit realtime/delayed entitlement, and commercial-use approval are all present. The public frontend does not call it.
 
 GitHub Pages must continue to load without a server. On hosted static routes:
 
@@ -60,7 +60,7 @@ The repository already contains:
 - provider definitions and normalized contracts in the v0.2 frontend architecture;
 - route smoke validation that launches the local server with live services disabled.
 
-Therefore v0.3A adds one local-only endpoint contract instead of introducing a framework, dependency, hosted backend, cache, database, or new browser storage.
+Therefore v0.3B extends the local-only endpoint contract without introducing a framework, dependency, hosted backend, cache, database, or new browser storage.
 
 ### Local scaffold
 
@@ -75,16 +75,16 @@ Default response:
 - `activationAuthorized: false`;
 - no external request.
 
-If local mode is selected but the key is absent, the endpoint returns `API_KEY_MISSING`. If both mode and key are present during v0.3A, it still returns `ACTIVATION_NOT_AUTHORIZED` and makes no external request. Invalid tickers return a normalized `ERROR`.
+If local mode is selected but live services, the key, entitlement, commercial approval, or exact ticker authorization is absent, the endpoint returns a structured stop state and makes no external request. Invalid tickers return a normalized `ERROR`.
 
 ## 4. Provider Candidate Ranking
 
-Current provider capabilities and commercial terms can change. v0.3B must re-check official documentation and licensing immediately before activation.
+Current provider capabilities and commercial terms can change. The official review was refreshed on June 23, 2026 and must be repeated immediately before credentialed activation.
 
 | Rank | Candidate | Security / cost / documentation | Quote fit | Options upgrade path | Decision |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Local Proxy | Required security transport; no external data itself; simplest hosted separation. | Enables one controlled quote endpoint. | Can later isolate options adapters. | **Mandatory activation boundary.** |
-| 2 | Alpha Vantage | Simple key-based REST documentation and a one-ticker quote endpoint. The official documentation states that the default quote is end-of-day/historical; realtime or 15-minute delayed US quotes require premium entitlement. | Strong first provider-contract experiment, provided v0.3B does not mislabel end-of-day data as current. | Realtime options are premium and require a later entitlement and product-terms review. | **First external-provider candidate.** |
+| 2 | Alpha Vantage | Simple key-based REST documentation. Default quote/intraday behavior is historical or end-of-day; realtime or 15-minute delayed U.S. data requires premium entitlement. The terms classify company/public-product use as commercial and require direct approval. | Technically suitable only through timestamped intraday bars and only after commercial approval. | Realtime options are premium and require a later entitlement and product-terms review. | **Adapter implemented; activation legally blocked until approval.** |
 | 3 | Manual Snapshot | No provider key or network risk; timestamp and source can be required. | Safe operational fallback, not automated provider activation. | Manual options input is possible but not automatically verified. | Keep as the safest fallback and test fixture. |
 | 4 | Finnhub | Clear quote API and explicit `429` rate-limit behavior; key still requires proxy protection. | Good alternate quote candidate. | Broader intelligence path, but options fit is weaker for the first Pickaxe sequence. | Secondary quote candidate. |
 | 5 | Massive / Polygon | Strong stock quote/trade coverage and an eventual options-data path; plan, exchange, display, and redistribution rules need careful review. | Technically strong. | Stronger long-term options path. | Defer until licensing and plan fit are approved. |
@@ -93,6 +93,9 @@ Current provider capabilities and commercial terms can change. v0.3B must re-che
 Official references reviewed for this scope:
 
 - Alpha Vantage API documentation: <https://www.alphavantage.co/documentation/>
+- Alpha Vantage support and limits: <https://www.alphavantage.co/support/>
+- Alpha Vantage realtime-data policy: <https://www.alphavantage.co/realtime_data_policy/>
+- Alpha Vantage terms of service: <https://www.alphavantage.co/terms_of_service/>
 - Finnhub rate-limit documentation: <https://finnhub.io/docs/api/rate-limit>
 - Tradier market-data documentation: <https://docs.tradier.com/docs/market-data>
 - Tradier quote fields: <https://docs.tradier.com/docs/quotes>
@@ -102,11 +105,11 @@ Official references reviewed for this scope:
 
 ### Provider
 
-Alpha Vantage, subject to a fresh terms, attribution, rate-limit, and data-entitlement review in v0.3B.
+Alpha Vantage, subject to confirmed commercial-use approval, premium market-data entitlement, attribution requirements, and a server-only credential.
 
 ### Data type
 
-One `QuoteSnapshot` for `QQQ`, requested manually during local QA only.
+One `QuoteSnapshot` for `QQQ`, requested manually through the local server only.
 
 ### Why this is first
 
@@ -116,7 +119,7 @@ One `QuoteSnapshot` for `QQQ`, requested manually during local QA only.
 - It can be rate-limited to a single explicit request.
 - Failure can remain isolated from the hosted demo experience.
 
-The first response must not be labeled `LIVE`, `DELAYED`, or `VERIFIED` until the provider’s quote basis and timestamp semantics are confirmed from the response and current provider documentation. If the default end-of-day/historical response cannot be represented truthfully by the current data-mode enum, v0.3B must return `UNAVAILABLE` or separately authorize a contract extension; it must not force the response into a misleading mode.
+The adapter uses `TIME_SERIES_INTRADAY` rather than `GLOBAL_QUOTE` because the simple quote response does not provide the precise market timestamp required by Pickaxe. Historical/default responses are rejected. `LIVE` is used only when the server explicitly requests the provider's realtime entitlement; `DELAYED` is used only for the documented 15-minute delayed entitlement. Provider time and timezone are preserved, and stale data remains visibly blocked by freshness diagnostics.
 
 ## 6. Environment Variables
 
@@ -125,6 +128,8 @@ Names only; never commit values:
 ```text
 PICKAXE_PROVIDER_MODE=alpha-vantage-quote
 PICKAXE_ALPHA_VANTAGE_API_KEY=
+PICKAXE_ALPHA_VANTAGE_ENTITLEMENT=realtime|delayed
+PICKAXE_ALPHA_VANTAGE_COMMERCIAL_USE_APPROVED=false
 PICKAXE_FINNHUB_API_KEY=
 PICKAXE_TRADIER_TOKEN=
 PICKAXE_POLYGON_API_KEY=
@@ -138,23 +143,22 @@ Rules:
 - Do not prefix secrets with browser-public conventions.
 - Rotate a key immediately if it appears in Git history, browser source, logs, screenshots, or an issue.
 
-No `.env.example` is added in v0.3A because the repository’s current `.gitignore` intentionally ignores `.env.*`; this canonical document is the safe placeholder record.
+No `.env.example` is added because the repository’s current `.gitignore` intentionally ignores `.env.*`; this canonical document is the safe placeholder record.
 
 ## 7. v0.3B Activation Sequence
 
-1. Re-check current official Alpha Vantage documentation, terms, quote basis, timestamp fields, attribution, and limits.
-2. Obtain CEO B authorization for exactly one provider and one ticker.
-3. Set the key only in the local server environment.
-4. Add a server-side timeout and one-request/manual-trigger guard.
-5. Call only the approved quote endpoint.
-6. Reject non-JSON, oversized, rate-limit, provider-note, missing-field, and malformed payloads.
-7. Map the response to the existing `QuoteSnapshot` contract.
+1. Current official documentation, terms, quote basis, timestamp fields, and rate limits were reviewed on June 23, 2026.
+2. CEO B authorized one provider/ticker readiness implementation through the current website-completion request.
+3. The adapter remains disabled until a commercial-use agreement and premium entitlement are obtained.
+4. Set the key only in the local server environment.
+5. Call only `TIME_SERIES_INTRADAY` for `QQQ`, `1min`, `compact`, with an explicit `realtime` or `delayed` entitlement.
+6. Enforce one manual provider request per server process, an eight-second timeout, and a 1 MB response limit.
+7. Reject non-JSON, rate-limit, provider-note, missing-field, mismatched-symbol, and malformed payloads.
 8. Preserve the provider’s actual market timestamp and timezone; never synthesize them.
-9. Run the stale-data classifier.
-10. Compute source/data confidence.
-11. Return the normalized response without credentials or raw provider internals.
-12. Add an explicit local-only frontend opt-in only if separately authorized.
-13. Keep hosted GitHub Pages on `demoProvider`.
+9. Run the stale-data classifier with a five-minute realtime limit or 25-minute delayed limit.
+10. Return the normalized response without credentials or raw provider internals.
+11. Add an explicit local-only frontend opt-in only if separately authorized after legal and credential gates pass.
+12. Keep hosted GitHub Pages on `demoProvider`.
 
 ## 8. Security Rules
 
@@ -204,9 +208,13 @@ No response may be called verified merely because an HTTP request succeeded. Sou
 | Local default mode | Structured `UNAVAILABLE`; no provider request. |
 | Invalid ticker | Structured `ERROR`; no provider request. |
 | Mode enabled, key missing | Structured `UNAVAILABLE / API_KEY_MISSING`; no provider request. |
-| Mode and key present during v0.3A | Structured `UNAVAILABLE / ACTIVATION_NOT_AUTHORIZED`; no provider request. |
-| Future timeout, `429`, provider error, malformed body | Structured `ERROR` or `UNAVAILABLE`; never demo substitution. |
-| Future stale/expired response | Preserve source; label `STALE` or block as `EXPIRED`; never claim current data. |
+| Live services disabled | Structured `UNAVAILABLE / LIVE_SERVICES_DISABLED`; no provider request. |
+| Ticker other than QQQ | Structured `ERROR / TICKER_NOT_AUTHORIZED`; no provider request. |
+| Entitlement absent or not realtime/delayed | Structured `UNAVAILABLE / ENTITLEMENT_NOT_CONFIGURED`; no provider request. |
+| Commercial approval absent | Structured `UNAVAILABLE / COMMERCIAL_USE_APPROVAL_REQUIRED`; no provider request. |
+| Manual request already used | Structured `UNAVAILABLE / MANUAL_REQUEST_LIMIT_REACHED`; no repeated provider request. |
+| Timeout, `429`, provider error, malformed body | Structured `ERROR`; never demo substitution. |
+| Stale response | Preserve source and price, set `isStale: true`, and require manual review; never claim current actionability. |
 
 ## 11. QA Checklist for v0.3B
 
@@ -216,13 +224,13 @@ No response may be called verified merely because an HTTP request succeeded. Sou
 - [ ] Default local endpoint returns normalized `UNAVAILABLE`.
 - [ ] Invalid ticker returns normalized `ERROR`.
 - [ ] Missing key returns `API_KEY_MISSING`.
-- [ ] One approved QQQ request returns a normalized contract.
+- [x] A deterministic QQQ provider fixture returns a normalized contract without making a live provider request.
 - [ ] Provider market time is preserved or omitted, never invented.
 - [ ] Quote type and timezone are explicit.
 - [ ] Freshness diagnostics show received time, current time, age, maximum age, and reason.
 - [ ] Source confidence is labeled source/data confidence.
-- [ ] Rate-limit response does not retry or break the page.
-- [ ] Malformed response does not break the page.
+- [x] Provider rejection does not retry or substitute demo data.
+- [x] Malformed and missing-field handling returns a structured error.
 - [ ] No cache, persistence, LocalStorage, or signal-data write occurs.
 - [ ] `demoProvider` remains the hosted default.
 - [ ] Required Alerts, Founder, Staging, bridge, V3.1, and Starlight regression QA passes.
@@ -254,25 +262,25 @@ Stop immediately if activation would require:
 - unclear provider terms, attribution, licensing, or market-data entitlement;
 - more than one provider or data type in the first activation sprint.
 
-## 14. Acceptance Criteria
+## 14. v0.3B Secure-Readiness Acceptance Criteria
 
-v0.3A passes when:
+The secure-readiness implementation passes when:
 
-1. The provider ranking and first activation target are explicit.
-2. The local proxy boundary is disabled by default.
-3. The scaffold makes no external provider request.
-4. The browser frontend does not call the scaffold.
-5. Missing configuration returns normalized `UNAVAILABLE`.
-6. Invalid input returns normalized `ERROR`.
-7. Environment variable names are documented without values.
-8. GitHub Pages remains static, demo-first, and backend-independent.
-9. Security, QA, rollback, and stop rules are recorded.
+1. The provider ranking and one-ticker target remain explicit.
+2. The local proxy is disabled by default.
+3. Commercial approval, key, entitlement, mode, live-service, and ticker gates all fail closed before fetch.
+4. The adapter uses a fixed provider host and fixed intraday function; the browser cannot supply a provider URL.
+5. The parser preserves source, market time, timezone, receipt time, quote basis, and freshness diagnostics.
+6. Daily change fields remain `null` rather than being inferred from one-minute bars.
+7. Provider errors never trigger an unlabeled demo fallback.
+8. Automated fixture coverage verifies the normalized success path without a real credential or provider call.
+9. GitHub Pages remains static, demo-first, and backend-independent.
 10. Existing routes, renderers, storage contracts, safety language, mirrors, and signal data remain intact.
 
 ## 15. Next Bounded Sprint
 
 Recommended next:
 
-`Pickaxe Data Connector v0.3B — First QuoteSnapshot Provider Activation through secure local proxy`
+`Pickaxe Data Connector v0.3C — Commercial approval + credentialed local QQQ verification`
 
-This is a recommendation only. It is not started or authorized by v0.3A.
+Do not start the credentialed request until Alpha Vantage confirms commercial use for Pickaxe Capital and CEO B configures a server-only premium key and entitlement. Public/browser integration remains a later, separately bounded decision.

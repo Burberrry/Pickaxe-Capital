@@ -2,6 +2,7 @@ import { createServer } from "node:http";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { existsSync, readFileSync } from "node:fs";
 import { extname, join, resolve } from "node:path";
+import { requestAlphaVantageQuoteSnapshot } from "./lib/alpha-vantage-quote.mjs";
 
 const root = process.cwd();
 const publicDir = join(root, "public");
@@ -35,6 +36,10 @@ const LIVE_SERVICES_DISABLED_MESSAGE =
 const PROVIDER_PROXY_MODE = String(process.env.PICKAXE_PROVIDER_MODE || "disabled").trim().toLowerCase();
 const FIRST_PROVIDER_MODE = "alpha-vantage-quote";
 const FIRST_PROVIDER_KEY_NAME = "PICKAXE_ALPHA_VANTAGE_API_KEY";
+const FIRST_PROVIDER_ENTITLEMENT = String(process.env.PICKAXE_ALPHA_VANTAGE_ENTITLEMENT || "").trim().toLowerCase();
+const FIRST_PROVIDER_COMMERCIAL_USE_APPROVED =
+  String(process.env.PICKAXE_ALPHA_VANTAGE_COMMERCIAL_USE_APPROVED || "").trim().toLowerCase() === "true";
+let firstProviderManualRequestConsumed = false;
 
 const contentTypes = {
   ".html": "text/html; charset=utf-8",
@@ -95,7 +100,22 @@ createServer(async (req, res) => {
 
     if (url.pathname === "/api/provider/quote") {
       const ticker = cleanProviderTicker(url.searchParams.get("ticker") || "");
-      const result = getLocalQuoteProxyScaffold(ticker);
+      const result = ticker
+        ? await requestAlphaVantageQuoteSnapshot({
+            ticker,
+            proxyMode: PROVIDER_PROXY_MODE,
+            requiredProxyMode: FIRST_PROVIDER_MODE,
+            liveServicesEnabled: LIVE_SERVICES_ENABLED,
+            apiKey: process.env[FIRST_PROVIDER_KEY_NAME],
+            entitlement: FIRST_PROVIDER_ENTITLEMENT,
+            commercialUseApproved: FIRST_PROVIDER_COMMERCIAL_USE_APPROVED,
+            reserveRequest: () => {
+              if (firstProviderManualRequestConsumed) return false;
+              firstProviderManualRequestConsumed = true;
+              return true;
+            },
+          })
+        : getInvalidProviderTickerResponse();
       return json(res, result.payload, result.status);
     }
 
@@ -1251,9 +1271,9 @@ function cleanProviderTicker(value) {
   return /^[A-Z0-9.-]{1,12}$/.test(ticker) ? ticker : "";
 }
 
-function getLocalQuoteProxyScaffold(ticker) {
+function getInvalidProviderTickerResponse() {
   const base = {
-    ticker,
+    ticker: "",
     price: null,
     change: null,
     changePercent: null,
@@ -1272,50 +1292,14 @@ function getLocalQuoteProxyScaffold(ticker) {
     activationAuthorized: false,
   };
 
-  if (!ticker) {
-    return {
-      status: 400,
-      payload: {
-        ...base,
-        dataMode: "ERROR",
-        errorCode: "INVALID_TICKER",
-        errorMessage: "Ticker must contain 1–12 letters, numbers, periods, or hyphens.",
-        staleReason: "No provider request was made.",
-      },
-    };
-  }
-
-  if (PROVIDER_PROXY_MODE !== FIRST_PROVIDER_MODE) {
-    return {
-      status: 503,
-      payload: {
-        ...base,
-        errorCode: "PROVIDER_NOT_CONFIGURED",
-        errorMessage: "The local QuoteSnapshot proxy is disabled. Hosted GitHub Pages remains DEMO / UNAVAILABLE.",
-        staleReason: "No provider request was made.",
-      },
-    };
-  }
-
-  if (!String(process.env[FIRST_PROVIDER_KEY_NAME] || "").trim()) {
-    return {
-      status: 503,
-      payload: {
-        ...base,
-        errorCode: "API_KEY_MISSING",
-        errorMessage: `${FIRST_PROVIDER_KEY_NAME} is required in the local server environment. Never place it in frontend code.`,
-        staleReason: "No provider request was made.",
-      },
-    };
-  }
-
   return {
-    status: 501,
+    status: 400,
     payload: {
       ...base,
-      errorCode: "ACTIVATION_NOT_AUTHORIZED",
-      errorMessage: "Credential presence was detected locally, but external provider calls are not authorized in v0.3A.",
-      staleReason: "No provider request was made. v0.3B requires separate CEO B authorization.",
+      dataMode: "ERROR",
+      errorCode: "INVALID_TICKER",
+      errorMessage: "Ticker must contain 1–12 letters, numbers, periods, or hyphens.",
+      staleReason: "No provider request was made.",
     },
   };
 }
