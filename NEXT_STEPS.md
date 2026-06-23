@@ -2,6 +2,20 @@
 
 ## Current Active Checkpoint
 
+Alerts Decision State v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- The first screen now states whether any external action is allowed before showing detailed setup evidence.
+- Current DEMO data produces `NO EXTERNAL ACTION`.
+- The verdict lists the missing verified provider, usable timestamp, and verified options chain.
+- The next source gate is visible in the same row.
+- Switching from QQQ to NVDA updates the verdict to the selected setup.
+- A future source-ready state remains `REVIEW ONLY`; risk controls and CEO B manual review remain mandatory.
+- Desktop/mobile QA passed with correct selected-setup synchronization, singleton mounts, zero observed console errors or warnings, and no document-level overflow.
+
+Next bounded step: push and hosted-verify Alerts Decision State v1 when CEO B authorizes push.
+
+## Previous Active Checkpoint - Alerts Operator Language v1
+
 Alerts Operator Language v1 is **PASS / LOCAL IMPLEMENTATION COMPLETE**.
 
 - The first-screen choice is now framed as `Options setups to review`.

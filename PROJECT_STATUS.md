@@ -1,6 +1,31 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Alerts Operator Language v1
+## Current Checkpoint - Alerts Decision State v1
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded first-screen decision-state clarity and source-gate enforcement.
+- Baseline commit: `8c55162 docs: auto-update README game plan`.
+- Added one explicit operator verdict between setup selection and the selected setup detail.
+- Current static/demo conditions now produce `NO EXTERNAL ACTION`.
+- The verdict names the selected ticker, explains that it is blocked before decision review, lists the missing verified market provider, usable market timestamp, and verified options chain, and states the next source gate.
+- Selecting NVDA updated the verdict from QQQ to NVDA without creating duplicate Alerts or Intelligence Core mounts.
+- Added a future source-ready branch that remains `REVIEW ONLY` and still requires risk controls plus CEO B manual review.
+- Research-readiness scores cannot override the verdict, source gate, risk controls, or CEO B review.
+- Desktop `1280x720` and mobile `390x844` browser QA passed with one verdict, one Alerts owner, one Intelligence Core, one Starlight canvas, zero observed console errors or warnings, and no document-level horizontal overflow.
+- No route, renderer, packet model, review queue, LocalStorage key, score, provider call, live-data claim, broker connection, execution behavior, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: push and hosted-verify this decision-state checkpoint when CEO B authorizes push.
+
+### Alerts Decision State v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `public/index.html` and `index.html` — app/style/tracker cache keys only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Alerts Operator Language v1
 
 - Date: 2026-06-23.
 - Result: **PASS / LOCAL IMPLEMENTATION COMPLETE**.

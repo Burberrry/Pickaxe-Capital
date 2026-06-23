@@ -22773,6 +22773,68 @@ body[data-active-view="alerts"] #alerts.active .pcad-shell {
   font-weight: 800;
 }
 
+#alerts.active .alerts-operator-verdict {
+  display: grid;
+  grid-template-columns: auto minmax(260px, 1fr) minmax(260px, 0.8fr);
+  gap: 14px;
+  align-items: center;
+  margin-top: -8px;
+  padding: 11px 13px;
+  border: 1px solid rgba(177, 76, 71, 0.62);
+  border-radius: 9px;
+  background: linear-gradient(90deg, rgba(177, 76, 71, 0.12), rgba(177, 76, 71, 0.035));
+}
+
+#alerts.active .alerts-operator-verdict > span {
+  display: inline-grid;
+  min-height: 30px;
+  place-content: center;
+  padding: 6px 10px;
+  border: 1px solid rgba(226, 94, 88, 0.62);
+  border-radius: 6px;
+  color: #f08780;
+  background: rgba(177, 76, 71, 0.12);
+  font: 850 8px/1.2 var(--phase2-font-mono);
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+#alerts.active .alerts-operator-verdict div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+#alerts.active .alerts-operator-verdict strong {
+  color: #f0ebe2;
+  font-size: 11px;
+}
+
+#alerts.active .alerts-operator-verdict small,
+#alerts.active .alerts-operator-verdict p {
+  margin: 0;
+  color: #a9a39a;
+  font-size: 8px;
+  line-height: 1.4;
+}
+
+#alerts.active .alerts-operator-verdict p {
+  justify-self: end;
+  color: #d6b66a;
+  text-align: right;
+}
+
+#alerts.active .alerts-operator-verdict.is-review {
+  border-color: rgba(212, 175, 55, 0.42);
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.025));
+}
+
+#alerts.active .alerts-operator-verdict.is-review > span {
+  border-color: rgba(212, 175, 55, 0.58);
+  color: #e4c36f;
+  background: rgba(212, 175, 55, 0.08);
+}
+
 #alerts.active .alerts-operator-candidate {
   overflow: hidden;
   border: 1px solid rgba(212, 175, 55, 0.27);
@@ -23158,6 +23220,21 @@ body[data-active-view="alerts"] #alerts.active .pcad-shell {
     display: grid;
     gap: 5px;
     margin: -4px 14px 14px;
+  }
+
+  #alerts.active .alerts-operator-verdict {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 7px;
+    margin-top: -4px;
+  }
+
+  #alerts.active .alerts-operator-verdict > span {
+    justify-self: start;
+  }
+
+  #alerts.active .alerts-operator-verdict p {
+    justify-self: start;
+    text-align: left;
   }
 
   #alerts.active .alerts-operator-candidate-head > div {

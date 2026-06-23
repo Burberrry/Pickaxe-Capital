@@ -9911,6 +9911,34 @@ function renderIntelligenceDataMode(mode = "DEMO") {
   return `<span class="pic-data-mode is-${normalized.toLowerCase()}">${normalized}</span>`;
 }
 
+function getAlertsOperatorDecisionState(candidate, sourceStatus) {
+  const blockers = [];
+  const usableModes = ["LIVE", "DELAYED", "MANUAL"];
+  const blockedFreshness = ["UNKNOWN", "STALE", "EXPIRED", "UNAVAILABLE"];
+
+  if (!usableModes.includes(sourceStatus.activeProviderMode)) blockers.push("No verified market provider");
+  if (blockedFreshness.includes(sourceStatus.freshness)) blockers.push("No usable market timestamp");
+  if (!usableModes.includes(sourceStatus.optionsChain)) blockers.push("No verified options chain");
+
+  if (blockers.length) {
+    return {
+      tone: "is-blocked",
+      label: "NO EXTERNAL ACTION",
+      title: `${candidate.ticker} is blocked before decision review`,
+      reason: blockers.join(" · "),
+      next: "Next gate: verify source, quote timestamp, and contract data.",
+    };
+  }
+
+  return {
+    tone: "is-review",
+    label: "REVIEW ONLY",
+    title: `${candidate.ticker} requires risk and CEO B review`,
+    reason: `${candidate.riskRating} risk · ${candidate.options.grade} contract-quality grade`,
+    next: "Next gate: clear risk controls, then complete CEO B manual review.",
+  };
+}
+
 function renderAlertsOperatorWorkspace() {
   const candidate = INTELLIGENCE_CORE_CANDIDATES.find((item) => item.id === state.selectedIntelligenceCandidateId)
     || INTELLIGENCE_CORE_CANDIDATES[0];
@@ -9919,6 +9947,7 @@ function renderAlertsOperatorWorkspace() {
   const regime = getMarketRegime();
   const directionClass = /bear/i.test(candidate.bias) ? "is-bear" : /bull/i.test(candidate.bias) ? "is-bull" : "";
   const reviewState = candidate.dataQuality === "DEMO" ? "CEO B Review Required" : "Manual Review Required";
+  const decisionState = getAlertsOperatorDecisionState(candidate, sourceStatus);
 
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
@@ -9969,6 +9998,15 @@ function renderAlertsOperatorWorkspace() {
         <span><strong>Setup</strong> = quick operator view</span>
         <span><strong>Research packet</strong> = full evidence record after review</span>
       </p>
+
+      <section class="alerts-operator-verdict ${decisionState.tone}" aria-label="Current operator decision state">
+        <span>${escapeHtml(decisionState.label)}</span>
+        <div>
+          <strong>${escapeHtml(decisionState.title)}</strong>
+          <small>${escapeHtml(decisionState.reason)}</small>
+        </div>
+        <p>${escapeHtml(decisionState.next)}</p>
+      </section>
 
       <div class="alerts-operator-candidate">
         <div class="alerts-operator-candidate-head">
