@@ -1,6 +1,6 @@
 # Pickaxe Options Data Provider Decision v0.1
 
-Status: Provider selected for commercial/licensing due diligence. No options provider is connected.
+Status: Provider selected and fixture-backed normalizer implemented. No options provider is connected.
 Date reviewed: June 23, 2026.
 Final reviewer: CEO B.
 Owner route: existing Options Alerts at `/` and `#/alerts`.
@@ -186,6 +186,10 @@ Do not substitute free, scraped, broker-page, or unlabeled data.
 
 ## Next Bounded Sprint
 
-`Options Data Connector v0.2 — Massive business/licensing confirmation and one fixture-backed parser`
+`Options Data Connector v0.3 — Massive business/licensing confirmation and one credentialed local fixture comparison`
 
-That sprint may implement a pure response normalizer and deterministic fixtures. It must not make a credentialed request until the legal and plan gates above are documented as passed.
+The pure response normalizer and deterministic fixtures are now implemented in `lib/massive-options-chain.mjs` and `scripts/check-options-chain.mjs`. They cover nanosecond timestamp conversion, per-contract freshness, bid/ask spread calculations, preliminary research-quality liquidity grades, exact OCC root matching, stale/crossed/missing-field hard blocks, ignored pagination, and provider rejection.
+
+The preliminary liquidity thresholds are starter research filters only. They are not fill predictions, expected-return scores, or transaction instructions, and they remain subject to CEO B review after a licensed sample response is available.
+
+Do not make a credentialed request until the legal and plan gates above are documented as passed. The first credentialed step must compare one raw licensed response against the deterministic fixture assumptions before any browser integration.

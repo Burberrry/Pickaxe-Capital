@@ -2,6 +2,19 @@
 
 ## Current Active Checkpoint
 
+Options Data Connector v0.2 Fixture Normalizer is **PASS / LOCAL FIXTURE NORMALIZER COMPLETE; PROVIDER DISCONNECTED**.
+
+- A pure Massive option-chain normalizer now handles contract identity, quotes, sizes, spreads, volume, prior-session open interest, IV, Greeks, timestamps, freshness, and hard blocks.
+- Nanosecond provider timestamps are converted to ISO 8601 UTC.
+- Exact QQQ OCC root matching, expiration/type validation, stale quote handling, crossed-market rejection, missing-field blocks, a 50-contract cap, and ignored pagination are enforced.
+- Preliminary liquidity grades are research-quality filters only; they are not predictions of fills or expected return.
+- Deterministic fixture checks pass without a key, endpoint, or external request.
+- No frontend or provider activation was added.
+
+Next bounded step: obtain Massive business/licensing confirmation, then compare one credentialed local QQQ response against the fixture assumptions. Do not connect the browser.
+
+## Previous Active Checkpoint - Options Data Provider Decision v0.1
+
 Options Data Provider Decision v0.1 is **PASS / DOCS-ONLY PROVIDER DECISION COMPLETE**.
 
 - Massive business options data is the selected first options-chain provider candidate, pending written commercial and market-data approval.

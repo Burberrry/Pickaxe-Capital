@@ -1,6 +1,30 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Options Data Provider Decision v0.1
+## Current Checkpoint - Options Data Connector v0.2 Fixture Normalizer
+
+- Date: 2026-06-23.
+- Result: **PASS / LOCAL FIXTURE NORMALIZER COMPLETE; PROVIDER DISCONNECTED**.
+- Sprint type: bounded pure options-chain normalization and deterministic validation.
+- Baseline commit: `ecb5a9f Select options data provider path`.
+- Added a pure Massive option-chain normalizer with no network code, endpoint, key, token, browser call, cache, persistence, polling, retry, or provider activation.
+- Normalized QQQ chain and contract fields including contract identity, bid/ask, quote sizes, midpoint, spread, spread percent, latest trade, quote/trade timestamps, volume, prior-session open interest, IV, Greeks, data mode, stale state, and hard blocks.
+- Added provider nanosecond timestamp conversion to ISO 8601 UTC and separate five-minute realtime / 25-minute delayed freshness limits.
+- Added exact OCC symbol-root matching, ticker/type/expiration validation, expired-contract rejection, missing/crossed-market blocks, stale/unverifiable quote blocks, ignored pagination, and a 50-contract cap.
+- Added preliminary A/B/C/D liquidity grades from spread, volume, open interest, and quote sizes. Grades are research-quality filters only and do not predict fills, returns, or outcomes.
+- Added deterministic checks for a fresh eligible contract, stale crossed contract, provider rejection, missing timestamp, exact root mismatch, pagination truncation, and cursor non-exposure.
+- No runtime route, provider call, endpoint, frontend file, tracker metadata, LocalStorage key, packet model, review queue, alert delivery, broker connection, execution behavior, dependency, or `data/signal-alerts.json` change was added.
+- Next bounded recommendation: confirm Massive business/licensing terms, then compare one credentialed local QQQ response against the fixture assumptions. Do not connect the browser yet.
+
+### Options Data Connector v0.2 Fixture Normalizer Files Changed
+
+- `lib/massive-options-chain.mjs`
+- `scripts/check-options-chain.mjs`
+- `package.json`
+- `docs/02_RESEARCH/PICKAXE_OPTIONS_DATA_PROVIDER_DECISION_V01.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Options Data Provider Decision v0.1
 
 - Date: 2026-06-23.
 - Result: **PASS / DOCS-ONLY PROVIDER DECISION COMPLETE**.
