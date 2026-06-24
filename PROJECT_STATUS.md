@@ -1,6 +1,32 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Options Alerts Website v1
+## Current Checkpoint - Investor demo script and walkthrough
+
+- Date: 2026-06-23.
+- Result: **PASS / DOCS-ONLY COMPLETE**.
+- Sprint type: one-shot docs-only investor demo script and route-by-route walkthrough.
+- Starting git state: branch `main` was clean and aligned with `origin/main` at `edf3032`.
+- Current website checkpoint remains `Pickaxe Options Alerts Website v1`.
+- Created the canonical investor demo document at `docs/01_PRODUCT/PICKAXE_INVESTOR_DEMO_SCRIPT_AND_WALKTHROUGH.md`.
+- Document covers the 30-second opening script, 2-minute route walkthrough, 5-minute deeper walkthrough, Alerts, Sources, Rules, Status, Founder, banned claims, safe language, investor FAQ, demo risk notes, and final close script.
+- Positioning remains Pickaxe Capital as a research-only `Options Alerts Research OS`.
+- Current product state remains `DEMO / Source Required`, `UNKNOWN / No market timestamp`, and `BLOCKED — NO EXTERNAL ACTION`.
+- No runtime changed.
+- No routes changed.
+- No live data activated.
+- No provider/browser request added.
+- No broker, execution, payment, subscription, authentication, or alert-delivery system added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Local validation passed: `node --run build`, `node --run check:project`, `node --run check:phase15`, `node --run check:agents`, `node --run check:mirrors`, `node --run smoke:routes`, `git diff --check`, and `git status --short --branch`.
+- Next bounded recommendation: `Final mobile polish after Options Alerts Website v1 lock`.
+
+### Investor demo script and walkthrough Files Changed
+
+- `docs/01_PRODUCT/PICKAXE_INVESTOR_DEMO_SCRIPT_AND_WALKTHROUGH.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Options Alerts Website v1
 
 - Date: 2026-06-23.
 - Result: **PASS / HOSTED QA VERIFIED**.

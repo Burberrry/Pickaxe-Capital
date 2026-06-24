@@ -2,6 +2,25 @@
 
 ## Current Active Checkpoint
 
+Investor demo script and walkthrough is **PASS / DOCS-ONLY COMPLETE**.
+
+- One-shot docs-only investor demo script and route-by-route walkthrough.
+- Current website checkpoint remains `Pickaxe Options Alerts Website v1`.
+- Created `docs/01_PRODUCT/PICKAXE_INVESTOR_DEMO_SCRIPT_AND_WALKTHROUGH.md`.
+- The document gives CEO B a 30-second opening script, 2-minute route walkthrough, 5-minute deeper walkthrough, Alerts/Sources/Rules/Status/Founder talk track, banned claims, safe phrasing, investor FAQ, demo risk notes, and final close.
+- Product positioning remains research-only: Pickaxe Capital is an Options Alerts Research OS that ranks readiness before any external action.
+- Current product state remains `DEMO / Source Required`, `UNKNOWN / No market timestamp`, and `BLOCKED — NO EXTERNAL ACTION`.
+- No runtime changed.
+- No routes changed.
+- No live data activated.
+- No provider/browser request added.
+- No broker, execution, payment, subscription, authentication, or alert-delivery system added.
+- `data/signal-alerts.json` remained unchanged.
+
+Next bounded step: Final mobile polish after Options Alerts Website v1 lock.
+
+## Previous Active Checkpoint - Pickaxe Options Alerts Website v1
+
 Pickaxe Options Alerts Website v1 is **PASS / HOSTED QA VERIFIED**.
 
 - One-shot Options Alerts-first website simplification and hosted verification.
