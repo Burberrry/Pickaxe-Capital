@@ -1,6 +1,49 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Investor demo script and walkthrough
+## Current Checkpoint - Pickaxe Options Alerts Website v2
+
+- Date: 2026-06-24.
+- Result: **PASS / HOSTED QA VERIFIED**.
+- Sprint type: one-shot Options Alerts website v2 runtime/theme/product-flow refinement and hosted verification.
+- Starting git state: branch `main` was clean, then fast-forwarded from `a2357d6` to `c8498ad` after `origin/main` already contained the investor demo walkthrough checkpoint plus README metadata.
+- Docs-only checkpoint status: `a2357d6 Create investor demo walkthrough` was already on `origin/main`; no docs push was needed in this sprint.
+- Safety branch created: `backup/pre-options-alerts-website-v2-20260623`.
+- Work branch created: `feature/options-alerts-website-v2`.
+- Implementation commit / merge-push commit: `888696f Build Pickaxe Options Alerts website v2`.
+- Merge method: fast-forward merge from `feature/options-alerts-website-v2` into `main`.
+- GitHub Pages workflow run: `28072891270` (`Validate and Deploy GitHub Pages`) — `Validate and Build` passed and `Deploy` passed.
+- GitHub Pages jobs: `83111038515` (`Validate and Build`) success; `83111070444` (`Deploy`) success.
+- GitHub Pages deployment: `5175539223` — deployment status `success`; deployment status ID `14728930637`.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- New theme summary: refined the Pickaxe Options Alerts surface into a cleaner obsidian/graphite/champagne-gold product with tighter first-screen spacing, stronger selected states, restrained crimson blocked state, emerald options-quality markers, and no document-level overflow at desktop or mobile.
+- Options Alerts product-flow summary: first screen now shows Pickaxe Capital identity, `Options Alerts Research OS`, Data Status `DEMO / Source Required`, Source Freshness `UNKNOWN / No market timestamp`, System Status `BLOCKED`, research-only safety strip, plain-English product flow, QQQ/NVDA/SPY/TSLA/GLD setup cards, selected setup preview, and the System Intelligence Verdict.
+- Setup-card improvements: cards show ticker, setup name, Research Readiness, `BLOCKED`, `Source Required`, options grade, and one-line missing requirements; selection works for QQQ, NVDA, SPY, TSLA, and GLD.
+- System Intelligence improvements: visible verdict remains `BLOCKED — NO EXTERNAL ACTION`; copy now states that readiness ranks packet completeness while gates control action boundaries.
+- Selected setup / Research Packet improvements: selected setup preview is visible above the fold; full selected setup card, Evidence Packet, and Research Packet remain available and easier to scan; packet controls avoid visible approve/reject/accept/decline alert UI.
+- Sources/Rules/Status support-route summary: Sources explains demo/source-required truth, unknown freshness, no usable timestamp, no verified options chain, no active browser provider request, and future server-only approval requirements. Rules explains source, timestamp, options-chain, liquidity/spread, risk, System Intelligence, governance, and no-external-action gates. Status identifies `Pickaxe Options Alerts Website v2`, static GitHub Pages, demo/source-required market data, blocked system state, and absent provider/broker/auth/payment/subscription/alert-delivery systems.
+- Local validation passed: `node --check public/app.js`, `node --check app.js`, `node --run build`, `node --run check:project`, `node --run check:phase15`, `node --run check:agents`, `node --run check:mirrors`, `node --run smoke:routes`, `git diff --check`, and `git status --short --branch`.
+- Local browser QA passed in the in-app browser at desktop `1280x720` and mobile `390x844` across `/`, `/#/alerts`, `/app/alerts`, `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/founder`, `/#/founder`, `/#/research`, `/#/archive`, `/#/learning-ledger`, `/agents`, and `/vision-map`.
+- Local Alerts QA passed for setup selection, NVDA selected-state sync, `BLOCKED — NO EXTERNAL ACTION`, visible selected setup preview, Research Packet opening, Evidence Packet opening, safety language, no visible accept/decline/approve/reject alert UI, one visible Starlight canvas, no document-level horizontal overflow, no console errors/warnings, and no browser provider requests.
+- Hosted HTTP checks passed: `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/staging`, `/staging`, `/agents`, and `/vision-map` resolved to HTTP `200`; `/ai-handoff` remained hosted HTTP `404`.
+- Hosted desktop `1280x720` and mobile `390x844` browser QA passed across `/`, `/#/alerts`, `/app/alerts`, `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/#/research`, `/#/archive`, `/#/learning-ledger`, `/agents`, and `/vision-map`.
+- Hosted Alerts QA passed for product focus, v2 asset cache loading, simple visible nav, DEMO / Source Required, UNKNOWN / no market timestamp, BLOCKED system status, research-only/not-advice/no-broker/options-risk safety language, QQQ/NVDA/SPY/TSLA/GLD setup cards, setup selection, NVDA sync, System Intelligence Verdict, `BLOCKED — NO EXTERNAL ACTION`, Research Packet, Evidence Packet, no visible accept/decline/approve/reject alert UI, no live market number, no provider request, and no broker/order/account/payment/subscription/auth/alert-delivery behavior.
+- Hosted data/provider safety QA passed: no source maps, no real API keys or secrets, no active provider URLs, no browser provider requests, no live data, no broker/execution/payment/subscription/auth/alert-delivery behavior, and no local-server dependency for hosted runtime. Broad-pattern matches were false positives from local-only URL text, disabled/no-capability boundary copy, future-boundary wording, and tracker IDs.
+- `/` remains Alerts; `/#/alerts` remains canonical Alerts; `/app/alerts` remains the Alerts bridge; `/founder` remains available; `/ai-handoff` remains hosted `404` / local-only.
+- No live data, provider activation, browser provider request, broker execution, order placement, alert delivery, authentication, payment, subscription, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Screenshots saved outside the repo: `/tmp/pickaxe-options-alerts-v2-local-desktop-top-r3.png`, `/tmp/pickaxe-options-alerts-v2-local-mobile-top.png`, `/tmp/pickaxe-options-alerts-v2-hosted-desktop.png`, and `/tmp/pickaxe-options-alerts-v2-hosted-mobile.png`.
+- Next bounded recommendation: `Final mobile polish after Options Alerts Website v2 lock`.
+
+### Pickaxe Options Alerts Website v2 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `public/habitat-data.js` and `habitat-data.js` — Build Completion Tracker metadata only
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Investor demo script and walkthrough
 
 - Date: 2026-06-23.
 - Result: **PASS / DOCS-ONLY COMPLETE**.

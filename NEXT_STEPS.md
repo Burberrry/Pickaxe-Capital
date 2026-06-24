@@ -2,6 +2,35 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Options Alerts Website v2 is **PASS / HOSTED QA VERIFIED**.
+
+- One-shot Options Alerts v2 runtime/theme/product-flow refinement and hosted verification.
+- Starting `main` was clean, then fast-forwarded from `a2357d6` to `c8498ad` because the investor demo walkthrough checkpoint was already on `origin/main`.
+- Docs-only checkpoint did not need a separate push in this sprint.
+- Safety branch: `backup/pre-options-alerts-website-v2-20260623`.
+- Work branch: `feature/options-alerts-website-v2`.
+- Implementation and merge/push commit on `origin/main`: `888696f`.
+- GitHub Pages run `28072891270` passed `Validate and Build` and `Deploy`; deployment `5175539223` is `success`.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- The public website remains centered on `Pickaxe Capital — Options Alerts Research OS`.
+- The first screen now shows Pickaxe Capital identity, product line, Data Status `DEMO / Source Required`, Source Freshness `UNKNOWN / No market timestamp`, System Status `BLOCKED`, research-only safety strip, how-it-works panels, QQQ/NVDA/SPY/TSLA/GLD setup cards, selected setup preview, and System Intelligence Verdict.
+- Setup cards now show ticker, setup name, Research Readiness, status, source badge, options grade, and a one-line missing requirement.
+- Selected setup preview, Research Packet, and Evidence Packet remain available; visible approve/reject/accept/decline alert UI was removed from the product path.
+- Sources, Rules, and Status now more directly explain Options Alerts source-required/demo/static truth, gate model, and product boundary.
+- Current product state remains `DEMO / Source Required`, `UNKNOWN / No market timestamp`, and `BLOCKED — NO EXTERNAL ACTION`.
+- `/` remains Alerts.
+- `/founder` remains available.
+- `/app/alerts` remains the Alerts bridge.
+- `/ai-handoff` remains hosted `404` / local-only.
+- No live data, provider activation, browser provider request, broker execution, order placement, alert delivery, authentication, payment, subscription, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged.
+- Local and hosted desktop `1280x720` plus mobile `390x844` browser QA passed across the priority, support, and regression routes with one visible Starlight canvas, no console errors/warnings, and no document-level horizontal overflow.
+- Hosted safety scan found no source maps, no real API keys or secrets, no active provider URLs, no browser provider requests, no live data, no broker/execution/payment/subscription/auth, and no alert-delivery behavior. Broad-pattern matches were false positives from local-only URL text, disabled/no-capability boundary copy, future-boundary wording, and tracker IDs.
+
+Next bounded step: Final mobile polish after Options Alerts Website v2 lock.
+
+## Previous Active Checkpoint - Investor demo script and walkthrough
+
 Investor demo script and walkthrough is **PASS / DOCS-ONLY COMPLETE**.
 
 - One-shot docs-only investor demo script and route-by-route walkthrough.
