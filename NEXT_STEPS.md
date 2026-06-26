@@ -2,14 +2,20 @@
 
 ## Current Active Checkpoint
 
-Massive Business Licensing Decision Packet v1 is **PASS / DOCS-ONLY COMPLETE**.
+Massive Business Licensing Decision Packet v1 is **PASS / HOSTED DOCS VERIFIED**.
 
-- Docs-only and local-only CEO B licensing decision packet for Massive Business Options.
+- Docs/status publication sprint for the completed local CEO B licensing decision packet for Massive Business Options.
 - Starting branch: `main`.
 - Starting commit: `56ee6006c6ab1e51cb0e72c02feccdecda9964ca`.
 - Starting git state: clean working tree; local `main` aligned with `origin/main` with 0 ahead / 0 behind.
 - Safety branch: `backup/pre-massive-business-licensing-decision-packet-v1-20260626-135405`.
 - Work branch: `codex/massive-business-licensing-decision-packet-v1-20260626-135405`.
+- Fast-forward integration placed docs commit `de42d0ca5691dc7cfd3ff88112690ae3f190f4de` on `main` and pushed `origin/main`.
+- GitHub Pages run `28265666675` passed `Validate and Build` job `83751646088` and `Deploy` job `83751693192`.
+- Deployment `5215892999` finished with deployment status `14843274795` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted repository file verification matched all three docs/status files byte-for-byte.
+- Hosted route smoke passed for `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/agents`, and `/vision-map`; `/ai-handoff` and `/source-hub-staging` remain hosted `404`.
 - Created `docs/02_RESEARCH/PICKAXE_MASSIVE_BUSINESS_LICENSING_DECISION_PACKET_V1.md`.
 - Massive Business Options remains selected for written due diligence only; no provider is approved, connected, credentialed, displayed, cached, stored, replayed, requested, or public-facing.
 - The packet gives CEO B the written-question package for Massive: business use, commercial plan/order form, OPRA/exchange obligations, public display, internal display, redistribution, derived data, storage/cache/replay, audit retention, attribution, professional/user classification, timestamp semantics, options-chain field coverage, underlying quote entitlement, and server-only credential handling.
@@ -31,8 +37,9 @@ Massive Business Licensing Decision Packet v1 is **PASS / DOCS-ONLY COMPLETE**.
 - No broker, execution, payment, subscription, authentication, alert-delivery, backend, live provider adapter, autonomous publishing, route, storage key, renderer, packet model, or review queue added.
 - `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
 - Browser QA was not required because this sprint changed docs/status files only.
-- Local validation passed: `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
+- Pre-merge and post-merge local validation passed: `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
 - Local commit: `Create Massive business licensing decision packet`.
+- Status-record deployment evidence is recorded in the final sprint report after GitHub Pages creates the deployment for this status-record commit.
 
 Next bounded step: `CEO B manually sends Massive licensing questions, then paste vendor response for review`.
 
