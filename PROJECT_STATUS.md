@@ -3,14 +3,22 @@
 ## Current Checkpoint - Pickaxe Public Launch Finish Sprint v1
 
 - Date: 2026-06-26.
-- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
-- Sprint type: one-shot bounded public-launch finish sprint for the existing Options Alerts Research OS.
-- Starting branch: `main`.
-- Starting commit: `be6b785 Record Options Alerts Website v2 hosted verification`.
-- Starting git state: `main` was clean and synchronized with `origin/main` (`0 0` ahead/behind) after `git fetch origin`.
+- Result: **PASS / HOSTED QA VERIFIED**.
+- Sprint type: push, fast-forward integration, hosted verification, and hosted status-record lock for the already completed public-launch finish implementation.
+- Starting branch: `feature/public-launch-finish-v1-20260625-175252`.
+- Starting local commit: `f751105 Polish Pickaxe public launch readiness`.
+- Starting `origin/main`: `be6b785 Record Options Alerts Website v2 hosted verification`.
+- Starting git state: feature branch was clean and synchronized with `origin/feature/public-launch-finish-v1-20260625-175252`; `main` and `origin/main` were clean and synchronized after `git fetch origin`.
 - Safety branch: `backup/pre-public-launch-finish-v1-20260625-175252`.
 - Work branch: `feature/public-launch-finish-v1-20260625-175252`.
-- Hosted baseline remains: `Pickaxe Options Alerts Website v2` at `PASS / HOSTED QA VERIFIED`; this sprint was not pushed and not hosted.
+- Pull request state: no existing PR for the feature branch.
+- Implementation integration: fast-forward merge from `feature/public-launch-finish-v1-20260625-175252` into `main`; no merge commit created.
+- Implementation commit on `main`: `f75110590c7cf2677f4db67e50856b017283e3b8`.
+- Implementation push: `origin/main` moved from `be6b785` to `f751105`.
+- Implementation GitHub Pages workflow: `28211536452` (`Validate and Deploy GitHub Pages`) for commit `f75110590c7cf2677f4db67e50856b017283e3b8`.
+- Implementation Pages jobs: `83573705503` (`Validate and Build`) success; `83573744594` (`Deploy`) success.
+- Implementation Pages deployment: `5204447875`; deployment status `14810890178` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
 - Public product remains centered on `Pickaxe Capital — Options Alerts Research OS`.
 - Added a compact five-step Quick Start rail: `Read Status`, `Choose Setup`, `Check Verdict`, `Open Packet`, and `Verify Sources + Rules`.
 - Added an accessible closed-by-default `How to Use Pickaxe` guide with the ten requested steps and ephemeral disclosure state only; no LocalStorage key was added.
@@ -20,19 +28,26 @@
 - Evidence Packet scanability improved with explicit static/demo, timestamp, options-chain, and blocked-action gap tags.
 - Sources now explains Current State, Missing Requirements, Why Blocked, and Future Authorized Path for the Options Alerts workflow.
 - Rules now presents the core rule `No external action unless every required gate passes`, the eight required gates, and the distinction between Research Readiness and gate authority.
-- Status/Staging now separates Current Hosted Baseline, Current Local Candidate, Validation State, and Next CEO B Decision; it states `LOCAL CANDIDATE`, `NOT HOSTED`, and `CEO B REVIEW REQUIRED BEFORE PUSH`.
+- Status/Staging now records the current hosted checkpoint, implementation deployment evidence, route QA, desktop/mobile QA, Alerts interaction QA, and the static/product boundary. It no longer describes v1 as a local unhosted candidate.
 - Added a concise What Pickaxe Does / What Pickaxe Does Not Do trust-boundary section.
 - Mobile polish: Quick Start wraps vertically, How to Use opens and closes accessibly, setup selection remains usable, Sources hero contrast was repaired, and Rules support panels collapse cleanly without fragmented labels.
 - Desktop preservation: first screen continues to show Pickaxe identity, product title, status cards, safety boundary, Quick Start, setup cards, selected setup preview, and System Intelligence without horizontal overflow.
 - Local browser QA passed in the in-app browser at desktop `1280x720` and mobile `390x844` across `/`, `/#/alerts`, `/app/alerts`, `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/#/research`, `/#/archive`, `/#/learning-ledger`, `/agents`, and `/vision-map`.
 - Alerts interaction QA passed for QQQ, NVDA, SPY, TSLA, and GLD selection, NVDA selected-state sync, `BLOCKED — NO EXTERNAL ACTION`, Research Packet opening, Evidence Packet opening, How to Use opening, no visible approve/reject/accept/decline alert UI, one visible Starlight canvas, no document-level horizontal overflow, no console errors/warnings, and no browser provider requests.
 - Local validation passed: `node --check public/app.js`, `node --check app.js`, `node --check public/habitat-data.js`, `node --check habitat-data.js`, `node --run build`, `node --run check:project`, `node --run check:phase15`, `node --run check:agents`, `node --run check:mirrors`, `node --run smoke:routes`, `node --run check:public-safety`, `node --run check:deploy-boundary`, `node --run check:routes`, `git diff --check`, and `git status --short --branch`.
-- Static/security inspection found no real API keys, credentials, source maps, active provider URLs, browser provider calls, local-server dependency for public static behavior, broker endpoints, payment endpoints, authentication endpoints, subscription behavior, or alert-delivery behavior. Broad matches remain existing inactive/future-boundary text.
+- Hosted HTTP route checks passed: `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/founder`, `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/agents`, and `/vision-map` resolved successfully; `/ai-handoff` remained hosted HTTP `404`.
+- Hosted desktop `1280x720` and mobile `390x844` browser QA passed across `/`, `/#/alerts`, `/app/alerts`, `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/#/research`, `/#/archive`, `/#/learning-ledger`, `/agents`, and `/vision-map` with correct active views, nonblank content, no console errors/warnings, no document-level horizontal overflow, one visible Starlight canvas, and preserved direct bridges.
+- Hosted Alerts interaction QA passed on `/`, `/#/alerts`, and `/app/alerts` for Pickaxe identity, `Options Alerts Research OS`, `DEMO / Source Required`, `UNKNOWN / No market timestamp`, `BLOCKED — NO EXTERNAL ACTION`, required safety language, Quick Start, How to Use open/close, all ten guide steps, no onboarding LocalStorage key, QQQ/NVDA/SPY/TSLA/GLD selection, NVDA sync, Research Packet, Evidence Packet, and visible no-approve/reject alert boundary.
+- Hosted Sources QA passed for Current State, Missing Requirements, Why Blocked, and Future Authorized Path.
+- Hosted Rules QA passed for the no-external-action rule, required gates, Research Readiness versus gate authority, and current blocked result.
+- Hosted Status/Staging QA before status lock correctly showed the local-candidate state; this status record updates the hosted truth after verification.
+- Hosted static/security inspection found no real API keys, credentials, source maps, active provider URLs, browser provider calls, local-server dependency for public static behavior, broker endpoints, order endpoints, payment endpoints, authentication endpoints, subscription behavior, or alert-delivery behavior. Broad matches remain inactive/future-boundary text, local-development text, and historical tracker IDs.
 - No live data, provider activation, browser provider request, broker execution, order placement, alert delivery, authentication, payment, subscription, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
 - `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
-- Screenshots saved outside the repo: `/tmp/pickaxe-public-launch-finish-v1-alerts-desktop-top.png`, `/tmp/pickaxe-public-launch-finish-v1-alerts-mobile-top.png`, `/tmp/pickaxe-public-launch-finish-v1-alerts-mobile-nvda-selected.png`, `/tmp/pickaxe-public-launch-finish-v1-how-to-use-mobile-open.png`, `/tmp/pickaxe-public-launch-finish-v1-evidence-packet-mobile-open.png`, `/tmp/pickaxe-public-launch-finish-v1-sources-mobile.png`, `/tmp/pickaxe-public-launch-finish-v1-rules-mobile.png`, and `/tmp/pickaxe-public-launch-finish-v1-status-mobile.png`.
+- Screenshots saved outside the repo: `/tmp/pickaxe-public-launch-finish-v1-hosted-alerts-desktop-top.png`, `/tmp/pickaxe-public-launch-finish-v1-hosted-alerts-mobile-top.png`, `/tmp/pickaxe-public-launch-finish-v1-hosted-alerts-mobile-nvda-selected.png`, `/tmp/pickaxe-public-launch-finish-v1-hosted-how-to-use-mobile-open.png`, `/tmp/pickaxe-public-launch-finish-v1-hosted-evidence-packet-mobile-open.png`, `/tmp/pickaxe-public-launch-finish-v1-hosted-sources-mobile.png`, `/tmp/pickaxe-public-launch-finish-v1-hosted-rules-mobile.png`, and `/tmp/pickaxe-public-launch-finish-v1-hosted-status-mobile.png`.
 - Launch-quality rubric score: **970 / 1000**.
-- Next bounded recommendation: `Push and hosted verification for Pickaxe Public Launch Finish Sprint v1`.
+- Status-record deployment evidence is not embedded self-referentially in this commit; it is recorded in the final sprint report after GitHub Pages creates the deployment for this status-record commit.
+- Next bounded recommendation: `Investor demo rehearsal and public-launch review — read-only / docs-only`.
 
 ### Pickaxe Public Launch Finish Sprint v1 Files Changed
 

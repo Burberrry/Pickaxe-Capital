@@ -19545,8 +19545,8 @@ renderStagingAdvanced = function () {
     ["/app/alerts", "BRIDGE", "Direct path bridge", "Forwards to canonical Alerts route"],
     ["/founder", "AVAILABLE", "Founder route", "Secondary public founder surface"],
     ["/ai-handoff", "LOCAL ONLY", "Local-server text endpoint", "Not a public static bridge"],
-    ["Hosted baseline", "PASS / HOSTED", "Pickaxe Options Alerts Website v2", "GitHub Pages deployment verified before this local sprint"],
-    ["Local candidate", "LOCAL / NOT HOSTED", "Pickaxe Public Launch Finish Sprint v1", "Requires CEO B review before push and hosted verification"],
+    ["Hosted checkpoint", "PASS / HOSTED", "Pickaxe Public Launch Finish Sprint v1", "Hosted QA verified after fast-forward integration"],
+    ["Implementation deployment", "PASS / HOSTED", "Run 28211536452 / deployment 5204447875", "Validate and Build plus Deploy succeeded"],
     ["/agents · /vision-map · /staging", "BRIDGES", "Static direct-path bridges", "Correct canonical hash views remain required"],
     ["/ceo-b-profile · /jarvis-lab · /life-os", "BRIDGES", "Static direct-path bridges", "No route ownership change in this sprint"],
     ["/ai-handoff", "LOCAL ONLY", "Local-server text endpoint", "Not a public static bridge"]
@@ -19559,8 +19559,8 @@ renderStagingAdvanced = function () {
     ["Phase 9B", "Passed / Hosted", "One unverified, non-adopted lesson candidate"],
     ["Direct-Path Repair", "Passed / Hosted", "Six required bridges"],
     ["Project Context Lock", "Passed / Docs-Only", "Repository authority and scope map"],
-    ["Options Alerts Website v2", "Passed / Hosted", "Current hosted public baseline"],
-    ["Public Launch Finish v1", "Local Candidate", "Not pushed or hosted; CEO B review required"],
+    ["Options Alerts Website v2", "Passed / Hosted", "Prior hosted public baseline"],
+    ["Public Launch Finish v1", "Passed / Hosted", "Hosted QA verified; status record locked"],
     ["Finance Terminal", "Passed / Hosted", "Static/manual Research Desk panel"],
     ["V3.1 Contrast Restoration", "Passed / Hosted", "Deployed with the Staging refresh series"]
   ];
@@ -19573,8 +19573,8 @@ renderStagingAdvanced = function () {
     "Source Required",
     "No live provider active",
     "LocalStorage-only browser state",
-    "Local candidate not hosted",
-    "CEO B review required before push"
+    "Hosted QA verified",
+    "No browser provider request"
   ];
   const forbiddenWork = [
     "Phase 9C",
@@ -19591,14 +19591,14 @@ renderStagingAdvanced = function () {
       ${pcPageHero("Status / Product Truth", "Status", "Current runtime truth for the Pickaxe Capital Options Alerts Research OS: static, demo, source-required, and blocked from external action.", ["DEMO / STATIC", "SOURCE REQUIRED", "BLOCKED", "NO BROKER EXECUTION"])}
 
       <div class="staging-purpose-line" aria-label="Staging purpose and next action">
-        <p><strong>Current product state:</strong> hosted baseline is Pickaxe Options Alerts Website v2. This repository is carrying a local public-launch candidate that is not pushed or hosted. No live data, approved provider, broker execution, auth, payment, subscription, or alert-delivery system is active.</p>
+        <p><strong>Current product state:</strong> Pickaxe Public Launch Finish Sprint v1 is hosted and verified on GitHub Pages. No live data, approved provider, broker execution, auth, payment, subscription, or alert-delivery system is active.</p>
         <a class="primary-action" href="#/staging" data-staging-tracker>Open Build Completion Tracker</a>
       </div>
 
       <section class="status-product-truth-grid" aria-label="Options Alerts product status">
         ${[
-          ["Current Hosted Baseline", "Pickaxe Options Alerts Website v2", "PASS / HOSTED QA VERIFIED remains the public baseline until CEO B authorizes push."],
-          ["Current Local Candidate", "Pickaxe Public Launch Finish Sprint v1", "LOCAL CANDIDATE / NOT HOSTED / CEO B REVIEW REQUIRED BEFORE PUSH."],
+          ["Current Hosted Checkpoint", "Pickaxe Public Launch Finish Sprint v1", "PASS / HOSTED QA VERIFIED after route, desktop, mobile, Alerts interaction, and security QA."],
+          ["Implementation Deployment", "Run 28211536452 / deployment 5204447875", "Validate and Build job 83573705503 passed; Deploy job 83573744594 passed; deployment status 14810890178 succeeded."],
           ["Hosted / Static Truth", "GitHub Pages static SPA", "Browser state is LocalStorage/static only; server endpoints are local development helpers."],
           ["Market Data", "Demo / Source Required", "No live numbers are active without source, quote type, timestamp, timezone, and verification status."],
           ["System Status", "BLOCKED — NO EXTERNAL ACTION", "No verified provider, usable timestamp, verified options chain, or source freshness exists."],
@@ -19615,44 +19615,44 @@ renderStagingAdvanced = function () {
 
       <section class="staging-primary-grid" aria-label="Staging command panels">
         <article class="staging-command-panel staging-checkpoint-panel">
-          <span class="meta-label">Current Hosted Baseline</span>
+          <span class="meta-label">Current Hosted Checkpoint</span>
           <div class="staging-status-lock"><strong>PASS</strong><span>HOSTED</span></div>
-          <h3>Pickaxe Options Alerts Website v2</h3>
-          <p class="staging-panel-note">GitHub Pages remains on the verified v2 public baseline until CEO B authorizes a push and hosted verification for this local candidate.</p>
+          <h3>Pickaxe Public Launch Finish Sprint v1</h3>
+          <p class="staging-panel-note">GitHub Pages is serving the verified public-launch finish checkpoint. The previous v2 website remains historical baseline evidence, not the active hosted checkpoint.</p>
           <dl class="staging-key-values">
-            <div><dt>Status record</dt><dd><code>be6b785</code></dd></div>
-            <div><dt>Implementation</dt><dd><code>888696f</code></dd></div>
-            <div><dt>Deployment</dt><dd>RUN 28072891270 · SUCCESS</dd></div>
+            <div><dt>Implementation</dt><dd><code>f751105</code></dd></div>
+            <div><dt>Workflow</dt><dd>RUN 28211536452 · SUCCESS</dd></div>
+            <div><dt>Deployment</dt><dd>5204447875 · STATUS 14810890178</dd></div>
           </dl>
         </article>
 
         <article class="staging-command-panel staging-hosted-panel">
-          <span class="meta-label">Current Local Candidate</span>
+          <span class="meta-label">Hosted Verification</span>
           <h3>Pickaxe Public Launch Finish Sprint v1</h3>
           <ul class="staging-fact-list">
-            <li><span>State</span><strong>LOCAL CANDIDATE</strong></li>
-            <li><span>Hosted status</span><strong>NOT HOSTED</strong></li>
-            <li><span>Next decision</span><strong>CEO B review before push</strong></li>
+            <li><span>State</span><strong>HOSTED QA VERIFIED</strong></li>
+            <li><span>Route QA</span><strong>Passed</strong></li>
+            <li><span>Desktop / mobile QA</span><strong>Passed</strong></li>
             <li><span>Boundary</span><strong>No live data or provider activation</strong></li>
           </ul>
         </article>
 
         <article class="staging-command-panel staging-tracker-panel">
           <span class="meta-label">Validation State</span>
-          <h3>Local checks complete; hosted verification pending.</h3>
+          <h3>Local checks and hosted verification passed.</h3>
           <ul class="staging-fact-list">
-            <li><span>JavaScript</span><strong>Syntax checks pass locally</strong></li>
-            <li><span>Repository validation</span><strong>Build and safety checks pass locally</strong></li>
-            <li><span>Browser QA</span><strong>Desktop 1280x720 · Mobile 390x844 pass locally</strong></li>
-            <li><span>Public result</span><strong>Not hosted until separate sprint</strong></li>
+            <li><span>JavaScript</span><strong>Syntax checks passed</strong></li>
+            <li><span>Repository validation</span><strong>Build and safety checks passed</strong></li>
+            <li><span>Browser QA</span><strong>Desktop 1280x720 · Mobile 390x844 passed hosted</strong></li>
+            <li><span>Public result</span><strong>PASS / HOSTED QA VERIFIED</strong></li>
           </ul>
           <a class="secondary-action" href="#/staging" data-staging-tracker>Review tracker records</a>
         </article>
 
         <article class="staging-command-panel staging-decision-panel">
-          <span class="meta-label">Next CEO B Decision</span>
-          <h3>Push and hosted-verify Pickaxe Public Launch Finish Sprint v1.</h3>
-          <p class="staging-panel-note">The runtime remains static/manual and research-only. No provider, live-data, broker, execution, subscription, product, workflow, storage, navigation, or Options Hub work is authorized by this local candidate.</p>
+          <span class="meta-label">Next Bounded Review</span>
+          <h3>Investor demo rehearsal and public-launch review.</h3>
+          <p class="staging-panel-note">The runtime remains static/manual and research-only. No provider, live-data, broker, execution, subscription, product, workflow, storage, navigation, or Options Hub work is authorized by this hosted status record.</p>
           <div class="staging-decision-actions">
             <a class="primary-action" href="#/staging" data-staging-tracker>Review Hosted Records</a>
             <a class="secondary-action" href="#/roadmap">Review Roadmap</a>
