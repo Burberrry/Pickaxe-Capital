@@ -1,5 +1,48 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Options Alerts Product Perfection v1
+
+- Date: 2026-06-26.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded Options Alerts product/UI polish sprint. No push authorized.
+- Starting branch: `codex/private-local-massive-proof-scope-v1-20260626-144822`.
+- Starting commit: `afce0b6391cbe8513a6a2feb6448428783765143`.
+- Starting git state: clean working tree; branch compared to `origin/main` at 1 ahead / 0 behind because it included the completed private Massive docs-only scope. No unmerged branch was overwritten.
+- Safety branch: `backup/pre-options-alerts-product-perfection-v1-20260626-150140`.
+- Work branch: `codex/options-alerts-product-perfection-v1-20260626-150140`.
+- Updated the existing active Alerts renderer only; no new route, second Alerts renderer, packet model, review queue, storage key, backend behavior, provider behavior, or dependency was added.
+- Options Alerts page was simplified around the product sentence: `Rank setups. Verify evidence. Block action until every required gate passes.`
+- Top truth strip now shows `DEMO / Source Required`, `UNKNOWN / No Verified Time`, `BLOCKED / NO EXTERNAL ACTION`, `Research Only`, `Not Financial Advice`, `No Broker Execution`, and `Options involve substantial risk`.
+- Setups to Review feed now uses the minimum useful columns: Rank, Ticker, Setup, Type, Research Readiness, Source, Risk, Status, and Open.
+- Selected Setup Workspace now shows ticker, setup name, setup type, Research Readiness, Source Status, Options Quality, Risk Gate, System Status, missing evidence, next requirement, CEO B Standard, action boundary, and source-required option context.
+- System Verdict remains `BLOCKED — NO EXTERNAL ACTION` and explicitly states that Research Readiness cannot override failed gates.
+- Required Gates were promoted before packet detail with explicit `SOURCE REQUIRED`, `UNKNOWN`, `UNAVAILABLE`, `PASS`, and `BLOCKED` labels.
+- Research Packet and Evidence Packet remain available as secondary disclosures. Advanced Research OS preserves deeper demo systems, Intelligence Core, Orbit, and legacy references lower on the page.
+- Desktop browser QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`: correct active view, nonblank content, full truth strip, five setup rows, default QQQ selection, setup selection sync, filters/search/reset, System Verdict, Required Gates, Research Packet, Evidence Packet, no console errors, no document-level horizontal overflow, and one Starlight canvas.
+- Mobile browser QA passed on `/app/alerts` and `/#/alerts` at `390x844`: content appears quickly, setup feed reaches the first viewport, five rows render, TSLA selection syncs, Research Packet opens, Evidence Packet opens, System Verdict and Required Gates remain reachable, no console errors, no document-level horizontal overflow, and one Starlight canvas.
+- Regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, and `/vision-map` at `1440x900` with nonblank active views, no console errors, no document-level horizontal overflow, and one Starlight canvas.
+- No live data was added.
+- No Massive activation occurred.
+- No provider request occurred.
+- No credential was requested.
+- No browser provider request was added.
+- No broker, execution, payment, subscription, authentication, alert-delivery, autonomous publishing, or backend behavior was added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Local quality score: **971 / 1000**.
+- Files changed: `public/app.js`, `app.js`, `public/styles.css`, `styles.css`, `public/index.html`, `index.html`, `public/habitat-data.js`, `habitat-data.js`, `PROJECT_STATUS.md`, and `NEXT_STEPS.md`.
+- Local validation passed: `node --check public/app.js`; `node --check app.js`; `node --check public/habitat-data.js`; `node --check habitat-data.js`; `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
+- Local commit: `Polish Options Alerts product experience`.
+- Next bounded recommendation: `Push and hosted verification for Pickaxe Options Alerts Product Perfection v1`.
+
+### Pickaxe Options Alerts Product Perfection v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
 ## Current Checkpoint - Private Local Massive Proof Scope v1
 
 - Date: 2026-06-26.

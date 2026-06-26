@@ -2,6 +2,36 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Options Alerts Product Perfection v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Bounded product/UI polish sprint for the existing Options Alerts experience.
+- Starting branch: `codex/private-local-massive-proof-scope-v1-20260626-144822`.
+- Starting commit: `afce0b6391cbe8513a6a2feb6448428783765143`.
+- Starting git state: clean working tree; branch compared to `origin/main` at 1 ahead / 0 behind because it included the completed private Massive docs-only scope.
+- Safety branch: `backup/pre-options-alerts-product-perfection-v1-20260626-150140`.
+- Work branch: `codex/options-alerts-product-perfection-v1-20260626-150140`.
+- Options Alerts now centers Pickaxe Capital, Options Alerts, the product sentence, the full truth strip, Setups to Review, Selected Setup Workspace, System Verdict, Required Gates, Research Packet, Evidence Packet, Advanced Research OS, and Safety Footer.
+- Feed columns are simplified to Rank, Ticker, Setup, Type, Research Readiness, Source, Risk, Status, and Open.
+- Selected Setup Workspace, System Verdict, Required Gates, Research Packet, and Evidence Packet were tightened for desktop and mobile.
+- Mobile `390x844` QA confirms useful content and the setup feed appear quickly, with no document-level horizontal overflow.
+- Desktop `1440x900` and `1280x720` QA passed on `/`, `/#/alerts`, and `/app/alerts`.
+- Regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, and `/vision-map`.
+- No live data added.
+- No Massive activation.
+- No provider request.
+- No credential requested.
+- No browser provider request added.
+- No broker, execution, payment, subscription, authentication, alert-delivery, autonomous publishing, backend behavior, new route, second Alerts renderer, LocalStorage key, packet model, or review queue added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Local validation passed: `node --check public/app.js`; `node --check app.js`; `node --check public/habitat-data.js`; `node --check habitat-data.js`; `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
+- Local commit: `Polish Options Alerts product experience`.
+
+Next bounded step: `Push and hosted verification for Pickaxe Options Alerts Product Perfection v1`.
+
+Do not push until CEO B explicitly authorizes it.
+
+## Previous Active Checkpoint - Private Local Massive Proof Scope v1
+
 Private Local Massive Proof Scope v1 is **PASS / DOCS-ONLY COMPLETE**.
 
 - Docs-only and local-only internal scope definition for a possible future private/self-use local `QQQ` Massive proof.
