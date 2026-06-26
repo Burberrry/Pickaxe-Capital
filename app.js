@@ -19597,7 +19597,7 @@ renderStagingAdvanced = function () {
     ["/app/alerts", "BRIDGE", "Direct path bridge", "Forwards to canonical Alerts route"],
     ["/founder", "AVAILABLE", "Founder route", "Secondary public founder surface"],
     ["/ai-handoff", "LOCAL ONLY", "Local-server text endpoint", "Not a public static bridge"],
-    ["Active candidate", "LOCAL CANDIDATE", "Pickaxe Options Alerts Core Product & Brand System v1", "Hosted verification pending"],
+    ["Active checkpoint", "PASS / HOSTED", "Pickaxe Options Alerts Core Product & Brand System v1", "Hosted QA verified after fast-forward integration"],
     ["Prior hosted checkpoint", "PASS / HOSTED", "Pickaxe Public Launch Finish Sprint v1", "Hosted QA verified after fast-forward integration"],
     ["/agents · /vision-map · /staging", "BRIDGES", "Static direct-path bridges", "Correct canonical hash views remain required"],
     ["/ceo-b-profile · /jarvis-lab · /life-os", "BRIDGES", "Static direct-path bridges", "No route ownership change in this sprint"],
@@ -19612,7 +19612,7 @@ renderStagingAdvanced = function () {
     ["Direct-Path Repair", "Passed / Hosted", "Six required bridges"],
     ["Project Context Lock", "Passed / Docs-Only", "Repository authority and scope map"],
     ["Options Alerts Website v2", "Passed / Hosted", "Prior hosted public baseline"],
-    ["Core Product & Brand System v1", "Local Candidate", "Hosted verification pending"],
+    ["Core Product & Brand System v1", "PASS / HOSTED", "Hosted QA verified and status locked"],
     ["Public Launch Finish v1", "Passed / Hosted", "Hosted QA verified; status record locked"],
     ["Finance Terminal", "Passed / Hosted", "Static/manual Research Desk panel"],
     ["V3.1 Contrast Restoration", "Passed / Hosted", "Deployed with the Staging refresh series"]
@@ -19626,7 +19626,7 @@ renderStagingAdvanced = function () {
     "Source Required",
     "No live provider active",
     "LocalStorage-only browser state",
-    "Hosted QA pending for current candidate",
+    "Hosted QA verified for current checkpoint",
     "No browser provider request"
   ];
   const forbiddenWork = [
@@ -19644,13 +19644,13 @@ renderStagingAdvanced = function () {
       ${pcPageHero("Status / Product Truth", "Status", "Current runtime truth for the Pickaxe Capital Options Alerts Research OS: static, demo, source-required, and blocked from external action.", ["DEMO / STATIC", "SOURCE REQUIRED", "BLOCKED", "NO BROKER EXECUTION"])}
 
       <div class="staging-purpose-line" aria-label="Staging purpose and next action">
-        <p><strong>Current product state:</strong> Pickaxe Options Alerts Core Product & Brand System v1 is a local candidate pending hosted verification. No live data, authorized provider, broker execution, auth, payment, subscription, or alert-delivery system is active.</p>
+        <p><strong>Current product state:</strong> Pickaxe Options Alerts Core Product & Brand System v1 is PASS / HOSTED QA VERIFIED. No live data, authorized provider, broker execution, auth, payment, subscription, or alert-delivery system is active.</p>
         <a class="primary-action" href="#/staging" data-staging-tracker>Open Build Completion Tracker</a>
       </div>
 
       <section class="status-product-truth-grid" aria-label="Options Alerts product status">
         ${[
-          ["Active Candidate", "Pickaxe Options Alerts Core Product & Brand System v1", "Local implementation candidate. Hosted QA and final status record are still pending."],
+          ["Active Checkpoint", "Pickaxe Options Alerts Core Product & Brand System v1", "PASS / HOSTED QA VERIFIED after route, desktop, mobile, Alerts interaction, and resource-boundary QA."],
           ["Prior Hosted Checkpoint", "Pickaxe Public Launch Finish Sprint v1", "PASS / HOSTED QA VERIFIED after route, desktop, mobile, Alerts interaction, and security QA."],
           ["Hosted / Static Truth", "GitHub Pages static SPA", "Browser state is LocalStorage/static only; server endpoints are local development helpers."],
           ["Market Data", "Demo / Source Required", "No live numbers are active without source, quote type, timestamp, timezone, and verification status."],
@@ -19668,14 +19668,14 @@ renderStagingAdvanced = function () {
 
       <section class="staging-primary-grid" aria-label="Staging command panels">
         <article class="staging-command-panel staging-checkpoint-panel">
-          <span class="meta-label">Active Candidate</span>
-          <div class="staging-status-lock"><strong>LOCAL</strong><span>CANDIDATE</span></div>
+          <span class="meta-label">Active Checkpoint</span>
+          <div class="staging-status-lock"><strong>PASS</strong><span>HOSTED QA VERIFIED</span></div>
           <h3>Pickaxe Options Alerts Core Product & Brand System v1</h3>
-          <p class="staging-panel-note">This candidate locks the core public product vocabulary, gate model, visual tokens, Founder Ghost Gray signature layer, and desktop Options Alerts hierarchy. Hosted verification is pending.</p>
+          <p class="staging-panel-note">This checkpoint locks the core public product vocabulary, gate model, visual tokens, Founder Ghost Gray signature layer, and desktop Options Alerts hierarchy. Hosted verification passed.</p>
           <dl class="staging-key-values">
-            <div><dt>Implementation</dt><dd><code>Pending commit</code></dd></div>
-            <div><dt>Workflow</dt><dd>GitHub Pages pending</dd></div>
-            <div><dt>Deployment</dt><dd>Pending hosted verification</dd></div>
+            <div><dt>Implementation</dt><dd><code>7514ab6</code></dd></div>
+            <div><dt>Workflow</dt><dd>GitHub Pages run 28214942757</dd></div>
+            <div><dt>Deployment</dt><dd>5205142147 / status 14812832037 success</dd></div>
           </dl>
         </article>
 
@@ -19683,9 +19683,9 @@ renderStagingAdvanced = function () {
           <span class="meta-label">Verification State</span>
           <h3>Core Product & Brand System v1</h3>
           <ul class="staging-fact-list">
-            <li><span>State</span><strong>LOCAL CANDIDATE</strong></li>
-            <li><span>Route QA</span><strong>Pending final validation</strong></li>
-            <li><span>Desktop / mobile QA</span><strong>Pending final validation</strong></li>
+            <li><span>State</span><strong>PASS / HOSTED QA VERIFIED</strong></li>
+            <li><span>Route QA</span><strong>Passed hosted</strong></li>
+            <li><span>Desktop / mobile QA</span><strong>Passed hosted</strong></li>
             <li><span>Boundary</span><strong>No live data or provider activation</strong></li>
           </ul>
         </article>

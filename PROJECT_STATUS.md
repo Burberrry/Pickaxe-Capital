@@ -1,6 +1,55 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Public Launch Finish Sprint v1
+## Current Checkpoint - Pickaxe Options Alerts Core Product & Brand System v1
+
+- Date: 2026-06-26.
+- Result: **PASS / HOSTED QA VERIFIED**.
+- Sprint type: one-shot Options Alerts core product vocabulary, brand system, desktop-first hierarchy, validation, deployment, hosted QA, and status lock.
+- Starting branch: `feature/options-alerts-core-brand-lock-v1-20260625-193815`.
+- Starting local and `origin/main` commit: `cd7d4ce Record Public Launch Finish hosted verification`.
+- Safety branch: `backup/pre-options-alerts-core-brand-lock-v1-20260625-193815`.
+- Work branch: `feature/options-alerts-core-brand-lock-v1-20260625-193815`.
+- Integration method: fast-forward merge from the work branch into `main`; no merge commit created.
+- Implementation commit on `main`: `7514ab6967d3eae05ab8de33d614f37b52a5e1f6`.
+- Implementation GitHub Pages workflow: `28214942757` (`Validate and Deploy GitHub Pages`) for commit `7514ab6967d3eae05ab8de33d614f37b52a5e1f6`.
+- Implementation Pages jobs: `83583929011` (`Validate and Build`) success; `83583953106` (`Deploy`) success.
+- Implementation Pages deployment: `5205142147`; deployment status `14812832037` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Created `docs/01_PRODUCT/PICKAXE_OPTIONS_ALERTS_CORE_PRODUCT_AND_BRAND_SYSTEM_V1.md` as the canonical product and brand lock for Options Alerts.
+- Public workflow now centers on `Pickaxe Capital`, `Options Alerts`, `Research OS`, `Setups to Review`, `Research Readiness`, `System Intelligence`, `System Verdict`, `Research Packet`, `Evidence Packet`, `Sources`, `Rules`, `Status`, `CEO B Standard`, and `No External Action`.
+- Product sentence locked: `Rank setups. Verify evidence. Block action until every required gate passes.`
+- Alerts first screen now shows the eight-field System Verdict: Status, Why, Passed Gates, Failed Gates, Missing Evidence, Next Requirement, CEO B Standard, and Action Boundary.
+- Alerts now shows the required gate model: Source, Timestamp, Options Chain, Spread / Liquidity, Risk, System Intelligence, CEO B Standard, and Action Boundary.
+- Public visible approval/rejection wording was removed from the active Options Alerts workflow; visible controls are now `Open Research Packet`, `View Evidence`, `Clear Research`, `Return for Evidence`, or evidence/gate-oriented actions.
+- Founder Ghost Gray tokens were added and the Options Alerts palette was mapped to canonical Pickaxe colors while preserving the premium dark/gold/silver visual system.
+- Sources, Rules, Status, and Staging copy now explain source-required/static truth, blocked gate state, hosted verification, and future authorized-provider boundaries.
+- V3.1 QQQ golden path placement, selected-candidate behavior, detailed Signals placement, Phase 9B handoff, direct bridges, LocalStorage contracts, root/public mirrors, and `data/signal-alerts.json` were preserved.
+- Local validation passed: JavaScript syntax checks for touched runtime files; `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
+- Local desktop QA passed at `1440x900` and `1280x720`; local mobile QA passed at `390x844`.
+- Local Alerts interaction QA passed for QQQ, NVDA, SPY, TSLA, and GLD selection, Research Packet opening, Evidence Packet opening, no forbidden visible workflow controls, one Starlight canvas, no document-level horizontal overflow, and no console errors/warnings.
+- Hosted desktop `1440x900` / `1280x720` and mobile `390x844` browser QA passed on `/`, `/#/alerts`, `/app/alerts`, `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, and `/vision-map`.
+- Hosted Alerts interaction QA passed for all five setup selections, System Verdict fields, Required Gates, Research Packet, Evidence Packet, `BLOCKED — NO EXTERNAL ACTION`, no forbidden visible workflow controls, one Starlight canvas, no document-level overflow, and no console errors/warnings.
+- Hosted HTTP checks confirmed `/ai-handoff` and `/source-hub-staging` remain hosted `404` / local-only, while `/app/alerts` resolves through the required bridge.
+- Hosted resource boundary QA found no provider-like requests, broker/order/auth/payment/subscription endpoints, alert-delivery behavior, or external provider activation.
+- No live data, provider activation, browser provider request, broker execution, order placement, alert delivery, authentication, payment, subscription, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Local screenshots saved outside the repo: `/tmp/pickaxe-options-alerts-core-brand-v1-20260626-local-desktop-1440.png` and `/tmp/pickaxe-options-alerts-core-brand-v1-20260626-local-mobile-390.png`.
+- Next bounded recommendation: `Verified Options Data Provider Legal + Architecture Review — docs-only`.
+
+### Pickaxe Options Alerts Core Product & Brand System v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `public/habitat-data.js` and `habitat-data.js`
+- `public/pickaxe-v31-mission-control.js`
+- `public/pickaxe-v31-review-simulator.js`
+- `public/pickaxe-v31-watchlist-queue.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `docs/01_PRODUCT/PICKAXE_OPTIONS_ALERTS_CORE_PRODUCT_AND_BRAND_SYSTEM_V1.md`
+
+## Previous Checkpoint - Pickaxe Public Launch Finish Sprint v1
 
 - Date: 2026-06-26.
 - Result: **PASS / HOSTED QA VERIFIED**.
