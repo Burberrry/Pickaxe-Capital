@@ -5,7 +5,7 @@
     "Agent Habitat",
     "Silence Gate",
     "Risk Gate",
-    "CEO B Review",
+    "CEO B Standard",
     "Public Research Card",
     "Memory Vault",
   ];
@@ -61,7 +61,7 @@
         <summary>
           <span>
             <strong>QQQ Golden Path · Demo Reference</strong>
-            <small>Locked V3.1 source, risk, CEO B review, simulator, and watchlist workflow</small>
+            <small>Locked V3.1 source, risk, CEO B Standard, simulator, and watchlist workflow</small>
           </span>
           <em>Not the selected alert above · No live data</em>
         </summary>
@@ -97,7 +97,7 @@
         <p class="v31-kicker">Pickaxe Capital V3.1 / ${esc(contextLabel)} / Demo Data Only</p>
         <div class="v31-title-row">
           <h2>QQQ Research<br />Card Flow</h2>
-          <p class="v31-standard"><strong>1000/1000 rule:</strong> no public research without Source Ledger, Silence Gate, Risk Gate, and CEO B Review. No fake live data.</p>
+          <p class="v31-standard"><strong>1000/1000 rule:</strong> no public research without Source Ledger, Silence Gate, Risk Gate, and CEO B Standard. No fake live data.</p>
         </div>
         <div class="v31-flow-line">
           ${FLOW_STEPS.map((step, index) => `<div class="v31-flow-step"><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(step)}</strong></div>`).join("")}
@@ -108,7 +108,7 @@
           <span class="v31-status-chip warn">Timestamp Required</span>
           <span class="v31-status-chip warn">Silence Gate: ${esc(statusText(statuses.silenceGate || silence.decision, "needs_more_evidence"))}</span>
           <span class="v31-status-chip block">Risk Gate: ${esc(statusText(statuses.riskGate || risk.status, "not_passed"))}</span>
-          <span class="v31-status-chip gold">CEO B: ${esc(statusText(statuses.ceoBReview, "needs_review"))}</span>
+          <span class="v31-status-chip gold">CEO B Standard: ${esc(statusText(statuses.ceoBReview, "needs_review"))}</span>
           <span class="v31-status-chip block">Public Output: ${statuses.publicOutputAllowed ? "Allowed" : "Not Allowed"}</span>
         </div>
         <div class="v31-card-grid">
@@ -136,7 +136,7 @@
 
     mount.innerHTML = `
       <article class="v31-deep-panel" aria-label="V3.1 Signals Desk QQQ demo research card">
-        <p class="v31-kicker">Signals Desk / QQQ Demo Card / Not Approved</p>
+        <p class="v31-kicker">Signals Desk / QQQ Demo Card / Not Cleared</p>
         <div class="v31-deep-title">
           <h3>${esc(card.ticker || "QQQ")} Demo<br />Research Card</h3>
           <div class="v31-status-row">
@@ -150,7 +150,7 @@
         <div class="v31-card-grid">
           <div class="v31-mini-card"><span>Setup Type</span><strong>${esc(titleCase(card.setupType, "Mean Reversion Watch"))}</strong><p>Demo-only workflow object; no trade instruction.</p></div>
           <div class="v31-mini-card"><span>Trigger</span><strong>${esc(card.levels?.trigger || "Source Required")}</strong><p>Requires verified chart level and timestamp.</p></div>
-          <div class="v31-mini-card"><span>Invalidation</span><strong>${esc(card.levels?.invalidation || "Source Required")}</strong><p>No invalidation means Risk Gate blocks approval.</p></div>
+          <div class="v31-mini-card"><span>Invalidation</span><strong>${esc(card.levels?.invalidation || "Source Required")}</strong><p>No invalidation means Risk Gate blocks advancement.</p></div>
           <div class="v31-mini-card"><span>Options Context</span><strong>${esc(titleCase(card.optionsContext?.contractType, "Watch Only"))}</strong><p>${esc(card.optionsContext?.warning || "Options may expire worthless.")}</p></div>
         </div>
 
@@ -163,14 +163,14 @@
           <section class="v31-deep-section">
             <span>Gate Status</span>
             <strong>Source: ${esc(statusText(statuses.sourceLedger, "unverified"))}</strong>
-            <p>Silence: ${esc(statusText(statuses.silenceGate || silence.decision, "needs_more_evidence"))} • Risk: ${esc(statusText(statuses.riskGate || risk.status, "not_passed"))} • CEO B: ${esc(statusText(statuses.ceoBReview || ceo.status, "needs_review"))}</p>
+            <p>Silence: ${esc(statusText(statuses.silenceGate || silence.decision, "needs_more_evidence"))} • Risk: ${esc(statusText(statuses.riskGate || risk.status, "not_passed"))} • CEO B Standard: ${esc(statusText(statuses.ceoBReview || ceo.status, "needs_review"))}</p>
           </section>
 
           <section class="v31-deep-section full">
             <span>Source Ledger Mini-Table</span>
             <div class="v31-table-wrap">
               <table class="v31-table">
-                <thead><tr><th>Source</th><th>Category</th><th>Status</th><th>Required Before Approval</th></tr></thead>
+                <thead><tr><th>Source</th><th>Category</th><th>Status</th><th>Required Before Advancement</th></tr></thead>
                 <tbody>
                   ${sources.map((source) => `
                     <tr>
@@ -200,7 +200,7 @@
           </section>
 
           <section class="v31-deep-section full">
-            <span>CEO B Review Checklist Preview</span>
+            <span>CEO B Standard Checklist Preview</span>
             <div class="v31-checklist">
               ${(ceo.checklist || []).slice(0, 8).map((item) => `<div class="v31-check-item">${esc(item)}</div>`).join("")}
             </div>
@@ -209,7 +209,7 @@
           <section class="v31-deep-section full">
             <span>Memory Vault Lesson</span>
             <strong>${esc(memory?.outcome || "no_output_correct")}</strong>
-            <p>${esc(memory?.ruleCreated || "No public output unless Source Ledger, Silence Gate, Risk Gate, and CEO B Review pass.")}</p>
+            <p>${esc(memory?.ruleCreated || "No public output unless Source Ledger, Silence Gate, Risk Gate, and CEO B Standard pass.")}</p>
             <p>${esc(memory?.futureAgentTask || "Create verified-source checklist before public visual generation.")}</p>
           </section>
         </div>

@@ -46,7 +46,7 @@
       ["01", "Source Check", s.source, !s.source, s.source ? "Checked: source still required" : "Pending Source Ledger"],
       ["02", "Silence Gate", s.silence, s.source && !s.silence, s.silence ? "No Output selected" : "Needs more evidence"],
       ["03", "Risk Gate", s.risk, s.silence && !s.risk, s.risk ? "No-Go recorded" : "Not passed"],
-      ["04", "CEO B", s.ceo, s.risk && !s.ceo, s.ceo ? "Review complete" : "Needs review"],
+      ["04", "CEO B Standard", s.ceo, s.risk && !s.ceo, s.ceo ? "Standard applied" : "Governance check required"],
       ["05", "Memory Vault", s.archive, s.ceo && !s.archive, s.archive ? "Lesson archived" : "Waiting"],
     ];
     mount.innerHTML = `
@@ -62,7 +62,7 @@
         ${btn("source", "Run Source Check", s.source)}
         ${btn("silence", "Choose No Output", !s.source || s.silence)}
         ${btn("risk", "Run Risk Review", !s.silence || s.risk)}
-        ${btn("ceo", "CEO B Review", !s.risk || s.ceo)}
+        ${btn("ceo", "Apply CEO B Standard", !s.risk || s.ceo)}
         ${btn("archive", "Archive Lesson", !s.ceo || s.archive)}
         ${btn("reset", "Reset Demo", false, "reset")}
       </div>

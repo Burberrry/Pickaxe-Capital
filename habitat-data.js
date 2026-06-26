@@ -269,10 +269,10 @@ window.PickaxeHabitatData = {
     {
       id: "spy", symbol: "SPY", title: "SPY Market Structure", type: "Stock", theme: "Index Liquidity",
       status: "Watching", bias: "Neutral", confidence: 72, attentionScore: "High", risk: "Medium",
-      agentOwner: "Chart Agent", reviewState: "Needs CEO B Review", sourceMode: "Demo / Local Research",
+      agentOwner: "Chart Agent", reviewState: "CEO B Standard Required", sourceMode: "Demo / Local Research",
       ttt: { time: "Opening session / weekly trend check", trend: "Testing major level", theme: "Index liquidity and options positioning" },
       signals: ["Watch premarket high/low", "Check VIX confirmation", "Confirm with QQQ and DXY"],
-      nextAction: "Send to CEO B Review only after source verification"
+      nextAction: "Apply CEO B Standard only after source verification"
     },
     {
       id: "qqq", symbol: "QQQ", title: "QQQ Growth Leadership", type: "Stock", theme: "Technology Breadth",
@@ -280,7 +280,7 @@ window.PickaxeHabitatData = {
       agentOwner: "Chart Agent", reviewState: "Needs Review", sourceMode: "Demo / Local Research",
       ttt: { time: "Daily close and weekly structure", trend: "Leadership remains constructive", theme: "AI and growth concentration" },
       signals: ["Compare breadth with SPY", "Check NVDA participation", "Flag concentration risk"],
-      nextAction: "Verify breadth before CEO B review"
+      nextAction: "Verify breadth before governance check"
     },
     {
       id: "tsla", symbol: "TSLA", title: "TSLA Event-Risk Monitor", type: "Stock", theme: "High Beta / Catalysts",
@@ -293,10 +293,10 @@ window.PickaxeHabitatData = {
     {
       id: "nvda", symbol: "NVDA", title: "NVDA AI Leadership", type: "Stock", theme: "AI Infrastructure",
       status: "Watching", bias: "Bullish", confidence: 81, attentionScore: "High", risk: "Medium",
-      agentOwner: "News & Catalyst Agent", reviewState: "Needs CEO B Review", sourceMode: "Demo / Local Research",
+      agentOwner: "News & Catalyst Agent", reviewState: "CEO B Standard Required", sourceMode: "Demo / Local Research",
       ttt: { time: "Weekly trend / catalyst calendar", trend: "Leadership under confirmation", theme: "AI compute and capital spending" },
       signals: ["Confirm semiconductor breadth", "Review earnings-event risk", "Check options liquidity"],
-      nextAction: "Attach source trail and route to CEO B"
+      nextAction: "Attach source trail before governance check"
     },
     {
       id: "aapl", symbol: "AAPL", title: "AAPL Mega-Cap Structure", type: "Stock", theme: "Consumer Technology",
@@ -317,7 +317,7 @@ window.PickaxeHabitatData = {
     {
       id: "vix", symbol: "VIX", title: "Volatility Pressure", type: "Macro", theme: "Risk Pricing",
       status: "Watching", bias: "Neutral", confidence: 79, attentionScore: "High", risk: "High",
-      agentOwner: "Risk Agent", reviewState: "Needs CEO B Review", sourceMode: "Demo / Local Research",
+      agentOwner: "Risk Agent", reviewState: "CEO B Standard Required", sourceMode: "Demo / Local Research",
       ttt: { time: "Session and weekly regime", trend: "Pressure gauge under review", theme: "Volatility, hedging, and event risk" },
       signals: ["Confirm term structure externally", "Compare with SPY pressure", "Flag event-calendar risk"],
       nextAction: "Use only as risk context after verification"
@@ -333,10 +333,10 @@ window.PickaxeHabitatData = {
     {
       id: "us10y", symbol: "US10Y", title: "US 10Y Yield Regime", type: "Macro", theme: "Rates",
       status: "Watching", bias: "Bearish", confidence: 74, attentionScore: "High", risk: "High",
-      agentOwner: "Risk Agent", reviewState: "Needs CEO B Review", sourceMode: "Demo / Local Research",
+      agentOwner: "Risk Agent", reviewState: "CEO B Standard Required", sourceMode: "Demo / Local Research",
       ttt: { time: "Macro session / weekly regime", trend: "Yield pressure challenges duration", theme: "Rates, valuation, and liquidity" },
       signals: ["Verify current yield externally", "Compare with QQQ", "Document rate-sensitive risk"],
-      nextAction: "Route verified rate context to CEO B"
+      nextAction: "Attach verified rate context before governance check"
     },
     {
       id: "btc", symbol: "BTC", title: "Bitcoin Liquidity Structure", type: "Crypto", theme: "Digital Asset Liquidity",
@@ -349,7 +349,7 @@ window.PickaxeHabitatData = {
     {
       id: "ai-theme", symbol: "AI", title: "AI Theme Leadership", type: "Theme", theme: "Artificial Intelligence",
       status: "Watching", bias: "Bullish", confidence: 83, attentionScore: "High", risk: "Medium",
-      agentOwner: "News & Catalyst Agent", reviewState: "Needs CEO B Review", sourceMode: "Demo / Local Research",
+      agentOwner: "News & Catalyst Agent", reviewState: "CEO B Standard Required", sourceMode: "Demo / Local Research",
       ttt: { time: "Weekly theme review", trend: "Leadership remains concentrated", theme: "Compute, software, and infrastructure" },
       signals: ["Rank verified subthemes", "Check crowding risk", "Link archive memory"],
       nextAction: "Prepare a source-linked theme brief"
@@ -360,15 +360,15 @@ window.PickaxeHabitatData = {
       agentOwner: "Options Flow Agent", reviewState: "Blocked", sourceMode: "Demo / Local Research",
       ttt: { time: "Manual snapshot only", trend: "No live provider connected", theme: "Contract activity and positioning" },
       signals: ["Require manual contract entry", "Check liquidity and spread", "Do not infer smart money automatically"],
-      nextAction: "Connect approved provider later; keep blocked today"
+      nextAction: "Connect authorized provider later; keep blocked today"
     },
     {
       id: "risk-queue", symbol: "RISK", title: "Risk Queue", type: "Workflow", theme: "Capital Preservation",
       status: "Watching", bias: "Bearish", confidence: 88, attentionScore: "High", risk: "High",
-      agentOwner: "Risk Agent", reviewState: "Needs CEO B Review", sourceMode: "Demo / Local Research",
+      agentOwner: "Risk Agent", reviewState: "CEO B Standard Required", sourceMode: "Demo / Local Research",
       ttt: { time: "Continuous manual review", trend: "Hard blocks outrank scores", theme: "Downside, exposure, and invalidation" },
       signals: ["Resolve source blocks", "Confirm invalidation", "Preserve capital first"],
-      nextAction: "CEO B reviews unresolved hard blocks"
+      nextAction: "Apply governance check to unresolved hard blocks"
     },
     {
       id: "news-queue", symbol: "NEWS", title: "News & Catalyst Queue", type: "Workflow", theme: "Catalyst Verification",
@@ -387,12 +387,12 @@ window.PickaxeHabitatData = {
       nextAction: "Open Agent Habitat for manual task routing"
     },
     {
-      id: "ceo-b-review", symbol: "CEO B", title: "CEO B Review Authority", type: "Review", theme: "Final Human Judgment",
+      id: "ceo-b-review", symbol: "CEO B", title: "CEO B Standard Authority", type: "Governance", theme: "Founder-approved discipline",
       status: "Watching", bias: "Neutral", confidence: 100, attentionScore: "High", risk: "Medium",
-      agentOwner: "CEO B", reviewState: "Cleared", sourceMode: "Manual Founder Review",
-      ttt: { time: "After evidence and risk gates", trend: "Human judgment remains final", theme: "Decision quality and learning" },
-      signals: ["Review source lineage", "Challenge thesis", "Choose return, archive, watch, or research approval"],
-      nextAction: "Make the final manual research-route decision"
+      agentOwner: "CEO B", reviewState: "CEO B Standard Applied", sourceMode: "Founder Governance",
+      ttt: { time: "After evidence and risk gates", trend: "Governance remains final", theme: "Decision quality and learning" },
+      signals: ["Review source lineage", "Challenge thesis", "Choose return, archive, watch, or research output"],
+      nextAction: "Apply the founder-approved governance standard"
     }
   ],
   agentRoboticsLineup: [
@@ -572,7 +572,7 @@ window.PickaxeHabitatData = {
       outputs: ["Archive candidate", "Lesson candidate", "Memory link"],
       outputDestinations: ["#/archive", "#/learning-ledger", "#/research"],
       currentState: "LocalStorage",
-      verificationState: "CEO B Review Pending",
+      verificationState: "CEO B Standard Pending",
       nextManualAction: "Review the cleaned archive candidate before keeping it.",
       latestLocalActivity: "Archive candidates save only in this browser.",
       verificationChecklist: ["Private data removed", "Source lineage retained", "Review state recorded"],
@@ -587,7 +587,7 @@ window.PickaxeHabitatData = {
       pickaxeName: "Risk Sentinel",
       ownerRoute: "#/risk-rules",
       purpose: "Challenges assumptions, verifies source lineage, and checks packets for hard blocks and missing context.",
-      mission: "Stop incomplete, contradictory, or weakly sourced research before CEO B review.",
+      mission: "Stop incomplete, contradictory, or weakly sourced research before the CEO B Standard is applied.",
       taskType: "Verification, contradiction, and hard-block review",
       inputs: ["Research packet", "Source states", "Risk and catalyst notes"],
       outputs: ["Blocked state", "Correction request", "Review-ready state"],
@@ -604,21 +604,21 @@ window.PickaxeHabitatData = {
     {
       id: "ceo-b-review",
       departmentId: "D-09",
-      name: "CEO B Review / Final Judgment",
+      name: "CEO B Standard / Final Judgment",
       pickaxeName: "CEO B",
       ownerRoute: "#/dashboard",
-      purpose: "Provides the final human judgment gate for research routing.",
+      purpose: "Provides the final founder-standard gate for research routing.",
       mission: "Review source quality, thesis clarity, risk, invalidation, and next manual action.",
-      taskType: "Final human review and route decision",
+      taskType: "Final founder-standard route decision",
       inputs: ["Review packets", "Risk blocks", "Source lineage", "Archive context"],
-      outputs: ["Return for evidence", "Archive candidate", "Alert draft approval", "Watchlist route"],
+      outputs: ["Return for evidence", "Archive candidate", "Alert draft clearance", "Watchlist route"],
       outputDestinations: ["#/dashboard", "#/alerts", "#/archive", "#/watchlists"],
       currentState: "Human / Manual",
       verificationState: "Final Manual Gate",
-      nextManualAction: "Approve a research route, return it, or archive it.",
-      latestLocalActivity: "Waiting for complete local review packets.",
+      nextManualAction: "Clear a research route, return it, or archive it.",
+      latestLocalActivity: "Waiting for complete local research packets.",
       verificationChecklist: ["Evidence sufficient", "Risk resolved", "Thesis clear", "Invalidation clear"],
-      ceoReviewNote: "Nothing becomes an alert until CEO B review is complete.",
+      ceoReviewNote: "Nothing advances beyond research until the CEO B Standard is complete.",
       riskBoundary: "CEO B remains the final judgment layer; the app does not replace the founder.",
       safetyLabel: "Manual Review Required"
     }
@@ -630,7 +630,7 @@ window.PickaxeHabitatData = {
     { id: "organization", label: "Research Organization", route: "#/research", note: "Evidence, context, gaps, and invalidation are structured." },
     { id: "verification", label: "Verification", route: "#/source-hub", note: "Claims receive source lineage or remain visibly incomplete." },
     { id: "challenge", label: "Challenge / Contradiction", route: "#/risk-rules", note: "Quality Control tests assumptions, conflicts, and hard blocks." },
-    { id: "ceo", label: "CEO B Review", route: "#/dashboard", note: "Final human judgment accepts, returns, reroutes, or rejects." },
+    { id: "ceo", label: "CEO B Standard", route: "#/dashboard", note: "Final founder-standard judgment clears, returns, reroutes, or archives." },
     { id: "output", label: "Final Research Output", route: "#/alerts", note: "Reviewed work becomes a research draft, watchlist note, or archive candidate." },
     { id: "learning", label: "Archive / Learning Loop", route: "#/learning-ledger", note: "Corrections, rejected ideas, and outcomes become reusable memory." }
   ],
@@ -639,10 +639,10 @@ window.PickaxeHabitatData = {
     { id: "market-zone", code: "Z-02", name: "Market Habitat", owner: "Market Research", route: "#/signals", state: "Static research context" },
     { id: "agent-zone", code: "Z-03", name: "Agent Operations Core", owner: "Agent Departments", route: "#/agents", state: "Local task workflow" },
     { id: "risk-zone", code: "Z-04", name: "Risk Gate", owner: "Quality Control / Risk Sentinel", route: "#/risk-rules", state: "Manual hard blocks" },
-    { id: "ceo-zone", code: "Z-05", name: "CEO B Review Layer", owner: "CEO B", route: "#/dashboard", state: "Final human review" },
+    { id: "ceo-zone", code: "Z-05", name: "CEO B Standard Layer", owner: "CEO B", route: "#/dashboard", state: "Final founder-standard gate" },
     { id: "archive-zone", code: "Z-06", name: "Archive Memory Vault", owner: "Archive / Memory", route: "#/archive", state: "Local cleaned memory" },
     { id: "learning-zone", code: "Z-07", name: "Learning Ledger", owner: "Archive / Memory", route: "#/learning-ledger", state: "Manual lesson candidates" },
-    { id: "alerts-zone", code: "Z-08", name: "Alerts Draft Desk", owner: "CEO B Review / Final Judgment", route: "#/alerts", state: "Research drafts only" },
+    { id: "alerts-zone", code: "Z-08", name: "Alerts Draft Desk", owner: "CEO B Standard / Final Judgment", route: "#/alerts", state: "Research drafts only" },
     { id: "watch-zone", code: "Z-09", name: "Watchlists / Research Universe", owner: "Market Research", route: "#/watchlists", state: "Static local universe" }
   ],
   agentOwnershipMatrix: [
@@ -654,7 +654,7 @@ window.PickaxeHabitatData = {
     { agent: "Sentiment / Theme", route: "Trend Radar", responsibility: "Theme durability, crowding, and contrary views" },
     { agent: "Archive / Memory", route: "Archive / Learning Ledger", responsibility: "Cleaned memory, corrections, and lesson candidates" },
     { agent: "Quality Control", route: "Risk & Rules", responsibility: "Source checks, contradictions, and hard blocks" },
-    { agent: "CEO B Review / Final Judgment", route: "Mission Control / Alerts", responsibility: "Final human research-route decision" }
+    { agent: "CEO B Standard / Final Judgment", route: "Mission Control / Alerts", responsibility: "Final founder-standard research-route decision" }
   ],
   agentSafetyBoundaries: [
     "Live market data is not connected.",
@@ -664,7 +664,7 @@ window.PickaxeHabitatData = {
     "No guaranteed outcomes or performance claims are made.",
     "Source verification is required and human judgment remains final.",
     "Scores describe research completeness, not expected returns.",
-    "Every output remains research-only until CEO B manual review."
+    "Every output remains research-only until the CEO B Standard is complete."
   ],
   alertCommandAlerts: [
     {
@@ -678,8 +678,8 @@ window.PickaxeHabitatData = {
       contractPrice: "$2.75",
       confidence: 92,
       route: "/signals",
-      headline: "$AAPL Apple alert passed CEO B review",
-      thesis: "Demo alert format: watchlist strength, liquidity gate, agent research, and CEO B final review all agree enough to prepare a Manual broker review separate alert.",
+      headline: "$AAPL Apple setup passed the CEO B Standard",
+      thesis: "Demo alert format: watchlist strength, liquidity gate, research context, and CEO B Standard all align enough to prepare a manual broker-review separate note.",
       reason: ["Signal Scout marked trend alignment as strong.", "Risk Sentinel found defined premium risk and no broker execution inside this site.", "News Raven found no blocking headline in the demo packet.", "Archive Keeper attached prior Apple mega-cap playbook notes."],
       nextAction: "Verify in broker manually if CEO B/founder chooses to act. This website does not place trades.",
     },
@@ -1002,7 +1002,7 @@ window.PickaxeHabitatData = {
     { id: "nvda-transcript", title: "NVDA earnings transcript note", sourceType: "Manual Source", relatedTicker: "NVDA / AI Infrastructure", relatedRoute: "#/watchlists", ownerAgent: "Forge", trustStatus: "High Trust", sourceStatus: "Source Attached", nextManualAction: "Summarize management language into a thesis card.", tags: ["Transcript", "AI Infrastructure"] },
     { id: "aapl-chart", title: "AAPL chart screenshot placeholder", sourceType: "Demo Source", relatedTicker: "AAPL", relatedRoute: "#/signals", ownerAgent: "Scout", trustStatus: "User Imported", sourceStatus: "Needs Verification", nextManualAction: "Attach chart context and invalidation note.", tags: ["Chart", "Manual Level"] },
     { id: "spy-regime", title: "SPY macro regime note", sourceType: "Manual Source", relatedTicker: "SPY / QQQ / VIX", relatedRoute: "#/dashboard", ownerAgent: "Atlas", trustStatus: "Needs Verification", sourceStatus: "Source Missing", nextManualAction: "Confirm rates, dollar, and volatility context.", tags: ["Macro", "Regime"] },
-    { id: "ai-infra-thesis", title: "AI infrastructure watchlist thesis", sourceType: "Demo Source", relatedTicker: "NVDA / AMD / AVGO / SMCI", relatedRoute: "#/watchlists", ownerAgent: "Forge", trustStatus: "Medium Trust", sourceStatus: "CEO B Review Required", nextManualAction: "Attach company IR or transcript source before conviction increases.", tags: ["Theme", "Watchlist"] },
+    { id: "ai-infra-thesis", title: "AI infrastructure watchlist thesis", sourceType: "Demo Source", relatedTicker: "NVDA / AMD / AVGO / SMCI", relatedRoute: "#/watchlists", ownerAgent: "Forge", trustStatus: "Medium Trust", sourceStatus: "CEO B Standard Required", nextManualAction: "Attach company IR or transcript source before conviction increases.", tags: ["Theme", "Watchlist"] },
     { id: "options-vol-note", title: "Options volatility screenshot/manual note", sourceType: "Manual Source", relatedTicker: "QQQ / NVDA / TSLA", relatedRoute: "#/signals", ownerAgent: "Risk Desk", trustStatus: "Needs Verification", sourceStatus: "Source Required", nextManualAction: "Confirm catalyst and avoid escalation without source note.", tags: ["Options", "Volatility"] },
     { id: "x-bookmark-candidate", title: "X bookmark import candidate", sourceType: "Local Import", relatedTicker: "AI software theme", relatedRoute: "#/bookmarks", ownerAgent: "Archivist", trustStatus: "User Imported", sourceStatus: "Archive Candidate", nextManualAction: "Clean source summary and remove private URL details.", tags: ["Bookmark", "Private"] },
     { id: "obsidian-handoff-summary", title: "Obsidian handoff summary placeholder", sourceType: "Private Local Only", relatedTicker: "Website memory / strategy", relatedRoute: "/ai-handoff", ownerAgent: "CEO B / Archivist", trustStatus: "Private Local Only", sourceStatus: "Local Only", nextManualAction: "Use local handoff context without publishing raw vault contents.", tags: ["Memory", "Boundary"] }
@@ -1020,7 +1020,7 @@ window.PickaxeHabitatData = {
     { step: "Sources", detail: "Manual/demo/local source candidates enter Source Hub." },
     { step: "Source Hub", detail: "Trust, owner, route usage, and safety boundaries are assigned." },
     { step: "Watchlists / Signals / Alerts / Archive / Dashboard", detail: "Routes consume cleaned source state, not raw private memory." },
-    { step: "CEO B Review", detail: "CEO B decides what becomes public-safe research memory." }
+    { step: "CEO B Standard", detail: "CEO B decides what becomes public-safe research memory." }
   ],
   sourceAdapterBoundaries: [
     { category: "Market Data", status: "Backend Required", envVars: ["POLYGON_API_KEY", "FINNHUB_API_KEY"], safety: "Client unsafe; no live provider calls in static frontend." },
@@ -1133,6 +1133,7 @@ window.PickaxeHabitatData = {
   buildCompletionTracker: {
     lastUpdated: "2026-06-26",
     areas: [
+      { id: "pickaxe-options-alerts-core-brand-v1-20260626", name: "Pickaxe Options Alerts Core Product & Brand System v1", group: "Options Alerts Research OS", status: "Local Candidate / Hosted Verification Pending", completion: 98, priority: "Critical", owner: "CEO B / Pickaxe Capital / Alerts Desk / Source Hub / Rules / Status / UI Designer / QA", notes: "Canonical product-and-brand lock candidate created for Options Alerts. Public workflow now uses Pickaxe Capital / Options Alerts / Research OS naming, the product sentence 'Rank setups. Verify evidence. Block action until every required gate passes.', an eight-field System Verdict, explicit required-gate summary, Founder Ghost Gray token lock, and clearer Sources/Rules support-route language. Current public state remains DEMO / Source Required, UNKNOWN / No market timestamp, and BLOCKED — NO EXTERNAL ACTION. No live data, provider request, broker execution, order placement, alert delivery, authentication, payment, subscription, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or data/signal-alerts.json change is part of this candidate.", nextAction: "Complete validation, local browser QA, push, hosted verification, then record final hosted status evidence." },
       { id: "pickaxe-public-launch-finish-v1-20260626", name: "Pickaxe Public Launch Finish Sprint v1", group: "Options Alerts Research OS", status: "Passed / Hosted", completion: 100, priority: "Critical", owner: "CEO B / Pickaxe Capital / Alerts Desk / Source Hub / Risk Gate / UI Designer / QA", notes: "Implementation commit f751105 is on main and deployed through GitHub Pages run 28211536452 with deployment 5204447875. Validate and Build job 83573705503 passed, Deploy job 83573744594 passed, and deployment status 14810890178 is success. Hosted QA verified https://burberrry.github.io/Pickaxe-Capital/ after the fast-forward merge from feature/public-launch-finish-v1-20260625-175252. Hosted desktop 1280x720 and mobile 390x844 QA passed across owner, support, and regression routes with one visible Starlight canvas, no document-level overflow, preserved bridges, no console errors or warnings, and no browser provider requests. Alerts interaction QA passed for Quick Start, How to Use, QQQ/NVDA/SPY/TSLA/GLD selection, NVDA sync, Research Packet, Evidence Packet gap tags, Sources, Rules, and Status/Staging. No live data, provider/browser request, broker execution, order placement, alert delivery, authentication, payment, subscription, new route, storage key, packet model, review queue, dependency, or data/signal-alerts.json change was added. The later status-record deployment is reported after GitHub Pages creates it to avoid self-referential deployment metadata.", nextAction: "Investor demo rehearsal and public-launch review — read-only / docs-only." },
       { id: "pickaxe-options-alerts-website-v2-20260624", name: "Pickaxe Options Alerts Website v2", group: "Options Alerts Research OS", status: "Passed / Hosted", completion: 100, priority: "Critical", owner: "CEO B / Pickaxe Capital / Alerts Desk / Source Hub / Risk Gate / UI Designer / QA", notes: "Implementation and merge/push commit 888696f is on origin/main and deployed through GitHub Pages run 28072891270 with deployment 5175539223. Validate and Build job 83111038515 passed, Deploy job 83111070444 passed, and deployment status 14728930637 is success. Hosted QA verified https://burberrry.github.io/Pickaxe-Capital/. Refined the Options Alerts Research OS into a stronger v2 Pickaxe theme, clarified the first screen, setup cards, selected setup preview, System Intelligence Verdict, Research Packet, Evidence Packet, Sources, Rules, and Status. Hosted desktop 1280x720 and mobile 390x844 QA passed across owner and regression routes with one visible Starlight canvas, no document-level overflow, preserved bridges, v2 cache keys, and no console errors or warnings. Hosted Alerts QA passed for DEMO / Source Required, UNKNOWN / no market timestamp, BLOCKED — NO EXTERNAL ACTION, QQQ/NVDA/SPY/TSLA/GLD setup cards, NVDA selected-state sync, Research Packet, Evidence Packet, no visible accept/decline/approve/reject alert UI, no provider request, no live data, no broker/execution/payment/subscription/auth/alert-delivery behavior, and no data/signal-alerts.json change.", nextAction: "Final mobile polish after Options Alerts Website v2 lock." },
       { id: "pickaxe-options-alerts-website-v1-20260623", name: "Pickaxe Options Alerts Website v1", group: "Options Alerts Research OS", status: "Passed / Hosted", completion: 100, priority: "Critical", owner: "CEO B / Pickaxe Capital / Alerts Desk / Source Hub / Risk Gate / UI Designer / QA", notes: "Implementation and merge/push commit 8b5985d is on origin/main and deployed through GitHub Pages run 28060698268 with deployment 5173186246. Validate and Build job 83073906915 passed, Deploy job 83073949291 passed, and deployment status 14722289329 is success. Hosted QA verified https://burberrry.github.io/Pickaxe-Capital/. Reframed the website around Options Alerts Research OS, strengthened the obsidian/graphite/champagne-gold Pickaxe theme, clarified setup cards, System Intelligence, selected setup preview, Research Packet, and Evidence Packet, and simplified Sources, Rules, and Status as support routes for source-required/demo/static truth. Hosted desktop 1280x720 and mobile 390x844 QA passed across owner and regression routes with one visible Starlight canvas, no document-level overflow, preserved bridges, and no console errors or warnings. Hosted Alerts QA passed for DEMO / Source Required, UNKNOWN / no market timestamp, BLOCKED — NO EXTERNAL ACTION, QQQ/NVDA/SPY/TSLA/GLD setup cards, NVDA selected-state sync, Research Packet, Evidence Packet, no accept/decline alert UI, no provider request, no live data, no broker/execution/payment/subscription/auth/alert-delivery behavior, and no data/signal-alerts.json change.", nextAction: "Investor demo script and walkthrough — docs-only." },
@@ -1230,25 +1231,25 @@ window.PickaxeHabitatData = {
       { id: "jarvis-command-routing", name: "Jarvis command routing", group: "CEO B Review Workflow", status: "In Progress", completion: 60, priority: "High", owner: "Command Architect", notes: "Jarvis command routing: Prototype / Local / Needs manual QA", nextAction: "Verify category classification and dispatch actions." }
     ],
     latestSession: {
-      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "index.html", "public/index.html", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md"],
+      filesChanged: ["app.js", "public/app.js", "styles.css", "public/styles.css", "index.html", "public/index.html", "habitat-data.js", "public/habitat-data.js", "PROJECT_STATUS.md", "NEXT_STEPS.md", "docs/01_PRODUCT/PICKAXE_OPTIONS_ALERTS_CORE_PRODUCT_AND_BRAND_SYSTEM_V1.md"],
       featuresAdded: [
-        "Added a compact five-step Quick Start rail and accessible How to Use Pickaxe guide to the Alerts product path.",
-        "Clarified setup selected state, System Intelligence CEO B Standard governance wording, Evidence Packet missing-gate scanning, and the what Pickaxe does/does-not-do trust boundary.",
-        "Recorded the hosted verification lock in Sources, Rules, Status/Staging, and tracker metadata while preserving the Options Alerts source-required/demo/static product truth."
+        "Created the canonical Pickaxe Options Alerts Core Product & Brand System v1 lock document.",
+        "Normalized the primary public workflow around Pickaxe Capital / Options Alerts / Research OS, Setups to Review, Research Readiness, System Intelligence, System Verdict, Research Packet, Evidence Packet, Sources, Rules, Status, CEO B Standard, and No External Action.",
+        "Added explicit System Verdict fields for status, why, passed gates, failed gates, missing evidence, next requirement, CEO B Standard, and action boundary, plus an eight-gate summary on Alerts."
       ],
       bugsFixed: [
-        "Corrected outdated public/runtime CEO B pre-action governance wording; current language now frames CEO B as the governance standard applied by System Intelligence.",
-        "Updated Status/Staging metadata that previously risked implying stale hosted/deployment details for the current public-launch candidate.",
+        "Reduced public Sources and packet-surface wording that implied a visible manual alert approval queue.",
+        "Locked Founder Ghost Gray as a restrained signature token and mapped Options Alerts tokens to the canonical Pickaxe palette.",
         "Preserved routes, bridges, LocalStorage contracts, V3.1 placement, Founder, Staging, Starlight, provider placeholders, demo-only behavior, and data/signal-alerts.json."
       ],
       validationCommand: "node --run build; node --run check:project; node --run check:phase15; node --run check:agents; node --run check:mirrors; node --run smoke:routes; node --check app.js; node --check public/app.js; node --check habitat-data.js; node --check public/habitat-data.js; git diff --check; git status --short --branch",
-      validationResult: "PASS / HOSTED QA VERIFIED. Local JavaScript syntax, repository validation, mirror checks, route smoke checks, static safety checks, desktop 1280x720 browser QA, and mobile 390x844 browser QA passed before the implementation push. GitHub Pages run 28211536452 deployed implementation commit f751105 successfully; hosted route QA, desktop/mobile QA, Alerts interaction QA, Sources QA, Rules QA, pre-lock Status/Staging QA, and static/security inspection passed.",
+      validationResult: "Pending. This local candidate must pass JavaScript syntax, repository validation, mirror checks, route smoke checks, static safety checks, desktop browser QA, mobile regression QA, hosted deployment, and final hosted re-verification before it may be recorded as PASS / HOSTED QA VERIFIED.",
       remainingProblems: [
         "All market, options, news, technical, and regime values remain static demo scenarios without provider market timestamps.",
         "No external provider call, response normalization, local frontend opt-in, persistence, live alert delivery, or broker execution is authorized.",
-        "Status-record deployment evidence is reported after GitHub Pages creates the deployment for this status commit; implementation deployment evidence remains run 28211536452 / deployment 5204447875."
+        "Final mobile adaptation after Options Alerts Core Product & Brand System v1 lock is deferred."
       ],
-      nextRecommendedTask: "Investor demo rehearsal and public-launch review — read-only / docs-only."
+      nextRecommendedTask: "Verified Options Data Provider Legal + Architecture Review — docs-only."
     },
   },
   marketWatchlist: [
@@ -1341,7 +1342,7 @@ window.PickaxeHabitatData = {
     { id: "execute", label: "PUBLISH RESEARCH", name: "Complete Review", status: "waiting" }
   ],
   agentRoster: [
-    { name: "CEO B", branch: "Command", role: "Commander / Overseer", level: 18, status: "Active", habitat: "CEO B Headquarters", inputs: "Reports, recommendations", outputs: "Research review / reject decisions", currentTask: "Reviewing highest-value signals and archive intelligence.", nextAction: "Approve for research or reject priority intelligence.", confidence: 96, riskFlag: "Human review required", route: "#/ceo-b-profile", color: "gold", badge: "Human Layer" },
+    { name: "CEO B", branch: "Command", role: "Commander / Overseer", level: 18, status: "Active", habitat: "CEO B Headquarters", inputs: "Reports, recommendations", outputs: "Research standard decisions", currentTask: "Reviewing highest-value setups and archive intelligence.", nextAction: "Clear, return, or archive priority intelligence.", confidence: 96, riskFlag: "Human review required", route: "#/ceo-b-profile", color: "gold", badge: "Human Layer" },
     { name: "Research Agent", branch: "Intelligence", role: "Data Science", level: 16, status: "Active", habitat: "Research Lab", inputs: "Market feeds, bookmarks", outputs: "Analysed leads, patterns", currentTask: "Extracting routing and architecture ideas.", nextAction: "Turn research into staged implementation notes.", confidence: 76, riskFlag: "Do not merge external code directly", route: "#/archive", color: "blue", badge: "Static" },
     { name: "Market Research Agent", branch: "Operations", role: "Market Research Operator", level: 16, status: "Active", habitat: "Research Floor", inputs: "Reviewed research candidates, rules", outputs: "Liquidity and options-context reports", currentTask: "Monitoring relative volume and options placeholders.", nextAction: "Connect read-only provider only after a future backend phase is approved.", confidence: 82, riskFlag: "No autonomous publication or trading", route: "#/signals", color: "green", badge: "Static" },
     { name: "Builder Agent", branch: "Engineering", role: "Infrastructure", level: 17, status: "Active", habitat: "Builder Factory", inputs: "Missions, checklists, bugs", outputs: "Working browser features", currentTask: "Implementing full command ecosystem layout.", nextAction: "Consolidate layout and add CSS animations.", confidence: 78, riskFlag: "Visual simulation only", route: "#/staging", color: "gold", badge: "Prototype" },
@@ -1370,12 +1371,12 @@ window.PickaxeHabitatData = {
       currentPrice: "$308.50",
       contractPrice: "$2.75",
       confidence: 92,
-      status: "Needs CEO B Review",
+      status: "CEO B Standard Required",
       title: "AAPL Options Research Packet",
       type: "Bull Call Spread Research Context",
       strategy: "Bull Call Spread Research Context",
       catalyst: "Mega-cap leadership consolidation breakout",
-      researchContext: "Watchlist strength, liquidity context, and CEO B review gates indicate this packet is ready for research review only. No broker execution occurs inside Pickaxe Capital.",
+      researchContext: "Watchlist strength, liquidity context, and CEO B Standard gates indicate this packet is ready for research review only. No broker execution occurs inside Pickaxe Capital.",
       watchCriteria: "Confirm trend alignment remains intact. Confirm liquidity and spread quality remain acceptable. Confirm no blocking headline or earnings risk. Confirm Risk Sentinel score remains above review threshold. Confirm System Intelligence applies the CEO B Standard before any external action.",
       invalidationResearchNote: "Break below key support or loss of liquidity weakens the research case.",
       riskNotes: "Risk is defined to paid premium only. No broker execution occurs inside this site.",
@@ -1414,7 +1415,7 @@ window.PickaxeHabitatData = {
       type: "Options Research Context",
       strategy: "Options Research Context",
       catalyst: "Semi capex momentum pause check",
-      researchContext: "Strong AI/semiconductor theme, but risk gate requires confirmation before CEO B review.",
+      researchContext: "Strong AI/semiconductor theme, but risk gate requires confirmation before the CEO B Standard is applied.",
       invalidationResearchNote: "Crossover of $225 resistance level",
       riskNotes: "High volatility, potential IV crush post earnings. Wait for risk confirm.",
       spreadQuality: "Moderate (spread 0.15)",
@@ -1481,7 +1482,7 @@ window.PickaxeHabitatData = {
       currentPrice: "$92,400.00",
       contractPrice: "N/A",
       confidence: 94,
-      status: "Needs CEO B Review",
+      status: "CEO B Standard Required",
       title: "BTC Liquidity / Trend Review Packet",
       type: "Macro Liquidity Research Context",
       strategy: "Macro Liquidity Research Context",
@@ -1520,14 +1521,14 @@ window.PickaxeHabitatData = {
     { ticker: "MSTR", reason: "Risk Sentinel flagged extreme crowding risk", timestamp: "4h ago" }
   ],
   riskRules: [
-    { id: "rule-1", name: "Wide Bid/Ask Spread", description: "If spread > 10% of premium, automatically reject or move to watch-only.", status: "Active Gate", type: "Automatic Reject" },
-    { id: "rule-2", name: "Low Open Interest", description: "Options contracts must have > 500 open interest for liquid entries.", status: "Active Gate", type: "Automatic Reject" },
-    { id: "rule-3", name: "Low Relative Volume", description: "Relative volume must exceed 1.5x to confirm pattern validity.", status: "Active Gate", type: "Automatic Reject" },
+    { id: "rule-1", name: "Wide Bid/Ask Spread", description: "If spread > 10% of premium, automatically block or move to watch-only.", status: "Active Gate", type: "Automatic Block" },
+    { id: "rule-2", name: "Low Open Interest", description: "Options contracts must have > 500 open interest for liquid entries.", status: "Active Gate", type: "Automatic Block" },
+    { id: "rule-3", name: "Low Relative Volume", description: "Relative volume must exceed 1.5x to confirm pattern validity.", status: "Active Gate", type: "Automatic Block" },
     { id: "rule-4", name: "IV Crush Exposure", description: "Hold or request manual review if setup is within 3 days of earnings.", status: "Review Gate", type: "Manual Review" },
-    { id: "rule-5", name: "Missing Catalyst", description: "If news/macro catalyst is absent, reject options setup.", status: "Active Gate", type: "Automatic Reject" },
-    { id: "rule-6", name: "No Hard Invalidation", description: "Risk sentinel requires hard downside price gate or setup is rejected.", status: "Active Gate", type: "Automatic Reject" },
+    { id: "rule-5", name: "Missing Catalyst", description: "If news/macro catalyst is absent, block the options setup.", status: "Active Gate", type: "Automatic Block" },
+    { id: "rule-6", name: "No Hard Invalidation", description: "Risk Sentinel requires a hard downside price gate or the setup is blocked.", status: "Active Gate", type: "Automatic Block" },
     { id: "rule-7", name: "Low Confidence", description: "Confidence score below 75 automatically routes to Archive / Ignore.", status: "Archive Gate", type: "Automatic Archive" },
-    { id: "rule-8", name: "CEO B Review Required", description: "Do not publish or distribute a packet unless CEO B marks it Approved for Research — Not a Trade Command.", status: "Hard Decision Gate", type: "Automatic Hold" }
+    { id: "rule-8", name: "CEO B Standard Required", description: "Do not publish or distribute a packet unless every required gate passes and the CEO B Standard is recorded.", status: "Hard Decision Gate", type: "Automatic Hold" }
   ],
   dataSources: [
     { name: "Polygon & Finnhub Feed", category: "Market Data", agents: "Signal Scout", dataType: "Equities Quotes, Stock Catalysts", status: "Adapter Ready", step: "Connect developer credentials via future backend.", safety: "Read-only access. Keys must stay backend-isolated.", backend: "Yes" },
@@ -1545,7 +1546,7 @@ window.PickaxeHabitatData = {
     { title: "No Financial Advice", text: "All alerts, signals, data, and agent outputs are for educational and mock simulation purposes only. Nothing here constitutes a recommendation to buy or sell options." },
     { title: "Options Involve Risk", text: "Options trading is highly speculative and involves a high degree of risk. Investors can lose 100% of their premium. Past performance is not indicative of future results." },
     { title: "Manual External Review", text: "This website has no capability to place orders or connect to broker order APIs. All financial decisions require separate manual review outside Pickaxe Capital." },
-    { title: "CEO B Decision Layer", text: "CEO B review is a manual human-in-the-loop validation process for strategy logging, not an automated advisory recommendation." }
+    { title: "CEO B Decision Layer", text: "The CEO B Standard is a manual human-in-the-loop validation process for strategy logging, not an automated advisory recommendation." }
   ],
   missionLog: [
     { text: "Market Scout scanned demo watchlist", time: "2m ago" },

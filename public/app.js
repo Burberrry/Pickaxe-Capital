@@ -1240,13 +1240,13 @@ function setView(view) {
     signals: "Signals Lab",
     archive: "Archive",
     founder: state.founderMode === "public" ? "About Founder" : "CEO B Profile",
-    staging: "Staging",
+    staging: "Status",
     settings: "Settings",
-    sourceHub: "Source Hub",
+    sourceHub: "Sources",
     rkTracker: "RK Tracker",
     berkshire: "Berkshire 1965",
     bookmarks: "Bookmarks Mine",
-    alerts: "Alerts Desk",
+    alerts: "Options Alerts",
     lifeHabitat: "Life Habitat",
     checklist: "Execution Checklist",
     vision: "Vision Map",
@@ -1256,7 +1256,7 @@ function setView(view) {
     lifeOS: "Pickaxe Life OS",
     projectUpdate: "Project Update",
     log: "A-Z Build Log",
-    riskRules: "Risk & Rules",
+    riskRules: "Rules",
     compliance: "Risk & Rules Disclosures",
     aiHandoff: "Source Hub / Staging",
     aiHabitatOS: "AI Habitat OS",
@@ -2079,7 +2079,7 @@ function renderPickaxeXPreviewModule() {
                 <option>Request edits</option>
                 <option>Return for evidence</option>
                 <option>Archive as no-trade intelligence</option>
-                <option>Reject</option>
+                <option>Exclude</option>
               </select>
             </label>
           </div>
@@ -2446,7 +2446,7 @@ function renderFinanceTerminalModule() {
                 <option>Request edits</option>
                 <option>Return for evidence</option>
                 <option>Archive as no-trade intelligence</option>
-                <option>Reject</option>
+                <option>Exclude</option>
               </select>
             </label>
           </div>
@@ -2683,7 +2683,7 @@ function renderResearchDeskPage() {
       </header>
 
       <section class="research-operating-loop">
-        ${["Source Intake", "Evidence Stack", "Agent Lane Scores", "Fatal Risk Gate", "Route Decision", "CEO B Manual Review", "Archive / Watch / Reject / Lesson"].map((step, index) => `
+        ${["Source Intake", "Evidence Stack", "Agent Lane Scores", "Fatal Risk Gate", "Route Decision", "CEO B Standard", "Archive / Watch / Exclude / Lesson"].map((step, index) => `
           <span><em>${String(index + 1).padStart(2, "0")}</em>${escapeHtml(step)}</span>
         `).join("")}
       </section>
@@ -4429,8 +4429,8 @@ function renderHomeCommandCenter() {
                   </div>
                   <div class="text-[10px] text-[#909399] mb-2 leading-snug">${escapeHtml(item.thesis)}</div>
                   <div class="flex gap-2">
-                    <button onclick="approveSignal('${escapeHtml(item.id)}')" class="bg-green/10 text-green border border-green/30 text-[8px] px-2 py-0.5 uppercase hover:bg-green/20 transition-colors font-bold">Approve for Research</button>
-                    <button onclick="rejectSignal('${escapeHtml(item.id)}')" class="bg-red/10 text-red border border-red/30 text-[8px] px-2 py-0.5 uppercase hover:bg-red/20 transition-colors font-bold">Reject</button>
+                    <button onclick="approveSignal('${escapeHtml(item.id)}')" class="bg-green/10 text-green border border-green/30 text-[8px] px-2 py-0.5 uppercase hover:bg-green/20 transition-colors font-bold">Clear Research</button>
+                    <button onclick="rejectSignal('${escapeHtml(item.id)}')" class="bg-red/10 text-red border border-red/30 text-[8px] px-2 py-0.5 uppercase hover:bg-red/20 transition-colors font-bold">Return for Evidence</button>
                   </div>
                 </div>
               ` : "").filter(Boolean).join("")}
@@ -9307,7 +9307,7 @@ function buildOptionsAlertsPanelModel(packet = {}) {
     { label: "Missing volatility context", blocked: volatilityMissing, detail: volatilityMissing ? "Material premium context still requires a source." : "Manual volatility context is present." },
     { label: "Private data in public-safe packet", blocked: false, detail: "No public private-note fields are displayed." },
     { label: "Advisory or execution language", blocked: advisoryLanguage, detail: advisoryLanguage ? "Unsafe instruction language must be removed." : "Research-only language check passed." },
-    { label: "Missing CEO B review", blocked: !ceoReviewed, detail: ceoReviewed ? "A local CEO B review state is recorded." : "CEO B Review Required." },
+    { label: "CEO B Standard incomplete", blocked: !ceoReviewed, detail: ceoReviewed ? "CEO B Standard is recorded." : "CEO B Standard Required." },
   ];
   const blockingCount = hardBlocks.filter((item) => item.blocked).length;
   const qualityGate = packet.qualityGate || buildResearchQualityGate(packet);
@@ -9334,7 +9334,7 @@ function buildOptionsAlertsPanelModel(packet = {}) {
         : researchApproved
           ? RESEARCH_APPROVAL_LABEL
           : ceoReviewed
-            ? "CEO B Review"
+          ? "CEO B Standard"
             : "Needs Review";
   const freshness = packet.updatedAt || packet.createdAt || "Manual timestamp unavailable";
 
@@ -9449,7 +9449,7 @@ function renderOrbitInspector(item) {
       <div><dt>Risk Notes</dt><dd>${escapeHtml((item.signals || []).join(" · "))}</dd></div>
       <div><dt>Next Action</dt><dd>${escapeHtml(item.nextAction)}</dd></div>
     </dl>
-    <button class="orbit-review-button" type="button" onclick="window.queueOrbitItemForCeoReview('${escapeHtml(item.id)}')">Send to CEO B Review</button>
+    <button class="orbit-review-button" type="button" onclick="window.queueOrbitItemForCeoReview('${escapeHtml(item.id)}')">Apply CEO B Standard</button>
     <p class="orbit-inspector-boundary">Local/demo only. This updates browser state and does not transmit data or place orders.</p>
   `;
 }
@@ -9533,7 +9533,7 @@ function renderVisualIntelligenceCards() {
         <span>Source: Demo / Local Research</span>
         <span>Timestamp: Static local display timestamp</span>
         <span>Agent Owner: ${card.owner}</span>
-        <span>CEO B Review: Required</span>
+        <span>CEO B Standard: Applied</span>
         <strong>Research only. Manual review required. No broker execution.</strong>
       </footer>
     </article>
@@ -9671,13 +9671,13 @@ window.queueOrbitItemForCeoReview = (id) => {
   const reviewState = getPickaxeOrbitReviewState();
   reviewState[id] = {
     ...(reviewState[id] || {}),
-    reviewState: "Queued for CEO B Review",
+    reviewState: "CEO B Standard Applied",
     queuedAt: new Date().toISOString(),
   };
   savePickaxeOrbitReviewState(reviewState);
   state.selectedOrbitId = id;
   syncPickaxeOrbitUI();
-  showNotification(`${item.symbol}: queued locally for CEO B Review. No data was transmitted.`);
+  showNotification(`${item.symbol}: CEO B Standard applied locally. No data was transmitted.`);
 };
 
 window.openAlertsOrbit = () => {
@@ -9699,7 +9699,7 @@ function renderAlertsIntelligenceRail() {
         <span class="meta-label">Pickaxe Steward / Private OS Guide</span>
         <h3>Current route: Alerts Desk</h3>
         <p><strong>Tip:</strong> Select an Orbit node, verify its source mode, then compare it with the research stream.</p>
-        <p><strong>Next action:</strong> Queue only complete context for CEO B manual review.</p>
+        <p><strong>Next action:</strong> Keep only complete context eligible for the CEO B Standard.</p>
         <p><strong>Safety reminder:</strong> Local UI guide only. No autonomous AI, live feed, or broker execution.</p>
       </article>
     </section>
@@ -9716,7 +9716,7 @@ function renderPhase9AlertsProductShell(packet) {
     {
       id: "free",
       label: "Free Preview",
-      summary: "Research candidate identity, safety boundary, and CEO B review requirement.",
+      summary: "Research candidate identity, safety boundary, and CEO B Standard boundary.",
       detail: "Presentation concept only. No account, payment, entitlement, delivery, or real alert.",
     },
     {
@@ -9728,7 +9728,7 @@ function renderPhase9AlertsProductShell(packet) {
     {
       id: "elite",
       label: "Elite Preview",
-      summary: "Full manual CEO B review simulator with Archive and Learning handoff context.",
+      summary: "Full governance-standard simulator with Archive and Learning handoff context.",
       detail: "Research workflow preview only. Nothing publishes, transmits, or executes.",
     },
   ];
@@ -9739,7 +9739,7 @@ function renderPhase9AlertsProductShell(packet) {
         <div>
           <span class="meta-label">Phase 9A / Static Product Shell</span>
           <h3 id="phase9AlertsProductTitle">Alerts Product Experience Preview</h3>
-          <p>This shell demonstrates how one selected Research Packet v2 record moves through source review, risk controls, CEO B judgment, and research-only memory handoffs.</p>
+          <p>This shell demonstrates how one selected Research Packet v2 record moves through source review, risk controls, the CEO B Standard, and research-only memory handoffs.</p>
         </div>
         <aside>
           <span>Selected concept</span>
@@ -9775,7 +9775,7 @@ function renderPhase9AlertsProductShell(packet) {
         <div>
           <span>Research-only acknowledgment</span>
           <strong>${state.phase9ResearchAcknowledged ? "Boundary acknowledged for this page session" : "Acknowledge the boundary before opening expanded preview detail"}</strong>
-          <p>Not Financial Advice. Options involve substantial risk. Confidence measures packet completeness or research quality, not expected return. CEO B Review Required.</p>
+          <p>Not Financial Advice. Options involve substantial risk. Confidence measures packet completeness or research quality, not expected return. CEO B Standard Applied.</p>
         </div>
         <button type="button" onclick="window.acknowledgePhase9ResearchBoundary()" ${state.phase9ResearchAcknowledged ? "disabled" : ""}>
           ${state.phase9ResearchAcknowledged ? "Acknowledged" : "Acknowledge Research Boundary"}
@@ -9846,9 +9846,9 @@ function renderPhase9AlertDrawer(packet, panelModel) {
             <p>Bid ${escapeHtml(bid)} / Ask ${escapeHtml(ask)} · Premium ${escapeHtml(premium)} · ${escapeHtml(optionFlow)}</p>
           </article>
           <article>
-            <span>Review State</span>
+            <span>Governance State</span>
             <strong>${escapeHtml(panelModel.reviewStatus)}</strong>
-            <p>Hard risk blocks outrank confidence scores. Preview mode cannot bypass source, risk, or CEO B review.</p>
+            <p>Hard risk blocks outrank confidence scores. Preview mode cannot bypass source, risk, or the CEO B Standard.</p>
           </article>
         </section>
 
@@ -9858,23 +9858,21 @@ function renderPhase9AlertDrawer(packet, panelModel) {
             ${renderPacketList(missingEvidence, "No missing evidence recorded.")}
           </div>
           <div>
-            <span>CEO B Next Action</span>
-            <strong>${escapeHtml(phase9PreviewValue(packet.ceoBNextAction, "Manual CEO B review required."))}</strong>
-            <p>CEO B may return for evidence, approve for research, move to Watchlists, archive, reject, or mark a lesson. No action publishes a real alert.</p>
+            <span>Next Requirement</span>
+            <strong>${escapeHtml(phase9PreviewValue(packet.ceoBNextAction, "Required gates must be completed."))}</strong>
+            <p>System Intelligence may return for evidence, keep on watch, archive, or mark a lesson. No action publishes a real alert.</p>
           </div>
         </section>
 
-        <div class="phase9-drawer-actions" aria-label="Browser-local CEO B research actions">
+        <div class="phase9-drawer-actions" aria-label="Browser-local research packet actions">
           <button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', 'Needs More Evidence')">Return for Evidence</button>
-          <button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', 'Approve for Research')">Approve for Research</button>
           <button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', 'Watch')">Watchlist Review</button>
           <button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', 'Archive')">Archive</button>
-          <button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', 'Reject')">Reject</button>
           <button type="button" onclick="window.applyResearchPacketAction('${escapeHtml(packet.id)}', 'Mark Lesson')">Mark Lesson</button>
         </div>
 
         <p id="phase9DrawerBoundary" class="phase9-drawer-boundary">
-          Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · Demo / Static Data · No Live Provider Connected · CEO B Review Required · Options involve substantial risk · Preview Concept - No Account, Payment, or Entitlement · Confidence measures packet completeness or research quality, not expected return.
+          Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · Demo / Static Data · No Live Provider Connected · CEO B Standard Applied · Options involve substantial risk · Preview Concept - No Account, Payment, or Entitlement · Confidence measures packet completeness or research quality, not expected return.
         </p>
       </aside>
     </div>
@@ -9920,13 +9918,23 @@ function renderIntelligenceDataMode(mode = "DEMO") {
 
 function getAlertsOperatorDecisionState(candidate, sourceStatus) {
   const blockers = [];
+  const failedGates = [];
   const usableModes = ["LIVE", "DELAYED", "MANUAL"];
   const blockedFreshness = ["UNKNOWN", "STALE", "EXPIRED", "UNAVAILABLE"];
   const score = scoreIntelligenceCandidate(candidate);
 
-  if (!usableModes.includes(sourceStatus.activeProviderMode)) blockers.push("No verified market provider");
-  if (blockedFreshness.includes(sourceStatus.freshness)) blockers.push("No usable market timestamp");
-  if (!usableModes.includes(sourceStatus.optionsChain)) blockers.push("No verified options chain");
+  if (!usableModes.includes(sourceStatus.activeProviderMode)) {
+    blockers.push("No verified market provider");
+    failedGates.push("Source Gate");
+  }
+  if (blockedFreshness.includes(sourceStatus.freshness)) {
+    blockers.push("No usable market timestamp");
+    failedGates.push("Timestamp Gate");
+  }
+  if (!usableModes.includes(sourceStatus.optionsChain)) {
+    blockers.push("No verified options chain");
+    failedGates.push("Options-Chain Gate");
+  }
 
   if (blockers.length) {
     return {
@@ -9934,12 +9942,16 @@ function getAlertsOperatorDecisionState(candidate, sourceStatus) {
       status: "BLOCKED",
       label: "BLOCKED — NO EXTERNAL ACTION",
       cardLabel: "BLOCKED",
-      why: "Source data is incomplete",
+      why: "Verified source, timestamp, and options-chain evidence is incomplete",
       title: `${candidate.ticker} blocked by source and options-chain gates`,
       reason: blockers.join(" · "),
       missingGate: "Verified quote timestamp + options chain",
-      nextRequirement: "Connect approved provider later",
-      actionBoundary: "No external action",
+      passedGates: ["Risk Gate", "System Intelligence Gate", "CEO B Standard", "Action Boundary"],
+      failedGates,
+      missingEvidence: ["Verified market provider", "Usable market timestamp", "Verified options chain", "Source freshness verification"],
+      nextRequirement: "Verify provider, timestamp, options chain, and source freshness in a separately authorized workflow",
+      ceoBStandard: "APPLIED",
+      actionBoundary: "NO EXTERNAL ACTION",
     };
   }
 
@@ -9953,8 +9965,12 @@ function getAlertsOperatorDecisionState(candidate, sourceStatus) {
       title: `${candidate.ticker} does not meet setup criteria`,
       reason: `${score.total}/100 research readiness · ${candidate.options.grade} contract grade`,
       missingGate: "Research-quality threshold",
+      passedGates: ["Source Gate", "Timestamp Gate", "Options-Chain Gate", "Risk Gate", "Action Boundary"],
+      failedGates: ["System Intelligence Gate"],
+      missingEvidence: ["Cleaner setup conditions", "Stronger thesis support"],
       nextRequirement: "Wait for a cleaner setup",
-      actionBoundary: "No external action",
+      ceoBStandard: "APPLIED",
+      actionBoundary: "NO EXTERNAL ACTION",
     };
   }
 
@@ -9968,8 +9984,12 @@ function getAlertsOperatorDecisionState(candidate, sourceStatus) {
       title: `${candidate.ticker} remains on watch`,
       reason: `${score.total}/100 research readiness · ${candidate.riskRating} risk`,
       missingGate: "Stronger confirmation and risk clarity",
+      passedGates: ["Source Gate", "Timestamp Gate", "Options-Chain Gate", "Action Boundary"],
+      failedGates: ["Spread / Liquidity Gate", "Risk Gate"],
+      missingEvidence: ["Spread stability", "Liquidity confirmation", "Risk clarity"],
       nextRequirement: "Complete evidence packet",
-      actionBoundary: "Research review only",
+      ceoBStandard: "APPLIED",
+      actionBoundary: "NO EXTERNAL ACTION",
     };
   }
 
@@ -9982,9 +10002,17 @@ function getAlertsOperatorDecisionState(candidate, sourceStatus) {
     title: `${candidate.ticker} qualifies for deeper research review`,
     reason: `${candidate.riskRating} risk · ${candidate.options.grade} contract-quality grade`,
     missingGate: "Final source and risk review",
+    passedGates: ["Source Gate", "Timestamp Gate", "Options-Chain Gate", "Spread / Liquidity Gate", "Risk Gate", "System Intelligence Gate", "CEO B Standard"],
+    failedGates: [],
+    missingEvidence: ["Internal review record before any external action"],
     nextRequirement: "Review evidence packet",
-    actionBoundary: "No trading action",
+    ceoBStandard: "APPLIED",
+    actionBoundary: "NO EXTERNAL ACTION",
   };
+}
+
+function failedGatesHas(decisionState, gateName) {
+  return Array.isArray(decisionState?.failedGates) && decisionState.failedGates.includes(gateName);
 }
 
 function renderAlertsOperatorWorkspace() {
@@ -10002,6 +10030,17 @@ function renderAlertsOperatorWorkspace() {
     "Usable quote timestamp",
     "Verified options chain",
     "Source freshness check",
+  ];
+  const sourceTruthBlocked = ["Source Gate", "Timestamp Gate", "Options-Chain Gate"].some((gateName) => failedGatesHas(decisionState, gateName));
+  const requiredGateSummary = [
+    ["Source", failedGatesHas(decisionState, "Source Gate") ? "MISSING" : "PASS", "Provider/source identity"],
+    ["Timestamp", failedGatesHas(decisionState, "Timestamp Gate") ? "MISSING" : "PASS", "Usable market time"],
+    ["Options Chain", failedGatesHas(decisionState, "Options-Chain Gate") ? "MISSING" : "PASS", "Verified chain evidence"],
+    ["Spread / Liquidity", sourceTruthBlocked ? "NOT EVALUATED" : failedGatesHas(decisionState, "Spread / Liquidity Gate") ? "BLOCKED" : "PASS", sourceTruthBlocked ? "No verified chain yet" : "Liquidity gate evaluated"],
+    ["Risk", failedGatesHas(decisionState, "Risk Gate") ? "BLOCKED" : "PASS", "Risk boundary visible"],
+    ["System Intelligence", failedGatesHas(decisionState, "System Intelligence Gate") ? "BLOCKED" : "PASS", "Verdict applied"],
+    ["CEO B Standard", "PASS", "Governance applied"],
+    ["Action Boundary", "BLOCKED", "No external action"],
   ];
   const cardReasons = {
     QQQ: "Missing verified breadth, quote timestamp, and options-chain freshness.",
@@ -10046,7 +10085,7 @@ function renderAlertsOperatorWorkspace() {
     "Paid signals",
     "Hidden provider claims",
     "Performance claims",
-    "Public approve/reject alert decisions",
+    "Public alert clearance decisions",
   ];
 
   return `
@@ -10054,9 +10093,10 @@ function renderAlertsOperatorWorkspace() {
       <header class="alerts-operator-header">
         <div class="alerts-operator-title">
           <span aria-hidden="true">Pickaxe Capital</span>
-          <small>Pickaxe Capital</small>
-          <h2 id="alertsOperatorTitle">Options Alerts Research OS</h2>
-          <p>Pickaxe Capital is building a source-verified Options Alerts Research OS that ranks setup readiness, source quality, options quality, risk gates, and System Intelligence before any external action.</p>
+          <small>PICKAXE CAPITAL</small>
+          <h2 id="alertsOperatorTitle">Options Alerts</h2>
+          <strong class="alerts-product-descriptor">Research OS</strong>
+          <p>Rank setups. Verify evidence. Block action until every required gate passes.</p>
         </div>
         <dl class="alerts-operator-status">
           <div>
@@ -10074,7 +10114,7 @@ function renderAlertsOperatorWorkspace() {
         </dl>
         <div class="alerts-operator-boundary">
           <strong>Research Only</strong>
-          <span>Demo Data Only · Source Required · Not Financial Advice · No Broker Execution · Options involve substantial risk</span>
+          <span>Demo / Static Data · Source Required · Manual Review Required · Not Financial Advice · No Broker Execution · Options involve substantial risk</span>
         </div>
       </header>
 
@@ -10096,25 +10136,25 @@ function renderAlertsOperatorWorkspace() {
         </button>
       </section>
 
-      <section class="alerts-investor-frame" aria-label="Investor preview product framing">
+      <section class="alerts-investor-frame" aria-label="Options Alerts product workflow">
         <article>
-          <span>How it works</span>
-          <strong>Rank packet readiness.</strong>
+          <span>Rank setups</span>
+          <strong>Research Readiness orders the work.</strong>
           <p>Research Readiness shows completeness, not expected return.</p>
         </article>
         <article>
-          <span>Source gate</span>
-          <strong>Verify market evidence.</strong>
+          <span>Verify evidence</span>
+          <strong>Source truth controls advancement.</strong>
           <p>No provider, timestamp, or verified options chain is active.</p>
         </article>
         <article>
-          <span>System Intelligence</span>
-          <strong>Decide the boundary.</strong>
-          <p>Status can be Blocked, Watch, Review Candidate, or No Setup.</p>
+          <span>Apply gates</span>
+          <strong>System Intelligence blocks action.</strong>
+          <p>Status can be Blocked, Watch, Research Review, or No Setup.</p>
         </article>
         <article>
-          <span>Research packet</span>
-          <strong>Open the evidence.</strong>
+          <span>Open packets</span>
+          <strong>Research and evidence stay inspectable.</strong>
           <p>Thesis, catalyst, contract quality, missing gates, and risk stay visible.</p>
         </article>
       </section>
@@ -10132,13 +10172,13 @@ function renderAlertsOperatorWorkspace() {
               class="${item.id === candidate.id ? "is-active" : ""}"
               aria-pressed="${item.id === candidate.id}"
               aria-current="${item.id === candidate.id ? "true" : "false"}"
-              aria-label="${escapeHtml(`${item.ticker} ${item.setupType}. ${itemScore.total} out of 100 Research Readiness. ${itemDecision.cardLabel}. Source Required. Options ${item.options.grade}. ${cardReasons[item.ticker] || "Source freshness and options-chain verification required."}`)}"
+              aria-label="${escapeHtml(`${item.ticker} ${item.setupType}. ${itemScore.total} out of 100 Research Readiness. System Status ${itemDecision.cardLabel}. Source Required. Options ${item.options.grade}. ${cardReasons[item.ticker] || "Source freshness and options-chain verification required."}`)}"
               onclick="window.selectIntelligenceCandidate('${item.id}')"
             >
               <em>#${reviewIndex + 1}</em>
               <strong>${escapeHtml(item.ticker)}</strong>
               <span>${escapeHtml(item.setupType)}</span>
-              <mark>${item.id === candidate.id ? "Selected" : "Review"}</mark>
+              <mark>${item.id === candidate.id ? "Selected" : "Setup"}</mark>
               <small>${itemScore.total}/100 Research Readiness</small>
               <i>${escapeHtml(itemDecision.cardLabel)}</i>
               <b>Source Required</b>
@@ -10158,13 +10198,16 @@ function renderAlertsOperatorWorkspace() {
         <span>${escapeHtml(decisionState.label)}</span>
         <div>
           <strong>System Intelligence Verdict</strong>
-          <small>${escapeHtml(decisionState.title)}. Readiness ranks packet completeness. Gates control action boundaries. System Intelligence applies the CEO B Standard before any setup can advance.</small>
+          <small>${escapeHtml(decisionState.title)}. Research Readiness ranks packet completeness. Required gates control whether a setup may advance.</small>
         </div>
         <dl>
           <div><dt>Status</dt><dd>${escapeHtml(decisionState.status)}</dd></div>
           <div><dt>Why</dt><dd>${escapeHtml(decisionState.why)}</dd></div>
-          <div><dt>Missing Gate</dt><dd>${escapeHtml(decisionState.missingGate)}</dd></div>
+          <div><dt>Passed Gates</dt><dd>${escapeHtml(decisionState.passedGates.join(" · "))}</dd></div>
+          <div><dt>Failed Gates</dt><dd>${escapeHtml(decisionState.failedGates.length ? decisionState.failedGates.join(" · ") : "None")}</dd></div>
+          <div><dt>Missing Evidence</dt><dd>${escapeHtml(decisionState.missingEvidence.join(" · "))}</dd></div>
           <div><dt>Next Requirement</dt><dd>${escapeHtml(decisionState.nextRequirement)}</dd></div>
+          <div><dt>CEO B Standard</dt><dd>${escapeHtml(decisionState.ceoBStandard)}</dd></div>
           <div><dt>Action Boundary</dt><dd>${escapeHtml(decisionState.actionBoundary)}</dd></div>
         </dl>
       </section>
@@ -10173,7 +10216,7 @@ function renderAlertsOperatorWorkspace() {
         <div class="alerts-selected-ribbon">
           <span>Selected Setup Preview</span>
           <strong>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</strong>
-          <em>No trade action available</em>
+          <em>No external action available</em>
         </div>
         <div class="alerts-operator-candidate-head">
           <div class="alerts-operator-identity">
@@ -10268,7 +10311,13 @@ function renderAlertsOperatorWorkspace() {
                 <div><dt>Data Confidence</dt><dd>${escapeHtml(candidate.dataQuality)} only</dd></div>
               </dl>
               <div class="alerts-evidence-gap-tags" aria-label="Evidence packet gap summary">
-                ${["Known evidence is static/demo", "Missing usable timestamp", "Missing verified options chain", "Action remains blocked"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+                ${[
+                  "Known: static/demo setup record",
+                  "Missing: usable market timestamp",
+                  "Unverified: options chain",
+                  "Blocked: no external action",
+                  "Required next: authorized provider verification"
+                ].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
               </div>
               <div class="alerts-operator-decision">
                 <span>System Status</span>
@@ -10281,11 +10330,14 @@ function renderAlertsOperatorWorkspace() {
       </div>
 
       <div class="alerts-operator-process">
-        <strong>Research Process · Gated</strong>
+        <strong>Required Gates</strong>
         <ol>
-          <li><span>1</span><div><b>Source Check</b><small>Verify source and freshness</small></div></li>
-          <li><span>2</span><div><b>Options Chain</b><small>Verify contract and timestamp</small></div></li>
-          <li><span>3</span><div><b>CEO B Standard</b><small>Governance and research quality</small></div></li>
+          ${requiredGateSummary.map(([name, gateState, detail], index) => `
+            <li class="gate-${escapeHtml(gateState.toLowerCase().replaceAll(" ", "-"))}">
+              <span>${String(index + 1).padStart(2, "0")}</span>
+              <div><b>${escapeHtml(name)}</b><small>${escapeHtml(gateState)} · ${escapeHtml(detail)}</small></div>
+            </li>
+          `).join("")}
         </ol>
         <button type="button" onclick="window.openAlertsDeepReview()">Open Research Packet</button>
       </div>
@@ -10384,7 +10436,7 @@ const PICKAXE_PROVIDER_REGISTRY = Object.freeze({
     rateLimitNote: "Not applicable.",
     costTier: "None",
     lastChecked: null,
-    failureReason: "No approved provider is configured.",
+    failureReason: "No authorized provider is configured.",
     legalOrUsageNote: "Returns structured UNAVAILABLE responses and never substitutes unlabeled demo data.",
   },
   manualSnapshotProvider: {
@@ -10840,7 +10892,7 @@ function renderPickaxeIntelligenceCore() {
       id: item.id,
       ticker: item.ticker,
       setup: item.setup,
-      status: "Rejected",
+      status: "Blocked",
       tag: item.tag,
       review: "Future lesson review",
     })),
@@ -10866,7 +10918,7 @@ function renderPickaxeIntelligenceCore() {
       <header class="pic-core-header">
         <div>
           <span>Pickaxe Intelligence Core v0.1 · Data Connector v0.2</span>
-          <h3 id="picCoreTitle">Alerts Desk Intelligence Engine</h3>
+          <h3 id="picCoreTitle">Options Alerts Intelligence Engine</h3>
           <p>Demo setup scoring, dynamic risk controls, options-quality review, source status, rejected-alert discipline, and lesson preparation.</p>
         </div>
         <aside>
@@ -10919,7 +10971,7 @@ function renderPickaxeIntelligenceCore() {
         </article>
 
         <article class="pic-panel pic-score-panel">
-          <header><div><span>Scoring Engine</span><h4>Weighted research readiness</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
+          <header><div><span>Scoring Engine</span><h4>Research readiness model</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
           <div class="pic-score-list">
             ${Object.entries(score.parts).map(([key, part]) => `
               <div>
@@ -11011,7 +11063,7 @@ function renderPickaxeIntelligenceCore() {
 
       <div class="pic-operations-grid">
         <article class="pic-panel pic-rejections">
-          <header><div><span>Rejected Alerts</span><h4>Risk discipline evidence</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
+          <header><div><span>Blocked Setups</span><h4>Risk discipline evidence</h4></div>${renderIntelligenceDataMode("DEMO")}</header>
           ${rejectedAlerts.map((item) => `
             <div><strong>${escapeHtml(item.ticker)}</strong><span>${escapeHtml(item.setup)}</span><p>${escapeHtml(item.reason)}</p><small>${escapeHtml(item.tag)}</small></div>
           `).join("")}
@@ -11024,10 +11076,10 @@ function renderPickaxeIntelligenceCore() {
             <div><dt>Top opportunity</dt><dd>QQQ momentum breakout · demo only</dd></div>
             <div><dt>Biggest risk</dt><dd>IV expansion without breadth confirmation</dd></div>
             <div><dt>System confidence</dt><dd>82 / 100 research-structure confidence</dd></div>
-            <div><dt>Alerts requiring escalation</dt><dd>TSLA volatility and GLD macro confirmation</dd></div>
-            <div><dt>Weekly improvement note</dt><dd>Reject earlier when invalidation or contract quality is unclear.</dd></div>
+            <div><dt>Setups needing evidence</dt><dd>TSLA volatility and GLD macro confirmation</dd></div>
+            <div><dt>Weekly improvement note</dt><dd>Block earlier when invalidation or contract quality is unclear.</dd></div>
           </dl>
-          <p>CEO B reviews the system, the market regime, and high-impact exceptions. Alert candidates are automatically scored and escalated by the intelligence engine. Final research output remains manually reviewed.</p>
+          <p>System Intelligence applies the CEO B Standard to market regime context, high-impact exceptions, and setup readiness. Final research output remains gated and research-only.</p>
         </article>
       </div>
 
@@ -11146,7 +11198,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       <span><strong>${escapeHtml(item.totalScore)}</strong><em>${escapeHtml(item.finalDecision)}</em></span>
       <small>${escapeHtml(RESEARCH_CARD_DISCLAIMER)}</small>
     </button>
-  `).join("") || `<p class="research-empty-state">No research alerts approved. Signals remain in review until the quality gate is complete.</p>`;
+  `).join("") || `<p class="research-empty-state">No setups advanced. Setup records remain blocked until the required gates pass.</p>`;
   const voteRows = packet.agentVotes.map((vote) => `
     <tr>
       <td>${escapeHtml(vote.lane)}</td>
@@ -11175,7 +11227,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       >${state.phase9ResearchAcknowledged ? "Open Preview Detail" : "Acknowledge Boundary First"}</button>
       <p>${escapeHtml(RESEARCH_CARD_DISCLAIMER)}</p>
     </article>
-  `).join("") || `<p class="research-empty-state">No research alerts approved. Signals remain in review until the quality gate is complete.</p>`;
+  `).join("") || `<p class="research-empty-state">No setups advanced. Setup records remain blocked until the required gates pass.</p>`;
   return `
     <div class="packet-engine-shell phase2-alerts-desk">
       ${renderAlertsOperatorWorkspace()}
@@ -11208,7 +11260,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
           ${pcChipRow(["Time. Trend. Theme.", "Research First", "Manual Review Required", "No Broker Execution", "Source Verification Needed", "Capital Preservation First"])}
         </div>
         <div class="phase2-system-visual" aria-label="Static Pickaxe Capital research pipeline visualization">
-          <div class="phase2-visual-core"><span>CEO B</span><strong>Final Human Review</strong><small>Judgment layer</small></div>
+          <div class="phase2-visual-core"><span>CEO B Standard</span><strong>Governance Logic</strong><small>Founder-approved standard</small></div>
           ${[
             ["Source Hub", "Verify evidence", "source"],
             ["Agent Network", "Structure research", "agents"],
@@ -11217,7 +11269,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
             ["Alerts Desk", "Review publication", "alerts"],
             ["Market Universe", "Static demo context", "market"],
           ].map(([title, detail, klass]) => `<div class="phase2-visual-node ${klass}"><span>${title}</span><small>${detail}</small></div>`).join("")}
-          <div class="phase2-pipeline-line">Raw Data → Source Verification → Agent Collection → Risk Gate → CEO B Review → Research Alert</div>
+          <div class="phase2-pipeline-line">Raw Data → Source Verification → Research Packet → Risk Gate → CEO B Standard → Research Output</div>
         </div>
       </header>
 
@@ -11226,9 +11278,9 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
 
       <section class="alerts-desk-intro">
         <div>
-          <span class="meta-label">00 / Flagship Institutional Review Queue</span>
-          <h3>Options Alerts Review Queue</h3>
-          <p>Options research packets move through source verification, quality control, risk review, and CEO B judgment. This is a review queue, not a trading terminal.</p>
+          <span class="meta-label">00 / Flagship Institutional Research Surface</span>
+          <h3>Options Alerts Packet Surface</h3>
+          <p>Options research packets move through source verification, quality control, risk review, and the CEO B Standard. This is a research surface, not a trading terminal.</p>
         </div>
         <aside>
           <span>Static Prototype</span>
@@ -11259,7 +11311,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
 
       <div class="phase8-alerts-command-grid">
         <section class="research-review-stream">
-          <div class="packet-panel-head"><span>Options Research Review Stream</span><em>Mock / no live provider data. Research-only candidates for CEO B manual review.</em></div>
+          <div class="packet-panel-head"><span>Options Setup Packet Stream</span><em>Demo / no live provider data. Research-only setup packets; no external action.</em></div>
           <div class="research-stream-list">${streamMarkup}</div>
         </section>
         ${renderAlertsIntelligenceRail()}
@@ -11269,14 +11321,14 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
 
       <section class="packet-engine-layout">
         <aside class="packet-queue-panel">
-          <div class="packet-panel-head"><span>CEO B Review Queue</span><em>Quality-gated</em></div>
+          <div class="packet-panel-head"><span>Research Packet List</span><em>Gate-controlled</em></div>
           <div class="packet-queue-list">${queueMarkup}</div>
         </aside>
 
         <main class="packet-primary-panel">
           <div class="packet-title-row">
             <div>
-              <span>Panel 1 / Candidate Identity and Why Now</span>
+              <span>Panel 1 / Setup Identity and Why Now</span>
               <h3>${escapeHtml(packet.symbol)} / ${escapeHtml(packet.companyName)}</h3>
             </div>
             <strong class="${fatal ? "fatal" : ""}">${escapeHtml(packet.totalScore)} / 100</strong>
@@ -11287,13 +11339,13 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
           </div>
 
           <section class="packet-why-panel">
-            <span class="meta-label">Research Packet Candidate / Manual Review Required</span>
+            <span class="meta-label">Research Packet / Manual Review Required</span>
             <p>${escapeHtml(whyVisible)}</p>
           </section>
 
           <section class="options-alerts-panel">
             <div class="options-alerts-panel-head">
-              <span>Candidate Identity and Why Now</span>
+              <span>Setup Identity and Why Now</span>
               <em>${escapeHtml(packet.assetClass)} / ${escapeHtml(packet.setupType)}</em>
             </div>
             <div class="options-alerts-data-grid identity">
@@ -11341,7 +11393,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
               <article><span>Spread Quality</span><strong>${escapeHtml(panelModel.contract.spreadQuality)}</strong></article>
               <article><span>Liquidity Grade</span><strong>${escapeHtml(panelModel.contract.liquidityGrade)}</strong></article>
               <article><span>Contract Score</span><strong>${escapeHtml(panelModel.contract.score)}</strong></article>
-              <article><span>Confidence Score</span><strong>${escapeHtml(packet.totalScore)} / 100</strong></article>
+              <article><span>Research Readiness</span><strong>${escapeHtml(packet.totalScore)} / 100</strong></article>
               <article><span>Final Decision</span><strong>${escapeHtml(packet.finalDecision)}</strong></article>
               <article><span>Archive Status</span><strong>${escapeHtml(packet.archiveStatus)}</strong></article>
               <article><span>Execution Boundary</span><strong>No Broker Execution</strong></article>
@@ -11389,7 +11441,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
             </dl>
             <div class="options-alerts-evidence">
               <span>Source Trail</span>
-              ${renderPacketList(packet.evidence, "No verified source attached yet. Add evidence before CEO B review.")}
+              ${renderPacketList(packet.evidence, "No verified source attached yet. Add evidence before governance advancement.")}
             </div>
             <div class="options-alerts-evidence missing">
               <span>Missing Evidence</span>
@@ -11402,7 +11454,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
 
           <section class="options-alerts-panel packet-risk-gate ${fatal ? "fatal" : ""}">
             <div class="options-alerts-panel-head">
-              <span>Panel 5 / Risk Desk and CEO B Review State</span>
+              <span>Panel 5 / Risk Desk and Governance State</span>
               <em>${panelModel.blockingCount} hard blocks</em>
             </div>
             <div class="options-alerts-risk-list">
@@ -11419,9 +11471,9 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
               <small>Hard blocks outrank confidence scores.</small>
             </div>
             <div class="options-alerts-output">
-              <span>CEO B Review Status</span>
-              <strong>${escapeHtml(panelModel.reviewStatus)}</strong>
-              <small>Approved means approved for research publication only, never a buy or sell command.</small>
+              <span>CEO B Standard</span>
+              <strong>APPLIED</strong>
+              <small>Founder-approved governance logic is applied before any setup can advance.</small>
             </div>
             <div class="quality-gate-summary ${panelModel.qualityGate.passed ? "passed" : "blocked"}">
               <span>Research Quality Gate</span>
@@ -11430,11 +11482,11 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
               ${panelModel.qualityGate.missing.length ? `<p>${escapeHtml(panelModel.qualityGate.missing.join(" · "))}</p>` : ""}
             </div>
             <div class="options-alerts-state-key outputs">
-              ${["Source Review", "Risk Gate", "Needs More Data", "CEO B Review", "Needs More Sources", "Approved for Research", RESEARCH_APPROVAL_LABEL, "Rejected", "Archived"].map((label) => `<span class="${panelModel.reviewStatus === label || panelModel.outputState === label ? "active" : ""}">${label}</span>`).join("")}
+              ${["Source Review", "Risk Gate", "Needs More Data", "CEO B Standard", "Needs More Sources", "Research Output", "Archived"].map((label) => `<span class="${panelModel.reviewStatus === label || panelModel.outputState === label ? "active" : ""}">${label}</span>`).join("")}
             </div>
             <div class="packet-ceo-actions">
               ${[
-                ["Review", "Mark Reviewed"],
+                ["Review", "Apply Standard"],
                 ["Needs More Evidence", "Return for Evidence"],
                 ["Watch", "Keep on Watch"],
                 ["Archive", "Archive Research"],
@@ -11448,13 +11500,13 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
 
       <section class="alerts-framework-grid">
         <article>
-          <span class="meta-label">Call Research Candidate Framework</span>
+          <span class="meta-label">Call Research Setup Framework</span>
           <h3>Upside research requires alignment, not excitement.</h3>
-          <p>Confirm Time, Trend, Theme, contract quality, catalyst, source trail, invalidation, and premium risk before CEO B review.</p>
-          ${pcChipRow(["Source Review", "Risk Gate", "CEO B Review"])}
+          <p>Confirm Time, Trend, Theme, contract quality, catalyst, source trail, invalidation, and premium risk before packet advancement.</p>
+          ${pcChipRow(["Source Review", "Risk Gate", "CEO B Standard"])}
         </article>
         <article>
-          <span class="meta-label">Put Research Candidate Framework</span>
+          <span class="meta-label">Put Research Setup Framework</span>
           <h3>Downside research requires structure, not fear.</h3>
           <p>Confirm breakdown structure, catalyst credibility, liquidity, volatility context, defined risk, and a clear bear-case invalidation.</p>
           ${pcChipRow(["Needs More Data", "Needs More Sources", "Manual Review Required"])}
@@ -11475,7 +11527,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       </section>
       <footer class="alerts-compliance-footer">
         <strong>${escapeHtml(RESEARCH_CARD_DISCLAIMER)}</strong>
-        <span>Source verification needed. Past performance does not guarantee future results. Approved for Research — Not a Trade Command.</span>
+        <span>Source verification needed. Past performance does not guarantee future results. Research Readiness is not expected return.</span>
         <div class="phase8-safety-rail">
           <span>Research Only</span>
           <span>Manual Review Required</span>
@@ -11486,7 +11538,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
 
       <details class="suppressed-noise-drawer">
         <summary>Suppressed Noise <span>${suppressedPackets.length}</span></summary>
-        <p>Collapsed by default. Fatal flags and scores below 45 cannot enter the CEO B alert queue.</p>
+        <p>Collapsed by default. Fatal flags and scores below 45 cannot enter the Options Alerts packet surface.</p>
         <div class="suppressed-noise-list">
           ${suppressedPackets.map((item) => `
             <button type="button" onclick="window.selectResearchPacketV2('${escapeHtml(item.id)}')">
@@ -11655,8 +11707,8 @@ function buildV31QqqResearchPacket() {
     riskMemo: memory.riskIssue || (risk.hardStops || []).join(" | "),
     bullCase: card.thesis?.oneLine || "Research thesis remains unverified.",
     bearCase: card.thesis?.invalidate || "Risk gate blocks public output.",
-    reviewState: "No Output / CEO B Reviewed",
-    ceoBStatus: "CEO B Review Complete",
+    reviewState: "No Output / CEO B Standard Applied",
+    ceoBStatus: "CEO B Standard Complete",
     ceoBAction: "Archive Lesson",
     ceoBNextAction: "Retain as internal memory pending lesson review",
     finalDecision: "No Output",
@@ -11709,8 +11761,8 @@ function upsertPhase9BLessonCandidate(packet) {
     researchOnly: true,
     privacy_tier: "local_only",
     source: "Research Packet v2 / V3.1 QQQ simulator",
-    reviewStatus: existing.reviewStatus || "CEO B Review Required",
-    disposition: existing.disposition || "Pending CEO B review",
+    reviewStatus: existing.reviewStatus || "CEO B Standard Required",
+    disposition: existing.disposition || "Pending CEO B Standard",
     outcomeType: "No-trade intelligence",
     status: "Lesson candidate",
     timestamp: existing.timestamp || now,
@@ -11721,7 +11773,7 @@ function upsertPhase9BLessonCandidate(packet) {
       "No-trade intelligence",
       "Evidence gap",
       "Risk gate preserved",
-      "CEO B review required",
+      "CEO B Standard required",
       "Static demo lesson",
       "Not performance proof",
     ],
@@ -11741,8 +11793,8 @@ window.archiveV31QqqLesson = () => {
       ...packet.learning,
       lessonCandidate: true,
       lessonCandidateId: candidateId,
-      lessonReviewStatus: "CEO B Review Required",
-      lessonDisposition: "Pending CEO B review",
+      lessonReviewStatus: "CEO B Standard Required",
+      lessonDisposition: "Pending CEO B Standard",
     },
   });
   const candidate = upsertPhase9BLessonCandidate(savedPacket);
@@ -11756,8 +11808,8 @@ window.reviewPhase9BLessonCandidate = (candidateId, disposition) => {
   const allowed = {
     retain: ["Retain as internal memory", "Retained as internal memory"],
     evidence: ["Return for evidence", "Returned for evidence"],
-    reject: ["Reject lesson candidate", "Rejected lesson candidate"],
-    improvement: ["Approve research improvement for later rule review", "Approved for later rule review"],
+    reject: ["Exclude lesson candidate", "Excluded lesson candidate"],
+    improvement: ["Clear research improvement for later rule review", "Cleared for later rule review"],
   };
   if (!allowed[disposition]) return;
   const ledger = getLearningLedgerState();
@@ -11845,7 +11897,7 @@ function renderPhase9BArchiveLessons() {
         }).join("") || `
           <article class="phase9b-empty-memory">
             <strong>No Phase 9B lesson candidate yet.</strong>
-            <p>Complete Source Check → No Output → Risk Review → CEO B Review → Archive Lesson in the QQQ simulator.</p>
+            <p>Complete Source Check → No Output → Risk Review → Governance Check → Archive Lesson in the QQQ simulator.</p>
           </article>
         `}
       </div>
@@ -11859,12 +11911,12 @@ window.applyResearchPacketAction = (packetId, action) => {
   const now = new Date().toISOString();
   const patch = { ...packet, ceoBAction: action, updatedAt: now };
   if (action === "Review") {
-    patch.reviewState = "CEO B Reviewed";
-    patch.ceoBStatus = "Reviewed by CEO B";
+    patch.reviewState = "CEO B Standard Applied";
+    patch.ceoBStatus = "CEO B Standard Applied";
     patch.ceoBNextAction = "Record a manual decision or outcome";
   } else if (action === "Needs More Evidence") {
     patch.reviewState = "Needs More Evidence";
-    patch.ceoBStatus = "CEO B Review Required";
+    patch.ceoBStatus = "CEO B Standard Required";
     patch.finalDecision = "Needs More Evidence";
     patch.ceoBNextAction = "Return to source and risk review before any research approval";
   } else if (action === "Approve for Research") {
@@ -14846,17 +14898,17 @@ window.moveProofOfWorkCarousel = (direction) => {
 };
 
 function renderFounderLandingPage() {
-  const heroBadges = ["Research Only", "Source Verified", "CEO B Reviewed", "No Broker Execution"];
-  const operatingLoop = ["Capture", "Verify", "Analyze", "Risk Check", "CEO B Review", "Archive", "Learn"];
+  const heroBadges = ["Research Only", "Source Verified", "CEO B Standard", "No Broker Execution"];
+  const operatingLoop = ["Capture", "Verify", "Analyze", "Risk Check", "CEO B Standard", "Archive", "Learn"];
   const capabilities = [
-    ["Options Alert Candidates", "Static/manual candidates organized for source, liquidity, event-risk, and CEO B review. Options involve substantial risk."],
+    ["Options Alerts Setups", "Static/manual setups organized for source, liquidity, event-risk, and the CEO B Standard. Options involve substantial risk."],
     ["Source Verification", "Provenance, freshness, evidence quality, and unresolved-source states remain visible."],
     ["Research Packets", "Structured thesis, counter-thesis, risk, missing evidence, and manual decision context."],
     ["Market Command Center", "An internal view of research status, review gates, and next manual actions."],
     ["AI Habitat OS", "The internal system connecting research, source checks, risk controls, memory, and CEO B review."],
     ["Archive / Learning Ledger", "Packet lineage and unverified lesson candidates preserved for later human review."],
     ["Visual Intelligence", "Clear static/manual research visuals built from approved, labeled evidence."],
-    ["Manual CEO B Review", "The final human decision layer before any research output moves forward."]
+    ["CEO B Standard", "Founder-approved governance logic before any research output moves forward."]
   ];
   const exclusions = [
     "No financial advice",
@@ -14877,7 +14929,7 @@ function renderFounderLandingPage() {
         <div class="access-hero-copy founder-front-door-hero-copy">
           <p class="access-kicker">Pickaxe Capital</p>
           <h2 id="accessHeroTitle">Market intelligence, verified before it becomes action.</h2>
-          <p class="founder-front-door-lede">Pickaxe Capital organizes research, sources, risk checks, and AI-assisted market workflows into one founder-led intelligence system — with CEO B review before anything moves forward.</p>
+          <p class="founder-front-door-lede">Pickaxe Capital organizes research, sources, risk checks, and AI-assisted market workflows into one founder-led intelligence system with the CEO B Standard applied before anything moves forward.</p>
           <div class="access-hero-actions">
             <a class="primary-action" href="#/alerts">Enter Research OS</a>
             <a class="secondary-action" href="#proofOfWorkTitle" data-founder-scroll="#proofOfWorkTitle">View Founder Proof of Work</a>
@@ -14890,11 +14942,11 @@ function renderFounderLandingPage() {
         <aside class="founder-front-door-trust" aria-label="Pickaxe review doctrine">
           <p class="access-kicker">Evidence Before Output</p>
           <strong>Source checks and risk gates can stop a packet.</strong>
-          <p>CEO B remains the final human review layer. No live provider, brokerage, execution, or autonomous publication is connected.</p>
+          <p>System Intelligence applies the CEO B Standard. No live provider, brokerage, execution, or autonomous publication is connected.</p>
           <div class="founder-front-door-trust-grid">
             <span><small>Sources</small><b>Verification required</b></span>
             <span><small>Risk</small><b>Hard blocks preserved</b></span>
-            <span><small>Review</small><b>Manual CEO B gate</b></span>
+            <span><small>Governance</small><b>CEO B Standard</b></span>
             <span><small>Output</small><b>Research only</b></span>
           </div>
         </aside>
@@ -14912,7 +14964,7 @@ function renderFounderLandingPage() {
         <div class="access-section-head">
           <p class="access-kicker">The Solution</p>
           <h2>The system does not chase signals. It builds evidence.</h2>
-          <p>Pickaxe Capital organizes market research into source-verified, risk-reviewed, CEO B-reviewed intelligence. The result is a clearer research record for a better manual decision, not a trade command.</p>
+          <p>Pickaxe Capital organizes market research into source-verified, risk-reviewed, CEO B Standard-governed intelligence. The result is a clearer research record for manual review, not a trade command.</p>
         </div>
       </section>
 
@@ -14920,9 +14972,9 @@ function renderFounderLandingPage() {
         <div class="access-section-head">
           <p class="access-kicker">Operating Loop</p>
           <h2>One research loop. Every gate visible.</h2>
-          <p>Sources must be checked. Risk can block the packet. CEO B remains the final human review layer. Archived lessons cannot change the system on their own.</p>
+          <p>Sources must be checked. Risk can block the packet. System Intelligence applies the CEO B Standard. Archived lessons cannot change the system on their own.</p>
         </div>
-        <div class="access-loop founder-front-door-loop" aria-label="Capture, Verify, Analyze, Risk Check, CEO B Review, Archive, Learn">
+        <div class="access-loop founder-front-door-loop" aria-label="Capture, Verify, Analyze, Risk Check, CEO B Standard, Archive, Learn">
           ${operatingLoop.map((step, index) => `
             <span><b>${String(index + 1).padStart(2, "0")}</b>${escapeHtml(step)}</span>
           `).join("")}
@@ -14995,7 +15047,7 @@ function renderFounderLandingPage() {
         <div class="access-section-head">
           <p class="access-kicker">Enter The Research System</p>
           <h2>Enter the research system behind Pickaxe Capital.</h2>
-          <p>Explore the static/manual research environment, review verified proof of work, and see how source, risk, and CEO B gates shape every packet.</p>
+          <p>Explore the static/manual research environment, review verified proof of work, and see how source, risk, and the CEO B Standard shape every packet.</p>
         </div>
         <div class="founder-front-door-final-actions">
           <a class="primary-action" href="#/alerts">Enter Research OS</a>
@@ -15003,7 +15055,7 @@ function renderFounderLandingPage() {
           <a class="secondary-action" href="#/staging">Review System Status</a>
           <a class="secondary-action" href="#privateAccess" data-founder-scroll="#privateAccess">Request Private Access</a>
         </div>
-        <p class="founder-front-door-compliance">Research only. Not financial advice. Pickaxe Capital is not a broker-dealer, investment adviser, exchange, custodian, or execution platform. Options involve substantial risk. All alert candidates require source verification and CEO B manual review.</p>
+        <p class="founder-front-door-compliance">Research only. Not financial advice. Pickaxe Capital is not a broker-dealer, investment adviser, exchange, custodian, or execution platform. Options involve substantial risk. All setup packets require source verification, risk controls, and the CEO B Standard.</p>
       </section>
     </div>
   `;
@@ -15276,8 +15328,8 @@ function renderSignalPacket(signal) {
       <!-- Action buttons -->
       <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-900 mt-auto">
         <button onclick="window.changeSignalStatus('${escapeHtml(signal.id)}', 'CEO B review')" class="bg-blue-950/40 text-blue-400 border border-blue-900/50 hover:bg-blue-950/80 hover:border-blue-400 transition-colors text-[9px] px-2 py-1 uppercase font-bold">Send to Review</button>
-        <button onclick="window.changeSignalStatus('${escapeHtml(signal.id)}', 'Approved for Research — Not a Trade Command')" class="bg-emerald-950/40 text-emerald-400 border border-emerald-900/50 hover:bg-emerald-950/80 hover:border-emerald-400 transition-colors text-[9px] px-2 py-1 uppercase font-bold">Approve for Research</button>
-        <button onclick="window.changeSignalStatus('${escapeHtml(signal.id)}', 'risk rejected')" class="bg-red-950/40 text-red-400 border border-red-900/50 hover:bg-red-950/80 hover:border-red-400 transition-colors text-[9px] px-2 py-1 uppercase font-bold">Reject</button>
+        <button onclick="window.changeSignalStatus('${escapeHtml(signal.id)}', 'Approved for Research — Not a Trade Command')" class="bg-emerald-950/40 text-emerald-400 border border-emerald-900/50 hover:bg-emerald-950/80 hover:border-emerald-400 transition-colors text-[9px] px-2 py-1 uppercase font-bold">Clear Research</button>
+        <button onclick="window.changeSignalStatus('${escapeHtml(signal.id)}', 'risk rejected')" class="bg-red-950/40 text-red-400 border border-red-900/50 hover:bg-red-950/80 hover:border-red-400 transition-colors text-[9px] px-2 py-1 uppercase font-bold">Return for Evidence</button>
         <button onclick="window.changeSignalStatus('${escapeHtml(signal.id)}', 'watch only')" class="bg-slate-900 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:border-slate-500 transition-colors text-[9px] px-2 py-1 uppercase font-bold">Watch Only</button>
       </div>
     </div>
@@ -15718,8 +15770,8 @@ function renderAgentWorldOS() {
                     
                     <!-- Simplified CEO B Actions -->
                     <div class="grid grid-cols-2 gap-1 pt-1.5 border-t border-[#1f242d] text-[8px]">
-                      <button type="button" class="bg-green/10 text-green border border-green/30 hover:bg-green/20 py-1 uppercase font-bold rounded-sm transition-colors" onclick="window.reviewStackAction('approved', '${escapeHtml(item.id)}')">Approve for Research</button>
-                      <button type="button" class="bg-red/10 text-red border border-red/30 hover:bg-red/20 py-1 uppercase font-bold rounded-sm transition-colors" onclick="window.reviewStackAction('rejected', '${escapeHtml(item.id)}')">Reject</button>
+                      <button type="button" class="bg-green/10 text-green border border-green/30 hover:bg-green/20 py-1 uppercase font-bold rounded-sm transition-colors" onclick="window.reviewStackAction('approved', '${escapeHtml(item.id)}')">Clear Research</button>
+                      <button type="button" class="bg-red/10 text-red border border-red/30 hover:bg-red/20 py-1 uppercase font-bold rounded-sm transition-colors" onclick="window.reviewStackAction('rejected', '${escapeHtml(item.id)}')">Return for Evidence</button>
                       
                       <!-- Assign to Agent Option -->
                       <div class="col-span-2 mt-1">
@@ -16276,7 +16328,7 @@ function renderWorldDetailPanel(habitat, mission, agentName) {
         <small>Chain: ${escapeHtml((mission.collaborationChain || ["Home", "Workstation", "Trading Floor", "CEO B Review"]).join(" -> "))}</small>
       </div>
       <div class="game-action-row">
-        <button type="button" onclick="window.worldAction?.('approved', '${escapeHtml(mission.id || "")}')">Approve for Research</button>
+        <button type="button" onclick="window.worldAction?.('approved', '${escapeHtml(mission.id || "")}')">Clear Research</button>
         <button type="button" onclick="window.worldAction?.('needs improvement', '${escapeHtml(mission.id || "")}')">Send Back</button>
         <button type="button" onclick="window.worldAction?.('archived', '${escapeHtml(mission.id || "")}')">Archive</button>
         <button type="button" onclick="window.sendHabitatReport?.('${escapeHtml(habitat.id || "market-habitat")}')">Send Habitat Report</button>
@@ -16306,7 +16358,7 @@ function renderWorldReviewItem(item) {
       <p>${escapeHtml(item.output)}</p>
       <small>${escapeHtml((item.agents || []).join(", "))} • ${item.confidence}% confidence</small>
       <div class="world-review-actions">
-        <button type="button" onclick="window.reviewStackAction?.('approved', '${escapeHtml(item.id)}')">Approve for Research</button>
+        <button type="button" onclick="window.reviewStackAction?.('approved', '${escapeHtml(item.id)}')">Clear Research</button>
         <button type="button" onclick="window.reviewStackAction?.('needs improvement', '${escapeHtml(item.id)}')">Needs Improvement</button>
         <button type="button" onclick="window.reviewStackAction?.('archived', '${escapeHtml(item.id)}')">Archive</button>
         <button type="button" onclick="window.reviewStackAction?.('sent back', '${escapeHtml(item.id)}')">Send Back</button>
@@ -19023,22 +19075,22 @@ renderSourceHubPage = function () {
     ["Private Boundary", "On", "No vault exposure"]
   ];
   const escalationRules = [
-    "No signal escalation without a source.",
-    "No alert upgrade without source context.",
+    "No setup advancement without a source.",
+    "No Options Alerts upgrade without source context.",
     "No watchlist conviction increase without source support.",
     "No options packet escalation without catalyst/source note.",
     "No private Obsidian note contents in public frontend.",
-    "CEO B manual review required.",
+    "CEO B Standard applied through System Intelligence.",
     "Source Hub organizes research context; it does not make trading decisions.",
     "Source confidence is not financial advice."
   ];
   const missionPreview = [
     ["Verified source count", "Demo static count only", "Source Hub"],
     ["Source gaps", "Visible before escalation", "Risk Desk"],
-    ["Source-required alerts", "Blocked until context attached", "Sentry"],
+    ["Source-required setups", "Blocked until context attached", "Sentry"],
     ["Watchlist thesis support", "Company IR, filings, transcripts", "Forge"],
     ["Archive candidates", "Reviewed memory only", "Archivist"],
-    ["CEO B review queue", "Final decision layer", "CEO B"]
+    ["Governance standard", "Founder-approved logic", "CEO B Standard"]
   ];
   const needsVerificationCount = queue.filter((item) => /missing|required|verification/i.test(`${item.sourceStatus} ${item.trustStatus}`)).length;
   const trustedMatrixCount = matrix.filter((source) => /primary|verified|manual|local/i.test(`${source.trustLevel} ${source.connectionStatus}`)).length;
@@ -19105,7 +19157,7 @@ renderSourceHubPage = function () {
           <h3>Classify, verify, and hand off source context.</h3>
           <p>Classify source material, verify boundaries, and route cleaned context into Research Desk before it reaches Alerts Desk.</p>
           <div class="research-flow-steps" aria-label="Local source to research packet workflow">
-            ${["Source Intake", "Verification Status", "Research Desk Handoff", "Alerts Desk Candidate", "Archive / Watchlist Outcome"].map((step, index) => `
+            ${["Source Intake", "Verification Status", "Research Desk Handoff", "Alerts Desk Setup", "Archive / Watchlist Outcome"].map((step, index) => `
               <span><em>${String(index + 1).padStart(2, "0")}</em>${escapeHtml(step)}</span>
             `).join("")}
           </div>
@@ -19132,12 +19184,12 @@ renderSourceHubPage = function () {
               </article>
             `).join("")}
           </div>
-          <p class="mission-footnote">Trust labels are static/manual until B approves backend adapters.</p>
+          <p class="mission-footnote">Trust labels are static/manual until CEO B authorizes backend adapters.</p>
         </article>
 
         <article class="glass-card source-intake-card source-intake-priority-card">
           <span class="meta-label">Source Intake Queue</span>
-          <h3>What should CEO B review next?</h3>
+          <h3>Which source gaps need attention?</h3>
           <div class="source-priority-list">
             ${queue.slice(0, 4).map((item) => {
               const archived = getSourceArchiveLineage(item.id);
@@ -19148,7 +19200,7 @@ renderSourceHubPage = function () {
                   <span>${escapeHtml(item.relatedTicker)}</span>
                   <em>${escapeHtml(item.trustStatus)} / ${escapeHtml(archiveStatus)}</em>
                   <div class="source-action-row compact">
-                    <button type="button" onclick="window.sourceHubLocalAction('review', '${escapeHtml(item.id)}')">CEO B Review</button>
+                    <button type="button" onclick="window.sourceHubLocalAction('review', '${escapeHtml(item.id)}')">Flag Source Gap</button>
                     <button type="button" onclick="window.sourceHubLocalAction('archive', '${escapeHtml(item.id)}')">Save Cleaned Source Memory</button>
                     <button type="button" onclick="window.createResearchPacketDraftFromSourceHub('${escapeHtml(item.id)}')">Create Research Packet Draft</button>
                   </div>
@@ -19186,7 +19238,7 @@ renderSourceHubPage = function () {
           <span class="meta-label">Private Memory Boundary</span>
           <h3>Obsidian remains private.</h3>
           <p>Selected notes may inform local handoff only. Public-facing Source Hub cards must use cleaned summaries.</p>
-          ${pcChipRow(["Local Only", "No Raw Vault Notes", "CEO B Review"])}
+          ${pcChipRow(["Local Only", "No Raw Vault Notes", "CEO B Standard"])}
         </article>
 
         <article class="glass-card">
@@ -19236,7 +19288,7 @@ renderSourceHubPage = function () {
                     </div>
                   ` : `
                     <div class="source-lineage-strip pending">
-                      <span>CEO B Review Required</span>
+                      <span>Source Review Required</span>
                       <span>Local Only</span>
                       <span>Source Required</span>
                       <small>Next manual action: save cleaned source memory to Archive.</small>
@@ -19244,11 +19296,11 @@ renderSourceHubPage = function () {
                   `}
                   <p class="mission-footnote">${escapeHtml(item.nextManualAction)}</p>
                   <div class="source-action-row">
-                    <button type="button" onclick="window.sourceHubLocalAction('review', '${escapeHtml(item.id)}')">Send to CEO B Review</button>
+                    <button type="button" onclick="window.sourceHubLocalAction('review', '${escapeHtml(item.id)}')">Flag Source Gap</button>
                     <button type="button" onclick="window.sourceHubLocalAction('archive', '${escapeHtml(item.id)}')">Save Cleaned Source Memory</button>
                     <button type="button" onclick="window.sourceHubLocalAction('archivist', '${escapeHtml(item.id)}')">Assign Archivist</button>
                     <button type="button" onclick="window.sourceHubLocalAction('forge', '${escapeHtml(item.id)}')">Assign Forge</button>
-                    <button type="button" onclick="window.sourceHubLocalAction('alert', '${escapeHtml(item.id)}')">Create Source Watch Alert</button>
+                    <button type="button" onclick="window.sourceHubLocalAction('alert', '${escapeHtml(item.id)}')">Create Source Watch Note</button>
                     <button type="button" onclick="window.createResearchPacketDraftFromSourceHub('${escapeHtml(item.id)}')">Create Research Packet Draft</button>
                     <button type="button" onclick="window.copySourceHubSummary('${escapeHtml(item.id)}')">Copy Summary</button>
                     <a href="${escapeHtml(item.relatedRoute)}">Open Route</a>
@@ -19344,14 +19396,14 @@ renderBookmarksPage = function () {
 renderRiskRulesPage = function () {
   if (!els.riskRulesContent) return;
   const gateRows = [
-    ["Source Gate", "Verified provider/source identity must exist before any setup can advance.", "BLOCKED"],
-    ["Timestamp Gate", "Market data needs a usable source timestamp, quote type, timezone, and verification status.", "BLOCKED"],
-    ["Options-Chain Gate", "Contract, bid/ask, spread, volume, open interest, IV, and Greeks require verified chain data.", "BLOCKED"],
-    ["Spread / Liquidity Gate", "Wide spreads, thin open interest, unstable quotes, or event-sensitive liquidity keep the setup in research.", "Manual Review"],
-    ["Risk Gate", "Invalidation, no-trade conditions, sizing boundaries, and options-risk language must be visible.", "Required"],
-    ["System Intelligence", "Readiness ranks packet completeness. Gates control action boundaries.", "Status Authority"],
-    ["CEO B Governance Standard", "System Intelligence applies the CEO B Standard; no public approve/reject button exists.", "CEO B Standard"],
-    ["Action Boundary", "No external action unless every required gate passes in a separately authorized workflow.", "No External Action"]
+    ["Source Gate", "Verified provider/source identity must exist before any setup can advance.", "MISSING"],
+    ["Timestamp Gate", "Market data needs a usable source timestamp, quote type, timezone, and verification status.", "MISSING"],
+    ["Options-Chain Gate", "Contract, bid/ask, spread, volume, open interest, IV, and Greeks require verified chain data.", "MISSING"],
+    ["Spread / Liquidity Gate", "Wide spreads, thin open interest, unstable quotes, or event-sensitive liquidity keep the setup in research.", "NOT EVALUATED"],
+    ["Risk Gate", "Invalidation, no-trade conditions, sizing boundaries, and options-risk language must be visible.", "PASS"],
+    ["System Intelligence", "Readiness ranks packet completeness. Gates control action boundaries.", "PASS"],
+    ["CEO B Standard", "System Intelligence applies the CEO B Standard; no public clearance/reversal button exists.", "PASS"],
+    ["Action Boundary", "No external action unless every required gate passes in a separately authorized workflow.", "BLOCKED"]
   ];
   const forbidden = ["No broker execution", "No auto-trading", "No copy-trading", "No certainty claims", "No fake connected labels", "No buy/sell commands", "No payment or subscription flow"];
   const ruleTruths = [
@@ -19360,7 +19412,7 @@ renderRiskRulesPage = function () {
     "A high readiness score cannot override a missing source.",
     "A high options grade cannot override stale timestamps.",
     "System Intelligence applies the CEO B Standard.",
-    "No public approve/reject alert decision exists."
+    "No public manual approval button exists."
   ];
   els.riskRulesContent.innerHTML = `
     <div class="page-shell rules-alerts-shell">
@@ -19411,9 +19463,9 @@ renderLearningLedgerPage = function () {
       <section class="phase9b-learning-review" aria-labelledby="phase9bLearningTitle">
         <header>
           <div>
-            <span class="meta-label">Phase 9B / Manual CEO B Disposition</span>
+            <span class="meta-label">Phase 9B / CEO B Standard Disposition</span>
             <h3 id="phase9bLearningTitle">Internal Memory Lesson Candidates</h3>
-            <p>Review packet-linked no-trade intelligence. Approval means approved for later rule review only; it never changes the operating system automatically.</p>
+            <p>Review packet-linked no-trade intelligence. Disposition means cleared for later rule review only; it never changes the operating system automatically.</p>
           </div>
           <aside><strong>${phase9bCandidates.length}</strong><span>packet-linked candidate${phase9bCandidates.length === 1 ? "" : "s"}</span></aside>
         </header>
@@ -19446,15 +19498,15 @@ renderLearningLedgerPage = function () {
                   ${renderPacketList(candidate.missingEvidence || packet?.missingEvidence || [], "No evidence gap recorded.")}
                 </section>
                 ${renderPhase9BSafetyLabels(candidate.safetyLabels)}
-                <div class="phase9b-disposition-actions" aria-label="Manual CEO B lesson disposition">
+                <div class="phase9b-disposition-actions" aria-label="CEO B Standard lesson disposition">
                   <button type="button" onclick="window.reviewPhase9BLessonCandidate('${escapeHtml(candidate.id)}', 'retain')">Retain as internal memory</button>
                   <button type="button" onclick="window.reviewPhase9BLessonCandidate('${escapeHtml(candidate.id)}', 'evidence')">Return for evidence</button>
-                  <button type="button" onclick="window.reviewPhase9BLessonCandidate('${escapeHtml(candidate.id)}', 'reject')">Reject lesson candidate</button>
-                  <button type="button" onclick="window.reviewPhase9BLessonCandidate('${escapeHtml(candidate.id)}', 'improvement')">Approve research improvement for later rule review</button>
+                  <button type="button" onclick="window.reviewPhase9BLessonCandidate('${escapeHtml(candidate.id)}', 'reject')">Exclude lesson candidate</button>
+                  <button type="button" onclick="window.reviewPhase9BLessonCandidate('${escapeHtml(candidate.id)}', 'improvement')">Clear research improvement for later rule review</button>
                 </div>
                 <footer>
-                  <strong>CEO B review required</strong>
-                  <small>Approval does not alter rules, prompts, scoring, gates, alerts, watchlists, publication state, signal generation, or performance state.</small>
+                  <strong>CEO B Standard required</strong>
+                  <small>Disposition does not alter rules, prompts, scoring, gates, alerts, watchlists, publication state, setup generation, or performance state.</small>
                 </footer>
               </article>
             `;
@@ -19471,7 +19523,7 @@ renderLearningLedgerPage = function () {
       <section class="packet-outcome-section">
         <div>
           <span class="meta-label">Research Packet Outcomes</span>
-          <h3>CEO B learning review</h3>
+          <h3>CEO B Standard learning review</h3>
           <p>Outcome labels are paper-review memory only. They do not represent broker activity or live performance.</p>
         </div>
         <div class="packet-outcome-grid">
@@ -19545,8 +19597,8 @@ renderStagingAdvanced = function () {
     ["/app/alerts", "BRIDGE", "Direct path bridge", "Forwards to canonical Alerts route"],
     ["/founder", "AVAILABLE", "Founder route", "Secondary public founder surface"],
     ["/ai-handoff", "LOCAL ONLY", "Local-server text endpoint", "Not a public static bridge"],
-    ["Hosted checkpoint", "PASS / HOSTED", "Pickaxe Public Launch Finish Sprint v1", "Hosted QA verified after fast-forward integration"],
-    ["Implementation deployment", "PASS / HOSTED", "Run 28211536452 / deployment 5204447875", "Validate and Build plus Deploy succeeded"],
+    ["Active candidate", "LOCAL CANDIDATE", "Pickaxe Options Alerts Core Product & Brand System v1", "Hosted verification pending"],
+    ["Prior hosted checkpoint", "PASS / HOSTED", "Pickaxe Public Launch Finish Sprint v1", "Hosted QA verified after fast-forward integration"],
     ["/agents · /vision-map · /staging", "BRIDGES", "Static direct-path bridges", "Correct canonical hash views remain required"],
     ["/ceo-b-profile · /jarvis-lab · /life-os", "BRIDGES", "Static direct-path bridges", "No route ownership change in this sprint"],
     ["/ai-handoff", "LOCAL ONLY", "Local-server text endpoint", "Not a public static bridge"]
@@ -19560,6 +19612,7 @@ renderStagingAdvanced = function () {
     ["Direct-Path Repair", "Passed / Hosted", "Six required bridges"],
     ["Project Context Lock", "Passed / Docs-Only", "Repository authority and scope map"],
     ["Options Alerts Website v2", "Passed / Hosted", "Prior hosted public baseline"],
+    ["Core Product & Brand System v1", "Local Candidate", "Hosted verification pending"],
     ["Public Launch Finish v1", "Passed / Hosted", "Hosted QA verified; status record locked"],
     ["Finance Terminal", "Passed / Hosted", "Static/manual Research Desk panel"],
     ["V3.1 Contrast Restoration", "Passed / Hosted", "Deployed with the Staging refresh series"]
@@ -19573,7 +19626,7 @@ renderStagingAdvanced = function () {
     "Source Required",
     "No live provider active",
     "LocalStorage-only browser state",
-    "Hosted QA verified",
+    "Hosted QA pending for current candidate",
     "No browser provider request"
   ];
   const forbiddenWork = [
@@ -19591,14 +19644,14 @@ renderStagingAdvanced = function () {
       ${pcPageHero("Status / Product Truth", "Status", "Current runtime truth for the Pickaxe Capital Options Alerts Research OS: static, demo, source-required, and blocked from external action.", ["DEMO / STATIC", "SOURCE REQUIRED", "BLOCKED", "NO BROKER EXECUTION"])}
 
       <div class="staging-purpose-line" aria-label="Staging purpose and next action">
-        <p><strong>Current product state:</strong> Pickaxe Public Launch Finish Sprint v1 is hosted and verified on GitHub Pages. No live data, approved provider, broker execution, auth, payment, subscription, or alert-delivery system is active.</p>
+        <p><strong>Current product state:</strong> Pickaxe Options Alerts Core Product & Brand System v1 is a local candidate pending hosted verification. No live data, authorized provider, broker execution, auth, payment, subscription, or alert-delivery system is active.</p>
         <a class="primary-action" href="#/staging" data-staging-tracker>Open Build Completion Tracker</a>
       </div>
 
       <section class="status-product-truth-grid" aria-label="Options Alerts product status">
         ${[
-          ["Current Hosted Checkpoint", "Pickaxe Public Launch Finish Sprint v1", "PASS / HOSTED QA VERIFIED after route, desktop, mobile, Alerts interaction, and security QA."],
-          ["Implementation Deployment", "Run 28211536452 / deployment 5204447875", "Validate and Build job 83573705503 passed; Deploy job 83573744594 passed; deployment status 14810890178 succeeded."],
+          ["Active Candidate", "Pickaxe Options Alerts Core Product & Brand System v1", "Local implementation candidate. Hosted QA and final status record are still pending."],
+          ["Prior Hosted Checkpoint", "Pickaxe Public Launch Finish Sprint v1", "PASS / HOSTED QA VERIFIED after route, desktop, mobile, Alerts interaction, and security QA."],
           ["Hosted / Static Truth", "GitHub Pages static SPA", "Browser state is LocalStorage/static only; server endpoints are local development helpers."],
           ["Market Data", "Demo / Source Required", "No live numbers are active without source, quote type, timestamp, timezone, and verification status."],
           ["System Status", "BLOCKED — NO EXTERNAL ACTION", "No verified provider, usable timestamp, verified options chain, or source freshness exists."],
@@ -19615,44 +19668,44 @@ renderStagingAdvanced = function () {
 
       <section class="staging-primary-grid" aria-label="Staging command panels">
         <article class="staging-command-panel staging-checkpoint-panel">
-          <span class="meta-label">Current Hosted Checkpoint</span>
-          <div class="staging-status-lock"><strong>PASS</strong><span>HOSTED</span></div>
-          <h3>Pickaxe Public Launch Finish Sprint v1</h3>
-          <p class="staging-panel-note">GitHub Pages is serving the verified public-launch finish checkpoint. The previous v2 website remains historical baseline evidence, not the active hosted checkpoint.</p>
+          <span class="meta-label">Active Candidate</span>
+          <div class="staging-status-lock"><strong>LOCAL</strong><span>CANDIDATE</span></div>
+          <h3>Pickaxe Options Alerts Core Product & Brand System v1</h3>
+          <p class="staging-panel-note">This candidate locks the core public product vocabulary, gate model, visual tokens, Founder Ghost Gray signature layer, and desktop Options Alerts hierarchy. Hosted verification is pending.</p>
           <dl class="staging-key-values">
-            <div><dt>Implementation</dt><dd><code>f751105</code></dd></div>
-            <div><dt>Workflow</dt><dd>RUN 28211536452 · SUCCESS</dd></div>
-            <div><dt>Deployment</dt><dd>5204447875 · STATUS 14810890178</dd></div>
+            <div><dt>Implementation</dt><dd><code>Pending commit</code></dd></div>
+            <div><dt>Workflow</dt><dd>GitHub Pages pending</dd></div>
+            <div><dt>Deployment</dt><dd>Pending hosted verification</dd></div>
           </dl>
         </article>
 
         <article class="staging-command-panel staging-hosted-panel">
-          <span class="meta-label">Hosted Verification</span>
-          <h3>Pickaxe Public Launch Finish Sprint v1</h3>
+          <span class="meta-label">Verification State</span>
+          <h3>Core Product & Brand System v1</h3>
           <ul class="staging-fact-list">
-            <li><span>State</span><strong>HOSTED QA VERIFIED</strong></li>
-            <li><span>Route QA</span><strong>Passed</strong></li>
-            <li><span>Desktop / mobile QA</span><strong>Passed</strong></li>
+            <li><span>State</span><strong>LOCAL CANDIDATE</strong></li>
+            <li><span>Route QA</span><strong>Pending final validation</strong></li>
+            <li><span>Desktop / mobile QA</span><strong>Pending final validation</strong></li>
             <li><span>Boundary</span><strong>No live data or provider activation</strong></li>
           </ul>
         </article>
 
         <article class="staging-command-panel staging-tracker-panel">
           <span class="meta-label">Validation State</span>
-          <h3>Local checks and hosted verification passed.</h3>
+          <h3>Validation must pass before hosted status is recorded.</h3>
           <ul class="staging-fact-list">
-            <li><span>JavaScript</span><strong>Syntax checks passed</strong></li>
-            <li><span>Repository validation</span><strong>Build and safety checks passed</strong></li>
-            <li><span>Browser QA</span><strong>Desktop 1280x720 · Mobile 390x844 passed hosted</strong></li>
-            <li><span>Public result</span><strong>PASS / HOSTED QA VERIFIED</strong></li>
+            <li><span>JavaScript</span><strong>Pending</strong></li>
+            <li><span>Repository validation</span><strong>Pending</strong></li>
+            <li><span>Browser QA</span><strong>Desktop and mobile pending</strong></li>
+            <li><span>Public result</span><strong>Not yet hosted verified</strong></li>
           </ul>
           <a class="secondary-action" href="#/staging" data-staging-tracker>Review tracker records</a>
         </article>
 
         <article class="staging-command-panel staging-decision-panel">
           <span class="meta-label">Next Bounded Review</span>
-          <h3>Investor demo rehearsal and public-launch review.</h3>
-          <p class="staging-panel-note">The runtime remains static/manual and research-only. No provider, live-data, broker, execution, subscription, product, workflow, storage, navigation, or Options Hub work is authorized by this hosted status record.</p>
+          <h3>Verified Options Data Provider Legal + Architecture Review.</h3>
+          <p class="staging-panel-note">The runtime remains static/manual and research-only. No provider, live-data, broker, execution, subscription, product, workflow, storage, navigation, or Options Hub work is authorized by this product lock.</p>
           <div class="staging-decision-actions">
             <a class="primary-action" href="#/staging" data-staging-tracker>Review Hosted Records</a>
             <a class="secondary-action" href="#/roadmap">Review Roadmap</a>

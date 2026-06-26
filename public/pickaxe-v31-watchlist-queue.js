@@ -35,7 +35,7 @@
         <div class="v31-watch-chip-row">
           <span class="v31-watch-chip">Demo Data</span>
           <span class="v31-watch-chip">${esc(gate)}</span>
-          <span class="v31-watch-chip">No Output Until Approved</span>
+          <span class="v31-watch-chip">No Output Until Gates Pass</span>
         </div>
         <button type="button" class="v31-watch-btn" data-v31-watch-symbol="${esc(symbol)}">Load Candidate</button>
       </article>
@@ -60,7 +60,7 @@
         <div>
           <p class="v31-watch-kicker">Patch 4 / Watchlist Review Queue / Demo Universe</p>
           <h3>Watchlist Becomes the Pipeline</h3>
-          <p>QQQ is the golden-path test case. The watchlist is the broader research universe. Every symbol stays blocked until Source Ledger, Silence Gate, Risk Gate, and CEO B review are complete.</p>
+          <p>QQQ is the golden-path test case. The watchlist is the broader research universe. Every symbol stays blocked until Source Ledger, Silence Gate, Risk Gate, and CEO B Standard are complete.</p>
         </div>
         <div class="v31-watch-state">
           <p class="v31-watch-kicker">Current Candidate</p>
