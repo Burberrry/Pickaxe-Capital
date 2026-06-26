@@ -2,6 +2,33 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Automatic Options Alerts Feed & Always-On Intelligence Architecture v1 is **PASS / HOSTED QA VERIFIED**.
+
+- One-shot feed-first Options Alerts runtime, always-on architecture lock, validation, deployment, hosted QA, and status record.
+- Safety branch: `backup/pre-automatic-alerts-feed-v1-20260625-210302`.
+- Work branch: `feature/automatic-alerts-feed-v1-20260625-210302`.
+- Implementation commit on `main`: `e9bc77868e19287472207cea198e5e77c172b59f`.
+- GitHub Pages run `28216872182` passed `Validate and Build` job `83589664193` and `Deploy` job `83589684713`.
+- Deployment `5205531964` finished with deployment status `14813934149` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Created the 43-section architecture lock: `docs/02_RESEARCH/PICKAXE_ALWAYS_ON_OPTIONS_INTELLIGENCE_ARCHITECTURE_V1.md`.
+- Updated the product lock with the 2026-06-26 founder decision: open Pickaxe, see alerts, select one, review details.
+- The active Alerts route now opens as a static automatic research feed with five rows ordered by Research Readiness: QQQ, NVDA, SPY, TSLA, and GLD.
+- Feed columns now include Time, Ticker, Type, Alert, Expiration, Strike, Research Readiness, Source, Status, and Open.
+- Missing contract/source fields remain honest: `No Verified Time`, `Unavailable`, and `Source Required`.
+- The active Alerts surface no longer renders Quick Start or How to Use content; the flow is feed, selected detail, compact contributors, System Verdict, Evidence Packet, Required Gates, and safety footer.
+- Search/type/ticker/expiration/status filters are ephemeral in-page state only; no LocalStorage key, route, review queue, packet model, or storage contract was added.
+- Hosted Alerts QA passed for QQQ default selection, NVDA selection sync, GLD filter behavior, selected detail, System Verdict, contributors, Evidence Packet, safety language, one Starlight canvas, no console errors, no document-level overflow, and no provider/broker/payment/auth requests.
+- Hosted mobile `390x844` QA passed on `/app/alerts` with five feed rows and no horizontal overflow.
+- V3.1 QQQ golden path, Signals placement, selected-candidate behavior, Phase 9B handoff, direct bridges, LocalStorage contracts, root/public mirrors, and the static data boundary were preserved.
+- `/ai-handoff` and `/source-hub-staging` remain hosted `404` / local-only.
+- No live data, provider activation, browser provider request, broker execution, order placement, alert delivery, authentication, payment, subscription, autonomous publishing, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged.
+
+Next bounded step: `Verified Options Data Provider Legal + Architecture Review — docs-only`.
+
+## Previous Active Checkpoint - Pickaxe Options Alerts Core Product & Brand System v1
+
 Pickaxe Options Alerts Core Product & Brand System v1 is **PASS / HOSTED QA VERIFIED**.
 
 - One-shot Options Alerts core product vocabulary, brand system, desktop-first hierarchy, validation, deployment, hosted QA, and status lock.
@@ -12,20 +39,18 @@ Pickaxe Options Alerts Core Product & Brand System v1 is **PASS / HOSTED QA VERI
 - Deployment `5205142147` finished with deployment status `14812832037` success.
 - Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
 - Created the canonical product lock document: `docs/01_PRODUCT/PICKAXE_OPTIONS_ALERTS_CORE_PRODUCT_AND_BRAND_SYSTEM_V1.md`.
-- The public workflow now uses `Pickaxe Capital`, `Options Alerts`, `Research OS`, `Setups to Review`, `Research Readiness`, `System Intelligence`, `System Verdict`, `Research Packet`, `Evidence Packet`, `Sources`, `Rules`, `Status`, `CEO B Standard`, and `No External Action`.
+- The public workflow uses `Pickaxe Capital`, `Options Alerts`, `Research OS`, `Setups to Review`, `Research Readiness`, `System Intelligence`, `System Verdict`, `Research Packet`, `Evidence Packet`, `Sources`, `Rules`, `Status`, `CEO B Standard`, and `No External Action`.
 - Product sentence locked: `Rank setups. Verify evidence. Block action until every required gate passes.`
-- Alerts now exposes the eight-field System Verdict and required gate model while keeping the current state `DEMO / Source Required`, `UNKNOWN / No market timestamp`, and `BLOCKED — NO EXTERNAL ACTION`.
-- Active public workflow controls no longer show visible approve/reject/accept/decline alert language.
-- Founder Ghost Gray is locked as a restrained signature token; the premium dark/gold/silver Pickaxe visual system remains intact.
-- Sources, Rules, Status, and Staging now support the product lock with source-required/static truth, gate precedence, hosted verification, and authorized-provider boundary copy.
+- Alerts exposed the eight-field System Verdict and required gate model while keeping the current state `DEMO / Source Required`, `UNKNOWN / No market timestamp`, and `BLOCKED — NO EXTERNAL ACTION`.
+- Founder Ghost Gray was locked as a restrained signature token; the premium dark/gold/silver Pickaxe visual system remained intact.
+- Sources, Rules, Status, and Staging supported the product lock with source-required/static truth, gate precedence, hosted verification, and authorized-provider boundary copy.
 - V3.1 QQQ golden path, Signals placement, selected-candidate behavior, Phase 9B handoff, direct bridges, LocalStorage contracts, and root/public mirrors were preserved.
 - Hosted desktop and mobile browser QA passed across the owner/support routes with one visible Starlight canvas, no console errors/warnings, no document-level overflow, preserved bridges, no forbidden visible workflow controls, and no provider/broker/payment/auth requests.
-- Hosted Alerts interaction QA passed for QQQ, NVDA, SPY, TSLA, and GLD selection, System Verdict fields, Required Gates, Research Packet, Evidence Packet, and the no-external-action boundary.
-- `/ai-handoff` and `/source-hub-staging` remain hosted `404` / local-only.
+- `/ai-handoff` and `/source-hub-staging` remained hosted `404` / local-only.
 - No live data, provider activation, browser provider request, broker execution, order placement, alert delivery, authentication, payment, subscription, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
 - `data/signal-alerts.json` remained unchanged.
 
-Next bounded step: `Verified Options Data Provider Legal + Architecture Review — docs-only`.
+Next bounded step was `Verified Options Data Provider Legal + Architecture Review — docs-only`.
 
 ## Previous Active Checkpoint - Pickaxe Public Launch Finish Sprint v1
 

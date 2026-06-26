@@ -1,6 +1,55 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Options Alerts Core Product & Brand System v1
+## Current Checkpoint - Pickaxe Automatic Options Alerts Feed & Always-On Intelligence Architecture v1
+
+- Date: 2026-06-26.
+- Result: **PASS / HOSTED QA VERIFIED**.
+- Sprint type: one-shot feed-first Options Alerts runtime, always-on architecture lock, validation, deployment, hosted QA, and status record.
+- Starting branch: `feature/automatic-alerts-feed-v1-20260625-210302`.
+- Starting local and `origin/main` commit: `528411283f7c1ba7b1a218fd5e8f816ebf975fda`.
+- Safety branch: `backup/pre-automatic-alerts-feed-v1-20260625-210302`.
+- Work branch: `feature/automatic-alerts-feed-v1-20260625-210302`.
+- Integration method: fast-forward merge from the work branch into `main`; no merge commit created.
+- Implementation commit on `main`: `e9bc77868e19287472207cea198e5e77c172b59f`.
+- Implementation GitHub Pages workflow: `28216872182` (`Validate and Deploy GitHub Pages`) for commit `e9bc77868e19287472207cea198e5e77c172b59f`.
+- Implementation Pages jobs: `83589664193` (`Validate and Build`) success; `83589684713` (`Deploy`) success.
+- Implementation Pages deployment: `5205531964`; deployment status `14813934149` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Created `docs/02_RESEARCH/PICKAXE_ALWAYS_ON_OPTIONS_INTELLIGENCE_ARCHITECTURE_V1.md` with the 43-section architecture lock.
+- Updated the Options Alerts product lock with the 2026-06-26 founder decision: open Pickaxe, see alerts, select one, review details.
+- Active Alerts now opens as a static automatic research feed with five rows ordered by Research Readiness: QQQ, NVDA, SPY, TSLA, and GLD.
+- Feed columns now include Time, Ticker, Type, Alert, Expiration, Strike, Research Readiness, Source, Status, and Open.
+- Missing contract/source fields remain honest: `No Verified Time`, `Unavailable`, and `Source Required`.
+- The primary Alerts surface no longer renders Quick Start or How to Use content; the active flow is feed, selected alert detail, compact system contributors, System Verdict, Evidence Packet, Required Gates, and safety footer.
+- Default selection remains QQQ; NVDA selection sync and GLD filtering passed local and hosted interaction QA.
+- Filters for search, type, ticker, expiration, and status are ephemeral in-page state only; no LocalStorage key, packet model, route, review queue, or persistent storage contract was added.
+- Compact contributor states show deterministic labels only and do not imply live agents, telemetry, sentiment scraping, provider analysis, or autonomous learning.
+- V3.1 QQQ golden path placement, selected-candidate behavior, detailed Signals placement, Phase 9B handoff, direct bridges, LocalStorage contracts, root/public mirrors, and `data/signal-alerts.json` were preserved.
+- Local validation passed: `node --check public/app.js`; `node --check app.js`; `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
+- Local desktop `1440x1100` and mobile `390x844` browser QA passed for feed rendering, default QQQ selection, NVDA selection, GLD filter, Evidence Packet visibility, one Starlight canvas, no console errors, and no horizontal overflow.
+- Hosted desktop route QA passed on `/`, `/#/alerts`, `/app/alerts`, `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/agents`, and `/vision-map`.
+- Hosted Alerts QA passed for the five-row feed, QQQ default selection, NVDA selection sync, GLD filter behavior, required feed columns, selected detail, System Verdict `BLOCKED — NO EXTERNAL ACTION`, compact contributors, Evidence Packet, safety language, one Starlight canvas, no console errors, no document-level overflow, and no forbidden provider/broker/payment/auth requests.
+- Hosted mobile `390x844` QA passed on `/app/alerts` with no Quick Start / How to Use in the active Alerts section, no horizontal overflow, visible evidence summary, and five feed rows.
+- Hosted HTTP checks confirmed `/app/alerts` redirects to `/app/alerts/` and resolves to the Alerts bridge, while `/ai-handoff` and `/source-hub-staging` remain hosted `404` / local-only.
+- No live data, provider activation, browser provider request, broker execution, order placement, alert delivery, authentication, payment, subscription, autonomous publishing, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Local screenshots saved outside the repo: `/tmp/pickaxe-automatic-alerts-feed-v1-local-default-desktop-1440.png` and `/tmp/pickaxe-automatic-alerts-feed-v1-local-default-mobile-390.png`.
+- Hosted screenshots saved outside the repo: `/tmp/pickaxe-automatic-alerts-feed-v1-hosted-implementation-desktop-1440.png` and `/tmp/pickaxe-automatic-alerts-feed-v1-hosted-implementation-mobile-390.png`.
+- Status-record deployment evidence is not embedded self-referentially in this commit; it is recorded in the final sprint report after GitHub Pages creates the deployment for this status-record commit.
+- Next bounded recommendation: `Verified Options Data Provider Legal + Architecture Review — docs-only`.
+
+### Pickaxe Automatic Options Alerts Feed & Always-On Intelligence Architecture v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `docs/01_PRODUCT/PICKAXE_OPTIONS_ALERTS_CORE_PRODUCT_AND_BRAND_SYSTEM_V1.md`
+- `docs/02_RESEARCH/PICKAXE_ALWAYS_ON_OPTIONS_INTELLIGENCE_ARCHITECTURE_V1.md`
+
+## Previous Checkpoint - Pickaxe Options Alerts Core Product & Brand System v1
 
 - Date: 2026-06-26.
 - Result: **PASS / HOSTED QA VERIFIED**.
