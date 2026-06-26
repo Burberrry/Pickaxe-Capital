@@ -42,6 +42,7 @@ const state = {
   selectedIntelligenceCandidateId: "PIC-DEMO-QQQ-001",
   alertsAdvancedOpen: false,
   alertsOperatorEvidenceOpen: false,
+  alertFeedFilters: { search: "", type: "all", ticker: "all", expiration: "all", status: "all" },
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
@@ -10015,22 +10016,292 @@ function failedGatesHas(decisionState, gateName) {
   return Array.isArray(decisionState?.failedGates) && decisionState.failedGates.includes(gateName);
 }
 
+function getSelectedAlertsCandidate() {
+  const reviewOrder = getAlertsOperatorReviewOrder();
+  const selected = INTELLIGENCE_CORE_CANDIDATES.find((item) => item.id === state.selectedIntelligenceCandidateId);
+  if (selected) return selected;
+  const fallback = reviewOrder[0]?.item || INTELLIGENCE_CORE_CANDIDATES[0];
+  if (fallback) state.selectedIntelligenceCandidateId = fallback.id;
+  return fallback;
+}
+
+function getAlertsDirectionLabel(candidate = {}) {
+  const bias = String(candidate.bias || "").toLowerCase();
+  if (bias.includes("bear")) return "Bearish";
+  if (bias.includes("bull")) return "Bullish";
+  if (bias.includes("neutral")) return "Neutral";
+  return "Unavailable";
+}
+
+function getAlertsCardReason(candidate = {}) {
+  const cardReasons = {
+    QQQ: "Missing verified breadth, quote timestamp, and options-chain freshness.",
+    NVDA: "Missing catalyst source check and late-volatility guardrail.",
+    SPY: "Missing breadth stability and verified trend-support evidence.",
+    TSLA: "Missing catalyst verification and spread/liquidity discipline.",
+    GLD: "Missing rates, dollar, and macro source freshness confirmation.",
+  };
+  return cardReasons[candidate.ticker] || "Source freshness and options-chain verification required.";
+}
+
+function getAlertsFeedRows(sourceStatus) {
+  return getAlertsOperatorReviewOrder().map(({ item, itemScore }, index) => {
+    const decision = getAlertsOperatorDecisionState(item, sourceStatus);
+    return {
+      id: item.id,
+      rank: index + 1,
+      ticker: item.ticker,
+      type: getAlertsDirectionLabel(item),
+      alert: item.setupType,
+      time: "No Verified Time",
+      expiration: "Unavailable",
+      strike: "Source Required",
+      readiness: `${itemScore.total}/100`,
+      readinessValue: itemScore.total,
+      readinessClass: itemScore.classification,
+      source: "Source Required",
+      status: decision.cardLabel,
+      actionBoundary: decision.actionBoundary,
+      optionsQuality: item.options?.grade || "Not Evaluated",
+      missing: getAlertsCardReason(item),
+      candidate: item,
+      decision,
+      score: itemScore,
+    };
+  });
+}
+
+function getAlertsFilterOptions(rows, key) {
+  return [...new Set(rows.map((row) => row[key]).filter(Boolean))]
+    .sort((a, b) => String(a).localeCompare(String(b)));
+}
+
+function getFilteredAlertsRows(rows) {
+  const filters = state.alertFeedFilters || {};
+  const search = String(filters.search || "").trim().toLowerCase();
+  return rows.filter((row) => {
+    const haystack = [
+      row.ticker,
+      row.type,
+      row.alert,
+      row.expiration,
+      row.strike,
+      row.readiness,
+      row.source,
+      row.status,
+      row.optionsQuality,
+      row.missing,
+    ].join(" ").toLowerCase();
+    return (!search || haystack.includes(search))
+      && (!filters.type || filters.type === "all" || row.type === filters.type)
+      && (!filters.ticker || filters.ticker === "all" || row.ticker === filters.ticker)
+      && (!filters.expiration || filters.expiration === "all" || row.expiration === filters.expiration)
+      && (!filters.status || filters.status === "all" || row.status === filters.status);
+  });
+}
+
+function renderAlertsFilterSelect(id, label, key, rows) {
+  const selectedValue = state.alertFeedFilters?.[key] || "all";
+  const options = getAlertsFilterOptions(rows, key);
+  return `
+    <label class="alerts-feed-control" for="${escapeHtml(id)}">
+      <span>${escapeHtml(label)}</span>
+      <select id="${escapeHtml(id)}" onchange="window.updateAlertsFeedFilter('${escapeHtml(key)}', this.value, this.id)">
+        <option value="all"${selectedValue === "all" ? " selected" : ""}>All</option>
+        ${options.map((value) => `<option value="${escapeHtml(value)}"${selectedValue === value ? " selected" : ""}>${escapeHtml(value)}</option>`).join("")}
+      </select>
+    </label>
+  `;
+}
+
+function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
+  const filters = state.alertFeedFilters || {};
+  return `
+    <section class="alerts-feed-product-bar" aria-label="Options Alerts controls">
+      <div class="alerts-brand-lock">
+        <img src="brand/pickaxe-capital-logo.png?v=20260531-logo3" alt="" aria-hidden="true" />
+        <div>
+          <small>PICKAXE CAPITAL</small>
+          <strong>Options Alerts</strong>
+          <span>Research OS</span>
+        </div>
+      </div>
+      <div class="alerts-feed-truth">
+        <span>${renderIntelligenceDataMode(sourceStatus.activeProviderMode)}<strong>Source Required</strong></span>
+        <span><em>Freshness</em><strong>${escapeHtml(sourceStatus.freshness)}</strong></span>
+        <span><em>Status</em><strong>${escapeHtml(decisionState.status)}</strong></span>
+      </div>
+      <div class="alerts-feed-controls">
+        <label class="alerts-feed-control alerts-search-control" for="alertsFeedSearch">
+          <span>Search</span>
+          <input
+            id="alertsFeedSearch"
+            value="${escapeHtml(filters.search || "")}"
+            placeholder="Ticker or setup"
+            autocomplete="off"
+            oninput="window.updateAlertsFeedFilter('search', this.value, this.id)"
+          />
+        </label>
+        ${renderAlertsFilterSelect("alertsTypeFilter", "Type", "type", rows)}
+        ${renderAlertsFilterSelect("alertsTickerFilter", "Ticker", "ticker", rows)}
+        ${renderAlertsFilterSelect("alertsExpirationFilter", "Expiration", "expiration", rows)}
+        ${renderAlertsFilterSelect("alertsStatusFilter", "Status", "status", rows)}
+      </div>
+    </section>
+  `;
+}
+
+function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
+  return `
+    <section class="alerts-feed-shell" aria-labelledby="alertsFeedTitle">
+      <div class="alerts-feed-head">
+        <div>
+          <span class="meta-label">Ordered by Research Readiness</span>
+          <h3 id="alertsFeedTitle">Alert Feed</h3>
+        </div>
+        <p>Readiness organizes review priority. Required gates control advancement.</p>
+      </div>
+      <div class="alerts-feed-table" role="table" aria-label="Options alerts research feed">
+        <div class="alerts-feed-row alerts-feed-row-head" role="row">
+          ${["Time", "Ticker", "Type", "Alert", "Expiration", "Strike", "Research Readiness", "Source", "Status", "Open"].map((column) => `<span role="columnheader">${escapeHtml(column)}</span>`).join("")}
+        </div>
+        ${filteredRows.length ? filteredRows.map((row) => `
+          <button
+            type="button"
+            class="alerts-feed-row ${row.id === selectedCandidateId ? "is-active" : ""}"
+            data-alert-row-id="${escapeHtml(row.id)}"
+            data-alert-row-ticker="${escapeHtml(row.ticker)}"
+            role="row"
+            aria-pressed="${row.id === selectedCandidateId}"
+            aria-label="${escapeHtml(`${row.ticker} ${row.alert}. ${row.readiness} Research Readiness. ${row.source}. ${row.status}. ${row.missing}`)}"
+            onclick="window.selectIntelligenceCandidate('${escapeHtml(row.id)}', { preserveScroll: true })"
+          >
+            <span role="cell" data-label="Time">${escapeHtml(row.time)}</span>
+            <span role="cell" data-label="Ticker"><strong>${escapeHtml(row.ticker)}</strong></span>
+            <span role="cell" data-label="Type">${escapeHtml(row.type)}</span>
+            <span role="cell" data-label="Alert">${escapeHtml(row.alert)}</span>
+            <span role="cell" data-label="Expiration">${escapeHtml(row.expiration)}</span>
+            <span role="cell" data-label="Strike">${escapeHtml(row.strike)}</span>
+            <span role="cell" data-label="Research Readiness"><strong>${escapeHtml(row.readiness)}</strong><small>${escapeHtml(row.readinessClass)}</small></span>
+            <span role="cell" data-label="Source">${escapeHtml(row.source)}</span>
+            <span role="cell" data-label="Status"><em>${escapeHtml(row.status)}</em></span>
+            <span role="cell" data-label="Open"><b>Open</b></span>
+          </button>
+        `).join("") : `
+          <div class="alerts-feed-empty" role="row">
+            <span>No alerts match the current filters.</span>
+            <button type="button" onclick="window.resetAlertsFeedFilters()">Reset filters</button>
+          </div>
+        `}
+      </div>
+      <p class="alerts-feed-footnote">${filteredRows.length} of ${rows.length} static/demo research setups shown. Missing option fields stay unavailable until verified sources exist.</p>
+    </section>
+  `;
+}
+
+function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionState) {
+  const directionClass = /bear/i.test(candidate.bias) ? "is-bear" : /bull/i.test(candidate.bias) ? "is-bull" : "";
+  const detailFields = [
+    ["Ticker", candidate.ticker],
+    ["Alert / Setup", candidate.setupType],
+    ["Type", getAlertsDirectionLabel(candidate)],
+    ["Expiration", "Unavailable"],
+    ["Strike", "Source Required"],
+    ["Research Timeframe", candidate.timeframe],
+    ["Research Readiness", `${score.total}/100 · ${score.classification}`],
+    ["System Status", decisionState.status],
+    ["Source Status", "Source Required"],
+    ["Source Confidence", `${sourceStatus.sourceConfidence.score}/100 · ${sourceStatus.sourceConfidence.classification}`],
+    ["Verified Market Timestamp", "No Verified Time"],
+    ["Options Quality", candidate.options?.grade || "Not Evaluated"],
+    ["Contract Grade", candidate.options?.grade || "Not Evaluated"],
+    ["Relative Strength Context", candidate.marketRegime],
+    ["Catalyst", candidate.catalyst],
+    ["Risk", candidate.riskRating],
+    ["Invalidation", candidate.invalidation],
+    ["No-Trade Conditions", candidate.risk.noTrade],
+    ["Next Requirement", decisionState.nextRequirement],
+    ["CEO B Standard", "Applied"],
+    ["Action Boundary", decisionState.actionBoundary],
+  ];
+  return `
+    <section class="alerts-selected-detail" aria-label="Selected alert detail">
+      <header>
+        <div>
+          <span class="meta-label">Selected Alert</span>
+          <h3>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</h3>
+          <p>Research-ranked setup detail. Missing fields are not inferred.</p>
+        </div>
+        <strong class="${directionClass}">${escapeHtml(candidate.bias)}</strong>
+      </header>
+      <div class="alerts-selected-detail-grid">
+        ${detailFields.map(([label, value]) => `
+          <div>
+            <span>${escapeHtml(label)}</span>
+            <strong>${escapeHtml(value)}</strong>
+          </div>
+        `).join("")}
+      </div>
+      <article class="alerts-selected-thesis">
+        <span>Thesis</span>
+        <p>${escapeHtml(candidate.ceoBNote)}</p>
+      </article>
+      <div class="alerts-operator-actions" aria-label="Research packet actions">
+        <button type="button" class="alerts-operator-review-button" onclick="window.openAlertsDeepReview()">
+          Open Research Packet
+        </button>
+        <button type="button" class="alerts-operator-review-button secondary" onclick="window.openAlertsSelectedEvidence()">
+          View Evidence
+        </button>
+      </div>
+    </section>
+  `;
+}
+
+function renderAlertsContributorPanel(decisionState) {
+  const sourceMissing = failedGatesHas(decisionState, "Source Gate") || failedGatesHas(decisionState, "Timestamp Gate");
+  const chainMissing = failedGatesHas(decisionState, "Options-Chain Gate");
+  const contributors = [
+    ["Source", sourceMissing ? "MISSING" : "PASS", sourceMissing ? "Provider or timestamp evidence missing" : "Source gate clear"],
+    ["Options Flow", chainMissing ? "MISSING" : "PASS", chainMissing ? "Verified options chain missing" : "Options-chain gate clear"],
+    ["Technicals", "NOT EVALUATED", "Demo structure only"],
+    ["Catalyst", "NOT EVALUATED", "Source check required"],
+    ["Risk", failedGatesHas(decisionState, "Risk Gate") ? "BLOCKED" : "PASS", "Risk boundary visible"],
+    ["Sentiment", "NOT EVALUATED", "No verified sentiment source"],
+    ["Memory", "NOT EVALUATED", "Outcome record pending"],
+    ["System Intelligence", failedGatesHas(decisionState, "System Intelligence Gate") ? "BLOCKED" : "PASS", "Verdict applied"],
+    ["CEO B Standard", "PASS", "Governance applied"],
+  ];
+  return `
+    <section class="alerts-contributor-panel" aria-label="System contributors">
+      <div class="alerts-feed-head">
+        <div>
+          <span class="meta-label">Compact Gates / Contributors</span>
+          <h3>System Contributors</h3>
+        </div>
+        <p>States are deterministic gate labels only; no live agents or provider analysis is implied.</p>
+      </div>
+      <div>
+        ${contributors.map(([name, stateLabel, detail]) => `
+          <article class="is-${escapeHtml(stateLabel.toLowerCase().replaceAll(" ", "-"))}">
+            <span>${escapeHtml(name)}</span>
+            <strong>${escapeHtml(stateLabel)}</strong>
+            <small>${escapeHtml(detail)}</small>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
 function renderAlertsOperatorWorkspace() {
-  const candidate = INTELLIGENCE_CORE_CANDIDATES.find((item) => item.id === state.selectedIntelligenceCandidateId)
-    || INTELLIGENCE_CORE_CANDIDATES[0];
+  const candidate = getSelectedAlertsCandidate();
   const score = scoreIntelligenceCandidate(candidate);
   const sourceStatus = getSourceStatus();
-  const regime = getMarketRegime();
-  const directionClass = /bear/i.test(candidate.bias) ? "is-bear" : /bull/i.test(candidate.bias) ? "is-bull" : "";
   const decisionState = getAlertsOperatorDecisionState(candidate, sourceStatus);
-  const reviewOrder = getAlertsOperatorReviewOrder();
+  const rows = getAlertsFeedRows(sourceStatus);
+  const filteredRows = getFilteredAlertsRows(rows);
   const evidenceOpen = state.alertsOperatorEvidenceOpen || !window.matchMedia("(max-width: 760px)").matches;
-  const missingRequirements = [
-    "Verified market provider",
-    "Usable quote timestamp",
-    "Verified options chain",
-    "Source freshness check",
-  ];
   const sourceTruthBlocked = ["Source Gate", "Timestamp Gate", "Options-Chain Gate"].some((gateName) => failedGatesHas(decisionState, gateName));
   const requiredGateSummary = [
     ["Source", failedGatesHas(decisionState, "Source Gate") ? "MISSING" : "PASS", "Provider/source identity"],
@@ -10042,61 +10313,17 @@ function renderAlertsOperatorWorkspace() {
     ["CEO B Standard", "PASS", "Governance applied"],
     ["Action Boundary", "BLOCKED", "No external action"],
   ];
-  const cardReasons = {
-    QQQ: "Missing verified breadth, quote timestamp, and options-chain freshness.",
-    NVDA: "Missing catalyst source check and late-volatility guardrail.",
-    SPY: "Missing breadth stability and verified trend-support evidence.",
-    TSLA: "Missing catalyst verification and spread/liquidity discipline.",
-    GLD: "Missing rates, dollar, and macro source freshness confirmation.",
-  };
-  const quickStartSteps = [
-    "Read Status",
-    "Choose Setup",
-    "Check Verdict",
-    "Open Packet",
-    "Verify Sources + Rules",
-  ];
-  const howToUseSteps = [
-    ["Start with Alerts", "This is the main product. Review options setups as research objects, not trade commands."],
-    ["Read the Status", "Check Data Status, Source Freshness, and System Status before reviewing any setup."],
-    ["Choose a Setup", "Select QQQ, NVDA, SPY, TSLA, or GLD to update the selected research packet."],
-    ["Check System Intelligence", "The verdict explains whether the setup is blocked, watch-only, or ready for deeper review."],
-    ["Open Research Packet", "Review the setup thesis, catalyst, invalidation, contract quality, and missing gates."],
-    ["Open Evidence Packet", "See what is known, what is missing, and why the setup remains blocked."],
-    ["Check Sources", "Sources explains provider state, data freshness, timestamp status, and options-chain availability."],
-    ["Check Rules", "Rules explains the gates: source, timestamp, options chain, liquidity, spread, risk, and governance."],
-    ["Check Status", "Status shows what is active, demo, blocked, unavailable, and deferred."],
-    ["Respect the Boundary", "Research Only. Not Financial Advice. No Broker Execution. Options involve substantial risk."],
-  ];
-  const pickaxeDoes = [
-    "Organizes options research",
-    "Ranks research readiness",
-    "Exposes missing gates",
-    "Separates thesis from action",
-    "Preserves source and risk discipline",
-    "Creates reviewable packets",
-    "Applies the CEO B Standard through system logic",
-  ];
-  const pickaxeDoesNot = [
-    "Financial advice",
-    "Broker execution",
-    "Live trading or order placement",
-    "Guaranteed outcomes",
-    "Paid signals",
-    "Hidden provider claims",
-    "Performance claims",
-    "Public alert clearance decisions",
-  ];
 
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
-      <header class="alerts-operator-header">
+      ${renderAlertsFeedProductBar(rows, sourceStatus, decisionState)}
+      <header class="alerts-operator-header alerts-feed-intro">
         <div class="alerts-operator-title">
           <span aria-hidden="true">Pickaxe Capital</span>
           <small>PICKAXE CAPITAL</small>
           <h2 id="alertsOperatorTitle">Options Alerts</h2>
           <strong class="alerts-product-descriptor">Research OS</strong>
-          <p>Rank setups. Verify evidence. Block action until every required gate passes.</p>
+          <p>Research-ranked options alerts with source, risk, evidence, and governance gates.</p>
         </div>
         <dl class="alerts-operator-status">
           <div>
@@ -10118,81 +10345,9 @@ function renderAlertsOperatorWorkspace() {
         </div>
       </header>
 
-      <section class="alerts-quick-start" aria-labelledby="alertsQuickStartTitle">
-        <div>
-          <span class="meta-label">Quick Start</span>
-          <h3 id="alertsQuickStartTitle">Use Pickaxe in five checks</h3>
-        </div>
-        <ol aria-label="Options Alerts quick start flow">
-          ${quickStartSteps.map((step, index) => `
-            <li>
-              <span>${String(index + 1).padStart(2, "0")}</span>
-              <strong>${escapeHtml(step)}</strong>
-            </li>
-          `).join("")}
-        </ol>
-        <button type="button" onclick="window.openPickaxeHowToUse()" aria-controls="pickaxeHowToUse">
-          How to Use
-        </button>
-      </section>
-
-      <section class="alerts-investor-frame" aria-label="Options Alerts product workflow">
-        <article>
-          <span>Rank setups</span>
-          <strong>Research Readiness orders the work.</strong>
-          <p>Research Readiness shows completeness, not expected return.</p>
-        </article>
-        <article>
-          <span>Verify evidence</span>
-          <strong>Source truth controls advancement.</strong>
-          <p>No provider, timestamp, or verified options chain is active.</p>
-        </article>
-        <article>
-          <span>Apply gates</span>
-          <strong>System Intelligence blocks action.</strong>
-          <p>Status can be Blocked, Watch, Research Review, or No Setup.</p>
-        </article>
-        <article>
-          <span>Open packets</span>
-          <strong>Research and evidence stay inspectable.</strong>
-          <p>Thesis, catalyst, contract quality, missing gates, and risk stay visible.</p>
-        </article>
-      </section>
-
-      <div class="alerts-operator-queue-head">
-        <strong>Setups to Review</strong>
-        <span>Readiness ranks packets. Gates control action boundaries.</span>
-      </div>
-      <div class="alerts-operator-candidates" aria-label="Options setups in research-readiness review order">
-        ${reviewOrder.map(({ item, itemScore }, reviewIndex) => {
-          const itemDecision = getAlertsOperatorDecisionState(item, sourceStatus);
-          return `
-            <button
-              type="button"
-              class="${item.id === candidate.id ? "is-active" : ""}"
-              aria-pressed="${item.id === candidate.id}"
-              aria-current="${item.id === candidate.id ? "true" : "false"}"
-              aria-label="${escapeHtml(`${item.ticker} ${item.setupType}. ${itemScore.total} out of 100 Research Readiness. System Status ${itemDecision.cardLabel}. Source Required. Options ${item.options.grade}. ${cardReasons[item.ticker] || "Source freshness and options-chain verification required."}`)}"
-              onclick="window.selectIntelligenceCandidate('${item.id}')"
-            >
-              <em>#${reviewIndex + 1}</em>
-              <strong>${escapeHtml(item.ticker)}</strong>
-              <span>${escapeHtml(item.setupType)}</span>
-              <mark>${item.id === candidate.id ? "Selected" : "Setup"}</mark>
-              <small>${itemScore.total}/100 Research Readiness</small>
-              <i>${escapeHtml(itemDecision.cardLabel)}</i>
-              <b>Source Required</b>
-              <u>Options ${escapeHtml(item.options.grade)}</u>
-              <p>${escapeHtml(cardReasons[item.ticker] || "Source freshness and options-chain verification required.")}</p>
-            </button>
-          `;
-        }).join("")}
-      </div>
-      <p class="alerts-operator-language-key" aria-label="Selected setup preview">
-        <span><strong>Selected Setup Preview</strong> = ${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</span>
-        <span><strong>Research Readiness</strong> = ${score.total}/100 · Options ${escapeHtml(candidate.options.grade)}</span>
-        <span><strong>System Verdict</strong> = ${escapeHtml(decisionState.label)}</span>
-      </p>
+      ${renderAlertsFeedTable(rows, filteredRows, candidate.id)}
+      ${renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionState)}
+      ${renderAlertsContributorPanel(decisionState)}
 
       <section class="alerts-operator-verdict ${decisionState.tone}" aria-label="Current operator decision state">
         <span>${escapeHtml(decisionState.label)}</span>
@@ -10212,122 +10367,69 @@ function renderAlertsOperatorWorkspace() {
         </dl>
       </section>
 
-      <div class="alerts-operator-candidate">
-        <div class="alerts-selected-ribbon">
-          <span>Selected Setup Preview</span>
-          <strong>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</strong>
-          <em>No external action available</em>
+      <details
+        class="alerts-operator-evidence alerts-evidence-panel"
+        ontoggle="window.syncAlertsOperatorEvidenceState(this.open)"
+        ${evidenceOpen ? "open" : ""}
+      >
+        <summary>
+          <span>Evidence Packet</span>
+          <small>Known, missing, unverified, blocked, and required next evidence for the selected alert</small>
+        </summary>
+        <div class="alerts-operator-columns">
+          <article>
+            <header><span>Setup &amp; Thesis</span></header>
+            <dl>
+              <div><dt>Thesis</dt><dd>${escapeHtml(candidate.ceoBNote)}</dd></div>
+              <div><dt>Catalyst</dt><dd>${escapeHtml(candidate.catalyst)}</dd></div>
+              <div><dt>Research Condition</dt><dd>${escapeHtml(candidate.entryTrigger)}</dd></div>
+              <div class="is-risk"><dt>Invalidation</dt><dd>${escapeHtml(candidate.invalidation)}</dd></div>
+              <div class="is-risk"><dt>No-Trade Conditions</dt><dd>${escapeHtml(candidate.risk.noTrade)}</dd></div>
+            </dl>
+          </article>
+
+          <article>
+            <header><span>Contract &amp; Options Quality</span></header>
+            <dl class="is-compact">
+              <div><dt>Expiration Window</dt><dd>${escapeHtml(candidate.optionWindow)}</dd></div>
+              <div><dt>Strike Logic</dt><dd>${escapeHtml(candidate.strikeLogic)}</dd></div>
+              <div><dt>Liquidity</dt><dd>${escapeHtml(candidate.liquidityStatus)}</dd></div>
+              <div><dt>Spread</dt><dd>${escapeHtml(candidate.options.spreadStatus)}</dd></div>
+              <div><dt>Volume / OI</dt><dd>${escapeHtml(candidate.options.volumeOiStatus)}</dd></div>
+              <div class="is-warning"><dt>IV Warning</dt><dd>${escapeHtml(candidate.options.ivWarning)}</dd></div>
+            </dl>
+            <div class="alerts-operator-quality">
+              <span>Overall Options Quality</span>
+              <strong>${escapeHtml(candidate.options.grade)}</strong>
+            </div>
+          </article>
+
+          <article>
+            <header><span>Source, Risk &amp; Review</span></header>
+            <dl class="is-compact">
+              <div><dt>Provider</dt><dd>${escapeHtml(sourceStatus.activeProvider.name)}</dd></div>
+              <div class="is-risk"><dt>Primary Source Status</dt><dd>Demo / unverified</dd></div>
+              <div class="is-warning"><dt>Source Freshness</dt><dd>${escapeHtml(sourceStatus.freshness)}</dd></div>
+              <div><dt>Risk State</dt><dd>${escapeHtml(candidate.riskRating)}</dd></div>
+              <div><dt>Data Confidence</dt><dd>${escapeHtml(candidate.dataQuality)} only</dd></div>
+            </dl>
+            <div class="alerts-evidence-gap-tags" aria-label="Evidence packet gap summary">
+              ${[
+                "Known: static/demo setup record",
+                "Missing: usable market timestamp",
+                "Unverified: options chain",
+                "Blocked: no external action",
+                "Required next: authorized provider verification"
+              ].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+            </div>
+            <div class="alerts-operator-decision">
+              <span>System Status</span>
+              <strong>${escapeHtml(decisionState.label)}</strong>
+              <small>Validate sources, risk, and contract data before any external action.</small>
+            </div>
+          </article>
         </div>
-        <div class="alerts-operator-candidate-head">
-          <div class="alerts-operator-identity">
-            <strong>${escapeHtml(candidate.ticker)}</strong>
-            <span>Setup Type <b>${escapeHtml(candidate.setupType)}</b></span>
-            <span>Research Bias <b class="${directionClass}">${escapeHtml(candidate.bias)}</b></span>
-          </div>
-          <div class="alerts-operator-score">
-            <span>Research Readiness</span>
-            <strong>${score.total}<small>/ 100</small></strong>
-            <em>Not expected return</em>
-          </div>
-          <div class="alerts-operator-grade">
-            <span>Contract Grade</span>
-            <strong>${escapeHtml(candidate.options.grade)}</strong>
-            <em>Demo options quality</em>
-          </div>
-          <div class="alerts-operator-review">
-            <span>Final System Status</span>
-            <strong>${escapeHtml(decisionState.status)}</strong>
-            <em>${escapeHtml(decisionState.actionBoundary)}</em>
-          </div>
-        </div>
-
-        <section class="alerts-operator-summary" aria-label="Selected setup summary">
-          <div><span>Setup Name</span><strong>${escapeHtml(candidate.setupType)}</strong><small>${escapeHtml(candidate.timeframe)}</small></div>
-          <div><span>Research Readiness</span><strong>${score.total}/100</strong><small>${escapeHtml(score.classification)} · packet completeness</small></div>
-          <div><span>Options Quality</span><strong>${escapeHtml(candidate.options.grade)}</strong><small>${escapeHtml(candidate.options.spreadStatus)}</small></div>
-          <div><span>Source State</span><strong>Source Required</strong><small>${escapeHtml(sourceStatus.freshness)} / no market timestamp</small></div>
-          <div><span>Risk State</span><strong>${escapeHtml(candidate.riskRating)}</strong><small>${escapeHtml(candidate.risk.noTrade)}</small></div>
-          <div><span>System Verdict</span><strong>${escapeHtml(decisionState.label)}</strong><small>${escapeHtml(decisionState.reason)}</small></div>
-        </section>
-
-        <section class="alerts-operator-missing" aria-label="Top missing requirements">
-          <span>Top missing requirements</span>
-          <div>${missingRequirements.map((item) => `<strong>${escapeHtml(item)}</strong>`).join("")}</div>
-        </section>
-
-        <div class="alerts-operator-actions" aria-label="Research packet actions">
-          <button type="button" class="alerts-operator-review-button" onclick="window.openAlertsDeepReview()">
-            Open Research Packet
-          </button>
-          <button type="button" class="alerts-operator-review-button secondary" onclick="window.openAlertsSelectedEvidence()">
-            View Evidence
-          </button>
-        </div>
-
-        <details
-          class="alerts-operator-evidence"
-          ontoggle="window.syncAlertsOperatorEvidenceState(this.open)"
-          ${evidenceOpen ? "open" : ""}
-        >
-          <summary>
-            <span>Evidence Packet</span>
-            <small>Thesis, contract quality, source, risk, and review state</small>
-          </summary>
-          <div class="alerts-operator-columns">
-            <article>
-              <header><span>Setup &amp; Thesis</span></header>
-              <dl>
-                <div><dt>Thesis</dt><dd>${escapeHtml(candidate.ceoBNote)}</dd></div>
-                <div><dt>Catalyst</dt><dd>${escapeHtml(candidate.catalyst)}</dd></div>
-                <div><dt>Research Condition</dt><dd>${escapeHtml(candidate.entryTrigger)}</dd></div>
-                <div class="is-risk"><dt>Invalidation</dt><dd>${escapeHtml(candidate.invalidation)}</dd></div>
-                <div class="is-risk"><dt>No-Trade Conditions</dt><dd>${escapeHtml(candidate.risk.noTrade)}</dd></div>
-              </dl>
-            </article>
-
-            <article>
-              <header><span>Contract &amp; Options Quality</span></header>
-              <dl class="is-compact">
-                <div><dt>Expiration Window</dt><dd>${escapeHtml(candidate.optionWindow)}</dd></div>
-                <div><dt>Strike Logic</dt><dd>${escapeHtml(candidate.strikeLogic)}</dd></div>
-                <div><dt>Liquidity</dt><dd>${escapeHtml(candidate.liquidityStatus)}</dd></div>
-                <div><dt>Spread</dt><dd>${escapeHtml(candidate.options.spreadStatus)}</dd></div>
-                <div><dt>Volume / OI</dt><dd>${escapeHtml(candidate.options.volumeOiStatus)}</dd></div>
-                <div class="is-warning"><dt>IV Warning</dt><dd>${escapeHtml(candidate.options.ivWarning)}</dd></div>
-              </dl>
-              <div class="alerts-operator-quality">
-                <span>Overall Options Quality</span>
-                <strong>${escapeHtml(candidate.options.grade)}</strong>
-              </div>
-            </article>
-
-            <article>
-              <header><span>Source, Risk &amp; Review</span></header>
-              <dl class="is-compact">
-                <div><dt>Provider</dt><dd>${escapeHtml(sourceStatus.activeProvider.name)}</dd></div>
-                <div class="is-risk"><dt>Primary Source Status</dt><dd>Demo / unverified</dd></div>
-                <div class="is-warning"><dt>Source Freshness</dt><dd>${escapeHtml(sourceStatus.freshness)}</dd></div>
-                <div><dt>Risk State</dt><dd>${escapeHtml(candidate.riskRating)}</dd></div>
-                <div><dt>Data Confidence</dt><dd>${escapeHtml(candidate.dataQuality)} only</dd></div>
-              </dl>
-              <div class="alerts-evidence-gap-tags" aria-label="Evidence packet gap summary">
-                ${[
-                  "Known: static/demo setup record",
-                  "Missing: usable market timestamp",
-                  "Unverified: options chain",
-                  "Blocked: no external action",
-                  "Required next: authorized provider verification"
-                ].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
-              </div>
-              <div class="alerts-operator-decision">
-                <span>System Status</span>
-                <strong>${escapeHtml(decisionState.label)}</strong>
-                <small>Validate sources, risk, and contract data before any external action.</small>
-              </div>
-            </article>
-          </div>
-        </details>
-      </div>
+      </details>
 
       <div class="alerts-operator-process">
         <strong>Required Gates</strong>
@@ -10341,45 +10443,6 @@ function renderAlertsOperatorWorkspace() {
         </ol>
         <button type="button" onclick="window.openAlertsDeepReview()">Open Research Packet</button>
       </div>
-
-      <details
-        id="pickaxeHowToUse"
-        class="alerts-howto-guide"
-        ontoggle="window.syncPickaxeHowToUseState(this.open)"
-      >
-        <summary data-pickaxe-howto-summary aria-expanded="false" aria-controls="pickaxeHowToUseSteps">
-          <span>
-            <strong>How to Use Pickaxe</strong>
-            <small>Pickaxe ranks options research readiness before any external action.</small>
-          </span>
-          <em>10 steps</em>
-        </summary>
-        <div id="pickaxeHowToUseSteps" class="alerts-howto-body">
-          <p>Pickaxe ranks options research readiness before any external action. Start with status, then review the setup, verdict, evidence, sources, rules, and system state.</p>
-          <ol>
-            ${howToUseSteps.map(([title, body], index) => `
-              <li>
-                <span>${String(index + 1).padStart(2, "0")}</span>
-                <div>
-                  <strong>${escapeHtml(title)}</strong>
-                  <p>${escapeHtml(body)}</p>
-                </div>
-              </li>
-            `).join("")}
-          </ol>
-        </div>
-      </details>
-
-      <section class="alerts-trust-boundary" aria-label="What Pickaxe does and does not do">
-        <article>
-          <span class="meta-label">What Pickaxe Does</span>
-          <ul>${pickaxeDoes.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-        </article>
-        <article>
-          <span class="meta-label">What Pickaxe Does Not Do</span>
-          <ul>${pickaxeDoesNot.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-        </article>
-      </section>
 
       <footer class="alerts-operator-safety">
         <span>Research Only</span>
@@ -11108,11 +11171,41 @@ function renderPickaxeIntelligenceCore() {
   `;
 }
 
-window.selectIntelligenceCandidate = (id) => {
+window.updateAlertsFeedFilter = (key, value, focusId = "") => {
+  const defaults = { search: "", type: "all", ticker: "all", expiration: "all", status: "all" };
+  if (!Object.prototype.hasOwnProperty.call(defaults, key)) return;
+  state.alertFeedFilters = {
+    ...defaults,
+    ...(state.alertFeedFilters || {}),
+    [key]: key === "search" ? String(value || "") : String(value || "all"),
+  };
+  renderAlertsPage();
+  if (!focusId) return;
+  window.setTimeout(() => {
+    const field = document.getElementById(focusId);
+    field?.focus({ preventScroll: true });
+    if (field?.tagName === "INPUT") {
+      const end = field.value.length;
+      field.setSelectionRange?.(end, end);
+    }
+  }, 0);
+};
+
+window.resetAlertsFeedFilters = () => {
+  state.alertFeedFilters = { search: "", type: "all", ticker: "all", expiration: "all", status: "all" };
+  renderAlertsPage();
+};
+
+window.selectIntelligenceCandidate = (id, options = {}) => {
   if (!INTELLIGENCE_CORE_CANDIDATES.some((item) => item.id === id)) return;
   state.selectedIntelligenceCandidateId = id;
   renderAlertsPage();
-  window.setTimeout(() => document.querySelector(`.alerts-operator-candidates button[aria-pressed="true"]`)?.focus(), 0);
+  window.setTimeout(() => {
+    const selector = options.preserveScroll
+      ? `[data-alert-row-id="${id}"]`
+      : `.alerts-operator-candidates button[aria-pressed="true"], [data-alert-row-id="${id}"]`;
+    document.querySelector(selector)?.focus({ preventScroll: Boolean(options.preserveScroll) });
+  }, 0);
 };
 
 window.openAlertsDeepReview = () => {
@@ -11566,7 +11659,7 @@ function renderAlertsPage() {
     state.selectedAlertId = activePackets[0]?.id || packets[0]?.id || "";
   }
   const selectedAlert = packets.find((packet) => packet.id === state.selectedAlertId) || activePackets[0] || packets[0];
-  const lastUpdated = new Date().toLocaleTimeString();
+  const lastUpdated = "static route initialization";
   els.alertsContent.innerHTML = renderResearchGatedAlertsDesk(packets, selectedAlert, lastUpdated);
   initializePickaxeOrbit();
   if (typeof window.renderV31MissionControl === "function") window.renderV31MissionControl();

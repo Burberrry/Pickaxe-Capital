@@ -18,6 +18,14 @@ The public runtime is static-first, vanilla HTML/CSS/JavaScript, and served from
 
 No backend, live provider, broker execution, authentication, payment, subscription, alert delivery, autonomous publishing, or live market data path is active.
 
+### Founder Decision - Automatic Feed And Always-On Architecture v1 (2026-06-26)
+
+CEO B selected the feed-first Options Alerts path: open Pickaxe, see alerts, select one, review details. The active Alerts route now prioritizes the automatic static research feed, selected alert detail, compact system contributors, System Verdict, Evidence Packet, Required Gates, and the research-only safety footer.
+
+The primary Alerts surface no longer leads with Quick Start or How to Use content. Those concepts are superseded by the direct feed workflow and the separate architecture record at `docs/02_RESEARCH/PICKAXE_ALWAYS_ON_OPTIONS_INTELLIGENCE_ARCHITECTURE_V1.md`.
+
+This decision does not authorize live providers, broker execution, alert delivery, autonomous publishing, new routes, new LocalStorage contracts, new packet models, or fake market timestamps. Current product truth remains `DEMO / Source Required`, `UNKNOWN / No market timestamp`, and `BLOCKED — NO EXTERNAL ACTION`.
+
 ## 3. Canonical Public Naming
 
 - Brand: `Pickaxe Capital`
