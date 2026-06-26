@@ -2,6 +2,30 @@
 
 ## Current Active Checkpoint
 
+Verified Options Data Provider Legal + Architecture Review v1 is **PASS / DOCS-ONLY COMPLETE**.
+
+- Docs-only official-source provider legal/commercial architecture review.
+- Starting branch: `main`.
+- Starting `main` and `origin/main` commit: `3f998d6150f4282616ec30c1709308367f23071b`.
+- Safety branch: `backup/pre-provider-legal-architecture-review-v1-20260625-233246`.
+- Work branch: `docs/provider-legal-architecture-review-v1-20260625-233246`.
+- Canonical review created: `docs/02_RESEARCH/PICKAXE_VERIFIED_OPTIONS_DATA_PROVIDER_LEGAL_ARCHITECTURE_REVIEW_V1.md`.
+- Research quality score: **960 / 1000**.
+- Massive Business Options is selected for written due diligence only; no provider activation, credential request, public display, cache, storage, alert delivery, broker connection, or runtime change is authorized.
+- Massive should also be the preferred underlying quote path if the same business/order-form rights include stock quote entitlement; Alpha Vantage remains a fallback one-symbol quote candidate only after written commercial approval and entitlement.
+- Tradier remains not selected first because the real-time market-data path is brokerage-account coupled.
+- Public display, redistribution, derived-data, storage, retention, attribution, OPRA/exchange classification, and commercial rights remain written confirmation gates.
+- Active governance wording now favors `CEO B Standard: Applied`, `Founder Override Available`, `Separate Public Activation Required`, `Governance review required before production promotion`, and `No External Action` where public workflow language is involved.
+- No runtime files, routes, renderers, storage keys, package scripts, provider code, server code, workflows, credentials, `.env` files, or `data/signal-alerts.json` changed.
+- Browser QA was not required because this sprint changed docs only.
+- Local validation passed: `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Local commit: `Document verified options data provider legal architecture`.
+
+Next bounded step: `Massive Business Licensing Confirmation Pack — vendor outreach / docs-only`.
+
+## Previous Active Checkpoint - Pickaxe Options Alerts Desktop Product Finish v1
+
 Pickaxe Options Alerts Desktop Product Finish v1 is **PASS / HOSTED QA VERIFIED**.
 
 - Push, fast-forward integration, hosted verification, and hosted status-record lock for the already completed desktop Options Alerts product finish.

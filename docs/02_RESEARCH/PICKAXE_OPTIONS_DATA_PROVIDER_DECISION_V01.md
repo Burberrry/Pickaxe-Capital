@@ -1,28 +1,33 @@
 # Pickaxe Options Data Provider Decision v0.1
 
-Status: Provider selected and fixture-backed normalizer implemented. No options provider is connected.
+Status: Revalidated and superseded by `PICKAXE_VERIFIED_OPTIONS_DATA_PROVIDER_LEGAL_ARCHITECTURE_REVIEW_V1.md`; Massive remains selected for written business due diligence only. No options provider is connected.
 Date reviewed: June 23, 2026.
+Legal architecture revalidation: 2026-06-26.
 Final reviewer: CEO B.
 Owner route: existing Options Alerts at `/` and `#/alerts`.
-Selected provider candidate: Massive business options data.
+Selected provider candidate: Massive Business Options, pending written commercial, OPRA/exchange, display, storage, attribution, and public activation confirmation.
 Selected first data scope: one filtered `QQQ` option-chain snapshot for one expiration.
 
 ## Decision
 
-Use Massive as the first options-chain provider candidate, subject to a written business/commercial agreement and explicit confirmation of display, storage, redistribution, attribution, and realtime entitlements.
+Use Massive as the first options-chain provider candidate, subject to a written business/commercial agreement and explicit confirmation of OPRA/exchange obligations, display, storage, redistribution, attribution, derived-data, underlying quote, and realtime/delayed entitlements.
+
+This document is now a historical implementation-support record. The canonical provider legal and architecture decision is `docs/02_RESEARCH/PICKAXE_VERIFIED_OPTIONS_DATA_PROVIDER_LEGAL_ARCHITECTURE_REVIEW_V1.md`.
 
 Do not use a brokerage API as the first options-data dependency. Pickaxe must preserve the architectural boundary between research data and execution.
 
 ```text
-CEO B manual request
+CEO B-authorized local request
   -> local/server-only Pickaxe proxy
   -> fixed Massive option-chain endpoint
   -> QQQ + one approved expiration + bounded contract filters
   -> normalized OptionsChainSnapshot
   -> timestamp and stale-data firewall
   -> liquidity and contract-quality gates
-  -> CEO B manual review
+  -> CEO B Standard: Applied
+  -> Founder Override Available
   -> no broker execution
+  -> Separate Public Activation Required
 ```
 
 ## Why Massive Is the Best Fit
@@ -184,9 +189,22 @@ Stop if any of these remain unclear:
 
 Do not substitute free, scraped, broker-page, or unlabeled data.
 
+## 2026-06-26 Revalidation Note
+
+This record remains useful for its Massive normalizer scope, first-request limits, field contract, freshness model, and fail-closed implementation notes. It is superseded for provider legal/commercial decision-making by `PICKAXE_VERIFIED_OPTIONS_DATA_PROVIDER_LEGAL_ARCHITECTURE_REVIEW_V1.md`.
+
+Revalidated status:
+
+- Massive remains the best first options-chain technical candidate.
+- Massive self-serve individual plans are not approved for Pickaxe public/commercial use.
+- Massive Business order-form rights, OPRA/exchange obligations, public display, storage, derived data, attribution, and underlying quote entitlement remain unresolved.
+- Alpha Vantage remains a quote fallback only after commercial approval and entitlement.
+- Tradier remains not selected first because of brokerage coupling.
+- No credentialed request, public display, provider activation, browser request, cache, storage, alert delivery, or broker path is authorized.
+
 ## Next Bounded Sprint
 
-`Options Data Connector v0.3 — Massive business/licensing confirmation and one credentialed local fixture comparison`
+`Massive Business Licensing Confirmation Pack — vendor outreach / docs-only`
 
 The pure response normalizer and deterministic fixtures are now implemented in `lib/massive-options-chain.mjs` and `scripts/check-options-chain.mjs`. They cover nanosecond timestamp conversion, per-contract freshness, bid/ask spread calculations, preliminary research-quality liquidity grades, exact OCC root matching, stale/crossed/missing-field hard blocks, ignored pagination, and provider rejection.
 

@@ -41,6 +41,10 @@ This decision does not authorize live providers, broker execution, alert deliver
 - Required operating logic: `Rules`
 - Current system truth: `Status`
 - Founder-approved doctrine: `CEO B Standard`
+- Governance state: `CEO B Standard: Applied`
+- Founder boundary: `Founder Override Available`
+- Public activation gate: `Separate Public Activation Required`
+- Production gate: `Governance review required before production promotion`
 - Current action boundary: `No External Action`
 
 ## 4. Terms Removed From The Public Workflow
@@ -88,7 +92,7 @@ Core rule: `No external action unless every required gate passes.`
 
 ## 8. CEO B Standard
 
-CEO B is the founder-approved governance doctrine embedded into System Intelligence. Public product language should use `CEO B Standard` sparingly and should not present CEO B as a visible accept/decline button or public manual-approval bottleneck.
+CEO B is the founder-approved governance doctrine embedded into System Intelligence. Public product language should use `CEO B Standard`, `CEO B Standard: Applied`, `Founder Override Available`, `Separate Public Activation Required`, `Governance review required before production promotion`, and `No External Action` with precision. It must not present CEO B as a visible accept/decline button or public manual-approval bottleneck.
 
 ## 9. Setup Card Contract
 

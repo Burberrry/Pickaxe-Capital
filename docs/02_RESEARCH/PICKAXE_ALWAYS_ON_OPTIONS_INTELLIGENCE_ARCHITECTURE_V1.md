@@ -31,7 +31,7 @@ The current action state is BLOCKED - NO EXTERNAL ACTION. This means no broker e
 
 ## 7. Primary User Flow
 
-The canonical flow is: open Pickaxe, see the alerts feed, select one alert, review detail, inspect evidence and gates, then stop at Manual Review Required.
+The canonical flow is: open Pickaxe, see the alerts feed, select one alert, review detail, inspect evidence and gates, then stop at No External Action until a separately authorized governance and public activation decision passes.
 
 ## 8. Alert Feed Contract
 
@@ -119,7 +119,7 @@ Options surfaces must continue to state that options involve substantial risk.
 
 ## 29. Safety Language
 
-Relevant surfaces must preserve Research Only, Manual Review Required, Not Financial Advice, No Broker Execution, and Demo/Static Data language.
+Relevant surfaces must preserve Research Only, Not Financial Advice, No Broker Execution, Demo/Static Data, No External Action, CEO B Standard: Applied, Founder Override Available, Separate Public Activation Required, and Governance review required before production promotion language. Use Manual Review Required only when it describes a real internal review gate, not a public accept/decline bottleneck.
 
 ## 30. Route Boundary
 
@@ -167,7 +167,7 @@ The feed must stay Pickaxe-branded: premium dark surfaces, metallic gold structu
 
 ## 41. Future Always-On Path
 
-Future always-on behavior requires separate CEO B authorization, source/legal review, server-only credential handling, stale-data controls, logging, manual review, and a public activation decision.
+Future always-on behavior requires separate CEO B authorization, source/legal review, server-only credential handling, stale-data controls, logging, governance review, Founder Override Available handling, and a public activation decision.
 
 ## 42. Current Acceptance Evidence
 

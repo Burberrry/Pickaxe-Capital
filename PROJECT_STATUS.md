@@ -1,6 +1,46 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Options Alerts Desktop Product Finish v1
+## Current Checkpoint - Verified Options Data Provider Legal + Architecture Review v1
+
+- Date: 2026-06-26.
+- Result: **PASS / DOCS-ONLY COMPLETE**.
+- Sprint type: official-source provider legal/commercial architecture review, docs-only governance correction, and local commit. No push authorized.
+- Starting branch: `main`.
+- Starting `main` and `origin/main` commit: `3f998d6150f4282616ec30c1709308367f23071b`.
+- Safety branch: `backup/pre-provider-legal-architecture-review-v1-20260625-233246`.
+- Work branch: `docs/provider-legal-architecture-review-v1-20260625-233246`.
+- Created the canonical provider/legal architecture review at `docs/02_RESEARCH/PICKAXE_VERIFIED_OPTIONS_DATA_PROVIDER_LEGAL_ARCHITECTURE_REVIEW_V1.md`.
+- Official-source review covered Massive, Alpha Vantage, Tradier, OPRA, Cboe/Cboe DataShop, Databento, Intrinio, and ORATS using current provider docs, pricing, terms, policies, or fee schedules.
+- Research quality score: **960 / 1000**.
+- Selected provider status: Massive Business Options is selected for written due diligence only; no provider is approved, connected, credentialed, displayed, cached, or published.
+- Underlying quote status: prefer the same Massive business/legal path if the order form confirms stock/underlying quote entitlement; keep Alpha Vantage as a fallback one-symbol quote candidate only after written commercial approval and entitlement.
+- Confirmed self-serve individual/personal plans are not sufficient for Pickaxe Capital public/commercial use.
+- Confirmed Tradier is not selected first because real-time market data is brokerage-account coupled.
+- Confirmed public display, redistribution, storage, derived-data, attribution, OPRA/exchange classification, and retention rights remain written vendor/counsel gates.
+- Updated the active Options Alerts product lock and Always-On architecture lock so governance wording uses `CEO B Standard: Applied`, `Founder Override Available`, `Separate Public Activation Required`, `Governance review required before production promotion`, and `No External Action` where public workflow language is involved.
+- Preserved `Manual Review Required` only as an internal gate concept, not a public accept/decline bottleneck.
+- Revalidated `PICKAXE_OPTIONS_DATA_PROVIDER_DECISION_V01.md` as a historical Massive normalizer/support record superseded for legal decisions by the new canonical review.
+- Revalidated `PICKAXE_DATA_CONNECTOR_V03_PROVIDER_ACTIVATION_SCOPE.md` as the blocked Alpha Vantage quote adapter record, superseded for options-chain provider selection by the new canonical review.
+- No runtime files, routes, renderers, storage keys, package scripts, provider code, server code, workflows, credentials, `.env` files, or `data/signal-alerts.json` were changed.
+- Build Completion Tracker runtime metadata was not updated because this sprint was docs-only and the authorized file list excluded `public/habitat-data.js` and `habitat-data.js`.
+- Browser QA was not required because there were no route, layout, interaction, runtime, or public asset changes.
+- Local validation passed: `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Allowed-file boundary check passed: `git diff --name-only origin/main...HEAD` contained only the seven authorized files after the local commit.
+- Local commit: `Document verified options data provider legal architecture`.
+- Next bounded recommendation: `Massive Business Licensing Confirmation Pack — vendor outreach / docs-only`.
+
+### Verified Options Data Provider Legal + Architecture Review v1 Files Changed
+
+- `docs/02_RESEARCH/PICKAXE_VERIFIED_OPTIONS_DATA_PROVIDER_LEGAL_ARCHITECTURE_REVIEW_V1.md`
+- `docs/02_RESEARCH/PICKAXE_OPTIONS_DATA_PROVIDER_DECISION_V01.md`
+- `docs/02_RESEARCH/PICKAXE_DATA_CONNECTOR_V03_PROVIDER_ACTIVATION_SCOPE.md`
+- `docs/02_RESEARCH/PICKAXE_ALWAYS_ON_OPTIONS_INTELLIGENCE_ARCHITECTURE_V1.md`
+- `docs/01_PRODUCT/PICKAXE_OPTIONS_ALERTS_CORE_PRODUCT_AND_BRAND_SYSTEM_V1.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Options Alerts Desktop Product Finish v1
 
 - Date: 2026-06-26.
 - Result: **PASS / HOSTED QA VERIFIED**.

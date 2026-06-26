@@ -1,15 +1,16 @@
 # Pickaxe Data Connector v0.3 — Secure Provider Activation Scope
 
-Status: v0.3B secure adapter implemented locally; external activation remains blocked pending commercial approval, a server-only credential, and explicit realtime/delayed entitlement.
+Status: v0.3B secure adapter implemented locally; external activation remains blocked pending commercial approval, a server-only credential, explicit realtime/delayed entitlement, and the canonical provider legal gates in `PICKAXE_VERIFIED_OPTIONS_DATA_PROVIDER_LEGAL_ARCHITECTURE_REVIEW_V1.md`.
+Legal architecture revalidation: 2026-06-26. Alpha Vantage remains a fallback underlying quote candidate only; Massive Business is now the selected options-chain due-diligence candidate.
 Baseline: Pickaxe Data Connector v0.2 at implementation commit `b433f6d`, hosted through GitHub Pages run `27936340345` and deployment `5147646743`.
 Final reviewer: CEO B.
-Recommended first provider: Alpha Vantage.
+Recommended first quote provider: Alpha Vantage fallback, only after commercial approval and entitlement.
 Recommended first data type: one `QuoteSnapshot` for `QQQ`.
 Required transport: local/server proxy only.
 
 ## 1. Decision
 
-The first real-provider activation remains deliberately narrow:
+The first quote-provider activation record remains deliberately narrow and remains blocked:
 
 ```text
 Local browser
@@ -24,6 +25,8 @@ Local browser
 ```
 
 The v0.3B local implementation contains the normalized adapter and timestamp/freshness parser, but it fails closed before any external request unless live services, the approved provider mode, the exact `QQQ` ticker, a server-only key, an explicit realtime/delayed entitlement, and commercial-use approval are all present. The public frontend does not call it.
+
+This quote adapter is not the first options-chain path. The 2026-06-26 legal architecture review selects Massive Business Options for written options-chain due diligence and keeps Alpha Vantage as a fallback underlying quote candidate.
 
 GitHub Pages must continue to load without a server. On hosted static routes:
 
@@ -277,10 +280,23 @@ The secure-readiness implementation passes when:
 9. GitHub Pages remains static, demo-first, and backend-independent.
 10. Existing routes, renderers, storage contracts, safety language, mirrors, and signal data remain intact.
 
-## 15. Next Bounded Sprint
+## 15. 2026-06-26 Revalidation Note
+
+This document remains the canonical record for the existing blocked Alpha Vantage quote adapter and secure local proxy pattern. It is superseded for options-chain provider selection by `docs/02_RESEARCH/PICKAXE_VERIFIED_OPTIONS_DATA_PROVIDER_LEGAL_ARCHITECTURE_REVIEW_V1.md`.
+
+Revalidated status:
+
+- Alpha Vantage quote adapter remains fail-closed and local-only.
+- No external Alpha Vantage request is authorized.
+- Alpha Vantage self-serve/personal use is not approved for Pickaxe public/commercial use.
+- Commercial use, realtime/delayed entitlement, timestamp semantics, display rights, storage rights, and attribution remain blocked until written confirmation.
+- Massive Business should be the first options-chain due-diligence path if CEO B authorizes vendor follow-up.
+- No public integration, browser provider request, cache, polling, retry, alert delivery, credential creation, broker path, or GitHub Pages dependency is authorized.
+
+## 16. Next Bounded Sprint
 
 Recommended next:
 
-`Pickaxe Data Connector v0.3C — Commercial approval + credentialed local QQQ verification`
+`Massive Business Licensing Confirmation Pack — vendor outreach / docs-only`
 
-Do not start the credentialed request until Alpha Vantage confirms commercial use for Pickaxe Capital and CEO B configures a server-only premium key and entitlement. Public/browser integration remains a later, separately bounded decision.
+Do not start any credentialed request until the selected provider confirms commercial use for Pickaxe Capital and CEO B authorizes server-only credential setup and entitlement. Public/browser integration remains a later, separately bounded decision.
