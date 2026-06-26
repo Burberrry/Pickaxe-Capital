@@ -3,13 +3,22 @@
 ## Current Checkpoint - Pickaxe Options Alerts Desktop Product Finish v1
 
 - Date: 2026-06-26.
-- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
-- Sprint type: one-shot local-only desktop Options Alerts product finish, simplification, validation, browser QA, and local commit candidate.
-- Starting local and `origin/main` commit: `a30feb3c9da1d48c9883d41c14d45b2d01d3cc41`.
+- Result: **PASS / HOSTED QA VERIFIED**.
+- Sprint type: push, fast-forward integration, hosted verification, and hosted status-record lock for the already completed desktop Options Alerts product finish.
+- Starting branch: `feature/options-alerts-desktop-finish-v1-20260625-214840`.
+- Starting feature commit: `d7210f838daec02777cf50906428c307949ae3a9`.
+- Starting remote feature commit: `d7210f838daec02777cf50906428c307949ae3a9`.
+- Starting `main` and `origin/main` commit: `a30feb3c9da1d48c9883d41c14d45b2d01d3cc41`.
 - Safety branch: `backup/pre-options-alerts-desktop-finish-v1-20260625-214840`.
 - Work branch: `feature/options-alerts-desktop-finish-v1-20260625-214840`.
-- Current hosted baseline remains unchanged: `Pickaxe Automatic Options Alerts Feed & Always-On Intelligence Architecture v1`.
-- This candidate is local only, not pushed, not merged to `main`, not hosted, and requires CEO B review before push.
+- Pull request state before integration: no existing PR for the feature branch.
+- Integration method: fast-forward merge from the work branch into `main`; no merge commit created.
+- Implementation commit on `main`: `d7210f838daec02777cf50906428c307949ae3a9`.
+- Implementation push: `origin/main` moved from `a30feb3c9da1d48c9883d41c14d45b2d01d3cc41` to `d7210f838daec02777cf50906428c307949ae3a9`.
+- Implementation GitHub Pages workflow: `28219995447` (`Validate and Deploy GitHub Pages`) for commit `d7210f838daec02777cf50906428c307949ae3a9`.
+- Implementation Pages jobs: `83598922651` (`Validate and Build`) success; `83598948067` (`Deploy`) success.
+- Implementation Pages deployment: `5206168724`; deployment status `14815740177` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
 - Refined the active Alerts renderer into a compact desktop product bar plus one feed/selected-workspace master-detail layout.
 - The first desktop workflow now reads: open Pickaxe, scan the alert feed, select one alert, review selected detail, read System Verdict, then open Research Packet or Evidence Packet.
 - Simplified repeated status language into one concise top product truth strip: demo/source-required data, unknown/no-verified-time freshness, blocked/no-external-action system state, and research-only/no-broker/options-risk boundary.
@@ -24,16 +33,24 @@
 - Regression-only desktop browser QA passed at `1440x900` and `1280x720` on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/agents`, and `/vision-map`.
 - Alerts interaction QA passed for default QQQ selection, QQQ/NVDA/SPY/TSLA/GLD row selection, NVDA synchronization, GLD filtering, filter reset, focused selected rows, selected workspace synchronization, System Verdict, Research Packet, and Evidence Packet.
 - Mobile regression QA passed at `390x844` on `/app/alerts`: page loads, alerts remain reachable, selection works, selected detail is reachable, Research Packet opens, Evidence Packet opens, safety language remains visible, no console errors, no document-level overflow, and one visible Starlight field.
+- Hosted desktop route QA passed at `1440x900` and `1280x720` on `/`, `/#/alerts`, `/app/alerts`, `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, and `/vision-map`.
+- Hosted Alerts QA passed for five setup rows, QQQ default selection, QQQ/NVDA/SPY/TSLA/GLD selection, selected workspace synchronization, System Verdict, Research Packet, Evidence Packet, all filters, one visible Starlight field, no console errors, and no document-level overflow.
+- Hosted mobile `390x844` regression passed on `/app/alerts`: route bridge resolves to Alerts, five rows render, TSLA selection works, selected detail remains reachable, Research Packet opens, Evidence Packet opens, required safety language remains visible, one Starlight field is visible, and no document-level overflow was found.
+- Hosted HTTP checks confirmed `/`, `/#/alerts`, `/#/founder`, `/#/source-hub`, `/#/risk-rules`, and `/#/staging` return successfully; `/app/alerts`, `/founder`, `/staging`, `/agents`, and `/vision-map` redirect to directory forms and resolve correctly in browser; `/ai-handoff` and `/source-hub-staging` remain hosted `404` / local-only.
+- Hosted security/data-boundary QA found no source maps, exposed secrets, active provider URLs, browser provider requests, broker/order/payment/auth/subscription endpoints, alert-delivery behavior, or public local-server dependency.
 - No live data, provider activation, browser provider request, backend, broker execution, order placement, alert delivery, authentication, payment, subscription, autonomous publishing, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
 - `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
 - Local screenshots saved outside the repo: `/tmp/pickaxe-options-alerts-desktop-finish-baseline-1440.png`, `/tmp/pickaxe-options-alerts-desktop-finish-baseline-1280.png`, `/tmp/pickaxe-options-alerts-desktop-finish-after-1440-r4.png`, `/tmp/pickaxe-options-alerts-desktop-finish-after-1280-r5.png`, and `/tmp/pickaxe-options-alerts-desktop-finish-mobile-390.png`.
-- Local quality score: **944 / 1000**.
-- Next bounded recommendation: `Push and hosted verification for Pickaxe Options Alerts Desktop Product Finish v1`.
+- Hosted screenshots saved outside the repo: `/tmp/pickaxe-options-alerts-desktop-finish-v1-hosted-desktop-alerts-top-1440.png`, `/tmp/pickaxe-options-alerts-desktop-finish-v1-hosted-desktop-alert-feed.png`, `/tmp/pickaxe-options-alerts-desktop-finish-v1-hosted-desktop-nvda-selected.png`, `/tmp/pickaxe-options-alerts-desktop-finish-v1-hosted-desktop-selected-alert-workspace.png`, `/tmp/pickaxe-options-alerts-desktop-finish-v1-hosted-desktop-system-verdict.png`, `/tmp/pickaxe-options-alerts-desktop-finish-v1-hosted-desktop-research-packet-open.png`, `/tmp/pickaxe-options-alerts-desktop-finish-v1-hosted-desktop-evidence-packet-open.png`, and `/tmp/pickaxe-options-alerts-desktop-finish-v1-hosted-mobile-regression-390.png`.
+- Local quality score before push: **944 / 1000**.
+- Status-record deployment evidence is not embedded self-referentially in this commit; it is recorded in the final sprint report after GitHub Pages creates the deployment for this status-record commit.
+- Next bounded recommendation: `Verified Options Data Provider Legal + Architecture Review — docs-only`.
 
 ### Pickaxe Options Alerts Desktop Product Finish v1 Files Changed
 
 - `public/app.js` and `app.js`
 - `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
 - `public/habitat-data.js` and `habitat-data.js`
 - `PROJECT_STATUS.md`
 - `NEXT_STEPS.md`
