@@ -1,6 +1,49 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Options Alerts Website v2
+## Current Checkpoint - Pickaxe Public Launch Finish Sprint v1
+
+- Date: 2026-06-26.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: one-shot bounded public-launch finish sprint for the existing Options Alerts Research OS.
+- Starting branch: `main`.
+- Starting commit: `be6b785 Record Options Alerts Website v2 hosted verification`.
+- Starting git state: `main` was clean and synchronized with `origin/main` (`0 0` ahead/behind) after `git fetch origin`.
+- Safety branch: `backup/pre-public-launch-finish-v1-20260625-175252`.
+- Work branch: `feature/public-launch-finish-v1-20260625-175252`.
+- Hosted baseline remains: `Pickaxe Options Alerts Website v2` at `PASS / HOSTED QA VERIFIED`; this sprint was not pushed and not hosted.
+- Public product remains centered on `Pickaxe Capital — Options Alerts Research OS`.
+- Added a compact five-step Quick Start rail: `Read Status`, `Choose Setup`, `Check Verdict`, `Open Packet`, and `Verify Sources + Rules`.
+- Added an accessible closed-by-default `How to Use Pickaxe` guide with the ten requested steps and ephemeral disclosure state only; no LocalStorage key was added.
+- Setup cards for QQQ, NVDA, SPY, TSLA, and GLD now expose a visible `Selected` marker in addition to border/background state, and retain ticker, setup name, Research Readiness, blocked/source-required state, options grade, and missing requirement copy.
+- System Intelligence remains the status authority. Current visible result remains `BLOCKED — NO EXTERNAL ACTION`; copy now states that System Intelligence applies the `CEO B Standard` before any setup can advance.
+- Updated public/runtime CEO B wording away from old manual-alert-approval phrasing and toward founder-approved governance logic embedded in System Intelligence.
+- Evidence Packet scanability improved with explicit static/demo, timestamp, options-chain, and blocked-action gap tags.
+- Sources now explains Current State, Missing Requirements, Why Blocked, and Future Authorized Path for the Options Alerts workflow.
+- Rules now presents the core rule `No external action unless every required gate passes`, the eight required gates, and the distinction between Research Readiness and gate authority.
+- Status/Staging now separates Current Hosted Baseline, Current Local Candidate, Validation State, and Next CEO B Decision; it states `LOCAL CANDIDATE`, `NOT HOSTED`, and `CEO B REVIEW REQUIRED BEFORE PUSH`.
+- Added a concise What Pickaxe Does / What Pickaxe Does Not Do trust-boundary section.
+- Mobile polish: Quick Start wraps vertically, How to Use opens and closes accessibly, setup selection remains usable, Sources hero contrast was repaired, and Rules support panels collapse cleanly without fragmented labels.
+- Desktop preservation: first screen continues to show Pickaxe identity, product title, status cards, safety boundary, Quick Start, setup cards, selected setup preview, and System Intelligence without horizontal overflow.
+- Local browser QA passed in the in-app browser at desktop `1280x720` and mobile `390x844` across `/`, `/#/alerts`, `/app/alerts`, `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/#/research`, `/#/archive`, `/#/learning-ledger`, `/agents`, and `/vision-map`.
+- Alerts interaction QA passed for QQQ, NVDA, SPY, TSLA, and GLD selection, NVDA selected-state sync, `BLOCKED — NO EXTERNAL ACTION`, Research Packet opening, Evidence Packet opening, How to Use opening, no visible approve/reject/accept/decline alert UI, one visible Starlight canvas, no document-level horizontal overflow, no console errors/warnings, and no browser provider requests.
+- Local validation passed: `node --check public/app.js`, `node --check app.js`, `node --check public/habitat-data.js`, `node --check habitat-data.js`, `node --run build`, `node --run check:project`, `node --run check:phase15`, `node --run check:agents`, `node --run check:mirrors`, `node --run smoke:routes`, `node --run check:public-safety`, `node --run check:deploy-boundary`, `node --run check:routes`, `git diff --check`, and `git status --short --branch`.
+- Static/security inspection found no real API keys, credentials, source maps, active provider URLs, browser provider calls, local-server dependency for public static behavior, broker endpoints, payment endpoints, authentication endpoints, subscription behavior, or alert-delivery behavior. Broad matches remain existing inactive/future-boundary text.
+- No live data, provider activation, browser provider request, broker execution, order placement, alert delivery, authentication, payment, subscription, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Screenshots saved outside the repo: `/tmp/pickaxe-public-launch-finish-v1-alerts-desktop-top.png`, `/tmp/pickaxe-public-launch-finish-v1-alerts-mobile-top.png`, `/tmp/pickaxe-public-launch-finish-v1-alerts-mobile-nvda-selected.png`, `/tmp/pickaxe-public-launch-finish-v1-how-to-use-mobile-open.png`, `/tmp/pickaxe-public-launch-finish-v1-evidence-packet-mobile-open.png`, `/tmp/pickaxe-public-launch-finish-v1-sources-mobile.png`, `/tmp/pickaxe-public-launch-finish-v1-rules-mobile.png`, and `/tmp/pickaxe-public-launch-finish-v1-status-mobile.png`.
+- Launch-quality rubric score: **970 / 1000**.
+- Next bounded recommendation: `Push and hosted verification for Pickaxe Public Launch Finish Sprint v1`.
+
+### Pickaxe Public Launch Finish Sprint v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Options Alerts Website v2
 
 - Date: 2026-06-24.
 - Result: **PASS / HOSTED QA VERIFIED**.
