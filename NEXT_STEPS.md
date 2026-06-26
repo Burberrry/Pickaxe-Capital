@@ -2,6 +2,31 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Options Alerts Desktop Product Finish v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- One-shot local-only desktop Options Alerts product finish, simplification, validation, browser QA, and local commit candidate.
+- Starting local and `origin/main` commit: `a30feb3c9da1d48c9883d41c14d45b2d01d3cc41`.
+- Safety branch: `backup/pre-options-alerts-desktop-finish-v1-20260625-214840`.
+- Work branch: `feature/options-alerts-desktop-finish-v1-20260625-214840`.
+- Current hosted baseline remains unchanged: `Pickaxe Automatic Options Alerts Feed & Always-On Intelligence Architecture v1`.
+- The candidate is local only, not pushed, not merged to `main`, not hosted, and requires CEO B review before push.
+- Alerts now opens with a compact desktop product bar and one feed/selected-workspace master-detail layout.
+- The visible flow is open Pickaxe, scan alerts, select one, review details, read System Verdict, then open Research Packet or Evidence Packet.
+- Top status truth is consolidated into one concise strip for `DEMO / Source Required`, `UNKNOWN / No Verified Time`, `BLOCKED / NO EXTERNAL ACTION`, and the research-only/no-broker/options-risk boundary.
+- The feed keeps Time, Ticker, Type, Alert, Expiration, Strike, Research Readiness, Source, Status, and Open columns with five static/demo rows: QQQ, NVDA, SPY, TSLA, and GLD.
+- Selected workspace synchronization passed for QQQ, NVDA, SPY, TSLA, and GLD, including selected row, selected ticker/setup, Research Readiness, Source State, Options Quality, Risk State, System Status, missing evidence, next requirement, CEO B Standard, action boundary, and System Verdict.
+- Research Packet and Evidence Packet actions work; deep detail remains accessible but secondary.
+- Desktop QA passed at `1440x900` and `1280x720` on `/`, `/#/alerts`, `/app/alerts`, and the required regression routes.
+- Mobile regression QA passed at `390x844` on `/app/alerts` with no document-level overflow, no console errors, packet/evidence access, safety language, and one visible Starlight field.
+- V3.1 QQQ golden path, Signals placement, selected-candidate behavior, Phase 9B handoff, direct bridges, LocalStorage contracts, root/public mirrors, and static/demo data boundaries were preserved.
+- No live data, provider activation, browser provider request, backend, broker execution, order placement, alert delivery, authentication, payment, subscription, autonomous publishing, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged.
+- Local quality score: **944 / 1000**.
+
+Next bounded step: `Push and hosted verification for Pickaxe Options Alerts Desktop Product Finish v1`.
+
+## Previous Active Checkpoint - Pickaxe Automatic Options Alerts Feed & Always-On Intelligence Architecture v1
+
 Pickaxe Automatic Options Alerts Feed & Always-On Intelligence Architecture v1 is **PASS / HOSTED QA VERIFIED**.
 
 - One-shot feed-first Options Alerts runtime, always-on architecture lock, validation, deployment, hosted QA, and status record.

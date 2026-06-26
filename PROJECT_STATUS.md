@@ -1,5 +1,43 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Options Alerts Desktop Product Finish v1
+
+- Date: 2026-06-26.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: one-shot local-only desktop Options Alerts product finish, simplification, validation, browser QA, and local commit candidate.
+- Starting local and `origin/main` commit: `a30feb3c9da1d48c9883d41c14d45b2d01d3cc41`.
+- Safety branch: `backup/pre-options-alerts-desktop-finish-v1-20260625-214840`.
+- Work branch: `feature/options-alerts-desktop-finish-v1-20260625-214840`.
+- Current hosted baseline remains unchanged: `Pickaxe Automatic Options Alerts Feed & Always-On Intelligence Architecture v1`.
+- This candidate is local only, not pushed, not merged to `main`, not hosted, and requires CEO B review before push.
+- Refined the active Alerts renderer into a compact desktop product bar plus one feed/selected-workspace master-detail layout.
+- The first desktop workflow now reads: open Pickaxe, scan the alert feed, select one alert, review selected detail, read System Verdict, then open Research Packet or Evidence Packet.
+- Simplified repeated status language into one concise top product truth strip: demo/source-required data, unknown/no-verified-time freshness, blocked/no-external-action system state, and research-only/no-broker/options-risk boundary.
+- The alert feed keeps the required columns: Time, Ticker, Type, Alert, Expiration, Strike, Research Readiness, Source, Status, and Open.
+- The selected alert workspace now exposes ticker, setup, Research Readiness, Source State, Options Quality, Risk State, System Status, missing evidence, next requirement, CEO B Standard, action boundary, `Open Research Packet`, and `View Evidence`.
+- The System Verdict keeps the full eight-field contract with concise visible fields and a `Full Verdict` disclosure. Visible state remains `BLOCKED — NO EXTERNAL ACTION`.
+- Research Packet and Evidence Packet remain accessible through the existing disclosure/actions without adding routes, renderers, storage keys, packet models, queues, or provider behavior.
+- Evidence Packet now defaults closed on desktop and mobile to keep deep detail secondary; `View Evidence` opens it.
+- Compact contributor, Required Gates, V3.1, and deferred internal systems were preserved below the primary workflow.
+- V3.1 QQQ golden path placement, selected-candidate behavior, detailed Signals placement, Phase 9B handoff, direct bridges, LocalStorage contracts, root/public mirrors, and `data/signal-alerts.json` were preserved.
+- Local desktop browser QA passed at `1440x900` and `1280x720` on `/`, `/#/alerts`, and `/app/alerts` with five feed rows, no console errors, no document-level overflow, one visible Starlight field, selected workspace synchronization, System Verdict visibility, Research Packet, and Evidence Packet.
+- Regression-only desktop browser QA passed at `1440x900` and `1280x720` on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/agents`, and `/vision-map`.
+- Alerts interaction QA passed for default QQQ selection, QQQ/NVDA/SPY/TSLA/GLD row selection, NVDA synchronization, GLD filtering, filter reset, focused selected rows, selected workspace synchronization, System Verdict, Research Packet, and Evidence Packet.
+- Mobile regression QA passed at `390x844` on `/app/alerts`: page loads, alerts remain reachable, selection works, selected detail is reachable, Research Packet opens, Evidence Packet opens, safety language remains visible, no console errors, no document-level overflow, and one visible Starlight field.
+- No live data, provider activation, browser provider request, backend, broker execution, order placement, alert delivery, authentication, payment, subscription, autonomous publishing, new route, second Alerts renderer, storage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Local screenshots saved outside the repo: `/tmp/pickaxe-options-alerts-desktop-finish-baseline-1440.png`, `/tmp/pickaxe-options-alerts-desktop-finish-baseline-1280.png`, `/tmp/pickaxe-options-alerts-desktop-finish-after-1440-r4.png`, `/tmp/pickaxe-options-alerts-desktop-finish-after-1280-r5.png`, and `/tmp/pickaxe-options-alerts-desktop-finish-mobile-390.png`.
+- Local quality score: **944 / 1000**.
+- Next bounded recommendation: `Push and hosted verification for Pickaxe Options Alerts Desktop Product Finish v1`.
+
+### Pickaxe Options Alerts Desktop Product Finish v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
 ## Current Checkpoint - Pickaxe Automatic Options Alerts Feed & Always-On Intelligence Architecture v1
 
 - Date: 2026-06-26.

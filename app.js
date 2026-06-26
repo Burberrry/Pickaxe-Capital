@@ -10127,9 +10127,9 @@ function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
         </div>
       </div>
       <div class="alerts-feed-truth">
-        <span>${renderIntelligenceDataMode(sourceStatus.activeProviderMode)}<strong>Source Required</strong></span>
-        <span><em>Freshness</em><strong>${escapeHtml(sourceStatus.freshness)}</strong></span>
-        <span><em>Status</em><strong>${escapeHtml(decisionState.status)}</strong></span>
+        <span><em>Data</em><strong>${escapeHtml(sourceStatus.activeProviderMode)} / Source Required</strong></span>
+        <span><em>Source Freshness</em><strong>${escapeHtml(sourceStatus.freshness)} / No Verified Time</strong></span>
+        <span><em>System</em><strong>${escapeHtml(decisionState.status)} / ${escapeHtml(decisionState.actionBoundary)}</strong></span>
       </div>
       <div class="alerts-feed-controls">
         <label class="alerts-feed-control alerts-search-control" for="alertsFeedSearch">
@@ -10146,7 +10146,9 @@ function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
         ${renderAlertsFilterSelect("alertsTickerFilter", "Ticker", "ticker", rows)}
         ${renderAlertsFilterSelect("alertsExpirationFilter", "Expiration", "expiration", rows)}
         ${renderAlertsFilterSelect("alertsStatusFilter", "Status", "status", rows)}
+        <button type="button" class="alerts-filter-reset" onclick="window.resetAlertsFeedFilters()">Clear</button>
       </div>
+      <p class="alerts-feed-boundary">Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · Options involve substantial risk · Demo/Static Data</p>
     </section>
   `;
 }
@@ -10199,30 +10201,40 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
   `;
 }
 
+function getAlertsMissingEvidenceSummary(items = []) {
+  const labels = items.map((item) => {
+    if (/provider/i.test(item)) return "Provider";
+    if (/timestamp|time/i.test(item)) return "Time";
+    if (/options/i.test(item)) return "Chain";
+    if (/freshness/i.test(item)) return "Freshness";
+    return item;
+  });
+  return labels.length ? labels.join(" · ") : "None";
+}
+
+function getAlertsNextRequirementSummary(nextRequirement = "") {
+  if (/provider|timestamp|options chain|source freshness/i.test(nextRequirement)) {
+    return "Verify sources + options chain.";
+  }
+  return nextRequirement;
+}
+
 function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionState) {
   const directionClass = /bear/i.test(candidate.bias) ? "is-bear" : /bull/i.test(candidate.bias) ? "is-bull" : "";
+  const missingEvidenceSummary = getAlertsMissingEvidenceSummary(decisionState.missingEvidence);
+  const nextRequirementSummary = getAlertsNextRequirementSummary(decisionState.nextRequirement);
   const detailFields = [
     ["Ticker", candidate.ticker],
-    ["Alert / Setup", candidate.setupType],
-    ["Type", getAlertsDirectionLabel(candidate)],
-    ["Expiration", "Unavailable"],
-    ["Strike", "Source Required"],
-    ["Research Timeframe", candidate.timeframe],
-    ["Research Readiness", `${score.total}/100 · ${score.classification}`],
-    ["System Status", decisionState.status],
-    ["Source Status", "Source Required"],
-    ["Source Confidence", `${sourceStatus.sourceConfidence.score}/100 · ${sourceStatus.sourceConfidence.classification}`],
-    ["Verified Market Timestamp", "No Verified Time"],
-    ["Options Quality", candidate.options?.grade || "Not Evaluated"],
-    ["Contract Grade", candidate.options?.grade || "Not Evaluated"],
-    ["Relative Strength Context", candidate.marketRegime],
-    ["Catalyst", candidate.catalyst],
-    ["Risk", candidate.riskRating],
-    ["Invalidation", candidate.invalidation],
-    ["No-Trade Conditions", candidate.risk.noTrade],
-    ["Next Requirement", decisionState.nextRequirement],
-    ["CEO B Standard", "Applied"],
-    ["Action Boundary", decisionState.actionBoundary],
+    ["Setup", candidate.setupType],
+    ["Readiness", `${score.total}/100 · ${score.classification}`],
+    ["Source State", "Source Required"],
+    ["Options", candidate.options?.grade || "Not Evaluated"],
+    ["Risk State", candidate.riskRating],
+    ["Status", decisionState.status],
+    ["Missing", missingEvidenceSummary],
+    ["Next", nextRequirementSummary],
+    ["CEO B", "Applied"],
+    ["Boundary", decisionState.actionBoundary],
   ];
   return `
     <section class="alerts-selected-detail" aria-label="Selected alert detail">
@@ -10230,7 +10242,7 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
         <div>
           <span class="meta-label">Selected Alert</span>
           <h3>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</h3>
-          <p>Research-ranked setup detail. Missing fields are not inferred.</p>
+          <p>Review the selected setup, then open the packet or evidence trail.</p>
         </div>
         <strong class="${directionClass}">${escapeHtml(candidate.bias)}</strong>
       </header>
@@ -10242,10 +10254,6 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
           </div>
         `).join("")}
       </div>
-      <article class="alerts-selected-thesis">
-        <span>Thesis</span>
-        <p>${escapeHtml(candidate.ceoBNote)}</p>
-      </article>
       <div class="alerts-operator-actions" aria-label="Research packet actions">
         <button type="button" class="alerts-operator-review-button" onclick="window.openAlertsDeepReview()">
           Open Research Packet
@@ -10254,6 +10262,49 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
           View Evidence
         </button>
       </div>
+    </section>
+  `;
+}
+
+function renderAlertsOperatorVerdict(decisionState) {
+  const missingEvidenceSummary = getAlertsMissingEvidenceSummary(decisionState.missingEvidence);
+  const nextRequirementSummary = getAlertsNextRequirementSummary(decisionState.nextRequirement);
+  const verdictFields = [
+    ["Status", decisionState.status],
+    ["Why", decisionState.why],
+    ["Passed Gates", decisionState.passedGates.join(" · ")],
+    ["Failed Gates", decisionState.failedGates.length ? decisionState.failedGates.join(" · ") : "None"],
+    ["Missing Evidence", decisionState.missingEvidence.join(" · ")],
+    ["Next Requirement", decisionState.nextRequirement],
+    ["CEO B Standard", "Applied"],
+    ["Action Boundary", decisionState.actionBoundary],
+  ];
+  return `
+    <section class="alerts-operator-verdict ${decisionState.tone}" aria-label="Current system verdict">
+      <div class="alerts-verdict-lede">
+        <span>${escapeHtml(decisionState.label)}</span>
+        <div>
+          <strong>System Verdict</strong>
+          <small>${escapeHtml(decisionState.title)}.</small>
+        </div>
+      </div>
+      <dl class="alerts-verdict-primary">
+        <div><dt>Status</dt><dd>${escapeHtml(decisionState.status)}</dd></div>
+        <div><dt>Missing Evidence</dt><dd>${escapeHtml(missingEvidenceSummary)}</dd></div>
+        <div><dt>Next Requirement</dt><dd>${escapeHtml(nextRequirementSummary)}</dd></div>
+        <div><dt>Action Boundary</dt><dd>${escapeHtml(decisionState.actionBoundary)}</dd></div>
+      </dl>
+      <details class="alerts-verdict-expanded">
+        <summary>
+          <span>Full Verdict</span>
+          <em>CEO B Standard: Applied</em>
+        </summary>
+        <dl>
+          ${verdictFields.map(([label, value]) => `
+            <div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>
+          `).join("")}
+        </dl>
+      </details>
     </section>
   `;
 }
@@ -10301,7 +10352,7 @@ function renderAlertsOperatorWorkspace() {
   const decisionState = getAlertsOperatorDecisionState(candidate, sourceStatus);
   const rows = getAlertsFeedRows(sourceStatus);
   const filteredRows = getFilteredAlertsRows(rows);
-  const evidenceOpen = state.alertsOperatorEvidenceOpen || !window.matchMedia("(max-width: 760px)").matches;
+  const evidenceOpen = state.alertsOperatorEvidenceOpen;
   const sourceTruthBlocked = ["Source Gate", "Timestamp Gate", "Options-Chain Gate"].some((gateName) => failedGatesHas(decisionState, gateName));
   const requiredGateSummary = [
     ["Source", failedGatesHas(decisionState, "Source Gate") ? "MISSING" : "PASS", "Provider/source identity"],
@@ -10317,55 +10368,14 @@ function renderAlertsOperatorWorkspace() {
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
       ${renderAlertsFeedProductBar(rows, sourceStatus, decisionState)}
-      <header class="alerts-operator-header alerts-feed-intro">
-        <div class="alerts-operator-title">
-          <span aria-hidden="true">Pickaxe Capital</span>
-          <small>PICKAXE CAPITAL</small>
-          <h2 id="alertsOperatorTitle">Options Alerts</h2>
-          <strong class="alerts-product-descriptor">Research OS</strong>
-          <p>Research-ranked options alerts with source, risk, evidence, and governance gates.</p>
-        </div>
-        <dl class="alerts-operator-status">
-          <div>
-            <dt>Data Status</dt>
-            <dd>${renderIntelligenceDataMode(sourceStatus.activeProviderMode)}<strong>Source Required</strong></dd>
-          </div>
-          <div>
-            <dt>Source Freshness</dt>
-            <dd><strong>${escapeHtml(sourceStatus.freshness)}</strong><small>No market timestamp</small></dd>
-          </div>
-          <div>
-            <dt>System Status</dt>
-            <dd><strong>${escapeHtml(decisionState.status)}</strong><small>${escapeHtml(decisionState.actionBoundary)}</small></dd>
-          </div>
-        </dl>
-        <div class="alerts-operator-boundary">
-          <strong>Research Only</strong>
-          <span>Demo / Static Data · Source Required · Manual Review Required · Not Financial Advice · No Broker Execution · Options involve substantial risk</span>
-        </div>
-      </header>
-
-      ${renderAlertsFeedTable(rows, filteredRows, candidate.id)}
-      ${renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionState)}
-      ${renderAlertsContributorPanel(decisionState)}
-
-      <section class="alerts-operator-verdict ${decisionState.tone}" aria-label="Current operator decision state">
-        <span>${escapeHtml(decisionState.label)}</span>
-        <div>
-          <strong>System Intelligence Verdict</strong>
-          <small>${escapeHtml(decisionState.title)}. Research Readiness ranks packet completeness. Required gates control whether a setup may advance.</small>
-        </div>
-        <dl>
-          <div><dt>Status</dt><dd>${escapeHtml(decisionState.status)}</dd></div>
-          <div><dt>Why</dt><dd>${escapeHtml(decisionState.why)}</dd></div>
-          <div><dt>Passed Gates</dt><dd>${escapeHtml(decisionState.passedGates.join(" · "))}</dd></div>
-          <div><dt>Failed Gates</dt><dd>${escapeHtml(decisionState.failedGates.length ? decisionState.failedGates.join(" · ") : "None")}</dd></div>
-          <div><dt>Missing Evidence</dt><dd>${escapeHtml(decisionState.missingEvidence.join(" · "))}</dd></div>
-          <div><dt>Next Requirement</dt><dd>${escapeHtml(decisionState.nextRequirement)}</dd></div>
-          <div><dt>CEO B Standard</dt><dd>${escapeHtml(decisionState.ceoBStandard)}</dd></div>
-          <div><dt>Action Boundary</dt><dd>${escapeHtml(decisionState.actionBoundary)}</dd></div>
-        </dl>
+      <section class="alerts-primary-workspace" aria-label="Options Alerts feed and selected workspace">
+        ${renderAlertsFeedTable(rows, filteredRows, candidate.id)}
+        <aside class="alerts-selected-workspace" aria-label="Selected alert workspace">
+          ${renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionState)}
+          ${renderAlertsOperatorVerdict(decisionState)}
+        </aside>
       </section>
+      ${renderAlertsContributorPanel(decisionState)}
 
       <details
         class="alerts-operator-evidence alerts-evidence-panel"
