@@ -1,6 +1,43 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Options Alerts Product Perfection v1
+## Current Checkpoint - Pickaxe Alerts Sidebar + Support Polish v1
+
+- Date: 2026-06-26.
+- Result: **PASS / LOCAL QA VERIFIED**.
+- Sprint type: local Alerts route layout, sidebar, interaction, and status-record sprint. No push authorized.
+- Starting branch: `main`.
+- Starting `main` and `origin/main` commit: `1b705f39cc09856750086a59271ba275a9e8433a`.
+- Safety branch: `backup/pre-alerts-sidebar-support-polish-v1-20260626-163822`.
+- Work branch: `codex/alerts-sidebar-support-polish-v1-20260626-163822`.
+- Primary Alerts sidebar now keeps only `Alerts` in the core Options Alerts OS section.
+- `Sources`, `Rules`, `Status`, and `Founder` were moved into the existing `Later` disclosure ahead of the remaining internal routes.
+- The Pickaxe Capital home/Alerts brand link remains functional and is smaller on the Alerts route, including the mobile rail.
+- The Alerts page now treats the options setups feed as the primary page section.
+- The feed has a stronger visual summary for active setup, readiness, source-required count, and blocked action count.
+- Selected setup context, System Verdict, contributors, Required Gates, Research Packet, Evidence Packet, and the safety footer now live inside the new `Alerts Support` section below the feed.
+- Alerts Support updates when the selected setup changes.
+- Search/filter/reset behavior remains in-page only and unchanged in contract.
+- Research Packet, Evidence Packet, and Required Gates controls remain functional.
+- Root/public mirrors remained synchronized for `index.html`, `app.js`, and `styles.css`.
+- No new route, bridge, backend, provider behavior, provider request, live data, credential, dependency, LocalStorage key, second Alerts renderer, packet model, review queue, broker/execution/payment/auth/subscription/alert-delivery behavior, or autonomous publishing behavior was added.
+- Required financial/data safety language remains visible: `Research Only`, `Manual Review Required`, `Not Financial Advice`, `No Broker Execution`, `No External Action`, `Demo / Static Data`, and options substantial-risk language.
+- Local desktop browser QA passed at `1440x900` on `http://localhost:4328/#/alerts`: correct active view, only one primary sidebar item (`Alerts`), Later contains `Sources`, `Rules`, `Status`, and `Founder`, feed has five setup rows, visual summary renders, Alerts Support renders below the feed, QQQ/NVDA/TSLA selection syncs, search filters to TSLA, reset restores all rows, packet/support buttons work, no console errors, no document-level horizontal overflow, and one Starlight canvas.
+- Local mobile browser QA passed at `390x844`: home link remains visible and smaller, Later toggles cleanly, five setup rows render, TSLA selection syncs active setup and Alerts Support, no console errors, no document-level horizontal overflow, and one Starlight canvas.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Local validation passed: `node --check public/app.js`; `node --check app.js`; `node --check public/habitat-data.js`; `node --check habitat-data.js`; `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`.
+- Local implementation commit: `Polish Alerts sidebar and support layout`.
+- Next bounded recommendation: `Push and hosted-verify Pickaxe Alerts Sidebar + Support Polish v1 after CEO B authorizes push`.
+
+### Pickaxe Alerts Sidebar + Support Polish v1 Files Changed
+
+- `public/index.html` and `index.html`
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Options Alerts Product Perfection v1
 
 - Date: 2026-06-26.
 - Result: **PASS / HOSTED QA VERIFIED**.

@@ -10161,6 +10161,9 @@ function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
 }
 
 function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
+  const selectedRow = rows.find((row) => row.id === selectedCandidateId) || rows[0] || {};
+  const blockedCount = rows.filter((row) => /blocked/i.test(row.status)).length;
+  const sourceRequiredCount = rows.filter((row) => /source required/i.test(row.source)).length;
   return `
     <section class="alerts-feed-shell" aria-labelledby="alertsFeedTitle">
       <div class="alerts-feed-head">
@@ -10169,6 +10172,28 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
           <h3 id="alertsFeedTitle">Setups to Review</h3>
         </div>
         <p>Readiness organizes review priority. Required gates control advancement.</p>
+      </div>
+      <div class="alerts-feed-visual-summary" aria-label="Current Alerts feed state">
+        <article>
+          <span>Active Setup</span>
+          <strong>${escapeHtml(selectedRow.ticker || "None")}</strong>
+          <small>${escapeHtml(selectedRow.setup || "Select a setup")}</small>
+        </article>
+        <article>
+          <span>Readiness</span>
+          <strong>${escapeHtml(selectedRow.readiness || "0/100")}</strong>
+          <small>${escapeHtml(selectedRow.readinessClass || "Not ranked")}</small>
+        </article>
+        <article>
+          <span>Source Gate</span>
+          <strong>${String(sourceRequiredCount).padStart(2, "0")}</strong>
+          <small>source-required setups</small>
+        </article>
+        <article>
+          <span>Action State</span>
+          <strong>${String(blockedCount).padStart(2, "0")}</strong>
+          <small>blocked from external action</small>
+        </article>
       </div>
       <div class="alerts-feed-table" role="table" aria-label="Options setups research feed">
         <div class="alerts-feed-row alerts-feed-row-head" role="row">
@@ -10457,16 +10482,49 @@ function renderAlertsOperatorWorkspace() {
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
       ${renderAlertsFeedProductBar(rows, sourceStatus, decisionState)}
-      <section class="alerts-primary-workspace" aria-label="Options Alerts feed and selected workspace">
+      <section class="alerts-primary-workspace alerts-feed-focus" aria-label="Options Alerts feed">
         ${renderAlertsFeedTable(rows, filteredRows, candidate.id)}
-        <aside class="alerts-selected-workspace" aria-label="Selected setup workspace">
-          ${renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionState)}
-          ${renderAlertsOperatorVerdict(decisionState)}
-        </aside>
       </section>
-      ${renderAlertsContributorPanel(decisionState)}
-      ${renderAlertsRequiredGates(requiredGateSummary)}
-      ${renderAlertsResearchPacket(candidate, score, sourceStatus, decisionState)}
+      <section id="alertsSupportSection" class="alerts-support-section" aria-labelledby="alertsSupportTitle">
+        <header class="alerts-support-head">
+          <div>
+            <span class="meta-label">Alerts Support</span>
+            <h3 id="alertsSupportTitle">Alerts Support</h3>
+            <p>Selected setup context, gate evidence, packet detail, and safety boundaries stay here after the feed.</p>
+          </div>
+          <strong>${escapeHtml(candidate.ticker)} / ${escapeHtml(decisionState.status)}</strong>
+        </header>
+        <div class="alerts-support-summary" aria-label="Selected setup support summary">
+          <article>
+            <span>Selected</span>
+            <strong>${escapeHtml(candidate.ticker)}</strong>
+            <small>${escapeHtml(candidate.setupType)}</small>
+          </article>
+          <article>
+            <span>System Verdict</span>
+            <strong>${escapeHtml(decisionState.status)}</strong>
+            <small>${escapeHtml(decisionState.actionBoundary)}</small>
+          </article>
+          <article>
+            <span>Missing Evidence</span>
+            <strong>${escapeHtml(getAlertsMissingEvidenceSummary(decisionState.missingEvidence))}</strong>
+            <small>required before escalation</small>
+          </article>
+          <article>
+            <span>Options Risk</span>
+            <strong>Substantial</strong>
+            <small>research only</small>
+          </article>
+        </div>
+        <section class="alerts-support-workspace" aria-label="Selected setup support workspace">
+          <aside class="alerts-selected-workspace" aria-label="Selected setup workspace">
+            ${renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionState)}
+            ${renderAlertsOperatorVerdict(decisionState)}
+          </aside>
+        </section>
+        ${renderAlertsContributorPanel(decisionState)}
+        ${renderAlertsRequiredGates(requiredGateSummary)}
+        ${renderAlertsResearchPacket(candidate, score, sourceStatus, decisionState)}
 
       <details
         class="alerts-operator-evidence alerts-evidence-panel"
@@ -10532,14 +10590,15 @@ function renderAlertsOperatorWorkspace() {
         </div>
       </details>
 
-      <footer class="alerts-operator-safety">
-        <span>Research Only</span>
-        <span>Manual Review Required</span>
-        <span>Not Financial Advice</span>
-        <span>No Broker Execution</span>
-        <span>No External Action</span>
-        <strong>Options involve substantial risk.</strong>
-      </footer>
+        <footer class="alerts-operator-safety">
+          <span>Research Only</span>
+          <span>Manual Review Required</span>
+          <span>Not Financial Advice</span>
+          <span>No Broker Execution</span>
+          <span>No External Action</span>
+          <strong>Options involve substantial risk.</strong>
+        </footer>
+      </section>
     </section>
   `;
 }

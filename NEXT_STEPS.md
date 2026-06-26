@@ -2,42 +2,42 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Sidebar + Support Polish v1 is **PASS / LOCAL QA VERIFIED**.
+
+- Local Alerts route layout, sidebar, interaction, and status-record sprint. No push authorized.
+- Starting branch: `main`.
+- Starting `main` and `origin/main` commit: `1b705f39cc09856750086a59271ba275a9e8433a`.
+- Safety branch: `backup/pre-alerts-sidebar-support-polish-v1-20260626-163822`.
+- Work branch: `codex/alerts-sidebar-support-polish-v1-20260626-163822`.
+- Primary Alerts sidebar now keeps only `Alerts` in the core Options Alerts OS section.
+- `Sources`, `Rules`, `Status`, and `Founder` now live inside the existing `Later` disclosure before the remaining internal routes.
+- The Pickaxe Capital home/Alerts brand link is smaller on Alerts and remains functional.
+- The options setups feed is now the primary Alerts page section with visual summary cards for active setup, readiness, source-required count, and blocked action count.
+- Selected setup detail, System Verdict, contributors, Required Gates, Research Packet, Evidence Packet, and the safety footer now live in the new `Alerts Support` section below the feed.
+- Feed selection, search, reset, Research Packet, Evidence Packet, and Required Gates controls work locally.
+- Local desktop `1440x900` QA passed on `http://localhost:4328/#/alerts` with one primary Alerts item, Later disclosure contents, five setup rows, support section, row selection sync, filter/reset behavior, no console errors, no document-level overflow, and one Starlight canvas.
+- Local mobile `390x844` QA passed with smaller visible home link, Later toggle, TSLA selection sync, no console errors, no document-level overflow, and one Starlight canvas.
+- No live data, provider request, credential, backend, broker/execution/payment/subscription/auth/alert-delivery, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, dependency, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Local validation passed: `node --check public/app.js`; `node --check app.js`; `node --check public/habitat-data.js`; `node --check habitat-data.js`; `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`.
+- Local implementation commit: `Polish Alerts sidebar and support layout`.
+
+Next bounded step: `Push and hosted-verify Pickaxe Alerts Sidebar + Support Polish v1 after CEO B authorizes push`.
+
+Do not begin that sprint automatically.
+
+## Previous Active Checkpoint - Pickaxe Options Alerts Product Perfection v1
+
 Pickaxe Options Alerts Product Perfection v1 is **PASS / HOSTED QA VERIFIED**.
 
 - Push, fast-forward integration, hosted verification, hosted security/data-boundary QA, and hosted status-record sprint for the completed local Options Alerts product polish.
-- Hosted sprint starting branch: `codex/options-alerts-product-perfection-v1-20260626-150140`.
-- Hosted sprint starting commit: `57edd0c343011b7bfd3edb1f56f453a1190fd7a8`.
-- Main/origin-main starting state before hosted integration: both at `39460411a6f470eb23d71167b532d40509b48ec7`.
-- Safety branch: `backup/pre-options-alerts-product-perfection-v1-20260626-150140`.
-- Work branch: `codex/options-alerts-product-perfection-v1-20260626-150140`.
-- Fast-forward integration promoted `afce0b6391cbe8513a6a2feb6448428783765143` and `57edd0c343011b7bfd3edb1f56f453a1190fd7a8` to `main`; no merge commit was created.
-- `origin/main` was pushed to `57edd0c343011b7bfd3edb1f56f453a1190fd7a8`.
-- GitHub Pages workflow `28269957823` passed for the implementation commit.
-- Validate and Build job `83765097632` passed; Deploy job `83765128292` passed.
-- Pages deployment `5216728032` finished with deployment status `14845604447` success.
 - Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
-- Hosted repository verification matched all implementation/status files byte-for-byte, including `docs/02_RESEARCH/PICKAXE_PRIVATE_LOCAL_MASSIVE_PROOF_SCOPE_V1.md`.
-- Options Alerts now centers Pickaxe Capital, Options Alerts, the product sentence, the full truth strip, Setups to Review, Selected Setup Workspace, System Verdict, Required Gates, Research Packet, Evidence Packet, Advanced Research OS, and Safety Footer.
 - Feed columns are simplified to Rank, Ticker, Setup, Type, Research Readiness, Source, Risk, Status, and Open.
-- Selected Setup Workspace, System Verdict, Required Gates, Research Packet, and Evidence Packet were tightened for desktop and mobile.
-- Hosted desktop `1440x900` and `1280x720` QA passed on `/`, `/#/alerts`, and `/app/alerts` with correct active view, nonblank content, five setup rows, default QQQ selection, QQQ/NVDA/SPY/TSLA/GLD selection sync, search/filter/reset, System Verdict, Required Gates, Research Packet, Evidence Packet, safety language, no console errors, no document-level overflow, and one Starlight canvas.
-- Hosted mobile `390x844` QA passed on `/app/alerts` with five setup rows, TSLA selection sync, Research Packet, Evidence Packet, safety language, no console errors, no document-level overflow, and one Starlight canvas.
-- Hosted regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, and `/vision-map`.
-- Hosted local-only boundary QA passed: `/ai-handoff` and `/source-hub-staging` remain hosted `404`.
-- Hosted security/data-boundary QA passed: no source maps, exposed `.env`, server/provider files, API keys, secrets, active provider host resources, provider requests, broker/order/payment/auth/subscription/alert-delivery endpoints, or public local-server runtime dependency were found.
-- No live data added.
-- No Massive activation.
-- No provider request.
-- No credential requested.
-- No browser provider request added.
-- No broker, execution, payment, subscription, authentication, alert-delivery, autonomous publishing, backend behavior, new route, second Alerts renderer, LocalStorage key, packet model, or review queue added.
-- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
-- Pre-merge and post-merge validation passed: `node --check public/app.js`; `node --check app.js`; `node --check public/habitat-data.js`; `node --check habitat-data.js`; `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
+- Hosted desktop and mobile QA passed for `/`, `/#/alerts`, and `/app/alerts`, including setup selection, filters, System Verdict, Required Gates, Research Packet, Evidence Packet, safety language, no console errors, no document-level overflow, and one Starlight canvas.
+- No live data, provider request, backend behavior, broker/execution/payment/subscription/auth/alert-delivery, new route, second Alerts renderer, LocalStorage key, packet model, or review queue was added.
 - Local implementation commit: `Polish Options Alerts product experience`.
 
-Next bounded step: `Private Local QQQ Massive Snapshot Proof v1 - server-only, no browser, no public display`.
-
-Do not begin that sprint automatically.
+Next bounded step was `Private Local QQQ Massive Snapshot Proof v1 - server-only, no browser, no public display`.
 
 ## Previous Active Checkpoint - Private Local Massive Proof Scope v1
 
