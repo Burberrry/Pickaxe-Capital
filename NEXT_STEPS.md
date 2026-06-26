@@ -2,13 +2,19 @@
 
 ## Current Active Checkpoint
 
-Verified Options Data Provider Legal + Architecture Review v1 is **PASS / DOCS-ONLY COMPLETE**.
+Verified Options Data Provider Legal + Architecture Review v1 is **PASS / HOSTED DOCS VERIFIED**.
 
 - Docs-only official-source provider legal/commercial architecture review.
 - Starting branch: `main`.
 - Starting `main` and `origin/main` commit: `3f998d6150f4282616ec30c1709308367f23071b`.
 - Safety branch: `backup/pre-provider-legal-architecture-review-v1-20260625-233246`.
 - Work branch: `docs/provider-legal-architecture-review-v1-20260625-233246`.
+- Fast-forward integration placed docs commit `fb25ba01f7b194dd1098e61073a909ab572d2fb9` on `main` and pushed `origin/main`.
+- GitHub Pages run `28223206982` passed `Validate and Build` job `83608970241` and `Deploy` job `83609005768`.
+- Deployment `5206818519` finished with deployment status `14817568915` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted repository file verification matched all seven docs/status files byte-for-byte.
+- Hosted route smoke passed for `/`, `/#/alerts`, `/app/alerts`, `/founder`, `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/agents`, and `/vision-map`; `/ai-handoff` and `/source-hub-staging` remain hosted `404`.
 - Canonical review created: `docs/02_RESEARCH/PICKAXE_VERIFIED_OPTIONS_DATA_PROVIDER_LEGAL_ARCHITECTURE_REVIEW_V1.md`.
 - Research quality score: **960 / 1000**.
 - Massive Business Options is selected for written due diligence only; no provider activation, credential request, public display, cache, storage, alert delivery, broker connection, or runtime change is authorized.
@@ -17,6 +23,7 @@ Verified Options Data Provider Legal + Architecture Review v1 is **PASS / DOCS-O
 - Public display, redistribution, derived-data, storage, retention, attribution, OPRA/exchange classification, and commercial rights remain written confirmation gates.
 - Active governance wording now favors `CEO B Standard: Applied`, `Founder Override Available`, `Separate Public Activation Required`, `Governance review required before production promotion`, and `No External Action` where public workflow language is involved.
 - No runtime files, routes, renderers, storage keys, package scripts, provider code, server code, workflows, credentials, `.env` files, or `data/signal-alerts.json` changed.
+- No website behavior, provider activation, provider request, credential, broker execution, order placement, alert delivery, authentication, payment, subscription, or autonomous publishing behavior was added.
 - Browser QA was not required because this sprint changed docs only.
 - Local validation passed: `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
 - `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
