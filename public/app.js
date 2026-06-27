@@ -692,7 +692,7 @@ const mindsetQuotes = sharedHabitatData.mindsetQuotes || [
   { text: "Research first. Decision second. Ego last.", source: "CEO B Rule" },
   { text: "The goal is not more noise. The goal is better judgment.", source: "Judgment Rule" },
   { text: "Speed matters only after the source is trusted.", source: "Source Rule" },
-  { text: "Process beats impulse.", source: "Mindset" },
+  { text: "Process beats impulse.", source: "Operating Rule" },
 ];
 
 const habitatAgents = (Array.isArray(sharedHabitatData.agentRoster) ? sharedHabitatData.agentRoster : []).map((agent) => {
@@ -1248,7 +1248,7 @@ function setView(view) {
     rkTracker: "RK Tracker",
     berkshire: "Berkshire 1965",
     bookmarks: "Bookmarks Mine",
-    alerts: "Options Alerts",
+    alerts: "Alerts Desk",
     lifeHabitat: "Life Habitat",
     checklist: "Execution Checklist",
     vision: "Vision Map",
@@ -1451,7 +1451,7 @@ function renderMindsetQuote() {
   const rail = document.querySelector(".rail-quote");
   if (rail && (!els.rotatingQuote || !els.rotatingQuoteSource)) {
     rail.innerHTML = `
-      <span class="label">Mindset</span>
+      <span class="label">Operating Rule</span>
       <p id="rotatingQuote"></p>
       <strong id="rotatingQuoteSource"></strong>
     `;
@@ -10117,25 +10117,25 @@ function renderAlertsFilterSelect(id, label, key, rows) {
 
 function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
   return `
-    <section class="alerts-feed-product-bar alerts-board-context" aria-label="Options Alerts context">
+    <section class="alerts-feed-product-bar alerts-board-context" aria-label="Alerts Desk context">
       <div class="alerts-product-header">
         <div class="alerts-brand-lock">
           <img src="brand/pickaxe-capital-logo.png?v=20260531-logo3" alt="" aria-hidden="true" />
           <div>
             <small>Pickaxe Capital</small>
-            <strong>Options Alerts</strong>
+            <strong>Alerts Desk</strong>
             <span>Research Only · Demo / Static Data</span>
           </div>
         </div>
-        <p>Rank setups. Verify evidence. Block action until every required gate passes.</p>
+        <p>Rank setups by readiness. Verify evidence. Required gates control advancement.</p>
       </div>
-      <div class="alerts-feed-truth" aria-label="Options Alerts truth strip">
+      <div class="alerts-feed-truth" aria-label="Alerts Desk truth strip">
         <span><em>Data</em><strong>Demo / Static Data</strong></span>
         <span><em>Source</em><strong>Source Required</strong></span>
         <span><em>Review</em><strong>Manual Review Required</strong></span>
         <span><em>Boundary</em><strong>${escapeHtml(decisionState.actionBoundary)}</strong></span>
       </div>
-      <p class="alerts-feed-boundary">Research Only · Not Financial Advice · No Broker Execution. Full source and options-risk boundaries live in Alerts Support.</p>
+      <p class="alerts-feed-boundary">Research Only · Not Financial Advice · No Broker Execution · Options involve substantial risk. Full source boundaries live in Alerts Support.</p>
     </section>
   `;
 }
@@ -10157,7 +10157,7 @@ function renderAlertsBoardControls(rows) {
         ${renderAlertsFilterSelect("alertsTypeFilter", "Type", "type", rows)}
         ${renderAlertsFilterSelect("alertsTickerFilter", "Ticker", "ticker", rows)}
         ${renderAlertsFilterSelect("alertsStatusFilter", "Status", "status", rows)}
-        <button type="button" class="alerts-filter-reset" onclick="window.resetAlertsFeedFilters()">Reset Filters</button>
+        <button type="button" class="alerts-filter-reset" onclick="window.resetAlertsFeedFilters()">Reset filters</button>
       </div>
   `;
 }
@@ -10296,10 +10296,10 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
           Open Research Packet
         </button>
         <button type="button" class="alerts-operator-review-button secondary" onclick="window.openAlertsSelectedEvidence()">
-          View Evidence
+          Open Evidence Packet
         </button>
         <button type="button" class="alerts-operator-review-button secondary" onclick="window.openAlertsRequiredGates()">
-          Review Required Gates
+          Open Required Gates
         </button>
       </div>
     </section>
@@ -10432,7 +10432,7 @@ function renderAlertsResearchPacket(candidate, score, sourceStatus, decisionStat
       </div>
       <div class="alerts-operator-actions alerts-packet-actions" aria-label="Research packet secondary actions">
         <button type="button" class="alerts-operator-review-button" onclick="window.openAlertsAdvancedResearch()">Advanced Research OS</button>
-        <button type="button" class="alerts-operator-review-button secondary" onclick="window.openAlertsSelectedEvidence()">View Evidence</button>
+        <button type="button" class="alerts-operator-review-button secondary" onclick="window.openAlertsSelectedEvidence()">Evidence Packet</button>
       </div>
     </details>
   `;
@@ -10525,7 +10525,7 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
       ${renderAlertsFeedProductBar(rows, sourceStatus, decisionState)}
-      <section class="alerts-primary-workspace alerts-feed-focus" aria-label="Options Alerts feed">
+      <section class="alerts-primary-workspace alerts-feed-focus" aria-label="Setups to Review feed">
         ${renderAlertsFeedTable(rows, filteredRows, candidate.id)}
       </section>
       <section id="alertsSupportSection" class="alerts-support-section" aria-labelledby="alertsSupportTitle">
@@ -10533,7 +10533,7 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
           <div>
             <span class="meta-label">Alerts Support</span>
             <h3 id="alertsSupportTitle">Alerts Support</h3>
-            <p>Selected setup context, gate evidence, packet detail, and safety boundaries stay here after the feed.</p>
+            <p>Selected setup context, verdict, gates, packets, source notes, and safety boundaries stay below the board.</p>
           </div>
           <strong>${escapeHtml(candidate.ticker)} / ${escapeHtml(decisionState.status)}</strong>
         </header>
