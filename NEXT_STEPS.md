@@ -2,6 +2,45 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Final UI Finish + Hosted Verification v1 is **PASS / HOSTED QA VERIFIED**.
+
+- Bounded final Alerts UI finish, fast-forward integration, GitHub Pages deployment verification, hosted QA, hosted security/data-boundary QA, and status record.
+- Starting branch: `codex/alerts-primary-board-support-restructure-v1-20260626-174732`.
+- Starting work-branch commit: `1c21ee2`.
+- Starting `main` and `origin/main` commit: `bfe6348`.
+- Work branch: `codex/alerts-primary-board-support-restructure-v1-20260626-174732`.
+- Implementation commits now on `main`: `1c21ee2` (`Restructure Alerts primary board and support`) and `1a6933f` (`Finalize Alerts board support and command rail polish`).
+- Fast-forward integration promoted the branch into `main`; no merge commit was created.
+- `origin/main` was pushed to `1a6933fb3e13552f3151b2d2b8081cd27f0b972f`.
+- GitHub Pages workflow `28274629637` passed for the implementation commit.
+- Validate and Build job `83778783925` passed; Deploy job `83778803185` passed.
+- Pages deployment `5217617974` finished with deployment status `14848199656` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted repository file verification matched all ten implementation/status files byte-for-byte.
+- Final UI polish updated the brand subline to `Options Intelligence OS`, the primary rail to `CORE DESK`, route `00` to `Alerts Desk`, support navigation to `Support Routes`, the quote label to `Operating Rule`, and the reset control to quieter `Reset filters`.
+- The Alerts route opens as one primary setup review board: compact context strip, dominant `Setups to Review`, four summary cards, five static/demo rows for QQQ/NVDA/SPY/TSLA/GLD, board search/filter/reset, and one `Alerts Support` hierarchy below.
+- Alerts Support holds selected setup context, System Verdict, contributors, Required Gates, Research Packet, Evidence Packet, Source + Risk Notes, Advanced Research OS, QQQ Golden Path demo reference, and Safety Boundary.
+- Required safety language remains visible or reachable: Research Only, Manual Review Required, Not Financial Advice, No Broker Execution, No External Action, Demo / Static Data, source-required/no verified timestamp/no verified options-chain state, and options substantial-risk language.
+- Local validation passed before and after fast-forward integration with required package commands, JavaScript syntax checks, mirror checks, public safety/deploy-boundary/route checks, `git diff --check`, and git status.
+- Local desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`.
+- Local interaction QA passed for all five setup selections, TSLA search, reset, NVDA ticker filter, Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, Advanced Research OS, and brand routing back to Alerts.
+- Local mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`; no mobile redesign was performed.
+- Hosted desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`.
+- Hosted interaction QA passed for all five setup selections, search/reset/ticker filter, Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, Advanced Research OS, and brand routing back to Alerts.
+- Hosted mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`.
+- Hosted regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, and `/vision-map`.
+- Hosted local-only boundary QA passed: `/ai-handoff` and `/source-hub-staging` remain hosted `404`.
+- Hosted security/data-boundary QA passed: no source maps, exposed `.env`, server/provider files, API keys, secrets, provider host resources, provider browser requests, broker/order/payment/auth/subscription/alert-delivery endpoints, or public local-server runtime dependency were found.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Final hosted product score: **976 / 1000**.
+- No live data, provider request, credential, backend, broker/execution/payment/subscription/auth/alert-delivery, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, or `data/signal-alerts.json` change was added.
+
+Next bounded step: `CEO B hosted visual review of Pickaxe Alerts Final UI Finish v1`.
+
+Do not begin another visual, provider, Massive, watchlist, live-data, route, backend, or execution sprint automatically.
+
+## Previous Active Checkpoint - Pickaxe Alerts Primary Board + Support Restructure v1
+
 Pickaxe Alerts Primary Board + Support Restructure v1 is **PASS / LOCAL QA VERIFIED**.
 
 - Bounded local implementation sprint. No push, merge, provider work, live data, credential request, backend activation, broker/execution/payment/subscription/auth/alert-delivery behavior, new route, second renderer, LocalStorage key, packet model, review queue, or `data/signal-alerts.json` change was added.
