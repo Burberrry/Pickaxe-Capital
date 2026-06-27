@@ -1,6 +1,55 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Final Product Finish Hosted Verification v1
+## Current Checkpoint - Pickaxe Alerts Visible Delta Repair v1
+
+- Date: 2026-06-27.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded visible product-experience repair in response to CEO B complaint: “I see no real change.” No push, merge, provider work, live data, Massive activation, credential, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery behavior, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, another module, or `data/signal-alerts.json` change was authorized or added.
+- Starting branch: `main`.
+- Starting `main` and `origin/main` commit: `6ef6a297c4be2c37ab6a2c2b07efce0dca87c9ae`.
+- Remote preflight: `git fetch origin --prune`; `git pull --ff-only origin main`; `main` and `origin/main` were aligned with 0 ahead / 0 behind.
+- Safety branch: `backup/pre-alerts-visible-delta-repair-v1-20260627`.
+- Work branch: `codex/alerts-visible-delta-repair-v1-20260627`.
+- Baseline hosted screenshots captured before editing:
+  - `/tmp/pickaxe-alerts-visible-delta-repair-v1/baseline/hosted-root-1440x900.png`
+  - `/tmp/pickaxe-alerts-visible-delta-repair-v1/baseline/hosted-hash-alerts-1440x900.png`
+  - `/tmp/pickaxe-alerts-visible-delta-repair-v1/baseline/hosted-app-alerts-1440x900.png`
+  - `/tmp/pickaxe-alerts-visible-delta-repair-v1/baseline/hosted-root-1280x720.png`
+  - `/tmp/pickaxe-alerts-visible-delta-repair-v1/baseline/hosted-app-alerts-390x844.png`
+- Final local screenshots captured after implementation:
+  - `/tmp/pickaxe-alerts-visible-delta-repair-v1/after/local-root-1440x900.png`
+  - `/tmp/pickaxe-alerts-visible-delta-repair-v1/after/local-hash-alerts-1440x900.png`
+  - `/tmp/pickaxe-alerts-visible-delta-repair-v1/after/local-app-alerts-1440x900.png`
+  - `/tmp/pickaxe-alerts-visible-delta-repair-v1/after/local-root-1280x720.png`
+  - `/tmp/pickaxe-alerts-visible-delta-repair-v1/after/local-app-alerts-390x844.png`
+- Visible first-screen repair completed inside the existing `renderResearchGatedAlertsDesk()` path only. The desktop first screen now uses a compact premium status strip followed by a command layout: `Setups to Review` on the left, `Selected Setup Quick Review` on the upper right, `No-Chase Protocol` directly beneath it, and `Alerts Support` below the decision area.
+- `Selected Setup Quick Review` was made visually prominent with ticker, setup name, bias/type, research readiness, source gate, missing evidence, risk rating, invalidation, no-trade condition, action boundary, next manual requirement, and unavailable options context in a compact scan grid.
+- `No-Chase Protocol` was made visually prominent as a discipline panel with the required rules: wait if source/timestamp/options chain are missing; define invalidation before opportunity; risk before upside; readiness is review priority, not expected profit; missing evidence means wait and verify; and no external action while Source Gate is incomplete.
+- `Alerts Support` remains preserved below with selected setup context, System Verdict, contributors, Required Gates, Research Packet, Evidence Packet, Source + Risk Notes, Advanced Research OS, QQQ Golden Path demo reference, and Safety Boundary.
+- Setup selection/search/filter/reset preserved: QQQ/NVDA/SPY/TSLA/GLD selection updates active row, Quick Review, No-Chase Protocol context, and Alerts Support; TSLA search narrows to one row; Bullish type filter narrows to QQQ/NVDA/SPY; NVDA ticker filter narrows to one row; Action Boundary filter retains all five rows; reset restores all rows.
+- Safety language preserved or reachable: `Research Only`, `Manual Review Required`, `Not Financial Advice`, `No Broker Execution`, `No External Action`, `Demo / Static Data`, `Source Required`, no verified timestamp/no verified options-chain state, and options substantial-risk language.
+- Root/public mirrors were kept synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`.
+- Asset cache keys were bumped to `alerts-visible-delta-repair-v1-20260627-r7`.
+- Browser plugin path was used for rendered QA. Local desktop browser QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`: correct Alerts view, nonblank content, no console errors, no document-level horizontal overflow, exactly one `#pickaxe-starlight-field`, five setup rows, QQQ default selection, Quick Review obvious on desktop, No-Chase Protocol obvious on desktop, Alerts Support below the decision area, and required safety language visible or reachable.
+- Local mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`: correct Alerts route, nonblank content, no console errors, no document-level horizontal overflow, one Starlight canvas, five setup rows, Quick Review, No-Chase Protocol, Alerts Support, packet disclosures, and safety language remained reachable. Mobile was smoke QA only; no mobile redesign was performed.
+- Local regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`: correct active views, nonblank content, no console errors, no document-level horizontal overflow, and one Starlight canvas.
+- Local validation passed: `node --check public/app.js`; `node --check app.js`; `node --check public/habitat-data.js`; `node --check habitat-data.js`; `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
+- No live data, provider request, Massive activation, credential, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic work, profit guarantee, financial advice, trade recommendation, or `data/signal-alerts.json` change was added.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Final visible delta score: **986 / 1000**.
+- Remaining issues: mobile remains dense by design and was smoke-tested only; hosted verification is not part of this sprint because push was explicitly forbidden.
+- Next bounded recommendation: `CEO B local screenshot review of Pickaxe Alerts Visible Delta Repair v1`.
+
+### Pickaxe Alerts Visible Delta Repair v1 Files Changed
+
+- `public/index.html` and `index.html`
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Final Product Finish Hosted Verification v1
 
 - Date: 2026-06-27.
 - Result: **PASS / HOSTED QA VERIFIED**.

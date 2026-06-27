@@ -10261,6 +10261,28 @@ function getAlertsNextRequirementSummary(nextRequirement = "") {
   return nextRequirement;
 }
 
+function getAlertsQuickInvalidationSummary(candidate = {}) {
+  const summaries = {
+    QQQ: "Return inside prior range with weak breadth.",
+    NVDA: "Failed reclaim or lower-high rejection.",
+    SPY: "Close below trend support with weak breadth.",
+    TSLA: "Reclaim of the broken range.",
+    GLD: "Continuation through exhaustion zone.",
+  };
+  return summaries[candidate.ticker] || String(candidate.invalidation || "Invalidation requires review.").replace(/^Demo invalidation:\s*/i, "");
+}
+
+function getAlertsQuickNoTradeSummary(candidate = {}) {
+  const summaries = {
+    QQQ: "No breadth, widening spread, or failed range.",
+    NVDA: "Late entry, weak volume, failed reclaim, or event risk.",
+    SPY: "Breadth deterioration or failed trend support.",
+    TSLA: "Unverified headline, inflated IV, wide spread, or no clean range.",
+    GLD: "Rates/dollar conflict, thin strike, or no exhaustion evidence.",
+  };
+  return summaries[candidate.ticker] || candidate.risk?.noTrade || "No-trade condition requires review.";
+}
+
 function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionState) {
   const directionClass = /bear/i.test(candidate.bias) ? "is-bear" : /bull/i.test(candidate.bias) ? "is-bull" : "";
   const missingEvidenceSummary = getAlertsMissingEvidenceSummary(decisionState.missingEvidence);
@@ -10315,15 +10337,19 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
 }
 
 function renderAlertsQuickReview(candidate, score, sourceStatus, decisionState) {
-  const sourceTruth = [
-    ["Missing Evidence", decisionState.missingEvidence.join(" · ") || "None"],
-    ["Next Manual Requirement", decisionState.nextRequirement],
-    ["Options Context", "Unavailable / Source Required until provider, timestamp, and options-chain evidence verify"],
-  ];
-  const riskTruth = [
-    ["Risk Rating", candidate.riskRating],
-    ["Invalidation", candidate.invalidation],
-    ["No-Trade Condition", candidate.risk.noTrade],
+  const quickReviewFields = [
+    ["Ticker", candidate.ticker, "is-selected"],
+    ["Setup Name", `${candidate.ticker} ${candidate.setupType}`, "is-selected"],
+    ["Bias / Type", candidate.bias, "is-selected"],
+    ["Research Readiness", `${score.total}/100 · ${score.classification}`, "is-readiness"],
+    ["Source Gate", "Source Required", "is-source-required"],
+    ["Missing Evidence", getAlertsMissingEvidenceSummary(decisionState.missingEvidence), "is-source-required"],
+    ["Risk Rating", candidate.riskRating, "is-risk-watch"],
+    ["Invalidation", getAlertsQuickInvalidationSummary(candidate), "is-risk-watch"],
+    ["No-Trade Condition", getAlertsQuickNoTradeSummary(candidate), "is-risk-watch"],
+    ["Action Boundary", formatAlertsActionBoundary(decisionState.actionBoundary), "is-boundary"],
+    ["Next Manual Requirement", getAlertsNextRequirementSummary(decisionState.nextRequirement), "is-source-required"],
+    ["Options Context", "Unavailable until source, time, and chain verify.", "is-boundary"],
   ];
   return `
     <section class="alerts-quick-review" aria-label="Selected setup quick review">
@@ -10331,7 +10357,7 @@ function renderAlertsQuickReview(candidate, score, sourceStatus, decisionState) 
         <div>
           <span class="meta-label">Selected Setup Quick Review</span>
           <h3>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</h3>
-          <p>${escapeHtml(candidate.ceoBNote)} Readiness ranks review order only; it is not a trade recommendation or expected return.</p>
+          <p>${escapeHtml(candidate.ceoBNote)} Manual Review Required before any external action.</p>
         </div>
         <aside>
           <span>${escapeHtml(candidate.bias)}</span>
@@ -10340,30 +10366,12 @@ function renderAlertsQuickReview(candidate, score, sourceStatus, decisionState) 
         </aside>
       </header>
       <div class="alerts-quick-review-grid">
-        <article class="alerts-quick-review-card">
-          <span>Why Ranked Here</span>
-          <strong>${escapeHtml(getAlertsCardReason(candidate))}</strong>
-          <p>${escapeHtml(candidate.catalyst)} · ${escapeHtml(candidate.marketRegime)}</p>
-        </article>
-        <article class="alerts-quick-review-card is-source-required">
-          <span>Source Gate</span>
-          <strong>Source Required</strong>
-          <dl>
-            ${sourceTruth.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}
-          </dl>
-        </article>
-        <article class="alerts-quick-review-card is-risk-watch">
-          <span>Risk / Invalidation</span>
-          <strong>${escapeHtml(candidate.riskRating)}</strong>
-          <dl>
-            ${riskTruth.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}
-          </dl>
-        </article>
-        <article class="alerts-quick-review-card is-boundary">
-          <span>Action Boundary</span>
-          <strong>${escapeHtml(formatAlertsActionBoundary(decisionState.actionBoundary))}</strong>
-          <p>Manual Review Required. Research Only. Not Financial Advice. No Broker Execution. Options involve substantial risk.</p>
-        </article>
+        ${quickReviewFields.map(([label, value, tone]) => `
+          <article class="alerts-quick-review-field ${escapeHtml(tone)}">
+            <span>${escapeHtml(label)}</span>
+            <strong>${escapeHtml(value)}</strong>
+          </article>
+        `).join("")}
       </div>
     </section>
   `;
@@ -10371,20 +10379,19 @@ function renderAlertsQuickReview(candidate, score, sourceStatus, decisionState) 
 
 function renderAlertsDisciplineGate(candidate, score, decisionState) {
   const protocol = [
-    "Do not chase without verified source, timestamp, and options-chain evidence.",
-    "No external action while Source Gate is incomplete.",
-    "Define invalidation before considering any setup.",
-    "Review risk before reviewing upside.",
+    "Wait if source, timestamp, or options chain are missing.",
+    "Define invalidation before opportunity.",
+    "Risk before upside.",
     "Readiness ranks review priority, not expected profit.",
-    "If evidence is missing, the correct manual step is wait and verify.",
-    "Capital preservation comes before opportunity capture.",
+    "Missing evidence means wait and verify.",
+    "No external action while Source Gate is incomplete.",
   ];
   return `
     <section class="alerts-discipline-gate" aria-label="No-Chase Protocol">
       <header>
         <div>
           <span class="meta-label">No-Chase Protocol</span>
-          <h3>Protect CEO B from impulsive, oversized, or source-poor trades.</h3>
+          <h3>No-Chase Protocol</h3>
           <p>${escapeHtml(candidate.ticker)} is a research setup only. The system is protecting patience, source verification, invalidation discipline, and risk-first review.</p>
         </div>
         <strong>${escapeHtml(formatAlertsActionBoundary(decisionState.actionBoundary))}</strong>
@@ -10623,11 +10630,17 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
       ${renderAlertsFeedProductBar(rows, sourceStatus, decisionState)}
-      <section class="alerts-primary-workspace alerts-feed-focus" aria-label="Setups to Review feed">
-        ${renderAlertsFeedTable(rows, filteredRows, candidate.id)}
+      <section class="alerts-decision-command-grid" aria-label="Alerts decision command layout">
+        <div class="alerts-decision-board">
+          <section class="alerts-primary-workspace alerts-feed-focus" aria-label="Setups to Review feed">
+            ${renderAlertsFeedTable(rows, filteredRows, candidate.id)}
+          </section>
+        </div>
+        <aside class="alerts-decision-sidebar" aria-label="Selected setup command context">
+          ${renderAlertsQuickReview(candidate, score, sourceStatus, decisionState)}
+          ${renderAlertsDisciplineGate(candidate, score, decisionState)}
+        </aside>
       </section>
-      ${renderAlertsQuickReview(candidate, score, sourceStatus, decisionState)}
-      ${renderAlertsDisciplineGate(candidate, score, decisionState)}
       <section id="alertsSupportSection" class="alerts-support-section" aria-labelledby="alertsSupportTitle">
         <header class="alerts-support-head">
           <div>

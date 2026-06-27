@@ -2,6 +2,32 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Visible Delta Repair v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Bounded visible product-experience repair in response to CEO B complaint: “I see no real change.” Push was not authorized and was not performed.
+- Starting `main` and `origin/main` commit: `6ef6a297c4be2c37ab6a2c2b07efce0dca87c9ae`.
+- Safety branch: `backup/pre-alerts-visible-delta-repair-v1-20260627`.
+- Work branch: `codex/alerts-visible-delta-repair-v1-20260627`.
+- Baseline hosted screenshots and final local screenshots were captured under `/tmp/pickaxe-alerts-visible-delta-repair-v1/`.
+- Desktop first screen now uses a compact premium status strip followed by a command layout: `Setups to Review` on the left, `Selected Setup Quick Review` on the upper right, `No-Chase Protocol` directly beneath it, and `Alerts Support` below.
+- Quick Review now shows ticker, setup name, bias/type, research readiness, source gate, missing evidence, risk rating, invalidation, no-trade condition, action boundary, next manual requirement, and unavailable options context in a compact scan grid.
+- No-Chase Protocol now reads as a discipline panel with the required rules: wait if source/timestamp/options chain are missing; define invalidation before opportunity; risk before upside; readiness is review priority, not expected profit; missing evidence means wait and verify; no external action while Source Gate is incomplete.
+- Alerts Support remains preserved below the decision area with selected setup context, System Verdict, contributors, Required Gates, Research Packet, Evidence Packet, Source + Risk Notes, Advanced Research OS, QQQ Golden Path demo reference, and Safety Boundary.
+- Local desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`.
+- Local interaction QA passed for QQQ/NVDA/SPY/TSLA/GLD selection sync, TSLA search, reset, Bullish type filter, NVDA ticker filter, Action Boundary filter, Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, and Advanced Research OS.
+- Local mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`; no mobile redesign was performed.
+- Local regression QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
+- Local validation passed with JavaScript syntax checks, required package commands, mirror checks, public safety/deploy-boundary/route checks, `git diff --check`, and final git status.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Final visible delta score: **986 / 1000**.
+- No live data, Massive activation, provider request, credential, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, profit guarantee, financial advice, trade recommendation, another module, or `data/signal-alerts.json` change was added.
+
+Next bounded step: `CEO B local screenshot review of Pickaxe Alerts Visible Delta Repair v1`.
+
+Do not push, merge, begin hosted verification, or start another visual, provider, Massive, watchlist, live-data, route, backend, execution, auth, payment, subscription, alert-delivery, mobile redesign, or architecture sprint automatically.
+
+## Previous Active Checkpoint - Pickaxe Alerts Final Product Finish Hosted Verification v1
+
 Pickaxe Alerts Final Product Finish Hosted Verification v1 is **PASS / HOSTED QA VERIFIED**.
 
 - Local implementation commit `bd41c8ade5d7917e1942bf6db9339efea0ad5baa` (`Finish Pickaxe Alerts product experience`) was fast-forward merged into `main` and pushed to `origin/main`; no merge commit was created.
@@ -21,9 +47,7 @@ Pickaxe Alerts Final Product Finish Hosted Verification v1 is **PASS / HOSTED QA
 - No live data, Massive activation, provider request, credential, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, another module, or `data/signal-alerts.json` change was added.
 - Final hosted product score: **988 / 1000**.
 
-Next bounded step: `CEO B hosted visual review of Pickaxe Alerts Final Product Finish v1`.
-
-Do not begin another visual, provider, Massive, watchlist, live-data, route, backend, execution, auth, payment, subscription, alert-delivery, mobile redesign, or architecture sprint automatically.
+Next bounded step was `CEO B hosted visual review of Pickaxe Alerts Final Product Finish v1`.
 
 ## Previous Active Checkpoint - Pickaxe Alerts Final Product Finish v1
 
