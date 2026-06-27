@@ -1,36 +1,43 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Hosted Visual Review + Setup Status Fix v1
+## Current Checkpoint - Pickaxe Alerts Setup Status Fix Hosted Verification v1
 
 - Date: 2026-06-27.
-- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
-- Sprint type: hosted visual review first, then bounded local-only Alerts board language/status fix. No push, merge, provider work, Massive work, watchlist proof, live data, credential, backend, broker/execution/payment/subscription/auth/alert-delivery, new route, second renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, another module, or `data/signal-alerts.json` change was authorized or added.
-- Starting branch: `main`.
-- Starting `main` and `origin/main` commit: `8fdf712`.
+- Result: **PASS / HOSTED QA VERIFIED**.
+- Sprint type: bounded push, fast-forward integration, GitHub Pages deployment verification, hosted QA, hosted security/data-boundary QA, and status record for the completed local Alerts setup status fix. No new UI work, visual sprint, provider work, Massive work, watchlist proof, live data, credential, backend, broker/execution/payment/subscription/auth/alert-delivery behavior, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, another module, or `data/signal-alerts.json` change was authorized or added.
+- Starting `main` and `origin/main` before the local implementation: `8fdf712`.
 - Safety branch: `backup/pre-alerts-setup-status-fix-v1-20260627-setup`.
 - Work branch: `codex/alerts-setup-status-fix-v1-20260627`.
-- Hosted pre-edit visual review passed on the live GitHub Pages site for `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`, plus `/app/alerts` at `390x844`: correct Alerts route, nonblank content, `Setups to Review`, five setup rows, four summary cards, `Alerts Support` below the board, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas.
-- Hosted visual review finding: the page structure was healthy, but the board over-emphasized `BLOCKED` by using a generic `Status` column, a `Status` filter with only `BLOCKED`, and an action-state summary count that made every row read like a rejected setup instead of a source-gated review candidate.
-- The local fix separates the board into `Research Readiness`, `Source Gate`, and `Action Boundary`.
+- Local implementation commit: `b2ef8f07621cc87c921c603b3297e83f34f04ef2` (`Clarify Alerts setup status boundaries`).
+- Integration method: fast-forward merge from the work branch into `main`; no merge commit was created.
+- Pushed implementation commit: `b2ef8f07621cc87c921c603b3297e83f34f04ef2`; `origin/main` now contains `b2ef8f0`.
+- GitHub Pages workflow: `28277235112` (`Validate and Deploy GitHub Pages`) for commit `b2ef8f07621cc87c921c603b3297e83f34f04ef2`.
+- Pages jobs: `83786210255` (`Validate and Build`) success; `83786229785` (`Deploy`) success.
+- Pages deployment: `5218146324`; deployment status `14849688825` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted repository file verification matched all expected implementation/status files byte-for-byte against commit `b2ef8f07621cc87c921c603b3297e83f34f04ef2`: `public/index.html`, `index.html`, `public/app.js`, `app.js`, `public/styles.css`, `styles.css`, `public/habitat-data.js`, `habitat-data.js`, `PROJECT_STATUS.md`, and `NEXT_STEPS.md`.
+- Hosted visual review was completed before the local fix. The page structure was healthy, but the board over-emphasized `BLOCKED` through a generic `Status` column, `Status` filter, and action-state summary count.
+- The implemented fix separates `Setups to Review` into `Research Readiness`, `Source Gate`, and `Action Boundary`.
 - `Setups to Review` now uses columns `Rank`, `Ticker`, `Setup`, `Type`, `Research Readiness`, `Source Gate`, `Risk`, `Action Boundary`, and `Open`.
-- Row action cells now display `No External Action` with supporting source/options-chain verification copy instead of repeating row-level `BLOCKED`.
-- The board filter is now `Action Boundary`; search/type/ticker/reset behavior remains ephemeral in-page state only. No LocalStorage key was added.
-- Board summary cards now distinguish `Research Readiness` as review priority, `Source Gate` as evidence-required count, and `Action Boundary` as `No External Action`.
-- Board microcopy now states that action blocked means no external action, not setup rejection, and that source, timestamp, and options-chain gates remain required.
-- Alerts Support remains below the board and still includes selected setup context, System Verdict, contributors, Required Gates, Research Packet, Evidence Packet, Source + Risk Notes, Advanced Research OS, QQQ Golden Path demo reference, and Safety Boundary.
+- Rows show `Source Required` as the evidence/source gate and `No External Action` as the action boundary, reducing repeated row-level `BLOCKED` confusion.
+- Board summary cards distinguish readiness, source gate, and action boundary; board microcopy states that blocked action means no external action, not setup rejection.
+- Search, type filter, ticker filter, Action Boundary filter, and reset remain ephemeral in-page state only. No LocalStorage key was added.
+- Alerts Support remains below the board with selected setup context, System Verdict, contributors, Required Gates, Research Packet, Evidence Packet, Source + Risk Notes, Advanced Research OS, QQQ Golden Path demo reference, and Safety Boundary preserved.
 - Required safety concepts remain visible or reachable: Research Only, Manual Review Required, Not Financial Advice, No Broker Execution, No External Action, Demo / Static Data, source-required/no verified timestamp/no verified options-chain state, and options substantial-risk language.
+- Local validation passed before push and again after fast-forward integration on `main`: `node --check public/app.js`; `node --check app.js`; `node --check public/habitat-data.js`; `node --check habitat-data.js`; `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
+- Local browser QA passed before push on required desktop, mobile smoke, interaction, and regression routes.
+- Hosted desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`: correct Alerts view, nonblank content, board before support, five setup rows, four summary cards, `Research Readiness`, `Source Gate`, `Action Boundary`, rows showing `Source Required` and `No External Action`, reduced dominant `BLOCKED` row language, explanatory board footnote, safety language, no console errors, no document-level horizontal overflow, exactly one Starlight canvas, no forbidden trading/execution controls, no live price/fake timestamp/Massive/provider claim, and no browser provider request.
+- Hosted interaction QA passed at `1440x900`: QQQ/NVDA/SPY/TSLA/GLD selection synced active row and Alerts Support, search filtered to TSLA, type filter narrowed to Bullish rows, ticker filter narrowed to NVDA, Action Boundary filter retained all five rows, reset restored all five rows, Research Packet opened, Evidence Packet opened, Required Gates remained reachable with eight gates, Source + Risk Notes opened, Advanced Research OS opened, and the brand/home link routed to Alerts/Home instead of Founder.
+- Hosted mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`: page loads, correct Alerts route, nonblank content, no console errors, no document-level horizontal overflow, exactly one Starlight canvas, setup board reachable, five rows render, `Source Gate` and `Action Boundary` labels are visible in row cards, TSLA selection syncs active setup and Alerts Support, Alerts Support remains reachable, Research Packet opens, Evidence Packet opens, Required Gates remain reachable, safety language remains reachable, and the brand/home link remains visible and routes to Alerts/Home. Mobile was smoke QA only; no mobile redesign was performed.
+- Hosted regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, and `/ceo-b-profile` at `1440x900`: correct active views, nonblank content, no console errors, no document-level horizontal overflow, and exactly one Starlight canvas.
+- Hosted local-only boundary QA passed: `/ai-handoff` and `/source-hub-staging` remain hosted `404`.
+- Hosted security/data-boundary QA passed: no source maps, exposed `.env`, server/provider files, API keys, secrets, provider host resources, Massive/Alpha Vantage/Tradier/Polygon/OPRA/Cboe/Databento/Intrinio/ORATS requests, local proxy dependency, broker/order/payment/auth/subscription/alert-delivery endpoints, or public local-server dependency were found. Broad provider text references remain inactive future-boundary/status copy only.
 - Root/public mirrors were kept synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`.
 - `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
-- Local validation passed: `node --check public/app.js`; `node --check app.js`; `node --check public/habitat-data.js`; `node --check habitat-data.js`; `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
-- Local desktop browser QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`: correct Alerts view, nonblank content, board before support, five setup rows, four summary cards, `Research Readiness` / `Source Gate` / `Action Boundary` visible, row `Action Boundary` cells show `No External Action`, board footnote explains blocked action is not setup rejection, no forbidden Alerts trade/execution controls, no live/provider claim, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas.
-- Local Alerts interaction QA passed at `1440x900`: QQQ/NVDA/SPY/TSLA/GLD row selection synced active row and Alerts Support, search filtered to TSLA, reset restored all five rows, ticker filter narrowed to NVDA, Action Boundary filter retained all five source-gated rows, Research Packet opened, Evidence Packet opened, Required Gates opened with eight gates, Source + Risk Notes opened, and Advanced Research OS opened.
-- Local mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`: route loads, correct Alerts view, five rows render, `Source Gate` and `Action Boundary` labels are visible in row cards, support remains reachable, TSLA selection works, Research Packet opens, Evidence Packet opens, safety language remains reachable, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas. No mobile redesign was performed.
-- Local regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, and `/ceo-b-profile` at `1440x900`: correct active view, nonblank content, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas.
-- Local commit message: `Clarify Alerts setup status boundaries`.
-- Push status: not pushed, per CEO B instruction.
-- Next bounded recommendation: `Push and hosted verification for Pickaxe Alerts Hosted Visual Review + Setup Status Fix v1`.
+- Status record files changed after hosted verification: `PROJECT_STATUS.md`, `NEXT_STEPS.md`, `public/habitat-data.js`, `habitat-data.js`, `public/index.html`, and `index.html`.
+- Next bounded recommendation: `CEO B hosted visual review of Pickaxe Alerts Setup Status Fix v1`.
 
-### Pickaxe Alerts Hosted Visual Review + Setup Status Fix v1 Files Changed
+### Pickaxe Alerts Setup Status Fix Hosted Verification v1 Files Changed
 
 - `public/index.html` and `index.html`
 - `public/app.js` and `app.js`

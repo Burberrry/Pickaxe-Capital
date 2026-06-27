@@ -2,30 +2,32 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Alerts Hosted Visual Review + Setup Status Fix v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+Pickaxe Alerts Setup Status Fix Hosted Verification v1 is **PASS / HOSTED QA VERIFIED**.
 
-- Hosted visual review was completed before local edits on the live GitHub Pages site for `/`, `/#/alerts`, and `/app/alerts` at desktop sizes, plus `/app/alerts` at mobile smoke size.
-- Hosted review confirmed the page was structurally healthy, but the `Setups to Review` board over-emphasized `BLOCKED` through the row `Status` column, `Status` filter, and action-state summary count.
-- Local branch: `codex/alerts-setup-status-fix-v1-20260627`.
-- Safety branch: `backup/pre-alerts-setup-status-fix-v1-20260627-setup`.
-- Starting `main` and `origin/main` commit: `8fdf712`.
-- The local implementation separates `Research Readiness`, `Source Gate`, and `Action Boundary`.
+- Local implementation commit `b2ef8f07621cc87c921c603b3297e83f34f04ef2` (`Clarify Alerts setup status boundaries`) was fast-forward merged into `main` and pushed to `origin/main`; no merge commit was created.
+- GitHub Pages workflow `28277235112` passed for commit `b2ef8f07621cc87c921c603b3297e83f34f04ef2`.
+- Validate and Build job `83786210255` passed; Deploy job `83786229785` passed.
+- Pages deployment `5218146324` finished with deployment status `14849688825` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted repository file verification matched all expected implementation/status files byte-for-byte.
+- The Alerts board separates `Research Readiness`, `Source Gate`, and `Action Boundary`.
 - The board columns now read `Rank`, `Ticker`, `Setup`, `Type`, `Research Readiness`, `Source Gate`, `Risk`, `Action Boundary`, and `Open`.
-- Rows now show `Source Required` as the amber evidence gate and `No External Action` as the action boundary, instead of presenting each setup row as only `BLOCKED`.
-- Board microcopy states that action blocked means no external action, not setup rejection.
+- Rows show `Source Required` as the evidence gate and `No External Action` as the action boundary, reducing repeated row-level `BLOCKED` confusion.
+- Board summary cards distinguish readiness, source gate, and action boundary; board microcopy states that action blocked means no external action, not setup rejection.
 - Alerts Support remains below the board with selected setup context, System Verdict, contributors, Required Gates, Research Packet, Evidence Packet, Source + Risk Notes, Advanced Research OS, QQQ Golden Path demo reference, and Safety Boundary preserved.
-- Search, type filter, ticker filter, Action Boundary filter, reset, selection sync, and support disclosures passed local interaction QA.
-- Local desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`.
-- Local mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`; no mobile redesign was performed.
-- Local regression QA passed on source/risk/staging/founder/agents/vision-map/CEO B profile bridge routes.
-- Local validation passed with the required package commands, JavaScript syntax checks, mirror checks, public safety/deploy-boundary/route checks, unchanged signal-data hash, `git diff --check`, and final git status.
-- No live data, provider request, Massive work, watchlist proof, credential, backend, broker/execution/payment/subscription/auth/alert-delivery, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, another module, or `data/signal-alerts.json` change was added.
-- Local commit message: `Clarify Alerts setup status boundaries`.
-- Push status: not pushed, per CEO B instruction.
+- Hosted desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`.
+- Hosted interaction QA passed for QQQ/NVDA/SPY/TSLA/GLD selection sync, TSLA search, Bullish type filter, NVDA ticker filter, Action Boundary filter, reset, Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, Advanced Research OS, and brand/home routing back to Alerts/Home.
+- Hosted mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`; TSLA selection, packets, gates, support reachability, safety language, no console errors, no document-level overflow, and one Starlight canvas were verified. No mobile redesign was performed.
+- Hosted regression QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, and `/ceo-b-profile`.
+- Hosted local-only boundary QA passed: `/ai-handoff` and `/source-hub-staging` remain hosted `404`.
+- Hosted security/data-boundary QA passed: no source maps, exposed `.env`, server/provider files, API keys, secrets, provider host resources, browser provider requests, broker/order/payment/auth/subscription/alert-delivery endpoints, local proxy dependency, or public local-server dependency were found.
+- Local validation passed before push and again after fast-forward integration with the required package commands, JavaScript syntax checks, mirror checks, public safety/deploy-boundary/route checks, `git diff --check`, and git status.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- No live data, Massive activation, provider request, credential, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, another module, or `data/signal-alerts.json` change was added.
 
-Next bounded step: `Push and hosted verification for Pickaxe Alerts Hosted Visual Review + Setup Status Fix v1`.
+Next bounded step: `CEO B hosted visual review of Pickaxe Alerts Setup Status Fix v1`.
 
-Do not push, merge, activate providers, begin Massive/watchlist proof, connect live data, add routes, add backend behavior, or begin another module unless CEO B explicitly authorizes it.
+Do not begin that review, a new visual sprint, provider work, Massive/watchlist proof, live-data work, route/backend work, or another module automatically.
 
 ## Previous Active Checkpoint - Pickaxe Alerts Final UI Finish + Hosted Verification v1
 
