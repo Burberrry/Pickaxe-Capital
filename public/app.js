@@ -10116,30 +10116,34 @@ function renderAlertsFilterSelect(id, label, key, rows) {
 }
 
 function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
-  const filters = state.alertFeedFilters || {};
   return `
-    <section class="alerts-feed-product-bar" aria-label="Options Alerts controls">
+    <section class="alerts-feed-product-bar alerts-board-context" aria-label="Options Alerts context">
       <div class="alerts-product-header">
         <div class="alerts-brand-lock">
           <img src="brand/pickaxe-capital-logo.png?v=20260531-logo3" alt="" aria-hidden="true" />
           <div>
             <small>Pickaxe Capital</small>
             <strong>Options Alerts</strong>
-            <span>Options Alerts Research OS</span>
+            <span>Research Only · Demo / Static Data</span>
           </div>
         </div>
         <p>Rank setups. Verify evidence. Block action until every required gate passes.</p>
       </div>
       <div class="alerts-feed-truth" aria-label="Options Alerts truth strip">
-        <span><em>Data</em><strong>DEMO / Source Required</strong></span>
-        <span><em>Source Status</em><strong>UNKNOWN / No Verified Time</strong></span>
-        <span><em>System Verdict</em><strong>${escapeHtml(decisionState.status)} / ${escapeHtml(decisionState.actionBoundary)}</strong></span>
-        <span><em>Boundary</em><strong>Research Only</strong></span>
-        <span><em>Advice</em><strong>Not Financial Advice</strong></span>
-        <span><em>Execution</em><strong>No Broker Execution</strong></span>
-        <span><em>Options Risk</em><strong>Options involve substantial risk</strong></span>
+        <span><em>Data</em><strong>Demo / Static Data</strong></span>
+        <span><em>Source</em><strong>Source Required</strong></span>
+        <span><em>Review</em><strong>Manual Review Required</strong></span>
+        <span><em>Boundary</em><strong>${escapeHtml(decisionState.actionBoundary)}</strong></span>
       </div>
-      <div class="alerts-feed-controls">
+      <p class="alerts-feed-boundary">Research Only · Not Financial Advice · No Broker Execution. Full source and options-risk boundaries live in Alerts Support.</p>
+    </section>
+  `;
+}
+
+function renderAlertsBoardControls(rows) {
+  const filters = state.alertFeedFilters || {};
+  return `
+      <div class="alerts-board-controls" aria-label="Setups board filters">
         <label class="alerts-feed-control alerts-search-control" for="alertsFeedSearch">
           <span>Search</span>
           <input
@@ -10155,8 +10159,6 @@ function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
         ${renderAlertsFilterSelect("alertsStatusFilter", "Status", "status", rows)}
         <button type="button" class="alerts-filter-reset" onclick="window.resetAlertsFeedFilters()">Reset Filters</button>
       </div>
-      <p class="alerts-feed-boundary">Demo / Static Data · Manual Review Required · No External Action · Research Readiness is packet completeness, not expected return.</p>
-    </section>
   `;
 }
 
@@ -10195,6 +10197,7 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
           <small>blocked from external action</small>
         </article>
       </div>
+      ${renderAlertsBoardControls(rows)}
       <div class="alerts-feed-table" role="table" aria-label="Options setups research feed">
         <div class="alerts-feed-row alerts-feed-row-head" role="row">
           ${["Rank", "Ticker", "Setup", "Type", "Research Readiness", "Source", "Risk", "Status", "Open"].map((column) => `<span role="columnheader">${escapeHtml(column)}</span>`).join("")}
@@ -10274,7 +10277,7 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
     <section class="alerts-selected-detail" aria-label="Selected setup detail">
       <header>
         <div>
-          <span class="meta-label">Selected Setup Workspace</span>
+          <span class="meta-label">Selected Setup Context</span>
           <h3>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</h3>
           <p>Review the setup summary, gate status, packet, and evidence trail before any CEO B decision.</p>
         </div>
@@ -10459,7 +10462,47 @@ function renderAlertsRequiredGates(requiredGateSummary) {
   `;
 }
 
-function renderAlertsOperatorWorkspace() {
+function renderAlertsSourceRiskNotes(candidate, sourceStatus, decisionState) {
+  return `
+    <details class="alerts-source-risk-notes alerts-evidence-panel">
+      <summary>
+        <span>Source + Risk Notes</span>
+        <small>No verified source, timestamp, or options-chain snapshot exists in the static board state</small>
+      </summary>
+      <div class="alerts-operator-columns">
+        <article>
+          <header><span>Source Boundary</span></header>
+          <dl>
+            <div class="is-risk"><dt>Primary Source</dt><dd>Source Required</dd></div>
+            <div class="is-warning"><dt>Quote Time</dt><dd>No verified timestamp</dd></div>
+            <div class="is-risk"><dt>Options Chain</dt><dd>Unavailable until verified sources exist</dd></div>
+            <div><dt>Provider Mode</dt><dd>${escapeHtml(sourceStatus.activeProvider.name)} · Demo only</dd></div>
+          </dl>
+        </article>
+        <article>
+          <header><span>Risk Boundary</span></header>
+          <dl>
+            <div><dt>Risk Gate</dt><dd>${escapeHtml(failedGatesHas(decisionState, "Risk Gate") ? "BLOCKED" : "PASS")}</dd></div>
+            <div><dt>Setup Risk</dt><dd>${escapeHtml(candidate.riskRating)}</dd></div>
+            <div class="is-risk"><dt>No-Trade Conditions</dt><dd>${escapeHtml(candidate.risk.noTrade)}</dd></div>
+            <div><dt>Invalidation</dt><dd>${escapeHtml(candidate.invalidation)}</dd></div>
+          </dl>
+        </article>
+        <article>
+          <header><span>Safety State</span></header>
+          <dl>
+            <div><dt>System Verdict</dt><dd>${escapeHtml(decisionState.status)}</dd></div>
+            <div><dt>Action Boundary</dt><dd>${escapeHtml(decisionState.actionBoundary)}</dd></div>
+            <div><dt>Advice</dt><dd>Not Financial Advice</dd></div>
+            <div><dt>Execution</dt><dd>No Broker Execution</dd></div>
+          </dl>
+        </article>
+      </div>
+    </details>
+  `;
+}
+
+function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
   const candidate = getSelectedAlertsCandidate();
   const score = scoreIntelligenceCandidate(candidate);
   const sourceStatus = getSourceStatus();
@@ -10590,7 +10633,11 @@ function renderAlertsOperatorWorkspace() {
         </div>
       </details>
 
+        ${renderAlertsSourceRiskNotes(candidate, sourceStatus, decisionState)}
+        ${advancedResearchMarkup}
+
         <footer class="alerts-operator-safety">
+          <span>Safety Boundary</span>
           <span>Research Only</span>
           <span>Manual Review Required</span>
           <span>Not Financial Advice</span>
@@ -11492,9 +11539,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       <p>${escapeHtml(RESEARCH_CARD_DISCLAIMER)}</p>
     </article>
   `).join("") || `<p class="research-empty-state">No setups advanced. Setup records remain blocked until the required gates pass.</p>`;
-  return `
-    <div class="packet-engine-shell phase2-alerts-desk">
-      ${renderAlertsOperatorWorkspace()}
+  const advancedResearchMarkup = `
       <details
         id="alertsAdvancedResearch"
         class="alerts-advanced-research"
@@ -11504,7 +11549,7 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
         <summary>
             <span>
               <strong>Advanced Research OS</strong>
-            <small>QQQ Golden Path, Intelligence Core, Orbit, packet engine, and legacy demo reference</small>
+            <small>QQQ Golden Path · Demo Reference, Intelligence Core, Orbit, packet engine, and legacy demo reference</small>
             </span>
           <em>${activePackets.length} packets · ${blockedPackets} blocked · DEMO only</em>
         </summary>
@@ -11815,6 +11860,10 @@ function renderResearchGatedAlertsDesk(packets, selectedPacket, lastUpdated) {
       </details>
         </div>
       </details>
+  `;
+  return `
+    <div class="packet-engine-shell phase2-alerts-desk">
+      ${renderAlertsOperatorWorkspace(advancedResearchMarkup)}
       ${renderPhase9AlertDrawer(packet, panelModel)}
     </div>
   `;

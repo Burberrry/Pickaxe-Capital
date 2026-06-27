@@ -1,6 +1,46 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Sidebar + Support Polish v1
+## Current Checkpoint - Pickaxe Alerts Primary Board + Support Restructure v1
+
+- Date: 2026-06-26.
+- Result: **PASS / LOCAL QA VERIFIED**.
+- Sprint type: bounded local implementation sprint. No push, merge, provider work, live data, credential, backend, broker/execution/payment/subscription/auth/alert-delivery, route, LocalStorage, packet model, or review queue change was authorized or added.
+- Starting branch: `main`.
+- Starting `main` and `origin/main` commit: `bfe6348`.
+- Remote preflight: `git fetch origin --prune`; `git pull --ff-only origin main`; `main` and `origin/main` were aligned with 0 ahead / 0 behind.
+- Safety branch: `backup/pre-alerts-primary-board-support-restructure-v1-20260626-174732`.
+- Work branch: `codex/alerts-primary-board-support-restructure-v1-20260626-174732`.
+- Scope implemented: made `Setups to Review` the dominant primary Alerts product surface, moved secondary detail into one `Alerts Support` hierarchy, and preserved static/demo/source-required truth.
+- The primary Alerts area now has a compact Options Alerts context strip, one `Setups to Review` board, four summary cards, board-level search/filter/reset controls, five static/demo rows ordered by Research Readiness, selected-row styling, and the static/demo/source-required footnote.
+- The board rows remain `QQQ`, `NVDA`, `SPY`, `TSLA`, and `GLD`.
+- The board columns remain Rank, Ticker, Setup, Type, Research Readiness, Source, Risk, Status, and Open.
+- Selected setup context, System Verdict, contributors, Required Gates, Research Packet, Evidence Packet, Source + Risk Notes, Advanced Research OS, QQQ Golden Path demo reference, and Safety Boundary now live inside or under the single `Alerts Support` section below the board.
+- Alerts Support updates when selected setup changes.
+- Search, ticker filter, and reset behavior remain ephemeral in-page state only; no LocalStorage key was added.
+- Research Packet, Evidence Packet, Source + Risk Notes, and Advanced Research OS disclosures open from inside Alerts Support.
+- Required safety concepts remain visible or reachable: Research Only, Manual Review Required, Not Financial Advice, No Broker Execution, No External Action, Demo / Static Data, source-required/no verified timestamp/no verified options-chain state, and options substantial-risk language.
+- Root/public mirrors were kept synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`.
+- `data/signal-alerts.json` remained unchanged.
+- Local desktop browser QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`: correct Alerts view, nonblank content, no console warnings/errors, no document-level horizontal overflow, exactly one `#pickaxe-starlight-field`, board before support, four summary cards, five setup rows, QQQ default selection, safety text reachable, no forbidden Alerts trade/execution controls, no live/provider claim, and dark/gold reset control styling.
+- Local Alerts interaction QA passed at `1440x900`: QQQ/NVDA/SPY/TSLA/GLD selection synced active row and Alerts Support, search filtered to TSLA, reset restored all five rows, ticker filter narrowed to NVDA, and Research Packet, Evidence Packet, Source + Risk Notes, and Advanced Research OS opened in Alerts Support.
+- Local mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`: route loads, correct Alerts view, nonblank content, five rows render, support reachable, TSLA selection works, Research Packet opens, Evidence Packet opens, safety language remains reachable, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas. No mobile redesign was performed.
+- Local regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, and `/vision-map` at `1440x900`: correct active view, nonblank content, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas.
+- Local validation passed: `node --check public/app.js`; `node --check app.js`; `node --check public/habitat-data.js`; `node --check habitat-data.js`; `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
+- Desktop-first final product review, read-only / no code, passed: the page now reads as one institutional setup review board first, with support/detail systems clearly secondary and reachable below.
+- Local commit message: `Restructure Alerts primary board and support`.
+- Push status: not pushed, per CEO B instruction.
+- Next bounded recommendation: CEO B reviews the local commit; push and hosted verification only after explicit authorization.
+
+### Pickaxe Alerts Primary Board + Support Restructure v1 Files Changed
+
+- `public/index.html` and `index.html`
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Sidebar + Support Polish v1
 
 - Date: 2026-06-26.
 - Result: **PASS / HOSTED QA VERIFIED**.

@@ -2,6 +2,31 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Primary Board + Support Restructure v1 is **PASS / LOCAL QA VERIFIED**.
+
+- Bounded local implementation sprint. No push, merge, provider work, live data, credential request, backend activation, broker/execution/payment/subscription/auth/alert-delivery behavior, new route, second renderer, LocalStorage key, packet model, review queue, or `data/signal-alerts.json` change was added.
+- Safety branch: `backup/pre-alerts-primary-board-support-restructure-v1-20260626-174732`.
+- Work branch: `codex/alerts-primary-board-support-restructure-v1-20260626-174732`.
+- The Alerts route now opens with a compact context strip followed by the dominant `Setups to Review` board.
+- The board has four summary cards, five static/demo rows for QQQ/NVDA/SPY/TSLA/GLD, board-level search/filter/reset controls, active selected-row styling, and the static/demo/source-required footnote.
+- Alerts Support now holds selected setup context, System Verdict, contributors, Required Gates, Research Packet, Evidence Packet, Source + Risk Notes, Advanced Research OS, QQQ Golden Path demo reference, and Safety Boundary below the board.
+- Alerts Support updates when selected setup changes.
+- Research Packet, Evidence Packet, Source + Risk Notes, and Advanced Research OS are reachable as support disclosures.
+- Required safety language remains visible or reachable: Research Only, Manual Review Required, Not Financial Advice, No Broker Execution, No External Action, Demo / Static Data, source-required/no verified timestamp/no verified options-chain state, and options substantial-risk language.
+- Local desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`.
+- Local mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`; no mobile redesign was performed.
+- Local regression QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, and `/vision-map`.
+- Local validation passed with the required package commands, JavaScript syntax checks, mirror checks, public safety/deploy-boundary/route checks, `git diff --check`, and final git status.
+- Desktop-first final product review passed: Alerts now reads as a setup review board first, with all deeper systems clearly below it in Alerts Support.
+- Local commit message: `Restructure Alerts primary board and support`.
+- Push status: not pushed, per CEO B instruction.
+
+Next bounded step: `CEO B local review of Pickaxe Alerts Primary Board + Support Restructure v1`.
+
+Do not push or begin hosted verification unless CEO B explicitly authorizes it.
+
+## Previous Active Checkpoint - Pickaxe Alerts Sidebar + Support Polish v1
+
 Pickaxe Alerts Sidebar + Support Polish v1 is **PASS / HOSTED QA VERIFIED**.
 
 - Push, fast-forward integration, hosted verification, hosted security/data-boundary QA, and hosted status-record sprint for the completed local Alerts sidebar/support polish.
