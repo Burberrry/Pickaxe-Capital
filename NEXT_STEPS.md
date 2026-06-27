@@ -2,7 +2,33 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Alerts Visible Delta Repair v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+Pickaxe Alerts Visible Delta Repair Hosted Verification v1 is **PASS / HOSTED QA VERIFIED**.
+
+- Local implementation commit `7273b955a14367a92cb700ae2e6eb3eebf84291b` (`Make Alerts first screen visibly clearer`) was fast-forward merged into `main` and pushed to `origin/main`; no merge commit was created.
+- GitHub Pages workflow `28282578527` passed for commit `7273b955a14367a92cb700ae2e6eb3eebf84291b`.
+- Validate and Build job `83800956538` passed; Deploy job `83800975803` passed.
+- Pages deployment `5219307148` finished with deployment status `14852885075` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted repository file verification matched the expected implementation files byte-for-byte against commit `7273b955a14367a92cb700ae2e6eb3eebf84291b`.
+- Hosted screenshots were captured under `/tmp/pickaxe-alerts-visible-delta-repair-hosted-v1/`.
+- Hosted desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`: `Setups to Review` is left / primary, `Selected Setup Quick Review` is upper right / prominent, `No-Chase Protocol` is prominent before support, and `Alerts Support` remains below the decision area.
+- Hosted interaction QA passed for QQQ/NVDA/SPY/TSLA/GLD selection sync, TSLA search, reset, Bullish type filter, NVDA ticker filter, Action Boundary filter, Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, Advanced Research OS, and brand/home routing back to Alerts/Home.
+- Hosted mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`; TSLA selection, packets, safety language, no console errors, no document-level overflow, and one Starlight canvas were verified. No mobile redesign was performed.
+- Hosted regression QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
+- Hosted local-only boundary QA passed: `/ai-handoff` and `/source-hub-staging` remain hosted `404`; `.env`, `server.mjs`, source maps, `data/signal-alerts.json`, and `/api/provider/quote?ticker=QQQ` are not publicly served from GitHub Pages.
+- Hosted security/data-boundary QA passed: no source maps, exposed `.env`, server/provider files, actual API key values, secrets, provider host resources, Massive/provider browser requests, localhost requests, broker/order/payment/auth/subscription/alert-delivery endpoints, local proxy dependency, or public local-server dependency were found.
+- Local validation passed before push and again after fast-forward integration with JavaScript syntax checks, required package commands, mirror checks, public safety/deploy-boundary/route checks, `git diff --check`, and git status.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Final hosted product score: **986 / 1000**.
+- No live data, Massive activation, provider request, credential, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, profit guarantee, financial advice, trade recommendation, another module, or `data/signal-alerts.json` change was added.
+
+Next bounded step: `CEO B hosted visual review of Pickaxe Alerts Visible Delta Repair v1`.
+
+Do not begin another visual, provider, Massive, watchlist, live-data, route, backend, execution, auth, payment, subscription, alert-delivery, mobile redesign, Starlight/cosmic, or architecture sprint automatically.
+
+## Previous Active Checkpoint - Pickaxe Alerts Visible Delta Repair v1
+
+Pickaxe Alerts Visible Delta Repair v1 was **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - Bounded visible product-experience repair in response to CEO B complaint: “I see no real change.” Push was not authorized and was not performed.
 - Starting `main` and `origin/main` commit: `6ef6a297c4be2c37ab6a2c2b07efce0dca87c9ae`.
@@ -19,12 +45,10 @@ Pickaxe Alerts Visible Delta Repair v1 is **PASS / LOCAL IMPLEMENTATION AND BROW
 - Local regression QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
 - Local validation passed with JavaScript syntax checks, required package commands, mirror checks, public safety/deploy-boundary/route checks, `git diff --check`, and final git status.
 - `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
-- Final visible delta score: **986 / 1000**.
+- Final visible delta score was **986 / 1000**.
 - No live data, Massive activation, provider request, credential, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, profit guarantee, financial advice, trade recommendation, another module, or `data/signal-alerts.json` change was added.
 
-Next bounded step: `CEO B local screenshot review of Pickaxe Alerts Visible Delta Repair v1`.
-
-Do not push, merge, begin hosted verification, or start another visual, provider, Massive, watchlist, live-data, route, backend, execution, auth, payment, subscription, alert-delivery, mobile redesign, or architecture sprint automatically.
+Next bounded step was `CEO B local screenshot review of Pickaxe Alerts Visible Delta Repair v1`.
 
 ## Previous Active Checkpoint - Pickaxe Alerts Final Product Finish Hosted Verification v1
 

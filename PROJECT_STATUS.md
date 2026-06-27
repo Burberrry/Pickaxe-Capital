@@ -1,6 +1,50 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Visible Delta Repair v1
+## Current Checkpoint - Pickaxe Alerts Visible Delta Repair Hosted Verification v1
+
+- Date: 2026-06-27.
+- Result: **PASS / HOSTED QA VERIFIED**.
+- Sprint type: bounded push, fast-forward integration, GitHub Pages deployment verification, hosted QA, hosted security/data-boundary QA, and hosted status record for `Pickaxe Alerts Visible Delta Repair v1`. No new UI work, provider work, Massive work, live data, credential, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery behavior, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, profit guarantee, financial advice, trade recommendation, another module, or `data/signal-alerts.json` change was authorized or added.
+- Starting branch: `codex/alerts-visible-delta-repair-v1-20260627`.
+- Work branch: `codex/alerts-visible-delta-repair-v1-20260627`.
+- Local implementation commit: `7273b955a14367a92cb700ae2e6eb3eebf84291b` (`Make Alerts first screen visibly clearer`).
+- Starting `main` and `origin/main` before integration: `6ef6a297c4be2c37ab6a2c2b07efce0dca87c9ae`.
+- Changed files from `origin/main...HEAD` before integration were expected only: `NEXT_STEPS.md`, `PROJECT_STATUS.md`, `app.js`, `habitat-data.js`, `index.html`, `public/app.js`, `public/habitat-data.js`, `public/index.html`, `public/styles.css`, and `styles.css`.
+- Integration method: fast-forward merge from `codex/alerts-visible-delta-repair-v1-20260627` into `main`; no merge commit was created.
+- Pushed implementation commit: `7273b955a14367a92cb700ae2e6eb3eebf84291b`; `origin/main` contained the commit after push with 0 ahead / 0 behind.
+- GitHub Pages workflow: `28282578527` (`Validate and Deploy GitHub Pages`) for commit `7273b955a14367a92cb700ae2e6eb3eebf84291b`.
+- Pages jobs: `83800956538` (`Validate and Build`) success; `83800975803` (`Deploy`) success.
+- Pages deployment: `5219307148`; deployment status `14852885075` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted screenshots captured:
+  - `/tmp/pickaxe-alerts-visible-delta-repair-hosted-v1/hosted-root-1440x900.png`
+  - `/tmp/pickaxe-alerts-visible-delta-repair-hosted-v1/hosted-hash-alerts-1440x900.png`
+  - `/tmp/pickaxe-alerts-visible-delta-repair-hosted-v1/hosted-app-alerts-1440x900.png`
+  - `/tmp/pickaxe-alerts-visible-delta-repair-hosted-v1/hosted-root-1280x720.png`
+  - `/tmp/pickaxe-alerts-visible-delta-repair-hosted-v1/hosted-app-alerts-390x844.png`
+- Hosted repository file verification matched all expected implementation files byte-for-byte against commit `7273b955a14367a92cb700ae2e6eb3eebf84291b`: `NEXT_STEPS.md`, `PROJECT_STATUS.md`, `app.js`, `habitat-data.js`, `index.html`, `public/app.js`, `public/habitat-data.js`, `public/index.html`, `public/styles.css`, and `styles.css`.
+- Hosted desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`: correct Alerts view, nonblank content, no console errors, no document-level horizontal overflow, exactly one `#pickaxe-starlight-field`, five setup rows, QQQ default selection, `Setups to Review` left / primary, `Selected Setup Quick Review` upper right / prominent, `No-Chase Protocol` right-side / prominent before support, and `Alerts Support` below the decision area.
+- Hosted interaction QA passed at `1440x900`: QQQ/NVDA/SPY/TSLA/GLD selection synced active row, Quick Review, No-Chase Protocol context, and Alerts Support; TSLA search narrowed to one row; reset restored all five rows; Bullish type filter narrowed to QQQ/NVDA/SPY; NVDA ticker filter narrowed to one row; Action Boundary filter retained all five no-external-action rows.
+- Hosted packet QA passed: Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, and Advanced Research OS opened or remained reachable; required safety language stayed visible or reachable.
+- Hosted mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`: correct Alerts route, nonblank content, no console errors, no document-level horizontal overflow, one Starlight canvas, five setup rows, Quick Review, No-Chase Protocol, Alerts Support, TSLA selection sync, packet access, and safety language remained reachable. Mobile was smoke QA only; no mobile redesign was performed.
+- Hosted regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`: route identity text, nonblank content, no console errors, no document-level horizontal overflow, and one Starlight canvas.
+- Hosted local-only boundary QA passed: `/ai-handoff` and `/source-hub-staging` remain hosted `404`; `.env`, `server.mjs`, `app.js.map`, `styles.css.map`, `habitat-data.js.map`, `data/signal-alerts.json`, and `/api/provider/quote?ticker=QQQ` also return hosted `404`.
+- Hosted security/data-boundary QA passed: hosted asset inventory contained only static Pickaxe CSS/JS/images and Google Fonts; no source maps, actual API key values, secrets, exposed `.env`, server/provider files, provider host resources, Massive/Alpha Vantage/Tradier/Polygon/OPRA/Cboe/Databento/Intrinio/ORATS requests, localhost requests, broker/order/payment/auth/subscription/alert-delivery endpoints, or public local-server dependency were found. Broad provider/environment words in public files remain inactive labels/status boundaries, not credentials or requests.
+- Local validation passed before push and again after fast-forward integration with JavaScript syntax checks, required package commands, mirror checks, public safety/deploy-boundary/route checks, `git diff --check`, and git status.
+- Root/public mirrors were kept synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Final hosted product score: **986 / 1000**.
+- Status record files changed after hosted verification: `PROJECT_STATUS.md`, `NEXT_STEPS.md`, `public/habitat-data.js`, `habitat-data.js`, `public/index.html`, and `index.html`.
+- Next bounded recommendation: `CEO B hosted visual review of Pickaxe Alerts Visible Delta Repair v1`.
+
+### Pickaxe Alerts Visible Delta Repair Hosted Verification v1 Files Changed
+
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `public/habitat-data.js` and `habitat-data.js`
+- `public/index.html` and `index.html`
+
+## Previous Checkpoint - Pickaxe Alerts Visible Delta Repair v1
 
 - Date: 2026-06-27.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
