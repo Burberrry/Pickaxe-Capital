@@ -1,6 +1,44 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Visible Delta Repair Hosted Verification v1
+## Current Checkpoint - Pickaxe Alerts Brand Immersion v1
+
+- Date: 2026-06-27.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded Pickaxe Capital brand-immersion implementation for the existing Alerts first screen. No push, hosted verification, new logo, new image asset, route, second Alerts renderer, LocalStorage key, packet model, review queue, provider work, Massive activation, live data, credential request, backend, broker/execution/payment/subscription/auth/alert-delivery behavior, mobile redesign, Starlight/cosmic background work, profit guarantee, financial advice, trade recommendation, another module, or `data/signal-alerts.json` change was authorized or added.
+- Starting branch: `main`.
+- Starting `main` and `origin/main`: aligned after `git fetch origin --prune` and `git pull --ff-only origin main`.
+- Safety branch: `backup/pre-alerts-brand-immersion-v1-20260627`.
+- Work branch: `codex/alerts-brand-immersion-v1-20260627`.
+- Active renderer preserved: `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `renderAlertsOperatorWorkspace()` in `public/app.js`; no duplicate Alerts page concept was created.
+- First-screen brand anchor strengthened with existing Pickaxe Capital logo placement, `Options Intelligence OS`, `Alerts Desk / CEO B Command Desk`, the doctrine `Rank setups. Verify evidence. Block action until every required gate passes.`, `Signal from Noise`, and the brand line `Sell the pickaxe. Own the ritual. Preserve the standard.`.
+- Compact truth state now reads `Demo / Static Data`, `Source Required`, `Manual Review Required`, and `No External Action` with `Research Only`, `Manual Review Required`, `Not Financial Advice`, `No Broker Execution`, and options-risk language preserved.
+- `Setups to Review` now reads more like CEO B's ranked intelligence queue with `Command Focus`, `Setup Ore`, `Evidence Gate`, `Risk Gate`, and `Action Boundary` language. Research Readiness remains packet quality / review priority, not expected profit.
+- `Selected Setup Quick Review` now reads as the selected command target and exposes ticker, setup ore, readiness, evidence gate, missing evidence, risk gate, invalidation, no-chase trigger, action boundary, next manual requirement, and unavailable options context.
+- `No-Chase Protocol` now reads as CEO B's discipline gate and capital-preservation layer, with wait/verify, invalidation-first, preserve-capital, evidence-gate, and no-external-action rules.
+- `Alerts Support` remains below the decision area and is reframed as the deeper Source Mine / Risk Engine for packets, gates, evidence, source/risk notes, Advanced Research OS, and safety controls.
+- Visual styling was kept route-scoped to Alerts and strengthens the obsidian, graphite, deep navy, champagne-gold, ivory, ghost-gray, amber, restrained crimson, and limited emerald command-terminal feel.
+- Browser QA used the in-app Browser path. Local screenshots were captured outside the repository under `/tmp/pickaxe-alerts-brand-immersion-v1/`.
+- Local desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900`: correct Alerts route, nonblank content, Pickaxe Capital / Options Intelligence OS terminal header, compact truth states, five setup rows, QQQ default selection, Quick Review, No-Chase Protocol, Alerts Support, required safety language, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas.
+- Local desktop `1280x720` QA passed on `/#/alerts`: stronger brand header, board, Quick Review, and top of No-Chase remained visible with no console warnings/errors, no document-level horizontal overflow, five setup rows, and one Starlight canvas.
+- Local mobile smoke QA passed on `/app/alerts` at `390x844`: brand header, setup board, Quick Review, No-Chase Protocol, Alerts Support, five rows, safety language, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas remained reachable. Mobile remains dense by design; no mobile redesign was performed.
+- Local interaction QA passed: NVDA row selection synced active row, Quick Review, No-Chase Protocol, and Alerts Support; TSLA search narrowed to one row; Bullish type filter narrowed to QQQ/NVDA/SPY; NVDA ticker filter narrowed to one row; Action Boundary filter retained all five no-external-action rows; reset restored all five rows.
+- Packet/disclosure QA passed: Research Packet, Evidence Packet, Source + Risk Notes, and Advanced Research OS opened; Required Gates remained visible; required safety language remained present.
+- Root/public mirrors were kept synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`.
+- Asset cache keys were bumped to `alerts-brand-immersion-v1-20260627-r1`.
+- Final visual alignment score: **990 / 1000**.
+- Remaining issue: mobile remains intentionally dense and was smoke-tested only.
+- Next bounded recommendation: `Push and hosted verification for Pickaxe Alerts Brand Immersion v1` only after CEO B explicitly authorizes push.
+
+### Pickaxe Alerts Brand Immersion v1 Files Changed
+
+- `public/index.html` and `index.html`
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Visible Delta Repair Hosted Verification v1
 
 - Date: 2026-06-27.
 - Result: **PASS / HOSTED QA VERIFIED**.

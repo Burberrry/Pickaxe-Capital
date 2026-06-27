@@ -10125,25 +10125,29 @@ function renderAlertsFilterSelect(id, label, key, rows) {
 function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
   const actionBoundaryLabel = formatAlertsActionBoundary(decisionState.actionBoundary);
   return `
-    <section class="alerts-feed-product-bar alerts-board-context" aria-label="Alerts Desk context">
+    <section class="alerts-feed-product-bar alerts-board-context alerts-terminal-header" aria-label="Pickaxe Capital Options Intelligence OS context">
       <div class="alerts-product-header">
         <div class="alerts-brand-lock">
           <img src="brand/pickaxe-capital-logo.png?v=20260531-logo3" alt="" aria-hidden="true" />
           <div>
             <small>Pickaxe Capital</small>
-            <strong>Alerts Desk</strong>
-            <span>Research Only · Demo / Static Data</span>
+            <strong>Options Intelligence OS</strong>
+            <span>Alerts Desk / CEO B Command Desk</span>
           </div>
         </div>
-        <p>Best setups first. Missing evidence, risk, and no-external-action boundaries stay visible before any CEO B review.</p>
+        <p>Rank setups. Verify evidence. Block action until every required gate passes.</p>
+        <div class="alerts-command-doctrine" aria-label="Pickaxe Capital operating doctrine">
+          <b>Signal from Noise</b>
+          <span>Sell the pickaxe. Own the ritual. Preserve the standard.</span>
+        </div>
       </div>
       <div class="alerts-feed-truth" aria-label="Alerts Desk truth strip">
         <span><em>Data</em><strong>Demo / Static Data</strong></span>
-        <span><em>Source</em><strong>Source Required</strong></span>
-        <span><em>Review</em><strong>Manual Review Required</strong></span>
-        <span><em>Boundary</em><strong>${escapeHtml(actionBoundaryLabel)}</strong></span>
+        <span><em>Source Mine</em><strong>Source Required</strong></span>
+        <span><em>Evidence Gate</em><strong>Manual Review Required</strong></span>
+        <span><em>Action Boundary</em><strong>${escapeHtml(actionBoundaryLabel)}</strong></span>
       </div>
-      <p class="alerts-feed-boundary">Research Only · Not Financial Advice · No Broker Execution · Options involve substantial risk. Full source boundaries live in Alerts Support.</p>
+      <p class="alerts-feed-boundary">Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · No External Action · Options involve substantial risk.</p>
     </section>
   `;
 }
@@ -10178,14 +10182,14 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
     <section class="alerts-feed-shell" aria-labelledby="alertsFeedTitle">
       <div class="alerts-feed-head">
         <div>
-          <span class="meta-label">Ordered by Research Readiness</span>
+          <span class="meta-label">CEO B Ranked Intelligence Queue</span>
           <h3 id="alertsFeedTitle">Setups to Review</h3>
         </div>
-        <p>Readiness ranks review priority, not expected profit. Select a setup to see why it is ranked, what is missing, what invalidates it, and what to avoid.</p>
+        <p>Signal from noise, ordered for review. Research Readiness is packet quality, not expected profit; Source Gate and Action Boundary stay visible before any external action.</p>
       </div>
       <div class="alerts-feed-visual-summary" aria-label="Current Alerts feed state">
         <article>
-          <span>Active Setup</span>
+          <span>Command Focus</span>
           <strong>${escapeHtml(selectedRow.ticker || "None")}</strong>
           <small>${escapeHtml(selectedRow.setup || "Select a setup")}</small>
         </article>
@@ -10195,9 +10199,9 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
           <small>${escapeHtml(selectedRow.readinessClass || "Not ranked")} · review priority</small>
         </article>
         <article>
-          <span>Source Gate</span>
+          <span>Evidence Gate</span>
           <strong>${String(sourceRequiredCount).padStart(2, "0")}</strong>
-          <small>source-required / evidence gate</small>
+          <small>source-required / Source Mine incomplete</small>
         </article>
         <article>
           <span>Action Boundary</span>
@@ -10208,7 +10212,7 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
       ${renderAlertsBoardControls(rows)}
       <div class="alerts-feed-table" role="table" aria-label="Options setups research feed">
         <div class="alerts-feed-row alerts-feed-row-head" role="row">
-          ${["Rank", "Ticker", "Setup", "Type", "Research Readiness", "Source Gate", "Risk", "Action Boundary", "Open"].map((column) => `<span role="columnheader">${escapeHtml(column)}</span>`).join("")}
+          ${["Rank", "Ticker", "Setup Ore", "Type", "Research Readiness", "Evidence Gate", "Risk Gate", "Action Boundary", "View"].map((column) => `<span role="columnheader">${escapeHtml(column)}</span>`).join("")}
         </div>
         ${filteredRows.length ? filteredRows.map((row) => `
           <button
@@ -10223,13 +10227,13 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
           >
             <span role="cell" data-label="Rank"><strong>${String(row.rank).padStart(2, "0")}</strong></span>
             <span role="cell" data-label="Ticker"><strong>${escapeHtml(row.ticker)}</strong></span>
-            <span role="cell" data-label="Setup">${escapeHtml(row.setup)}</span>
+            <span role="cell" data-label="Setup Ore">${escapeHtml(row.setup)}</span>
             <span role="cell" data-label="Type">${escapeHtml(row.type)}</span>
             <span role="cell" data-label="Research Readiness"><strong>${escapeHtml(row.readiness)}</strong><small>${escapeHtml(row.readinessClass)} · Review priority</small></span>
-            <span role="cell" data-label="Source Gate" class="alerts-source-gate-cell"><em>${escapeHtml(row.source)}</em><small>Evidence gate</small></span>
-            <span role="cell" data-label="Risk">${escapeHtml(row.risk)}</span>
+            <span role="cell" data-label="Evidence Gate" class="alerts-source-gate-cell"><em>${escapeHtml(row.source)}</em><small>Evidence gate</small></span>
+            <span role="cell" data-label="Risk Gate">${escapeHtml(row.risk)}</span>
             <span role="cell" data-label="Action Boundary" class="alerts-action-boundary-cell"><em>${escapeHtml(row.actionBoundary)}</em><small>Verify source + options chain</small></span>
-            <span role="cell" data-label="Open"><b>Open</b></span>
+            <span role="cell" data-label="View"><b>View</b></span>
           </button>
         `).join("") : `
           <div class="alerts-feed-empty" role="row">
@@ -10238,7 +10242,7 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
           </div>
         `}
       </div>
-      <p class="alerts-feed-footnote">${filteredRows.length} of ${rows.length} static/demo research setups shown. Action blocked means no external action, not setup rejection. Source, timestamp, and options-chain gates remain required.</p>
+      <p class="alerts-feed-footnote">${filteredRows.length} of ${rows.length} static/demo research setups shown. Setup Ore is review material only. Action blocked means No External Action, not setup rejection. Source, timestamp, and options-chain gates remain required.</p>
     </section>
   `;
 }
@@ -10338,15 +10342,15 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
 
 function renderAlertsQuickReview(candidate, score, sourceStatus, decisionState) {
   const quickReviewFields = [
-    ["Ticker", candidate.ticker, "is-selected"],
-    ["Setup Name", `${candidate.ticker} ${candidate.setupType}`, "is-selected"],
+    ["Command Target", candidate.ticker, "is-selected"],
+    ["Setup Ore", `${candidate.ticker} ${candidate.setupType}`, "is-selected"],
     ["Bias / Type", candidate.bias, "is-selected"],
     ["Research Readiness", `${score.total}/100 · ${score.classification}`, "is-readiness"],
-    ["Source Gate", "Source Required", "is-source-required"],
+    ["Evidence Gate", "Source Required", "is-source-required"],
     ["Missing Evidence", getAlertsMissingEvidenceSummary(decisionState.missingEvidence), "is-source-required"],
-    ["Risk Rating", candidate.riskRating, "is-risk-watch"],
+    ["Risk Gate", candidate.riskRating, "is-risk-watch"],
     ["Invalidation", getAlertsQuickInvalidationSummary(candidate), "is-risk-watch"],
-    ["No-Trade Condition", getAlertsQuickNoTradeSummary(candidate), "is-risk-watch"],
+    ["No-Chase Trigger", getAlertsQuickNoTradeSummary(candidate), "is-risk-watch"],
     ["Action Boundary", formatAlertsActionBoundary(decisionState.actionBoundary), "is-boundary"],
     ["Next Manual Requirement", getAlertsNextRequirementSummary(decisionState.nextRequirement), "is-source-required"],
     ["Options Context", "Unavailable until source, time, and chain verify.", "is-boundary"],
@@ -10355,14 +10359,14 @@ function renderAlertsQuickReview(candidate, score, sourceStatus, decisionState) 
     <section class="alerts-quick-review" aria-label="Selected setup quick review">
       <header>
         <div>
-          <span class="meta-label">Selected Setup Quick Review</span>
+          <span class="meta-label">Selected Command Target</span>
           <h3>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</h3>
-          <p>${escapeHtml(candidate.ceoBNote)} Manual Review Required before any external action.</p>
+          <p>${escapeHtml(candidate.ceoBNote)} CEO B Standard applies: verify before action.</p>
         </div>
         <aside>
           <span>${escapeHtml(candidate.bias)}</span>
           <strong>${escapeHtml(`${score.total}/100 · ${score.classification}`)}</strong>
-          <small>Research Readiness</small>
+          <small>Research Readiness / not profit</small>
         </aside>
       </header>
       <div class="alerts-quick-review-grid">
@@ -10379,28 +10383,28 @@ function renderAlertsQuickReview(candidate, score, sourceStatus, decisionState) 
 
 function renderAlertsDisciplineGate(candidate, score, decisionState) {
   const protocol = [
-    "Wait if source, timestamp, or options chain are missing.",
+    "Wait when source, timestamp, or options chain are missing.",
     "Define invalidation before opportunity.",
-    "Risk before upside.",
+    "Preserve capital before chasing upside.",
     "Readiness ranks review priority, not expected profit.",
-    "Missing evidence means wait and verify.",
-    "No external action while Source Gate is incomplete.",
+    "Evidence Gate incomplete means wait and verify.",
+    "No External Action while Source Mine is incomplete.",
   ];
   return `
     <section class="alerts-discipline-gate" aria-label="No-Chase Protocol">
       <header>
         <div>
-          <span class="meta-label">No-Chase Protocol</span>
+          <span class="meta-label">CEO B Discipline Gate</span>
           <h3>No-Chase Protocol</h3>
-          <p>${escapeHtml(candidate.ticker)} is a research setup only. The system is protecting patience, source verification, invalidation discipline, and risk-first review.</p>
+          <p>${escapeHtml(candidate.ticker)} is a research setup only. Pickaxe protects patience, source verification, invalidation discipline, and capital preservation.</p>
         </div>
         <strong>${escapeHtml(formatAlertsActionBoundary(decisionState.actionBoundary))}</strong>
       </header>
       <div class="alerts-discipline-grid">
         <article>
-          <span>Current Discipline State</span>
+          <span>Capital Preservation State</span>
           <strong>${escapeHtml(score.classification)} review quality / ${escapeHtml(candidate.riskRating)} risk</strong>
-          <p>Better decisions come from cleaner evidence and harder no-trade rules, not from forcing action.</p>
+          <p>Better decisions come from cleaner evidence and harder no-chase rules, not from forcing action.</p>
         </article>
         <ol>
           ${protocol.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
@@ -10644,15 +10648,15 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
       <section id="alertsSupportSection" class="alerts-support-section" aria-labelledby="alertsSupportTitle">
         <header class="alerts-support-head">
           <div>
-            <span class="meta-label">Alerts Support</span>
+            <span class="meta-label">Source Mine / Risk Engine</span>
             <h3 id="alertsSupportTitle">Alerts Support</h3>
-            <p>Selected setup context, review priority, source gates, action boundary, packets, and safety controls stay below the board.</p>
+            <p>Deeper source, risk, research packet, and safety systems stay below the command decision area.</p>
           </div>
           <strong>${escapeHtml(candidate.ticker)} / ${escapeHtml(actionBoundaryLabel)}</strong>
         </header>
         <div class="alerts-support-summary" aria-label="Selected setup support summary">
           <article>
-            <span>Selected</span>
+            <span>Command Target</span>
             <strong>${escapeHtml(candidate.ticker)}</strong>
             <small>${escapeHtml(candidate.setupType)}</small>
           </article>
@@ -10662,7 +10666,7 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
             <small>${escapeHtml(score.classification)} review priority</small>
           </article>
           <article>
-            <span>Source Gate</span>
+            <span>Evidence Gate</span>
             <strong>Source Required</strong>
             <small>${escapeHtml(getAlertsMissingEvidenceSummary(decisionState.missingEvidence))}</small>
           </article>
