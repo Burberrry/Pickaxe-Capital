@@ -28515,15 +28515,15 @@ body[data-active-view="alerts"] #alerts.active button.alerts-feed-row,
 body[data-active-view="alerts"] #alerts.active button.alerts-feed-row:hover,
 body[data-active-view="alerts"] #alerts.active button.alerts-feed-row:focus-visible {
   grid-template-columns:
-    minmax(40px, 0.32fr)
-    minmax(58px, 0.44fr)
-    minmax(118px, 0.98fr)
-    minmax(74px, 0.58fr)
-    minmax(120px, 0.84fr)
-    minmax(92px, 0.7fr)
-    minmax(78px, 0.62fr)
-    minmax(84px, 0.64fr)
-    minmax(54px, 0.38fr);
+    minmax(40px, 0.3fr)
+    minmax(58px, 0.42fr)
+    minmax(122px, 0.94fr)
+    minmax(68px, 0.52fr)
+    minmax(138px, 0.92fr)
+    minmax(124px, 0.82fr)
+    minmax(78px, 0.58fr)
+    minmax(142px, 0.94fr)
+    minmax(54px, 0.36fr);
   min-height: 46px !important;
 }
 
@@ -28531,9 +28531,37 @@ body[data-active-view="alerts"] #alerts.active button.alerts-feed-row:focus-visi
   color: rgba(215, 189, 120, 0.95);
 }
 
-#alerts.active .alerts-feed-row span[data-label="Source"],
+#alerts.active .alerts-feed-row span[data-label="Source Gate"],
 #alerts.active .alerts-feed-row span[data-label="Risk"] {
   color: rgba(214, 163, 68, 0.86);
+}
+
+#alerts.active .alerts-source-gate-cell em,
+#alerts.active .alerts-action-boundary-cell em {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  padding: 2px 6px;
+  border: 1px solid rgba(214, 163, 68, 0.25);
+  border-radius: 999px;
+  color: rgba(235, 190, 104, 0.95);
+  background: rgba(214, 163, 68, 0.09);
+  font-size: 8px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+#alerts.active .alerts-action-boundary-cell em {
+  border-color: rgba(180, 86, 82, 0.28);
+  color: rgba(245, 185, 177, 0.95);
+  background: rgba(180, 86, 82, 0.08);
+}
+
+#alerts.active .alerts-source-gate-cell small,
+#alerts.active .alerts-action-boundary-cell small,
+#alerts.active .alerts-feed-row span[data-label="Research Readiness"] small {
+  color: rgba(201, 209, 217, 0.66);
 }
 
 #alerts.active .alerts-primary-workspace {
@@ -28609,7 +28637,8 @@ body[data-active-view="alerts"] #alerts.active button.alerts-feed-row:focus-visi
 
 #alerts.active .alerts-operator-process li.gate-source-required,
 #alerts.active .alerts-operator-process li.gate-unknown,
-#alerts.active .alerts-operator-process li.gate-unavailable {
+#alerts.active .alerts-operator-process li.gate-unavailable,
+#alerts.active .alerts-operator-process li.gate-no-external-action {
   border-color: rgba(214, 163, 68, 0.32);
   background: rgba(214, 163, 68, 0.06);
 }
@@ -28717,7 +28746,8 @@ body[data-active-view="alerts"] #alerts.active button.alerts-feed-row:focus-visi
 
   #alerts.active .alerts-feed-row span[data-label="Setup"],
   #alerts.active .alerts-feed-row span[data-label="Research Readiness"],
-  #alerts.active .alerts-feed-row span[data-label="Status"] {
+  #alerts.active .alerts-feed-row span[data-label="Source Gate"],
+  #alerts.active .alerts-feed-row span[data-label="Action Boundary"] {
     grid-column: 1 / -1;
   }
 
@@ -29109,7 +29139,8 @@ body[data-active-view="alerts"] #alerts.active .alerts-feed-focus button.alerts-
   #alerts.active .alerts-feed-focus .alerts-feed-row span[data-label="Ticker"],
   #alerts.active .alerts-feed-focus .alerts-feed-row span[data-label="Setup"],
   #alerts.active .alerts-feed-focus .alerts-feed-row span[data-label="Research Readiness"],
-  #alerts.active .alerts-feed-focus .alerts-feed-row span[data-label="Status"] {
+  #alerts.active .alerts-feed-focus .alerts-feed-row span[data-label="Source Gate"],
+  #alerts.active .alerts-feed-focus .alerts-feed-row span[data-label="Action Boundary"] {
     grid-column: 1 / -1;
   }
 

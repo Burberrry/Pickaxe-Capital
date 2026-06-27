@@ -43,7 +43,7 @@ const state = {
   alertsAdvancedOpen: false,
   alertsResearchPacketOpen: false,
   alertsOperatorEvidenceOpen: false,
-  alertFeedFilters: { search: "", type: "all", ticker: "all", status: "all" },
+  alertFeedFilters: { search: "", type: "all", ticker: "all", actionBoundary: "all" },
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
@@ -10045,6 +10045,12 @@ function getAlertsCardReason(candidate = {}) {
   return cardReasons[candidate.ticker] || "Source freshness and options-chain verification required.";
 }
 
+function formatAlertsActionBoundary(value = "") {
+  const boundary = String(value || "").trim();
+  if (/^no external action$/i.test(boundary)) return "No External Action";
+  return boundary || "No External Action";
+}
+
 function getAlertsFeedRows(sourceStatus) {
   return getAlertsOperatorReviewOrder().map(({ item, itemScore }, index) => {
     const decision = getAlertsOperatorDecisionState(item, sourceStatus);
@@ -10064,7 +10070,7 @@ function getAlertsFeedRows(sourceStatus) {
       source: "Source Required",
       risk: item.riskRating,
       status: decision.cardLabel,
-      actionBoundary: decision.actionBoundary,
+      actionBoundary: formatAlertsActionBoundary(decision.actionBoundary),
       optionsQuality: item.options?.grade || "Not Evaluated",
       missing: getAlertsCardReason(item),
       candidate: item,
@@ -10091,13 +10097,14 @@ function getFilteredAlertsRows(rows) {
       row.source,
       row.risk,
       row.status,
+      row.actionBoundary,
       row.optionsQuality,
       row.missing,
     ].join(" ").toLowerCase();
     return (!search || haystack.includes(search))
       && (!filters.type || filters.type === "all" || row.type === filters.type)
       && (!filters.ticker || filters.ticker === "all" || row.ticker === filters.ticker)
-      && (!filters.status || filters.status === "all" || row.status === filters.status);
+      && (!filters.actionBoundary || filters.actionBoundary === "all" || row.actionBoundary === filters.actionBoundary);
   });
 }
 
@@ -10116,6 +10123,7 @@ function renderAlertsFilterSelect(id, label, key, rows) {
 }
 
 function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
+  const actionBoundaryLabel = formatAlertsActionBoundary(decisionState.actionBoundary);
   return `
     <section class="alerts-feed-product-bar alerts-board-context" aria-label="Alerts Desk context">
       <div class="alerts-product-header">
@@ -10133,7 +10141,7 @@ function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
         <span><em>Data</em><strong>Demo / Static Data</strong></span>
         <span><em>Source</em><strong>Source Required</strong></span>
         <span><em>Review</em><strong>Manual Review Required</strong></span>
-        <span><em>Boundary</em><strong>${escapeHtml(decisionState.actionBoundary)}</strong></span>
+        <span><em>Boundary</em><strong>${escapeHtml(actionBoundaryLabel)}</strong></span>
       </div>
       <p class="alerts-feed-boundary">Research Only · Not Financial Advice · No Broker Execution · Options involve substantial risk. Full source boundaries live in Alerts Support.</p>
     </section>
@@ -10156,7 +10164,7 @@ function renderAlertsBoardControls(rows) {
         </label>
         ${renderAlertsFilterSelect("alertsTypeFilter", "Type", "type", rows)}
         ${renderAlertsFilterSelect("alertsTickerFilter", "Ticker", "ticker", rows)}
-        ${renderAlertsFilterSelect("alertsStatusFilter", "Status", "status", rows)}
+        ${renderAlertsFilterSelect("alertsBoundaryFilter", "Action Boundary", "actionBoundary", rows)}
         <button type="button" class="alerts-filter-reset" onclick="window.resetAlertsFeedFilters()">Reset filters</button>
       </div>
   `;
@@ -10164,8 +10172,8 @@ function renderAlertsBoardControls(rows) {
 
 function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
   const selectedRow = rows.find((row) => row.id === selectedCandidateId) || rows[0] || {};
-  const blockedCount = rows.filter((row) => /blocked/i.test(row.status)).length;
   const sourceRequiredCount = rows.filter((row) => /source required/i.test(row.source)).length;
+  const selectedBoundary = selectedRow.actionBoundary || "No External Action";
   return `
     <section class="alerts-feed-shell" aria-labelledby="alertsFeedTitle">
       <div class="alerts-feed-head">
@@ -10173,7 +10181,7 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
           <span class="meta-label">Ordered by Research Readiness</span>
           <h3 id="alertsFeedTitle">Setups to Review</h3>
         </div>
-        <p>Readiness organizes review priority. Required gates control advancement.</p>
+        <p>Readiness ranks review priority. Source Gate shows missing evidence. Action Boundary controls external action.</p>
       </div>
       <div class="alerts-feed-visual-summary" aria-label="Current Alerts feed state">
         <article>
@@ -10182,25 +10190,25 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
           <small>${escapeHtml(selectedRow.setup || "Select a setup")}</small>
         </article>
         <article>
-          <span>Readiness</span>
+          <span>Research Readiness</span>
           <strong>${escapeHtml(selectedRow.readiness || "0/100")}</strong>
-          <small>${escapeHtml(selectedRow.readinessClass || "Not ranked")}</small>
+          <small>${escapeHtml(selectedRow.readinessClass || "Not ranked")} · review priority</small>
         </article>
         <article>
           <span>Source Gate</span>
           <strong>${String(sourceRequiredCount).padStart(2, "0")}</strong>
-          <small>source-required setups</small>
+          <small>source-required / evidence gate</small>
         </article>
         <article>
-          <span>Action State</span>
-          <strong>${String(blockedCount).padStart(2, "0")}</strong>
-          <small>blocked from external action</small>
+          <span>Action Boundary</span>
+          <strong>${escapeHtml(selectedBoundary)}</strong>
+          <small>source + options chain required</small>
         </article>
       </div>
       ${renderAlertsBoardControls(rows)}
       <div class="alerts-feed-table" role="table" aria-label="Options setups research feed">
         <div class="alerts-feed-row alerts-feed-row-head" role="row">
-          ${["Rank", "Ticker", "Setup", "Type", "Research Readiness", "Source", "Risk", "Status", "Open"].map((column) => `<span role="columnheader">${escapeHtml(column)}</span>`).join("")}
+          ${["Rank", "Ticker", "Setup", "Type", "Research Readiness", "Source Gate", "Risk", "Action Boundary", "Open"].map((column) => `<span role="columnheader">${escapeHtml(column)}</span>`).join("")}
         </div>
         ${filteredRows.length ? filteredRows.map((row) => `
           <button
@@ -10210,17 +10218,17 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
             data-alert-row-ticker="${escapeHtml(row.ticker)}"
             role="row"
             aria-pressed="${row.id === selectedCandidateId}"
-            aria-label="${escapeHtml(`Rank ${row.rank}. ${row.ticker} ${row.setup}. ${row.readiness} Research Readiness. ${row.source}. ${row.risk} risk. ${row.status}. ${row.missing}`)}"
+            aria-label="${escapeHtml(`Rank ${row.rank}. ${row.ticker} ${row.setup}. ${row.readiness} Research Readiness. Source Gate ${row.source}. ${row.risk} risk. Action Boundary ${row.actionBoundary}. ${row.missing}`)}"
             onclick="window.selectIntelligenceCandidate('${escapeHtml(row.id)}', { preserveScroll: true })"
           >
             <span role="cell" data-label="Rank"><strong>${String(row.rank).padStart(2, "0")}</strong></span>
             <span role="cell" data-label="Ticker"><strong>${escapeHtml(row.ticker)}</strong></span>
             <span role="cell" data-label="Setup">${escapeHtml(row.setup)}</span>
             <span role="cell" data-label="Type">${escapeHtml(row.type)}</span>
-            <span role="cell" data-label="Research Readiness"><strong>${escapeHtml(row.readiness)}</strong><small>${escapeHtml(row.readinessClass)}</small></span>
-            <span role="cell" data-label="Source">${escapeHtml(row.source)}</span>
+            <span role="cell" data-label="Research Readiness"><strong>${escapeHtml(row.readiness)}</strong><small>${escapeHtml(row.readinessClass)} · Review priority</small></span>
+            <span role="cell" data-label="Source Gate" class="alerts-source-gate-cell"><em>${escapeHtml(row.source)}</em><small>Evidence gate</small></span>
             <span role="cell" data-label="Risk">${escapeHtml(row.risk)}</span>
-            <span role="cell" data-label="Status"><em>${escapeHtml(row.status)}</em></span>
+            <span role="cell" data-label="Action Boundary" class="alerts-action-boundary-cell"><em>${escapeHtml(row.actionBoundary)}</em><small>Verify source + options chain</small></span>
             <span role="cell" data-label="Open"><b>Open</b></span>
           </button>
         `).join("") : `
@@ -10230,7 +10238,7 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
           </div>
         `}
       </div>
-      <p class="alerts-feed-footnote">${filteredRows.length} of ${rows.length} static/demo research setups shown. Missing option fields stay unavailable until verified sources exist.</p>
+      <p class="alerts-feed-footnote">${filteredRows.length} of ${rows.length} static/demo research setups shown. Action blocked means no external action, not setup rejection. Source, timestamp, and options-chain gates remain required.</p>
     </section>
   `;
 }
@@ -10262,7 +10270,7 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
     ["Setup Name", `${candidate.ticker} ${candidate.setupType}`],
     ["Setup Type", candidate.setupType],
     ["Research Readiness", `${score.total}/100 · ${score.classification}`],
-    ["Source Status", "Source Required"],
+    ["Source Gate", "Source Required"],
     ["Options Quality", candidate.options?.grade || "Not Evaluated"],
     ["Risk Gate", failedGatesHas(decisionState, "Risk Gate") ? "BLOCKED" : "PASS"],
     ["System Status", decisionState.label],
@@ -10279,7 +10287,7 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
         <div>
           <span class="meta-label">Selected Setup Context</span>
           <h3>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</h3>
-          <p>Review the setup summary, gate status, packet, and evidence trail before any CEO B decision.</p>
+          <p>Review priority and evidence gates stay separate from action boundary before any CEO B decision.</p>
         </div>
         <strong class="${directionClass}">${escapeHtml(candidate.bias)}</strong>
       </header>
@@ -10325,7 +10333,7 @@ function renderAlertsOperatorVerdict(decisionState) {
         <span>${escapeHtml(decisionState.label)}</span>
         <div>
           <strong>System Verdict</strong>
-          <small>${escapeHtml(decisionState.title)}. Research Readiness cannot override failed gates.</small>
+          <small>Action is held until source, timestamp, and options-chain gates verify. Research Readiness cannot override failed gates.</small>
         </div>
       </div>
       <dl class="alerts-verdict-primary">
@@ -10397,7 +10405,7 @@ function renderAlertsResearchPacket(candidate, score, sourceStatus, decisionStat
     >
       <summary>
         <span>Research Packet</span>
-        <small>Selected setup thesis, source state, risk notes, options context, and no-action boundary</small>
+        <small>Selected setup thesis, source gate, risk notes, options context, and no-external-action boundary</small>
       </summary>
       <div class="alerts-operator-columns">
         <article>
@@ -10411,7 +10419,7 @@ function renderAlertsResearchPacket(candidate, score, sourceStatus, decisionStat
           </dl>
         </article>
         <article>
-          <header><span>Source Status</span></header>
+          <header><span>Source Gate</span></header>
           <dl>
             <div class="is-risk"><dt>Source</dt><dd>Source Required</dd></div>
             <div class="is-warning"><dt>Freshness</dt><dd>${escapeHtml(sourceStatus.freshness)} / No Verified Time</dd></div>
@@ -10510,6 +10518,7 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
   const rows = getAlertsFeedRows(sourceStatus);
   const filteredRows = getFilteredAlertsRows(rows);
   const evidenceOpen = state.alertsOperatorEvidenceOpen;
+  const actionBoundaryLabel = formatAlertsActionBoundary(decisionState.actionBoundary);
   const sourceTruthBlocked = ["Source Gate", "Timestamp Gate", "Options-Chain Gate"].some((gateName) => failedGatesHas(decisionState, gateName));
   const requiredGateSummary = [
     ["Source", failedGatesHas(decisionState, "Source Gate") ? "SOURCE REQUIRED" : "PASS", "Provider/source identity"],
@@ -10519,7 +10528,7 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
     ["Risk", failedGatesHas(decisionState, "Risk Gate") ? "BLOCKED" : "PASS", "Risk boundary visible"],
     ["System Intelligence", failedGatesHas(decisionState, "System Intelligence Gate") ? "BLOCKED" : "PASS", "Verdict applied"],
     ["CEO B Standard", "PASS", "Governance applied"],
-    ["Action Boundary", "BLOCKED", "No external action"],
+    ["Action Boundary", "NO EXTERNAL ACTION", "External action blocked"],
   ];
 
   return `
@@ -10533,9 +10542,9 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
           <div>
             <span class="meta-label">Alerts Support</span>
             <h3 id="alertsSupportTitle">Alerts Support</h3>
-            <p>Selected setup context, verdict, gates, packets, source notes, and safety boundaries stay below the board.</p>
+            <p>Selected setup context, review priority, source gates, action boundary, packets, and safety controls stay below the board.</p>
           </div>
-          <strong>${escapeHtml(candidate.ticker)} / ${escapeHtml(decisionState.status)}</strong>
+          <strong>${escapeHtml(candidate.ticker)} / ${escapeHtml(actionBoundaryLabel)}</strong>
         </header>
         <div class="alerts-support-summary" aria-label="Selected setup support summary">
           <article>
@@ -10544,19 +10553,19 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
             <small>${escapeHtml(candidate.setupType)}</small>
           </article>
           <article>
-            <span>System Verdict</span>
-            <strong>${escapeHtml(decisionState.status)}</strong>
-            <small>${escapeHtml(decisionState.actionBoundary)}</small>
+            <span>Research Readiness</span>
+            <strong>${escapeHtml(`${score.total}/100`)}</strong>
+            <small>${escapeHtml(score.classification)} review priority</small>
           </article>
           <article>
-            <span>Missing Evidence</span>
-            <strong>${escapeHtml(getAlertsMissingEvidenceSummary(decisionState.missingEvidence))}</strong>
-            <small>required before escalation</small>
+            <span>Source Gate</span>
+            <strong>Source Required</strong>
+            <small>${escapeHtml(getAlertsMissingEvidenceSummary(decisionState.missingEvidence))}</small>
           </article>
           <article>
-            <span>Options Risk</span>
-            <strong>Substantial</strong>
-            <small>research only</small>
+            <span>Action Boundary</span>
+            <strong>${escapeHtml(actionBoundaryLabel)}</strong>
+            <small>manual review only</small>
           </article>
         </div>
         <section class="alerts-support-workspace" aria-label="Selected setup support workspace">
@@ -11367,7 +11376,7 @@ function renderPickaxeIntelligenceCore() {
 }
 
 window.updateAlertsFeedFilter = (key, value, focusId = "") => {
-  const defaults = { search: "", type: "all", ticker: "all", status: "all" };
+  const defaults = { search: "", type: "all", ticker: "all", actionBoundary: "all" };
   if (!Object.prototype.hasOwnProperty.call(defaults, key)) return;
   state.alertFeedFilters = {
     ...defaults,
@@ -11387,7 +11396,7 @@ window.updateAlertsFeedFilter = (key, value, focusId = "") => {
 };
 
 window.resetAlertsFeedFilters = () => {
-  state.alertFeedFilters = { search: "", type: "all", ticker: "all", status: "all" };
+  state.alertFeedFilters = { search: "", type: "all", ticker: "all", actionBoundary: "all" };
   renderAlertsPage();
 };
 
