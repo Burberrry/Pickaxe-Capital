@@ -10135,7 +10135,7 @@ function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
             <span>Research Only · Demo / Static Data</span>
           </div>
         </div>
-        <p>Rank setups by readiness. Verify evidence. Required gates control advancement.</p>
+        <p>Best setups first. Missing evidence, risk, and no-external-action boundaries stay visible before any CEO B review.</p>
       </div>
       <div class="alerts-feed-truth" aria-label="Alerts Desk truth strip">
         <span><em>Data</em><strong>Demo / Static Data</strong></span>
@@ -10181,7 +10181,7 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
           <span class="meta-label">Ordered by Research Readiness</span>
           <h3 id="alertsFeedTitle">Setups to Review</h3>
         </div>
-        <p>Readiness ranks review priority. Source Gate shows missing evidence. Action Boundary controls external action.</p>
+        <p>Readiness ranks review priority, not expected profit. Select a setup to see why it is ranked, what is missing, what invalidates it, and what to avoid.</p>
       </div>
       <div class="alerts-feed-visual-summary" aria-label="Current Alerts feed state">
         <article>
@@ -10309,6 +10309,95 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
         <button type="button" class="alerts-operator-review-button secondary" onclick="window.openAlertsRequiredGates()">
           Open Required Gates
         </button>
+      </div>
+    </section>
+  `;
+}
+
+function renderAlertsQuickReview(candidate, score, sourceStatus, decisionState) {
+  const sourceTruth = [
+    ["Missing Evidence", decisionState.missingEvidence.join(" · ") || "None"],
+    ["Next Manual Requirement", decisionState.nextRequirement],
+    ["Options Context", "Unavailable / Source Required until provider, timestamp, and options-chain evidence verify"],
+  ];
+  const riskTruth = [
+    ["Risk Rating", candidate.riskRating],
+    ["Invalidation", candidate.invalidation],
+    ["No-Trade Condition", candidate.risk.noTrade],
+  ];
+  return `
+    <section class="alerts-quick-review" aria-label="Selected setup quick review">
+      <header>
+        <div>
+          <span class="meta-label">Selected Setup Quick Review</span>
+          <h3>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</h3>
+          <p>${escapeHtml(candidate.ceoBNote)} Readiness ranks review order only; it is not a trade recommendation or expected return.</p>
+        </div>
+        <aside>
+          <span>${escapeHtml(candidate.bias)}</span>
+          <strong>${escapeHtml(`${score.total}/100 · ${score.classification}`)}</strong>
+          <small>Research Readiness</small>
+        </aside>
+      </header>
+      <div class="alerts-quick-review-grid">
+        <article class="alerts-quick-review-card">
+          <span>Why Ranked Here</span>
+          <strong>${escapeHtml(getAlertsCardReason(candidate))}</strong>
+          <p>${escapeHtml(candidate.catalyst)} · ${escapeHtml(candidate.marketRegime)}</p>
+        </article>
+        <article class="alerts-quick-review-card is-source-required">
+          <span>Source Gate</span>
+          <strong>Source Required</strong>
+          <dl>
+            ${sourceTruth.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}
+          </dl>
+        </article>
+        <article class="alerts-quick-review-card is-risk-watch">
+          <span>Risk / Invalidation</span>
+          <strong>${escapeHtml(candidate.riskRating)}</strong>
+          <dl>
+            ${riskTruth.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}
+          </dl>
+        </article>
+        <article class="alerts-quick-review-card is-boundary">
+          <span>Action Boundary</span>
+          <strong>${escapeHtml(formatAlertsActionBoundary(decisionState.actionBoundary))}</strong>
+          <p>Manual Review Required. Research Only. Not Financial Advice. No Broker Execution. Options involve substantial risk.</p>
+        </article>
+      </div>
+    </section>
+  `;
+}
+
+function renderAlertsDisciplineGate(candidate, score, decisionState) {
+  const protocol = [
+    "Do not chase without verified source, timestamp, and options-chain evidence.",
+    "No external action while Source Gate is incomplete.",
+    "Define invalidation before considering any setup.",
+    "Review risk before reviewing upside.",
+    "Readiness ranks review priority, not expected profit.",
+    "If evidence is missing, the correct manual step is wait and verify.",
+    "Capital preservation comes before opportunity capture.",
+  ];
+  return `
+    <section class="alerts-discipline-gate" aria-label="No-Chase Protocol">
+      <header>
+        <div>
+          <span class="meta-label">No-Chase Protocol</span>
+          <h3>Protect CEO B from impulsive, oversized, or source-poor trades.</h3>
+          <p>${escapeHtml(candidate.ticker)} is a research setup only. The system is protecting patience, source verification, invalidation discipline, and risk-first review.</p>
+        </div>
+        <strong>${escapeHtml(formatAlertsActionBoundary(decisionState.actionBoundary))}</strong>
+      </header>
+      <div class="alerts-discipline-grid">
+        <article>
+          <span>Current Discipline State</span>
+          <strong>${escapeHtml(score.classification)} review quality / ${escapeHtml(candidate.riskRating)} risk</strong>
+          <p>Better decisions come from cleaner evidence and harder no-trade rules, not from forcing action.</p>
+        </article>
+        <ol>
+          ${protocol.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+        </ol>
       </div>
     </section>
   `;
@@ -10537,6 +10626,8 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
       <section class="alerts-primary-workspace alerts-feed-focus" aria-label="Setups to Review feed">
         ${renderAlertsFeedTable(rows, filteredRows, candidate.id)}
       </section>
+      ${renderAlertsQuickReview(candidate, score, sourceStatus, decisionState)}
+      ${renderAlertsDisciplineGate(candidate, score, decisionState)}
       <section id="alertsSupportSection" class="alerts-support-section" aria-labelledby="alertsSupportTitle">
         <header class="alerts-support-head">
           <div>

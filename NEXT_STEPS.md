@@ -2,6 +2,34 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Final Product Finish v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Bounded local implementation sprint after hosted reality review. Push was not authorized and was not performed.
+- Starting `main` and `origin/main` commit: `3a5dd8a` (`Record Alerts setup status fix hosted verification`).
+- Safety branch: `backup/pre-alerts-final-product-finish-v1-20260627`.
+- Work branch: `codex/alerts-final-product-finish-v1-20260627`.
+- Hosted visual review found no P0 defects. The remaining product issue was that Alerts needed a faster selected-setup review layer, clearer invalidation/no-chase discipline, and better blocked/no-trade context before the deeper support systems.
+- Added selected setup Quick Review directly below `Setups to Review`: selected ticker/setup, bias, readiness, source gate, missing evidence, next manual requirement, options context, risk rating, invalidation, no-trade condition, and action boundary.
+- Added `No-Chase Protocol` before Alerts Support: verify source/timestamp/options-chain evidence, define invalidation first, risk before upside, readiness is not expected return, and missing evidence means wait and verify.
+- Preserved Alerts Support below the new decision layers with System Verdict, contributors, Required Gates, Research Packet, Evidence Packet, Source + Risk Notes, Advanced Research OS, QQQ Golden Path demo reference, and Safety Boundary.
+- Preserved five static/demo setup rows for `QQQ`, `NVDA`, `SPY`, `TSLA`, and `GLD`.
+- Search, type filter, ticker filter, Action Boundary filter, reset, row selection, and disclosures remain in-page only. No LocalStorage key was added.
+- Source Hub support polish keeps source-required/no-provider/no-scraping/no-adapter/no-broker/no-auth/no-payment/no-subscription/no-alert-delivery language but removes the loud light-card mismatch.
+- Local desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`.
+- Local interaction QA passed for QQQ/NVDA/SPY/TSLA/GLD selection sync, TSLA search, Bullish type filter, NVDA ticker filter, Action Boundary filter, reset, Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, and Advanced Research OS.
+- Local mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`; no mobile redesign was performed.
+- Local regression QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, and `/ceo-b-profile`.
+- Local validation passed with JavaScript syntax checks, the required package commands, mirror checks, public safety/deploy-boundary/route checks, `git diff --check`, and final git status.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Final local product score: **986 / 1000**.
+- No live data, Massive activation, provider request, credential, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, another module, or `data/signal-alerts.json` change was added.
+
+Next bounded step: `Push and hosted verification for Pickaxe Alerts Final Product Finish v1`.
+
+Do not push or begin hosted verification unless CEO B explicitly authorizes it.
+
+## Previous Active Checkpoint - Pickaxe Alerts Setup Status Fix Hosted Verification v1
+
 Pickaxe Alerts Setup Status Fix Hosted Verification v1 is **PASS / HOSTED QA VERIFIED**.
 
 - Local implementation commit `b2ef8f07621cc87c921c603b3297e83f34f04ef2` (`Clarify Alerts setup status boundaries`) was fast-forward merged into `main` and pushed to `origin/main`; no merge commit was created.
@@ -25,9 +53,7 @@ Pickaxe Alerts Setup Status Fix Hosted Verification v1 is **PASS / HOSTED QA VER
 - `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
 - No live data, Massive activation, provider request, credential, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, another module, or `data/signal-alerts.json` change was added.
 
-Next bounded step: `CEO B hosted visual review of Pickaxe Alerts Setup Status Fix v1`.
-
-Do not begin that review, a new visual sprint, provider work, Massive/watchlist proof, live-data work, route/backend work, or another module automatically.
+Next bounded step was `CEO B hosted visual review of Pickaxe Alerts Setup Status Fix v1`.
 
 ## Previous Active Checkpoint - Pickaxe Alerts Final UI Finish + Hosted Verification v1
 

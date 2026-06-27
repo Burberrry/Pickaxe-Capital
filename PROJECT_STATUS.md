@@ -1,6 +1,48 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Setup Status Fix Hosted Verification v1
+## Current Checkpoint - Pickaxe Alerts Final Product Finish v1
+
+- Date: 2026-06-27.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded local implementation sprint after hosted reality review. No push, merge, provider work, live data, credential, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery behavior, autonomous publishing, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, Starlight/cosmic background work, another module, or `data/signal-alerts.json` change was authorized or added.
+- Starting branch: `main`.
+- Starting `main` and `origin/main` commit: `3a5dd8a` (`Record Alerts setup status fix hosted verification`).
+- Remote preflight: `git fetch origin --prune`; `git pull --ff-only origin main`; `main` and `origin/main` were aligned with 0 ahead / 0 behind.
+- Safety branch: `backup/pre-alerts-final-product-finish-v1-20260627`.
+- Work branch: `codex/alerts-final-product-finish-v1-20260627`.
+- Local commit message: `Finish Pickaxe Alerts product experience`.
+- Hosted visual review was completed before editing on `/`, `/#/alerts`, `/app/alerts`, `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/founder`, `/agents`, `/vision-map`, and `/ceo-b-profile`, including desktop review and Alerts mobile smoke. No P0 hosted defects were found.
+- Hosted review finding addressed: Alerts was healthy but needed a more immediate selected-setup review layer, clearer invalidation/no-chase discipline, and more practical blocked/no-trade context before the deeper Alerts Support system.
+- Added a compact selected setup Quick Review directly under the `Setups to Review` board. It shows the selected ticker, setup, bias, readiness, source gate, missing evidence, next manual requirement, options-context availability, risk rating, invalidation, no-trade condition, and action boundary.
+- Added a `No-Chase Protocol` discipline layer before Alerts Support. It states that missing source, timestamp, options-chain, risk, or invalidation evidence means wait and verify; readiness ranks review priority, not expected profit; and Source Gate failure means no external action.
+- Preserved Alerts Support below the new decision layers with selected setup context, System Verdict, contributors, Required Gates, Research Packet, Evidence Packet, Source + Risk Notes, Advanced Research OS, QQQ Golden Path demo reference, and Safety Boundary.
+- Kept all setup data static/demo and preserved the five setup rows: `QQQ`, `NVDA`, `SPY`, `TSLA`, and `GLD`.
+- Search, type filter, ticker filter, Action Boundary filter, reset, row selection, and disclosure behavior remain ephemeral in-page state only. No LocalStorage key was added.
+- Source Hub support polish reduced the visual clash of the source-required boundary card while preserving source-required, static/demo, no-provider, no-scraping, no-adapter, no-broker, no-auth, no-payment, no-subscription, and no-alert-delivery copy.
+- Required safety concepts remain visible or reachable: `Research Only`, `Manual Review Required`, `Not Financial Advice`, `No Broker Execution`, `No External Action`, `Demo / Static Data`, source-required/no verified timestamp/no verified options-chain state, and options substantial-risk language.
+- Root/public mirrors were kept synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`.
+- Asset cache keys were bumped to `alerts-final-product-finish-v1-20260627-r4`.
+- Local desktop browser QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`: correct Alerts view, nonblank content, no console warnings/errors, no document-level horizontal overflow, exactly one `#pickaxe-starlight-field`, board before Quick Review, Quick Review before No-Chase Protocol, No-Chase Protocol before Alerts Support, five setup rows, QQQ default selection, safety language reachable, no forbidden trade/execution controls, no live/provider claim, and no browser provider request.
+- Local Alerts interaction QA passed at `1440x900`: QQQ/NVDA/SPY/TSLA/GLD selection synced active row, Quick Review, No-Chase Protocol context, and Alerts Support; TSLA search narrowed to one row; Bullish type filter narrowed to QQQ/NVDA/SPY; NVDA ticker filter narrowed to one row; Action Boundary filter retained all five rows; reset restored all rows; Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, and Advanced Research OS opened.
+- Local mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`: route loads, correct Alerts view, nonblank content, five setup rows, Quick Review, No-Chase Protocol, Alerts Support, TSLA selection sync, Research Packet, Evidence Packet, Required Gates, safety language, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas. Mobile was smoke QA only; no mobile redesign was performed.
+- Local regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, and `/ceo-b-profile` at `1440x900`: correct active views, nonblank content, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas.
+- Local validation passed: `node --check public/app.js`; `node --check app.js`; `node --check public/habitat-data.js`; `node --check habitat-data.js`; `node --run build`; `node --run check:project`; `node --run check:phase15`; `node --run check:agents`; `node --run check:mirrors`; `node --run smoke:routes`; `node --run check:public-safety`; `node --run check:deploy-boundary`; `node --run check:routes`; `git diff --check`; `git status --short --branch`.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Final local product score: **986 / 1000**.
+- Push status: not pushed, per sprint instruction.
+- Remaining issues: hosted verification is still pending until CEO B authorizes push; the mobile rail remains dense but was intentionally smoke-tested only.
+- Next bounded recommendation: `Push and hosted verification for Pickaxe Alerts Final Product Finish v1`.
+
+### Pickaxe Alerts Final Product Finish v1 Files Changed
+
+- `public/index.html` and `index.html`
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Setup Status Fix Hosted Verification v1
 
 - Date: 2026-06-27.
 - Result: **PASS / HOSTED QA VERIFIED**.
