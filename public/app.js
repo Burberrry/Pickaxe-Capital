@@ -11888,6 +11888,24 @@ function renderPickaxeAlerts01XNotesCard() {
   `;
 }
 
+function renderPickaxeAlerts01AssetFilters() {
+  return `
+    <svg class="pa-v6-asset-filters" aria-hidden="true" focusable="false">
+      <filter id="paV62LightKnockout" color-interpolation-filters="sRGB">
+        <feColorMatrix
+          in="SourceGraphic"
+          type="matrix"
+          values="
+            1 0 0 0 0
+            0 1 0 0 0
+            0 0 1 0 0
+            -1.22 -1.22 -1.22 0 2.28"
+        />
+      </filter>
+    </svg>
+  `;
+}
+
 function renderPickaxeAlerts01PetCard(model) {
   return `
     <article class="pa-card pa-v6-pet-card">
@@ -11900,83 +11918,26 @@ function renderPickaxeAlerts01PetCard(model) {
 
 function renderPickaxeAlerts01PetFigure() {
   return `
-    <div class="pa-pet pa-v6-pet-figure" aria-label="Code-native Pickaxe Capital PET placeholder" role="img">
-      <svg viewBox="0 0 170 210" aria-hidden="true" focusable="false">
-        <defs>
-          <radialGradient id="paPetChest" cx="50%" cy="52%" r="52%">
-            <stop offset="0%" stop-color="#f7c75b" stop-opacity="0.78" />
-            <stop offset="52%" stop-color="#b87925" stop-opacity="0.36" />
-            <stop offset="100%" stop-color="#04090b" stop-opacity="0.12" />
-          </radialGradient>
-          <linearGradient id="paPetSteel" x1="18%" y1="8%" x2="82%" y2="100%">
-            <stop offset="0%" stop-color="#d7c69d" stop-opacity="0.35" />
-            <stop offset="48%" stop-color="#050b0d" stop-opacity="0.96" />
-            <stop offset="100%" stop-color="#010506" stop-opacity="1" />
-          </linearGradient>
-        </defs>
-        <path class="pet-ear" d="M42 58 18 30 32 94Z" />
-        <path class="pet-ear" d="M128 58 152 30 138 94Z" />
-        <path class="pet-tail" d="M131 135 C164 111 166 154 138 167" />
-        <path class="pet-body" d="M49 93 C52 73 66 62 85 62 C104 62 118 73 121 93 L128 164 C130 188 113 200 85 200 C57 200 40 188 42 164Z" />
-        <path class="pet-head" d="M43 74 C45 38 61 20 85 20 C109 20 125 38 127 74 C129 104 112 122 85 122 C58 122 41 104 43 74Z" />
-        <path class="pet-mask" d="M55 78 C69 64 101 64 115 78 C109 98 96 108 85 108 C74 108 61 98 55 78Z" />
-        <path class="pet-muzzle" d="M70 91 C78 85 92 85 100 91 C96 103 91 108 85 108 C79 108 74 103 70 91Z" />
-        <circle class="pet-eye" cx="72" cy="67" r="4.3" />
-        <circle class="pet-eye" cx="98" cy="67" r="4.3" />
-        <circle class="pet-core" cx="85" cy="142" r="24" />
-        <path class="pet-medal" d="M85 128 99 142 85 156 71 142Z" />
-        <path class="pet-leg" d="M57 169 50 199" />
-        <path class="pet-leg" d="M113 169 120 199" />
-        <path class="pet-line" d="M66 131 C78 137 92 137 104 131" />
-      </svg>
+    <div class="pa-v6-pet-figure">
+      <img
+        src="assets/characters/pickaxe-pet-canonical.png"
+        alt="Pickaxe Capital canonical PET"
+        loading="eager"
+        decoding="async"
+      />
     </div>
   `;
 }
 
 function renderPickaxeAlerts01Character(isPut) {
-  const title = isPut ? "Bear research silhouette" : "Bull research silhouette";
+  const title = isPut ? "Pickaxe Capital canonical bear" : "Pickaxe Capital canonical bull";
   const accentClass = isPut ? "is-bear" : "is-bull";
+  const src = isPut
+    ? "assets/characters/pickaxe-bear-canonical.png"
+    : "assets/characters/pickaxe-bull-canonical.png";
   return `
-    <div class="pa-v6-character ${accentClass}" aria-label="${title}" role="img">
-      <svg class="pa-v6-silhouette-svg" viewBox="0 0 260 260" aria-hidden="true" focusable="false">
-        <defs>
-          <radialGradient id="${isPut ? "paBearCore" : "paBullCore"}" cx="50%" cy="52%" r="52%">
-            <stop offset="0%" stop-color="${isPut ? "#ff5346" : "#62d36f"}" stop-opacity="0.86" />
-            <stop offset="55%" stop-color="${isPut ? "#7d1f1c" : "#145b31"}" stop-opacity="0.44" />
-            <stop offset="100%" stop-color="#030809" stop-opacity="0.1" />
-          </radialGradient>
-          <linearGradient id="${isPut ? "paBearArmor" : "paBullArmor"}" x1="14%" y1="8%" x2="86%" y2="100%">
-            <stop offset="0%" stop-color="#f0d395" stop-opacity="0.28" />
-            <stop offset="45%" stop-color="#071012" stop-opacity="0.96" />
-            <stop offset="100%" stop-color="#010506" stop-opacity="1" />
-          </linearGradient>
-        </defs>
-        ${isPut ? `
-          <circle class="sil-ear" cx="82" cy="58" r="24" />
-          <circle class="sil-ear" cx="178" cy="58" r="24" />
-          <path class="sil-body" d="M56 145 C60 105 86 84 130 84 C174 84 200 105 204 145 L216 242 H44Z" />
-          <path class="sil-head" d="M61 99 C66 51 93 28 130 28 C167 28 194 51 199 99 C204 143 176 169 130 169 C84 169 56 143 61 99Z" />
-          <path class="sil-muzzle" d="M91 118 C103 105 157 105 169 118 C164 145 150 158 130 158 C110 158 96 145 91 118Z" />
-          <path class="sil-brow" d="M86 92 C102 84 113 84 123 94" />
-          <path class="sil-brow" d="M174 92 C158 84 147 84 137 94" />
-        ` : `
-          <path class="sil-horn" d="M86 62 C44 32 29 46 22 88 C48 67 62 75 89 99" />
-          <path class="sil-horn" d="M174 62 C216 32 231 46 238 88 C212 67 198 75 171 99" />
-          <path class="sil-body" d="M52 153 C61 108 91 86 130 86 C169 86 199 108 208 153 L222 242 H38Z" />
-          <path class="sil-head" d="M67 93 C72 54 96 35 130 35 C164 35 188 54 193 93 C200 135 174 164 130 164 C86 164 60 135 67 93Z" />
-          <path class="sil-muzzle" d="M89 114 C105 101 155 101 171 114 C167 142 150 156 130 156 C110 156 93 142 89 114Z" />
-          <path class="sil-brow" d="M90 90 C105 82 117 83 126 94" />
-          <path class="sil-brow" d="M170 90 C155 82 143 83 134 94" />
-        `}
-        <circle class="sil-eye" cx="108" cy="101" r="5" />
-        <circle class="sil-eye" cx="152" cy="101" r="5" />
-        <path class="sil-armor" d="M67 176 C91 162 109 157 130 157 C151 157 169 162 193 176 L185 238 H75Z" />
-        <circle class="sil-core" cx="130" cy="198" r="30" />
-        <path class="sil-core-mark" d="M130 177 151 198 130 219 109 198Z" />
-        <path class="sil-rib" d="M82 185 C103 202 112 217 116 238" />
-        <path class="sil-rib" d="M178 185 C157 202 148 217 144 238" />
-        <path class="sil-base" d="M48 242 H212" />
-      </svg>
+    <div class="pa-v6-character ${accentClass}">
+      <img src="${src}" alt="${title}" loading="eager" decoding="async" />
     </div>
   `;
 }
@@ -12072,6 +12033,7 @@ function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
   return `
     <section class="pickaxe-alerts-01 pa-v6" aria-labelledby="pickaxeAlerts01Title">
       <div class="pa-noise" aria-hidden="true"></div>
+      ${renderPickaxeAlerts01AssetFilters()}
       <header class="pa-titlebar">
         <div>
           <span aria-hidden="true"></span>

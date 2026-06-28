@@ -37043,3 +37043,164 @@ body[data-active-view="alerts"] .brand strong {
     font-size: 7px !important;
   }
 }
+
+/* Pickaxe Alerts Cockpit v6.2 exact canonical asset integration. */
+#alerts.active .pa-v6-pet-figure {
+  position: relative;
+  display: block !important;
+  width: 148px !important;
+  height: 176px !important;
+  margin: 0 auto 5px !important;
+  overflow: hidden;
+  border: 1px solid rgba(244, 195, 83, 0.44);
+  border-radius: 8px;
+  background: #030709;
+  box-shadow:
+    inset 0 0 24px rgba(244, 195, 83, 0.08),
+    0 18px 28px rgba(0, 0, 0, 0.48),
+    0 0 24px rgba(244, 195, 83, 0.14);
+}
+
+#alerts.active .pa-v6-pet-figure::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 235, 177, 0.08), transparent 28%),
+    radial-gradient(circle at 50% 30%, transparent 30%, rgba(0, 0, 0, 0.34) 100%);
+  content: "";
+}
+
+#alerts.active .pa-v6-pet-figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 42%;
+  filter: saturate(1.1) contrast(1.04);
+}
+
+#alerts.active .pa-v6-character {
+  width: 232px !important;
+  height: 298px !important;
+  bottom: -10px !important;
+  filter:
+    drop-shadow(0 28px 24px rgba(0, 0, 0, 0.68))
+    drop-shadow(0 0 22px rgba(244, 195, 83, 0.16)) !important;
+}
+
+#alerts.active .pa-v6-alert-row.is-call .pa-v6-character {
+  left: 4% !important;
+  right: auto !important;
+}
+
+#alerts.active .pa-v6-alert-row.is-put .pa-v6-character {
+  right: 5% !important;
+  left: auto !important;
+}
+
+#alerts.active .pa-v6-character img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: saturate(1.12) contrast(1.04);
+}
+
+#alerts.active .pa-v6-alert-row.is-call .pa-v6-character img {
+  filter:
+    saturate(1.12)
+    contrast(1.04)
+    drop-shadow(0 0 18px rgba(72, 225, 95, 0.24));
+}
+
+#alerts.active .pa-v6-alert-row.is-put .pa-v6-character img {
+  filter:
+    saturate(1.08)
+    contrast(1.05)
+    drop-shadow(0 0 18px rgba(255, 78, 63, 0.22));
+}
+
+#alerts.active .pa-v6-side-stage > strong {
+  right: 8% !important;
+  left: 45% !important;
+}
+
+#alerts.active .pa-v6-side-stage > em {
+  right: 8% !important;
+  left: 45% !important;
+}
+
+#alerts.active .pa-v6-alert-row.is-put .pa-v6-side-stage > strong,
+#alerts.active .pa-v6-alert-row.is-put .pa-v6-side-stage > em {
+  right: 45% !important;
+  left: 7% !important;
+}
+
+#alerts.active .pa-v6-pet-card button {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 900px) {
+  #alerts.active .pa-v6-pet-figure {
+    width: 154px !important;
+    height: 190px !important;
+  }
+
+  #alerts.active .pa-v6-character,
+  #alerts.active .pa-v6-alert-row.is-put .pa-v6-character {
+    left: 50% !important;
+    right: auto !important;
+    width: 218px !important;
+    height: 276px !important;
+    bottom: -8px !important;
+    transform: translateX(-50%) !important;
+  }
+
+  #alerts.active .pa-v6-side-stage > strong,
+  #alerts.active .pa-v6-alert-row.is-put .pa-v6-side-stage > strong {
+    top: 44% !important;
+    right: 5% !important;
+    left: 5% !important;
+  }
+
+  #alerts.active .pa-v6-side-stage > em,
+  #alerts.active .pa-v6-alert-row.is-put .pa-v6-side-stage > em {
+    top: calc(44% + 39px) !important;
+    right: 5% !important;
+    left: 5% !important;
+  }
+}
+
+#alerts.active .pa-v6-asset-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+#alerts.active .pa-v6-character img {
+  filter:
+    url("#paV62LightKnockout")
+    saturate(1.16)
+    contrast(1.08)
+    drop-shadow(0 0 20px rgba(244, 195, 83, 0.18)) !important;
+}
+
+#alerts.active .pa-v6-alert-row.is-call .pa-v6-character img {
+  filter:
+    url("#paV62LightKnockout")
+    saturate(1.18)
+    contrast(1.08)
+    drop-shadow(0 0 18px rgba(72, 225, 95, 0.28)) !important;
+}
+
+#alerts.active .pa-v6-alert-row.is-put .pa-v6-character img {
+  filter:
+    url("#paV62LightKnockout")
+    saturate(1.12)
+    contrast(1.1)
+    drop-shadow(0 0 18px rgba(255, 78, 63, 0.26)) !important;
+}

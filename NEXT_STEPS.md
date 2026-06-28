@@ -2,6 +2,27 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Cockpit v6.2 Exact Asset Integration is **PASS / ALERTS COCKPIT V6.2 EXACT ASSET INTEGRATION**.
+
+- Local checkpoint target: `Integrate canonical Alerts cockpit character assets`.
+- Canonical bull, bear, and PET assets are now rendered by the Alerts cockpit instead of code-native placeholder character visuals.
+- Confirmed asset paths:
+  - `public/assets/characters/pickaxe-bull-canonical.png`
+  - `public/assets/characters/pickaxe-bear-canonical.png`
+  - `public/assets/characters/pickaxe-pet-canonical.png`
+  - `assets/characters/pickaxe-bull-canonical.png`
+  - `assets/characters/pickaxe-bear-canonical.png`
+  - `assets/characters/pickaxe-pet-canonical.png`
+- Approved logo paths remain available at `public/brand/pickaxe-capital-logo.png` and `brand/pickaxe-capital-logo.png`.
+- Local visual QA confirmed the real bull, real bear, and real PET raster assets are visible on the Alerts cockpit with no visible placeholder character SVG remaining.
+- Public output remains demo/static/source-required only. No provider activation, public live display, fake live data, browser provider calls, execution, broker, alert delivery, auth, payment, or subscription behavior was added.
+
+Next bounded step: `CEO B local review of Pickaxe Alerts Cockpit v6.2 exact asset integration`.
+
+Do not push, deploy, enable public display, add provider/browser calls, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Command Terminal Premium Visual Finish v4 Hosted Verification
+
 Pickaxe Alerts Command Terminal Premium Visual Finish v4 Hosted Verification is **PASS / ALERTS TERMINAL V4 HOSTED VERIFIED**.
 
 - Promoted branch: `codex/private-local-massive-qqq-proof-v1-20260628`.
