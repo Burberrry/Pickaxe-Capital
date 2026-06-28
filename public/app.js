@@ -45,6 +45,9 @@ const state = {
   alertsResearchPacketOpen: false,
   alertsOperatorEvidenceOpen: false,
   alertFeedFilters: { search: "", type: "all", ticker: "all", actionBoundary: "all" },
+  alertsLocalActions: {},
+  alertsLastAction: null,
+  alertsXDeckOpen: false,
   liveAlertsStatus: null,
   liveAlertsPayload: null,
   liveAlertsStatusFetchState: "idle",
@@ -10537,8 +10540,8 @@ function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
         <span><em>Action Boundary</em><strong>${escapeHtml(actionBoundaryLabel)}</strong></span>
       </div>
       <div class="alerts-clean-actions" aria-label="Live status controls">
-        <button type="button" onclick="window.refreshAlertsLiveStatus()">Refresh Status</button>
-        <button type="button" onclick="window.checkAlertsLiveCandidates()">Check Alerts</button>
+        <button type="button" onclick="window.pickaxeAlerts01Action('source-gate-status', 'timestamp')">Source Gate</button>
+        <button type="button" onclick="window.pickaxeAlerts01Action('blocked-alert-check', 'evidence')">Blocked Check</button>
       </div>
       <p class="alerts-feed-boundary">${escapeHtml(getAlertsLiveActivationDetail(liveStatus))} ${escapeHtml(providerGate)} · Private Local Research · Server-Only Massive Proof · No Public Display · No Browser Provider Call · Research Only · Not Financial Advice · No Broker Execution · No External Action · Options involve substantial risk.</p>
     </section>
@@ -11638,7 +11641,6 @@ function renderAlertsCommandSafetyStrip() {
   `;
 }
 
-const PICKAXE_ALERTS_01_ACTIONS_KEY = "pickaxeAlerts01Actions";
 const PICKAXE_ALERTS_01_MARKET = {
   QQQ: { company: "Nasdaq 100 ETF", mark: "NO VERIFIED PRICE", strike: "$530", expiry: "STATIC 17 JUL 26", logo: "QQQ", beta: "1.3x", color: "#67d97b" },
   NVDA: { company: "NVIDIA", mark: "NO VERIFIED PRICE", strike: "$145", expiry: "STATIC 17 JUL 26", logo: "NVDA", beta: "2.1x", color: "#67d97b" },
@@ -11648,16 +11650,13 @@ const PICKAXE_ALERTS_01_MARKET = {
 };
 
 function getPickaxeAlerts01Actions() {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(PICKAXE_ALERTS_01_ACTIONS_KEY) || "{}");
-    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
-  } catch {
-    return {};
-  }
+  return state.alertsLocalActions && typeof state.alertsLocalActions === "object" && !Array.isArray(state.alertsLocalActions)
+    ? state.alertsLocalActions
+    : {};
 }
 
 function savePickaxeAlerts01Actions(actions) {
-  localStorage.setItem(PICKAXE_ALERTS_01_ACTIONS_KEY, JSON.stringify(actions || {}));
+  state.alertsLocalActions = actions && typeof actions === "object" && !Array.isArray(actions) ? { ...actions } : {};
 }
 
 function getPickaxeAlerts01Model(row = {}, sourceStatus = getSourceStatus(), overrides = {}) {
@@ -11704,7 +11703,8 @@ function getPickaxeAlerts01Model(row = {}, sourceStatus = getSourceStatus(), ove
     invalidation: candidate.invalidation || "Source and risk gate failure",
     status: actionState.status || row.status || "Review Candidate",
     actionLabel: actionState.label || "No local action yet",
-    actionAt: actionState.at || "",
+    actionDetail: actionState.detail || "",
+    actionAt: "NO VERIFIED TIMESTAMP",
     decision: row.decision || getAlertsOperatorDecisionState(candidate, sourceStatus),
     readinessClass: row.readinessClass || "Research",
     dataMode: formatAlertsLiveModeLabel(liveStatus.dataMode),
@@ -11864,6 +11864,7 @@ function renderPickaxeAlerts01FearGreedCard() {
         <strong>71</strong>
         <em>STATIC DEMO</em>
       </div>
+      <p class="pa-v7-card-note">No live sentiment provider. No current market claim.</p>
       <div class="pa-v6-micro-grid">
         <span><small>Momentum</small><strong>REVIEW</strong></span>
         <span><small>Volatility</small><strong>UNVERIFIED</strong></span>
@@ -11889,21 +11890,22 @@ function renderPickaxeAlerts01XNotesCard() {
     ["Geopolitics / OSINT", ["@Osint613", "@sentdefender", "@spectatorindex", "@BRICSinfo"]],
     ["Space / Founder / Special Watch", ["@SpaceX", "@Julianpetroulas", "@insiderwave_"]],
   ];
+  const sourceAction = state.alertsLastAction?.action === "xdeck" ? state.alertsLastAction : null;
   return `
     <article class="pa-card pa-v6-x-card" data-source-deck-mode="manual-static">
       <header><h2>CEO B X SOURCE DECK</h2><em class="is-safe"><i></i>SOURCE REQUIRED</em></header>
-      <div class="pa-v6-x-universe">26 CEO B-followed accounts · source-gated · no live feed connected</div>
+      <div class="pa-v6-x-universe">26 approved watchlist inputs · no live feed · no scraping · no endorsement</div>
       <div class="pa-v6-x-list">
         ${rows.map(([icon, title, detail, state]) => `
-          <div>
+          <button type="button" onclick="window.pickaxeAlerts01Action('x-source-deck', 'xdeck')">
             <span>${escapeHtml(icon)}</span>
             <p>${escapeHtml(title)}<small>${escapeHtml(detail)}</small></p>
             <strong>${escapeHtml(state)}</strong>
-          </div>
+          </button>
         `).join("")}
       </div>
-      <details class="pa-v6-x-source-details">
-        <summary>Full 26-account source deck</summary>
+      <details class="pa-v6-x-source-details" ${state.alertsXDeckOpen ? "open" : ""}>
+        <summary onclick="window.pickaxeAlerts01ToggleXDeck(event)">Full 26-account source deck</summary>
         <div>
           ${groups.map(([label, handles]) => `
             <section>
@@ -11914,6 +11916,7 @@ function renderPickaxeAlerts01XNotesCard() {
         </div>
       </details>
       <strong>X sources are watchlist inputs only. Posts are unverified until cross-checked. No live feed, no scraping, no endorsement, no trading instruction.</strong>
+      ${sourceAction ? `<p class="pa-v7-local-note">${escapeHtml(sourceAction.label)}</p>` : ""}
     </article>
   `;
 }
@@ -11938,11 +11941,14 @@ function renderPickaxeAlerts01AssetFilters() {
 
 function renderPickaxeAlerts01PetCard(model) {
   const modelArg = pickaxeAlerts01JsArg(model.id);
+  const petAction = state.alertsLastAction?.action === "pet" ? state.alertsLastAction : null;
   return `
     <article class="pa-card pa-v6-pet-card">
-      <header><h2>PICKAXE CAPITAL PET</h2></header>
+      <header><h2>PICKAXE PET</h2><em class="is-safe"><i></i>LOCAL HELPER</em></header>
       ${renderPickaxeAlerts01PetFigure()}
+      <p class="pa-v7-pet-copy">Local steward only. Source verification required before any research packet can move.</p>
       <button type="button" onclick="window.pickaxeAlerts01Action(${modelArg}, 'pet')">${renderPickaxeAlerts01Icon("chat")} ASK PET</button>
+      ${petAction ? `<p class="pa-v7-local-note">${escapeHtml(petAction.label)}</p>` : ""}
     </article>
   `;
 }
@@ -11984,6 +11990,18 @@ function renderPickaxeAlerts01CandleBackdrop(isPut) {
   `;
 }
 
+function renderPickaxeAlerts01LocalPanel(model) {
+  const action = getPickaxeAlerts01Actions()[model.id];
+  if (!action) return "";
+  return `
+    <aside class="pa-v7-inline-state" aria-live="polite">
+      <strong>${escapeHtml(action.title || "LOCAL REVIEW STATE")}</strong>
+      <span>${escapeHtml(action.label)}</span>
+      <small>${escapeHtml(action.detail || "NO EXTERNAL ACTION · NO PERSISTENCE · SOURCE REQUIRED")}</small>
+    </aside>
+  `;
+}
+
 function renderPickaxeAlerts01AlertRow(model, tone) {
   const isPut = tone === "put";
   const scorePercent = `${Math.max(10, Math.min(100, Math.round(model.confidenceDisplay / 10)))}%`;
@@ -12008,7 +12026,7 @@ function renderPickaxeAlerts01AlertRow(model, tone) {
         <div class="pa-divider"></div>
         <strong>${escapeHtml(model.visualDate)}</strong>
         <span>${escapeHtml(model.visualTime)}</span>
-        <button type="button" onclick="event.stopPropagation();window.refreshAlertsLiveStatus()">${escapeHtml(model.ticker)} · ${escapeHtml(model.mark)}</button>
+        <button type="button" onclick="event.stopPropagation();window.pickaxeAlerts01Action(${modelArg}, 'timestamp')">${escapeHtml(model.ticker)} · SOURCE CHECK</button>
       </section>
 
       <section class="pa-v6-cell pa-v6-ticker-cell">
@@ -12031,9 +12049,9 @@ function renderPickaxeAlerts01AlertRow(model, tone) {
 
       <section class="pa-v6-cell pa-v6-contract-cell">
         <header>${renderPickaxeAlerts01Icon("doc")}<h2>EXACT CONTRACTS</h2></header>
-        <p>STATIC CONTRACT RESEARCH · SOURCE REQUIRED</p>
+        <p>STATIC CONTRACT RESEARCH · SOURCE REQUIRED · REVIEW ONLY</p>
         <div class="pa-v6-ticket">
-          <span>${escapeHtml(model.sideShort)} <small>STATIC EXAMPLE - NOT CURRENT MARKET DATA</small></span>
+          <span>${escapeHtml(model.sideShort)} <small>STATIC EXAMPLE — NOT CURRENT MARKET DATA</small></span>
           <strong>${escapeHtml(model.ticker)} ${escapeHtml(model.strike)}</strong>
           <em>${escapeHtml(model.expiry)}</em>
           <small>QTY <b>REVIEW ONLY</b></small>
@@ -12043,16 +12061,17 @@ function renderPickaxeAlerts01AlertRow(model, tone) {
           <button type="button" onclick="event.stopPropagation();window.pickaxeAlerts01Action(${modelArg}, 'review')">REVIEW</button>
           <button type="button" onclick="event.stopPropagation();window.pickaxeAlerts01Action(${modelArg}, 'evidence')">EVIDENCE</button>
         </div>
+        ${renderPickaxeAlerts01LocalPanel(model)}
       </section>
 
       <section class="pa-v6-cell pa-v6-confidence-cell">
-        <header>${renderPickaxeAlerts01Icon("shield")}<h2>CONFIDENCE</h2></header>
-        <button class="pa-gauge" type="button" onclick="event.stopPropagation();window.openAlertsDeepReview()" style="--score:${scorePercent}" aria-label="Open source-gated research confidence review">
+        <header>${renderPickaxeAlerts01Icon("shield")}<h2>RESEARCH CONFIDENCE</h2></header>
+        <button class="pa-gauge" type="button" onclick="event.stopPropagation();window.pickaxeAlerts01Action(${modelArg}, 'confidence')" style="--score:${scorePercent}" aria-label="Open source-gated research confidence review">
           <strong>${escapeHtml(String(model.confidenceDisplay))}</strong>
           <span>/ 1000</span>
         </button>
-        <p>Research-confidence display only. Not a prediction.</p>
-        <em>SOURCE GATED</em>
+        <p>Display only. Not prediction, win rate, expected return, or trade signal.</p>
+        <em>SOURCE GATED · NOT PREDICTION</em>
       </section>
     </article>
   `;
@@ -12063,30 +12082,35 @@ function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
   const models = getPickaxeAlerts01DashboardModels(rows, sourceStatus);
   const ratioModel = models.call;
   return `
-    <section class="pickaxe-alerts-01 pa-v6" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v6.6-local-static" data-alerts-runtime="static-source-gated">
+    <section class="pickaxe-alerts-01 pa-v6" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v7-0-final-product-finish" data-alerts-runtime="static-source-gated">
       <div class="pa-noise" aria-hidden="true"></div>
       ${renderPickaxeAlerts01AssetFilters()}
       <header class="pa-titlebar">
         <div>
           <span aria-hidden="true"></span>
-          <h1 id="pickaxeAlerts01Title">ALERTS</h1>
+          <small class="pa-v7-product-label">PICKAXE CAPITAL · OPTIONS INTELLIGENCE OS</small>
+          <h1 id="pickaxeAlerts01Title">ALERTS COCKPIT</h1>
           <p><i></i> Source-Gated Research Queue</p>
+          <nav class="pa-v7-status-strip" aria-label="Alerts cockpit static safety state">
+            ${["STATIC DEMO", "BLOCKED", "SOURCE REQUIRED", "NO VERIFIED TIMESTAMP", "NO PROVIDER SNAPSHOT", "NO EXTERNAL ACTION"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+          </nav>
         </div>
         <aside>
-          <strong>BLOCKED</strong>
-          <small>SOURCE REQUIRED · NO VERIFIED TIMESTAMP · NO PROVIDER SNAPSHOT</small>
+          <strong>STATIC / BLOCKED</strong>
+          <small>SOURCE REQUIRED · NO VERIFIED TIMESTAMP · NO PROVIDER SNAPSHOT · NO EXTERNAL ACTION</small>
         </aside>
       </header>
 
       <section class="pa-top-grid pa-v6-top-grid" aria-label="Source-gated alert overview">
         <article class="pa-card pa-ratio-card">
-          <header><h2>BULL VS BEAR RATIO</h2></header>
+          <header><h2>BULL VS BEAR RATIO</h2><em class="is-safe"><i></i>SOURCE GATED</em></header>
           <div class="pa-ratio-body" style="--bull:${ratioModel.bullPct}%">
             <div><strong>${ratioModel.bullPct}%</strong><span>BULL</span></div>
             <div class="pa-donut" aria-hidden="true"><b></b></div>
             <div><strong>${ratioModel.bearPct}%</strong><span>BEAR</span></div>
           </div>
-          <p>Static demo ratio. Source required before any research packet can be treated as usable.</p>
+          <p>Static research split only. Source required before any packet can be treated as usable.</p>
+          <div class="pa-v7-card-chips"><span>DISPLAY ONLY</span><span>NO LIVE DATA</span></div>
         </article>
 
         ${renderPickaxeAlerts01FearGreedCard()}
@@ -12101,7 +12125,7 @@ function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
 
       <footer class="pa-footer">
         <strong>RESEARCH. DISCIPLINE. VERIFICATION.</strong>
-        <span>Not financial advice. For educational purposes only. Static demo only. ${escapeHtml(getAlertsCommandQueueBadge(liveStatus))} · NO PROVIDER SNAPSHOT · NO EXTERNAL ACTION.</span>
+        <span>Not financial advice. For educational purposes only. Static demo only. No buy/sell instruction. No verified options chain. ${escapeHtml(getAlertsCommandQueueBadge(liveStatus))} · NO PROVIDER SNAPSHOT · NO EXTERNAL ACTION.</span>
       </footer>
     </section>
   `;
@@ -12933,19 +12957,83 @@ window.pickaxeAlerts01SwitchSide = (side) => {
 
 window.pickaxeAlerts01Action = (id, action) => {
   const actions = getPickaxeAlerts01Actions();
-  const labelMap = {
-    review: "Research review note saved",
-    evidence: "Evidence request note saved",
-    pet: "Pet research note saved",
-    archive: "Archived locally",
+  const actionMap = {
+    review: {
+      title: "LOCAL REVIEW",
+      label: "Local review note opened · source verification required · no external action.",
+      detail: "Review only. Nothing was written, routed, alerted, delivered, or executed.",
+    },
+    evidence: {
+      title: "EVIDENCE BLOCKED",
+      label: "Evidence packet blocked · verified source, timestamp, and options chain required.",
+      detail: "No packet system opened. No provider snapshot is available.",
+    },
+    pet: {
+      title: "PET NOTE",
+      label: "PET note opened · local research helper only · source verification required.",
+      detail: "Static helper copy only. No AI session, external action, or persistence.",
+    },
+    timestamp: {
+      title: "TIMESTAMP BLOCKED",
+      label: "Timestamp check blocked · verified source time required.",
+      detail: "NO VERIFIED TIMESTAMP · NO PROVIDER SNAPSHOT.",
+    },
+    confidence: {
+      title: "DISPLAY ONLY",
+      label: "Research confidence note opened · display only · not prediction.",
+      detail: "Not probability of profit, win rate, expected return, or trade signal.",
+    },
+    xdeck: {
+      title: "X SOURCE WATCHLIST",
+      label: "X source deck note opened · watchlist input only · no live feed.",
+      detail: "Posts remain unverified until cross-checked. No scraping, API, endorsement, or trading instruction.",
+    },
+    rail: {
+      title: "LOCAL NAVIGATION",
+      label: "Research module helper opened · source-gated route only · no external action.",
+      detail: "Static local navigation only.",
+    },
   };
   const cleanAction = String(action || "review");
-  const label = labelMap[cleanAction] || cleanAction.replace(/^note-/, "Reviewed signal: ");
-  const at = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  actions[id] = { status: label, label, action: cleanAction, at };
+  const fallback = {
+    title: "LOCAL REVIEW",
+    label: cleanAction.replace(/^note-/, "Local note opened for: "),
+    detail: "Source verification required · no external action · no persistence.",
+  };
+  const payload = actionMap[cleanAction] || fallback;
+  actions[id] = { status: payload.title, action: cleanAction, ...payload };
   savePickaxeAlerts01Actions(actions);
+  state.alertsLastAction = { id, action: cleanAction, ...payload };
   showNotification("Local research note saved · no external action.");
   renderAlertsPage();
+};
+
+window.pickaxeAlerts01ToggleXDeck = (event) => {
+  event?.preventDefault?.();
+  event?.stopPropagation?.();
+  state.alertsXDeckOpen = !state.alertsXDeckOpen;
+  window.pickaxeAlerts01Action("x-source-deck", "xdeck");
+};
+
+window.handleAlertsRailSection = (section) => {
+  const routes = {
+    alerts: "#/alerts",
+    watchlist: "#/watchlists",
+    research: "#/research",
+    sourceHub: "#/source-hub",
+    riskRules: "#/risk-rules",
+    staging: "#/staging",
+  };
+  const route = routes[section];
+  window.pickaxeAlerts01Action(`rail-${section || "module"}`, "rail");
+  if (!route) return;
+  window.setTimeout(() => {
+    if (window.location.hash === route) {
+      renderApp();
+      return;
+    }
+    window.location.hash = route;
+  }, 0);
 };
 
 window.refreshAlertsLiveStatus = () => {

@@ -2,6 +2,26 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Cockpit v7.0 Final Product Finish is **PASS / ALERTS COCKPIT V7.0 LOCAL PRODUCT FINISH READY**.
+
+- Branch: `codex/alerts-cockpit-v7-0-final-product-finish-20260628`.
+- Baseline confirmed before work: local `main` at `02d02384780b9bb8b7167d0830a81b8e73bf8487`; approved v6.6.1 implementation commit `17eea6ce8c100787b163dbbd63883e89400b7db3` remains an ancestor.
+- Safety branch: `backup/pre-alerts-cockpit-v7-0-final-product-finish-20260628`.
+- Work is local-only. No push or deploy was performed.
+- v7.0 improves the Alerts Cockpit header, source-gated status strip, left rail, top command cards, X Source Deck, PET steward panel, CALLS/PUTS rows, exact contract cards, research-confidence framing, mobile stack, and safe local interactions.
+- All visible v7 controls tested in the Alerts cockpit produce local route/helper state, inline review/evidence/PET notes, or the required safe toast. No packet persistence, alert delivery, broker/execution, auth, payment, subscription, provider activation, fake live data, fake timestamps, fake X posts, or new route was added.
+- The exact 26 approved X handles remain grouped and reachable with the required watchlist-only/no-live-feed/no-scraping/no-endorsement/no-trading-instruction copy.
+- Real canonical bull, bear, and PET assets are visible on desktop and mobile; mobile PET no longer renders blank, and mobile PUTS has a visible canonical bear layer.
+- Local browser QA passed at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`; route QA passed for Alerts, Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, and Life OS with no relevant console/page errors, no horizontal overflow, one visible Starlight canvas, no key-shaped secrets, and no external provider requests.
+- Screenshot proof and QA JSON are under `/tmp/pickaxe-alerts-cockpit-v7-0-final-product-finish/`.
+- Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, and `No verified options chain`.
+
+Next bounded step: CEO B local review of v7.0. Push/deploy remains blocked until explicitly requested after approval.
+
+Do not push, deploy, start provider work, enable public live data, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Cockpit v6.6.1 Hosted Verification
+
 Pickaxe Alerts Cockpit v6.6.1 Hosted Verification is **PASS / ALERTS COCKPIT V6.6.1 HOSTED VERIFIED**.
 
 - Approved checkpoint promoted: `17eea6ce8c100787b163dbbd63883e89400b7db3` (`Finalize Alerts cockpit source deck polish`).
