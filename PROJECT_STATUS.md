@@ -1,6 +1,47 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Brand Immersion v1
+## Current Checkpoint - Pickaxe Alerts Only Final Simplification v1
+
+- Date: 2026-06-27.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded local Alerts-only simplification sprint authorized by CEO B after `Pickaxe Alerts Brand Immersion v1`. Push, merge, provider work, live data, Massive activation, credential request, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery behavior, new route, second Alerts renderer, LocalStorage key, packet model, review queue, new logo asset, image asset, mobile redesign, Starlight/cosmic work, profit guarantee, financial advice, trade recommendation, and `data/signal-alerts.json` change were not authorized or added.
+- Starting checkpoint: `d5563c596b1673d24dcf61e0aaf8307c29f4f2b0` (`Strengthen Alerts Pickaxe brand immersion`).
+- Starting branch: `codex/alerts-brand-immersion-v1-20260627`.
+- Safety branch: `backup/pre-alerts-only-final-simplification-v1-20260627`.
+- Work branch: `codex/alerts-only-final-simplification-v1-20260627`.
+- Active renderer preserved: `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `renderAlertsOperatorWorkspace()` in `public/app.js`; no duplicate Alerts page concept was created.
+- The Alerts first screen was simplified into `Alerts Queue -> Selected Alert -> Gate Summary -> Research Details`.
+- Header is now compact: `Pickaxe Capital`, `Alerts Desk`, `Options Intelligence OS`, `Research Only`, `Demo / Static Data`, `Source Required`, `Manual Review Required`, `No External Action`, and the single doctrine line `Rank setups. Verify evidence. Block action until every required gate passes.`.
+- `Alerts Queue` is now the primary left-side workflow with five static/demo rows for `QQQ`, `NVDA`, `SPY`, `TSLA`, and `GLD`; row density was reduced by combining bias and risk while preserving rank, ticker, setup, readiness, evidence gate, action boundary, and open/view affordance.
+- `Selected Alert` is now the clearest right-side panel and shows ticker/setup, bias/type, why ranked, research readiness, evidence gate, missing evidence, risk gate, invalidation, no-trade condition, action boundary, next manual requirement, and source-required options context.
+- A compact `Gate Summary` now explains why action is blocked: `Source Required`, `No Verified Timestamp`, `Options Chain Required`, `Risk Review Required`, and `No External Action`.
+- No-Chase logic was simplified into `Wait and Verify`, attached beneath the selected alert flow instead of competing as a separate product module.
+- `Alerts Support` was renamed to `Research Details` and de-emphasized below the primary workflow while preserving Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, Advanced Research OS, QQQ Golden Path demo reference, and Safety Boundary access.
+- A route-scoped Jarvis stat-grid containment rule fixed a desktop regression-route horizontal overflow on `/jarvis-lab`; no route, behavior, command, storage, or product concept changed.
+- Root/public mirrors were kept synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`.
+- Asset cache keys were bumped to `alerts-only-final-simplification-v1-20260627-r5`.
+- Baseline screenshots were captured before editing under `/tmp/pickaxe-alerts-only-final-simplification-v1/baseline/`.
+- Final screenshots were captured after implementation under `/tmp/pickaxe-alerts-only-final-simplification-v1/after/`.
+- Local desktop browser QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900`, plus `/`, `/#/alerts`, and `/app/alerts` at `1280x720`: correct Alerts view, nonblank content, no console warnings/errors, no document-level horizontal overflow, one Starlight canvas, five rows, QQQ default selection, `Alerts Queue`, `Selected Alert`, `Gate Summary`, `Wait and Verify`, `Research Details`, required safety language, no provider/browser request, no live-data claim, no fake timestamp claim, no Massive/provider claim, no forbidden execution controls, no profit guarantee, no financial advice, and no trade recommendation.
+- Local mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`: route loads, correct Alerts view, nonblank content, five rows, QQQ default selection, selected alert, gate summary, research details, safety language, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas reachable. Mobile was smoke QA only; no mobile redesign was performed.
+- Local interaction QA passed: QQQ/NVDA/SPY/TSLA/GLD selection synced active row and Selected Alert; TSLA search narrowed to one row; Bullish type filter narrowed to QQQ/NVDA/SPY; NVDA ticker filter narrowed to one row; Action Boundary filter retained all five no-external-action rows; reset restored all five rows.
+- Packet/detail QA passed: Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, and Advanced Research OS opened or remained reachable.
+- Local regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`: correct active views, nonblank content, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Final CEO B Alerts-only readability review score: **991 / 1000**.
+- Remaining issue: mobile remains intentionally dense and was smoke-tested only.
+- Next bounded recommendation: `CEO B local screenshot review of Pickaxe Alerts Only Final Simplification v1`.
+
+### Pickaxe Alerts Only Final Simplification v1 Files Changed
+
+- `public/index.html` and `index.html`
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Brand Immersion v1
 
 - Date: 2026-06-27.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.

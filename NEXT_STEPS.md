@@ -2,6 +2,35 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Only Final Simplification v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Bounded local implementation simplified the existing Alerts page into an Alerts-only command flow.
+- The active Alerts renderer was preserved: `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `renderAlertsOperatorWorkspace()` in `public/app.js`.
+- No new route, second Alerts renderer, LocalStorage key, packet model, review queue, provider work, live data, credential request, browser provider request, backend, broker/execution/payment/subscription/auth/alert-delivery behavior, mobile redesign, Starlight/cosmic work, profit guarantee, financial advice, trade recommendation, or `data/signal-alerts.json` change was added.
+- The first screen now reads as `Alerts Queue -> Selected Alert -> Gate Summary -> Research Details`.
+- The compact header keeps `Pickaxe Capital`, `Alerts Desk`, `Options Intelligence OS`, `Research Only`, `Demo / Static Data`, `Source Required`, `Manual Review Required`, and `No External Action` visible with the doctrine `Rank setups. Verify evidence. Block action until every required gate passes.`.
+- `Alerts Queue` keeps five static/demo setup rows for `QQQ`, `NVDA`, `SPY`, `TSLA`, and `GLD` with clearer columns and reduced row density.
+- `Selected Alert` now prioritizes the chosen setup, why it is ranked, readiness, evidence gate, missing evidence, risk gate, invalidation, no-trade condition, action boundary, next manual requirement, and source-required options context.
+- `Gate Summary` explains why action is blocked: source, timestamp, options-chain, risk review, and no-external-action gates.
+- `Wait and Verify` keeps the no-chase rules visible without competing as a separate product module.
+- `Research Details` preserves the deeper packets, gates, source/risk notes, Advanced Research OS, QQQ Golden Path demo reference, and Safety Boundary below the primary workflow.
+- Route-scoped Jarvis stat-grid containment fixed one regression-route desktop overflow on `/jarvis-lab`; no route, storage, command, or product concept changed.
+- Browser QA used the in-app Browser path. Baseline and final screenshots were captured outside the repository under `/tmp/pickaxe-alerts-only-final-simplification-v1/`.
+- Local desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`: correct Alerts route, nonblank content, five rows, QQQ default selection, Alerts Queue, Selected Alert, Gate Summary, Wait and Verify, Research Details, required safety language, no console warnings/errors, no document-level horizontal overflow, and one Starlight canvas.
+- Local mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844` with route load, five rows, selected alert, gate summary, research details, safety language, no console warnings/errors, no document-level overflow, and one Starlight canvas reachable. Mobile remains smoke-tested only; no mobile redesign was performed.
+- Interaction QA passed for setup selection, TSLA search, Bullish type filter, NVDA ticker filter, Action Boundary filter, reset, Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, and Advanced Research OS.
+- Regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
+- Root/public mirrors were synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`.
+- Asset cache keys were bumped to `alerts-only-final-simplification-v1-20260627-r5`.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Final Alerts-only readability score: **991 / 1000**.
+
+Next bounded step: `CEO B local screenshot review of Pickaxe Alerts Only Final Simplification v1`.
+
+Do not push or begin provider, Massive, live-data, route, backend, execution, auth, payment, subscription, alert-delivery, mobile redesign, Starlight/cosmic, or architecture work automatically.
+
+## Previous Active Checkpoint - Pickaxe Alerts Brand Immersion v1
+
 Pickaxe Alerts Brand Immersion v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - Bounded implementation strengthened the existing Alerts first screen so it reads unmistakably as Pickaxe Capital's Options Intelligence OS and CEO B command desk.
