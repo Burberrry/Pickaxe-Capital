@@ -11311,6 +11311,42 @@ function renderAlertsCommandSparkline(side = "Watch") {
   `;
 }
 
+function renderAlertsCommandMetricSvg(type, value = 0) {
+  const safeValue = Math.max(0, Math.min(100, Number(value) || 0));
+  if (type === "queue") {
+    return `
+      <svg class="alerts-command-timeline" viewBox="0 0 118 34" aria-hidden="true" focusable="false">
+        <path class="is-grid" d="M2 28 H116 M2 18 H116 M2 8 H116" />
+        <path class="is-line" d="M4 24 L23 19 L42 21 L61 12 L80 15 L99 7 L114 10" />
+        <circle cx="23" cy="19" r="2" />
+        <circle cx="61" cy="12" r="2" />
+        <circle cx="99" cy="7" r="2" />
+      </svg>
+    `;
+  }
+  if (type === "donut") {
+    return `
+      <svg class="alerts-command-donut" viewBox="0 0 58 58" aria-hidden="true" focusable="false" style="--meter:${safeValue}">
+        <circle class="is-track" cx="29" cy="29" r="22" />
+        <circle class="is-meter" cx="29" cy="29" r="22" />
+        <text x="29" y="32">${escapeHtml(String(Math.round(safeValue)))}%</text>
+      </svg>
+    `;
+  }
+  if (type === "gauge") {
+    return `
+      <svg class="alerts-command-semi-gauge" viewBox="0 0 84 48" aria-hidden="true" focusable="false" style="--meter:${safeValue}">
+        <path class="is-track" d="M10 40 A32 32 0 0 1 74 40" />
+        <path class="is-meter" d="M10 40 A32 32 0 0 1 74 40" />
+        <path class="is-needle" d="M42 40 L55 22" />
+        <circle cx="42" cy="40" r="3" />
+        <text x="42" y="36">${escapeHtml(String(Math.round(safeValue)))}</text>
+      </svg>
+    `;
+  }
+  return "";
+}
+
 function renderAlertsCommandMetricCards(rows, sourceStatus) {
   const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   const total = rows.length;
@@ -11324,31 +11360,39 @@ function renderAlertsCommandMetricCards(rows, sourceStatus) {
     : 0;
   return `
     <section class="alerts-command-metrics" aria-label="Alerts Desk top metrics">
-      <article class="alerts-command-metric-card">
-        <span>Today's Review Queue</span>
-        <strong>${escapeHtml(String(total))} candidates</strong>
+      <article class="alerts-command-metric-card is-review-queue">
+        <div class="alerts-command-metric-head"><span>Today's Review Queue</span><em>${escapeHtml(getAlertsCommandQueueBadge(liveStatus))}</em></div>
+        <div class="alerts-command-metric-instrument">
+          <strong>${escapeHtml(String(total))}<small>candidates</small></strong>
+          ${renderAlertsCommandMetricSvg("queue")}
+        </div>
         <small>Latest local update: ${escapeHtml(getAlertsLiveTimestampLabel(liveStatus))}</small>
-        <em>${escapeHtml(getAlertsCommandQueueBadge(liveStatus))}</em>
       </article>
       <article class="alerts-command-metric-card alerts-command-ring-card" style="--call-pct:${callPct}%">
-        <span>Calls vs Puts</span>
-        <div class="alerts-command-ring" aria-hidden="true"><strong>${escapeHtml(String(callPct))}%</strong></div>
+        <div class="alerts-command-metric-head"><span>Calls vs Puts</span><em>${liveStatus.activationBlocked ? "Static / Demo split" : "Private local split"}</em></div>
+        <div class="alerts-command-metric-instrument">
+          <strong>${escapeHtml(String(callCount))}/${escapeHtml(String(putCount))}<small>call / put</small></strong>
+          ${renderAlertsCommandMetricSvg("donut", callPct)}
+        </div>
         <small>${escapeHtml(String(callCount))} Call Research / ${escapeHtml(String(putCount))} Put Research / ${escapeHtml(String(watchCount))} Watch</small>
-        <em>${liveStatus.activationBlocked ? "Static / Demo split" : "Private local split"}</em>
       </article>
       <article class="alerts-command-metric-card alerts-command-conviction-card">
-        <span>Today's Total Conviction</span>
-        <strong>${escapeHtml(String(averageScore))} / 100</strong>
-        <div class="alerts-command-mini-bars" aria-hidden="true">
-          ${rows.map((row) => `<i style="height:${Math.max(16, Math.min(100, row.readinessValue || 0))}%"></i>`).join("")}
+        <div class="alerts-command-metric-head"><span>Today's Total Conviction</span><em>Mock score</em></div>
+        <div class="alerts-command-metric-instrument">
+          <strong>${escapeHtml(String(averageScore))}<small>/ 100</small></strong>
+          <div class="alerts-command-mini-bars" aria-hidden="true">
+            ${rows.map((row) => `<i style="height:${Math.max(16, Math.min(100, row.readinessValue || 0))}%"></i>`).join("")}
+          </div>
         </div>
         <small>Mock aggregate research score; not expected return.</small>
       </article>
       <article class="alerts-command-metric-card alerts-command-gauge-card" style="--gauge-value:42%">
-        <span>Fear &amp; Greed</span>
-        <div class="alerts-command-gauge" aria-hidden="true"><strong>42</strong></div>
+        <div class="alerts-command-metric-head"><span>Fear &amp; Greed</span><em>Static Mock</em></div>
+        <div class="alerts-command-metric-instrument">
+          <strong>42<small>static</small></strong>
+          ${renderAlertsCommandMetricSvg("gauge", 42)}
+        </div>
         <small>Static / Source Required. No live market sentiment provider is displayed.</small>
-        <em>Static Mock</em>
       </article>
     </section>
   `;
@@ -11387,15 +11431,15 @@ function renderAlertsCommandResearchStream(rows, selectedCandidateId) {
               aria-label="${escapeHtml(`${row.ticker} ${side}. ${row.status}. Research confidence ${row.readiness}.`)}"
               onclick="window.selectIntelligenceCandidate('${escapeHtml(row.id)}', { preserveScroll: true })"
             >
-              <span role="cell" data-label="Time"><strong>N/A</strong><small>No verified timestamp</small></span>
-              <span role="cell" data-label="Ticker"><strong>${escapeHtml(row.ticker)}</strong>${renderAlertsCommandSparkline(side)}</span>
+              <span role="cell" data-label="Time" class="alerts-command-time-cell"><strong>N/A</strong><small>No verified timestamp</small></span>
+              <span role="cell" data-label="Ticker" class="alerts-command-ticker-cell"><strong>${escapeHtml(row.ticker)}</strong>${renderAlertsCommandSparkline(side)}</span>
               <span role="cell" data-label="Company / Asset"><strong>${escapeHtml(getAlertsCommandAssetName(candidate))}</strong><small>${escapeHtml(candidate.setupType || row.setup)}</small></span>
               <span role="cell" data-label="Side"><em class="${escapeHtml(sideClass)}">${escapeHtml(side)}</em></span>
               <span role="cell" data-label="Timeframe"><strong>${escapeHtml(candidate.timeframe || row.timeframe || "Source Required")}</strong></span>
               <span role="cell" data-label="Expiration"><strong>Source Required</strong><small>${escapeHtml(candidate.optionWindow || "N/A")}</small></span>
               <span role="cell" data-label="Strike"><strong>Source Required</strong><small>Exact contract drawer-only</small></span>
               <span role="cell" data-label="Premium"><strong>Source Required</strong><small>No provider value</small></span>
-              <span role="cell" data-label="Confidence"><strong>${escapeHtml(row.readiness)}</strong><small>${escapeHtml(row.readinessClass)}</small></span>
+              <span role="cell" data-label="Confidence" class="alerts-command-confidence-cell"><strong>${escapeHtml(row.readiness)}</strong><small>${escapeHtml(row.readinessClass)}</small></span>
               <span role="cell" data-label="Trend / Scenario"><strong>${escapeHtml(candidate.marketRegime || "Research context")}</strong><small>${escapeHtml(row.risk)} risk</small></span>
               <span role="cell" data-label="Status"><em class="${escapeHtml(statusClass)}">${escapeHtml(row.status)}</em></span>
             </button>
@@ -11439,7 +11483,7 @@ function renderAlertsCommandRightRail() {
         <div>
           ${sources.map(([label, status]) => `
             <article class="is-${escapeHtml(status.toLowerCase().replaceAll(" ", "-"))}">
-              <span>${escapeHtml(label)}</span>
+              <span><i aria-hidden="true"></i>${escapeHtml(label)}</span>
               <strong>${escapeHtml(status)}</strong>
             </article>
           `).join("")}
@@ -11448,7 +11492,7 @@ function renderAlertsCommandRightRail() {
       </section>
       <section class="alerts-command-steward">
         <figure class="alerts-command-steward-visual" aria-hidden="true">
-          <img src="assets/ceo-b/ceo-b-outfit-v1-research-command-4x5-r1.png?v=alerts-command-terminal-v3-20260628-r1" alt="" />
+          <img src="assets/ceo-b-masked-visual-anchor-v1.png?v=alerts-command-terminal-v4-20260628-r1" alt="" />
         </figure>
         <header>
           <span class="alerts-command-steward-mark"><img src="brand/pickaxe-capital-logo.png?v=20260531-logo3" alt="" aria-hidden="true" /></span>
@@ -11466,6 +11510,30 @@ function renderAlertsCommandRightRail() {
       </section>
     </aside>
   `;
+}
+
+function getAlertsCommandDashboardClass(title = "") {
+  return `is-${String(title || "panel").toLowerCase().replaceAll("&", "and").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`;
+}
+
+function renderAlertsCommandPanelVisual(title = "") {
+  const normalized = String(title || "").toLowerCase();
+  if (normalized.includes("market overview")) {
+    return `<div class="alerts-panel-visual is-market" aria-hidden="true"><i></i><i></i><i></i><i></i></div>`;
+  }
+  if (normalized.includes("system status")) {
+    return `<div class="alerts-panel-visual is-system" aria-hidden="true"><span></span><span></span><span></span><span></span></div>`;
+  }
+  if (normalized.includes("market bias")) {
+    return `<div class="alerts-panel-visual is-bias" aria-hidden="true"><b>CALL</b><i></i><b>PUT</b></div>`;
+  }
+  if (normalized.includes("projected")) {
+    return `<div class="alerts-panel-visual is-scenario" aria-hidden="true"><svg viewBox="0 0 120 24"><path d="M4 18 C28 8 42 10 60 14 S91 22 116 7" /></svg></div>`;
+  }
+  if (normalized.includes("watchlist")) {
+    return `<div class="alerts-panel-visual is-watchlist" aria-hidden="true"><span>QQQ</span><span>NVDA</span><span>SPY</span></div>`;
+  }
+  return "";
 }
 
 function renderAlertsCommandDashboardPanels(rows, sourceStatus) {
@@ -11506,8 +11574,9 @@ function renderAlertsCommandDashboardPanels(rows, sourceStatus) {
   return `
     <section class="alerts-command-dashboard" aria-label="Alerts command dashboard panels">
       ${panels.map((panel) => `
-        <article>
+        <article class="${escapeHtml(getAlertsCommandDashboardClass(panel.title))}">
           <header><span>${escapeHtml(panel.title)}</span></header>
+          ${renderAlertsCommandPanelVisual(panel.title)}
           <dl>
             ${panel.rows.slice(0, 4).map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}
           </dl>
@@ -11533,19 +11602,36 @@ function renderAlertsCommandFrameworks() {
   ];
   return `
     <section class="alerts-command-frameworks" aria-label="Research candidate frameworks">
-      <article>
+      <article class="is-call-framework">
         <span class="meta-label">CALL RESEARCH CANDIDATE FRAMEWORK</span>
+        <svg class="alerts-framework-spark" viewBox="0 0 160 28" aria-hidden="true" focusable="false"><path d="M4 23 L32 20 L60 14 L88 16 L116 8 L156 6" /></svg>
         <h3>Upside research requires evidence before enthusiasm.</h3>
         <ul>${callChecklist.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
         <small>Research framework only. Not a trade instruction.</small>
       </article>
-      <article>
+      <article class="is-put-framework">
         <span class="meta-label">PUT RESEARCH CANDIDATE FRAMEWORK</span>
+        <svg class="alerts-framework-spark" viewBox="0 0 160 28" aria-hidden="true" focusable="false"><path d="M4 6 L32 9 L60 15 L88 13 L116 20 L156 23" /></svg>
         <h3>Downside research requires structure before fear.</h3>
         <ul>${putChecklist.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
         <small>Research framework only. Not a trade instruction.</small>
       </article>
     </section>
+  `;
+}
+
+function renderAlertsCommandSafetyStrip() {
+  const items = [
+    "Research Only",
+    "Manual Review Required",
+    "No Broker Execution",
+    "Source Verification Needed",
+    "No External Action",
+  ];
+  return `
+    <footer class="alerts-command-safety-strip" aria-label="Alerts terminal safety boundary">
+      ${items.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+    </footer>
   `;
 }
 
@@ -11571,7 +11657,7 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
 
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
-      <div class="alerts-command-terminal pickaxe-command-terminal-v3">
+      <div class="alerts-command-terminal pickaxe-command-terminal-v3 pickaxe-command-terminal-v4">
         <section class="alerts-command-identity-bar" aria-label="Alerts Desk identity">
           <div>
             <span class="meta-label">00 ALERTS DESK</span>
@@ -11593,6 +11679,7 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
         </section>
         ${renderAlertsCommandDashboardPanels(rows, sourceStatus)}
         ${renderAlertsCommandFrameworks()}
+        ${renderAlertsCommandSafetyStrip()}
       </div>
       ${renderAlertsDetailsDrawer(candidate, score, sourceStatus, decisionState, requiredGateSummary, advancedResearchMarkup)}
     </section>

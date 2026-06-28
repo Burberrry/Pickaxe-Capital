@@ -2,23 +2,26 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Alerts Command Terminal Reference Density v3 is **PASS / ALERTS TERMINAL REFERENCE DENSITY READY**.
+Pickaxe Alerts Command Terminal Premium Visual Finish v4 is **PASS / ALERTS TERMINAL PREMIUM VISUAL FINISH READY**.
 
 - Bounded visual branch: `codex/private-local-massive-qqq-proof-v1-20260628`.
-- Starting commit: `3d9a77db09609feeb4e7fd8c80bbf84ec270416b`.
+- Starting commit: `0b59bf96359d114afb7473f6127556605938e676`.
 - The existing Alerts route and renderer chain were preserved: `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `renderAlertsOperatorWorkspace()`.
-- Alerts now opens as a tighter hedge-fund-style command terminal with an explicit `pickaxe-command-terminal-v3` shell, minimized Alerts-only desktop sidebar, compact identity/header, compressed metric cards, five dense research rows, compact right-side source grid, dominant Pickaxe Steward visual, five bottom dashboard panels, and two call/put framework panels visible at `1440x900`.
-- The 1440 local gate passed on `/app/alerts`: sidebar `88px`, terminal `1340x888` ending at `bottom=894`, five stream rows visible, fifteen source cards visible, five dashboard panels visible, two framework panels visible, no horizontal overflow, no browser provider requests, and `Exact Contract Panel` hidden until the drawer opens.
+- V4 keeps the v3 density foundation and upgrades the command center with instrument-style metric widgets, tighter command-header treatment, institutional flow-tape table styling, ticker badges, compact confidence formatting, source LEDs, premium source wall action, larger approved CEO B masked steward visual, useful bottom panel visuals, call/put framework sparklines, and an in-terminal safety status strip.
+- The 1440 local gate passed on `/app/alerts`: sidebar `88px`, terminal `1335x888` ending at `bottom=894`, header `58px`, metric row `78px`, five stream rows visible, fifteen source cards visible, five dashboard panels visible, two framework panels visible, footer safety strip visible, one visible Starlight canvas, no horizontal overflow, no browser provider assets, and `Exact Contract Panel` hidden until the drawer opens.
+- The 1280x720 route stayed command-desk dense: terminal `1175x708`, five stream rows visible, five dashboard panels visible, two framework panels visible, and footer safety strip visible before the fold.
 - The stream still uses only the existing QQQ, NVDA, SPY, TSLA, and GLD research candidates. Source-required fields remain labeled, and no provider prices, strikes, premiums, bids, asks, Greeks, volume, open interest, or live timestamps were invented.
 - Exact Contract Panel remains drawer-only inside Alert Details with blocked/source-required placeholders unless a separate server-verified local proof is authorized and available.
-- Screenshots are under `/tmp/pickaxe-alerts-command-terminal-v3/`: before/after desktop, 1280, mobile, and `after-details-open-1440.png`.
-- Browser QA passed locally on `/#/alerts` and `/app/alerts` at `1440x900`, `1280x720`, and `390x844`: correct Alerts view, active nav `Alerts Desk` without a visible sidebar `00`, no relevant console errors, no document-level horizontal overflow, no provider browser resources, no visible execution controls, no fake live label, no numeric fake timestamp, and Exact Contract Panel hidden until the drawer opens.
+- Screenshots are under `/tmp/pickaxe-alerts-command-terminal-v4/`: before/after desktop, 1280, mobile, and `after-details-open-1440.png`.
+- Browser QA passed locally on `/`, `/#/alerts`, and `/app/alerts` at `1440x900`, `1280x720`, and `390x844`: correct Alerts view, active nav `Alerts Desk` without a visible sidebar `00`, no relevant console errors, no document-level horizontal overflow, one visible Starlight canvas, no provider browser assets, no visible execution controls, no fake live label, no numeric fake timestamp, and Exact Contract Panel hidden until the drawer opens.
+- Interaction QA passed: selecting the TSLA research row updated the active row to `PIC-DEMO-TSLA-003`.
 - Regression route browser QA passed for `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
+- Visual self-score: **946 / 1000**.
 - Validation passed with JavaScript syntax checks, live-alerts/options-chain fixture checks, required package checks, mirror checks, smoke route checks, public-safety/deploy-boundary/route checks, and `git diff --check`.
-- Build Completion Tracker metadata now includes `pickaxe-alerts-command-terminal-reference-density-v3-20260628`.
+- Build Completion Tracker metadata now includes `pickaxe-alerts-command-terminal-premium-visual-finish-v4-20260628`.
 - No push, deploy, Massive provider request, public display enablement, fake live data, browser provider call, new route, second Alerts renderer, LocalStorage key, packet model, review queue, broker/execution/order/payment/subscription/auth/alert-delivery behavior, or `data/signal-alerts.json` change was added.
 
-Next bounded step: `CEO B visual review of Pickaxe Alerts Command Terminal Reference Density v3`.
+Next bounded step: `CEO B visual review of Pickaxe Alerts Command Terminal Premium Visual Finish v4`.
 
 Do not push, deploy, enable public display, add provider/browser calls, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
 
