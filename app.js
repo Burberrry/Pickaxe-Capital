@@ -11635,6 +11635,484 @@ function renderAlertsCommandSafetyStrip() {
   `;
 }
 
+const PICKAXE_ALERTS_01_ACTIONS_KEY = "pickaxeAlerts01Actions";
+const PICKAXE_ALERTS_01_MARKET = {
+  QQQ: { company: "Nasdaq 100 ETF", mark: "NO VERIFIED PRICE", strike: "$530", expiry: "STATIC 17 JUL 26", logo: "QQQ", beta: "1.3x", color: "#67d97b" },
+  NVDA: { company: "NVIDIA", mark: "NO VERIFIED PRICE", strike: "$145", expiry: "STATIC 17 JUL 26", logo: "NVDA", beta: "2.1x", color: "#67d97b" },
+  SPY: { company: "SPDR S&P 500 ETF", mark: "NO VERIFIED PRICE", strike: "$700", expiry: "STATIC 19 JUL 26", logo: "SPDR", beta: "1.0x", color: "#ff4f42" },
+  TSLA: { company: "Tesla", mark: "NO VERIFIED PRICE", strike: "$420", expiry: "STATIC 17 JUL 26", logo: "TSLA", beta: "2.4x", color: "#ff4f42" },
+  GLD: { company: "Gold ETF", mark: "NO VERIFIED PRICE", strike: "$232", expiry: "STATIC 17 JUL 26", logo: "GLD", beta: "0.7x", color: "#d8b35d" },
+};
+
+function getPickaxeAlerts01Actions() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(PICKAXE_ALERTS_01_ACTIONS_KEY) || "{}");
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function savePickaxeAlerts01Actions(actions) {
+  localStorage.setItem(PICKAXE_ALERTS_01_ACTIONS_KEY, JSON.stringify(actions || {}));
+}
+
+function getPickaxeAlerts01Model(row = {}, sourceStatus = getSourceStatus(), overrides = {}) {
+  const candidate = row.candidate || {};
+  const ticker = overrides.ticker || candidate.ticker || row.ticker || "SPY";
+  const profile = {
+    ...(PICKAXE_ALERTS_01_MARKET[ticker] || {
+    company: getAlertsCommandAssetName(candidate),
+      mark: "NO VERIFIED PRICE",
+    strike: "ATM",
+      expiry: "STATIC 17 JUL 26",
+    logo: ticker.slice(0, 4),
+    beta: "1.0x",
+    color: "#d8b35d",
+    }),
+    ...(overrides.profile || {}),
+  };
+  const side = overrides.side || getAlertsCommandSide(candidate);
+  const isPut = /put|bear/i.test(side);
+  const readiness = Math.max(0, Math.min(100, Number(overrides.confidence || row.readinessValue || candidate.confidence || 72)));
+  const actionState = getPickaxeAlerts01Actions()[row.id] || {};
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
+  return {
+    id: overrides.id || row.id || candidate.id || "PIC-DEMO-SPY-001",
+    ticker,
+    company: profile.company,
+    logo: profile.logo,
+    mark: profile.mark,
+    strike: profile.strike,
+    expiry: profile.expiry,
+    beta: profile.beta,
+    side,
+    sideShort: isPut ? "PUT" : "CALL",
+    sideWord: isPut ? "PUTS" : "CALLS",
+    sideSetup: isPut ? "BEARISH SETUP" : "BULLISH SETUP",
+    bullPct: overrides.bullPct || (isPut ? 38 : Math.max(54, Math.min(76, 52 + Math.round(readiness / 5)))),
+    bearPct: overrides.bearPct || (isPut ? 62 : Math.min(46, Math.max(24, 48 - Math.round(readiness / 8)))),
+    confidence: readiness,
+    confidenceDisplay: overrides.confidenceDisplay || Math.min(1000, Math.max(100, readiness * 10 + 6)),
+    setup: candidate.setupType || row.setup || "Momentum Review",
+    timeframe: candidate.timeframe || row.timeframe || "Intraday",
+    optionWindow: candidate.optionWindow || row.expiration || "7-14 DTE",
+    catalyst: candidate.catalyst || "Source-gated catalyst review",
+    invalidation: candidate.invalidation || "Source and risk gate failure",
+    status: actionState.status || row.status || "Review Candidate",
+    actionLabel: actionState.label || "No local action yet",
+    actionAt: actionState.at || "",
+    decision: row.decision || getAlertsOperatorDecisionState(candidate, sourceStatus),
+    readinessClass: row.readinessClass || "Research",
+    dataMode: formatAlertsLiveModeLabel(liveStatus.dataMode),
+    updated: "NO VERIFIED TIMESTAMP",
+    visualDay: overrides.visualDay || "MONDAY",
+    visualDate: overrides.visualDate || "SOURCE REQUIRED",
+    visualTime: overrides.visualTime || "NO VERIFIED TIMESTAMP",
+    quantity: overrides.quantity || "REVIEW",
+    sourceLabel: "SOURCE REQUIRED",
+    providerLabel: "NO PROVIDER SNAPSHOT",
+    actionBoundary: "NO EXTERNAL ACTION",
+  };
+}
+
+function renderPickaxeAlerts01Icon(name) {
+  const icons = {
+    bell: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/><path d="M10 21h4"/></svg>`,
+    clock: `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v5l3 2"/></svg>`,
+    tag: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13 13 20 4 11V4h7l9 9Z"/><path d="M7.5 7.5h.01"/></svg>`,
+    scale: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M5 7h14M6 7l-3 6h6L6 7Zm12 0-3 6h6l-3-6Z"/></svg>`,
+    doc: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>`,
+    shield: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m9 12 2 2 4-5"/></svg>`,
+    chat: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 4V5Z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>`,
+    pick: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4c3 1 5 3 6 6-3-2-6-2-9 0L4 17l-2-2 7-7c0-3 2-5 5-4Z"/><path d="m11 10 9 9"/></svg>`,
+  };
+  return icons[name] || icons.pick;
+}
+
+function renderPickaxeAlerts01Bars(values = [], tone = "green") {
+  return `
+    <div class="pa-bars is-${escapeHtml(tone)}" aria-hidden="true">
+      ${values.map((value, index) => `<i style="--h:${Math.max(8, Math.min(100, Number(value) || 8))}%;--i:${index}"></i>`).join("")}
+    </div>
+  `;
+}
+
+function renderPickaxeAlerts01Line(isPut = false) {
+  const path = isPut
+    ? "M4 22 C22 16 36 18 50 25 S78 28 94 18 S118 8 136 13"
+    : "M4 28 C22 24 36 26 50 18 S78 11 94 15 S118 9 136 4";
+  return `
+    <svg class="pa-line-chart" viewBox="0 0 140 34" aria-hidden="true" focusable="false">
+      <path class="grid" d="M4 30H136M4 18H136M4 6H136" />
+      <path class="line" d="${path}" />
+    </svg>
+  `;
+}
+
+function renderPickaxeAlerts01SignalStack(model) {
+  const rows = [
+    ["Trend", `${model.ticker} above 20EMA & 50EMA`, /put|bear/i.test(model.side) ? "Bearish" : "Bullish"],
+    ["Volume Surge", `${model.beta} above demo average`, "Strong"],
+    ["Unusual Flow", `${model.sideShort} sweeps dominate opposite flow`, /put|bear/i.test(model.side) ? "Bearish" : "Bullish"],
+    ["VWAP Reclaim", "Price reclaimed VWAP", "Confirmed"],
+    ["OI / Liquidity", "High OI support near strikes", "Favorable"],
+    ["Risk / Reward", "Est. R:R 1:2.3+", "Favorable"],
+  ];
+  return `
+    <div class="pa-signal-stack">
+      <h3>ALERT SIGNAL STACK</h3>
+      ${rows.map(([label, detail, result]) => `
+        <button type="button" onclick="window.pickaxeAlerts01Action('${escapeHtml(model.id)}', 'note-${escapeHtml(label)}')">
+          <span>${escapeHtml(label)}</span>
+          <small>${escapeHtml(detail)}</small>
+          <strong>${escapeHtml(result)}</strong>
+        </button>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderPickaxeAlerts01SetupButtons(rows, selectedId) {
+  return rows.slice(0, 6).map((row) => {
+    const model = getPickaxeAlerts01Model(row);
+    const isPut = /put|bear/i.test(model.side);
+    return `
+      <button
+        type="button"
+        class="pa-alert-tab ${model.id === selectedId ? "is-active" : ""}"
+        aria-pressed="${model.id === selectedId}"
+        onclick="window.pickaxeAlerts01Select('${escapeHtml(model.id)}')"
+      >
+        <strong>${escapeHtml(model.ticker)}</strong>
+        <span>${escapeHtml(model.sideShort)} · ${escapeHtml(model.setup)}</span>
+        <em class="${isPut ? "is-put" : "is-call"}">${escapeHtml(String(model.confidence))}</em>
+      </button>
+    `;
+  }).join("");
+}
+
+function getPickaxeAlerts01DashboardModels(rows = [], sourceStatus = getSourceStatus()) {
+  const callRow = rows.find((row) => row.ticker === "QQQ")
+    || rows.find((row) => /call|bull/i.test(getAlertsCommandSide(row.candidate)))
+    || rows[0]
+    || {};
+  const putRow = rows.find((row) => row.ticker === "SPY")
+    || rows.find((row) => /put|bear/i.test(getAlertsCommandSide(row.candidate)))
+    || rows[1]
+    || rows[0]
+    || {};
+  return {
+    call: getPickaxeAlerts01Model(callRow, sourceStatus, {
+      id: callRow.id || "PIC-DEMO-QQQ-CALL-001",
+      ticker: "QQQ",
+      side: "Call Research",
+      confidence: 92,
+      confidenceDisplay: 918,
+      bullPct: 62,
+      bearPct: 38,
+      visualDate: "STATIC DEMO",
+      visualTime: "NO VERIFIED TIMESTAMP",
+      quantity: "REVIEW",
+      profile: {
+        company: "Nasdaq 100 ETF",
+        logo: "QQQ",
+        strike: "$530",
+        expiry: "STATIC 17 JUL 26",
+      },
+    }),
+    put: getPickaxeAlerts01Model(putRow, sourceStatus, {
+      id: putRow.id || "PIC-DEMO-SPY-PUT-004",
+      ticker: "SPY",
+      side: "Put Research",
+      confidence: 88,
+      confidenceDisplay: 884,
+      bullPct: 38,
+      bearPct: 62,
+      visualDate: "STATIC DEMO",
+      visualTime: "NO VERIFIED TIMESTAMP",
+      quantity: "REVIEW",
+      profile: {
+        company: "SPDR S&P 500 ETF",
+        logo: "SPDR",
+        strike: "$700",
+        expiry: "STATIC 19 JUL 26",
+      },
+    }),
+  };
+}
+
+function renderPickaxeAlerts01FearGreedCard() {
+  return `
+    <article class="pa-card pa-v6-fear-card">
+      <header><h2>FEAR &amp; GREED</h2><em class="is-safe"><i></i>STATIC DEMO</em></header>
+      <div class="pa-v6-fear-gauge" style="--score:71%" aria-label="Static demo fear and greed gauge">
+        <span class="is-left">0<br>EXTREME FEAR</span>
+        <span class="is-mid-left">25<br>FEAR</span>
+        <span class="is-mid">50<br>NEUTRAL</span>
+        <span class="is-mid-right">75<br>GREED</span>
+        <span class="is-right">100<br>EXTREME GREED</span>
+        <strong>71</strong>
+        <em>STATIC DEMO</em>
+      </div>
+      <div class="pa-v6-micro-grid">
+        <span><small>Momentum</small><strong>REVIEW</strong></span>
+        <span><small>Volatility</small><strong>UNVERIFIED</strong></span>
+        <span><small>Breadth</small><strong>SOURCE</strong></span>
+        <span><small>Safe Haven Demand</small><strong>REQUIRED</strong></span>
+      </div>
+    </article>
+  `;
+}
+
+function renderPickaxeAlerts01XNotesCard() {
+  const notes = [
+    ["X", "Static watchlist note requires source review.", "NO TIME"],
+    ["X", "QQQ research packet needs verified breadth.", "NO TIME"],
+    ["X", "SPY put study is a visual example only.", "NO TIME"],
+    ["X", "No provider feed, alert delivery, or external action.", "NO TIME"],
+  ];
+  return `
+    <article class="pa-card pa-v6-x-card">
+      <header><h2>X NOTIFICATIONS</h2><em class="is-safe"><i></i>SOURCE REQUIRED</em></header>
+      <div class="pa-v6-x-list">
+        ${notes.map(([icon, text, time]) => `
+          <div>
+            <span>${escapeHtml(icon)}</span>
+            <p>${escapeHtml(text)}<small>${escapeHtml(time)}</small></p>
+          </div>
+        `).join("")}
+      </div>
+      <strong>Static research notes only. No current-feed insight claim.</strong>
+    </article>
+  `;
+}
+
+function renderPickaxeAlerts01PetCard(model) {
+  return `
+    <article class="pa-card pa-v6-pet-card">
+      <header><h2>PICKAXE CAPITAL PET</h2></header>
+      ${renderPickaxeAlerts01PetFigure()}
+      <button type="button" onclick="window.pickaxeAlerts01Action('${escapeHtml(model.id)}', 'pet')">${renderPickaxeAlerts01Icon("chat")} ASK PET</button>
+    </article>
+  `;
+}
+
+function renderPickaxeAlerts01PetFigure() {
+  return `
+    <div class="pa-pet pa-v6-pet-figure" aria-label="Code-native Pickaxe Capital PET placeholder" role="img">
+      <svg viewBox="0 0 170 210" aria-hidden="true" focusable="false">
+        <defs>
+          <radialGradient id="paPetChest" cx="50%" cy="52%" r="52%">
+            <stop offset="0%" stop-color="#f7c75b" stop-opacity="0.78" />
+            <stop offset="52%" stop-color="#b87925" stop-opacity="0.36" />
+            <stop offset="100%" stop-color="#04090b" stop-opacity="0.12" />
+          </radialGradient>
+          <linearGradient id="paPetSteel" x1="18%" y1="8%" x2="82%" y2="100%">
+            <stop offset="0%" stop-color="#d7c69d" stop-opacity="0.35" />
+            <stop offset="48%" stop-color="#050b0d" stop-opacity="0.96" />
+            <stop offset="100%" stop-color="#010506" stop-opacity="1" />
+          </linearGradient>
+        </defs>
+        <path class="pet-ear" d="M42 58 18 30 32 94Z" />
+        <path class="pet-ear" d="M128 58 152 30 138 94Z" />
+        <path class="pet-tail" d="M131 135 C164 111 166 154 138 167" />
+        <path class="pet-body" d="M49 93 C52 73 66 62 85 62 C104 62 118 73 121 93 L128 164 C130 188 113 200 85 200 C57 200 40 188 42 164Z" />
+        <path class="pet-head" d="M43 74 C45 38 61 20 85 20 C109 20 125 38 127 74 C129 104 112 122 85 122 C58 122 41 104 43 74Z" />
+        <path class="pet-mask" d="M55 78 C69 64 101 64 115 78 C109 98 96 108 85 108 C74 108 61 98 55 78Z" />
+        <path class="pet-muzzle" d="M70 91 C78 85 92 85 100 91 C96 103 91 108 85 108 C79 108 74 103 70 91Z" />
+        <circle class="pet-eye" cx="72" cy="67" r="4.3" />
+        <circle class="pet-eye" cx="98" cy="67" r="4.3" />
+        <circle class="pet-core" cx="85" cy="142" r="24" />
+        <path class="pet-medal" d="M85 128 99 142 85 156 71 142Z" />
+        <path class="pet-leg" d="M57 169 50 199" />
+        <path class="pet-leg" d="M113 169 120 199" />
+        <path class="pet-line" d="M66 131 C78 137 92 137 104 131" />
+      </svg>
+    </div>
+  `;
+}
+
+function renderPickaxeAlerts01Character(isPut) {
+  const title = isPut ? "Bear research silhouette" : "Bull research silhouette";
+  const accentClass = isPut ? "is-bear" : "is-bull";
+  return `
+    <div class="pa-v6-character ${accentClass}" aria-label="${title}" role="img">
+      <svg class="pa-v6-silhouette-svg" viewBox="0 0 260 260" aria-hidden="true" focusable="false">
+        <defs>
+          <radialGradient id="${isPut ? "paBearCore" : "paBullCore"}" cx="50%" cy="52%" r="52%">
+            <stop offset="0%" stop-color="${isPut ? "#ff5346" : "#62d36f"}" stop-opacity="0.86" />
+            <stop offset="55%" stop-color="${isPut ? "#7d1f1c" : "#145b31"}" stop-opacity="0.44" />
+            <stop offset="100%" stop-color="#030809" stop-opacity="0.1" />
+          </radialGradient>
+          <linearGradient id="${isPut ? "paBearArmor" : "paBullArmor"}" x1="14%" y1="8%" x2="86%" y2="100%">
+            <stop offset="0%" stop-color="#f0d395" stop-opacity="0.28" />
+            <stop offset="45%" stop-color="#071012" stop-opacity="0.96" />
+            <stop offset="100%" stop-color="#010506" stop-opacity="1" />
+          </linearGradient>
+        </defs>
+        ${isPut ? `
+          <circle class="sil-ear" cx="82" cy="58" r="24" />
+          <circle class="sil-ear" cx="178" cy="58" r="24" />
+          <path class="sil-body" d="M56 145 C60 105 86 84 130 84 C174 84 200 105 204 145 L216 242 H44Z" />
+          <path class="sil-head" d="M61 99 C66 51 93 28 130 28 C167 28 194 51 199 99 C204 143 176 169 130 169 C84 169 56 143 61 99Z" />
+          <path class="sil-muzzle" d="M91 118 C103 105 157 105 169 118 C164 145 150 158 130 158 C110 158 96 145 91 118Z" />
+          <path class="sil-brow" d="M86 92 C102 84 113 84 123 94" />
+          <path class="sil-brow" d="M174 92 C158 84 147 84 137 94" />
+        ` : `
+          <path class="sil-horn" d="M86 62 C44 32 29 46 22 88 C48 67 62 75 89 99" />
+          <path class="sil-horn" d="M174 62 C216 32 231 46 238 88 C212 67 198 75 171 99" />
+          <path class="sil-body" d="M52 153 C61 108 91 86 130 86 C169 86 199 108 208 153 L222 242 H38Z" />
+          <path class="sil-head" d="M67 93 C72 54 96 35 130 35 C164 35 188 54 193 93 C200 135 174 164 130 164 C86 164 60 135 67 93Z" />
+          <path class="sil-muzzle" d="M89 114 C105 101 155 101 171 114 C167 142 150 156 130 156 C110 156 93 142 89 114Z" />
+          <path class="sil-brow" d="M90 90 C105 82 117 83 126 94" />
+          <path class="sil-brow" d="M170 90 C155 82 143 83 134 94" />
+        `}
+        <circle class="sil-eye" cx="108" cy="101" r="5" />
+        <circle class="sil-eye" cx="152" cy="101" r="5" />
+        <path class="sil-armor" d="M67 176 C91 162 109 157 130 157 C151 157 169 162 193 176 L185 238 H75Z" />
+        <circle class="sil-core" cx="130" cy="198" r="30" />
+        <path class="sil-core-mark" d="M130 177 151 198 130 219 109 198Z" />
+        <path class="sil-rib" d="M82 185 C103 202 112 217 116 238" />
+        <path class="sil-rib" d="M178 185 C157 202 148 217 144 238" />
+        <path class="sil-base" d="M48 242 H212" />
+      </svg>
+    </div>
+  `;
+}
+
+function renderPickaxeAlerts01CandleBackdrop(isPut) {
+  const values = isPut
+    ? [78, 68, 74, 59, 64, 48, 54, 40, 45, 30, 36, 24]
+    : [28, 34, 31, 45, 52, 48, 64, 59, 72, 68, 84, 92];
+  return `
+    <div class="pa-v6-candles ${isPut ? "is-put" : "is-call"}" aria-hidden="true">
+      ${values.map((value, index) => `<i style="--h:${value}%;--i:${index}"></i>`).join("")}
+    </div>
+  `;
+}
+
+function renderPickaxeAlerts01AlertRow(model, tone) {
+  const isPut = tone === "put";
+  const scorePercent = `${Math.max(10, Math.min(100, Math.round(model.confidenceDisplay / 10)))}%`;
+  const selectedCandidate = getSelectedAlertsCandidate();
+  const isSelected = selectedCandidate?.id === model.id;
+  const modelId = escapeHtml(model.id);
+  return `
+    <article
+      class="pa-v6-alert-row is-${escapeHtml(tone)} ${isSelected ? "is-selected" : ""}"
+      aria-label="${escapeHtml(model.ticker)} ${escapeHtml(model.sideShort)} research row"
+      aria-pressed="${isSelected}"
+      data-alert-row-tone="${escapeHtml(tone)}"
+      role="button"
+      tabindex="0"
+      onclick="window.pickaxeAlerts01Select('${modelId}')"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.pickaxeAlerts01Select('${modelId}')}"
+    >
+      <section class="pa-v6-cell pa-v6-time-cell">
+        <header>${renderPickaxeAlerts01Icon("clock")}<h2>TIME</h2></header>
+        <p>No verified alert timestamp is connected.</p>
+        <div class="pa-divider"></div>
+        <strong>${escapeHtml(model.visualDate)}</strong>
+        <span>${escapeHtml(model.visualTime)}</span>
+        <button type="button" onclick="event.stopPropagation();window.refreshAlertsLiveStatus()">${escapeHtml(model.ticker)} · ${escapeHtml(model.mark)}</button>
+      </section>
+
+      <section class="pa-v6-cell pa-v6-ticker-cell">
+        <header>${renderPickaxeAlerts01Icon("tag")}<h2>TICKER</h2></header>
+        <div class="pa-token"><span>${escapeHtml(model.logo)}</span></div>
+        <small>${escapeHtml(model.company)}</small>
+        <strong>${escapeHtml(model.ticker)}</strong>
+      </section>
+
+      <section class="pa-v6-cell pa-v6-side-cell">
+        <header>${renderPickaxeAlerts01Icon("scale")}<h2>SIDE</h2></header>
+        <div class="pa-v6-side-stage">
+          ${renderPickaxeAlerts01CandleBackdrop(isPut)}
+          ${renderPickaxeAlerts01Character(isPut)}
+          <span class="pa-v6-direction" aria-hidden="true"></span>
+          <strong>${escapeHtml(model.sideWord)}</strong>
+          <em>${escapeHtml(model.sideSetup)}</em>
+        </div>
+      </section>
+
+      <section class="pa-v6-cell pa-v6-contract-cell">
+        <header>${renderPickaxeAlerts01Icon("doc")}<h2>EXACT CONTRACTS</h2></header>
+        <p>STATIC CONTRACT RESEARCH · SOURCE REQUIRED</p>
+        <div class="pa-v6-ticket">
+          <span>${escapeHtml(model.sideShort)} <small>STATIC EXAMPLE - NOT CURRENT MARKET DATA</small></span>
+          <strong>${escapeHtml(model.ticker)} ${escapeHtml(model.strike)}</strong>
+          <em>${escapeHtml(model.expiry)}</em>
+          <small>QTY <b>REVIEW ONLY</b></small>
+        </div>
+        <p>NO VERIFIED OPTIONS CHAIN · NO BUY/SELL INSTRUCTION · NO EXTERNAL ACTION.</p>
+        <div class="pa-v6-contract-actions">
+          <button type="button" onclick="event.stopPropagation();window.pickaxeAlerts01Action('${modelId}', 'review')">REVIEW</button>
+          <button type="button" onclick="event.stopPropagation();window.pickaxeAlerts01Action('${modelId}', 'evidence')">EVIDENCE</button>
+        </div>
+      </section>
+
+      <section class="pa-v6-cell pa-v6-confidence-cell">
+        <header>${renderPickaxeAlerts01Icon("shield")}<h2>CONFIDENCE</h2></header>
+        <button class="pa-gauge" type="button" onclick="event.stopPropagation();window.openAlertsDeepReview()" style="--score:${scorePercent}" aria-label="Open source-gated research confidence review">
+          <strong>${escapeHtml(String(model.confidenceDisplay))}</strong>
+          <span>/ 1000</span>
+        </button>
+        <p>Research-confidence display only. Not a prediction.</p>
+        <em>SOURCE GATED</em>
+      </section>
+    </article>
+  `;
+}
+
+function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
+  const models = getPickaxeAlerts01DashboardModels(rows, sourceStatus);
+  const ratioModel = models.call;
+  return `
+    <section class="pickaxe-alerts-01 pa-v6" aria-labelledby="pickaxeAlerts01Title">
+      <div class="pa-noise" aria-hidden="true"></div>
+      <header class="pa-titlebar">
+        <div>
+          <span aria-hidden="true"></span>
+          <h1 id="pickaxeAlerts01Title">ALERTS</h1>
+          <p><i></i> Source-Gated Research Queue</p>
+        </div>
+        <aside>
+          <strong>BLOCKED</strong>
+          <small>SOURCE REQUIRED · NO VERIFIED TIMESTAMP · NO PROVIDER SNAPSHOT</small>
+        </aside>
+      </header>
+
+      <section class="pa-top-grid pa-v6-top-grid" aria-label="Source-gated alert overview">
+        <article class="pa-card pa-ratio-card">
+          <header><h2>BULL VS BEAR RATIO</h2></header>
+          <div class="pa-ratio-body" style="--bull:${ratioModel.bullPct}%">
+            <div><strong>${ratioModel.bullPct}%</strong><span>BULL</span></div>
+            <div class="pa-donut" aria-hidden="true"><b></b></div>
+            <div><strong>${ratioModel.bearPct}%</strong><span>BEAR</span></div>
+          </div>
+          <p>Static demo ratio. Source required before any research packet can be treated as usable.</p>
+        </article>
+
+        ${renderPickaxeAlerts01FearGreedCard()}
+        ${renderPickaxeAlerts01XNotesCard()}
+        ${renderPickaxeAlerts01PetCard(models.call)}
+      </section>
+
+      <section class="pa-v6-alert-stack" aria-label="Static source-gated alert examples">
+        ${renderPickaxeAlerts01AlertRow(models.call, "call")}
+        ${renderPickaxeAlerts01AlertRow(models.put, "put")}
+      </section>
+
+      <footer class="pa-footer">
+        <strong>RESEARCH. DISCIPLINE. VERIFICATION.</strong>
+        <span>Not financial advice. For educational purposes only. Static demo only. ${escapeHtml(getAlertsCommandQueueBadge(liveStatus))} · NO PROVIDER SNAPSHOT · NO EXTERNAL ACTION.</span>
+      </footer>
+    </section>
+  `;
+}
+
 function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
   const candidate = getSelectedAlertsCandidate();
   const score = scoreIntelligenceCandidate(candidate);
@@ -11657,30 +12135,7 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
 
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
-      <div class="alerts-command-terminal pickaxe-command-terminal-v3 pickaxe-command-terminal-v4">
-        <section class="alerts-command-identity-bar" aria-label="Alerts Desk identity">
-          <div>
-            <span class="meta-label">00 ALERTS DESK</span>
-            <h2 id="alertsOperatorTitle">OPTIONS ALERTS REVIEW QUEUE</h2>
-            <p>Premium research terminal for source-gated options candidates. Every item remains manual-review only until CEO B approval.</p>
-          </div>
-          <aside>
-            <img src="brand/pickaxe-capital-logo.png?v=20260531-logo3" alt="" aria-hidden="true" />
-            <div>
-              <strong>CEO B</strong>
-              <span>FINAL APPROVAL AUTHORITY</span>
-            </div>
-          </aside>
-        </section>
-        ${renderAlertsCommandMetricCards(rows, sourceStatus)}
-        <section class="alerts-command-main-grid" aria-label="Alerts command terminal layout">
-          ${renderAlertsCommandResearchStream(rows, candidate.id)}
-          ${renderAlertsCommandRightRail()}
-        </section>
-        ${renderAlertsCommandDashboardPanels(rows, sourceStatus)}
-        ${renderAlertsCommandFrameworks()}
-        ${renderAlertsCommandSafetyStrip()}
-      </div>
+      ${renderPickaxeAlerts01Cockpit(rows, sourceStatus)}
       ${renderAlertsDetailsDrawer(candidate, score, sourceStatus, decisionState, requiredGateSummary, advancedResearchMarkup)}
     </section>
   `;
@@ -12466,6 +12921,37 @@ window.selectIntelligenceCandidate = (id, options = {}) => {
       : `.alerts-operator-candidates button[aria-pressed="true"], [data-alert-row-id="${id}"]`;
     document.querySelector(selector)?.focus({ preventScroll: Boolean(options.preserveScroll) });
   }, 0);
+};
+
+window.pickaxeAlerts01Select = (id) => {
+  window.selectIntelligenceCandidate(id, { preserveScroll: true });
+};
+
+window.pickaxeAlerts01SwitchSide = (side) => {
+  const rows = getAlertsFeedRows(getSourceStatus());
+  const matcher = side === "put" ? /put|bear/i : /call|bull/i;
+  const next = rows.find((row) => matcher.test(getAlertsCommandSide(row.candidate))) || rows[0];
+  if (!next) return;
+  state.selectedIntelligenceCandidateId = next.id;
+  renderAlertsPage();
+  window.setTimeout(() => document.querySelector(".pa-side-card")?.focus?.({ preventScroll: true }), 0);
+};
+
+window.pickaxeAlerts01Action = (id, action) => {
+  const actions = getPickaxeAlerts01Actions();
+  const labelMap = {
+    review: "Research review note saved",
+    evidence: "Evidence request note saved",
+    pet: "Pet research note saved",
+    archive: "Archived locally",
+  };
+  const cleanAction = String(action || "review");
+  const label = labelMap[cleanAction] || cleanAction.replace(/^note-/, "Reviewed signal: ");
+  const at = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  actions[id] = { status: label, label, action: cleanAction, at };
+  savePickaxeAlerts01Actions(actions);
+  showNotification(`${label}. Local Alerts 01 state updated.`);
+  renderAlertsPage();
 };
 
 window.refreshAlertsLiveStatus = () => {
