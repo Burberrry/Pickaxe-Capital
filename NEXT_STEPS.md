@@ -2,6 +2,33 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Clean Live Desk v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+
+- Bounded implementation branch: `codex/alerts-clean-live-desk-v1-20260628`.
+- Starting branch: `codex/live-alerts-activation-v1-20260628`.
+- Starting commit: `c100071`.
+- Safety branch: `backup/pre-alerts-clean-live-desk-v1-20260628`.
+- CEO B product defects addressed: Alerts was too crowded, too section-heavy, too debug-like, right side was overloaded, Research Details repeated content, and the active Alerts navigation showed a confusing `00` badge.
+- Active Alerts renderer was preserved: `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `renderAlertsOperatorWorkspace()`.
+- The first screen now follows the approved hierarchy: compact Alerts header, Live Status / Activation Gate, Alerts Queue, Selected Alert, and one closed Alert Details drawer.
+- Alerts Queue is primary and compact. Blocked mode keeps `QQQ`, `NVDA`, `SPY`, `TSLA`, and `GLD` labeled as Demo Fallback rows. Future live candidates render only after same-origin `/api/live/alerts` returns verified or delayed candidates.
+- Selected Alert is now one clear card with ticker/setup, data mode, provider/source status, why ranked, missing gate, next required step, timestamp gate, options-chain gate, risk gate, and No External Action.
+- Activation Gate presents the current state as `Live-ready / Activation blocked`, with plain-language reasons: provider rights not confirmed, server credential missing, options-chain rights missing, no verified quote, no verified options chain, and demo fallback shown.
+- Gate Summary, Wait and Verify, Research Details, Advanced Research OS, Research Packet, Evidence Packet, Required Gates, and Source + Risk Notes are no longer large competing default sections; deep detail is inside the Alert Details drawer.
+- Refresh Status calls same-origin `/api/live/status`; Check Alerts calls same-origin `/api/live/alerts`; static-hosting failures degrade to `Local live server unavailable on static hosting` and keep Demo Fallback rows.
+- Navigation numbering confusion is fixed: visible sidebar route-number badges were removed, and the active item reads `Alerts Desk` without a `00` badge.
+- Browser QA passed for desktop Alerts routes, mobile smoke Alerts routes, required interactions, details drawer reachability, and required regression routes with no relevant console warnings/errors, no document-level horizontal overflow, one Starlight canvas, and no direct provider resources.
+- Baseline and after screenshots are under `/tmp/pickaxe-alerts-clean-live-desk-v1/`.
+- No live data, fake timestamp, direct browser provider request, exposed secret, broker/execution/payment/subscription/auth/alert-delivery behavior, new route, second Alerts renderer, new LocalStorage key, mobile redesign, profit guarantee, financial advice, trade recommendation, or `data/signal-alerts.json` edit was added.
+- `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- CEO B Clean Live Desk Review score: **992 / 1000**.
+
+Next bounded step: `CEO B local screenshot review of Pickaxe Alerts Clean Live Desk v1`.
+
+Do not push, merge, connect providers, add live data, begin Massive work, add broker/execution behavior, add alert delivery, add auth/payment/subscriptions, add routes, add storage keys, or begin mobile redesign unless CEO B separately authorizes it.
+
+## Previous Active Checkpoint - Pickaxe Live Alerts Activation v1
+
 Pickaxe Live Alerts Activation v1 is **LIVE READY / ACTIVATION BLOCKED**.
 
 - The active hosted baseline remains `Pickaxe Alerts Only Final Simplification Hosted Verification v1 - PASS / HOSTED QA VERIFIED`.

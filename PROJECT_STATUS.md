@@ -1,6 +1,48 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Live Alerts Activation v1
+## Current Checkpoint - Pickaxe Alerts Clean Live Desk v1
+
+- Date: 2026-06-28.
+- Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
+- Sprint type: bounded local Alerts product rescue on branch `codex/alerts-clean-live-desk-v1-20260628`. Push, merge, provider work, Massive work, live data, credential setup, direct browser provider request, broker/execution/payment/subscription/auth/alert-delivery behavior, new route, second Alerts renderer, new LocalStorage key, mobile redesign, profit guarantee, financial advice, trade recommendation, and `data/signal-alerts.json` edits were not authorized or added.
+- Starting branch: `codex/live-alerts-activation-v1-20260628`.
+- Starting commit: `c100071`.
+- Safety branch created: `backup/pre-alerts-clean-live-desk-v1-20260628`.
+- Work branch created: `codex/alerts-clean-live-desk-v1-20260628`.
+- CEO B complaint recorded: Alerts still felt crowded, section-heavy, visually confusing, too debug-like, right side overloaded, Research Details repeated content, and the active Alerts navigation showed a confusing `00` badge.
+- Active Alerts renderer preserved: `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `renderAlertsOperatorWorkspace()` in `public/app.js`; no duplicate Alerts page, route, packet model, review queue, or LocalStorage key was created.
+- First screen simplified into one clean command desk: compact Alerts header, Live Status / Activation Gate, Alerts Queue, Selected Alert, and one closed Alert Details drawer.
+- Visible crowded sections were removed or collapsed from the default view: Gate Summary, Wait and Verify, Research Details, Advanced Research OS, Research Packet, Evidence Packet, Required Gates, and Source + Risk Notes are no longer competing visible panels above the fold.
+- Alerts Queue remains primary and compact with `QQQ`, `NVDA`, `SPY`, `TSLA`, and `GLD` Demo Fallback rows while activation is blocked. Future server candidates render only when `/api/live/alerts` returns verified or delayed candidates.
+- Selected Alert is now one decision card showing ticker/setup, data mode, provider/source status, why ranked, missing gate, next required step, risk gate, timestamp gate, options-chain gate, and No External Action.
+- Activation Gate now presents the current blocked state as `Live-ready / Activation blocked`, with plain-language reasons: provider rights not confirmed, server credential missing, options-chain rights missing, no verified quote, no verified options chain, and demo fallback shown.
+- Refresh Status calls same-origin `/api/live/status`; Check Alerts calls same-origin `/api/live/alerts`. Static-hosting failures degrade to `Local live server unavailable on static hosting` with demo fallback retained. No direct Alpha Vantage, Massive, Tradier, Polygon, Databento, Intrinio, ORATS, Cboe, or OPRA browser call was added.
+- Alert Details drawer defaults closed and contains Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, Advanced Research OS, and Safety Boundary.
+- Navigation numbering confusion fixed: visible sidebar route-number badges were removed from the navigation, and the active item now reads `Alerts Desk` with no visible `00` badge.
+- Root/public mirrors were kept synchronized for `index.html`, `app.js`, and `styles.css`; asset cache keys were bumped to `alerts-clean-live-desk-v1-20260628-r1`.
+- Baseline screenshots were captured under `/tmp/pickaxe-alerts-clean-live-desk-v1/`: `baseline-root-1440x900.png`, `baseline-hash-alerts-1440x900.png`, `baseline-app-alerts-1440x900.png`, `baseline-root-1280x720.png`, and `baseline-app-alerts-390x844.png`.
+- After screenshots were captured under `/tmp/pickaxe-alerts-clean-live-desk-v1/`: `after-root-1440x900.png`, `after-hash-alerts-1440x900.png`, `after-app-alerts-1440x900.png`, `after-root-1280x720.png`, and `after-app-alerts-390x844.png`.
+- Browser interaction QA passed: Refresh Status, Check Alerts, QQQ/NVDA/SPY/TSLA/GLD selection, search, reset, Alert Details drawer open/close, and reachability of Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, Advanced Research OS, and Safety Boundary.
+- Local desktop browser QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`: correct Alerts view, nonblank content, no relevant console warnings/errors, no document-level horizontal overflow, one Starlight canvas, no direct provider resources, visible `Live-ready / Activation blocked`, visible `No verified timestamp`, compact queue, clear selected alert, visible activation gate, closed details drawer, and no `00` badge.
+- Local mobile smoke QA passed on `/app/alerts` and `/#/alerts` at `390x844`: correct Alerts view, nonblank content, five rows, no relevant console warnings/errors, no document-level overflow, one Starlight canvas, same safety/data boundaries, and no mobile redesign.
+- Local regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
+- Safety boundary preserved: Research Only, Not Financial Advice, No Broker Execution, No External Action, Demo Fallback while blocked, no verified quote unless actually verified, no verified options chain unless actually verified, and options-risk language remain visible or reachable.
+- Security/data-boundary QA passed: no fake live data, no fake timestamp, no direct browser provider request, no secret exposure, no broker/order/payment/subscription/auth/alert-delivery behavior, no profit guarantee, no financial advice, and no trade recommendation.
+- Validation passed: `node --check public/app.js`, `node --check app.js`, `node --check public/habitat-data.js`, `node --check habitat-data.js`, `node --check server.mjs`, `node --check lib/live-alerts-engine.mjs`, `node scripts/check-live-alerts.mjs`, `node --run build`, `node --run check:project`, `node --run check:phase15`, `node --run check:agents`, `node --run check:mirrors`, `node --run smoke:routes`, `node --run check:public-safety`, `node --run check:deploy-boundary`, `node --run check:routes`, `git diff --check`, and `git status --short --branch`.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- CEO B Clean Live Desk Review score: **992 / 1000**. Remaining issues: live provider activation remains blocked by provider/legal/credential gates, and mobile remains smoke-tested only.
+- Next bounded recommendation: `CEO B local screenshot review of Pickaxe Alerts Clean Live Desk v1`.
+
+### Pickaxe Alerts Clean Live Desk v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Live Alerts Activation v1
 
 - Date: 2026-06-28.
 - Result: **LIVE READY / ACTIVATION BLOCKED**.
