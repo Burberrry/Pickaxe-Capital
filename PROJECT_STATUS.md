@@ -1,6 +1,44 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Clean Live Desk Hosted Verification v1
+## Current Checkpoint - Pickaxe Private Local Massive QQQ Snapshot Proof v1
+
+- Date: 2026-06-28.
+- Result: **BLOCKED / LOCAL MASSIVE CREDENTIAL OR GATE MISSING**.
+- Sprint type: bounded private local Massive QQQ options snapshot proof and Alerts UI finish on branch `codex/private-local-massive-qqq-proof-v1-20260628`. No push, deploy, public display, browser provider request, backend production activation, broker/execution/payment/subscription/auth/alert-delivery behavior, new route, second Alerts renderer, LocalStorage key, packet model, review queue, autonomous publishing, profit guarantee, financial advice, trade recommendation, or `data/signal-alerts.json` change was authorized or added.
+- Starting `main` and `origin/main`: `06cfccfbd52308c28a25219d669f77c8ec37ab07`.
+- Safety branch created: `backup/pre-private-local-massive-qqq-proof-v1-20260628`.
+- Work branch created: `codex/private-local-massive-qqq-proof-v1-20260628`.
+- Vendor reply gate recorded in `docs/02_RESEARCH/PICKAXE_MASSIVE_VENDOR_RESPONSE_REVIEW_V1.md` from CEO B pasted confirmation only. The record is sanitized and local-repo safe: no secret values, raw provider response, account IDs, payment data, OPRA contract, order form, or private local paths are exposed.
+- Provider gate result: blocked locally. `.env.local` exists and remains ignored, but the required local Massive proof gates were absent during this run: live-services enablement, private local research mode, Massive proof provider mode, private local PoC confirmation, business/commercial approval, OPRA/display rights confirmation, server-only credential, options entitlement, QQQ expiration, and QQQ contract type.
+- Server-only proof path now supports a QQQ-only Massive options-chain request after the private local gates pass. It enforces server-side credential handling, private local research scope, public display disabled, no persistence cache, no browser provider request, no external action, QQQ-only ticker scope, required expiration/type inputs, and the exact attribution: `Live + historical market data: Massive.com. Used by Pickaxe Capital for internal/private research proof. No broker execution. Not financial advice.`
+- Because the local gates were absent, no live Massive provider request was made and no live option contract, quote, timestamp, Greek, flow, open interest, or volume number was accepted into the UI.
+- Local endpoint proof in the blocked environment passed: `/api/live/status` returned private local status `PRIVATE_LOCAL_CREDENTIAL_MISSING`; `/api/live/options-chain?ticker=QQQ&expiration=2026-06-26&contractType=call` returned `503` with `PRIVATE_LOCAL_CREDENTIAL_MISSING`, zero contracts, `publicDisplayEnabled: false`, and `browserProviderRequest: false`; `/api/live/alerts` remained blocked with labeled demo fallback rows.
+- The active Alerts renderer was preserved: `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `renderAlertsOperatorWorkspace()` in `public/app.js`. No duplicate Alerts page or route was created.
+- Alerts first screen keeps the approved hierarchy: Live Status / Activation Gate, Alerts Queue, Selected Alert, and closed Alert Details drawer. The visible status strip now includes Private Local Research, Server-Only Massive Proof, No Public Display, No Browser Provider Call, Research Only, Not Financial Advice, No Broker Execution, and No External Action.
+- The Alert Details drawer now includes the drawer-only `Exact Contract Panel` with Contract Identity, Flow Tape, Source Stack, Catalyst Box, and Risk Gate sections. In the blocked environment those sections show source-required/blocked placeholders rather than fake provider values.
+- Browser safety QA passed locally on `http://localhost:4331/`, `http://localhost:4331/#/alerts`, and `http://localhost:4331/app/alerts` at `1440x900`, `1280x720`, and `390x844`: correct Alerts view, clean premium layout, no relevant console errors, no document-level horizontal overflow, active Alerts nav without visible `00`, no provider browser resources, one visible Starlight canvas, Exact Contract Panel hidden until the drawer opens, and required safety language visible or reachable.
+- Browser screenshots were captured under `/tmp/pickaxe-private-local-massive-qqq-proof-v1/`: `root-1440.png`, `hash-alerts-1440.png`, `app-alerts-1440.png`, `app-alerts-1280.png`, `app-alerts-mobile.png`, and `app-alerts-details-open-1440.png`.
+- Validation passed with JavaScript syntax checks, `node scripts/check-live-alerts.mjs`, `node scripts/check-options-chain.mjs`, required package checks, mirror checks, smoke route checks, public-safety/deploy-boundary/route checks, `git diff --check`, and git status.
+- Root/public mirrors were kept synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Remaining blocker: CEO B must add/confirm the local-only Massive credential and private proof gates in ignored `.env.local`, then rerun the private local proof. Until then, the site must stay in blocked/demo fallback mode.
+- Next bounded recommendation: `CEO B add local Massive credential and rerun private local proof`.
+
+### Pickaxe Private Local Massive QQQ Snapshot Proof v1 Files Changed
+
+- `server.mjs`
+- `lib/live-alerts-engine.mjs`
+- `lib/massive-options-chain.mjs`
+- `scripts/check-live-alerts.mjs`
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `public/habitat-data.js` and `habitat-data.js`
+- `docs/02_RESEARCH/PICKAXE_MASSIVE_VENDOR_RESPONSE_REVIEW_V1.md`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Clean Live Desk Hosted Verification v1
 
 - Date: 2026-06-28.
 - Result: **PASS / HOSTED QA VERIFIED**.

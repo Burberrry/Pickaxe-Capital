@@ -2,6 +2,29 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Private Local Massive QQQ Snapshot Proof v1 is **BLOCKED / LOCAL MASSIVE CREDENTIAL OR GATE MISSING**.
+
+- Bounded local proof branch: `codex/private-local-massive-qqq-proof-v1-20260628`.
+- Safety branch: `backup/pre-private-local-massive-qqq-proof-v1-20260628`.
+- Starting `main` and `origin/main`: `06cfccfbd52308c28a25219d669f77c8ec37ab07`.
+- The Massive vendor reply gate was recorded in the sanitized local review doc `docs/02_RESEARCH/PICKAXE_MASSIVE_VENDOR_RESPONSE_REVIEW_V1.md`; it contains no secrets, raw provider payloads, account IDs, payment data, OPRA contract, order form, or private local paths.
+- Server-only private proof support now exists for a gated `QQQ` Massive options-chain snapshot with private local research scope, public display disabled, no persistence cache, no browser provider call, no external action, required expiration/type inputs, and exact Massive attribution.
+- Local proof remains blocked because the ignored local env gates were absent during this run: live-services enablement, private local research mode, Massive proof provider mode, private PoC confirmation, business/commercial approval, OPRA/display rights confirmation, server-only credential, options entitlement, QQQ expiration, and QQQ contract type.
+- No live Massive provider request was made. No live contract, quote, timestamp, Greek, flow, open interest, volume, or live alert candidate was accepted.
+- Local endpoints failed safely: `/api/live/status` reported `PRIVATE_LOCAL_CREDENTIAL_MISSING`; `/api/live/options-chain` returned `503` with zero contracts, `publicDisplayEnabled: false`, and `browserProviderRequest: false`; `/api/live/alerts` stayed blocked with labeled demo fallback rows.
+- The active Alerts renderer remains the only Alerts page. The first screen keeps Live Status / Activation Gate, Alerts Queue, Selected Alert, and closed Alert Details drawer.
+- The drawer-only `Exact Contract Panel` now exists with Contract Identity, Flow Tape, Source Stack, Catalyst Box, and Risk Gate. In blocked mode it shows source-required placeholders, not fake provider data.
+- Browser QA passed locally at desktop and `390x844`: correct Alerts route, clean premium hierarchy, no relevant console errors, no document-level horizontal overflow, no provider browser resources, no fake live state, active Alerts nav without visible `00`, and the exact-contract panel hidden until the drawer opens.
+- Screenshots are under `/tmp/pickaxe-private-local-massive-qqq-proof-v1/`.
+- Validation passed with JavaScript syntax checks, live-alerts/options-chain checks, required package checks, mirror checks, smoke route checks, public-safety/deploy-boundary/route checks, `git diff --check`, and git status.
+- `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+
+Next bounded step: `CEO B add local Massive credential and rerun private local proof`.
+
+Do not push, deploy, enable public display, paste API keys into chat, put API keys in GitHub, add browser provider calls, connect broker/execution behavior, add alert delivery, auth, payment, subscriptions, routes, storage keys, packet models, review queues, or public live data.
+
+## Previous Active Checkpoint - Pickaxe Alerts Clean Live Desk Hosted Verification v1
+
 Pickaxe Alerts Clean Live Desk Hosted Verification v1 is **PASS / HOSTED QA VERIFIED**.
 
 - Local implementation commit `504a9fa773e8bcf5457fdbd3a92cf61ccb08dae3` (`Simplify live Alerts desk experience`) was fast-forward merged from `codex/alerts-clean-live-desk-v1-20260628` into `main` and pushed to `origin/main`; no merge commit was created.

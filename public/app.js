@@ -70,7 +70,7 @@ const RESEARCH_APPROVAL_LABEL = "Approved for Research — Not a Trade Command";
 const RESEARCH_CARD_DISCLAIMER =
   "Research only. Not financial advice. No broker execution. Options involve substantial risk. User judgment required.";
 const INTELLIGENCE_CORE_DATA_MODES = ["DEMO", "MANUAL", "DELAYED", "LIVE", "STALE", "UNAVAILABLE", "ERROR"];
-const LIVE_ALERTS_DATA_MODES = ["LIVE_VERIFIED", "DELAYED_VERIFIED", "STALE", "SOURCE_REQUIRED", "PROVIDER_UNAVAILABLE", "CREDENTIAL_MISSING", "LEGAL_BLOCKED", "DEMO_FALLBACK"];
+const LIVE_ALERTS_DATA_MODES = ["LIVE_VERIFIED", "DELAYED_VERIFIED", "PRIVATE_LOCAL_MASSIVE_VERIFIED", "PRIVATE_LOCAL_MASSIVE_DELAYED_VERIFIED", "PRIVATE_LOCAL_MASSIVE_BLOCKED", "PRIVATE_LOCAL_CREDENTIAL_MISSING", "PRIVATE_LOCAL_RIGHTS_MISSING", "PRIVATE_LOCAL_STALE", "STALE", "SOURCE_REQUIRED", "PROVIDER_UNAVAILABLE", "CREDENTIAL_MISSING", "LEGAL_BLOCKED", "DEMO_FALLBACK"];
 const INTELLIGENCE_CORE_DISCLAIMER =
   "Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · Demo/Static Data · Options involve substantial risk.";
 const INTELLIGENCE_CORE_CANDIDATES = [
@@ -1243,6 +1243,11 @@ function setView(view) {
   }
   const sidebarMoreTools = document.querySelector("#sidebarMoreTools");
   if (sidebarMoreTools) setSidebarMoreToolsOpen(Boolean(sidebarMoreTools.querySelector(".nav-button.active")));
+  const activeNav = document.querySelector(".nav-button.active");
+  const activeNavShell = activeNav?.closest(".nav.sidebar-shell");
+  if (view === "alerts" && activeNav && activeNavShell && window.matchMedia("(max-width: 760px)").matches) {
+    window.requestAnimationFrame(() => activeNav.scrollIntoView({ block: "nearest", inline: "nearest" }));
+  }
   const titles = {
     command: "Command Console",
     signals: "Signals Lab",
@@ -9928,6 +9933,21 @@ function getDefaultLiveAlertsStatus() {
     lastVerifiedAt: null,
     proxyReceivedAt: null,
     freshnessState: "UNAVAILABLE",
+    privateLocalMassive: {
+      provider: "Massive",
+      ticker: "QQQ",
+      statusMode: "PRIVATE_LOCAL_MASSIVE_BLOCKED",
+      ready: false,
+      publicDisplayEnabled: false,
+      browserProviderRequest: false,
+      cacheMode: "disabled",
+      entitlement: "unconfirmed",
+      expiration: null,
+      contractType: null,
+      proofScope: "QQQ only, one expiration, one contract type, max 50 contracts, no polling, no persistence",
+      attribution: "Options data provided by Massive. Real-time quotes face exchange-specific licensing requirements. Delayed data delayed by at least 15 minutes. All insights are for research and educational purposes only; Pickaxe Capital does not provide brokerage, execution, or investment advisory services.",
+      missingGates: [],
+    },
     missingGates: [
       { label: "Quote provider commercial-use approval", required: "PICKAXE_ALPHA_VANTAGE_COMMERCIAL_USE_APPROVED=true", mode: "LEGAL_BLOCKED", status: "MISSING" },
       { label: "Quote server-only credential", required: "PICKAXE_ALPHA_VANTAGE_API_KEY", mode: "CREDENTIAL_MISSING", status: "MISSING" },
@@ -9943,6 +9963,9 @@ function getDefaultLiveAlertsStatus() {
 function normalizeLiveAlertsStatus(payload = {}) {
   const fallback = getDefaultLiveAlertsStatus();
   const dataMode = LIVE_ALERTS_DATA_MODES.includes(payload.dataMode) ? payload.dataMode : fallback.dataMode;
+  const privatePayload = payload.privateLocalMassive && typeof payload.privateLocalMassive === "object" ? payload.privateLocalMassive : {};
+  const privateFallback = fallback.privateLocalMassive;
+  const privateStatusMode = LIVE_ALERTS_DATA_MODES.includes(privatePayload.statusMode) ? privatePayload.statusMode : privateFallback.statusMode;
   return {
     ...fallback,
     ...payload,
@@ -9963,6 +9986,28 @@ function normalizeLiveAlertsStatus(payload = {}) {
     })) : fallback.missingGates,
     endpoints: Array.isArray(payload.endpoints) ? payload.endpoints.slice(0, 6) : fallback.endpoints,
     nextAction: String(payload.nextAction || fallback.nextAction).slice(0, 220),
+    privateLocalMassive: {
+      ...privateFallback,
+      ...privatePayload,
+      statusMode: privateStatusMode,
+      ready: privatePayload.ready === true,
+      publicDisplayEnabled: privatePayload.publicDisplayEnabled === true,
+      browserProviderRequest: privatePayload.browserProviderRequest === true,
+      provider: String(privatePayload.provider || privateFallback.provider).slice(0, 40),
+      ticker: String(privatePayload.ticker || privateFallback.ticker).slice(0, 12),
+      cacheMode: String(privatePayload.cacheMode || privateFallback.cacheMode).slice(0, 40),
+      entitlement: String(privatePayload.entitlement || privateFallback.entitlement).slice(0, 40),
+      expiration: privatePayload.expiration || null,
+      contractType: privatePayload.contractType || null,
+      proofScope: String(privatePayload.proofScope || privateFallback.proofScope).slice(0, 160),
+      attribution: String(privatePayload.attribution || privateFallback.attribution).slice(0, 420),
+      missingGates: Array.isArray(privatePayload.missingGates) ? privatePayload.missingGates.slice(0, 12).map((gate) => ({
+        label: String(gate.label || "Private local Massive gate").slice(0, 90),
+        required: String(gate.required || "Local configuration required").slice(0, 120),
+        mode: LIVE_ALERTS_DATA_MODES.includes(gate.mode) ? gate.mode : "SOURCE_REQUIRED",
+        status: String(gate.status || "MISSING").slice(0, 30),
+      })) : privateFallback.missingGates,
+    },
   };
 }
 
@@ -9971,7 +10016,7 @@ function getAlertsLiveStatus() {
 }
 
 function canUseServerAlertCandidates(status = getAlertsLiveStatus()) {
-  return status.activationBlocked === false && ["LIVE_VERIFIED", "DELAYED_VERIFIED"].includes(status.dataMode);
+  return status.activationBlocked === false && ["LIVE_VERIFIED", "DELAYED_VERIFIED", "PRIVATE_LOCAL_MASSIVE_VERIFIED", "PRIVATE_LOCAL_MASSIVE_DELAYED_VERIFIED"].includes(status.dataMode);
 }
 
 function normalizeLiveAlertsPayload(payload = {}) {
@@ -10054,7 +10099,7 @@ function checkLiveAlertsCandidates({ renderOnComplete = true } = {}) {
       }
       const normalized = normalizeLiveAlertsPayload(payload);
       const hasVerifiedCandidates = !normalized.activationBlocked
-        && ["LIVE_VERIFIED", "DELAYED_VERIFIED"].includes(normalized.dataMode)
+        && ["LIVE_VERIFIED", "DELAYED_VERIFIED", "PRIVATE_LOCAL_MASSIVE_VERIFIED", "PRIVATE_LOCAL_MASSIVE_DELAYED_VERIFIED"].includes(normalized.dataMode)
         && normalized.candidates.length;
       state.liveAlertsPayload = hasVerifiedCandidates ? normalized : null;
       state.liveAlertsStatusFetchState = response.ok ? "loaded" : "blocked";
@@ -10078,6 +10123,12 @@ function formatAlertsLiveModeLabel(mode = "") {
   const labels = {
     LIVE_VERIFIED: "Live Verified",
     DELAYED_VERIFIED: "Delayed Verified",
+    PRIVATE_LOCAL_MASSIVE_VERIFIED: "Private Local Massive Verified",
+    PRIVATE_LOCAL_MASSIVE_DELAYED_VERIFIED: "Private Local Massive Delayed",
+    PRIVATE_LOCAL_MASSIVE_BLOCKED: "Private Local Massive Blocked",
+    PRIVATE_LOCAL_CREDENTIAL_MISSING: "Private Local Credential Missing",
+    PRIVATE_LOCAL_RIGHTS_MISSING: "Private Local Rights Missing",
+    PRIVATE_LOCAL_STALE: "Private Local Stale",
     STALE: "Stale",
     SOURCE_REQUIRED: "Source Required",
     PROVIDER_UNAVAILABLE: "Provider Unavailable",
@@ -10089,13 +10140,17 @@ function formatAlertsLiveModeLabel(mode = "") {
 }
 
 function getAlertsLiveModeTone(mode = "") {
-  if (mode === "LIVE_VERIFIED" || mode === "DELAYED_VERIFIED") return "is-live-ready";
-  if (mode === "STALE" || mode === "SOURCE_REQUIRED" || mode === "DEMO_FALLBACK") return "is-source-required";
+  if (mode === "LIVE_VERIFIED" || mode === "DELAYED_VERIFIED" || mode === "PRIVATE_LOCAL_MASSIVE_VERIFIED" || mode === "PRIVATE_LOCAL_MASSIVE_DELAYED_VERIFIED") return "is-live-ready";
+  if (mode === "STALE" || mode === "PRIVATE_LOCAL_STALE" || mode === "SOURCE_REQUIRED" || mode === "DEMO_FALLBACK") return "is-source-required";
   return "is-live-blocked";
 }
 
 function getAlertsLiveTimestampLabel(status = getAlertsLiveStatus()) {
   return status.lastVerifiedAt || "No verified timestamp";
+}
+
+function getAlertsCandidateVerifiedTimestamp(liveAlert = {}, status = getAlertsLiveStatus()) {
+  return liveAlert.latestVerifiedQuoteTimestamp || liveAlert.latestVerifiedOptionsTimestamp || getAlertsLiveTimestampLabel(status);
 }
 
 function getAlertsLiveMissingGatesSummary(status = getAlertsLiveStatus(), maximum = 2) {
@@ -10107,6 +10162,12 @@ function getAlertsLiveMissingGatesSummary(status = getAlertsLiveStatus(), maximu
 function getAlertsLiveActivationDetail(status = getAlertsLiveStatus()) {
   if (status.dataMode === "LIVE_VERIFIED") return "Verified provider snapshot received through server endpoint.";
   if (status.dataMode === "DELAYED_VERIFIED") return "Delayed provider snapshot received through server endpoint.";
+  if (status.dataMode === "PRIVATE_LOCAL_MASSIVE_VERIFIED") return "Private Local Research snapshot received through server-only Massive proof. No public display or external action is enabled.";
+  if (status.dataMode === "PRIVATE_LOCAL_MASSIVE_DELAYED_VERIFIED") return "Private Local Research delayed snapshot received through server-only Massive proof. Delayed data delayed by at least 15 minutes.";
+  if (status.dataMode === "PRIVATE_LOCAL_MASSIVE_BLOCKED") return "Private Local Massive proof is blocked before any provider request.";
+  if (status.dataMode === "PRIVATE_LOCAL_CREDENTIAL_MISSING") return "Private Local Massive proof is blocked because the server-only credential is missing.";
+  if (status.dataMode === "PRIVATE_LOCAL_RIGHTS_MISSING") return "Private Local Massive proof is blocked because required private/local rights gates are missing.";
+  if (status.dataMode === "PRIVATE_LOCAL_STALE") return "Private Local Massive proof returned stale data; manual review required.";
   if (status.dataMode === "STALE") return "Last provider snapshot exists but is stale.";
   if (status.dataMode === "CREDENTIAL_MISSING") return "Server-only provider credential is missing.";
   if (status.dataMode === "LEGAL_BLOCKED") return "Provider commercial/OPRA rights are not confirmed.";
@@ -10122,7 +10183,10 @@ function getAlertsActivationGateLabel(status = getAlertsLiveStatus()) {
 function getAlertsActivationSummary(status = getAlertsLiveStatus()) {
   if (!status.activationBlocked && status.dataMode === "LIVE_VERIFIED") return "Live Verified";
   if (!status.activationBlocked && status.dataMode === "DELAYED_VERIFIED") return "Delayed Verified";
+  if (!status.activationBlocked && status.dataMode === "PRIVATE_LOCAL_MASSIVE_VERIFIED") return "Private local Massive proof verified";
+  if (!status.activationBlocked && status.dataMode === "PRIVATE_LOCAL_MASSIVE_DELAYED_VERIFIED") return "Private local Massive delayed proof verified";
   if (status.dataMode === "STALE") return "Stale";
+  if (status.dataMode === "PRIVATE_LOCAL_STALE") return "Private local stale";
   if (state.liveAlertsStatusFetchState === "unavailable") return "Local live server unavailable on static hosting";
   return "Live-ready / Activation blocked";
 }
@@ -10130,7 +10194,12 @@ function getAlertsActivationSummary(status = getAlertsLiveStatus()) {
 function getAlertsActivationReasons(status = getAlertsLiveStatus()) {
   if (!status.activationBlocked && status.dataMode === "LIVE_VERIFIED") return ["Verified quote received through the server.", "Verified options chain received through the server.", "CEO B review and risk controls still apply."];
   if (!status.activationBlocked && status.dataMode === "DELAYED_VERIFIED") return ["Delayed quote received through the server.", "Delayed options chain received through the server.", "CEO B review and risk controls still apply."];
+  if (!status.activationBlocked && status.dataMode === "PRIVATE_LOCAL_MASSIVE_VERIFIED") return ["Server-only Massive QQQ snapshot verified.", "No public display is enabled.", "No External Action; CEO B review still applies."];
+  if (!status.activationBlocked && status.dataMode === "PRIVATE_LOCAL_MASSIVE_DELAYED_VERIFIED") return ["Server-only Massive QQQ delayed snapshot verified.", "Delayed data delayed by at least 15 minutes.", "No Public Display and No External Action remain active."];
   if (state.liveAlertsStatusFetchState === "unavailable") return ["Local live server unavailable on static hosting.", "No browser provider call was made.", "Demo fallback shown."];
+  if (status.privateLocalMassive?.missingGates?.length) {
+    return status.privateLocalMassive.missingGates.slice(0, 6).map((gate) => gate.label);
+  }
   return [
     "Provider rights not confirmed",
     "Server credential missing",
@@ -10145,7 +10214,7 @@ function getLiveAlertCandidatePool() {
   const status = getAlertsLiveStatus();
   const payload = state.liveAlertsPayload;
   if (!payload || payload.activationBlocked || !Array.isArray(payload.candidates) || !payload.candidates.length) return [];
-  if (!["LIVE_VERIFIED", "DELAYED_VERIFIED"].includes(payload.dataMode)) return [];
+  if (!["LIVE_VERIFIED", "DELAYED_VERIFIED", "PRIVATE_LOCAL_MASSIVE_VERIFIED", "PRIVATE_LOCAL_MASSIVE_DELAYED_VERIFIED"].includes(payload.dataMode)) return [];
   return payload.candidates.map((serverCandidate, index) => {
     const fallback = INTELLIGENCE_CORE_CANDIDATES.find((item) => item.ticker === serverCandidate.ticker) || INTELLIGENCE_CORE_CANDIDATES[index] || INTELLIGENCE_CORE_CANDIDATES[0];
     const readiness = Math.max(0, Math.min(100, Number(serverCandidate.researchReadiness || fallback.confidence || 50)));
@@ -10159,7 +10228,8 @@ function getLiveAlertCandidatePool() {
       entryTrigger: serverCandidate.whyRanked || fallback.entryTrigger,
       invalidation: serverCandidate.invalidation || fallback.invalidation,
       confidence: readiness,
-      sourceTimestamp: serverCandidate.latestVerifiedQuoteTimestamp || getAlertsLiveTimestampLabel(status),
+      sourceTimestamp: getAlertsCandidateVerifiedTimestamp(serverCandidate, status),
+      optionsTimestamp: serverCandidate.latestVerifiedOptionsTimestamp || "",
       dataQuality: formatAlertsLiveModeLabel(serverCandidate.dataMode || payload.dataMode),
       ceoBNote: serverCandidate.whyRanked || fallback.ceoBNote,
       scores: {
@@ -10362,7 +10432,7 @@ function getAlertsFeedRows(sourceStatus) {
       type: getAlertsDirectionLabel(item),
       setup: item.setupType,
       alert: item.setupType,
-      time: liveAlert.latestVerifiedQuoteTimestamp || getAlertsLiveTimestampLabel(liveStatus),
+      time: getAlertsCandidateVerifiedTimestamp(liveAlert, liveStatus),
       expiration: liveAlert.optionsContext ? "Provider Snapshot" : "Source Required",
       strike: liveAlert.optionsContext || "Source Required",
       readiness: `${itemScore.total}/100`,
@@ -10430,6 +10500,13 @@ function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
   const actionBoundaryLabel = formatAlertsActionBoundary(decisionState.actionBoundary);
   const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   const liveModeLabel = formatAlertsLiveModeLabel(liveStatus.dataMode);
+  const privateProof = liveStatus.privateLocalMassive || getDefaultLiveAlertsStatus().privateLocalMassive;
+  const localProofConnected = Boolean(state.liveAlertsStatus && state.liveAlertsStatusFetchState !== "unavailable");
+  const privateProofLabel = !localProofConnected
+    ? "Local Server Required"
+    : privateProof.ready
+    ? formatAlertsLiveModeLabel(privateProof.statusMode)
+    : formatAlertsLiveModeLabel(privateProof.statusMode || "PRIVATE_LOCAL_MASSIVE_BLOCKED");
   const activationSummary = getAlertsActivationSummary(liveStatus);
   const statusTone = getAlertsLiveModeTone(liveStatus.dataMode);
   const providerGate = state.liveAlertsStatusFetchState === "unavailable"
@@ -10452,7 +10529,7 @@ function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
       </div>
       <div class="alerts-feed-truth" aria-label="Alerts Desk truth strip">
         <span><em>Data Mode</em><strong>${escapeHtml(liveModeLabel)}</strong></span>
-        <span><em>Provider Gate</em><strong>${escapeHtml(providerGate)}</strong></span>
+        <span><em>Private Local Proof</em><strong>${escapeHtml(privateProofLabel)}</strong></span>
         <span><em>Last Verified</em><strong>${escapeHtml(getAlertsLiveTimestampLabel(liveStatus))}</strong></span>
         <span><em>Action Boundary</em><strong>${escapeHtml(actionBoundaryLabel)}</strong></span>
       </div>
@@ -10460,7 +10537,7 @@ function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
         <button type="button" onclick="window.refreshAlertsLiveStatus()">Refresh Status</button>
         <button type="button" onclick="window.checkAlertsLiveCandidates()">Check Alerts</button>
       </div>
-      <p class="alerts-feed-boundary">${escapeHtml(getAlertsLiveActivationDetail(liveStatus))} Research Only · CEO B Review · Not Financial Advice · No Broker Execution · No External Action · Options involve substantial risk.</p>
+      <p class="alerts-feed-boundary">${escapeHtml(getAlertsLiveActivationDetail(liveStatus))} ${escapeHtml(providerGate)} · Private Local Research · Server-Only Massive Proof · No Public Display · No Browser Provider Call · Research Only · Not Financial Advice · No Broker Execution · No External Action · Options involve substantial risk.</p>
     </section>
   `;
 }
@@ -10588,7 +10665,8 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
     ["Research Readiness", `${score.total}/100 · ${score.classification}`],
     ["Data Mode", formatAlertsLiveModeLabel(liveStatus.dataMode)],
     ["Source Provider", liveAlert.sourceProvider || sourceStatus.activeProvider.name],
-    ["Latest Verified Quote", liveAlert.latestVerifiedQuoteTimestamp || getAlertsLiveTimestampLabel(liveStatus)],
+    ["Latest Verified Quote", liveAlert.latestVerifiedQuoteTimestamp || "Source Required"],
+    ["Latest Verified Options", liveAlert.latestVerifiedOptionsTimestamp || getAlertsLiveTimestampLabel(liveStatus)],
     ["Source Gate", liveStatus.activationBlocked ? getAlertsLiveMissingGatesSummary(liveStatus, 2) : "Server snapshot verified"],
     ["Options Quality", candidate.options?.grade || "Not Evaluated"],
     ["Risk Gate", failedGatesHas(decisionState, "Risk Gate") ? "BLOCKED" : "PASS"],
@@ -10646,7 +10724,7 @@ function renderAlertsQuickReview(candidate, score, sourceStatus, decisionState) 
   const quickReviewFields = [
     ["Data Mode", formatAlertsLiveModeLabel(liveStatus.dataMode), getAlertsLiveModeTone(liveStatus.dataMode)],
     ["Source Provider", liveAlert.sourceProvider || sourceStatus.activeProvider.name, getAlertsLiveModeTone(liveStatus.dataMode)],
-    ["Last Verified", liveAlert.latestVerifiedQuoteTimestamp || getAlertsLiveTimestampLabel(liveStatus), "is-source-required"],
+    ["Last Verified", getAlertsCandidateVerifiedTimestamp(liveAlert, liveStatus), "is-source-required"],
     ["Source Gate", liveStatus.activationBlocked ? getAlertsLiveMissingGatesSummary(liveStatus, 2) : "Server snapshot verified", "is-source-required"],
     ["Timestamp Gate", getAlertsLiveTimestampLabel(liveStatus), "is-source-required"],
     ["Options-Chain Gate", liveStatus.optionsChainStatus, "is-source-required"],
@@ -10897,7 +10975,7 @@ function renderAlertsResearchPacket(candidate, score, sourceStatus, decisionStat
           <header><span>Source Gate</span></header>
           <dl>
             <div class="is-risk"><dt>Provider Status</dt><dd>${escapeHtml(liveStatus.providerStatus)}</dd></div>
-            <div class="is-warning"><dt>Last Verified</dt><dd>${escapeHtml(liveAlert.latestVerifiedQuoteTimestamp || getAlertsLiveTimestampLabel(liveStatus))}</dd></div>
+            <div class="is-warning"><dt>Last Verified</dt><dd>${escapeHtml(getAlertsCandidateVerifiedTimestamp(liveAlert, liveStatus))}</dd></div>
             <div class="is-risk"><dt>Options Chain</dt><dd>${escapeHtml(liveStatus.optionsChainStatus)}</dd></div>
             <div class="is-risk"><dt>Missing Evidence</dt><dd>${escapeHtml(missingEvidenceSummary)}</dd></div>
             <div><dt>Next Requirement</dt><dd>${escapeHtml(getAlertsNextRequirementSummary(decisionState.nextRequirement))}</dd></div>
@@ -11055,6 +11133,96 @@ function renderAlertsEvidencePacket(candidate, sourceStatus, decisionState) {
   `;
 }
 
+function formatExactContractValue(value, fallback = "Blocked / Source Required") {
+  if (value === null || value === undefined || value === "") return fallback;
+  if (typeof value === "number") return Number.isInteger(value) ? String(value) : String(Number(value.toFixed(4)));
+  return String(value);
+}
+
+function renderExactContractSection(title, rows) {
+  return `
+    <article>
+      <header><span>${escapeHtml(title)}</span></header>
+      <dl>
+        ${rows.map(([label, value, tone]) => `
+          <div class="${escapeHtml(tone || "")}">
+            <dt>${escapeHtml(label)}</dt>
+            <dd>${escapeHtml(formatExactContractValue(value))}</dd>
+          </div>
+        `).join("")}
+      </dl>
+    </article>
+  `;
+}
+
+function renderAlertsExactContractPanel(candidate, sourceStatus, decisionState) {
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
+  const privateProof = liveStatus.privateLocalMassive || getDefaultLiveAlertsStatus().privateLocalMassive;
+  const exact = candidate.liveAlert?.exactContract || null;
+  const hasServerContract = Boolean(exact && ["PRIVATE_LOCAL_MASSIVE_VERIFIED", "PRIVATE_LOCAL_MASSIVE_DELAYED_VERIFIED", "PRIVATE_LOCAL_STALE"].includes(candidate.liveAlert?.dataMode));
+  const localProofConnected = Boolean(state.liveAlertsStatus && state.liveAlertsStatusFetchState !== "unavailable");
+  const privateStatus = hasServerContract
+    ? formatAlertsLiveModeLabel(candidate.liveAlert.dataMode)
+    : localProofConnected
+      ? formatAlertsLiveModeLabel(privateProof.statusMode || liveStatus.dataMode)
+      : "Local Server Required";
+  const attribution = hasServerContract ? exact.attribution : privateProof.attribution;
+  const blocked = "Blocked / Source Required";
+  return `
+    <section class="alerts-exact-contract-panel alerts-evidence-panel" aria-label="Exact Contract Panel">
+      <header>
+        <span>Exact Contract Panel</span>
+        <small>Private Local Research · Server-Only Massive Proof · No Public Display</small>
+      </header>
+      <div class="alerts-exact-contract-status">
+        <strong>${escapeHtml(privateStatus)}</strong>
+        <span>No Browser Provider Call</span>
+        <span>No External Action</span>
+        <span>${escapeHtml(privateProof.publicDisplayEnabled ? "Public display blocked" : "No Public Display")}</span>
+      </div>
+      <div class="alerts-operator-columns alerts-exact-contract-grid">
+        ${renderExactContractSection("Contract Identity", [
+          ["Ticker", hasServerContract ? exact.ticker : candidate.ticker],
+          ["Expiration", hasServerContract ? exact.expiration : blocked],
+          ["Strike", hasServerContract ? exact.strike : blocked],
+          ["Call / Put", hasServerContract ? exact.type : blocked],
+          ["Flow Type", hasServerContract ? exact.flowType : "Private local proof only"],
+          ["Side", hasServerContract ? exact.side : blocked],
+        ])}
+        ${renderExactContractSection("Flow Tape", [
+          ["Volume", hasServerContract ? exact.volume : blocked],
+          ["Open Interest", hasServerContract ? exact.openInterest : blocked],
+          ["Volume / OI", hasServerContract ? exact.volumeOiRatio : blocked],
+          ["Source Count", hasServerContract ? exact.sourceCount : blocked],
+          ["Premium Estimate", hasServerContract ? exact.premiumEstimate : blocked],
+        ])}
+        ${renderExactContractSection("Source Stack", [
+          ["Provider", "Massive"],
+          ["OPRA / Display Gate", hasServerContract ? exact.opraDisplayGate : "Private/local rights gate required", "is-risk"],
+          ["Timestamp Gate", hasServerContract ? exact.timestampGate : "No verified timestamp", "is-warning"],
+          ["Freshness Gate", hasServerContract ? exact.freshnessGate : liveStatus.freshnessState, "is-warning"],
+          ["Private Local Status", privateStatus],
+          ["Attribution", attribution],
+        ])}
+        ${renderExactContractSection("Catalyst Box", [
+          ["Earnings", "Source required"],
+          ["Fed / CPI", "Source required"],
+          ["News / Product / Sector", hasServerContract ? exact.catalyst : "Source required"],
+          ["Catalyst State", "Source-required if unknown"],
+        ])}
+        ${renderExactContractSection("Risk Gate", [
+          ["Spread", hasServerContract ? exact.spread : blocked, "is-warning"],
+          ["Liquidity", hasServerContract ? exact.liquidity : blocked, "is-warning"],
+          ["Stale Timestamp", hasServerContract ? exact.staleTimestamp : "No verified timestamp", "is-risk"],
+          ["Missing Rights", hasServerContract ? exact.missingRights : getAlertsLiveMissingGatesSummary(liveStatus, 2), "is-risk"],
+          ["Action Boundary", decisionState.actionBoundary || "NO EXTERNAL ACTION"],
+        ])}
+      </div>
+      <p class="alerts-exact-contract-footnote">Exact contract values stay drawer-only and local-server-bound. Public hosted Alerts remains static/demo fallback unless CEO B separately approves a compliant production display path.</p>
+    </section>
+  `;
+}
+
 function renderAlertsDetailsDrawer(candidate, score, sourceStatus, decisionState, requiredGateSummary, advancedResearchMarkup = "") {
   return `
     <details
@@ -11068,6 +11236,7 @@ function renderAlertsDetailsDrawer(candidate, score, sourceStatus, decisionState
         <small>Deep packet, evidence, gate, source, risk, and safety material</small>
       </summary>
       <div class="alerts-details-drawer-body">
+        ${renderAlertsExactContractPanel(candidate, sourceStatus, decisionState)}
         ${renderAlertsResearchPacket(candidate, score, sourceStatus, decisionState)}
         ${renderAlertsEvidencePacket(candidate, sourceStatus, decisionState)}
         ${renderAlertsRequiredGates(requiredGateSummary)}
@@ -11541,12 +11710,19 @@ function requestPlaceholderProvider(providerId, dataType, context = {}) {
 function getSourceStatus() {
   const evaluatedAt = new Date().toISOString();
   const liveAlertsStatus = getAlertsLiveStatus();
-  const isVerifiedLiveMode = liveAlertsStatus.dataMode === "LIVE_VERIFIED" || liveAlertsStatus.dataMode === "DELAYED_VERIFIED";
+  const isVerifiedLiveMode = liveAlertsStatus.dataMode === "LIVE_VERIFIED"
+    || liveAlertsStatus.dataMode === "DELAYED_VERIFIED"
+    || liveAlertsStatus.dataMode === "PRIVATE_LOCAL_MASSIVE_VERIFIED"
+    || liveAlertsStatus.dataMode === "PRIVATE_LOCAL_MASSIVE_DELAYED_VERIFIED";
   const providerMode = liveAlertsStatus.dataMode === "LIVE_VERIFIED"
     ? "LIVE"
     : liveAlertsStatus.dataMode === "DELAYED_VERIFIED"
       ? "DELAYED"
-      : "UNAVAILABLE";
+      : liveAlertsStatus.dataMode === "PRIVATE_LOCAL_MASSIVE_VERIFIED"
+        ? "LIVE"
+        : liveAlertsStatus.dataMode === "PRIVATE_LOCAL_MASSIVE_DELAYED_VERIFIED"
+          ? "DELAYED"
+          : "UNAVAILABLE";
   const snapshots = {
     quote: getQuote("QQQ"),
     optionsChain: getOptionsChain("QQQ"),
@@ -11571,7 +11747,11 @@ function getSourceStatus() {
     activeProviderMode: providerMode,
     activeProvider: {
       ...PICKAXE_PROVIDER_REGISTRY.localProxyProvider,
-      name: isVerifiedLiveMode ? "Pickaxe Live Alerts API" : "Pickaxe Live Alerts API / Blocked",
+      name: liveAlertsStatus.dataMode.startsWith("PRIVATE_LOCAL")
+        ? "Server-Only Massive Proof"
+        : isVerifiedLiveMode
+          ? "Pickaxe Live Alerts API"
+          : "Pickaxe Live Alerts API / Blocked",
       status: liveAlertsStatus.providerStatus,
       dataMode: liveAlertsStatus.dataMode,
       failureReason: liveAlertsStatus.activationBlocked ? getAlertsLiveMissingGatesSummary(liveAlertsStatus, 3) : "",

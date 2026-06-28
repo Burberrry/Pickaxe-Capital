@@ -38,10 +38,11 @@ loadEnvFile(join(root, ".env.local"));
 // prototype. Live data belongs to a future backend phase and must be
 // explicitly enabled for local development.
 const LIVE_SERVICES_ENABLED =
-  String(process.env.PICKAXE_ENABLE_LIVE_SERVICES || "").toLowerCase() === "true";
+  String(process.env.PICKAXE_ENABLE_LIVE_SERVICES || process.env.PICKAXE_LIVE_SERVICES_ENABLED || "").toLowerCase() === "true";
 const LIVE_SERVICES_DISABLED_MESSAGE =
   "Live services are disabled in this static prototype. This endpoint returns demo/static data only.";
 const PROVIDER_PROXY_MODE = String(process.env.PICKAXE_PROVIDER_MODE || "disabled").trim().toLowerCase();
+const MASSIVE_PROVIDER_MODE = String(process.env.PICKAXE_MASSIVE_PROVIDER_MODE || process.env.PICKAXE_PROVIDER_MODE || "disabled").trim().toLowerCase();
 const FIRST_PROVIDER_MODE = "alpha-vantage-quote";
 const FIRST_PROVIDER_KEY_NAME = "PICKAXE_ALPHA_VANTAGE_API_KEY";
 const FIRST_PROVIDER_ENTITLEMENT = String(process.env.PICKAXE_ALPHA_VANTAGE_ENTITLEMENT || "").trim().toLowerCase();
@@ -52,6 +53,15 @@ const MASSIVE_OPTIONS_COMMERCIAL_USE_APPROVED =
   String(process.env.PICKAXE_MASSIVE_COMMERCIAL_USE_APPROVED || "").trim().toLowerCase() === "true";
 const MASSIVE_OPTIONS_OPRA_RIGHTS_CONFIRMED =
   String(process.env.PICKAXE_MASSIVE_OPRA_RIGHTS_CONFIRMED || "").trim().toLowerCase() === "true";
+const PRIVATE_LOCAL_RESEARCH_ONLY =
+  String(process.env.PICKAXE_PRIVATE_LOCAL_RESEARCH_ONLY || "").trim().toLowerCase() === "true";
+const MASSIVE_PRIVATE_POC_CONFIRMED =
+  String(process.env.PICKAXE_MASSIVE_PRIVATE_POC_CONFIRMED || "").trim().toLowerCase() === "true";
+const MASSIVE_PUBLIC_DISPLAY_ENABLED =
+  String(process.env.PICKAXE_MASSIVE_PUBLIC_DISPLAY_ENABLED || "false").trim().toLowerCase() === "true";
+const PROVIDER_CACHE_MODE = String(process.env.PICKAXE_PROVIDER_CACHE_MODE || "disabled").trim().toLowerCase();
+const MASSIVE_QQQ_PROOF_EXPIRATION = String(process.env.PICKAXE_MASSIVE_QQQ_EXPIRATION || "").trim();
+const MASSIVE_QQQ_PROOF_CONTRACT_TYPE = String(process.env.PICKAXE_MASSIVE_QQQ_CONTRACT_TYPE || "").trim().toLowerCase();
 let firstProviderManualRequestConsumed = false;
 let massiveOptionsChainRequestConsumed = false;
 
@@ -363,6 +373,7 @@ async function getLiveOptionsChainEndpointPayload(searchParams) {
 
   const optionsGateReady = status.providers?.optionsChain?.ready === true;
   if (!optionsGateReady) {
+    const privateLocalMassive = status.privateLocalMassive || {};
     return {
       status: 503,
       payload: {
@@ -370,32 +381,40 @@ async function getLiveOptionsChainEndpointPayload(searchParams) {
         ticker,
         provider: "Massive",
         providerMode: "massive-options-chain",
-        dataMode: status.dataMode,
+        dataMode: privateLocalMassive.statusMode || status.dataMode,
         uiHeadline: status.uiHeadline,
         activationBlocked: true,
         sourceStatus: status.optionsChainStatus,
         legalStatus: status.missingGates.some((gate) => /options|opra/i.test(gate.label) && gate.mode === "LEGAL_BLOCKED") ? "UNCONFIRMED" : "CONFIRMED_BY_SERVER_ENV",
+        privateLocalMassive,
+        publicDisplayEnabled: false,
+        browserProviderRequest: false,
         providerMarketTimestamp: null,
         proxyReceivedTimestamp: status.proxyReceivedAt,
         freshnessState: status.freshnessState,
         staleReason: "No provider request was made.",
         contracts: [],
         missingGates: status.missingGates.filter((gate) => /options|opra|live services/i.test(gate.label)),
-        errorCode: status.dataMode,
-        errorMessage: "Live options-chain activation is blocked by provider rights, OPRA/display, entitlement, or credential gates.",
+        errorCode: privateLocalMassive.statusMode || status.dataMode,
+        errorMessage: "Private local Massive options-chain proof is blocked by local research, rights, entitlement, credential, public-display, cache, expiration, or contract-type gates.",
       },
     };
   }
 
   const result = await requestMassiveOptionsChainSnapshot({
     ticker,
-    expiration: searchParams.get("expiration") || "",
-    contractType: searchParams.get("contractType") || searchParams.get("type") || "",
+    expiration: searchParams.get("expiration") || MASSIVE_QQQ_PROOF_EXPIRATION,
+    contractType: searchParams.get("contractType") || searchParams.get("type") || MASSIVE_QQQ_PROOF_CONTRACT_TYPE,
     liveServicesEnabled: LIVE_SERVICES_ENABLED,
+    privateLocalResearchOnly: PRIVATE_LOCAL_RESEARCH_ONLY,
+    providerMode: MASSIVE_PROVIDER_MODE,
     apiKey: process.env.PICKAXE_MASSIVE_API_KEY,
     entitlement: MASSIVE_OPTIONS_ENTITLEMENT,
     commercialUseApproved: MASSIVE_OPTIONS_COMMERCIAL_USE_APPROVED,
     opraRightsConfirmed: MASSIVE_OPTIONS_OPRA_RIGHTS_CONFIRMED,
+    privatePocConfirmed: MASSIVE_PRIVATE_POC_CONFIRMED,
+    publicDisplayEnabled: MASSIVE_PUBLIC_DISPLAY_ENABLED,
+    providerCacheMode: PROVIDER_CACHE_MODE,
     reserveRequest: () => {
       if (massiveOptionsChainRequestConsumed) return false;
       massiveOptionsChainRequestConsumed = true;
@@ -416,14 +435,16 @@ async function getLiveAlertsEndpointPayload(searchParams) {
     return liveEndpointError(403, "SOURCE_REQUIRED", "Ticker is outside the Pickaxe live-alerts allowlist. No provider request was made.", status, ticker);
   }
 
-  if (status.activationBlocked) {
+  if (status.activationBlocked && status.privateLocalMassive?.ready !== true) {
     return {
       status: 503,
       payload: buildLiveAlertsPayload({ status, ticker }),
     };
   }
 
-  const quoteResult = await getLiveQuoteEndpointPayload(new URLSearchParams({ ticker }));
+  const quoteResult = status.activationBlocked
+    ? { status: 503, payload: null }
+    : await getLiveQuoteEndpointPayload(new URLSearchParams({ ticker }));
   const quote = quoteResult.payload;
   const optionsResult = await getLiveOptionsChainEndpointPayload(searchParams);
   const optionsChain = optionsResult.payload;

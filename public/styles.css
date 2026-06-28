@@ -19556,18 +19556,36 @@ body[data-active-view="alerts"] #alerts.active button.pcad-table-row {
     padding: 10px !important;
     overflow-x: auto;
     overscroll-behavior-inline: contain;
+    scroll-padding-inline: 10px;
     scroll-snap-type: inline proximity;
   }
 
   body[data-active-view="alerts"] .rail .sidebar-group {
-    flex: 0 0 184px;
-    width: 184px !important;
-    min-width: 184px;
+    flex: 0 0 min(168px, calc(100vw - 44px));
+    width: min(168px, calc(100vw - 44px)) !important;
+    min-width: min(168px, calc(100vw - 44px));
     scroll-snap-align: start;
   }
 
   body[data-active-view="alerts"] .rail .sidebar-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
     min-height: 38px;
+    padding: 10px !important;
+  }
+
+  body[data-active-view="alerts"] .rail .sidebar-item .sidebar-code {
+    width: fit-content;
+    max-width: 100%;
+    height: auto;
+    min-height: 24px;
+    padding: 4px 7px;
+  }
+
+  body[data-active-view="alerts"] .rail .sidebar-copy strong,
+  body[data-active-view="alerts"] .rail .sidebar-status {
+    white-space: normal;
+    line-height: 1.15;
   }
 
   #alerts.active .phase2-alerts-desk {
@@ -31437,6 +31455,83 @@ body[data-active-view="alerts"] #alerts.active .alerts-decision-board button.ale
   background: rgba(0, 0, 0, 0.16);
 }
 
+#alerts.active .alerts-details-drawer .alerts-exact-contract-panel {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border-color: rgba(214, 163, 68, 0.20);
+  background:
+    linear-gradient(135deg, rgba(214, 163, 68, 0.08), rgba(246, 240, 228, 0.018)),
+    rgba(1, 3, 7, 0.38);
+}
+
+#alerts.active .alerts-exact-contract-panel > header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+#alerts.active .alerts-exact-contract-panel > header span {
+  color: rgba(250, 244, 229, 0.96);
+  font: 900 20px/1 var(--phase2-font-sans);
+  letter-spacing: 0;
+}
+
+#alerts.active .alerts-exact-contract-panel > header small,
+#alerts.active .alerts-exact-contract-footnote {
+  color: rgba(201, 209, 217, 0.64);
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+#alerts.active .alerts-exact-contract-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+#alerts.active .alerts-exact-contract-status strong,
+#alerts.active .alerts-exact-contract-status span {
+  display: inline-grid;
+  place-items: center;
+  min-height: 26px;
+  padding: 5px 8px;
+  border: 1px solid rgba(214, 163, 68, 0.22);
+  border-radius: 999px;
+  background: rgba(214, 163, 68, 0.07);
+  color: rgba(246, 240, 228, 0.92);
+  font: 850 8.5px/1 var(--phase2-font-sans);
+}
+
+#alerts.active .alerts-exact-contract-status span {
+  border-color: rgba(246, 240, 228, 0.09);
+  background: rgba(246, 240, 228, 0.025);
+  color: rgba(201, 209, 217, 0.78);
+}
+
+#alerts.active .alerts-exact-contract-grid {
+  gap: 8px;
+}
+
+#alerts.active .alerts-exact-contract-grid article {
+  border-color: rgba(246, 240, 228, 0.08);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+#alerts.active .alerts-exact-contract-grid article header span {
+  color: rgba(231, 196, 118, 0.84);
+}
+
+#alerts.active .alerts-exact-contract-grid dd {
+  word-break: break-word;
+}
+
+#alerts.active .alerts-exact-contract-footnote {
+  margin: 0;
+  padding-top: 2px;
+}
+
 .dashboard-pin::after {
   content: none !important;
   display: none !important;
@@ -31522,6 +31617,7 @@ body[data-active-view="alerts"] #alerts.active .alerts-decision-board button.ale
   #alerts.active .alerts-decision-sidebar .alerts-quick-review-grid,
   #alerts.active .alerts-selected-next-step,
   #alerts.active .alerts-activation-gate ul,
+  #alerts.active .alerts-exact-contract-panel > header,
   #alerts.active .alerts-decision-board .alerts-board-controls,
   #alerts.active .alerts-decision-sidebar .alerts-selected-card header,
   #alerts.active .alerts-decision-sidebar .alerts-activation-gate header,
