@@ -13,6 +13,7 @@ Pickaxe Alerts Cockpit v6.3 Hosted Verification is **PASS / ALERTS COCKPIT V6.3 
 - Hosted interaction QA passed: selecting the PUT row and pressing `ASK PET` remains local-note behavior only.
 - Hosted regression routes passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, and Life OS.
 - Hosted static-public boundary passed: `.env`, `.env.local`, `server.mjs`, provider libraries, `/api/live/status`, `/api/live/alerts`, and `data/signal-alerts.json` were not exposed.
+- Hosted static runtime guard is active: GitHub Pages skips local live-status/live-alerts probes in the browser, remains blocked/static, and avoids hosted 404 console noise.
 - Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, no provider browser calls, no public live display, no fake live data, no fake timestamps, and no execution/broker/payment/auth/subscription/alert-delivery behavior.
 - Hosted screenshots and QA summary are under `/tmp/pickaxe-alerts-cockpit-v6-3-hosted/`.
 

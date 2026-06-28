@@ -17,9 +17,10 @@
 - Hosted screenshots were captured under `/tmp/pickaxe-alerts-cockpit-v6-3-hosted/`, including `hosted-root-1472x1104.png`, `hosted-hash-alerts-1472x1104.png`, `hosted-app-alerts-1472x1104.png`, `hosted-app-alerts-390x900.png`, `hosted-app-alerts-390x844.png`, and `hosted-app-alerts-interaction-1472x1104.png`. Full QA details are in `/tmp/pickaxe-alerts-cockpit-v6-3-hosted/hosted-qa-summary.json`.
 - Hosted regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`: nonblank target content, no relevant console errors, no document-level horizontal overflow, one visible Starlight canvas, and no provider browser calls.
 - Hosted static-public boundary passed: `.env`, `.env.local`, `server.mjs`, provider libraries, `/api/live/status`, `/api/live/alerts`, and `data/signal-alerts.json` returned 404/not-exposed static-host behavior.
+- Hosted static runtime guard: GitHub Pages now skips the local live-status and live-alerts probes in the browser and stays in the blocked static-host fallback, preventing hosted 404 console noise while preserving local server behavior.
 - Hosted security/data-boundary QA passed: no exposed secrets, no public provider-response cache, no direct Massive/Alpha Vantage/Tradier/Polygon/OPRA/Cboe/Databento/Intrinio/ORATS browser request, no provider activation, no public live display, no broker/order/payment/auth/subscription/alert-delivery endpoint, no profit guarantee, no financial advice, and no trade recommendation.
 - `data/signal-alerts.json` remains unchanged at SHA-1 `f23873c8c94cfd200848dbaeefd02b7c57542a05`; its last modifying commit remains `f920e811b52d113bc010bcc4fc63f7e8257a5d5b`.
-- Root/public mirrors remain synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`. The hosted status-record cache key is `alerts-cockpit-v6-3-hosted-20260628-r1`.
+- Root/public mirrors remain synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`. The hosted status-record cache key is `alerts-cockpit-v6-3-hosted-20260628-r2`.
 - Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, and any broker/execution/payment/auth/subscription/alert-delivery work remain separate blocked work.
 - Next bounded recommendation: `CEO B hosted visual review of Pickaxe Alerts Cockpit v6.3`.
 
@@ -27,6 +28,7 @@
 
 - `PROJECT_STATUS.md`
 - `NEXT_STEPS.md`
+- `public/app.js` and `app.js`
 - `public/habitat-data.js` and `habitat-data.js`
 - `public/index.html` and `index.html`
 

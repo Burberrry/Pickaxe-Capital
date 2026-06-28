@@ -10029,15 +10029,24 @@ function normalizeLiveAlertsPayload(payload = {}) {
   };
 }
 
+function isHostedStaticPagesRuntime() {
+  if (typeof window === "undefined" || !window.location) return false;
+  return /(^|\.)github\.io$/i.test(window.location.hostname);
+}
+
+function markLiveAlertsStaticUnavailable({ renderOnComplete = true, clearStatus = true } = {}) {
+  state.liveAlertsStatusFetchState = "unavailable";
+  state.liveAlertsStatusError = "Local live server unavailable on static hosting.";
+  if (clearStatus) state.liveAlertsStatus = null;
+  state.liveAlertsPayload = null;
+  if (renderOnComplete && state.activeView === "alerts" && typeof renderAlertsPage === "function") renderAlertsPage();
+  return Promise.resolve();
+}
+
 function requestLiveAlertsStatus({ force = false, renderOnComplete = true } = {}) {
   if (!force && state.liveAlertsStatusFetchState !== "idle") return Promise.resolve();
-  if (typeof fetch !== "function") {
-    state.liveAlertsStatusFetchState = "unavailable";
-    state.liveAlertsStatusError = "Local live server unavailable on static hosting.";
-    state.liveAlertsStatus = null;
-    state.liveAlertsPayload = null;
-    if (renderOnComplete && state.activeView === "alerts" && typeof renderAlertsPage === "function") renderAlertsPage();
-    return Promise.resolve();
+  if (typeof fetch !== "function" || isHostedStaticPagesRuntime()) {
+    return markLiveAlertsStaticUnavailable({ renderOnComplete, clearStatus: true });
   }
   state.liveAlertsStatusFetchState = "loading";
   state.liveAlertsStatusError = "";
@@ -10080,12 +10089,8 @@ function scheduleLiveAlertsStatusRefresh() {
 }
 
 function checkLiveAlertsCandidates({ renderOnComplete = true } = {}) {
-  if (typeof fetch !== "function") {
-    state.liveAlertsStatusFetchState = "unavailable";
-    state.liveAlertsStatusError = "Local live server unavailable on static hosting.";
-    state.liveAlertsPayload = null;
-    if (renderOnComplete && state.activeView === "alerts" && typeof renderAlertsPage === "function") renderAlertsPage();
-    return Promise.resolve();
+  if (typeof fetch !== "function" || isHostedStaticPagesRuntime()) {
+    return markLiveAlertsStaticUnavailable({ renderOnComplete, clearStatus: false });
   }
   state.liveAlertsStatusFetchState = "checking";
   state.liveAlertsStatusError = "";
