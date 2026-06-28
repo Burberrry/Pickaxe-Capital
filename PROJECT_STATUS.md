@@ -1,6 +1,25 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Cockpit v6.2 Exact Asset Integration
+## Current Checkpoint - Pickaxe Alerts Cockpit v6.3 Asset Composition Polish
+
+- Date: 2026-06-28.
+- Result: **PASS / ALERTS COCKPIT V6.3 ASSET COMPOSITION POLISH**.
+- Sprint type: local-only visual composition polish from v6.2 commit `31880b9`. No push, deploy, provider activation, public live data, fake live data, fake timestamp, browser provider call, route, LocalStorage key, package script, server/provider file, broker/execution/order/payment/auth/subscription/alert-delivery behavior, `.env`, `.env.local`, or `data/signal-alerts.json` change was authorized or added.
+- The canonical bull, bear, and PET raster assets remain the active character visuals. No placeholder character SVG returned.
+- Visual improvements: the bull and bear stages now use stronger black/gold depth, tighter vignettes, blended green/red chart lighting, softer masked asset edges, deeper shadows, and clearer CALLS/PUTS text hierarchy. The PET panel now uses a less boxy premium steward frame with improved lighting and a refined Ask PET icon treatment.
+- Mobile-specific composition was verified with a full-page `390x900` capture: the PET, bull, and bear remain visible, readable, and source-gated with no horizontal overflow.
+- Browser QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104` and `390x900`: no console errors, no horizontal overflow, one visible Starlight canvas, real canonical assets visible, no placeholder character art, no provider browser calls, no exposed secrets, no live labels, no fake current prices, no fake timestamps, and no buy/sell instruction.
+- Screenshot proof directory: `/tmp/pickaxe-alerts-cockpit-v6-3-composition-polish/`.
+- Validation passed: `git diff --check`, JavaScript syntax checks, build, project checks, phase15, agents, mirrors, smoke routes, public safety, deploy boundary, and route sanity.
+- Next bounded recommendation: `CEO B local visual review of Pickaxe Alerts Cockpit v6.3 composition polish`, followed by push/deploy only after approval.
+
+### Pickaxe Alerts Cockpit v6.3 Asset Composition Polish Files Changed
+
+- `public/styles.css` and `styles.css`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Cockpit v6.2 Exact Asset Integration
 
 - Date: 2026-06-28.
 - Result: **PASS / ALERTS COCKPIT V6.2 EXACT ASSET INTEGRATION**.

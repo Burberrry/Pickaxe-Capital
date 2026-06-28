@@ -37204,3 +37204,409 @@ body[data-active-view="alerts"] .brand strong {
     contrast(1.1)
     drop-shadow(0 0 18px rgba(255, 78, 63, 0.26)) !important;
 }
+
+/* Pickaxe Alerts Cockpit v6.3 asset composition polish. */
+#alerts.active .pa-v6 .pa-card,
+#alerts.active .pa-v6-alert-row {
+  border-color: rgba(204, 129, 35, 0.42) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 235, 177, 0.045),
+    inset 0 -34px 72px rgba(0, 0, 0, 0.38),
+    0 18px 42px rgba(0, 0, 0, 0.42) !important;
+}
+
+#alerts.active .pa-v6-alert-row.is-call {
+  border-color: rgba(97, 211, 111, 0.58) !important;
+  background:
+    radial-gradient(ellipse at 42% 42%, rgba(65, 228, 108, 0.16), transparent 36%),
+    linear-gradient(90deg, rgba(12, 80, 43, 0.22), transparent 42%),
+    linear-gradient(180deg, rgba(255, 242, 204, 0.035), rgba(255, 242, 204, 0.006)),
+    rgba(1, 9, 12, 0.97) !important;
+}
+
+#alerts.active .pa-v6-alert-row.is-put {
+  border-color: rgba(255, 78, 63, 0.58) !important;
+  background:
+    radial-gradient(ellipse at 58% 45%, rgba(255, 77, 60, 0.15), transparent 37%),
+    linear-gradient(90deg, transparent, rgba(118, 27, 24, 0.22) 60%, rgba(118, 27, 24, 0.16)),
+    linear-gradient(180deg, rgba(255, 242, 204, 0.032), rgba(255, 242, 204, 0.006)),
+    rgba(1, 8, 11, 0.97) !important;
+}
+
+#alerts.active .pa-v6-side-stage {
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 31% 57%, rgba(87, 230, 116, 0.24), transparent 27%),
+    radial-gradient(ellipse at 78% 43%, rgba(87, 230, 116, 0.16), transparent 30%),
+    linear-gradient(90deg, rgba(8, 51, 31, 0.88), rgba(2, 11, 13, 0.78) 48%, rgba(1, 7, 10, 0.98)),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px) !important;
+  background-size: auto, auto, auto, 28px 28px, 28px 28px !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 235, 177, 0.024),
+    inset 0 22px 48px rgba(244, 195, 83, 0.035),
+    inset 0 -44px 80px rgba(0, 0, 0, 0.56);
+}
+
+#alerts.active .pa-v6-alert-row.is-put .pa-v6-side-stage {
+  background:
+    radial-gradient(ellipse at 68% 57%, rgba(255, 82, 66, 0.23), transparent 28%),
+    radial-gradient(ellipse at 22% 43%, rgba(255, 82, 66, 0.13), transparent 31%),
+    linear-gradient(90deg, rgba(1, 7, 10, 0.98), rgba(42, 14, 15, 0.82) 48%, rgba(84, 18, 17, 0.76)),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px) !important;
+  background-size: auto, auto, auto, 28px 28px, 28px 28px !important;
+}
+
+#alerts.active .pa-v6-side-stage::before {
+  z-index: 1;
+  background:
+    radial-gradient(ellipse at 50% 116%, rgba(0, 0, 0, 0.8), transparent 50%),
+    linear-gradient(90deg, rgba(244, 195, 83, 0.055), transparent 15% 85%, rgba(244, 195, 83, 0.04)),
+    linear-gradient(180deg, rgba(255, 235, 177, 0.05), transparent 22%, rgba(0, 0, 0, 0.38) 100%) !important;
+}
+
+#alerts.active .pa-v6-side-stage::after {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.42) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.34), transparent 22% 78%, rgba(0, 0, 0, 0.32));
+  content: "";
+}
+
+#alerts.active .pa-v6-candles {
+  z-index: 2 !important;
+  inset: 52px 18px 24px !important;
+  gap: 7px !important;
+  opacity: 0.64;
+  filter:
+    blur(0.1px)
+    drop-shadow(0 0 18px rgba(72, 225, 95, 0.26)) !important;
+}
+
+#alerts.active .pa-v6-candles.is-put {
+  filter:
+    blur(0.1px)
+    drop-shadow(0 0 18px rgba(255, 78, 63, 0.25)) !important;
+}
+
+#alerts.active .pa-v6-candles i {
+  border-color: rgba(161, 255, 172, 0.09) !important;
+  background:
+    linear-gradient(180deg, rgba(158, 255, 169, 0.78), rgba(22, 190, 75, 0.6) 46%, rgba(7, 55, 31, 0.54)) !important;
+}
+
+#alerts.active .pa-v6-candles.is-put i {
+  border-color: rgba(255, 145, 135, 0.09) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 124, 111, 0.8), rgba(220, 49, 38, 0.62) 48%, rgba(78, 16, 16, 0.56)) !important;
+}
+
+#alerts.active .pa-v6-character {
+  z-index: 3 !important;
+  width: 278px !important;
+  height: 342px !important;
+  bottom: -48px !important;
+  overflow: visible;
+  filter: drop-shadow(0 32px 26px rgba(0, 0, 0, 0.74)) !important;
+}
+
+#alerts.active .pa-v6-alert-row.is-call .pa-v6-character {
+  left: -1% !important;
+}
+
+#alerts.active .pa-v6-alert-row.is-put .pa-v6-character {
+  right: -1% !important;
+}
+
+#alerts.active .pa-v6-character::before {
+  position: absolute;
+  inset: 12% 8% 2%;
+  z-index: 0;
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse at 50% 44%, rgba(80, 236, 117, 0.28), transparent 46%),
+    radial-gradient(ellipse at 50% 86%, rgba(244, 195, 83, 0.14), transparent 54%);
+  filter: blur(14px);
+  content: "";
+}
+
+#alerts.active .pa-v6-alert-row.is-put .pa-v6-character::before {
+  background:
+    radial-gradient(ellipse at 50% 44%, rgba(255, 79, 63, 0.26), transparent 46%),
+    radial-gradient(ellipse at 50% 86%, rgba(244, 195, 83, 0.12), transparent 54%);
+}
+
+#alerts.active .pa-v6-character::after {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  bottom: 13px;
+  z-index: 2;
+  height: 42px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.62), transparent 70%);
+  content: "";
+}
+
+#alerts.active .pa-v6-character img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  transform: scale(1.15);
+  filter:
+    url("#paV62LightKnockout")
+    saturate(1.2)
+    contrast(1.11)
+    drop-shadow(0 0 18px rgba(244, 195, 83, 0.16)) !important;
+  -webkit-mask-image: radial-gradient(ellipse 63% 86% at 50% 55%, #000 0 54%, rgba(0, 0, 0, 0.9) 62%, rgba(0, 0, 0, 0.3) 72%, transparent 84%);
+  mask-image: radial-gradient(ellipse 63% 86% at 50% 55%, #000 0 54%, rgba(0, 0, 0, 0.9) 62%, rgba(0, 0, 0, 0.3) 72%, transparent 84%);
+}
+
+#alerts.active .pa-v6-alert-row.is-call .pa-v6-character img {
+  filter:
+    url("#paV62LightKnockout")
+    saturate(1.23)
+    contrast(1.11)
+    drop-shadow(0 0 24px rgba(72, 225, 95, 0.32)) !important;
+}
+
+#alerts.active .pa-v6-alert-row.is-put .pa-v6-character img {
+  filter:
+    url("#paV62LightKnockout")
+    saturate(1.16)
+    contrast(1.12)
+    drop-shadow(0 0 24px rgba(255, 78, 63, 0.3)) !important;
+}
+
+#alerts.active .pa-v6-side-stage > strong,
+#alerts.active .pa-v6-side-stage > em {
+  z-index: 6 !important;
+}
+
+#alerts.active .pa-v6-side-stage > strong {
+  top: 43% !important;
+  right: 7% !important;
+  left: 48% !important;
+  font-size: 46px !important;
+  line-height: 0.9 !important;
+}
+
+#alerts.active .pa-v6-side-stage > em {
+  top: calc(43% + 48px) !important;
+  right: 7% !important;
+  left: 48% !important;
+  font-size: 18px !important;
+  letter-spacing: 0.06em;
+}
+
+#alerts.active .pa-v6-alert-row.is-put .pa-v6-side-stage > strong,
+#alerts.active .pa-v6-alert-row.is-put .pa-v6-side-stage > em {
+  right: 48% !important;
+  left: 7% !important;
+}
+
+#alerts.active .pa-v6-direction {
+  z-index: 5 !important;
+  opacity: 0.34 !important;
+}
+
+#alerts.active .pa-v6-pet-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 34%, rgba(244, 195, 83, 0.18), transparent 38%),
+    radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 0.78), transparent 56%),
+    linear-gradient(180deg, rgba(255, 235, 177, 0.048), rgba(255, 235, 177, 0.006)),
+    #020608 !important;
+}
+
+#alerts.active .pa-v6-pet-card::before {
+  position: absolute;
+  inset: 48px 22px 58px;
+  z-index: 0;
+  border: 1px solid rgba(244, 195, 83, 0.34);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, transparent 0 10%, rgba(244, 195, 83, 0.16) 10% 11%, transparent 11% 89%, rgba(244, 195, 83, 0.16) 89% 90%, transparent 90%),
+    radial-gradient(ellipse at 50% 46%, rgba(244, 195, 83, 0.08), transparent 58%),
+    rgba(0, 0, 0, 0.24);
+  box-shadow:
+    inset 0 0 30px rgba(244, 195, 83, 0.08),
+    0 0 24px rgba(244, 195, 83, 0.08);
+  content: "";
+}
+
+#alerts.active .pa-v6-pet-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 55%, transparent 42%, rgba(0, 0, 0, 0.44) 100%),
+    linear-gradient(180deg, transparent 0 72%, rgba(0, 0, 0, 0.52) 100%);
+  content: "";
+}
+
+#alerts.active .pa-v6-pet-card header,
+#alerts.active .pa-v6-pet-card .pa-v6-pet-figure,
+#alerts.active .pa-v6-pet-card button {
+  position: relative;
+  z-index: 1;
+}
+
+#alerts.active .pa-v6-pet-figure {
+  width: 174px !important;
+  height: 188px !important;
+  margin: -2px auto 4px !important;
+  overflow: visible;
+  border: 0 !important;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  filter:
+    drop-shadow(0 24px 24px rgba(0, 0, 0, 0.68))
+    drop-shadow(0 0 18px rgba(244, 195, 83, 0.16));
+}
+
+#alerts.active .pa-v6-pet-figure::after {
+  inset: auto 16% 4px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.64), transparent 72%);
+}
+
+#alerts.active .pa-v6-pet-figure img {
+  width: 118%;
+  height: 112%;
+  object-fit: cover;
+  object-position: 50% 34%;
+  transform: translate(-7%, -5%) scale(1.05);
+  filter: saturate(1.16) contrast(1.08) drop-shadow(0 0 15px rgba(244, 195, 83, 0.18));
+  -webkit-mask-image: radial-gradient(ellipse 78% 88% at 50% 50%, #000 0 58%, rgba(0, 0, 0, 0.9) 70%, rgba(0, 0, 0, 0.32) 86%, transparent 98%);
+  mask-image: radial-gradient(ellipse 78% 88% at 50% 50%, #000 0 58%, rgba(0, 0, 0, 0.9) 70%, rgba(0, 0, 0, 0.32) 86%, transparent 98%);
+}
+
+#alerts.active .pa-v6-pet-card button {
+  width: 148px !important;
+  border-color: rgba(244, 195, 83, 0.52) !important;
+  background:
+    linear-gradient(180deg, rgba(244, 195, 83, 0.1), rgba(244, 195, 83, 0.035)),
+    rgba(0, 0, 0, 0.34) !important;
+  box-shadow:
+    inset 0 0 18px rgba(244, 195, 83, 0.08),
+    0 0 22px rgba(244, 195, 83, 0.08) !important;
+}
+
+#alerts.active .pa-v6-pet-card button svg {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 900px) {
+  #alerts.active .pa-v6-side-stage {
+    min-height: 324px !important;
+  }
+
+  #alerts.active .pa-v6-side-stage::after {
+    display: none;
+  }
+
+  #alerts.active .pa-v6-character,
+  #alerts.active .pa-v6-alert-row.is-call .pa-v6-character,
+  #alerts.active .pa-v6-alert-row.is-put .pa-v6-character {
+    left: 50% !important;
+    right: auto !important;
+    width: 238px !important;
+    height: 306px !important;
+    bottom: -34px !important;
+    transform: translateX(-50%) !important;
+  }
+
+  #alerts.active .pa-v6-alert-row.is-call .pa-v6-character {
+    left: 31% !important;
+  }
+
+  #alerts.active .pa-v6-alert-row.is-put .pa-v6-character {
+    left: 69% !important;
+  }
+
+  #alerts.active .pa-v6-alert-row.is-put .pa-v6-character {
+    width: 250px !important;
+    height: 318px !important;
+    bottom: -38px !important;
+    background: url("assets/characters/pickaxe-bear-canonical.png") center bottom / contain no-repeat !important;
+    filter:
+      saturate(1.2)
+      brightness(0.78)
+      contrast(1.18)
+      drop-shadow(0 0 20px rgba(255, 78, 63, 0.34)) !important;
+    mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(ellipse 76% 88% at 50% 55%, #000 0 58%, rgba(0, 0, 0, 0.84) 70%, rgba(0, 0, 0, 0.28) 83%, transparent 96%);
+    mask-image: radial-gradient(ellipse 76% 88% at 50% 55%, #000 0 58%, rgba(0, 0, 0, 0.84) 70%, rgba(0, 0, 0, 0.28) 83%, transparent 96%);
+  }
+
+  #alerts.active .pa-v6-character img {
+    transform: scale(1.06) !important;
+    filter:
+      url("#paV62LightKnockout")
+      saturate(1.26)
+      brightness(1.08)
+      contrast(1.12)
+      drop-shadow(0 0 22px rgba(244, 195, 83, 0.18)) !important;
+    mix-blend-mode: screen;
+    -webkit-mask-image: radial-gradient(ellipse 76% 88% at 50% 55%, #000 0 56%, rgba(0, 0, 0, 0.88) 66%, rgba(0, 0, 0, 0.32) 78%, transparent 91%);
+    mask-image: radial-gradient(ellipse 76% 88% at 50% 55%, #000 0 56%, rgba(0, 0, 0, 0.88) 66%, rgba(0, 0, 0, 0.32) 78%, transparent 91%);
+  }
+
+  #alerts.active .pa-v6-alert-row.is-put .pa-v6-character img {
+    opacity: 0;
+  }
+
+  #alerts.active .pa-v6-alert-row.is-call .pa-v6-side-stage > strong {
+    top: 45% !important;
+    right: 6% !important;
+    left: 43% !important;
+    font-size: 34px !important;
+  }
+
+  #alerts.active .pa-v6-alert-row.is-call .pa-v6-side-stage > em {
+    top: calc(45% + 40px) !important;
+    right: 6% !important;
+    left: 43% !important;
+    font-size: 12px !important;
+  }
+
+  #alerts.active .pa-v6-alert-row.is-put .pa-v6-side-stage > strong {
+    top: 45% !important;
+    right: 43% !important;
+    left: 6% !important;
+    font-size: 34px !important;
+  }
+
+  #alerts.active .pa-v6-alert-row.is-put .pa-v6-side-stage > em {
+    top: calc(45% + 40px) !important;
+    right: 43% !important;
+    left: 6% !important;
+    font-size: 12px !important;
+  }
+
+  #alerts.active .pa-v6-pet-figure {
+    width: 184px !important;
+    height: 200px !important;
+    margin-top: 0 !important;
+  }
+}

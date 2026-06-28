@@ -2,6 +2,23 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Cockpit v6.3 Asset Composition Polish is **PASS / ALERTS COCKPIT V6.3 ASSET COMPOSITION POLISH**.
+
+- Local-only checkpoint from v6.2 commit `31880b9`; no push or deploy was performed.
+- Canonical bull, bear, and PET assets remain rendered. No placeholder character art returned.
+- The bull CALLS stage now has stronger embedded green chart lighting, softer masked asset edges, deeper floor shadow, and readable CALLS text.
+- The bear PUTS stage now has stronger red chart integration, a mobile-specific canonical-asset layer, better depth, and readable PUTS text.
+- The PET panel now reads more like a premium Pickaxe steward object, with improved black/gold framing, scale, lighting, and a refined Ask PET icon button.
+- Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, no provider requests, no public live display, no fake live data, no fake timestamps, and no execution/broker/payment/auth/subscription/alert-delivery behavior.
+- Screenshot proof is under `/tmp/pickaxe-alerts-cockpit-v6-3-composition-polish/`.
+- Browser QA passed on `/`, `/#/alerts`, and `/app/alerts` at desktop `1472x1104` and mobile `390x900`.
+
+Next bounded step: `CEO B local visual review of Pickaxe Alerts Cockpit v6.3 composition polish`.
+
+Do not push, deploy, enable public display, add provider/browser calls, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Cockpit v6.2 Exact Asset Integration
+
 Pickaxe Alerts Cockpit v6.2 Exact Asset Integration is **PASS / ALERTS COCKPIT V6.2 EXACT ASSET INTEGRATION**.
 
 - Local checkpoint target: `Integrate canonical Alerts cockpit character assets`.
