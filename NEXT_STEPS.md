@@ -2,6 +2,30 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Command Terminal Premium Visual Finish v4 Hosted Verification is **PASS / ALERTS TERMINAL V4 HOSTED VERIFIED**.
+
+- Promoted branch: `codex/private-local-massive-qqq-proof-v1-20260628`.
+- Promoted commit: `16d8a58b8daf5d7e469756c82442de0e14877c92` (`Refine Alerts terminal premium visual finish`).
+- Integration method: `main` fast-forwarded from `06cfccfbd52308c28a25219d669f77c8ec37ab07` to `16d8a58b8daf5d7e469756c82442de0e14877c92`; safety branch `backup/pre-alerts-terminal-v4-hosted-20260628` was created first.
+- GitHub Pages workflow `28318590465` passed for the promoted commit. Validate and Build job `83896289369` passed; Deploy job `83896308226` passed. Pages deployment `5227585946` finished with deployment status `14875466015` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted visual QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900`, `1280x720`, and `390x844`: premium black/gold command terminal shell, tight header, instrument-style metric widgets, full flow-tape research stream, source LEDs, right rail source wall, approved masked CEO B steward visual, bottom dashboard panels, call/put framework sparklines, footer safety strip, active navigation reading `Alerts Desk`, no visible sidebar `00` badge, no fake live data, no fake timestamp, no execution controls, and no browser provider assets.
+- Hosted 1440 Alerts metrics: terminal `1335x888`, header `58px`, stream `986x543`, four metric instruments, five research rows plus header, fifteen source cards/LEDs, five dashboard panels, two framework panels/sparklines, footer safety strip, one visible Starlight canvas, and no document-level horizontal overflow.
+- Exact Contract Panel remains drawer-only: hidden by default, visible only after opening `Alert Details`, with no console errors or horizontal overflow.
+- Hosted screenshots are under `/tmp/pickaxe-alerts-command-terminal-v4-hosted/`.
+- Hosted regression route QA passed for `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
+- Hosted static-public boundary passed: `.env`, `.env.local`, `server.mjs`, provider libraries, source maps, `/api/live/status`, `/api/live/alerts`, and `data/signal-alerts.json` were not served as exposed public artifacts. Same-origin API probes returned static-host 404/unavailable behavior.
+- Hosted security/data-boundary QA passed: no actual API key values, no secret exposure, no public provider-response cache, no direct Massive/Alpha Vantage/Tradier/Polygon/OPRA/Cboe/Databento/Intrinio/ORATS browser request, no provider activation, no public live display, no broker/order/payment/auth/subscription/alert-delivery endpoint, no profit guarantee, no financial advice, and no trade recommendation.
+- Public output remains demo/static/source-required only. Provider activation, private Massive proof gates, OPRA/display/commercial production rights, and public live display remain blocked.
+- Build Completion Tracker metadata now includes `pickaxe-alerts-command-terminal-premium-visual-finish-v4-hosted-20260628`.
+- The hosted status-record cache key is `alerts-command-terminal-v4-hosted-20260628-r1`.
+
+Next bounded step: `CEO B hosted visual review of Pickaxe Alerts Command Terminal Premium Visual Finish v4`.
+
+Do not start provider work, activate Massive, enable public live data, add fake live data, add browser provider calls, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Command Terminal Premium Visual Finish v4
+
 Pickaxe Alerts Command Terminal Premium Visual Finish v4 is **PASS / ALERTS TERMINAL PREMIUM VISUAL FINISH READY**.
 
 - Bounded visual branch: `codex/private-local-massive-qqq-proof-v1-20260628`.

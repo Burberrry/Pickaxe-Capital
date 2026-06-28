@@ -1,6 +1,37 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Command Terminal Premium Visual Finish v4
+## Current Checkpoint - Pickaxe Alerts Command Terminal Premium Visual Finish v4 Hosted Verification
+
+- Date: 2026-06-28.
+- Result: **PASS / ALERTS TERMINAL V4 HOSTED VERIFIED**.
+- Sprint type: bounded fast-forward integration, GitHub Pages deployment, hosted visual QA, hosted regression QA, hosted security/data-boundary QA, and status record for `Pickaxe Alerts Command Terminal Premium Visual Finish v4`. No new product work, provider activation, Massive request, public live data, fake live data, fake timestamp, route, LocalStorage key, second Alerts renderer, broker/execution/order/payment/auth/subscription/alert-delivery behavior, or `data/signal-alerts.json` change was authorized or added.
+- Promoted branch: `codex/private-local-massive-qqq-proof-v1-20260628`.
+- Promoted commit: `16d8a58b8daf5d7e469756c82442de0e14877c92` (`Refine Alerts terminal premium visual finish`).
+- Integration method: `main` was updated from `06cfccfbd52308c28a25219d669f77c8ec37ab07` to `16d8a58b8daf5d7e469756c82442de0e14877c92` by fast-forward merge; no merge commit was created.
+- Safety branch before integration: `backup/pre-alerts-terminal-v4-hosted-20260628`.
+- GitHub Pages workflow: `28318590465` (`Validate and Deploy GitHub Pages`) for commit `16d8a58b8daf5d7e469756c82442de0e14877c92`.
+- Pages jobs: `83896289369` (`Validate and Build`) success; `83896308226` (`Deploy`) success.
+- Pages deployment: `5227585946`; deployment status `14875466015` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted visual QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900`, `1280x720`, and `390x844`: premium black/gold command terminal shell, tight header, instrument-style metric widgets, full flow-tape research stream, source LEDs, right rail source wall, approved masked CEO B steward visual, bottom dashboard panels, call/put framework sparklines, footer safety strip, active navigation reading `Alerts Desk`, no visible sidebar `00` badge, no fake live data, no fake timestamp, no execution controls, and no browser provider assets.
+- The 1440 hosted Alerts gate matched the local v4 geometry: terminal `1335x888` from `x=94/y=6` to `bottom=894`, header `58px`, stream `986x543`, four metric instruments, five research rows plus header, fifteen source cards/LEDs, five dashboard panels, two framework panels/sparklines, footer safety strip, one visible Starlight canvas, and no document-level horizontal overflow.
+- Hosted Exact Contract Panel QA passed: the panel was hidden by default, opened only after the `Alert Details` drawer interaction, and stayed drawer-only with no horizontal overflow or console errors.
+- Hosted screenshots were captured under `/tmp/pickaxe-alerts-command-terminal-v4-hosted/`: `hosted-root-1440x900.png`, `hosted-hash-alerts-1440x900.png`, `hosted-app-alerts-1440x900.png`, `hosted-root-1280x720.png`, `hosted-hash-alerts-1280x720.png`, `hosted-app-alerts-1280x720.png`, `hosted-root-390x844.png`, `hosted-hash-alerts-390x844.png`, `hosted-app-alerts-390x844.png`, and `hosted-app-alerts-details-open-1440x900.png`.
+- Hosted regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`: correct target content/view, no relevant console errors, no document-level horizontal overflow, one visible Starlight canvas, and no provider browser assets.
+- Hosted static-public boundary passed: `.env`, `.env.local`, `server.mjs`, provider libraries, source maps, `/api/live/status`, `/api/live/alerts`, and `data/signal-alerts.json` were not served as exposed public artifacts. Same-origin API probes returned static-host 404/unavailable behavior.
+- Hosted security/data-boundary QA passed: no actual API key values, no secret exposure, no public provider-response cache, no direct Massive/Alpha Vantage/Tradier/Polygon/OPRA/Cboe/Databento/Intrinio/ORATS browser request, no provider activation, no public live display, no broker/order/payment/auth/subscription/alert-delivery endpoint, no profit guarantee, no financial advice, and no trade recommendation.
+- Public output remains demo/static/source-required only. Provider activation, private Massive proof gates, OPRA/display/commercial production rights, and public live display remain blocked.
+- Root/public mirrors remain synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`. The hosted status-record cache key is `alerts-command-terminal-v4-hosted-20260628-r1`.
+- Next bounded recommendation: `CEO B hosted visual review of Pickaxe Alerts Command Terminal Premium Visual Finish v4`.
+
+### Pickaxe Alerts Command Terminal Premium Visual Finish v4 Hosted Verification Files Changed
+
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `public/habitat-data.js` and `habitat-data.js`
+- `public/index.html` and `index.html`
+
+## Previous Checkpoint - Pickaxe Alerts Command Terminal Premium Visual Finish v4
 
 - Date: 2026-06-28.
 - Result: **PASS / ALERTS TERMINAL PREMIUM VISUAL FINISH READY**.
