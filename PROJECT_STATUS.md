@@ -1,6 +1,35 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Private Local Massive QQQ Snapshot Proof v1
+## Current Checkpoint - Pickaxe Alerts Command Terminal Visual Upgrade v1
+
+- Date: 2026-06-28.
+- Result: **PASS / ALERTS COMMAND TERMINAL VISUAL READY**.
+- Sprint type: bounded visual upgrade on branch `codex/private-local-massive-qqq-proof-v1-20260628`. No push, deploy, Massive provider request, public live display, fake live data, fake timestamp, browser provider call, new route, second Alerts renderer, LocalStorage key, packet model, review queue, broker/execution/order/payment/subscription/auth/alert-delivery behavior, or `data/signal-alerts.json` change was authorized or added.
+- Starting commit: `3e17b2334fce5108b9910114f4bc53455eb5bef1`.
+- The active Alerts renderer was preserved: `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `renderAlertsOperatorWorkspace()` in `public/app.js`.
+- Alerts first screen was restyled as a black/gold Pickaxe command terminal with top identity bar, `00 ALERTS DESK` page signal, `OPTIONS ALERTS REVIEW QUEUE`, CEO B final approval authority, four top metric cards, compact options research review stream, right-side intelligence/source rail, Pickaxe Steward panel, bottom dashboard panels, and call/put research framework panels.
+- The research stream uses the existing five-candidate model only: `QQQ`, `NVDA`, `SPY`, `TSLA`, and `GLD`. Source-required fields remain labeled as `Source Required`, `N/A`, blocked, demo/static, or no verified timestamp. No provider prices, strikes, premiums, bids, asks, Greeks, volume, open interest, or live timestamps were invented.
+- Top metric cards show Today's Review Queue, Calls vs Puts, Today's Total Conviction, and Fear & Greed as source-gated/static research context. Conviction remains packet/research quality only, not expected return.
+- The right rail now shows Intelligence Sources with Active Mock / Needs Review / Source Required / Blocked states and the Pickaxe Steward copy requested for the private OS guide. The `Got it` control is page-session UI only and does not persist a new key.
+- Bottom panels now cover Market Overview, System Status, Market Bias, Projected Scenario, and Watchlist with source-required/static labels. The final row adds Call Research Candidate Framework and Put Research Candidate Framework as research frameworks only, not trading instructions.
+- The Alert Details drawer remains the only place where the `Exact Contract Panel` appears. It keeps Contract Identity, Flow Tape, Source Stack, Catalyst Box, and Risk Gate sections with blocked/source-required placeholders unless a separate server-verified local proof is authorized and available.
+- Browser QA passed locally on `http://localhost:4331/`, `http://localhost:4331/#/alerts`, and `http://localhost:4331/app/alerts` at `1440x900`, `1280x720`, and `390x844`: correct Alerts view, command-terminal visual, four metric cards, five stream rows, fifteen source cards, five dashboard panels, two framework panels, active nav `Alerts Desk` with no visible `00` badge, no relevant console errors, no document-level horizontal overflow, no visible fake timestamp, no provider browser resources, no fake live label, and Exact Contract Panel hidden until the drawer opens.
+- Regression route browser QA passed locally on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/#/agents`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
+- Validation passed with JavaScript syntax checks, `node scripts/check-live-alerts.mjs`, `node scripts/check-options-chain.mjs`, required package checks, mirror checks, smoke route checks, public-safety/deploy-boundary/route checks, `git diff --check`, and browser QA.
+- Root/public mirrors were kept synchronized for `index.html`, `app.js`, and `styles.css`. The active cache key is `alerts-command-terminal-v1-20260628-r1`.
+- Remaining blocker: provider activation and private local Massive proof remain separate blocked work until CEO B supplies/authorizes the local-only credential and proof gates. This visual sprint did not activate or display public live data.
+- Next bounded recommendation: `CEO B visual review of Pickaxe Alerts Command Terminal Visual Upgrade v1`.
+
+### Pickaxe Alerts Command Terminal Visual Upgrade v1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Private Local Massive QQQ Snapshot Proof v1
 
 - Date: 2026-06-28.
 - Result: **BLOCKED / LOCAL MASSIVE CREDENTIAL OR GATE MISSING**.

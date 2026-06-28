@@ -2,6 +2,25 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Command Terminal Visual Upgrade v1 is **PASS / ALERTS COMMAND TERMINAL VISUAL READY**.
+
+- Bounded visual branch: `codex/private-local-massive-qqq-proof-v1-20260628`.
+- Starting commit: `3e17b2334fce5108b9910114f4bc53455eb5bef1`.
+- The existing Alerts route and renderer chain were preserved: `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `renderAlertsOperatorWorkspace()`.
+- Alerts now opens as a black/gold command terminal with top identity bar, four metric cards, compact options research review stream, right-side intelligence source rail, Pickaxe Steward panel, bottom dashboard panels, and call/put research frameworks.
+- The stream still uses only the existing QQQ, NVDA, SPY, TSLA, and GLD research candidates. Source-required fields remain labeled, and no provider prices, strikes, premiums, bids, asks, Greeks, volume, open interest, or live timestamps were invented.
+- Exact Contract Panel remains drawer-only inside Alert Details with blocked/source-required placeholders unless a separate server-verified local proof is authorized and available.
+- Browser QA passed locally on `/`, `/#/alerts`, and `/app/alerts` at `1440x900`, `1280x720`, and `390x844`: correct Alerts view, active nav `Alerts Desk` without `00`, no relevant console errors, no document-level horizontal overflow, no provider browser resources, no fake live label, no numeric fake timestamp, and Exact Contract Panel hidden until the drawer opens.
+- Regression route browser QA passed for the required bridge routes.
+- Validation passed with JavaScript syntax checks, live-alerts/options-chain fixture checks, required package checks, mirror checks, smoke route checks, public-safety/deploy-boundary/route checks, and `git diff --check`.
+- No push, deploy, Massive provider request, public display enablement, fake live data, browser provider call, new route, second Alerts renderer, LocalStorage key, packet model, review queue, broker/execution/order/payment/subscription/auth/alert-delivery behavior, or `data/signal-alerts.json` change was added.
+
+Next bounded step: `CEO B visual review of Pickaxe Alerts Command Terminal Visual Upgrade v1`.
+
+Do not push, deploy, enable public display, add provider/browser calls, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Private Local Massive QQQ Snapshot Proof v1
+
 Pickaxe Private Local Massive QQQ Snapshot Proof v1 is **BLOCKED / LOCAL MASSIVE CREDENTIAL OR GATE MISSING**.
 
 - Bounded local proof branch: `codex/private-local-massive-qqq-proof-v1-20260628`.

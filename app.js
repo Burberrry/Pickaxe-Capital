@@ -11256,13 +11256,308 @@ function renderAlertsDetailsDrawer(candidate, score, sourceStatus, decisionState
   `;
 }
 
+function getAlertsCommandAssetName(candidate = {}) {
+  const names = {
+    QQQ: "Nasdaq 100 ETF",
+    NVDA: "NVIDIA",
+    SPY: "S&P 500 ETF",
+    TSLA: "Tesla",
+    GLD: "Gold ETF",
+  };
+  return names[candidate.ticker] || candidate.companyName || "Research Asset";
+}
+
+function getAlertsCommandSide(candidate = {}) {
+  const bias = String(candidate.bias || "").toLowerCase();
+  if (bias.includes("bear")) return "Put Research";
+  if (bias.includes("bull")) return "Call Research";
+  return "Watch";
+}
+
+function getAlertsCommandSideClass(side = "") {
+  if (/put|bear/i.test(side)) return "is-put";
+  if (/call|bull/i.test(side)) return "is-call";
+  return "is-watch";
+}
+
+function getAlertsCommandStatusClass(status = "") {
+  const normalized = String(status || "").toLowerCase();
+  if (normalized.includes("blocked")) return "is-blocked";
+  if (normalized.includes("review")) return "is-review";
+  if (normalized.includes("watch")) return "is-watch";
+  if (normalized.includes("setup")) return "is-neutral";
+  return "is-source";
+}
+
+function getAlertsCommandQueueBadge(liveStatus = getAlertsLiveStatus()) {
+  if (!liveStatus.activationBlocked && /PRIVATE_LOCAL_MASSIVE/i.test(liveStatus.dataMode)) return "PRIVATE LOCAL";
+  if (!liveStatus.activationBlocked && /LIVE|DELAYED/i.test(liveStatus.dataMode)) return "PRIVATE LOCAL";
+  if (/DEMO_FALLBACK/i.test(liveStatus.dataMode)) return "DEMO";
+  if (state.liveAlertsStatusFetchState === "unavailable" || liveStatus.activationBlocked) return "BLOCKED";
+  return "STATIC";
+}
+
+function renderAlertsCommandSparkline(side = "Watch") {
+  const path = /put|bear/i.test(side)
+    ? "M4 8 L20 11 L36 18 L52 25 L68 31"
+    : /call|bull/i.test(side)
+      ? "M4 30 L20 27 L36 20 L52 13 L68 8"
+      : "M4 20 L20 17 L36 21 L52 18 L68 20";
+  return `
+    <svg class="alerts-command-spark" viewBox="0 0 72 40" aria-hidden="true" focusable="false">
+      <path d="${path}" />
+      <circle cx="68" cy="${/put|bear/i.test(side) ? "31" : /call|bull/i.test(side) ? "8" : "20"}" r="2.5" />
+    </svg>
+  `;
+}
+
+function renderAlertsCommandMetricCards(rows, sourceStatus) {
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
+  const total = rows.length;
+  const callCount = rows.filter((row) => /call/i.test(getAlertsCommandSide(row.candidate))).length;
+  const putCount = rows.filter((row) => /put/i.test(getAlertsCommandSide(row.candidate))).length;
+  const watchCount = Math.max(0, total - callCount - putCount);
+  const directionalTotal = Math.max(1, callCount + putCount);
+  const callPct = Math.round((callCount / directionalTotal) * 100);
+  const averageScore = total
+    ? Math.round(rows.reduce((sum, row) => sum + Number(row.readinessValue || 0), 0) / total)
+    : 0;
+  return `
+    <section class="alerts-command-metrics" aria-label="Alerts Desk top metrics">
+      <article class="alerts-command-metric-card">
+        <span>Today's Review Queue</span>
+        <strong>${escapeHtml(String(total))} candidates</strong>
+        <small>Latest local update: ${escapeHtml(getAlertsLiveTimestampLabel(liveStatus))}</small>
+        <em>${escapeHtml(getAlertsCommandQueueBadge(liveStatus))}</em>
+      </article>
+      <article class="alerts-command-metric-card alerts-command-ring-card" style="--call-pct:${callPct}%">
+        <span>Calls vs Puts</span>
+        <div class="alerts-command-ring" aria-hidden="true"><strong>${escapeHtml(String(callPct))}%</strong></div>
+        <small>${escapeHtml(String(callCount))} Call Research / ${escapeHtml(String(putCount))} Put Research / ${escapeHtml(String(watchCount))} Watch</small>
+        <em>${liveStatus.activationBlocked ? "Static / Demo split" : "Private local split"}</em>
+      </article>
+      <article class="alerts-command-metric-card alerts-command-conviction-card">
+        <span>Today's Total Conviction</span>
+        <strong>${escapeHtml(String(averageScore))} / 100</strong>
+        <div class="alerts-command-mini-bars" aria-hidden="true">
+          ${rows.map((row) => `<i style="height:${Math.max(16, Math.min(100, row.readinessValue || 0))}%"></i>`).join("")}
+        </div>
+        <small>Mock aggregate research score; not expected return.</small>
+      </article>
+      <article class="alerts-command-metric-card alerts-command-gauge-card" style="--gauge-value:42%">
+        <span>Fear &amp; Greed</span>
+        <div class="alerts-command-gauge" aria-hidden="true"><strong>42</strong></div>
+        <small>Static / Source Required. No live market sentiment provider is displayed.</small>
+        <em>Static Mock</em>
+      </article>
+    </section>
+  `;
+}
+
+function renderAlertsCommandResearchStream(rows, selectedCandidateId) {
+  const statusOptions = ["Blocked", "Review Candidate", "Watch", "Needs More Sources", "No Setup", "CEO B Review Required"];
+  return `
+    <section class="alerts-command-stream" aria-labelledby="alertsCommandStreamTitle">
+      <header>
+        <div>
+          <span class="meta-label">Options Research Review Stream</span>
+          <h3 id="alertsCommandStreamTitle">OPTIONS RESEARCH REVIEW STREAM</h3>
+        </div>
+        <small>Rows are research candidates only. No live provider values, fake timestamps, alert delivery, or execution controls.</small>
+      </header>
+      <div class="alerts-command-status-options" aria-label="Available review statuses">
+        ${statusOptions.map((status) => `<span>${escapeHtml(status)}</span>`).join("")}
+      </div>
+      <div class="alerts-command-table" role="table" aria-label="Options research review stream">
+        <div class="alerts-command-row alerts-command-row-head" role="row">
+          ${["Time", "Ticker", "Company / Asset", "Side", "Timeframe", "Expiration", "Strike", "Premium", "Confidence", "Trend / Scenario", "Status"].map((label) => `<span role="columnheader">${escapeHtml(label)}</span>`).join("")}
+        </div>
+        ${rows.map((row) => {
+          const candidate = row.candidate || {};
+          const side = getAlertsCommandSide(candidate);
+          const sideClass = getAlertsCommandSideClass(side);
+          const statusClass = getAlertsCommandStatusClass(row.status);
+          return `
+            <button
+              type="button"
+              class="alerts-command-row ${row.id === selectedCandidateId ? "is-active" : ""}"
+              data-alert-row-id="${escapeHtml(row.id)}"
+              role="row"
+              aria-pressed="${row.id === selectedCandidateId}"
+              aria-label="${escapeHtml(`${row.ticker} ${side}. ${row.status}. Research confidence ${row.readiness}.`)}"
+              onclick="window.selectIntelligenceCandidate('${escapeHtml(row.id)}', { preserveScroll: true })"
+            >
+              <span role="cell" data-label="Time"><strong>N/A</strong><small>No verified timestamp</small></span>
+              <span role="cell" data-label="Ticker"><strong>${escapeHtml(row.ticker)}</strong>${renderAlertsCommandSparkline(side)}</span>
+              <span role="cell" data-label="Company / Asset"><strong>${escapeHtml(getAlertsCommandAssetName(candidate))}</strong><small>${escapeHtml(candidate.setupType || row.setup)}</small></span>
+              <span role="cell" data-label="Side"><em class="${escapeHtml(sideClass)}">${escapeHtml(side)}</em></span>
+              <span role="cell" data-label="Timeframe"><strong>${escapeHtml(candidate.timeframe || row.timeframe || "Source Required")}</strong></span>
+              <span role="cell" data-label="Expiration"><strong>Source Required</strong><small>${escapeHtml(candidate.optionWindow || "N/A")}</small></span>
+              <span role="cell" data-label="Strike"><strong>Source Required</strong><small>Exact contract drawer-only</small></span>
+              <span role="cell" data-label="Premium"><strong>Source Required</strong><small>No provider value</small></span>
+              <span role="cell" data-label="Confidence"><strong>${escapeHtml(row.readiness)}</strong><small>${escapeHtml(row.readinessClass)}</small></span>
+              <span role="cell" data-label="Trend / Scenario"><strong>${escapeHtml(candidate.marketRegime || "Research context")}</strong><small>${escapeHtml(row.risk)} risk</small></span>
+              <span role="cell" data-label="Status"><em class="${escapeHtml(statusClass)}">${escapeHtml(row.status)}</em></span>
+            </button>
+          `;
+        }).join("")}
+      </div>
+      <div class="alerts-command-stream-actions" aria-label="UI-only review controls">
+        <button type="button" aria-disabled="true" onclick="window.showNotification('UI-only preview. No packet was sent or delivered.', 'warning')">Send to CEO B Review</button>
+        <button type="button" aria-disabled="true" onclick="window.showNotification('UI-only preview. No packet route was saved or transmitted.', 'warning')">Route Packet</button>
+      </div>
+      <p class="alerts-command-boundary">Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · Demo/Static Data unless server verified · Options involve substantial risk.</p>
+    </section>
+  `;
+}
+
+function renderAlertsCommandRightRail() {
+  const sources = [
+    ["Macro", "Active Mock"],
+    ["Smart Money", "Needs Review"],
+    ["Unusual Flow", "Source Required"],
+    ["Catalyst", "Needs Review"],
+    ["FDA", "Blocked"],
+    ["SEC", "Source Required"],
+    ["Trend", "Active Mock"],
+    ["News", "Source Required"],
+    ["All Agents", "Active Mock"],
+    ["ETF Flows", "Needs Review"],
+    ["Insider Activity", "Source Required"],
+    ["Options Flow", "Blocked"],
+    ["Markets Regime", "Active Mock"],
+    ["Watchlists", "Active Mock"],
+    ["Archive Memory", "Needs Review"],
+  ];
+  return `
+    <aside class="alerts-command-rail" aria-label="Intelligence sources and private OS guide">
+      <section class="alerts-command-source-panel">
+        <header>
+          <span class="meta-label">Intelligence Sources</span>
+          <h3>INTELLIGENCE SOURCES</h3>
+        </header>
+        <div>
+          ${sources.map(([label, status]) => `
+            <article class="is-${escapeHtml(status.toLowerCase().replaceAll(" ", "-"))}">
+              <span>${escapeHtml(label)}</span>
+              <strong>${escapeHtml(status)}</strong>
+            </article>
+          `).join("")}
+        </div>
+        <a href="#/source-hub">View Source Hub -&gt;</a>
+      </section>
+      <section class="alerts-command-steward">
+        <header>
+          <span class="alerts-command-steward-mark"><img src="brand/pickaxe-capital-logo.png?v=20260531-logo3" alt="" aria-hidden="true" /></span>
+          <div>
+            <span class="meta-label">PICKAXE STEWARD</span>
+            <h3>PRIVATE OS GUIDE</h3>
+          </div>
+        </header>
+        <p>You're on: 00 Alerts Desk</p>
+        <p>Review options research candidates before CEO B final approval.</p>
+        <p><strong>Tip:</strong> check source status, risk gate, contract context, and research thesis before advancing a packet.</p>
+        <p><strong>Next Action:</strong> Send only complete candidates to CEO B Review. Route incomplete packets to Source Hub or Research Desk.</p>
+        <p><strong>Safety Reminder:</strong> Free research. No broker execution. No guaranteed signal.</p>
+        <button type="button" onclick="window.showNotification('Private OS guide acknowledged for this page session only. No state was saved.')">Got it</button>
+      </section>
+    </aside>
+  `;
+}
+
+function renderAlertsCommandDashboardPanels(rows, sourceStatus) {
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
+  const marketRegime = getMarketRegime();
+  const watchlist = rows.map((row) => {
+    const side = getAlertsCommandSide(row.candidate);
+    const label = /call/i.test(side) ? "Bullish research" : /put/i.test(side) ? "Bearish research" : "Neutral watch";
+    return [row.ticker, label];
+  });
+  const panels = [
+    {
+      title: "MARKET OVERVIEW",
+      rows: [["SPY", "Source Required"], ["QQQ", "Source Required"], ["VIX", "Demo / Source Required"], ["Breadth", "Static Context"], ["Regime", marketRegime.riskMode || "Source Required"]],
+      note: "No live market numbers displayed.",
+    },
+    {
+      title: "SYSTEM STATUS",
+      rows: [["Source Hub", "Operational"], ["Research Desk", "Operational"], ["Options Hub", "Source Required"], ["Risk & Rules", "Operational"], ["Archive", "Operational"], ["Watchlists", "Operational"], ["Staging / QA", "Operational"]],
+      note: "Local/static UI only.",
+    },
+    {
+      title: "MARKET BIAS",
+      rows: [["Context", marketRegime.riskMode || "Research context only"], ["State", formatAlertsLiveModeLabel(liveStatus.dataMode)], ["Label", "Research context only"]],
+      note: "Directional context is not a prediction.",
+    },
+    {
+      title: "PROJECTED SCENARIO",
+      rows: [["Possible Path", "Selective review if sources confirm"], ["Downside Path", "Evidence gaps keep packets blocked"], ["Invalidation", "Source and risk gate failure"], ["Timeframe", "Manual review window"], ["Confidence", "Packet completeness only"]],
+      note: "Possible paths, not predictions.",
+    },
+    {
+      title: "WATCHLIST",
+      rows: watchlist,
+      note: "Static research universe.",
+    },
+  ];
+  return `
+    <section class="alerts-command-dashboard" aria-label="Alerts command dashboard panels">
+      ${panels.map((panel) => `
+        <article>
+          <header><span>${escapeHtml(panel.title)}</span></header>
+          <dl>
+            ${panel.rows.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}
+          </dl>
+          <small>${escapeHtml(panel.note)}</small>
+        </article>
+      `).join("")}
+    </section>
+  `;
+}
+
+function renderAlertsCommandFrameworks() {
+  const callChecklist = [
+    "Verified source trail and timestamp status",
+    "Time, Trend, and Theme alignment",
+    "Contract quality and liquidity context",
+    "Catalyst source check",
+    "Defined invalidation before advancement",
+    "Premium and risk note",
+    "CEO B review state recorded",
+  ];
+  const putChecklist = [
+    "Verified downside thesis and source trail",
+    "Breakdown structure or hedge context",
+    "Catalyst credibility and conflict check",
+    "Liquidity and spread guardrail",
+    "Volatility event-risk note",
+    "Bear-case invalidation before advancement",
+    "Manual review record",
+  ];
+  return `
+    <section class="alerts-command-frameworks" aria-label="Research candidate frameworks">
+      <article>
+        <span class="meta-label">CALL RESEARCH CANDIDATE FRAMEWORK</span>
+        <h3>Upside research requires evidence before enthusiasm.</h3>
+        <ul>${callChecklist.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        <small>Research framework only. Not a trade instruction.</small>
+      </article>
+      <article>
+        <span class="meta-label">PUT RESEARCH CANDIDATE FRAMEWORK</span>
+        <h3>Downside research requires structure before fear.</h3>
+        <ul>${putChecklist.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        <small>Research framework only. Not a trade instruction.</small>
+      </article>
+    </section>
+  `;
+}
+
 function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
   const candidate = getSelectedAlertsCandidate();
   const score = scoreIntelligenceCandidate(candidate);
   const sourceStatus = getSourceStatus();
   const decisionState = getAlertsOperatorDecisionState(candidate, sourceStatus);
   const rows = getAlertsFeedRows(sourceStatus);
-  const filteredRows = getFilteredAlertsRows(rows);
   const sourceTruthBlocked = ["Source Gate", "Timestamp Gate", "Options-Chain Gate"].some((gateName) => failedGatesHas(decisionState, gateName));
   const requiredGateSummary = [
     ["Provider Rights", failedGatesHas(decisionState, "Provider Rights Gate") ? "LEGAL BLOCKED" : "PASS", "Commercial/provider/OPRA rights"],
@@ -11279,18 +11574,29 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
 
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
-      ${renderAlertsFeedProductBar(rows, sourceStatus, decisionState)}
-      <section class="alerts-decision-command-grid" aria-label="Alerts decision command layout">
-        <div class="alerts-decision-board">
-          <section class="alerts-primary-workspace alerts-feed-focus" aria-label="Setups to Review feed">
-            ${renderAlertsFeedTable(rows, filteredRows, candidate.id, sourceStatus)}
-          </section>
-        </div>
-        <aside class="alerts-decision-sidebar" aria-label="Selected setup command context">
-          ${renderAlertsQuickReview(candidate, score, sourceStatus, decisionState)}
-          ${renderAlertsActivationGate(sourceStatus, decisionState)}
-        </aside>
-      </section>
+      <div class="alerts-command-terminal">
+        <section class="alerts-command-identity-bar" aria-label="Alerts Desk identity">
+          <div>
+            <span class="meta-label">00 ALERTS DESK</span>
+            <h2 id="alertsOperatorTitle">OPTIONS ALERTS REVIEW QUEUE</h2>
+            <p>Premium research terminal for source-gated options candidates. Every item remains manual-review only until CEO B approval.</p>
+          </div>
+          <aside>
+            <img src="brand/pickaxe-capital-logo.png?v=20260531-logo3" alt="" aria-hidden="true" />
+            <div>
+              <strong>CEO B</strong>
+              <span>FINAL APPROVAL AUTHORITY</span>
+            </div>
+          </aside>
+        </section>
+        ${renderAlertsCommandMetricCards(rows, sourceStatus)}
+        <section class="alerts-command-main-grid" aria-label="Alerts command terminal layout">
+          ${renderAlertsCommandResearchStream(rows, candidate.id)}
+          ${renderAlertsCommandRightRail()}
+        </section>
+        ${renderAlertsCommandDashboardPanels(rows, sourceStatus)}
+        ${renderAlertsCommandFrameworks()}
+      </div>
       ${renderAlertsDetailsDrawer(candidate, score, sourceStatus, decisionState, requiredGateSummary, advancedResearchMarkup)}
     </section>
   `;
