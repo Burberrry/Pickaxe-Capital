@@ -2,19 +2,25 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Alerts Cockpit v6.6.1 Final Local Visual Repair is **PASS / ALERTS COCKPIT V6.6.1 FINAL LOCAL VISUAL REPAIR READY**.
+Pickaxe Alerts Cockpit v6.6.1 Hosted Verification is **PASS / ALERTS COCKPIT V6.6.1 HOSTED VERIFIED**.
 
-- Baseline remains `7d2b33cfb370ee4f8137596ea271b8da56b7d851` on `main` / `origin/main`.
-- Work is local-only. No push or deploy was performed.
-- Mobile PET now visibly renders the real canonical PET asset at `390x900` and `390x844`.
-- CEO B X Source Deck now includes the exact 26 approved handles, grouped and source-gated, with no fake tweets, fake timestamps, X scraping, X API calls, browser X requests, endorsement, or trading instruction.
-- Toast now stays out of Exact Contracts / Review / Evidence / Confidence panels and reads `[SUCCESS] Local research note saved · no external action.`
+- Approved checkpoint promoted: `17eea6ce8c100787b163dbbd63883e89400b7db3` (`Finalize Alerts cockpit source deck polish`).
+- Safety branch: `backup/pre-alerts-cockpit-v6-6-1-hosted-20260628`.
+- Push result for `main`: `Everything up-to-date`; `origin/main` already contained `17eea6c`.
+- GitHub Pages workflow `28337565819` passed for v6.6.1. Validate and Build job `83946304952` passed; Deploy job `83946324805` passed. Pages deployment `5232061279` finished with deployment status `14887368852` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted visual QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`.
+- Real canonical bull, bear, and PET assets are visible on desktop and mobile; approved Pickaxe logo is visible; no placeholder character SVGs returned.
+- CEO B X Source Deck is visible and includes/reveals all 26 approved handles with source-gated/no-live-feed copy. No fake tweets, fake timestamps, scraping, X API call, browser X request, endorsement, or trading instruction was observed.
+- Hosted interaction QA passed: the Alerts cockpit toast stays out of Exact Contracts / Review / Evidence / Confidence panels and reads `[SUCCESS] Local research note saved · no external action.`
+- Hosted regression routes passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, and Life OS.
+- Hosted static-public boundary passed: `.env`, `.env.local`, `server.mjs`, `/api/live/status`, `/api/live/alerts`, `data/signal-alerts.json`, and source maps were not exposed. Rendered pages name planned environment variables in safety documentation, but no secret values or key-shaped tokens are present.
 - Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, and `Research. Discipline. Verification.`
-- Screenshot proof target: `/tmp/pickaxe-alerts-cockpit-v6-6-1-local/`.
+- Hosted screenshots and QA summary are under `/tmp/pickaxe-alerts-cockpit-v6-6-1-hosted/`.
 
-Next bounded step: run final local checkpoint commit only if CEO B accepts v6.6.1.
+Next bounded step: CEO B hosted visual review of v6.6.1.
 
-Do not push, deploy, start provider work, enable public live data, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+Do not start provider work, enable public live data, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
 
 ## Previous Active Checkpoint - Pickaxe Alerts Cockpit v6.6 Local Source Deck Integration
 
