@@ -2,6 +2,33 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Clean Live Desk Hosted Verification v1 is **PASS / HOSTED QA VERIFIED**.
+
+- Local implementation commit `504a9fa773e8bcf5457fdbd3a92cf61ccb08dae3` (`Simplify live Alerts desk experience`) was fast-forward merged from `codex/alerts-clean-live-desk-v1-20260628` into `main` and pushed to `origin/main`; no merge commit was created.
+- The promoted stack included the prior live-alerts activation checkpoint `c100071` plus the Clean Live Desk UI checkpoint `504a9fa`.
+- Starting `main` and `origin/main` before integration: `621b782359c194a0f2e585522bc8bd1a0c7dd844`.
+- Safety branch before integration: `backup/pre-alerts-clean-live-desk-hosted-v1-20260628`.
+- GitHub Pages workflow `28313461337` passed for commit `504a9fa773e8bcf5457fdbd3a92cf61ccb08dae3`.
+- Validate and Build job `83882216921` passed; Deploy job `83882235206` passed.
+- Pages deployment `5226477836` finished with deployment status `14872390097` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted Pages artifact verification matched deployed `/`, `app.js`, `styles.css`, and `habitat-data.js` byte-for-byte against the corresponding `public/` files. Active implementation cache key was `alerts-clean-live-desk-v1-20260628-r1`.
+- Hosted screenshots are under `/tmp/pickaxe-alerts-clean-live-desk-hosted-v1/`.
+- Hosted desktop Alerts QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`: compact Alerts header, Live Status / Activation Gate, Alerts Queue, Selected Alert, one closed Alert Details drawer, active nav `Alerts Desk`, no visible `00` badge, five Demo Fallback rows, no fake live state, no verified timestamp, no verified quote, no verified options-chain snapshot, and required safety language visible or reachable.
+- Hosted mobile smoke QA passed on `/app/alerts` at `390x844`; mobile remains smoke-tested only and no mobile redesign was performed.
+- Hosted interaction QA passed for QQQ/NVDA/SPY/TSLA/GLD selection, search, reset, Alert Details drawer open/close, Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, Advanced Research OS, and Safety Boundary.
+- Hosted live-status behavior passed: public GitHub Pages does not run the local Node server, same-origin `/api/live/status` and `/api/live/alerts` probes degrade gracefully or remain unavailable on static hosting, Demo Fallback rows stay labeled, and no fake live candidate appears.
+- Hosted regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os` with correct views, nonblank content, no relevant console warnings/errors, no document-level horizontal overflow, and exactly one Starlight canvas.
+- Hosted security/data-boundary QA passed: no direct browser provider request, no Alpha Vantage/Massive/Tradier/Polygon/Databento/Intrinio/ORATS/Cboe/OPRA browser request, no localhost dependency, no actual API key values, no secret exposure, no source maps, no public provider-response cache, no broker/order/payment/auth/subscription/alert-delivery endpoints, no profit guarantee, no financial advice, and no trade recommendation.
+- Local validation passed before merge, after integration, and before status recording with JavaScript syntax checks, `node scripts/check-live-alerts.mjs`, required package commands, mirror checks, public-safety/deploy-boundary/route checks, `git diff --check`, git status, and unchanged signal-data hash.
+- `data/signal-alerts.json` remains unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+
+Next bounded step: `Pickaxe Live Provider Credential Proof v1 — server-only, local-only, no browser secrets, no public display`.
+
+Do not start provider work, request or paste API keys, put API keys in GitHub, enable public live display, start mobile redesign, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Clean Live Desk v1
+
 Pickaxe Alerts Clean Live Desk v1 is **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
 
 - Bounded implementation branch: `codex/alerts-clean-live-desk-v1-20260628`.

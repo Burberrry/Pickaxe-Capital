@@ -1,6 +1,44 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Clean Live Desk v1
+## Current Checkpoint - Pickaxe Alerts Clean Live Desk Hosted Verification v1
+
+- Date: 2026-06-28.
+- Result: **PASS / HOSTED QA VERIFIED**.
+- Sprint type: bounded push, fast-forward integration, GitHub Pages deployment verification, hosted QA, hosted security/data-boundary QA, and hosted status record for `Pickaxe Alerts Clean Live Desk v1`. No new product work, provider activation, Massive work, live data, credential request, direct browser provider request, broker/execution/payment/subscription/auth/alert-delivery behavior, new route, second Alerts renderer, LocalStorage key, packet model, review queue, mobile redesign, profit guarantee, financial advice, trade recommendation, or `data/signal-alerts.json` change was authorized or added.
+- Starting work branch: `codex/alerts-clean-live-desk-v1-20260628`.
+- Local implementation commit promoted: `504a9fa773e8bcf5457fdbd3a92cf61ccb08dae3` (`Simplify live Alerts desk experience`), stacked on `c100071` (`Build live-alerts activation path with blocked provider gate`).
+- Starting `main` and `origin/main` before integration: `621b782359c194a0f2e585522bc8bd1a0c7dd844`.
+- Safety branch created before integration: `backup/pre-alerts-clean-live-desk-hosted-v1-20260628`.
+- Changed files from `origin/main...codex/alerts-clean-live-desk-v1-20260628` were expected only: `NEXT_STEPS.md`, `PROJECT_STATUS.md`, `app.js`, `habitat-data.js`, `index.html`, `lib/alpha-vantage-quote.mjs`, `lib/live-alerts-engine.mjs`, `package.json`, `public/app.js`, `public/habitat-data.js`, `public/index.html`, `public/styles.css`, `scripts/check-live-alerts.mjs`, `scripts/check-provider-quote.mjs`, `server.mjs`, and `styles.css`.
+- Integration method: fast-forward merge from `codex/alerts-clean-live-desk-v1-20260628` into `main`; no merge commit was created.
+- Pushed implementation commit: `504a9fa773e8bcf5457fdbd3a92cf61ccb08dae3`; local `main` and `origin/main` were aligned at that commit after push.
+- GitHub Pages workflow: `28313461337` (`Validate and Deploy GitHub Pages`) for commit `504a9fa773e8bcf5457fdbd3a92cf61ccb08dae3`.
+- Pages jobs: `83882216921` (`Validate and Build`) success; `83882235206` (`Deploy`) success.
+- Pages deployment: `5226477836`; deployment status `14872390097` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted Pages artifact verification matched deployed `/`, `app.js`, `styles.css`, and `habitat-data.js` byte-for-byte against the corresponding `public/` files. Active implementation cache key verified: `alerts-clean-live-desk-v1-20260628-r1`.
+- Hosted static-public boundary passed: `.env`, `server.mjs`, `lib/live-alerts-engine.mjs`, `lib/alpha-vantage-quote.mjs`, provider scripts, source maps, `.git/config`, `data/signal-alerts.json`, `/api/live/status`, and `/api/live/alerts` were not publicly served as sensitive artifacts.
+- Hosted screenshots were captured under `/tmp/pickaxe-alerts-clean-live-desk-hosted-v1/`: `hosted-root-1440x900.png`, `hosted-hash-alerts-1440x900.png`, `hosted-app-alerts-1440x900.png`, `hosted-root-1280x720.png`, `hosted-app-alerts-390x844.png`, and `hosted-alert-details-open-1440x900.png`.
+- Hosted desktop Alerts QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`: compact Alerts header, Live Status / Activation Gate, Alerts Queue, Selected Alert, one closed Alert Details drawer, active nav `Alerts Desk`, five Demo Fallback rows, QQQ default selection, `No External Action`, required Research Only / Not Financial Advice / No Broker Execution / options-risk language, no confusing visible `00` badge, no crowded section wall, no overloaded right side, no debug-dashboard feel, no fake live state, no verified timestamp, no verified quote, and no verified options-chain snapshot.
+- Hosted mobile smoke QA passed on `/app/alerts` at `390x844`: correct Alerts route, nonblank content, compact status/queue controls reachable, five Demo Fallback rows, required safety/data boundaries, no document-level horizontal overflow, and one Starlight canvas. Mobile remains smoke-tested only; no mobile redesign was performed.
+- Hosted interaction QA passed: QQQ/NVDA/SPY/TSLA/GLD setup selection, search, reset, Alert Details drawer open/close, and reachability of Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, Advanced Research OS, and Safety Boundary.
+- Hosted live-status behavior passed: public GitHub Pages does not run the local Node server; same-origin `/api/live/status` and `/api/live/alerts` probes fail gracefully or return unavailable/static-host behavior; Demo Fallback rows remain labeled; no fake live candidate, verified timestamp, live quote, or options-chain snapshot appears.
+- Hosted regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`: correct active views, nonblank content, no relevant console warnings/errors, no document-level horizontal overflow, exactly one Starlight canvas, no provider resources, no localhost dependency, no sensitive resources, and no broker/order/payment/auth/subscription/alert-delivery behavior.
+- Hosted security/data-boundary QA passed: no direct browser provider request, no Alpha Vantage, Massive, Tradier, Polygon, Databento, Intrinio, ORATS, Cboe, OPRA, broker, order, payment, auth, subscription, or alert-delivery browser endpoint, no actual API key values, no secret exposure, no source maps, no public provider-response cache, no profit guarantee, no financial advice, no trade recommendation, and no public static dependency on localhost.
+- Validation passed before merge and again after fast-forward integration with JavaScript syntax checks, `node scripts/check-live-alerts.mjs`, required package commands, mirror checks, public-safety/deploy-boundary/route checks, `git diff --check`, and git status.
+- Root/public mirrors were kept synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Remaining blockers: provider activation remains blocked by provider/legal/credential gates; mobile remains smoke-tested only.
+- Next bounded recommendation: `Pickaxe Live Provider Credential Proof v1 — server-only, local-only, no browser secrets, no public display`.
+
+### Pickaxe Alerts Clean Live Desk Hosted Verification v1 Files Changed
+
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `public/habitat-data.js` and `habitat-data.js`
+- `public/index.html` and `index.html`
+
+## Previous Checkpoint - Pickaxe Alerts Clean Live Desk v1
 
 - Date: 2026-06-28.
 - Result: **PASS / LOCAL IMPLEMENTATION AND BROWSER QA COMPLETE**.
