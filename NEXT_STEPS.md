@@ -2,20 +2,23 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Alerts Command Terminal Visual Upgrade v1 is **PASS / ALERTS COMMAND TERMINAL VISUAL READY**.
+Pickaxe Alerts Command Terminal Reference Density v3 is **PASS / ALERTS TERMINAL REFERENCE DENSITY READY**.
 
 - Bounded visual branch: `codex/private-local-massive-qqq-proof-v1-20260628`.
-- Starting commit: `3e17b2334fce5108b9910114f4bc53455eb5bef1`.
+- Starting commit: `3d9a77db09609feeb4e7fd8c80bbf84ec270416b`.
 - The existing Alerts route and renderer chain were preserved: `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `renderAlertsOperatorWorkspace()`.
-- Alerts now opens as a black/gold command terminal with top identity bar, four metric cards, compact options research review stream, right-side intelligence source rail, Pickaxe Steward panel, bottom dashboard panels, and call/put research frameworks.
+- Alerts now opens as a tighter hedge-fund-style command terminal with an explicit `pickaxe-command-terminal-v3` shell, minimized Alerts-only desktop sidebar, compact identity/header, compressed metric cards, five dense research rows, compact right-side source grid, dominant Pickaxe Steward visual, five bottom dashboard panels, and two call/put framework panels visible at `1440x900`.
+- The 1440 local gate passed on `/app/alerts`: sidebar `88px`, terminal `1340x888` ending at `bottom=894`, five stream rows visible, fifteen source cards visible, five dashboard panels visible, two framework panels visible, no horizontal overflow, no browser provider requests, and `Exact Contract Panel` hidden until the drawer opens.
 - The stream still uses only the existing QQQ, NVDA, SPY, TSLA, and GLD research candidates. Source-required fields remain labeled, and no provider prices, strikes, premiums, bids, asks, Greeks, volume, open interest, or live timestamps were invented.
 - Exact Contract Panel remains drawer-only inside Alert Details with blocked/source-required placeholders unless a separate server-verified local proof is authorized and available.
-- Browser QA passed locally on `/`, `/#/alerts`, and `/app/alerts` at `1440x900`, `1280x720`, and `390x844`: correct Alerts view, active nav `Alerts Desk` without `00`, no relevant console errors, no document-level horizontal overflow, no provider browser resources, no fake live label, no numeric fake timestamp, and Exact Contract Panel hidden until the drawer opens.
-- Regression route browser QA passed for the required bridge routes.
+- Screenshots are under `/tmp/pickaxe-alerts-command-terminal-v3/`: before/after desktop, 1280, mobile, and `after-details-open-1440.png`.
+- Browser QA passed locally on `/#/alerts` and `/app/alerts` at `1440x900`, `1280x720`, and `390x844`: correct Alerts view, active nav `Alerts Desk` without a visible sidebar `00`, no relevant console errors, no document-level horizontal overflow, no provider browser resources, no visible execution controls, no fake live label, no numeric fake timestamp, and Exact Contract Panel hidden until the drawer opens.
+- Regression route browser QA passed for `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
 - Validation passed with JavaScript syntax checks, live-alerts/options-chain fixture checks, required package checks, mirror checks, smoke route checks, public-safety/deploy-boundary/route checks, and `git diff --check`.
+- Build Completion Tracker metadata now includes `pickaxe-alerts-command-terminal-reference-density-v3-20260628`.
 - No push, deploy, Massive provider request, public display enablement, fake live data, browser provider call, new route, second Alerts renderer, LocalStorage key, packet model, review queue, broker/execution/order/payment/subscription/auth/alert-delivery behavior, or `data/signal-alerts.json` change was added.
 
-Next bounded step: `CEO B visual review of Pickaxe Alerts Command Terminal Visual Upgrade v1`.
+Next bounded step: `CEO B visual review of Pickaxe Alerts Command Terminal Reference Density v3`.
 
 Do not push, deploy, enable public display, add provider/browser calls, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
 

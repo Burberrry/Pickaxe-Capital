@@ -11447,6 +11447,9 @@ function renderAlertsCommandRightRail() {
         <a href="#/source-hub">View Source Hub -&gt;</a>
       </section>
       <section class="alerts-command-steward">
+        <figure class="alerts-command-steward-visual" aria-hidden="true">
+          <img src="assets/ceo-b/ceo-b-outfit-v1-research-command-4x5-r1.png?v=alerts-command-terminal-v3-20260628-r1" alt="" />
+        </figure>
         <header>
           <span class="alerts-command-steward-mark"><img src="brand/pickaxe-capital-logo.png?v=20260531-logo3" alt="" aria-hidden="true" /></span>
           <div>
@@ -11454,11 +11457,11 @@ function renderAlertsCommandRightRail() {
             <h3>PRIVATE OS GUIDE</h3>
           </div>
         </header>
-        <p>You're on: 00 Alerts Desk</p>
-        <p>Review options research candidates before CEO B final approval.</p>
-        <p><strong>Tip:</strong> check source status, risk gate, contract context, and research thesis before advancing a packet.</p>
-        <p><strong>Next Action:</strong> Send only complete candidates to CEO B Review. Route incomplete packets to Source Hub or Research Desk.</p>
-        <p><strong>Safety Reminder:</strong> Free research. No broker execution. No guaranteed signal.</p>
+        <div class="alerts-command-steward-brief">
+          <p><strong>Route:</strong> 00 Alerts Desk</p>
+          <p><strong>Mandate:</strong> source, risk, contract context, thesis, then CEO B review.</p>
+          <p><strong>Boundary:</strong> Research Only. Not Financial Advice. No Broker Execution.</p>
+        </div>
         <button type="button" onclick="window.showNotification('Private OS guide acknowledged for this page session only. No state was saved.')">Got it</button>
       </section>
     </aside>
@@ -11506,7 +11509,7 @@ function renderAlertsCommandDashboardPanels(rows, sourceStatus) {
         <article>
           <header><span>${escapeHtml(panel.title)}</span></header>
           <dl>
-            ${panel.rows.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}
+            ${panel.rows.slice(0, 4).map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}
           </dl>
           <small>${escapeHtml(panel.note)}</small>
         </article>
@@ -11520,19 +11523,13 @@ function renderAlertsCommandFrameworks() {
     "Verified source trail and timestamp status",
     "Time, Trend, and Theme alignment",
     "Contract quality and liquidity context",
-    "Catalyst source check",
-    "Defined invalidation before advancement",
-    "Premium and risk note",
-    "CEO B review state recorded",
+    "Risk note and CEO B review state",
   ];
   const putChecklist = [
     "Verified downside thesis and source trail",
-    "Breakdown structure or hedge context",
-    "Catalyst credibility and conflict check",
-    "Liquidity and spread guardrail",
-    "Volatility event-risk note",
-    "Bear-case invalidation before advancement",
-    "Manual review record",
+    "Breakdown or hedge structure",
+    "Liquidity, spread, and volatility guardrail",
+    "Invalidation and manual review record",
   ];
   return `
     <section class="alerts-command-frameworks" aria-label="Research candidate frameworks">
@@ -11574,7 +11571,7 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
 
   return `
     <section class="alerts-operator-workspace" aria-labelledby="alertsOperatorTitle">
-      <div class="alerts-command-terminal">
+      <div class="alerts-command-terminal pickaxe-command-terminal-v3">
         <section class="alerts-command-identity-bar" aria-label="Alerts Desk identity">
           <div>
             <span class="meta-label">00 ALERTS DESK</span>
