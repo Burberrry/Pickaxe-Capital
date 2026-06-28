@@ -2,6 +2,26 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Cockpit v6.3 Hosted Verification is **PASS / ALERTS COCKPIT V6.3 HOSTED VERIFIED**.
+
+- Promoted commit stack on `main` / `origin/main`: `31880b9` (`Integrate canonical Alerts cockpit character assets`) and `83ae681` (`Polish Alerts cockpit character composition`).
+- Safety branch: `backup/pre-alerts-cockpit-v6-3-hosted-20260628`.
+- GitHub Pages workflow `28324047962` passed for commit `83ae681b197b1591a00cc1c05f3075710da7db72`; Validate and Build job `83910914833` passed; Deploy job `83910940768` passed; deployment `5228831630` finished with deployment status `14878838232` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted visual QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`.
+- Real canonical bull, bear, and PET assets remain visible; approved Pickaxe logo is visible; no placeholder character art returned.
+- Hosted interaction QA passed: selecting the PUT row and pressing `ASK PET` remains local-note behavior only.
+- Hosted regression routes passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, and Life OS.
+- Hosted static-public boundary passed: `.env`, `.env.local`, `server.mjs`, provider libraries, `/api/live/status`, `/api/live/alerts`, and `data/signal-alerts.json` were not exposed.
+- Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, no provider browser calls, no public live display, no fake live data, no fake timestamps, and no execution/broker/payment/auth/subscription/alert-delivery behavior.
+- Hosted screenshots and QA summary are under `/tmp/pickaxe-alerts-cockpit-v6-3-hosted/`.
+
+Next bounded step: `CEO B hosted visual review of Pickaxe Alerts Cockpit v6.3`.
+
+Do not start provider work, activate Massive, enable public live data, add fake live data, add browser provider calls, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Cockpit v6.3 Asset Composition Polish
+
 Pickaxe Alerts Cockpit v6.3 Asset Composition Polish is **PASS / ALERTS COCKPIT V6.3 ASSET COMPOSITION POLISH**.
 
 - Local-only checkpoint from v6.2 commit `31880b9`; no push or deploy was performed.

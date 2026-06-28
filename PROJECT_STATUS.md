@@ -1,6 +1,36 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Cockpit v6.3 Asset Composition Polish
+## Current Checkpoint - Pickaxe Alerts Cockpit v6.3 Hosted Verification
+
+- Date: 2026-06-28.
+- Result: **PASS / ALERTS COCKPIT V6.3 HOSTED VERIFIED**.
+- Sprint type: bounded push follow-through, GitHub Pages hosted verification, static-public safety boundary QA, and status record for `Pickaxe Alerts Cockpit v6.3 Asset Composition Polish`. No provider activation, public live data, fake live data, fake timestamp, route, LocalStorage key, package script, server/provider behavior, broker/execution/order/payment/auth/subscription/alert-delivery behavior, `.env`, `.env.local`, or `data/signal-alerts.json` change was authorized or added.
+- Promoted commit stack: `31880b9` (`Integrate canonical Alerts cockpit character assets`) and `83ae681` (`Polish Alerts cockpit character composition`) are both included in `main` and `origin/main`.
+- Safety branch before hosted status recording: `backup/pre-alerts-cockpit-v6-3-hosted-20260628`.
+- Push result for `main`: `Everything up-to-date`; preflight confirmed `origin/main` already pointed at `83ae681`.
+- GitHub Pages workflow: `28324047962` (`Validate and Deploy GitHub Pages`) for commit `83ae681b197b1591a00cc1c05f3075710da7db72`.
+- Pages jobs: `83910914833` (`Validate and Build`) success; `83910940768` (`Deploy`) success.
+- Pages deployment: `5228831630`; deployment status `14878838232` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted visual QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`: v6.3 cockpit live, approved Pickaxe logo visible, real canonical bull visible, real canonical bear visible, real canonical PET visible, no placeholder character art, no live labels, no fake current prices, no fake timestamps, no buy/sell instruction, no document-level horizontal overflow, and one visible Starlight canvas.
+- Hosted interaction QA passed on `/app/alerts` at `1472x1104`: selecting the PUT row and pressing `ASK PET` produced the local-only success note without external action, provider call, broker behavior, or alert-delivery behavior.
+- Hosted screenshots were captured under `/tmp/pickaxe-alerts-cockpit-v6-3-hosted/`, including `hosted-root-1472x1104.png`, `hosted-hash-alerts-1472x1104.png`, `hosted-app-alerts-1472x1104.png`, `hosted-app-alerts-390x900.png`, `hosted-app-alerts-390x844.png`, and `hosted-app-alerts-interaction-1472x1104.png`. Full QA details are in `/tmp/pickaxe-alerts-cockpit-v6-3-hosted/hosted-qa-summary.json`.
+- Hosted regression route QA passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`: nonblank target content, no relevant console errors, no document-level horizontal overflow, one visible Starlight canvas, and no provider browser calls.
+- Hosted static-public boundary passed: `.env`, `.env.local`, `server.mjs`, provider libraries, `/api/live/status`, `/api/live/alerts`, and `data/signal-alerts.json` returned 404/not-exposed static-host behavior.
+- Hosted security/data-boundary QA passed: no exposed secrets, no public provider-response cache, no direct Massive/Alpha Vantage/Tradier/Polygon/OPRA/Cboe/Databento/Intrinio/ORATS browser request, no provider activation, no public live display, no broker/order/payment/auth/subscription/alert-delivery endpoint, no profit guarantee, no financial advice, and no trade recommendation.
+- `data/signal-alerts.json` remains unchanged at SHA-1 `f23873c8c94cfd200848dbaeefd02b7c57542a05`; its last modifying commit remains `f920e811b52d113bc010bcc4fc63f7e8257a5d5b`.
+- Root/public mirrors remain synchronized for `index.html`, `app.js`, `styles.css`, and `habitat-data.js`. The hosted status-record cache key is `alerts-cockpit-v6-3-hosted-20260628-r1`.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, and any broker/execution/payment/auth/subscription/alert-delivery work remain separate blocked work.
+- Next bounded recommendation: `CEO B hosted visual review of Pickaxe Alerts Cockpit v6.3`.
+
+### Pickaxe Alerts Cockpit v6.3 Hosted Verification Files Changed
+
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `public/habitat-data.js` and `habitat-data.js`
+- `public/index.html` and `index.html`
+
+## Previous Checkpoint - Pickaxe Alerts Cockpit v6.3 Asset Composition Polish
 
 - Date: 2026-06-28.
 - Result: **PASS / ALERTS COCKPIT V6.3 ASSET COMPOSITION POLISH**.
