@@ -30648,6 +30648,35 @@ body[data-active-view="alerts"] #alerts.active .alerts-decision-board button.ale
   font-size: 8.4px;
 }
 
+#alerts.active .alerts-terminal-header.is-live-blocked .alerts-feed-truth span,
+#alerts.active .alerts-terminal-header.is-source-required .alerts-feed-truth span {
+  border-color: rgba(214, 163, 68, 0.22);
+  background:
+    linear-gradient(180deg, rgba(214, 163, 68, 0.08), rgba(255, 255, 255, 0.004)),
+    rgba(0, 0, 0, 0.24);
+}
+
+#alerts.active .alerts-terminal-header.is-live-blocked .alerts-feed-truth span:nth-child(1),
+#alerts.active .alerts-terminal-header.is-live-blocked .alerts-feed-truth span:nth-child(2),
+#alerts.active .alerts-terminal-header.is-live-blocked .alerts-feed-truth span:nth-child(4),
+#alerts.active .alerts-terminal-header.is-live-blocked .alerts-feed-truth span:nth-child(5) {
+  border-color: rgba(180, 86, 82, 0.38);
+}
+
+#alerts.active .alerts-terminal-header.is-live-ready .alerts-feed-truth span {
+  border-color: rgba(77, 165, 116, 0.3);
+  background:
+    linear-gradient(180deg, rgba(77, 165, 116, 0.09), rgba(255, 255, 255, 0.004)),
+    rgba(0, 0, 0, 0.24);
+}
+
+#alerts.active .alerts-terminal-header .alerts-feed-truth strong,
+#alerts.active .alerts-gate-summary-grid article small,
+#alerts.active .alerts-decision-board .alerts-feed-row small,
+#alerts.active .alerts-decision-board .alerts-feed-row em {
+  overflow-wrap: anywhere;
+}
+
 #alerts.active .alerts-terminal-header .alerts-feed-boundary {
   padding: 4px 7px;
   color: rgba(232, 188, 178, 0.82);
@@ -30835,8 +30864,20 @@ body[data-active-view="alerts"] #alerts.active .alerts-decision-board button.ale
 
 #alerts.active .alerts-gate-summary-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 5px;
+}
+
+#alerts.active .alerts-gate-summary-grid article.is-action {
+  border-color: rgba(180, 86, 82, 0.45);
+}
+
+#alerts.active .alerts-gate-summary-grid article.is-source {
+  border-color: rgba(214, 163, 68, 0.34);
+}
+
+#alerts.active .alerts-gate-summary-grid article.is-risk {
+  border-color: rgba(201, 209, 217, 0.22);
 }
 
 #alerts.active .alerts-gate-summary-grid article {
@@ -30972,7 +31013,7 @@ body[data-active-view="alerts"] #alerts.active .alerts-decision-board button.ale
   #alerts.active .alerts-decision-board .alerts-feed-row span[data-label="Alert"],
   #alerts.active .alerts-decision-board .alerts-feed-row span[data-label="Bias / Risk"],
   #alerts.active .alerts-decision-board .alerts-feed-row span[data-label="Readiness"],
-  #alerts.active .alerts-decision-board .alerts-feed-row span[data-label="Evidence"],
+  #alerts.active .alerts-decision-board .alerts-feed-row span[data-label="Data Mode"],
   #alerts.active .alerts-decision-board .alerts-feed-row span[data-label="Action"] {
     grid-column: 1 / -1;
   }

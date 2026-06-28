@@ -2,6 +2,27 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Live Alerts Activation v1 is **LIVE READY / ACTIVATION BLOCKED**.
+
+- The active hosted baseline remains `Pickaxe Alerts Only Final Simplification Hosted Verification v1 - PASS / HOSTED QA VERIFIED`.
+- Bounded implementation branch: `codex/live-alerts-activation-v1-20260628`.
+- The existing Alerts renderer was preserved: `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `renderAlertsOperatorWorkspace()`.
+- Server-only endpoint family now exists locally: `/api/live/status`, `/api/live/quote?ticker=QQQ`, `/api/live/options-chain?ticker=QQQ`, and `/api/live/alerts`.
+- Live-alerts mode model now exists: `LIVE_VERIFIED`, `DELAYED_VERIFIED`, `STALE`, `SOURCE_REQUIRED`, `PROVIDER_UNAVAILABLE`, `CREDENTIAL_MISSING`, `LEGAL_BLOCKED`, and `DEMO_FALLBACK`.
+- The live endpoint allowlist is fixed to `QQQ`, `SPY`, `NVDA`, `TSLA`, `AAPL`, `AMD`, `MSFT`, `GOOGL`, `GLD`, `SLV`, `USO`, and `VIX`.
+- Provider gate is blocked: Alpha Vantage quote activation lacks confirmed server enablement, provider mode, server-only credential, realtime/delayed entitlement, and commercial-use approval. Massive options-chain activation lacks confirmed server-only credential, realtime/delayed entitlement, business/commercial approval, and OPRA/display rights.
+- No live provider data was fetched or displayed. No live price, options contract, verified market timestamp, or live candidate was faked.
+- Local endpoint proof in the blocked environment returned `LIVE ALERTS READY / ACTIVATION BLOCKED`, `LEGAL_BLOCKED`, no QQQ price, zero option contracts, zero live candidates, five labeled demo fallback rows, and a rejected non-allowlisted `MSTR` request.
+- The Alerts page now reads `/api/live/status` when a local server is available. Public GitHub Pages remains static-safe and shows a truthful blocked/default state when the endpoint is absent.
+- Alerts Queue remains primary. Selected Alert, Gate Summary, Wait and Verify, Research Details, Evidence Packet, Required Gates, and Source + Risk Notes now surface data mode, provider status, last verified timestamp, options-chain status, missing gates, CEO B Standard, Research Only, Not Financial Advice, No Broker Execution, and No External Action.
+- No broker/execution/payment/subscription/auth/alert-delivery behavior, autonomous publishing, public provider key, direct browser provider request, scraping, fake live data, fake timestamp, new route, second Alerts renderer, new LocalStorage key, mobile redesign, profit guarantee, financial advice, trade recommendation, or `data/signal-alerts.json` edit was added.
+
+Next bounded step: `CEO B provide/confirm server-only provider credential and written provider rights, then rerun live activation`.
+
+Do not push, merge, deploy, connect providers, add broker/execution behavior, add alert delivery, add auth/payment/subscriptions, or begin another sprint unless CEO B separately authorizes it.
+
+## Previous Active Checkpoint - Pickaxe Alerts Only Final Simplification Hosted Verification v1
+
 Pickaxe Alerts Only Final Simplification Hosted Verification v1 is **PASS / HOSTED QA VERIFIED**.
 
 - Local implementation commit `551329a283d96ac447f5f964b47e55ee32b435c4` (`Simplify Alerts into focused command desk`) was fast-forward merged into `main` and pushed to `origin/main`; no merge commit was created.

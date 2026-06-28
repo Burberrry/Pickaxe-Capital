@@ -62,7 +62,7 @@ assert.equal(legalBlock.payload.errorCode, "COMMERCIAL_USE_APPROVAL_REQUIRED");
 assert.equal(fetchCount, 0);
 
 const unauthorizedTicker = await requestAlphaVantageQuoteSnapshot({
-  ticker: "SPY",
+  ticker: "MSTR",
   proxyMode: requiredProxyMode,
   requiredProxyMode,
   liveServicesEnabled: true,

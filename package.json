@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node server.mjs",
     "start": "node server.mjs",
-    "check:project": "node --check server.mjs && node --check lib/alpha-vantage-quote.mjs && node --check lib/massive-options-chain.mjs && node --check public/app.js && node scripts/check-provider-quote.mjs && node scripts/check-options-chain.mjs && node scripts/check-project.mjs",
+    "check:project": "node --check server.mjs && node --check lib/alpha-vantage-quote.mjs && node --check lib/massive-options-chain.mjs && node --check lib/live-alerts-engine.mjs && node --check public/app.js && node scripts/check-provider-quote.mjs && node scripts/check-options-chain.mjs && node scripts/check-live-alerts.mjs && node scripts/check-project.mjs",
     "check:provider": "node scripts/check-provider-quote.mjs",
     "check:options-provider": "node scripts/check-options-chain.mjs",
     "check:mirrors": "node scripts/check-mirrors.mjs",

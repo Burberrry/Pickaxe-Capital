@@ -1,6 +1,55 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Only Final Simplification Hosted Verification v1
+## Current Checkpoint - Pickaxe Live Alerts Activation v1
+
+- Date: 2026-06-28.
+- Result: **LIVE READY / ACTIVATION BLOCKED**.
+- Sprint type: bounded live-alerts activation implementation on branch `codex/live-alerts-activation-v1-20260628`. Push, merge, broker/execution/payment/subscription/auth/alert-delivery behavior, autonomous publishing, public provider keys, scraping, fake live data, fake timestamps, new route, second Alerts renderer, new LocalStorage key, packet model duplication, mobile redesign, profit guarantee, financial advice, trade recommendation, and `data/signal-alerts.json` edits were not authorized or added.
+- Starting checkpoint: `Pickaxe Alerts Only Final Simplification Hosted Verification v1 - PASS / HOSTED QA VERIFIED`.
+- Safety branch created: `backup/pre-live-alerts-activation-v1-20260628`.
+- Work branch created: `codex/live-alerts-activation-v1-20260628`.
+- Active Alerts renderer preserved: `renderAlertsPage()` -> `renderResearchGatedAlertsDesk()` -> `renderAlertsOperatorWorkspace()` in `public/app.js`; no duplicate Alerts page or route was created.
+- Provider gate result: **blocked**. Underlying quote provider remains Alpha Vantage through a server-only local proxy path. Options-chain provider remains Massive through a server-only local proof path. Server environment did not contain the required enablement, provider mode, server-only credentials, realtime/delayed entitlements, Alpha Vantage commercial-use confirmation, Massive business/commercial confirmation, or Massive OPRA/display rights confirmation.
+- Live provider data actually fetched: **no**. No live or delayed quote, options-chain snapshot, price, contract, market timestamp, or generated live candidate was accepted because provider/legal/credential gates are absent.
+- Server-only live endpoint family added: `GET /api/live/status`, `GET /api/live/quote?ticker=QQQ`, `GET /api/live/options-chain?ticker=QQQ`, and `GET /api/live/alerts`.
+- Server live-alerts mode model added: `LIVE_VERIFIED`, `DELAYED_VERIFIED`, `STALE`, `SOURCE_REQUIRED`, `PROVIDER_UNAVAILABLE`, `CREDENTIAL_MISSING`, `LEGAL_BLOCKED`, and `DEMO_FALLBACK`.
+- Server allowlist added for live-alerts endpoints only: `QQQ`, `SPY`, `NVDA`, `TSLA`, `AAPL`, `AMD`, `MSFT`, `GOOGL`, `GLD`, `SLV`, `USO`, and `VIX`. Non-allowlisted `MSTR` was verified as rejected with no provider request.
+- Local endpoint proof passed in the blocked environment: `/api/live/status` returned `LIVE ALERTS READY / ACTIVATION BLOCKED` with `LEGAL_BLOCKED`; `/api/live/quote?ticker=QQQ` returned blocked with no price; `/api/live/options-chain?ticker=QQQ` returned blocked with zero contracts; `/api/live/alerts` returned blocked with zero live candidates and five clearly labeled demo fallback rows.
+- Local endpoint security proof passed: live status response contained no secret-like output, and non-allowlisted `MSTR` was rejected with `403` / `SOURCE_REQUIRED` before any provider request.
+- Frontend Alerts page now reads the local `/api/live/status` endpoint when available, but public static hosting remains truthful if the endpoint is absent. The default public-safe state is `LIVE ALERTS READY / ACTIVATION BLOCKED`, not a fake live state.
+- Alerts header now shows data mode, provider status, last verified timestamp, options-chain status, and action boundary. Blocked mode shows exact provider/legal/credential gate labels rather than presenting manual entry as the main product.
+- Alerts Queue remains primary and uses demo fallback rows only when activation is blocked. Future server-generated candidates can be consumed from `/api/live/alerts` when provider gates pass, without adding a new route or LocalStorage key.
+- Selected Alert now shows data mode, source provider, latest verified quote timestamp, source gate, options context, missing evidence, next requirement, CEO B Standard, and No External Action.
+- Gate Summary now covers Provider Rights, Credential, Source, Timestamp, Options Chain, Risk Review, CEO B Standard, and Action Boundary.
+- Wait and Verify now emphasizes provider rights, credentials, server-verified snapshots, invalidation, risk, and CEO B review; Research Readiness remains source/packet quality, not expected profit.
+- Research Details, Evidence Packet, Required Gates, and Source + Risk Notes now inherit the live-alerts status, provider status, options-chain status, and exact blocked-gate wording.
+- Security boundary preserved: no provider key in frontend files, no direct browser call to Alpha Vantage or Massive, no committed `.env` values, no provider-response cache, no broker/order/payment/auth/subscription/alert-delivery endpoints, and no fake timestamps.
+- Public hosted limitation recorded: GitHub Pages serves the static `public/` artifact and cannot directly hold provider credentials or run provider adapters. Live activation requires a server-side deployment or local server with approved credentials and written provider rights.
+- Provider docs/terms were checked from official sources during implementation: Alpha Vantage documentation/terms/realtime policy and Massive options-chain/market-data/business terms. The repo-local state still lacks written business/commercial/OPRA rights and server credentials, so activation remains blocked.
+- Browser QA used the in-app Browser path, with a fresh cache-busted tab loading `app.js?v=live-alerts-activation-v1-20260628-r1`. Desktop QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900` and `1280x720`; mobile smoke passed on `/app/alerts` and `/#/alerts` at `390x844`; regression routes passed on `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, and `/life-os`.
+- Browser QA verified correct active views, nonblank content, no document-level horizontal overflow, one Starlight canvas, no current-build console warnings/errors, no direct provider resources, no actual secret-like output, visible `LIVE ALERTS READY / ACTIVATION BLOCKED`, visible `Legal Blocked`, five demo fallback rows, QQQ default selection, and required safety language.
+- Browser interaction QA passed: QQQ/NVDA/SPY/TSLA/GLD row selection synced; TSLA search narrowed to one row; reset restored five rows; Bullish type filter returned QQQ/NVDA/SPY; NVDA ticker filter returned NVDA; Action Boundary filter retained five No External Action rows; Research Packet, Evidence Packet, Required Gates, Source + Risk Notes, and Advanced Research OS opened or remained reachable.
+- Validation passed: `node --check public/app.js`, `node --check app.js`, `node --check public/habitat-data.js`, `node --check habitat-data.js`, `node --check server.mjs`, `node --check lib/live-alerts-engine.mjs`, `node scripts/check-live-alerts.mjs`, `node --run build`, `node --run check:project`, `node --run check:phase15`, `node --run check:agents`, `node --run check:mirrors`, `node --run smoke:routes`, `node --run check:public-safety`, `node --run check:deploy-boundary`, `node --run check:routes`, `git diff --check`, and `git status --short --branch`.
+- `data/signal-alerts.json` remained unchanged at SHA-256 `a84441288df00557333519fb97c02e1fe745164235241a9aa9a89c1273d4302c`.
+- Product review score before commit: **985 / 1000**. Score reflects live-ready architecture, truthful blocked gates, clearer Alerts UI, preserved safety boundaries, and no fake activation. It is not scored as active live alerts because no verified provider snapshot was fetched.
+- Next bounded recommendation: `CEO B provide/confirm server-only provider credential and written provider rights, then rerun live activation`.
+
+### Pickaxe Live Alerts Activation v1 Files Changed
+
+- `server.mjs`
+- `lib/alpha-vantage-quote.mjs`
+- `lib/live-alerts-engine.mjs`
+- `scripts/check-provider-quote.mjs`
+- `scripts/check-live-alerts.mjs`
+- `package.json`
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `public/habitat-data.js` and `habitat-data.js`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Only Final Simplification Hosted Verification v1
 
 - Date: 2026-06-28.
 - Result: **PASS / HOSTED QA VERIFIED**.

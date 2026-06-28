@@ -44,6 +44,10 @@ const state = {
   alertsResearchPacketOpen: false,
   alertsOperatorEvidenceOpen: false,
   alertFeedFilters: { search: "", type: "all", ticker: "all", actionBoundary: "all" },
+  liveAlertsStatus: null,
+  liveAlertsPayload: null,
+  liveAlertsStatusFetchState: "idle",
+  liveAlertsStatusError: "",
 };
 
 const sharedHabitatData = window.PickaxeHabitatData || {};
@@ -65,6 +69,7 @@ const RESEARCH_APPROVAL_LABEL = "Approved for Research — Not a Trade Command";
 const RESEARCH_CARD_DISCLAIMER =
   "Research only. Not financial advice. No broker execution. Options involve substantial risk. User judgment required.";
 const INTELLIGENCE_CORE_DATA_MODES = ["DEMO", "MANUAL", "DELAYED", "LIVE", "STALE", "UNAVAILABLE", "ERROR"];
+const LIVE_ALERTS_DATA_MODES = ["LIVE_VERIFIED", "DELAYED_VERIFIED", "STALE", "SOURCE_REQUIRED", "PROVIDER_UNAVAILABLE", "CREDENTIAL_MISSING", "LEGAL_BLOCKED", "DEMO_FALLBACK"];
 const INTELLIGENCE_CORE_DISCLAIMER =
   "Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · Demo/Static Data · Options involve substantial risk.";
 const INTELLIGENCE_CORE_CANDIDATES = [
@@ -9907,8 +9912,204 @@ function scoreIntelligenceCandidate(candidate) {
   return { total, classification, parts };
 }
 
+function getDefaultLiveAlertsStatus() {
+  return {
+    ok: true,
+    service: "Pickaxe Live Alerts",
+    uiHeadline: "LIVE ALERTS READY / ACTIVATION BLOCKED",
+    dataMode: "LEGAL_BLOCKED",
+    activationBlocked: true,
+    serverOnly: true,
+    publicHostingStatus: "GitHub Pages is static and cannot hold provider credentials or run provider adapters.",
+    quoteStatus: "BLOCKED",
+    optionsChainStatus: "BLOCKED",
+    providerStatus: state.liveAlertsStatusError ? "LOCAL_STATUS_ENDPOINT_UNAVAILABLE" : "SERVER_PROVIDER_GATES_BLOCKED",
+    lastVerifiedAt: null,
+    proxyReceivedAt: null,
+    freshnessState: "UNAVAILABLE",
+    missingGates: [
+      { label: "Quote provider commercial-use approval", required: "PICKAXE_ALPHA_VANTAGE_COMMERCIAL_USE_APPROVED=true", mode: "LEGAL_BLOCKED", status: "MISSING" },
+      { label: "Quote server-only credential", required: "PICKAXE_ALPHA_VANTAGE_API_KEY", mode: "CREDENTIAL_MISSING", status: "MISSING" },
+      { label: "Options OPRA/display rights", required: "PICKAXE_MASSIVE_OPRA_RIGHTS_CONFIRMED=true", mode: "LEGAL_BLOCKED", status: "MISSING" },
+      { label: "Options server-only credential", required: "PICKAXE_MASSIVE_API_KEY", mode: "CREDENTIAL_MISSING", status: "MISSING" },
+    ],
+    endpoints: ["/api/live/status", "/api/live/quote?ticker=QQQ", "/api/live/options-chain?ticker=QQQ", "/api/live/alerts"],
+    nextAction: "CEO B must provide server-only credentials and written provider/commercial/OPRA rights before live alerts can activate.",
+    safety: ["Research Only", "Not Financial Advice", "No Broker Execution", "No External Action", "Options involve substantial risk."],
+  };
+}
+
+function normalizeLiveAlertsStatus(payload = {}) {
+  const fallback = getDefaultLiveAlertsStatus();
+  const dataMode = LIVE_ALERTS_DATA_MODES.includes(payload.dataMode) ? payload.dataMode : fallback.dataMode;
+  return {
+    ...fallback,
+    ...payload,
+    dataMode,
+    uiHeadline: String(payload.uiHeadline || fallback.uiHeadline).slice(0, 90),
+    providerStatus: String(payload.providerStatus || fallback.providerStatus).slice(0, 80),
+    quoteStatus: String(payload.quoteStatus || fallback.quoteStatus).slice(0, 60),
+    optionsChainStatus: String(payload.optionsChainStatus || fallback.optionsChainStatus).slice(0, 60),
+    freshnessState: String(payload.freshnessState || fallback.freshnessState).slice(0, 40),
+    lastVerifiedAt: payload.lastVerifiedAt || null,
+    proxyReceivedAt: payload.proxyReceivedAt || null,
+    activationBlocked: payload.activationBlocked !== false,
+    missingGates: Array.isArray(payload.missingGates) ? payload.missingGates.slice(0, 12).map((gate) => ({
+      label: String(gate.label || "Provider gate").slice(0, 90),
+      required: String(gate.required || "Server configuration required").slice(0, 120),
+      mode: LIVE_ALERTS_DATA_MODES.includes(gate.mode) ? gate.mode : "SOURCE_REQUIRED",
+      status: String(gate.status || "MISSING").slice(0, 30),
+    })) : fallback.missingGates,
+    endpoints: Array.isArray(payload.endpoints) ? payload.endpoints.slice(0, 6) : fallback.endpoints,
+    nextAction: String(payload.nextAction || fallback.nextAction).slice(0, 220),
+  };
+}
+
+function getAlertsLiveStatus() {
+  return state.liveAlertsStatus || getDefaultLiveAlertsStatus();
+}
+
+function canUseServerAlertCandidates(status = getAlertsLiveStatus()) {
+  return status.activationBlocked === false && ["LIVE_VERIFIED", "DELAYED_VERIFIED", "SOURCE_REQUIRED"].includes(status.dataMode);
+}
+
+function normalizeLiveAlertsPayload(payload = {}) {
+  return {
+    ...payload,
+    candidates: Array.isArray(payload.candidates) ? payload.candidates.slice(0, 8) : [],
+    demoFallbackRows: Array.isArray(payload.demoFallbackRows) ? payload.demoFallbackRows.slice(0, 8) : [],
+    dataMode: LIVE_ALERTS_DATA_MODES.includes(payload.dataMode) ? payload.dataMode : "SOURCE_REQUIRED",
+    activationBlocked: payload.activationBlocked !== false,
+  };
+}
+
+function scheduleLiveAlertsStatusRefresh() {
+  if (state.liveAlertsStatusFetchState !== "idle" || typeof fetch !== "function") return;
+  state.liveAlertsStatusFetchState = "loading";
+  fetch("/api/live/status", { cache: "no-store", headers: { Accept: "application/json" } })
+    .then((response) => {
+      if (!response.ok) throw new Error("status endpoint unavailable");
+      return response.json();
+    })
+    .then((payload) => {
+      const liveStatus = normalizeLiveAlertsStatus(payload);
+      state.liveAlertsStatus = liveStatus;
+      state.liveAlertsStatusFetchState = "loaded";
+      state.liveAlertsStatusError = "";
+      if (!canUseServerAlertCandidates(liveStatus)) return null;
+      return fetch("/api/live/alerts?ticker=QQQ", { cache: "no-store", headers: { Accept: "application/json" } })
+        .then((response) => {
+          if (!response.ok) throw new Error("alerts endpoint unavailable");
+          return response.json();
+        })
+        .then((alertsPayload) => {
+          state.liveAlertsPayload = normalizeLiveAlertsPayload(alertsPayload);
+        })
+        .catch(() => {
+          state.liveAlertsPayload = null;
+        });
+    })
+    .catch(() => {
+      state.liveAlertsStatusFetchState = "unavailable";
+      state.liveAlertsStatusError = "Local /api/live/status is unavailable in this runtime.";
+      state.liveAlertsStatus = null;
+      state.liveAlertsPayload = null;
+    })
+    .finally(() => {
+      if (state.activeView === "alerts" && typeof renderAlertsPage === "function") renderAlertsPage();
+    });
+}
+
+function formatAlertsLiveModeLabel(mode = "") {
+  const labels = {
+    LIVE_VERIFIED: "Live Verified",
+    DELAYED_VERIFIED: "Delayed Verified",
+    STALE: "Stale",
+    SOURCE_REQUIRED: "Source Required",
+    PROVIDER_UNAVAILABLE: "Provider Unavailable",
+    CREDENTIAL_MISSING: "Credential Missing",
+    LEGAL_BLOCKED: "Legal Blocked",
+    DEMO_FALLBACK: "Demo Fallback",
+  };
+  return labels[mode] || "Source Required";
+}
+
+function getAlertsLiveModeTone(mode = "") {
+  if (mode === "LIVE_VERIFIED" || mode === "DELAYED_VERIFIED") return "is-live-ready";
+  if (mode === "STALE" || mode === "SOURCE_REQUIRED" || mode === "DEMO_FALLBACK") return "is-source-required";
+  return "is-live-blocked";
+}
+
+function getAlertsLiveTimestampLabel(status = getAlertsLiveStatus()) {
+  return status.lastVerifiedAt || status.proxyReceivedAt || "No verified timestamp";
+}
+
+function getAlertsLiveMissingGatesSummary(status = getAlertsLiveStatus(), maximum = 2) {
+  const gates = Array.isArray(status.missingGates) ? status.missingGates : [];
+  if (!gates.length) return "No missing provider gates";
+  return gates.slice(0, maximum).map((gate) => gate.label).join(" + ");
+}
+
+function getAlertsLiveActivationDetail(status = getAlertsLiveStatus()) {
+  if (status.dataMode === "LIVE_VERIFIED") return "Verified provider snapshot received through server endpoint.";
+  if (status.dataMode === "DELAYED_VERIFIED") return "Delayed provider snapshot received through server endpoint.";
+  if (status.dataMode === "STALE") return "Last provider snapshot exists but is stale.";
+  if (status.dataMode === "CREDENTIAL_MISSING") return "Server-only provider credential is missing.";
+  if (status.dataMode === "LEGAL_BLOCKED") return "Provider commercial/OPRA rights are not confirmed.";
+  if (status.dataMode === "PROVIDER_UNAVAILABLE") return "Local provider endpoint is unavailable or disabled.";
+  return "Verified source input is required before live alert generation.";
+}
+
+function getLiveAlertCandidatePool() {
+  const status = getAlertsLiveStatus();
+  const payload = state.liveAlertsPayload;
+  if (!payload || payload.activationBlocked || !Array.isArray(payload.candidates) || !payload.candidates.length) return [];
+  if (!["LIVE_VERIFIED", "DELAYED_VERIFIED", "STALE", "SOURCE_REQUIRED"].includes(payload.dataMode)) return [];
+  return payload.candidates.map((serverCandidate, index) => {
+    const fallback = INTELLIGENCE_CORE_CANDIDATES.find((item) => item.ticker === serverCandidate.ticker) || INTELLIGENCE_CORE_CANDIDATES[index] || INTELLIGENCE_CORE_CANDIDATES[0];
+    const readiness = Math.max(0, Math.min(100, Number(serverCandidate.researchReadiness || fallback.confidence || 50)));
+    return {
+      ...fallback,
+      id: serverCandidate.id || `PIC-LIVE-${serverCandidate.ticker || fallback.ticker}-${index + 1}`,
+      ticker: serverCandidate.ticker || fallback.ticker,
+      bias: serverCandidate.bias || fallback.bias,
+      setupType: serverCandidate.setupName || fallback.setupType,
+      timeframe: serverCandidate.timeframe || fallback.timeframe,
+      entryTrigger: serverCandidate.whyRanked || fallback.entryTrigger,
+      invalidation: serverCandidate.invalidation || fallback.invalidation,
+      confidence: readiness,
+      sourceTimestamp: serverCandidate.latestVerifiedQuoteTimestamp || getAlertsLiveTimestampLabel(status),
+      dataQuality: formatAlertsLiveModeLabel(serverCandidate.dataMode || payload.dataMode),
+      ceoBNote: serverCandidate.whyRanked || fallback.ceoBNote,
+      scores: {
+        marketRegime: Math.round(readiness * 0.15),
+        technicalSetup: Math.round(readiness * 0.2),
+        optionsQuality: Math.round(readiness * 0.25),
+        catalystStrength: Math.round(readiness * 0.15),
+        riskReward: Math.round(readiness * 0.15),
+        learningSimilarity: Math.round(readiness * 0.1),
+      },
+      risk: {
+        ...fallback.risk,
+        noTrade: serverCandidate.noTradeCondition || fallback.risk.noTrade,
+      },
+      options: {
+        ...fallback.options,
+        grade: serverCandidate.spreadLiquidityGate === "PASS" ? fallback.options.grade : "Source Required",
+        spreadStatus: serverCandidate.optionsContext || "Options chain source required",
+      },
+      liveAlert: serverCandidate,
+    };
+  });
+}
+
+function getAlertsCandidatePool() {
+  const livePool = getLiveAlertCandidatePool();
+  return livePool.length ? livePool : INTELLIGENCE_CORE_CANDIDATES;
+}
+
 function getAlertsOperatorReviewOrder() {
-  return INTELLIGENCE_CORE_CANDIDATES
+  return getAlertsCandidatePool()
     .map((item, sourceIndex) => ({ item, itemScore: scoreIntelligenceCandidate(item), sourceIndex }))
     .sort((left, right) => right.itemScore.total - left.itemScore.total || left.sourceIndex - right.sourceIndex);
 }
@@ -9924,7 +10125,17 @@ function getAlertsOperatorDecisionState(candidate, sourceStatus) {
   const usableModes = ["LIVE", "DELAYED", "MANUAL"];
   const blockedFreshness = ["UNKNOWN", "STALE", "EXPIRED", "UNAVAILABLE"];
   const score = scoreIntelligenceCandidate(candidate);
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
+  const liveModeLabel = formatAlertsLiveModeLabel(liveStatus.dataMode);
 
+  if (liveStatus.dataMode === "LEGAL_BLOCKED") {
+    blockers.push("Provider rights not confirmed");
+    failedGates.push("Provider Rights Gate");
+  }
+  if (liveStatus.dataMode === "CREDENTIAL_MISSING" || liveStatus.missingGates?.some((gate) => gate.mode === "CREDENTIAL_MISSING")) {
+    blockers.push("Server-only provider credential missing");
+    failedGates.push("Credential Gate");
+  }
   if (!usableModes.includes(sourceStatus.activeProviderMode)) {
     blockers.push("No verified market provider");
     failedGates.push("Source Gate");
@@ -9944,14 +10155,19 @@ function getAlertsOperatorDecisionState(candidate, sourceStatus) {
       status: "BLOCKED",
       label: "BLOCKED — NO EXTERNAL ACTION",
       cardLabel: "BLOCKED",
-      why: "Verified source, timestamp, and options-chain evidence is incomplete",
-      title: `${candidate.ticker} blocked by source and options-chain gates`,
+      why: liveStatus.activationBlocked ? `${liveModeLabel}: ${getAlertsLiveActivationDetail(liveStatus)}` : "Verified source, timestamp, and options-chain evidence is incomplete",
+      title: `${candidate.ticker} blocked by live-alert gates`,
       reason: blockers.join(" · "),
-      missingGate: "Verified quote timestamp + options chain",
+      missingGate: getAlertsLiveMissingGatesSummary(liveStatus, 3) || "Verified quote timestamp + options chain",
       passedGates: ["Risk Gate", "System Intelligence Gate", "CEO B Standard", "Action Boundary"],
-      failedGates,
-      missingEvidence: ["Verified market provider", "Usable market timestamp", "Verified options chain", "Source freshness verification"],
-      nextRequirement: "Verify provider, timestamp, options chain, and source freshness in a separately authorized workflow",
+      failedGates: [...new Set(failedGates)],
+      missingEvidence: [
+        ...((liveStatus.missingGates || []).slice(0, 6).map((gate) => gate.label)),
+        "Verified market provider",
+        "Usable market timestamp",
+        "Verified options chain",
+      ],
+      nextRequirement: liveStatus.nextAction || "Verify provider, timestamp, options chain, and source freshness in a separately authorized workflow",
       ceoBStandard: "APPLIED",
       actionBoundary: "NO EXTERNAL ACTION",
     };
@@ -10019,7 +10235,7 @@ function failedGatesHas(decisionState, gateName) {
 
 function getSelectedAlertsCandidate() {
   const reviewOrder = getAlertsOperatorReviewOrder();
-  const selected = INTELLIGENCE_CORE_CANDIDATES.find((item) => item.id === state.selectedIntelligenceCandidateId);
+  const selected = getAlertsCandidatePool().find((item) => item.id === state.selectedIntelligenceCandidateId);
   if (selected) return selected;
   const fallback = reviewOrder[0]?.item || INTELLIGENCE_CORE_CANDIDATES[0];
   if (fallback) state.selectedIntelligenceCandidateId = fallback.id;
@@ -10052,8 +10268,12 @@ function formatAlertsActionBoundary(value = "") {
 }
 
 function getAlertsFeedRows(sourceStatus) {
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
+  const liveModeLabel = formatAlertsLiveModeLabel(liveStatus.dataMode);
+  const isDemoFallback = liveStatus.activationBlocked || !getLiveAlertCandidatePool().length;
   return getAlertsOperatorReviewOrder().map(({ item, itemScore }, index) => {
     const decision = getAlertsOperatorDecisionState(item, sourceStatus);
+    const liveAlert = item.liveAlert || {};
     return {
       id: item.id,
       rank: index + 1,
@@ -10061,18 +10281,20 @@ function getAlertsFeedRows(sourceStatus) {
       type: getAlertsDirectionLabel(item),
       setup: item.setupType,
       alert: item.setupType,
-      time: "No Verified Time",
-      expiration: "Unavailable",
-      strike: "Source Required",
+      time: liveAlert.latestVerifiedQuoteTimestamp || getAlertsLiveTimestampLabel(liveStatus),
+      expiration: liveAlert.optionsContext ? "Provider Snapshot" : "Source Required",
+      strike: liveAlert.optionsContext || "Source Required",
       readiness: `${itemScore.total}/100`,
       readinessValue: itemScore.total,
       readinessClass: itemScore.classification,
-      source: "Source Required",
+      source: isDemoFallback ? "Demo Fallback" : liveModeLabel,
       risk: item.riskRating,
       status: decision.cardLabel,
       actionBoundary: formatAlertsActionBoundary(decision.actionBoundary),
       optionsQuality: item.options?.grade || "Not Evaluated",
-      missing: getAlertsCardReason(item),
+      missing: liveAlert.missingEvidence?.length ? liveAlert.missingEvidence.join(" · ") : isDemoFallback ? getAlertsCardReason(item) : "Generated from verified server snapshot",
+      dataMode: isDemoFallback ? "DEMO_FALLBACK" : liveStatus.dataMode,
+      dataModeLabel: isDemoFallback ? "Demo Fallback" : liveModeLabel,
       candidate: item,
       decision,
       score: itemScore,
@@ -10100,6 +10322,7 @@ function getFilteredAlertsRows(rows) {
       row.actionBoundary,
       row.optionsQuality,
       row.missing,
+      row.dataModeLabel,
     ].join(" ").toLowerCase();
     return (!search || haystack.includes(search))
       && (!filters.type || filters.type === "all" || row.type === filters.type)
@@ -10124,8 +10347,12 @@ function renderAlertsFilterSelect(id, label, key, rows) {
 
 function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
   const actionBoundaryLabel = formatAlertsActionBoundary(decisionState.actionBoundary);
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
+  const liveModeLabel = formatAlertsLiveModeLabel(liveStatus.dataMode);
+  const activationDetail = getAlertsLiveActivationDetail(liveStatus);
+  const statusTone = getAlertsLiveModeTone(liveStatus.dataMode);
   return `
-    <section class="alerts-feed-product-bar alerts-board-context alerts-terminal-header" aria-label="Pickaxe Capital Options Intelligence OS context">
+    <section class="alerts-feed-product-bar alerts-board-context alerts-terminal-header ${escapeHtml(statusTone)}" aria-label="Pickaxe Capital Options Intelligence OS context">
       <div class="alerts-product-header">
         <div class="alerts-brand-lock">
           <img src="brand/pickaxe-capital-logo.png?v=20260531-logo3" alt="" aria-hidden="true" />
@@ -10135,16 +10362,16 @@ function renderAlertsFeedProductBar(rows, sourceStatus, decisionState) {
             <span>Options Intelligence OS</span>
           </div>
         </div>
-        <p>Rank setups. Verify evidence. Block action until every required gate passes.</p>
+        <p>${escapeHtml(liveStatus.uiHeadline)}. Auto-ranked research candidates activate only from server-verified snapshots.</p>
       </div>
       <div class="alerts-feed-truth" aria-label="Alerts Desk truth strip">
-        <span><em>Mode</em><strong>Research Only</strong></span>
-        <span><em>Data</em><strong>Demo / Static Data</strong></span>
-        <span><em>Source</em><strong>Source Required</strong></span>
-        <span><em>Review</em><strong>Manual Review Required</strong></span>
+        <span><em>Data Mode</em><strong>${escapeHtml(liveModeLabel)}</strong></span>
+        <span><em>Provider</em><strong>${escapeHtml(liveStatus.providerStatus)}</strong></span>
+        <span><em>Last Verified</em><strong>${escapeHtml(getAlertsLiveTimestampLabel(liveStatus))}</strong></span>
+        <span><em>Options Chain</em><strong>${escapeHtml(liveStatus.optionsChainStatus)}</strong></span>
         <span><em>Action</em><strong>${escapeHtml(actionBoundaryLabel)}</strong></span>
       </div>
-      <p class="alerts-feed-boundary">Research Only · Manual Review Required · Not Financial Advice · No Broker Execution · No External Action · Options involve substantial risk.</p>
+      <p class="alerts-feed-boundary">Research Only · CEO B Review · Not Financial Advice · No Broker Execution · No External Action · Options involve substantial risk. ${escapeHtml(activationDetail)}</p>
     </section>
   `;
 }
@@ -10171,18 +10398,20 @@ function renderAlertsBoardControls(rows) {
   `;
 }
 
-function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
+function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId, sourceStatus) {
   const selectedRow = rows.find((row) => row.id === selectedCandidateId) || rows[0] || {};
-  const sourceRequiredCount = rows.filter((row) => /source required/i.test(row.source)).length;
+  const liveStatus = sourceStatus?.liveAlertsStatus || getAlertsLiveStatus();
+  const sourceRequiredCount = rows.filter((row) => /source required|demo fallback/i.test(row.source)).length;
   const selectedBoundary = selectedRow.actionBoundary || "No External Action";
+  const fallbackMode = liveStatus.activationBlocked || rows.every((row) => row.dataMode === "DEMO_FALLBACK");
   return `
     <section class="alerts-feed-shell" aria-labelledby="alertsFeedTitle">
       <div class="alerts-feed-head">
         <div>
-          <span class="meta-label">Ranked Review Queue</span>
+          <span class="meta-label">${fallbackMode ? "Demo Fallback Queue" : "Generated Research Queue"}</span>
           <h3 id="alertsFeedTitle">Alerts Queue</h3>
         </div>
-        <p>Select a setup, review why it is ranked, then verify the missing evidence and action blocks. Research Readiness is packet quality, not expected profit.</p>
+        <p>${fallbackMode ? "Live activation is blocked, so these rows remain labeled examples from the watchlist definitions." : "Rows are generated from server-verified snapshots and remain research-only until every gate clears."} Research Readiness is source and packet quality, not expected profit.</p>
       </div>
       <div class="alerts-feed-visual-summary" aria-label="Current Alerts feed state">
         <article>
@@ -10196,9 +10425,9 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
           <small>${escapeHtml(selectedRow.readinessClass || "Not ranked")} · review priority</small>
         </article>
         <article>
-          <span>Missing Evidence</span>
-          <strong>${String(sourceRequiredCount).padStart(2, "0")}</strong>
-          <small>setups still source-required</small>
+          <span>Data Mode</span>
+          <strong>${escapeHtml(formatAlertsLiveModeLabel(liveStatus.dataMode))}</strong>
+          <small>${String(sourceRequiredCount).padStart(2, "0")} rows require verified source gates</small>
         </article>
         <article>
           <span>Action Boundary</span>
@@ -10209,7 +10438,7 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
       ${renderAlertsBoardControls(rows)}
       <div class="alerts-feed-table" role="table" aria-label="Options setups research feed">
         <div class="alerts-feed-row alerts-feed-row-head" role="row">
-          ${["Rank", "Alert", "Bias / Risk", "Readiness", "Evidence", "Action", "Open"].map((column) => `<span role="columnheader">${escapeHtml(column)}</span>`).join("")}
+          ${["Rank", "Alert", "Bias / Risk", "Readiness", "Data Mode", "Action", "Open"].map((column) => `<span role="columnheader">${escapeHtml(column)}</span>`).join("")}
         </div>
         ${filteredRows.length ? filteredRows.map((row) => `
           <button
@@ -10226,8 +10455,8 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
             <span role="cell" data-label="Alert"><strong>${escapeHtml(row.ticker)}</strong><small>${escapeHtml(row.setup)}</small></span>
             <span role="cell" data-label="Bias / Risk"><strong>${escapeHtml(row.type)}</strong><small>${escapeHtml(row.risk)}</small></span>
             <span role="cell" data-label="Readiness"><strong>${escapeHtml(row.readiness)}</strong><small>${escapeHtml(row.readinessClass)}</small></span>
-            <span role="cell" data-label="Evidence" class="alerts-source-gate-cell"><em>${escapeHtml(row.source)}</em><small>source + time</small></span>
-            <span role="cell" data-label="Action" class="alerts-action-boundary-cell"><em>${escapeHtml(row.actionBoundary)}</em><small>chain required</small></span>
+            <span role="cell" data-label="Data Mode" class="alerts-source-gate-cell"><em>${escapeHtml(row.dataModeLabel)}</em><small>${escapeHtml(row.time)}</small></span>
+            <span role="cell" data-label="Action" class="alerts-action-boundary-cell"><em>${escapeHtml(row.actionBoundary)}</em><small>${escapeHtml(row.missing)}</small></span>
             <span role="cell" data-label="Open"><b>Open</b></span>
           </button>
         `).join("") : `
@@ -10237,7 +10466,7 @@ function renderAlertsFeedTable(rows, filteredRows, selectedCandidateId) {
           </div>
         `}
       </div>
-      <p class="alerts-feed-footnote">${filteredRows.length} of ${rows.length} static/demo research setups shown. Action blocked means No External Action, not setup rejection. Source, timestamp, and options-chain gates remain required.</p>
+      <p class="alerts-feed-footnote">${filteredRows.length} of ${rows.length} ${fallbackMode ? "demo fallback rows" : "server-generated research candidates"} shown. No External Action remains active; no row is a trade recommendation, financial advice, or broker command.</p>
     </section>
   `;
 }
@@ -10284,6 +10513,8 @@ function getAlertsQuickNoTradeSummary(candidate = {}) {
 
 function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionState) {
   const directionClass = /bear/i.test(candidate.bias) ? "is-bear" : /bull/i.test(candidate.bias) ? "is-bull" : "";
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
+  const liveAlert = candidate.liveAlert || {};
   const missingEvidenceSummary = getAlertsMissingEvidenceSummary(decisionState.missingEvidence);
   const nextRequirementSummary = getAlertsNextRequirementSummary(decisionState.nextRequirement);
   const detailFields = [
@@ -10291,7 +10522,10 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
     ["Setup Name", `${candidate.ticker} ${candidate.setupType}`],
     ["Setup Type", candidate.setupType],
     ["Research Readiness", `${score.total}/100 · ${score.classification}`],
-    ["Source Gate", "Source Required"],
+    ["Data Mode", formatAlertsLiveModeLabel(liveStatus.dataMode)],
+    ["Source Provider", liveAlert.sourceProvider || sourceStatus.activeProvider.name],
+    ["Latest Verified Quote", liveAlert.latestVerifiedQuoteTimestamp || getAlertsLiveTimestampLabel(liveStatus)],
+    ["Source Gate", liveStatus.activationBlocked ? getAlertsLiveMissingGatesSummary(liveStatus, 2) : "Server snapshot verified"],
     ["Options Quality", candidate.options?.grade || "Not Evaluated"],
     ["Risk Gate", failedGatesHas(decisionState, "Risk Gate") ? "BLOCKED" : "PASS"],
     ["System Status", decisionState.label],
@@ -10299,8 +10533,7 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
     ["Next Requirement", nextRequirementSummary],
     ["CEO B Standard", "Applied"],
     ["Action Boundary", decisionState.actionBoundary],
-    ["Expiration", `${candidate.optionWindow} · Demo / Source Required`],
-    ["Strike", `${candidate.strikeLogic} · Source Required`],
+    ["Options Context", liveAlert.optionsContext || `${candidate.optionWindow} · Source Required`],
   ];
   return `
     <section class="alerts-selected-detail" aria-label="Selected setup detail">
@@ -10336,19 +10569,24 @@ function renderAlertsSelectedDetail(candidate, score, sourceStatus, decisionStat
 }
 
 function renderAlertsQuickReview(candidate, score, sourceStatus, decisionState) {
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
+  const liveAlert = candidate.liveAlert || {};
   const quickReviewFields = [
     ["Selected Alert", `${candidate.ticker} ${candidate.setupType}`, "is-selected"],
     ["Bias / Type", candidate.bias, "is-selected"],
     ["Why Ranked", candidate.ceoBNote, "is-selected"],
     ["Research Readiness", `${score.total}/100 · ${score.classification}`, "is-readiness"],
-    ["Evidence Gate", "Source Required", "is-source-required"],
+    ["Data Mode", formatAlertsLiveModeLabel(liveStatus.dataMode), getAlertsLiveModeTone(liveStatus.dataMode)],
+    ["Provider Status", liveStatus.providerStatus, getAlertsLiveModeTone(liveStatus.dataMode)],
+    ["Last Verified", liveAlert.latestVerifiedQuoteTimestamp || getAlertsLiveTimestampLabel(liveStatus), "is-source-required"],
+    ["Evidence Gate", liveStatus.activationBlocked ? "Gate Failed" : "Generated From Verified Snapshot", "is-source-required"],
     ["Missing Evidence", getAlertsMissingEvidenceSummary(decisionState.missingEvidence), "is-source-required"],
     ["Risk Gate", candidate.riskRating, "is-risk-watch"],
     ["Invalidation", getAlertsQuickInvalidationSummary(candidate), "is-risk-watch"],
     ["No-Trade Condition", getAlertsQuickNoTradeSummary(candidate), "is-risk-watch"],
     ["Action Boundary", formatAlertsActionBoundary(decisionState.actionBoundary), "is-boundary"],
-    ["Next Manual Requirement", getAlertsNextRequirementSummary(decisionState.nextRequirement), "is-source-required"],
-    ["Options Context", "Source, timestamp, and chain required.", "is-boundary"],
+    ["Next Requirement", getAlertsNextRequirementSummary(decisionState.nextRequirement), "is-source-required"],
+    ["Options Context", liveAlert.optionsContext || "Source, timestamp, and chain required.", "is-boundary"],
   ];
   return `
     <section class="alerts-quick-review" aria-label="Selected setup quick review">
@@ -10356,11 +10594,11 @@ function renderAlertsQuickReview(candidate, score, sourceStatus, decisionState) 
         <div>
           <span class="meta-label">Selected Alert</span>
           <h3>${escapeHtml(candidate.ticker)} · ${escapeHtml(candidate.setupType)}</h3>
-          <p>This is a manual research review only. Action stays blocked until source, timestamp, options-chain, and risk gates clear.</p>
+          <p>${escapeHtml(getAlertsLiveActivationDetail(liveStatus))} Action stays blocked until source, timestamp, options-chain, risk, and CEO B gates clear.</p>
         </div>
         <aside>
-          <span>Why blocked</span>
-          <strong>Source + chain missing</strong>
+          <span>${liveStatus.activationBlocked ? "Activation Blocked" : "Snapshot State"}</span>
+          <strong>${escapeHtml(formatAlertsLiveModeLabel(liveStatus.dataMode))}</strong>
           <small>No External Action</small>
         </aside>
       </header>
@@ -10376,13 +10614,18 @@ function renderAlertsQuickReview(candidate, score, sourceStatus, decisionState) 
   `;
 }
 
-function renderAlertsGateSummary(requiredGateSummary, decisionState) {
+function renderAlertsGateSummary(requiredGateSummary, decisionState, sourceStatus) {
   const actionBoundary = formatAlertsActionBoundary(decisionState.actionBoundary);
+  const liveStatus = sourceStatus?.liveAlertsStatus || getAlertsLiveStatus();
+  const hasMissingMode = (mode) => liveStatus.missingGates?.some((gate) => gate.mode === mode);
   const gateCards = [
-    ["Source Required", "Missing", "is-source"],
-    ["No Verified Timestamp", "Missing", "is-source"],
-    ["Options Chain Required", "Required", "is-source"],
-    ["Risk Review Required", "Manual", "is-risk"],
+    ["Provider Rights", liveStatus.dataMode === "LEGAL_BLOCKED" || hasMissingMode("LEGAL_BLOCKED") ? "Legal Blocked" : "Ready", "is-source"],
+    ["Credential", hasMissingMode("CREDENTIAL_MISSING") ? "Missing" : "Ready", "is-source"],
+    ["Source", failedGatesHas(decisionState, "Source Gate") ? "Source Required" : "Pass", "is-source"],
+    ["Timestamp", failedGatesHas(decisionState, "Timestamp Gate") ? "No Verified Time" : "Pass", "is-source"],
+    ["Options Chain", failedGatesHas(decisionState, "Options-Chain Gate") ? "Source Required" : "Pass", "is-source"],
+    ["Risk Review", failedGatesHas(decisionState, "Risk Gate") ? "Blocked" : "CEO B Review", "is-risk"],
+    ["CEO B Standard", "Applied", "is-risk"],
     [actionBoundary, "Blocked", "is-action"],
   ];
   return `
@@ -10390,7 +10633,7 @@ function renderAlertsGateSummary(requiredGateSummary, decisionState) {
       <header>
         <div>
           <span class="meta-label">Gate Summary</span>
-          <h3>Why Action Is Blocked</h3>
+          <h3>${escapeHtml(formatAlertsLiveModeLabel(liveStatus.dataMode))}</h3>
         </div>
         <strong>${escapeHtml(actionBoundary)}</strong>
       </header>
@@ -10406,9 +10649,11 @@ function renderAlertsGateSummary(requiredGateSummary, decisionState) {
   `;
 }
 
-function renderAlertsDisciplineGate(candidate, score, decisionState) {
+function renderAlertsDisciplineGate(candidate, score, decisionState, sourceStatus) {
+  const liveStatus = sourceStatus?.liveAlertsStatus || getAlertsLiveStatus();
   const protocol = [
-    "Wait if source, timestamp, or options chain are missing.",
+    "Wait if provider rights, credentials, source, timestamp, or options chain are missing.",
+    "Use live/delayed labels only after a server-verified snapshot.",
     "Define invalidation before opportunity.",
     "Risk before upside.",
     "Readiness ranks review priority, not expected profit.",
@@ -10421,9 +10666,9 @@ function renderAlertsDisciplineGate(candidate, score, decisionState) {
         <div>
           <span class="meta-label">No-Chase Protocol</span>
           <h3>Wait and Verify</h3>
-          <p>${escapeHtml(candidate.ticker)} stays research-only until evidence, invalidation, and risk are clean enough for CEO B manual review.</p>
+          <p>${escapeHtml(candidate.ticker)} stays research-only until live-alert gates, invalidation, risk, and CEO B review are clean.</p>
         </div>
-        <strong>${escapeHtml(formatAlertsActionBoundary(decisionState.actionBoundary))}</strong>
+        <strong>${escapeHtml(formatAlertsLiveModeLabel(liveStatus.dataMode))}</strong>
       </header>
       <div class="alerts-discipline-grid">
         <article>
@@ -10483,17 +10728,20 @@ function renderAlertsOperatorVerdict(decisionState) {
   `;
 }
 
-function renderAlertsContributorPanel(decisionState) {
+function renderAlertsContributorPanel(decisionState, sourceStatus) {
+  const liveStatus = sourceStatus?.liveAlertsStatus || getAlertsLiveStatus();
   const sourceMissing = failedGatesHas(decisionState, "Source Gate") || failedGatesHas(decisionState, "Timestamp Gate");
   const chainMissing = failedGatesHas(decisionState, "Options-Chain Gate");
+  const legalMissing = liveStatus.missingGates?.some((gate) => gate.mode === "LEGAL_BLOCKED");
+  const credentialMissing = liveStatus.missingGates?.some((gate) => gate.mode === "CREDENTIAL_MISSING");
   const contributors = [
+    ["Provider Rights", legalMissing ? "BLOCKED" : "PASS", legalMissing ? "Written provider/commercial/OPRA rights missing" : "Provider rights gate clear"],
+    ["Credential", credentialMissing ? "MISSING" : "PASS", credentialMissing ? "Server-only credential missing" : "Server credential gate clear"],
     ["Source", sourceMissing ? "MISSING" : "PASS", sourceMissing ? "Provider or timestamp evidence missing" : "Source gate clear"],
     ["Options Flow", chainMissing ? "MISSING" : "PASS", chainMissing ? "Verified options chain missing" : "Options-chain gate clear"],
-    ["Technicals", "NOT EVALUATED", "Demo structure only"],
+    ["Technicals", liveStatus.activationBlocked ? "SOURCE REQUIRED" : "NOT EVALUATED", liveStatus.activationBlocked ? "Requires verified provider data" : "Technical structure pending"],
     ["Catalyst", "NOT EVALUATED", "Source check required"],
     ["Risk", failedGatesHas(decisionState, "Risk Gate") ? "BLOCKED" : "PASS", "Risk boundary visible"],
-    ["Sentiment", "NOT EVALUATED", "No verified sentiment source"],
-    ["Memory", "NOT EVALUATED", "Outcome record pending"],
     ["System Intelligence", failedGatesHas(decisionState, "System Intelligence Gate") ? "BLOCKED" : "PASS", "Verdict applied"],
     ["CEO B Standard", "PASS", "Governance applied"],
   ];
@@ -10504,7 +10752,7 @@ function renderAlertsContributorPanel(decisionState) {
           <span class="meta-label">Compact Gates / Contributors</span>
           <h3>System Contributors</h3>
         </div>
-        <p>States are deterministic gate labels only; no live agents or provider analysis is implied.</p>
+        <p>States are deterministic server/source gates only; no broker execution, financial advice, or guaranteed outcome is implied.</p>
       </div>
       <div>
         ${contributors.map(([name, stateLabel, detail]) => `
@@ -10520,6 +10768,8 @@ function renderAlertsContributorPanel(decisionState) {
 }
 
 function renderAlertsResearchPacket(candidate, score, sourceStatus, decisionState) {
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
+  const liveAlert = candidate.liveAlert || {};
   const missingEvidenceSummary = getAlertsMissingEvidenceSummary(decisionState.missingEvidence);
   return `
     <details
@@ -10539,6 +10789,7 @@ function renderAlertsResearchPacket(candidate, score, sourceStatus, decisionStat
             <div><dt>Ticker</dt><dd>${escapeHtml(candidate.ticker)}</dd></div>
             <div><dt>Setup</dt><dd>${escapeHtml(candidate.setupType)}</dd></div>
             <div><dt>Research Readiness</dt><dd>${escapeHtml(`${score.total}/100 · ${score.classification}`)}</dd></div>
+            <div><dt>Data Mode</dt><dd>${escapeHtml(formatAlertsLiveModeLabel(liveStatus.dataMode))}</dd></div>
             <div><dt>System Status</dt><dd>${escapeHtml(decisionState.label)}</dd></div>
             <div><dt>CEO B Standard</dt><dd>Applied</dd></div>
           </dl>
@@ -10546,8 +10797,9 @@ function renderAlertsResearchPacket(candidate, score, sourceStatus, decisionStat
         <article>
           <header><span>Source Gate</span></header>
           <dl>
-            <div class="is-risk"><dt>Source</dt><dd>Source Required</dd></div>
-            <div class="is-warning"><dt>Freshness</dt><dd>${escapeHtml(sourceStatus.freshness)} / No Verified Time</dd></div>
+            <div class="is-risk"><dt>Provider Status</dt><dd>${escapeHtml(liveStatus.providerStatus)}</dd></div>
+            <div class="is-warning"><dt>Last Verified</dt><dd>${escapeHtml(liveAlert.latestVerifiedQuoteTimestamp || getAlertsLiveTimestampLabel(liveStatus))}</dd></div>
+            <div class="is-risk"><dt>Options Chain</dt><dd>${escapeHtml(liveStatus.optionsChainStatus)}</dd></div>
             <div class="is-risk"><dt>Missing Evidence</dt><dd>${escapeHtml(missingEvidenceSummary)}</dd></div>
             <div><dt>Next Requirement</dt><dd>${escapeHtml(getAlertsNextRequirementSummary(decisionState.nextRequirement))}</dd></div>
           </dl>
@@ -10596,20 +10848,21 @@ function renderAlertsRequiredGates(requiredGateSummary) {
 }
 
 function renderAlertsSourceRiskNotes(candidate, sourceStatus, decisionState) {
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   return `
     <details class="alerts-source-risk-notes alerts-evidence-panel">
       <summary>
         <span>Source + Risk Notes</span>
-        <small>No verified source, timestamp, or options-chain snapshot exists in the static board state</small>
+        <small>${escapeHtml(getAlertsLiveActivationDetail(liveStatus))}</small>
       </summary>
       <div class="alerts-operator-columns">
         <article>
           <header><span>Source Boundary</span></header>
           <dl>
-            <div class="is-risk"><dt>Primary Source</dt><dd>Source Required</dd></div>
-            <div class="is-warning"><dt>Quote Time</dt><dd>No verified timestamp</dd></div>
-            <div class="is-risk"><dt>Options Chain</dt><dd>Unavailable until verified sources exist</dd></div>
-            <div><dt>Provider Mode</dt><dd>${escapeHtml(sourceStatus.activeProvider.name)} · Demo only</dd></div>
+            <div class="is-risk"><dt>Data Mode</dt><dd>${escapeHtml(formatAlertsLiveModeLabel(liveStatus.dataMode))}</dd></div>
+            <div class="is-warning"><dt>Quote Time</dt><dd>${escapeHtml(getAlertsLiveTimestampLabel(liveStatus))}</dd></div>
+            <div class="is-risk"><dt>Options Chain</dt><dd>${escapeHtml(liveStatus.optionsChainStatus)}</dd></div>
+            <div><dt>Provider Mode</dt><dd>${escapeHtml(sourceStatus.activeProvider.name)}</dd></div>
           </dl>
         </article>
         <article>
@@ -10644,8 +10897,11 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
   const filteredRows = getFilteredAlertsRows(rows);
   const evidenceOpen = state.alertsOperatorEvidenceOpen;
   const actionBoundaryLabel = formatAlertsActionBoundary(decisionState.actionBoundary);
+  const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   const sourceTruthBlocked = ["Source Gate", "Timestamp Gate", "Options-Chain Gate"].some((gateName) => failedGatesHas(decisionState, gateName));
   const requiredGateSummary = [
+    ["Provider Rights", failedGatesHas(decisionState, "Provider Rights Gate") ? "LEGAL BLOCKED" : "PASS", "Commercial/provider/OPRA rights"],
+    ["Credential", failedGatesHas(decisionState, "Credential Gate") ? "CREDENTIAL MISSING" : "PASS", "Server-only key"],
     ["Source", failedGatesHas(decisionState, "Source Gate") ? "SOURCE REQUIRED" : "PASS", "Provider/source identity"],
     ["Timestamp", failedGatesHas(decisionState, "Timestamp Gate") ? "UNKNOWN" : "PASS", "Usable market time"],
     ["Options Chain", failedGatesHas(decisionState, "Options-Chain Gate") ? "UNAVAILABLE" : "PASS", "Verified chain evidence"],
@@ -10662,13 +10918,13 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
       <section class="alerts-decision-command-grid" aria-label="Alerts decision command layout">
         <div class="alerts-decision-board">
           <section class="alerts-primary-workspace alerts-feed-focus" aria-label="Setups to Review feed">
-            ${renderAlertsFeedTable(rows, filteredRows, candidate.id)}
+            ${renderAlertsFeedTable(rows, filteredRows, candidate.id, sourceStatus)}
           </section>
         </div>
         <aside class="alerts-decision-sidebar" aria-label="Selected setup command context">
           ${renderAlertsQuickReview(candidate, score, sourceStatus, decisionState)}
-          ${renderAlertsGateSummary(requiredGateSummary, decisionState)}
-          ${renderAlertsDisciplineGate(candidate, score, decisionState)}
+          ${renderAlertsGateSummary(requiredGateSummary, decisionState, sourceStatus)}
+          ${renderAlertsDisciplineGate(candidate, score, decisionState, sourceStatus)}
         </aside>
       </section>
       <section id="alertsSupportSection" class="alerts-support-section" aria-labelledby="alertsSupportTitle">
@@ -10693,13 +10949,13 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
           </article>
           <article>
             <span>Evidence Gate</span>
-            <strong>Source Required</strong>
+            <strong>${escapeHtml(formatAlertsLiveModeLabel(liveStatus.dataMode))}</strong>
             <small>${escapeHtml(getAlertsMissingEvidenceSummary(decisionState.missingEvidence))}</small>
           </article>
           <article>
             <span>Action Boundary</span>
             <strong>${escapeHtml(actionBoundaryLabel)}</strong>
-            <small>manual review only</small>
+            <small>CEO B review only</small>
           </article>
         </div>
         <section class="alerts-support-workspace" aria-label="Selected setup support workspace">
@@ -10708,7 +10964,7 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
             ${renderAlertsOperatorVerdict(decisionState)}
           </aside>
         </section>
-        ${renderAlertsContributorPanel(decisionState)}
+        ${renderAlertsContributorPanel(decisionState, sourceStatus)}
         ${renderAlertsRequiredGates(requiredGateSummary)}
         ${renderAlertsResearchPacket(candidate, score, sourceStatus, decisionState)}
 
@@ -10753,16 +11009,16 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
             <header><span>Source, Risk &amp; Review</span></header>
             <dl class="is-compact">
               <div><dt>Provider</dt><dd>${escapeHtml(sourceStatus.activeProvider.name)}</dd></div>
-              <div class="is-risk"><dt>Primary Source Status</dt><dd>Demo / unverified</dd></div>
+              <div class="is-risk"><dt>Primary Source Status</dt><dd>${escapeHtml(formatAlertsLiveModeLabel(liveStatus.dataMode))}</dd></div>
               <div class="is-warning"><dt>Source Freshness</dt><dd>${escapeHtml(sourceStatus.freshness)}</dd></div>
               <div><dt>Risk State</dt><dd>${escapeHtml(candidate.riskRating)}</dd></div>
-              <div><dt>Data Mode</dt><dd>${escapeHtml(candidate.dataQuality)} only</dd></div>
+              <div><dt>Data Mode</dt><dd>${escapeHtml(formatAlertsLiveModeLabel(liveStatus.dataMode))}</dd></div>
             </dl>
             <div class="alerts-evidence-gap-tags" aria-label="Evidence packet gap summary">
               ${[
-                "Known: static/demo setup record",
-                "Missing: usable market timestamp",
-                "Unverified: options chain",
+                `Known: ${formatAlertsLiveModeLabel(liveStatus.dataMode)} status`,
+                `Missing: ${getAlertsLiveMissingGatesSummary(liveStatus, 2)}`,
+                `Options chain: ${liveStatus.optionsChainStatus}`,
                 "Blocked: no external action",
                 "Required next: authorized provider verification"
               ].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
@@ -10782,7 +11038,7 @@ function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
         <footer class="alerts-operator-safety">
           <span>Safety Boundary</span>
           <span>Research Only</span>
-          <span>Manual Review Required</span>
+          <span>CEO B Review</span>
           <span>Not Financial Advice</span>
           <span>No Broker Execution</span>
           <span>No External Action</span>
@@ -11206,6 +11462,13 @@ function requestPlaceholderProvider(providerId, dataType, context = {}) {
 
 function getSourceStatus() {
   const evaluatedAt = new Date().toISOString();
+  const liveAlertsStatus = getAlertsLiveStatus();
+  const isVerifiedLiveMode = liveAlertsStatus.dataMode === "LIVE_VERIFIED" || liveAlertsStatus.dataMode === "DELAYED_VERIFIED";
+  const providerMode = liveAlertsStatus.dataMode === "LIVE_VERIFIED"
+    ? "LIVE"
+    : liveAlertsStatus.dataMode === "DELAYED_VERIFIED"
+      ? "DELAYED"
+      : "UNAVAILABLE";
   const snapshots = {
     quote: getQuote("QQQ"),
     optionsChain: getOptionsChain("QQQ"),
@@ -11227,21 +11490,32 @@ function getSourceStatus() {
   }));
   const aggregateScore = Math.round(services.reduce((sum, item) => sum + item.snapshot.sourceConfidence.score, 0) / services.length);
   return {
-    activeProviderMode: "DEMO",
-    activeProvider: PICKAXE_PROVIDER_REGISTRY.demoProvider,
+    activeProviderMode: providerMode,
+    activeProvider: {
+      ...PICKAXE_PROVIDER_REGISTRY.localProxyProvider,
+      name: isVerifiedLiveMode ? "Pickaxe Live Alerts API" : "Pickaxe Live Alerts API / Blocked",
+      status: liveAlertsStatus.providerStatus,
+      dataMode: liveAlertsStatus.dataMode,
+      failureReason: liveAlertsStatus.activationBlocked ? getAlertsLiveMissingGatesSummary(liveAlertsStatus, 3) : "",
+    },
     services,
-    lastChecked: evaluatedAt,
-    lastCheckedLabel: `${evaluatedAt} · architecture evaluation, not market time`,
-    freshness: "UNKNOWN",
-    staleWarning: "No provider market timestamps exist in DEMO mode; freshness cannot be claimed.",
+    lastChecked: liveAlertsStatus.proxyReceivedAt || evaluatedAt,
+    lastCheckedLabel: `${getAlertsLiveTimestampLabel(liveAlertsStatus)} · ${formatAlertsLiveModeLabel(liveAlertsStatus.dataMode)}`,
+    freshness: liveAlertsStatus.freshnessState || "UNAVAILABLE",
+    staleWarning: liveAlertsStatus.activationBlocked
+      ? getAlertsLiveActivationDetail(liveAlertsStatus)
+      : "Provider timestamp and source state are supplied by the server-side live-alerts endpoint.",
     sourceConfidence: { score: aggregateScore, classification: classifySourceConfidence(aggregateScore) },
-    fallbackPath: "Configured provider → no persistence fallback authorized → UNAVAILABLE. Demo remains separately labeled.",
+    fallbackPath: liveAlertsStatus.activationBlocked
+      ? "Server provider gate blocked -> DEMO_FALLBACK rows only. Demo remains separately labeled."
+      : "Server verified snapshot -> generated research candidates -> no persistence unless separately authorized.",
     connectors: Object.values(PICKAXE_PROVIDER_REGISTRY).filter((provider) => provider.id !== "demoProvider" && provider.id !== "unavailableProvider"),
-    priceData: snapshots.quote.dataMode,
-    optionsChain: snapshots.optionsChain.dataMode,
+    priceData: liveAlertsStatus.dataMode,
+    optionsChain: isVerifiedLiveMode ? liveAlertsStatus.dataMode : "UNAVAILABLE",
     newsCatalyst: snapshots.news.dataMode,
     technicalIndicators: snapshots.technicals.dataMode,
     marketRegime: snapshots.marketRegime.dataMode,
+    liveAlertsStatus,
   };
 }
 
@@ -12032,6 +12306,7 @@ function renderAlertsPage() {
   if (state.phase9DrawerOpen) {
     window.setTimeout(() => document.querySelector("#phase9AlertDrawer")?.focus(), 0);
   }
+  scheduleLiveAlertsStatusRefresh();
 }
 
 window.selectResearchPacketV2 = (id) => {

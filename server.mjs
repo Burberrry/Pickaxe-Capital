@@ -3,6 +3,14 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { existsSync, readFileSync } from "node:fs";
 import { extname, join, resolve } from "node:path";
 import { requestAlphaVantageQuoteSnapshot } from "./lib/alpha-vantage-quote.mjs";
+import {
+  buildLiveAlertsPayload,
+  buildLiveAlertsStatus,
+  buildLiveQuotePayload,
+  cleanLiveAlertsTicker,
+  isLiveAlertsTickerAllowed,
+  requestMassiveOptionsChainSnapshot,
+} from "./lib/live-alerts-engine.mjs";
 
 const root = process.cwd();
 const publicDir = join(root, "public");
@@ -39,7 +47,13 @@ const FIRST_PROVIDER_KEY_NAME = "PICKAXE_ALPHA_VANTAGE_API_KEY";
 const FIRST_PROVIDER_ENTITLEMENT = String(process.env.PICKAXE_ALPHA_VANTAGE_ENTITLEMENT || "").trim().toLowerCase();
 const FIRST_PROVIDER_COMMERCIAL_USE_APPROVED =
   String(process.env.PICKAXE_ALPHA_VANTAGE_COMMERCIAL_USE_APPROVED || "").trim().toLowerCase() === "true";
+const MASSIVE_OPTIONS_ENTITLEMENT = String(process.env.PICKAXE_MASSIVE_OPTIONS_ENTITLEMENT || "").trim().toLowerCase();
+const MASSIVE_OPTIONS_COMMERCIAL_USE_APPROVED =
+  String(process.env.PICKAXE_MASSIVE_COMMERCIAL_USE_APPROVED || "").trim().toLowerCase() === "true";
+const MASSIVE_OPTIONS_OPRA_RIGHTS_CONFIRMED =
+  String(process.env.PICKAXE_MASSIVE_OPRA_RIGHTS_CONFIRMED || "").trim().toLowerCase() === "true";
 let firstProviderManualRequestConsumed = false;
+let massiveOptionsChainRequestConsumed = false;
 
 const contentTypes = {
   ".html": "text/html; charset=utf-8",
@@ -96,6 +110,25 @@ createServer(async (req, res) => {
         message: LIVE_SERVICES_ENABLED ? "Local development live services are enabled." : LIVE_SERVICES_DISABLED_MESSAGE,
         time: new Date().toISOString(),
       });
+    }
+
+    if (url.pathname === "/api/live/status") {
+      return json(res, getLiveAlertsStatusPayload());
+    }
+
+    if (url.pathname === "/api/live/quote") {
+      const result = await getLiveQuoteEndpointPayload(url.searchParams);
+      return json(res, result.payload, result.status);
+    }
+
+    if (url.pathname === "/api/live/options-chain") {
+      const result = await getLiveOptionsChainEndpointPayload(url.searchParams);
+      return json(res, result.payload, result.status);
+    }
+
+    if (url.pathname === "/api/live/alerts") {
+      const result = await getLiveAlertsEndpointPayload(url.searchParams);
+      return json(res, result.payload, result.status);
     }
 
     if (url.pathname === "/api/provider/quote") {
@@ -271,6 +304,157 @@ createServer(async (req, res) => {
   const mode = LIVE_SERVICES_ENABLED ? "DEV LIVE SERVICES ENABLED" : "STATIC/DEMO";
   console.log(`Pickaxe Capital is running at http://localhost:${port} (${mode})`);
 });
+
+function getLiveAlertsStatusPayload() {
+  return buildLiveAlertsStatus({ env: process.env });
+}
+
+async function getLiveQuoteEndpointPayload(searchParams) {
+  const ticker = cleanLiveAlertsTicker(searchParams.get("ticker") || "QQQ");
+  const status = getLiveAlertsStatusPayload();
+
+  if (!ticker) {
+    return liveEndpointError(400, "SOURCE_REQUIRED", "Ticker must contain 1-12 letters, numbers, periods, or hyphens.", status, "");
+  }
+  if (!isLiveAlertsTickerAllowed(ticker)) {
+    return liveEndpointError(403, "SOURCE_REQUIRED", "Ticker is outside the Pickaxe live-alerts allowlist. No provider request was made.", status, ticker);
+  }
+
+  const quoteGateReady = status.providers?.quote?.ready === true;
+  if (!quoteGateReady) {
+    return {
+      status: 503,
+      payload: {
+        ...buildLiveQuotePayload({ ticker, status }).payload,
+        ok: false,
+        uiHeadline: status.uiHeadline,
+        activationBlocked: true,
+      },
+    };
+  }
+
+  const providerResult = await requestAlphaVantageQuoteSnapshot({
+    ticker,
+    proxyMode: PROVIDER_PROXY_MODE,
+    requiredProxyMode: FIRST_PROVIDER_MODE,
+    liveServicesEnabled: LIVE_SERVICES_ENABLED,
+    apiKey: process.env[FIRST_PROVIDER_KEY_NAME],
+    entitlement: FIRST_PROVIDER_ENTITLEMENT,
+    commercialUseApproved: FIRST_PROVIDER_COMMERCIAL_USE_APPROVED,
+    reserveRequest: () => {
+      if (firstProviderManualRequestConsumed) return false;
+      firstProviderManualRequestConsumed = true;
+      return true;
+    },
+  });
+  return buildLiveQuotePayload({ ticker, status, providerResult });
+}
+
+async function getLiveOptionsChainEndpointPayload(searchParams) {
+  const ticker = cleanLiveAlertsTicker(searchParams.get("ticker") || "QQQ");
+  const status = getLiveAlertsStatusPayload();
+
+  if (!ticker) {
+    return liveEndpointError(400, "SOURCE_REQUIRED", "Ticker must contain 1-12 letters, numbers, periods, or hyphens.", status, "");
+  }
+  if (!isLiveAlertsTickerAllowed(ticker)) {
+    return liveEndpointError(403, "SOURCE_REQUIRED", "Ticker is outside the Pickaxe live-alerts allowlist. No provider request was made.", status, ticker);
+  }
+
+  const optionsGateReady = status.providers?.optionsChain?.ready === true;
+  if (!optionsGateReady) {
+    return {
+      status: 503,
+      payload: {
+        ok: false,
+        ticker,
+        provider: "Massive",
+        providerMode: "massive-options-chain",
+        dataMode: status.dataMode,
+        uiHeadline: status.uiHeadline,
+        activationBlocked: true,
+        sourceStatus: status.optionsChainStatus,
+        legalStatus: status.missingGates.some((gate) => /options|opra/i.test(gate.label) && gate.mode === "LEGAL_BLOCKED") ? "UNCONFIRMED" : "CONFIRMED_BY_SERVER_ENV",
+        providerMarketTimestamp: null,
+        proxyReceivedTimestamp: status.proxyReceivedAt,
+        freshnessState: status.freshnessState,
+        staleReason: "No provider request was made.",
+        contracts: [],
+        missingGates: status.missingGates.filter((gate) => /options|opra|live services/i.test(gate.label)),
+        errorCode: status.dataMode,
+        errorMessage: "Live options-chain activation is blocked by provider rights, OPRA/display, entitlement, or credential gates.",
+      },
+    };
+  }
+
+  const result = await requestMassiveOptionsChainSnapshot({
+    ticker,
+    expiration: searchParams.get("expiration") || "",
+    contractType: searchParams.get("contractType") || searchParams.get("type") || "",
+    liveServicesEnabled: LIVE_SERVICES_ENABLED,
+    apiKey: process.env.PICKAXE_MASSIVE_API_KEY,
+    entitlement: MASSIVE_OPTIONS_ENTITLEMENT,
+    commercialUseApproved: MASSIVE_OPTIONS_COMMERCIAL_USE_APPROVED,
+    opraRightsConfirmed: MASSIVE_OPTIONS_OPRA_RIGHTS_CONFIRMED,
+    reserveRequest: () => {
+      if (massiveOptionsChainRequestConsumed) return false;
+      massiveOptionsChainRequestConsumed = true;
+      return true;
+    },
+  });
+  return result;
+}
+
+async function getLiveAlertsEndpointPayload(searchParams) {
+  const ticker = cleanLiveAlertsTicker(searchParams.get("ticker") || "QQQ");
+  const status = getLiveAlertsStatusPayload();
+
+  if (!ticker) {
+    return liveEndpointError(400, "SOURCE_REQUIRED", "Ticker must contain 1-12 letters, numbers, periods, or hyphens.", status, "");
+  }
+  if (!isLiveAlertsTickerAllowed(ticker)) {
+    return liveEndpointError(403, "SOURCE_REQUIRED", "Ticker is outside the Pickaxe live-alerts allowlist. No provider request was made.", status, ticker);
+  }
+
+  if (status.activationBlocked) {
+    return {
+      status: 503,
+      payload: buildLiveAlertsPayload({ status, ticker }),
+    };
+  }
+
+  const quoteResult = await getLiveQuoteEndpointPayload(new URLSearchParams({ ticker }));
+  const quote = quoteResult.payload;
+  const optionsResult = await getLiveOptionsChainEndpointPayload(searchParams);
+  const optionsChain = optionsResult.payload;
+  const payload = buildLiveAlertsPayload({
+    status,
+    ticker,
+    quote,
+    optionsChain,
+  });
+  return {
+    status: payload.ok ? 200 : 503,
+    payload,
+  };
+}
+
+function liveEndpointError(statusCode, dataMode, message, statusPayload, ticker) {
+  return {
+    status: statusCode,
+    payload: {
+      ok: false,
+      ticker,
+      dataMode,
+      uiHeadline: statusPayload?.uiHeadline || "LIVE ALERTS READY / ACTIVATION BLOCKED",
+      activationBlocked: true,
+      proxyReceivedTimestamp: new Date().toISOString(),
+      missingGates: statusPayload?.missingGates || [],
+      errorCode: dataMode,
+      errorMessage: message,
+    },
+  };
+}
 
 async function serveStatic(pathname, res) {
   const filePath = pathname === "/" ? join(publicDir, "index.html") : join(publicDir, pathname);
