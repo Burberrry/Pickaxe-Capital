@@ -289,13 +289,16 @@ function showNotification(message, type = "success") {
     container = document.createElement("div");
     container.id = "toast-container";
     container.style.position = "fixed";
-    container.style.bottom = "20px";
-    container.style.right = "20px";
+    container.style.top = "16px";
+    container.style.right = "16px";
+    container.style.left = "auto";
+    container.style.bottom = "auto";
     container.style.zIndex = "99999";
     container.style.display = "flex";
     container.style.flexDirection = "column";
     container.style.gap = "8px";
     container.style.pointerEvents = "none";
+    container.style.maxWidth = "min(360px, calc(100vw - 32px))";
     document.body.appendChild(container);
   }
   
@@ -315,19 +318,14 @@ function showNotification(message, type = "success") {
   toast.style.fontSize = "11px";
   toast.style.boxShadow = "0 4px 12px rgba(0,0,0,0.5)";
   toast.style.minWidth = "200px";
-  toast.style.maxWidth = "350px";
+  toast.style.maxWidth = "100%";
   toast.style.opacity = "0";
-  toast.style.transform = "translateY(10px)";
+  toast.style.transform = "translateY(-10px)";
   toast.style.transition = "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)";
   
   const esc = (str) => String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   
-  toast.innerHTML = `
-    <div style="display: flex; align-items: start; gap: 8px;">
-      <span style="color: ${type === 'error' ? 'var(--red, #f75656)' : type === 'warning' ? 'var(--amber, #ffbe4d)' : 'var(--green, #42d9c8)'}; font-weight: bold;">[${type.toUpperCase()}]</span>
-      <div style="flex: 1; line-height: 1.3;">${esc(message)}</div>
-    </div>
-  `;
+  toast.innerHTML = `<span style="color: ${type === 'error' ? 'var(--red, #f75656)' : type === 'warning' ? 'var(--amber, #ffbe4d)' : 'var(--green, #42d9c8)'}; font-weight: bold;">[${type.toUpperCase()}]</span> <span style="line-height: 1.3;">${esc(message)}</span>`;
   
   container.appendChild(toast);
   
@@ -11735,6 +11733,10 @@ function renderPickaxeAlerts01Icon(name) {
   return icons[name] || icons.pick;
 }
 
+function pickaxeAlerts01JsArg(value) {
+  return escapeHtml(JSON.stringify(String(value ?? "")));
+}
+
 function renderPickaxeAlerts01Bars(values = [], tone = "green") {
   return `
     <div class="pa-bars is-${escapeHtml(tone)}" aria-hidden="true">
@@ -11756,6 +11758,7 @@ function renderPickaxeAlerts01Line(isPut = false) {
 }
 
 function renderPickaxeAlerts01SignalStack(model) {
+  const modelArg = pickaxeAlerts01JsArg(model.id);
   const rows = [
     ["Trend", `${model.ticker} above 20EMA & 50EMA`, /put|bear/i.test(model.side) ? "Bearish" : "Bullish"],
     ["Volume Surge", `${model.beta} above demo average`, "Strong"],
@@ -11765,10 +11768,10 @@ function renderPickaxeAlerts01SignalStack(model) {
     ["Risk / Reward", "Est. R:R 1:2.3+", "Favorable"],
   ];
   return `
-    <div class="pa-signal-stack">
+      <div class="pa-signal-stack">
       <h3>ALERT SIGNAL STACK</h3>
       ${rows.map(([label, detail, result]) => `
-        <button type="button" onclick="window.pickaxeAlerts01Action('${escapeHtml(model.id)}', 'note-${escapeHtml(label)}')">
+        <button type="button" onclick="window.pickaxeAlerts01Action(${modelArg}, ${pickaxeAlerts01JsArg(`note-${label}`)})">
           <span>${escapeHtml(label)}</span>
           <small>${escapeHtml(detail)}</small>
           <strong>${escapeHtml(result)}</strong>
@@ -11782,12 +11785,13 @@ function renderPickaxeAlerts01SetupButtons(rows, selectedId) {
   return rows.slice(0, 6).map((row) => {
     const model = getPickaxeAlerts01Model(row);
     const isPut = /put|bear/i.test(model.side);
+    const modelArg = pickaxeAlerts01JsArg(model.id);
     return `
       <button
         type="button"
         class="pa-alert-tab ${model.id === selectedId ? "is-active" : ""}"
         aria-pressed="${model.id === selectedId}"
-        onclick="window.pickaxeAlerts01Select('${escapeHtml(model.id)}')"
+        onclick="window.pickaxeAlerts01Select(${modelArg})"
       >
         <strong>${escapeHtml(model.ticker)}</strong>
         <span>${escapeHtml(model.sideShort)} · ${escapeHtml(model.setup)}</span>
@@ -11871,24 +11875,45 @@ function renderPickaxeAlerts01FearGreedCard() {
 }
 
 function renderPickaxeAlerts01XNotesCard() {
-  const notes = [
-    ["X", "Static watchlist note requires source review.", "NO TIME"],
-    ["X", "QQQ research packet needs verified breadth.", "NO TIME"],
-    ["X", "SPY put study is a visual example only.", "NO TIME"],
-    ["X", "No provider feed, alert delivery, or external action.", "NO TIME"],
+  const rows = [
+    ["PM", "Prediction Markets", "@PolymarketMoney · @Polymarket · @Kalshi", "SOURCE GATED"],
+    ["OF", "Options Flow", "@CheddarFlow · @unusual_whales · @OptionAlert", "NO API"],
+    ["MN", "Market News", "@KobeissiLetter · @DeItaone · @StockMKTNewz", "VERIFY"],
+    ["OS", "OSINT / Geopolitics", "@Osint613 · @sentdefender · @spectatorindex", "NO SCRAPING"],
+    ["SP", "Space / Special Watch", "@SpaceX · @insiderwave_", "WATCHLIST"],
+  ];
+  const groups = [
+    ["Prediction / Event Markets", ["@PolymarketMoney", "@Polymarket", "@Kalshi"]],
+    ["Options Flow / Market Tools", ["@CheddarFlow", "@snorlax_uw", "@unusual_whales", "@OptionAlert", "@Tradytics", "@Barchart", "@LuxAlgo", "@tradingview", "@Stocktwits", "@Investingcom"]],
+    ["Fast Market News / Macro", ["@KobeissiLetter", "@StockMKTNewz", "@DeItaone", "@eWhispers", "@ripster47", "@preetkailon"]],
+    ["Geopolitics / OSINT", ["@Osint613", "@sentdefender", "@spectatorindex", "@BRICSinfo"]],
+    ["Space / Founder / Special Watch", ["@SpaceX", "@Julianpetroulas", "@insiderwave_"]],
   ];
   return `
-    <article class="pa-card pa-v6-x-card">
-      <header><h2>X NOTIFICATIONS</h2><em class="is-safe"><i></i>SOURCE REQUIRED</em></header>
+    <article class="pa-card pa-v6-x-card" data-source-deck-mode="manual-static">
+      <header><h2>CEO B X SOURCE DECK</h2><em class="is-safe"><i></i>SOURCE REQUIRED</em></header>
+      <div class="pa-v6-x-universe">26 CEO B-followed accounts · source-gated · no live feed connected</div>
       <div class="pa-v6-x-list">
-        ${notes.map(([icon, text, time]) => `
+        ${rows.map(([icon, title, detail, state]) => `
           <div>
             <span>${escapeHtml(icon)}</span>
-            <p>${escapeHtml(text)}<small>${escapeHtml(time)}</small></p>
+            <p>${escapeHtml(title)}<small>${escapeHtml(detail)}</small></p>
+            <strong>${escapeHtml(state)}</strong>
           </div>
         `).join("")}
       </div>
-      <strong>Static research notes only. No current-feed insight claim.</strong>
+      <details class="pa-v6-x-source-details">
+        <summary>Full 26-account source deck</summary>
+        <div>
+          ${groups.map(([label, handles]) => `
+            <section>
+              <b>${escapeHtml(label)}</b>
+              <p>${handles.map((handle) => `<span>${escapeHtml(handle)}</span>`).join("")}</p>
+            </section>
+          `).join("")}
+        </div>
+      </details>
+      <strong>X sources are watchlist inputs only. Posts are unverified until cross-checked. No live feed, no scraping, no endorsement, no trading instruction.</strong>
     </article>
   `;
 }
@@ -11912,11 +11937,12 @@ function renderPickaxeAlerts01AssetFilters() {
 }
 
 function renderPickaxeAlerts01PetCard(model) {
+  const modelArg = pickaxeAlerts01JsArg(model.id);
   return `
     <article class="pa-card pa-v6-pet-card">
       <header><h2>PICKAXE CAPITAL PET</h2></header>
       ${renderPickaxeAlerts01PetFigure()}
-      <button type="button" onclick="window.pickaxeAlerts01Action('${escapeHtml(model.id)}', 'pet')">${renderPickaxeAlerts01Icon("chat")} ASK PET</button>
+      <button type="button" onclick="window.pickaxeAlerts01Action(${modelArg}, 'pet')">${renderPickaxeAlerts01Icon("chat")} ASK PET</button>
     </article>
   `;
 }
@@ -11964,6 +11990,7 @@ function renderPickaxeAlerts01AlertRow(model, tone) {
   const selectedCandidate = getSelectedAlertsCandidate();
   const isSelected = selectedCandidate?.id === model.id;
   const modelId = escapeHtml(model.id);
+  const modelArg = pickaxeAlerts01JsArg(model.id);
   return `
     <article
       class="pa-v6-alert-row is-${escapeHtml(tone)} ${isSelected ? "is-selected" : ""}"
@@ -11972,8 +11999,8 @@ function renderPickaxeAlerts01AlertRow(model, tone) {
       data-alert-row-tone="${escapeHtml(tone)}"
       role="button"
       tabindex="0"
-      onclick="window.pickaxeAlerts01Select('${modelId}')"
-      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.pickaxeAlerts01Select('${modelId}')}"
+      onclick="window.pickaxeAlerts01Select(${modelArg})"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.pickaxeAlerts01Select(${modelArg})}"
     >
       <section class="pa-v6-cell pa-v6-time-cell">
         <header>${renderPickaxeAlerts01Icon("clock")}<h2>TIME</h2></header>
@@ -12013,8 +12040,8 @@ function renderPickaxeAlerts01AlertRow(model, tone) {
         </div>
         <p>NO VERIFIED OPTIONS CHAIN · NO BUY/SELL INSTRUCTION · NO EXTERNAL ACTION.</p>
         <div class="pa-v6-contract-actions">
-          <button type="button" onclick="event.stopPropagation();window.pickaxeAlerts01Action('${modelId}', 'review')">REVIEW</button>
-          <button type="button" onclick="event.stopPropagation();window.pickaxeAlerts01Action('${modelId}', 'evidence')">EVIDENCE</button>
+          <button type="button" onclick="event.stopPropagation();window.pickaxeAlerts01Action(${modelArg}, 'review')">REVIEW</button>
+          <button type="button" onclick="event.stopPropagation();window.pickaxeAlerts01Action(${modelArg}, 'evidence')">EVIDENCE</button>
         </div>
       </section>
 
@@ -12036,7 +12063,7 @@ function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
   const models = getPickaxeAlerts01DashboardModels(rows, sourceStatus);
   const ratioModel = models.call;
   return `
-    <section class="pickaxe-alerts-01 pa-v6" aria-labelledby="pickaxeAlerts01Title">
+    <section class="pickaxe-alerts-01 pa-v6" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v6.6-local-static" data-alerts-runtime="static-source-gated">
       <div class="pa-noise" aria-hidden="true"></div>
       ${renderPickaxeAlerts01AssetFilters()}
       <header class="pa-titlebar">
@@ -12917,7 +12944,7 @@ window.pickaxeAlerts01Action = (id, action) => {
   const at = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   actions[id] = { status: label, label, action: cleanAction, at };
   savePickaxeAlerts01Actions(actions);
-  showNotification(`${label}. Local Alerts 01 state updated.`);
+  showNotification("Local research note saved · no external action.");
   renderAlertsPage();
 };
 

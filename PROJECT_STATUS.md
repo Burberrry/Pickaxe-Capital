@@ -1,5 +1,50 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Alerts Cockpit v6.6.1 Final Local Visual Repair
+
+- Date: 2026-06-28.
+- Result: **PASS / ALERTS COCKPIT V6.6.1 FINAL LOCAL VISUAL REPAIR READY**.
+- Baseline before local work remains `7d2b33cfb370ee4f8137596ea271b8da56b7d851` (`Clean hosted Alerts static boundary`) on `main` / `origin/main`; v6.4/v6.5/v6.6 work remains local and uncommitted.
+- Sprint type: tiny local-only repair before checkpoint commit. No push, deploy, provider activation, public live data, fake live data, route, LocalStorage key, package script, server/provider file, `.env`, `.env.local`, broker/execution/order/payment/auth/subscription/alert-delivery behavior, or `data/signal-alerts.json` change was authorized or added.
+- Repair 1: mobile PET rendering now uses the real canonical PET image in an explicit black/gold mobile frame so the steward is visible at `390x900` and `390x844`; no placeholder art or asset replacement was added.
+- Repair 2: `CEO B X SOURCE DECK` now exposes the exact 26-account source universe in source-gated, local-only form, grouped by Prediction/Event Markets, Options Flow/Market Tools, Fast Market News/Macro, Geopolitics/OSINT, and Space/Founder/Special Watch. No fake tweets, fake timestamps, scraping, X API call, browser X request, endorsement, or trading instruction was added.
+- Repair 3: toast placement moved to the top-right safe area and the Alerts cockpit action message now reads `[SUCCESS] Local research note saved · no external action.` without covering Exact Contracts, Review/Evidence, or Confidence panels.
+- Required source/safety truth remains visible or reachable: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, and `Research. Discipline. Verification.`
+- Cache key for local QA: `alerts-cockpit-v6-6-1-local-20260628-r1`.
+- Screenshot proof directory: `/tmp/pickaxe-alerts-cockpit-v6-6-1-local/`.
+
+### Pickaxe Alerts Cockpit v6.6.1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `public/habitat-data.js` and `habitat-data.js`
+
+## Current Checkpoint - Pickaxe Alerts Cockpit v6.6 Local Source Deck Integration
+
+- Date: 2026-06-28.
+- Result: **PASS / ALERTS COCKPIT V6.6 LOCAL POLISH READY**.
+- Baseline confirmed before work: `7d2b33cfb370ee4f8137596ea271b8da56b7d851` (`Clean hosted Alerts static boundary`) on `main` / `origin/main`.
+- Sprint type: local-only v6.4/v6.5/v6.6 continuation from hosted v6.3. No push, deploy, provider activation, public live data, fake live data, route, LocalStorage key, package script, server/provider file, `.env`, `.env.local`, broker/execution/order/payment/auth/subscription/alert-delivery behavior, or `data/signal-alerts.json` change was authorized or added.
+- v6.4 visual polish: bull and bear stages now use full-bleed chart-lit compositions with stronger green/red cinematic depth, larger canonical character crops, softer vignettes, and no code-native placeholder character art.
+- v6.5 hardening: Alerts cockpit inline local action arguments now use JSON-string encoded arguments, the root cockpit declares static/source-gated runtime attributes, and the public/static GitHub Pages probe guard from v6.3 remains preserved.
+- v6.6 CEO B X Source Deck: the old generic X Notifications card is replaced with a static/manual `CEO B X SOURCE DECK` covering manual source review, Source Hub crosscheck, private X bookmark intake, provider snapshot block, `NO X API`, `NO LIVE FEED`, and `NO CURRENT-FEED INSIGHT CLAIM`.
+- Local browser QA passed on `http://localhost:4346/app/alerts` at `1472x1104`, `1280x720`, and `390x900`: real canonical bull, bear, and PET visible; approved logo visible; source deck visible; no placeholder character SVG; no horizontal overflow; one visible Starlight canvas; no console errors; no external provider browser requests.
+- Screenshot proof directory: `/tmp/pickaxe-alerts-cockpit-v6-4-v6-6-local/`.
+- Cache key for local QA: `alerts-cockpit-v6-6-local-20260628-r1`.
+- Next bounded recommendation: CEO B local visual review, then a separate local checkpoint commit request if approved.
+
+### Pickaxe Alerts Cockpit v6.6 Local Source Deck Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `public/habitat-data.js` and `habitat-data.js`
+
 ## Current Checkpoint - Pickaxe Alerts Cockpit v6.3 Hosted Verification
 
 - Date: 2026-06-28.

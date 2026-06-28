@@ -2,6 +2,38 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Cockpit v6.6.1 Final Local Visual Repair is **PASS / ALERTS COCKPIT V6.6.1 FINAL LOCAL VISUAL REPAIR READY**.
+
+- Baseline remains `7d2b33cfb370ee4f8137596ea271b8da56b7d851` on `main` / `origin/main`.
+- Work is local-only. No push or deploy was performed.
+- Mobile PET now visibly renders the real canonical PET asset at `390x900` and `390x844`.
+- CEO B X Source Deck now includes the exact 26 approved handles, grouped and source-gated, with no fake tweets, fake timestamps, X scraping, X API calls, browser X requests, endorsement, or trading instruction.
+- Toast now stays out of Exact Contracts / Review / Evidence / Confidence panels and reads `[SUCCESS] Local research note saved · no external action.`
+- Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, and `Research. Discipline. Verification.`
+- Screenshot proof target: `/tmp/pickaxe-alerts-cockpit-v6-6-1-local/`.
+
+Next bounded step: run final local checkpoint commit only if CEO B accepts v6.6.1.
+
+Do not push, deploy, start provider work, enable public live data, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Cockpit v6.6 Local Source Deck Integration
+
+Pickaxe Alerts Cockpit v6.6 Local Source Deck Integration is **PASS / ALERTS COCKPIT V6.6 LOCAL POLISH READY**.
+
+- Baseline confirmed before work: `7d2b33cfb370ee4f8137596ea271b8da56b7d851` on `main` / `origin/main`.
+- Work is local-only. No push or deploy was performed.
+- v6.4 improved character cutout / full-bleed stage polish for the real canonical bull and bear assets.
+- v6.5 hardened local action arguments and preserved static/source-gated runtime truth.
+- v6.6 integrated a static CEO B X Source Deck in the Alerts cockpit: manual source review, Source Hub crosscheck, private X bookmark intake, provider snapshot block, `NO X API`, `NO LIVE FEED`, and `NO CURRENT-FEED INSIGHT CLAIM`.
+- Local browser QA passed at desktop, compact, and mobile sizes with real bull, real bear, real PET, approved logo, no placeholder character art, no horizontal overflow, no console errors, one visible Starlight canvas, and no external provider browser requests.
+- Screenshot proof is under `/tmp/pickaxe-alerts-cockpit-v6-4-v6-6-local/`.
+
+Next bounded step: CEO B local visual review of v6.6.
+
+Do not push, deploy, start provider work, enable public live data, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Cockpit v6.3 Hosted Verification
+
 Pickaxe Alerts Cockpit v6.3 Hosted Verification is **PASS / ALERTS COCKPIT V6.3 HOSTED VERIFIED**.
 
 - Promoted commit stack on `main` / `origin/main`: `31880b9` (`Integrate canonical Alerts cockpit character assets`) and `83ae681` (`Polish Alerts cockpit character composition`).
