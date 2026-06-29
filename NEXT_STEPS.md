@@ -2,7 +2,27 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Alerts Desk V8.1 Hosted Verification is **PASS / V8.1 SINGLE ACTIVE ALERT HERO HOSTED VERIFIED**.
+Pickaxe Alerts Desk V8.1 Public Bundle Cleanup is **PASS / READY FOR CODEX CLEANUP QA**.
+
+- Baseline confirmed before work: `main == origin/main == 09a8275248c2bb62a328d7165d4760419b75d3c9` (`Record Alerts desk V8.1 hosted verification`).
+- Safety branch: `backup/pre-alerts-desk-v8-1-public-bundle-cleanup-20260629`.
+- Work branch: `codex/alerts-desk-v8-1-public-bundle-cleanup-20260629`.
+- Work is local-only. No push or deploy was performed.
+- Runtime marker remains `data-alerts-cockpit-version="v8-1-single-active-alert-hero"`.
+- Local cache key: `alerts-desk-v8-1-public-bundle-cleanup-20260629-r1`.
+- Cleanup removes dormant public-bundle legacy artifacts: the specified static strike/expiry literals, fake exact option strike/expiry/contract-symbol remnants, static bid/ask/volume/open-interest option context values, and the literal legacy external trading domain string.
+- No replacement trading/execution link was added.
+- V8.1 behavior remains preserved: one active alert hero, bias-driven Bull/Bear character system, compact `Counter-Risk Check`, blocked exact contract gate, full watchlist, manual Source Deck, local-only PET, and honest review labels.
+- Required safety language remains preserved, including blocked exact contract copy and no bid/ask, no volume, no open interest, no IV/Greeks, no buy/sell instruction, and no broker execution.
+- Screenshot proof and QA summary are under `/tmp/pickaxe-alerts-desk-v8-1-public-bundle-cleanup/`.
+
+Next bounded step: Codex cleanup QA. Push/deploy remains blocked until explicitly requested after approval.
+
+Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs/pattern memory, exact verified options-chain display, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+
+## Previous Active Checkpoint - Pickaxe Alerts Desk V8.1 Hosted Verification
+
+Pickaxe Alerts Desk V8.1 Hosted Verification was **PASS / V8.1 SINGLE ACTIVE ALERT HERO HOSTED VERIFIED**.
 
 - Promoted branch: `codex/alerts-desk-v8-1-single-active-alert-20260629`.
 - Promoted commit: `818cdc9a34dc7d07b8caece01e9e426171e6ff19` (`Correct Alerts desk to single active alert hero`).
@@ -20,7 +40,7 @@ Pickaxe Alerts Desk V8.1 Hosted Verification is **PASS / V8.1 SINGLE ACTIVE ALER
 - Source Deck remains manual/static: default `Source Deck · 26 manual sources · no live feed`, all 26 approved handles present when expanded, no fake tweets, timestamps, live feed, scraping, X API/browser X requests, endorsement, or trading instruction.
 - PET remains local helper only with required copy and response; no provider call or external action.
 - Learning/review affordances remain future-ready only; no self-learning, source-library, market-memory, or profitability claim.
-- Hidden legacy `glint.trade` remains neutralized: no visible/actionable/product-relevant link and no replacement trading/execution link.
+- Hidden legacy legacy external trading artifact remains neutralized: no visible/actionable/product-relevant link and no replacement trading/execution link.
 - Regression route QA passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, RK Tracker, and Archive.
 - Static-public boundary QA passed: `.env`, `.env.local`, `server.mjs`, provider-library paths, `/api/live/status`, `/api/live/alerts`, `data/signal-alerts.json`, source maps, private local paths, and provider response cache probes did not expose secrets/server/provider/private data.
 - Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
@@ -77,7 +97,7 @@ Pickaxe Alerts Desk V8 Hosted Verification was **PASS / V8 ALERTS DESK HOSTED VE
 - Source Deck remains manual/static: default `Source Deck · 26 manual sources · no live feed`, all 26 approved handles present when expanded, no fake tweets, timestamps, live feed, scraping, X API/browser X requests, endorsement, or trading instruction.
 - PET remains local helper only with required copy and response; no provider call or external action.
 - Learning/review affordances remain future-ready only; no self-learning, source-library, market-memory, or profitability claim.
-- Hidden legacy `glint.trade` remains neutralized: no visible/actionable/product-relevant link and no replacement trading/execution link.
+- Hidden legacy legacy external trading artifact remains neutralized: no visible/actionable/product-relevant link and no replacement trading/execution link.
 - Regression route QA passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, RK Tracker, and Archive.
 - Static-public boundary QA passed: `.env`, `.env.local`, `server.mjs`, provider-library paths, `/api/live/status`, `/api/live/alerts`, `data/signal-alerts.json`, source maps, private local paths, and provider response cache probes did not expose secrets/server/provider/private data.
 - Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
@@ -132,7 +152,7 @@ Pickaxe Alerts Cockpit v7.4 Hosted Verification is **PASS / ALERTS COCKPIT V7.4 
 - Compact contract gate remains blocked/source-gated with no fake current contract, fake price, fake timestamp, bid/ask, Greeks, or trade-ticket behavior; allowed buttons remain `Review`, `Evidence`, and `Source Check`.
 - X Source Deck remains manual/static: collapsed/secondary by default, all 26 approved handles present when expanded, no fake tweets, timestamps, live feed, scraping, X API/browser X requests, endorsement, or trading instruction.
 - PET remains local helper only with required copy and response; no provider call or external action.
-- Hidden legacy `glint.trade` remains neutralized: no visible/actionable/product-relevant link and no replacement trading/execution link.
+- Hidden legacy legacy external trading artifact remains neutralized: no visible/actionable/product-relevant link and no replacement trading/execution link.
 - Regression route QA passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, RK Tracker, and Archive.
 - Static-public boundary QA passed: `.env`, `.env.local`, `server.mjs`, provider-library paths, `/api/live/status`, `/api/live/alerts`, `data/signal-alerts.json`, source maps, private local paths, and provider response cache probes did not expose secrets/server/provider/private data.
 - Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
@@ -158,7 +178,7 @@ Pickaxe Alerts Cockpit v7.4 Tiny Density Micro-Polish is **PASS / ALERTS COCKPIT
 - Watchlist remains compact and full; selected ticker workflow passed for `NVDA`, `AAPL`, `AMD`, `MSFT`, and `GLD`.
 - X Source Deck remains collapsed by default with `X Source Deck · 26 manual sources · no live feed`; expanded state preserves all 26 handles and remains manual/static only.
 - PET remains local helper only with required copy/response; no provider call or external action.
-- Hidden legacy `glint.trade` remains neutralized: QA found no visible/actionable/product-relevant link or replacement trading/execution link.
+- Hidden legacy legacy external trading artifact remains neutralized: QA found no visible/actionable/product-relevant link or replacement trading/execution link.
 - Browser QA passed for `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`; regression route QA passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, RK Tracker, and Archive.
 - Screenshot proof and QA summary are under `/tmp/pickaxe-alerts-cockpit-v7-4-density-polish/`.
 - Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
@@ -182,7 +202,7 @@ Pickaxe Alerts Cockpit v7.4 Ultra-Simplified Premium Desk is **PASS / ALERTS COC
 - Alert cards use compact contract gate copy only: `CONTRACT BLOCKED · SOURCE REQUIRED · NO VERIFIED OPTIONS CHAIN · NO EXTERNAL ACTION`; allowed buttons are `Review`, `Evidence`, and `Source Check`.
 - Right rail is compact: `Pickaxe PET`, `Watchlist Context`, `Market Health`, and `Readiness`; Market Health is display-only/source-gated and PET remains local helper only.
 - X Source Deck is collapsed by default with `X Source Deck · 26 manual sources · no live feed`; expanded/manual state preserves all 26 approved handles; no fake tweets, timestamps, scraping, X API, or live feed.
-- Hidden legacy `glint.trade` artifact is neutralized in the allowed app render path without touching forbidden data files; QA found no visible/actionable `glint.trade` text or anchors on Alerts/regression/Archive checks.
+- Hidden legacy legacy external trading artifact artifact is neutralized in the allowed app render path without touching forbidden data files; QA found no visible/actionable legacy external trading artifact text or anchors on Alerts/regression/Archive checks.
 - Browser QA passed for `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`; regression route QA passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, RK Tracker, plus Archive glint-neutralization check.
 - Screenshot proof and QA summary are under `/tmp/pickaxe-alerts-cockpit-v7-4-ultra-simple-premium-desk/`.
 - Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.

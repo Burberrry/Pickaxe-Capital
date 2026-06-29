@@ -1568,38 +1568,18 @@ async function loadOptions() {
   const symbol = els.optionsSymbol?.value || "SPY";
   let payload = null;
   if (isStaticMode()) {
-    const basePrice = symbol === "BTC" ? 92400 : symbol === "SPY" ? 520.50 : 150;
     payload = {
-      ok: true,
-      underlyingPrice: basePrice,
-      expiration: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-      calls: [
-        { strike: Math.round(basePrice * 1.05), mid: 2.50, limitMax: 2.60, volume: 150, openInterest: 800, score: 92, contractSymbol: `${symbol}260618C` },
-        { strike: Math.round(basePrice * 1.10), mid: 1.10, limitMax: 1.15, volume: 300, openInterest: 1200, score: 85, contractSymbol: `${symbol}260618C` }
-      ],
-      puts: [
-        { strike: Math.round(basePrice * 0.95), mid: 2.10, limitMax: 2.20, volume: 120, openInterest: 500, score: 88, contractSymbol: `${symbol}260618P` },
-        { strike: Math.round(basePrice * 0.90), mid: 0.95, limitMax: 1.00, volume: 250, openInterest: 900, score: 81, contractSymbol: `${symbol}260618P` }
-      ]
+      ok: false,
+      error: "Options chain blocked — source required; no verified contracts in static mode."
     };
   } else {
     try {
       payload = await getJson(`/api/options?symbol=${encodeURIComponent(symbol)}`);
     } catch (error) {
       console.warn("API options route error, using local fallback:", error);
-      const basePrice = symbol === "BTC" ? 92400 : symbol === "SPY" ? 520.50 : 150;
       payload = {
-        ok: true,
-        underlyingPrice: basePrice,
-        expiration: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-        calls: [
-          { strike: Math.round(basePrice * 1.05), mid: 2.50, limitMax: 2.60, volume: 150, openInterest: 800, score: 92, contractSymbol: `${symbol}260618C` },
-          { strike: Math.round(basePrice * 1.10), mid: 1.10, limitMax: 1.15, volume: 300, openInterest: 1200, score: 85, contractSymbol: `${symbol}260618C` }
-        ],
-        puts: [
-          { strike: Math.round(basePrice * 0.95), mid: 2.10, limitMax: 2.20, volume: 120, openInterest: 500, score: 88, contractSymbol: `${symbol}260618P` },
-          { strike: Math.round(basePrice * 0.90), mid: 0.95, limitMax: 1.00, volume: 250, openInterest: 900, score: 81, contractSymbol: `${symbol}260618P` }
-        ]
+        ok: false,
+        error: "Options chain blocked — source required; no verified contracts in static fallback."
       };
     }
   }
@@ -3841,7 +3821,7 @@ function normalizeResearchPacket(alert, index = 0) {
     invalidationResearchNote: safeResearchText(alert?.invalidationResearchNote || alert?.invalidation || "Break below key support or loss of liquidity weakens the research case."),
     riskNotes: safeResearchText(alert?.riskNotes || "Risk is defined to paid premium only. No broker execution occurs inside this site."),
     spreadQuality: safeResearchText(alert?.spreadQuality || "Static demo only"),
-    expiration: safeResearchText(alert?.expiration || "18 JUN 26"),
+    expiration: safeResearchText(alert?.expiration || "NO VERIFIED EXPIRY"),
     safetyLabel: "Research Only — No Broker Execution",
     nextAction: safeResearchText(alert?.nextAction || "Watch"),
     researchOnly: true,
@@ -3857,7 +3837,7 @@ function normalizeResearchPacket(alert, index = 0) {
     packet.title = "AAPL Options Research Packet";
     packet.type = "Bull Call Spread Research Context";
     packet.company = "Apple Inc.";
-    packet.contract = "18 JUN 26 $320 Call";
+    packet.contract = "Exact contract pending verification";
     packet.researchContext = "Watchlist strength, liquidity context, and CEO B review gates indicate this packet is ready for research review only. No broker execution occurs inside Pickaxe Capital.";
     packet.watchCriteria = "Confirm trend alignment remains intact. Confirm liquidity and spread quality remain acceptable. Confirm no blocking headline or earnings risk. Confirm Risk Sentinel score remains above review threshold. Confirm System Intelligence applies the CEO B Standard before any external action.";
     packet.invalidationResearchNote = "Break below key support or loss of liquidity weakens the research case.";
@@ -6068,7 +6048,7 @@ function renderSignalsIntelligence() {
               <span class="text-[#00e5ff] font-mono text-[10px] font-bold select-none">[13D Filing]</span>
               <div class="flex-1 font-mono text-[10.5px]">
                 <strong class="text-white">Elliott Management discloses 5.8% stake in $AMD.</strong>
-                <p class="text-slate-400 mt-0.5">Demands cost reduction program and custom silicon partnerships. Invalidation: below $145.</p>
+                <p class="text-slate-400 mt-0.5">Demands cost reduction program and custom silicon partnerships. Invalidation: source-gated level required.</p>
               </div>
             </div>
             <div class="p-2 bg-black/30 border border-[#1d242e] rounded-sm flex items-start gap-2.5">
@@ -7053,7 +7033,7 @@ function isPickaxeBlockedLegacyTradingArtifact(item) {
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
-  return haystack.includes("glint.trade") || haystack.includes("glint trade terminal");
+  return haystack.includes(".trade") || haystack.includes("trade terminal") || haystack.includes("external trading terminal");
 }
 
 function getEffectiveArchiveVaultItems() {
@@ -9282,24 +9262,19 @@ function buildOptionsAlertsPanelModel(packet = {}) {
   const evidenceText = `${packet.evidence.join(" ")} ${packet.missingEvidence.join(" ")}`.toLowerCase();
   const contractText = String(packet.optionsContext || "").trim();
   const contractMatch = contractText.match(/(?:(\d{1,2}\s+[A-Z]{3}\s+\d{2,4})\s+)?\$?(\d+(?:\.\d+)?)\s*(call|put|c|p)\b/i);
-  const symbolContexts = {
-    AAPL: { bid: "$2.68", ask: "$2.82", volume: "12.4K", openInterest: "48.2K", iv: "34% static", realizedVolatility: "27% manual", ivRank: "42 placeholder", expectedMove: "Source required", premium: "Moderate", regime: "Event-aware" },
-    NVDA: { bid: "$4.02", ask: "$4.24", volume: "18.8K", openInterest: "62.1K", iv: "51% static", realizedVolatility: "46% manual", ivRank: "61 placeholder", expectedMove: "Source required", premium: "Elevated", regime: "High volatility" },
-    TSLA: { bid: "$6.55", ask: "$6.95", volume: "9.6K", openInterest: "41.7K", iv: "67% static", realizedVolatility: "59% manual", ivRank: "73 placeholder", expectedMove: "Source required", premium: "Elevated", regime: "Event-sensitive" },
-    SPY: { bid: "$3.10", ask: "$3.18", volume: "21.0K", openInterest: "83.4K", iv: "19% static", realizedVolatility: "16% manual", ivRank: "35 placeholder", expectedMove: "Source required", premium: "Balanced", regime: "Index regime" },
-  };
-  const context = symbolContexts[packet.symbol] || {
+  const sourceRequiredContext = {
     bid: "Manual entry required",
     ask: "Manual entry required",
     volume: "Manual entry required",
     openInterest: "Manual entry required",
     iv: "Source required",
     realizedVolatility: "Source required",
-    ivRank: "Placeholder unavailable",
+    ivRank: "Source required",
     expectedMove: "Source required",
     premium: "Unverified",
     regime: "Manual review",
   };
+  const context = sourceRequiredContext;
   const bidNumber = Number(String(context.bid).replace(/[^0-9.]/g, ""));
   const askNumber = Number(String(context.ask).replace(/[^0-9.]/g, ""));
   const spreadAmount = Number.isFinite(bidNumber) && Number.isFinite(askNumber) && askNumber >= bidNumber
@@ -11654,11 +11629,11 @@ function renderAlertsCommandSafetyStrip() {
 }
 
 const PICKAXE_ALERTS_01_MARKET = {
-  QQQ: { company: "Nasdaq 100 ETF", mark: "NO VERIFIED PRICE", strike: "$530", expiry: "STATIC 17 JUL 26", logo: "QQQ", beta: "1.3x", color: "#67d97b" },
-  NVDA: { company: "NVIDIA", mark: "NO VERIFIED PRICE", strike: "$145", expiry: "STATIC 17 JUL 26", logo: "NVDA", beta: "2.1x", color: "#67d97b" },
-  SPY: { company: "SPDR S&P 500 ETF", mark: "NO VERIFIED PRICE", strike: "$700", expiry: "STATIC 19 JUL 26", logo: "SPDR", beta: "1.0x", color: "#ff4f42" },
-  TSLA: { company: "Tesla", mark: "NO VERIFIED PRICE", strike: "$420", expiry: "STATIC 17 JUL 26", logo: "TSLA", beta: "2.4x", color: "#ff4f42" },
-  GLD: { company: "Gold ETF", mark: "NO VERIFIED PRICE", strike: "$232", expiry: "STATIC 17 JUL 26", logo: "GLD", beta: "0.7x", color: "#d8b35d" },
+  QQQ: { company: "Nasdaq 100 ETF", mark: "NO VERIFIED PRICE", strike: "SOURCE REQUIRED", expiry: "NO VERIFIED EXPIRY", logo: "QQQ", beta: "1.3x", color: "#67d97b" },
+  NVDA: { company: "NVIDIA", mark: "NO VERIFIED PRICE", strike: "SOURCE REQUIRED", expiry: "NO VERIFIED EXPIRY", logo: "NVDA", beta: "2.1x", color: "#67d97b" },
+  SPY: { company: "SPDR S&P 500 ETF", mark: "NO VERIFIED PRICE", strike: "SOURCE REQUIRED", expiry: "NO VERIFIED EXPIRY", logo: "SPDR", beta: "1.0x", color: "#ff4f42" },
+  TSLA: { company: "Tesla", mark: "NO VERIFIED PRICE", strike: "SOURCE REQUIRED", expiry: "NO VERIFIED EXPIRY", logo: "TSLA", beta: "2.4x", color: "#ff4f42" },
+  GLD: { company: "Gold ETF", mark: "NO VERIFIED PRICE", strike: "SOURCE REQUIRED", expiry: "NO VERIFIED EXPIRY", logo: "GLD", beta: "0.7x", color: "#d8b35d" },
 };
 
 function getPickaxeAlerts01Actions() {
@@ -11678,8 +11653,8 @@ function getPickaxeAlerts01Model(row = {}, sourceStatus = getSourceStatus(), ove
     ...(PICKAXE_ALERTS_01_MARKET[ticker] || {
     company: getAlertsCommandAssetName(candidate),
       mark: "NO VERIFIED PRICE",
-    strike: "ATM",
-      expiry: "STATIC 17 JUL 26",
+    strike: "SOURCE REQUIRED",
+      expiry: "NO VERIFIED EXPIRY",
     logo: ticker.slice(0, 4),
     beta: "1.0x",
     color: "#d8b35d",
@@ -11838,8 +11813,8 @@ function getPickaxeAlerts01DashboardModels(rows = [], sourceStatus = getSourceSt
       profile: {
         company: "Nasdaq 100 ETF",
         logo: "QQQ",
-        strike: "$530",
-        expiry: "STATIC 17 JUL 26",
+        strike: "SOURCE REQUIRED",
+        expiry: "NO VERIFIED EXPIRY",
       },
     }),
     put: getPickaxeAlerts01Model(putRow, sourceStatus, {
@@ -11856,8 +11831,8 @@ function getPickaxeAlerts01DashboardModels(rows = [], sourceStatus = getSourceSt
       profile: {
         company: "SPDR S&P 500 ETF",
         logo: "SPDR",
-        strike: "$700",
-        expiry: "STATIC 19 JUL 26",
+        strike: "SOURCE REQUIRED",
+        expiry: "NO VERIFIED EXPIRY",
       },
     }),
   };
@@ -19648,105 +19623,27 @@ async function handleStaticRouteFallback(url, method, body) {
 
   if (pathname.includes("/api/options")) {
     const symbol = (searchParams.get("symbol") || "SPY").trim().toUpperCase();
-    const mockPrices = { SPY: 520.50, QQQ: 493.60, NVDA: 215.33, TSLA: 175.50, AAPL: 308.50, BTC: 92400.00 };
-    const underlyingPrice = mockPrices[symbol] || 150.00;
-    const calls = [];
-    const puts = [];
-    const strikes = [];
-    const step = underlyingPrice > 1000 ? 50 : underlyingPrice > 100 ? 5 : 1;
-    const midStrike = Math.round(underlyingPrice / step) * step;
-    for (let i = -4; i <= 4; i++) {
-      strikes.push(midStrike + i * step);
-    }
-    strikes.forEach(strike => {
-      const dist = strike - underlyingPrice;
-      const cPrice = Math.max(0.05, underlyingPrice * 0.05 - dist * 0.5 + Math.random() * 0.2);
-      const cVol = Math.floor(Math.random() * 5000) + 10;
-      const cOi = Math.floor(Math.random() * 20000) + 100;
-      calls.push({
-        side: "CALL",
-        contractSymbol: `${symbol}260618C${String(Math.round(strike * 1000)).padStart(8, '0')}`,
-        strike,
-        lastPrice: cPrice,
-        bid: cPrice * 0.98,
-        ask: cPrice * 1.02,
-        spread: cPrice * 0.04,
-        volume: cVol,
-        openInterest: cOi,
-        impliedVolatility: 0.25 + Math.abs(dist) / underlyingPrice,
-        score: cVol * 1.4 + cOi * 0.25
-      });
-      const pPrice = Math.max(0.05, underlyingPrice * 0.05 + dist * 0.5 + Math.random() * 0.2);
-      const pVol = Math.floor(Math.random() * 5000) + 10;
-      const pOi = Math.floor(Math.random() * 20000) + 100;
-      puts.push({
-        side: "PUT",
-        contractSymbol: `${symbol}260618P${String(Math.round(strike * 1000)).padStart(8, '0')}`,
-        strike,
-        lastPrice: pPrice,
-        bid: pPrice * 0.98,
-        ask: pPrice * 1.02,
-        spread: pPrice * 0.04,
-        volume: pVol,
-        openInterest: pOi,
-        impliedVolatility: 0.25 + Math.abs(dist) / underlyingPrice,
-        score: pVol * 1.4 + pOi * 0.25
-      });
-    });
     return {
-      ok: true,
+      ok: false,
       symbol,
-      underlyingPrice,
-      expiration: new Date(Date.now() + 86400000 * 20).toISOString(),
-      expirations: [new Date(Date.now() + 86400000 * 20).toISOString().slice(0, 10)],
-      calls: calls.sort((a,b) => b.score - a.score),
-      puts: puts.sort((a,b) => b.score - a.score),
-      updatedAt: new Date().toISOString()
+      error: "Options chain blocked — source required; no verified contracts in static public bundle.",
+      calls: [],
+      puts: [],
+      expirations: [],
+      updatedAt: "NO VERIFIED TIMESTAMP"
     };
   }
 
   if (pathname.includes("/api/signals")) {
     const symbolsStr = searchParams.get("symbols") || "SPY,QQQ,NVDA";
     const symbols = symbolsStr.split(",").map(s => s.trim().toUpperCase()).filter(Boolean);
-    const mockSignals = symbols.map((sym, index) => {
-      const isCall = index % 2 === 0;
-      const price = sym === "SPY" ? 520.5 : sym === "QQQ" ? 493.6 : 215.3;
-      const strike = isCall ? Math.ceil(price * 1.02) : Math.floor(price * 0.98);
-      const midVal = price * 0.021;
-      return {
-        id: `sig-mock-${sym}-${index}`,
-        symbol: sym,
-        alertType: isCall ? "Bullish options idea" : "Bearish options idea",
-        side: isCall ? "CALL" : "PUT",
-        strike,
-        expiration: "2026-06-18",
-        contractSymbol: `${sym}260618${isCall ? 'C' : 'P'}${String(Math.round(strike * 1000)).padStart(8, '0')}`,
-        underlyingPrice: price,
-        bid: price * 0.02,
-        ask: price * 0.022,
-        mid: midVal,
-        limitMax: price * 0.023,
-        volume: 1200,
-        openInterest: 5400,
-        impliedVolatility: 0.28,
-        delta: isCall ? 0.38 : -0.38,
-        score: 88 - index * 5,
-        thesis: `${sym} is constructive with trend alignment. This is an options idea alert.`,
-        entry: `Only consider if underlying holds support. Limit around mid $${midVal.toFixed(2)}.`,
-        invalidation: `Stand down if underlying loses support gate.`,
-        target: `Trim near key resistance boundaries.`,
-        riskGate: "Max loss is premium paid.",
-        webullAction: "Verify quote in an external research terminal.",
-        generatedAt: new Date().toISOString()
-      };
-    });
     return {
-      ok: true,
-      generatedAt: new Date().toISOString(),
+      ok: false,
+      generatedAt: "NO VERIFIED TIMESTAMP",
       symbols,
-      signals: mockSignals,
+      signals: [],
       notes: [
-        "Signals are research alerts for manual CEO B review.",
+        "Signal candidates are blocked until verified source, timestamp, and options-chain evidence are attached.",
         "No orders are placed from this website."
       ]
     };
