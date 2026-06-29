@@ -1,6 +1,37 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Cockpit v7.0 Final Product Finish
+## Current Checkpoint - Pickaxe Alerts Cockpit v7.1 Hosted Verification
+
+- Date: 2026-06-29.
+- Result: **PASS / ALERTS COCKPIT V7.1 HOSTED VERIFIED**.
+- Promoted commit: `8162118127d43335c56844f880905d78bddccfbb` (`Repair Alerts cockpit watchlist workflow`).
+- Branch promoted: `codex/alerts-cockpit-v7-1-watchlist-product-repair-20260628` into `main` by fast-forward only.
+- Safety branch before hosted promotion: `backup/pre-alerts-cockpit-v7-1-hosted-20260628`.
+- Push result for `main`: `02d0238..8162118  main -> main`; `origin/main` confirmed at `8162118127d43335c56844f880905d78bddccfbb`.
+- GitHub Pages workflow: `28343327308` (`Validate and Deploy GitHub Pages`) for commit `8162118127d43335c56844f880905d78bddccfbb`.
+- Pages jobs: `83961861607` (`Validate and Build`) success; `83961889209` (`Deploy`) success.
+- Pages deployment: `5233268658`; deployment status `14890730605` success; hosted URL `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted screenshots and QA summary: `/tmp/pickaxe-alerts-cockpit-v7-1-hosted/`; final QA summary `/tmp/pickaxe-alerts-cockpit-v7-1-hosted/hosted-qa-summary.json`.
+- Hosted route QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`: correct Alerts view, nonblank content, no relevant console/page errors, no document-level horizontal overflow, one visible Starlight canvas, no provider browser calls, and no exposed secret values.
+- Hosted watchlist workflow QA passed: the full 18-item CEO B watchlist is visible or reachable; selecting `NVDA`, `AAPL`, `AMD`, `MSFT`, and `GLD` updates the selected ticker command card plus bullish/bearish research lanes.
+- Hosted options-chain gate QA passed: `Options Chain Gate` is present with blocked chain states, no verified options chain, no bid/ask, no volume, no open interest, no IV/Greeks, no buy/sell instruction, and no external action. No fake current contracts, fake prices, fake timestamps, fake strikes, premiums, bid/ask, or Greeks were observed.
+- Hosted X Source Deck QA passed: the deck is secondary support, contains all 26 approved handles, and preserves the watchlist-input/no-live-feed/no-scraping/no-endorsement/no-trading-instruction boundary. No X API, scraping, browser X request, fake tweet, or timestamp was observed.
+- Hosted PET QA passed: PET remains compact, local-helper-only, and uses the canonical PET asset with no blank PET state observed.
+- Hosted mobile QA passed: `/app/alerts` at `390x844` and `390x900` starts cleanly at the top with header, status strip, watchlist rail, and selected ticker command card beginning; no header/status clipping or document-level overflow was observed.
+- Hosted regression route QA passed for `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, `/life-os`, and `/#/rkTracker`: correct active view, nonblank content, no relevant console errors, no horizontal overflow, one visible Starlight canvas, no provider browser calls, and no exposed secret values.
+- Hosted static-public boundary QA passed: `.env`, `.env.local`, `server.mjs`, provider libraries, `/api/live/status`, `/api/live/alerts`, `data/signal-alerts.json`, source maps, private local paths, and provider response cache returned not-exposed static-host behavior. Rendered pages may name planned environment-variable labels in safety copy, but no secret values or key-shaped tokens were present.
+- Safety/source truth remains visible or reachable: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+- Hosted status-record cache key: `alerts-cockpit-v7-1-hosted-20260628-r1`.
+- Next bounded recommendation: `CEO B hosted visual review of Pickaxe Alerts Cockpit v7.1`.
+
+### Pickaxe Alerts Cockpit v7.1 Hosted Verification Files Changed
+
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `public/index.html` and `index.html`
+
+## Previous Checkpoint - Pickaxe Alerts Cockpit v7.0 Final Product Finish
 
 - Date: 2026-06-28.
 - Result: **PASS / ALERTS COCKPIT V7.0 LOCAL PRODUCT FINISH READY**.

@@ -2,6 +2,30 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Cockpit v7.1 Hosted Verification is **PASS / ALERTS COCKPIT V7.1 HOSTED VERIFIED**.
+
+- Promoted branch: `codex/alerts-cockpit-v7-1-watchlist-product-repair-20260628`.
+- Promoted commit: `8162118127d43335c56844f880905d78bddccfbb` (`Repair Alerts cockpit watchlist workflow`).
+- Safety branch: `backup/pre-alerts-cockpit-v7-1-hosted-20260628`.
+- GitHub Pages workflow `28343327308` passed for v7.1. Validate and Build job `83961861607` passed; Deploy job `83961889209` passed. Pages deployment `5233268658` finished with deployment status `14890730605` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted visual QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`.
+- Watchlist-first workflow is hosted: the full 18-item CEO B watchlist is visible or reachable; `NVDA`, `AAPL`, `AMD`, `MSFT`, and `GLD` selections update the selected ticker command card and bullish/bearish lanes.
+- Options Chain Gate remains blocked/source-gated: no verified options chain, no bid/ask, no volume, no open interest, no IV/Greeks, no buy/sell instruction, and no external action. No fake prices, fake timestamps, fake current contracts, fake strikes, premiums, bid/ask, or Greeks were observed.
+- X Source Deck remains secondary support with all 26 approved handles and the required no-live-feed/no-scraping/no-endorsement/no-trading-instruction copy. No X API, scraping, browser X request, fake tweet, or timestamp was observed.
+- PET remains compact, canonical, and local-helper-only with no blank PET state observed.
+- Hosted regression routes passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, and RK Tracker.
+- Hosted static-public boundary passed: `.env`, `.env.local`, `server.mjs`, provider libraries, `/api/live/status`, `/api/live/alerts`, `data/signal-alerts.json`, source maps, private local paths, and provider response cache were not exposed as public artifacts. Rendered safety copy may name planned environment-variable labels, but no secret values or key-shaped tokens are present.
+- Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+- Hosted screenshots and QA summary are under `/tmp/pickaxe-alerts-cockpit-v7-1-hosted/`.
+- Hosted status-record cache key: `alerts-cockpit-v7-1-hosted-20260628-r1`.
+
+Next bounded step: CEO B hosted visual review of v7.1.
+
+Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, and broker/execution/payment/auth/subscription/alert-delivery remain blocked. Do not start provider work, enable public live data, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Cockpit v7.0 Final Product Finish
+
 Pickaxe Alerts Cockpit v7.0 Final Product Finish is **PASS / ALERTS COCKPIT V7.0 LOCAL PRODUCT FINISH READY**.
 
 - Branch: `codex/alerts-cockpit-v7-0-final-product-finish-20260628`.
