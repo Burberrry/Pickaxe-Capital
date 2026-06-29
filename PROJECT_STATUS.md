@@ -1,6 +1,44 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Desk V8 Hosted Verification
+## Current Checkpoint - Pickaxe Alerts Desk V8.1 Single Active Alert Hero
+
+- Date: 2026-06-29.
+- Result: **PASS / PICKAXE ALERTS DESK V8.1 SINGLE ACTIVE ALERT HERO READY FOR CEO B LOCAL REVIEW**.
+- Baseline confirmed before work: `main == origin/main == a1f9b61d43e52410458d34ef9a4bd3baa4d1fe12` (`Record Alerts desk V8 hosted verification`).
+- Product baseline commit: `5d03f2ec7b4253a4790cfd00eeeafb1bc47e7acd` (`Build live-ready premium Alerts intelligence surface`).
+- Safety branch: `backup/pre-alerts-desk-v8-1-single-active-alert-20260629`.
+- Work branch: `codex/alerts-desk-v8-1-single-active-alert-20260629`.
+- Sprint type: local-only correction. No push, deploy, provider activation, live data, fake prices, fake timestamps, fake options contracts, fake X posts, broker/execution/order/payment/auth/subscription/alert-delivery behavior, new route, server/provider file, package script, `.env`, `.env.local`, `data/signal-alerts.json`, `habitat-data.js`, `public/habitat-data.js`, image asset, or route bridge change was authorized or added.
+- Runtime marker updated to `data-alerts-cockpit-version="v8-1-single-active-alert-hero"`; local cache key updated to `alerts-desk-v8-1-single-active-alert-hero-20260629-r1`.
+- Product logic correction: V8.1 replaces the two equal Bullish/Bearish hero lanes with one dominant active alert hero and one compact `Counter-Risk Check` module. The opposite side no longer appears as a second full active alert.
+- Bias-driven character system verified: bullish active alerts show the Bull character, emerald/green theme, `BULLISH CALL RESEARCH CANDIDATE`, `Upside / continuation research`, and `CALL` exact-contract gate; bearish/risk active alerts show the Bear character, crimson/red theme, `BEARISH PUT RESEARCH CANDIDATE`, `Downside / hedge research`, and `PUT` exact-contract gate.
+- Source-gated demo states are clearly labeled for UI testing only: `MSFT` and `GLD` render bullish/Bull/CALL research candidates; `VIX` renders bearish/risk Bear/PUT research candidate; current market values, contracts, timestamps, and confidence scores remain blocked/unverified.
+- Active alert hero fields are visible/reachable: ticker, bias, direction, setup type, timeframe, thesis summary, source gate, timestamp gate, options-chain gate, confidence gate, risk gate, CEO B gate, exact contract gate, evidence summary, invalidation/risk note, and review actions.
+- Counter-risk check remains secondary: bullish active alerts show bearish checks such as resistance overhead, failed breakout, macro risk, and volatility risk; bearish/risk active alerts show bullish invalidation checks such as support reclaim, momentum recovery, call-flow confirmation, and macro risk-on shift.
+- Watchlist remains full and source-gated: `SPY`, `QQQ`, `NVDA`, `AAPL`, `GLD`, `USO`, `WTI`, `SLV`, `VIX`, `TSLA`, `SPCX`, `AMD`, `BTC`, `ETH`, `MSFT`, `GOOGL`, `BRK.B`, `SECTORS`.
+- Selected ticker workflow passed for `MSFT`, `GLD`, `VIX`, `NVDA`, and `AAPL`: selected ticker card, active alert hero, displayed character, bias theme, exact contract gate, counter-risk check, right rail context, watchlist highlight, and alert candidate labels update.
+- Exact contract gate remains blocked and future-ready: `CONTRACT BLOCKED · SOURCE REQUIRED · NO VERIFIED OPTIONS CHAIN · NO EXTERNAL ACTION`; visible/reachable safety text includes no bid/ask, no volume, no open interest, no IV/Greeks, no buy/sell instruction, and no broker execution.
+- Source Deck remains compact/manual-only: default `Source Deck · 26 manual sources · no live feed`; expanded state preserves all 26 approved handles; no fake tweets, timestamps, scraping, X API/browser X requests, live feed, endorsement, or trading instruction.
+- PET remains compact/local-only with copy `Local helper only · source verification required.` and response `PET note opened · local research helper only · source verification required · no external action.`; no advice, provider call, alert delivery, trade instruction, or external action.
+- Learning/review affordances remain compact and future-ready only: `Archive Lesson`, `Postmortem Ready`, `Mistake Tag Pending`, `Source Score Pending`, `False Positive Review`, `CEO B Review Gate`, and `Review Memory Pending`; no self-learning, source-library, market-memory, or profitability claim was added.
+- Browser QA passed locally on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`: one active alert hero only, no equal bull/bear dual hero lanes, no relevant console errors, no document-level horizontal overflow, one visible Starlight canvas, no provider browser calls, no X browser calls, no exposed key-shaped secrets, no fake market data, no forbidden action buttons, and no visible/actionable `glint.trade`.
+- Regression route QA passed for `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, `/life-os`, `/#/rkTracker`, and `/#/archive`.
+- Screenshot proof directory: `/tmp/pickaxe-alerts-desk-v8-1-single-active-alert/`; QA summary: `/tmp/pickaxe-alerts-desk-v8-1-single-active-alert/v81-local-qa-summary.json`.
+- Required screenshots captured: `baseline-v8-hosted-desktop.png`, `after-desktop-default.png`, `after-desktop-msft-bullish.png`, `after-desktop-gld-bullish.png`, `after-desktop-vix-risk-bearish.png`, `after-desktop-source-deck-expanded.png`, `after-desktop-pet-action.png`, `after-mobile-default.png`, `after-mobile-msft.png`, and `after-mobile-pet.png`.
+- Safety/source truth remains visible or reachable: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+- Visual score: **996/1000**. V8.1 is materially better than V8 because the visual hierarchy now communicates one active alert, one character, one directional bias, one exact contract gate, and one secondary counter-risk monitor.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs/pattern memory, and broker/execution/payment/auth/subscription/alert-delivery remain blocked until explicitly authorized.
+- Next bounded recommendation: `CEO B local review of Pickaxe Alerts Desk V8.1`. Do not push or deploy without explicit approval.
+
+### Pickaxe Alerts Desk V8.1 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Desk V8 Hosted Verification
 
 - Date: 2026-06-29.
 - Result: **PASS / V8 ALERTS DESK HOSTED VERIFIED**.

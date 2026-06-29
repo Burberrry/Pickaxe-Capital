@@ -12002,16 +12002,16 @@ function getPickaxeAlerts01OptionBadge(item) {
 function getPickaxeAlerts01LaneTone(lane) {
   return lane === "bearish" ? {
     word: "Bearish",
-    title: "Bearish Research Candidate",
-    contract: "PUTS",
+    title: "BEARISH PUT RESEARCH CANDIDATE",
+    contract: "PUT",
     direction: "Downside / hedge research",
     bias: "BEARISH SOURCE-GATED",
     meter: "EVIDENCE INCOMPLETE",
     color: "red",
   } : {
     word: "Bullish",
-    title: "Bullish Research Candidate",
-    contract: "CALLS",
+    title: "BULLISH CALL RESEARCH CANDIDATE",
+    contract: "CALL",
     direction: "Upside / continuation research",
     bias: "BULLISH SOURCE-GATED",
     meter: "CONFIDENCE LOCKED",
@@ -12019,7 +12019,36 @@ function getPickaxeAlerts01LaneTone(lane) {
   };
 }
 
-function getPickaxeAlerts01LiveReadyCandidate(item, lane) {
+function getPickaxeAlerts01ActiveBias(item) {
+  const ticker = String(item?.ticker || "").toUpperCase();
+  if (["VIX", "TSLA", "SLV"].includes(ticker)) return "bearish";
+  return "bullish";
+}
+
+function getPickaxeAlerts01ActiveAlertProfile(item) {
+  const lane = getPickaxeAlerts01ActiveBias(item);
+  const tone = getPickaxeAlerts01LaneTone(lane);
+  const isBearish = lane === "bearish";
+  return {
+    lane,
+    tone,
+    isBearish,
+    setupType: isBearish ? "Bearish options research" : "Bullish options research",
+    contractSide: tone.contract,
+    riskNote: isBearish
+      ? "Invalidation / risk note: support reclaim, momentum recovery, call-flow confirmation, and macro risk-on shift must be checked before any bearish research packet can advance."
+      : "Invalidation / risk note: resistance rejection, failed breakout, macro risk, and volatility expansion must be checked before any bullish research packet can advance.",
+    counterTitle: isBearish ? "Bullish Invalidation Check" : "Bearish Counter-Risk Check",
+    counterCopy: isBearish
+      ? "Secondary only · checks that could invalidate a bearish/risk candidate."
+      : "Secondary only · checks that could invalidate a bullish call candidate.",
+    counterChecks: isBearish
+      ? ["Support reclaim", "Momentum recovery", "Call flow confirmation", "Macro risk-on shift"]
+      : ["Resistance overhead", "Failed breakout", "Macro risk", "Volatility risk"],
+  };
+}
+
+function getPickaxeAlerts01LiveReadyCandidate(item, lane = getPickaxeAlerts01ActiveBias(item)) {
   const tone = getPickaxeAlerts01LaneTone(lane);
   return {
     ticker: item.ticker,
@@ -12046,9 +12075,9 @@ function renderPickaxeAlerts01PremiumHeader(selected, liveStatus) {
   return `
     <header class="pa-v8-header">
       <div class="pa-v8-heading">
-        <span class="pa-v8-led"><i></i>V8 · LIVE-READY · SOURCE GATED</span>
+        <span class="pa-v8-led"><i></i>V8.1 · SINGLE ACTIVE ALERT · SOURCE GATED</span>
         <h1 id="pickaxeAlerts01Title">ALERTS DESK</h1>
-        <p>Premium options intelligence surface · research candidate review only</p>
+        <p>Premium options intelligence surface · one active research candidate at a time</p>
       </div>
       <nav class="pa-v8-status-strip" aria-label="Primary Alerts source status">
         ${["STATIC DEMO", "SOURCE REQUIRED", "NO VERIFIED TIMESTAMP", "NO PROVIDER SNAPSHOT", "NO EXTERNAL ACTION"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
@@ -12058,13 +12087,14 @@ function renderPickaxeAlerts01PremiumHeader(selected, liveStatus) {
 }
 
 function renderPickaxeAlerts01SelectedCard(selected) {
+  const profile = getPickaxeAlerts01ActiveAlertProfile(selected);
   return `
     <article class="pa-card pa-v8-selected-card" aria-label="Selected ticker card">
       <span>Selected ticker</span>
       <strong>${escapeHtml(selected.ticker)}</strong>
-      <p>${escapeHtml(selected.assetLabel)} · ${escapeHtml(selected.setupMode)}</p>
-      <em>${escapeHtml(getPickaxeAlerts01OptionBadge(selected))}</em>
-      <small>Alert candidates remain source-gated until verified evidence is attached.</small>
+      <p>${escapeHtml(selected.assetLabel)} · ${escapeHtml(profile.setupType)}</p>
+      <em>${escapeHtml(profile.contractSide)} research candidate · ${escapeHtml(getPickaxeAlerts01OptionBadge(selected))}</em>
+      <small>One active alert candidate remains source-gated until verified evidence is attached.</small>
     </article>
   `;
 }
@@ -12078,11 +12108,12 @@ function renderPickaxeAlerts01WatchlistQueue(selected) {
         <div class="pa-v8-ticker-rail">
           ${PICKAXE_ALERTS_01_WATCHLIST.map((item) => {
             const active = item.ticker === selected.ticker;
+            const profile = getPickaxeAlerts01ActiveAlertProfile(item);
             return `
               <button type="button" class="pa-v8-ticker ${active ? "is-active" : ""}" aria-pressed="${active}" onclick="window.pickaxeAlerts01Select(${pickaxeAlerts01JsArg(item.ticker)})">
                 <strong>${escapeHtml(item.ticker)}</strong>
                 <small>${escapeHtml(item.assetType)}</small>
-                <span>${escapeHtml(getPickaxeAlerts01OptionBadge(item))}</span>
+                <span>${escapeHtml(profile.contractSide)} · ${escapeHtml(getPickaxeAlerts01OptionBadge(item))}</span>
               </button>
             `;
           }).join("")}
@@ -12112,23 +12143,25 @@ function renderPickaxeAlerts01ExactContractGate(candidate, tone) {
   `;
 }
 
-function renderPickaxeAlerts01HeroLane(item, lane) {
-  const tone = getPickaxeAlerts01LaneTone(lane);
+function renderPickaxeAlerts01ActiveAlertHero(item) {
+  const profile = getPickaxeAlerts01ActiveAlertProfile(item);
+  const { tone, lane, isBearish } = profile;
   const candidate = getPickaxeAlerts01LiveReadyCandidate(item, lane);
-  const isBearish = lane === "bearish";
-  const scope = `${item.ticker}-${lane}`;
+  const scope = `${item.ticker}-${lane}-active`;
   const action = getPickaxeAlerts01ActionFor(scope);
   const actionArg = pickaxeAlerts01JsArg(scope);
   const gateRows = [
-    ["Setup", candidate.setupState],
+    ["Setup", profile.setupType],
     ["Source", candidate.sourceStatus],
+    ["Timestamp", candidate.timestampStatus],
     ["Options Chain", candidate.optionsChainStatus],
-    ["Evidence", candidate.evidenceStatus],
+    ["Confidence", candidate.confidenceGate],
     ["Risk", candidate.riskGate],
     ["CEO B", candidate.ceoBGate],
+    ["Evidence", candidate.evidenceStatus],
   ];
   return `
-    <article class="pa-card pa-v8-hero-lane ${isBearish ? "is-bearish" : "is-bullish"}" aria-label="${escapeHtml(item.ticker)} ${escapeHtml(tone.title)}">
+    <article class="pa-card pa-v8-hero-lane pa-v81-active-hero ${isBearish ? "is-bearish" : "is-bullish"}" data-active-bias="${escapeHtml(lane)}" aria-label="${escapeHtml(item.ticker)} single active ${escapeHtml(tone.title)}">
       <div class="pa-v8-lane-glow" aria-hidden="true"></div>
       <header>
         <div>
@@ -12136,17 +12169,18 @@ function renderPickaxeAlerts01HeroLane(item, lane) {
           <h2>${escapeHtml(tone.title)}</h2>
           <p>${escapeHtml(candidate.direction)} · ${escapeHtml(candidate.timeframe)}</p>
         </div>
-        <figure class="pa-v8-character" aria-label="Canonical ${isBearish ? "bear" : "bull"} alert anchor">
+        <figure class="pa-v8-character pa-v81-active-character" aria-label="Canonical ${isBearish ? "bear" : "bull"} active alert anchor">
           ${renderPickaxeAlerts01Character(isBearish)}
         </figure>
       </header>
-      <section class="pa-v8-lane-body">
-        <div class="pa-v8-gates" aria-label="${escapeHtml(tone.word)} live-ready gate stack">
+      <section class="pa-v8-lane-body pa-v81-hero-body">
+        <div class="pa-v8-gates pa-v81-gates" aria-label="Single active alert live-ready gate stack">
           ${gateRows.map(([label, value]) => `<span><b>${escapeHtml(label)}</b><strong>${escapeHtml(value)}</strong></span>`).join("")}
         </div>
         ${renderPickaxeAlerts01ConfidenceMeter(candidate, tone)}
       </section>
-      <p class="pa-v8-thesis">Evidence summary: ${escapeHtml(candidate.thesis)}. Verified source, timestamp, options chain, and risk note required before any research packet can advance.</p>
+      <p class="pa-v8-thesis"><b>Thesis summary:</b> ${escapeHtml(candidate.thesis)}. Verified source, timestamp, options chain, and risk note required before this research packet can advance.</p>
+      <p class="pa-v8-thesis pa-v81-risk-note">${escapeHtml(profile.riskNote)}</p>
       ${renderPickaxeAlerts01ExactContractGate(candidate, tone)}
       <div class="pa-v8-actions">
         <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'review')">Review</button>
@@ -12155,6 +12189,27 @@ function renderPickaxeAlerts01HeroLane(item, lane) {
         <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'archive')">Archive Lesson</button>
       </div>
       ${action ? `<p class="pa-v8-local-note">${escapeHtml(action.label)}</p>` : ""}
+    </article>
+  `;
+}
+
+function renderPickaxeAlerts01CounterRiskCheck(item) {
+  const profile = getPickaxeAlerts01ActiveAlertProfile(item);
+  const candidate = getPickaxeAlerts01LiveReadyCandidate(item, profile.lane);
+  return `
+    <article class="pa-card pa-v81-counter-risk ${profile.isBearish ? "is-counter-bullish" : "is-counter-bearish"}" aria-label="Counter-Risk Check secondary module">
+      <header>
+        <div><small>Counter-Risk Check</small><h2>${escapeHtml(profile.counterTitle)}</h2></div>
+        <em><i></i>SECONDARY</em>
+      </header>
+      <p>${escapeHtml(profile.counterCopy)}</p>
+      <ul>
+        ${profile.counterChecks.map((check) => `<li><span>${escapeHtml(check)}</span><strong>SOURCE REQUIRED</strong></li>`).join("")}
+      </ul>
+      <aside class="pa-v81-counter-note">
+        <b>${escapeHtml(item.ticker)} ${escapeHtml(candidate.riskGate)}</b>
+        <span>No opposite-side hero lane · risk monitor only · no external action.</span>
+      </aside>
     </article>
   `;
 }
@@ -12243,11 +12298,11 @@ function renderPickaxeAlerts01RightRail(selected) {
 
 function renderPickaxeAlerts01LiveReadyDesk(selected) {
   return `
-    <section class="pa-v8-desk" aria-label="Live-ready premium options intelligence surface">
-      <div class="pa-v8-main-stage">
-        <section class="pa-v8-lanes" aria-label="Dominant bullish and bearish research candidate lanes">
-          ${renderPickaxeAlerts01HeroLane(selected, "bullish")}
-          ${renderPickaxeAlerts01HeroLane(selected, "bearish")}
+    <section class="pa-v8-desk" aria-label="Single active alert hero with secondary counter-risk monitor">
+      <div class="pa-v8-main-stage pa-v81-main-stage">
+        <section class="pa-v81-active-stack" aria-label="One dominant active alert hero and compact counter-risk check">
+          ${renderPickaxeAlerts01ActiveAlertHero(selected)}
+          ${renderPickaxeAlerts01CounterRiskCheck(selected)}
         </section>
         ${renderPickaxeAlerts01SourceDeck()}
       </div>
@@ -12260,7 +12315,7 @@ function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
   const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   const selected = getPickaxeAlerts01WatchlistItem();
   return `
-    <section class="pickaxe-alerts-01 pa-v8" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v8-live-ready-premium-options-surface" data-alerts-runtime="static-source-gated">
+    <section class="pickaxe-alerts-01 pa-v8 pa-v81" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v8-1-single-active-alert-hero" data-alerts-runtime="static-source-gated">
       <div class="pa-noise" aria-hidden="true"></div>
       ${renderPickaxeAlerts01AssetFilters()}
       ${renderPickaxeAlerts01PremiumHeader(selected, liveStatus)}

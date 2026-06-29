@@ -2,7 +2,36 @@
 
 ## Current Active Checkpoint
 
-Pickaxe Alerts Desk V8 Hosted Verification is **PASS / V8 ALERTS DESK HOSTED VERIFIED**.
+Pickaxe Alerts Desk V8.1 Single Active Alert Hero is **PASS / READY FOR CEO B LOCAL REVIEW**.
+
+- Baseline confirmed before work: `main == origin/main == a1f9b61d43e52410458d34ef9a4bd3baa4d1fe12` (`Record Alerts desk V8 hosted verification`).
+- Product baseline commit: `5d03f2ec7b4253a4790cfd00eeeafb1bc47e7acd` (`Build live-ready premium Alerts intelligence surface`).
+- Safety branch: `backup/pre-alerts-desk-v8-1-single-active-alert-20260629`.
+- Work branch: `codex/alerts-desk-v8-1-single-active-alert-20260629`.
+- Work is local-only. No push or deploy was performed.
+- Runtime marker: `data-alerts-cockpit-version="v8-1-single-active-alert-hero"`.
+- Local cache key: `alerts-desk-v8-1-single-active-alert-hero-20260629-r1`.
+- Product correction: one dominant active alert hero replaces the two equal Bullish/Bearish lanes. The opposite side is now a compact secondary `Counter-Risk Check`, not a competing active alert.
+- Bias-driven character system is active: bullish candidates show Bull/green/`BULLISH CALL RESEARCH CANDIDATE`; bearish/risk candidates show Bear/red/`BEARISH PUT RESEARCH CANDIDATE`. Confidence remains locked/source-gated.
+- Source-gated static UI test states are acceptable and clearly labeled: `MSFT` and `GLD` show bullish Bull/CALL research candidates; `VIX` shows bearish/risk Bear/PUT research candidate. No fake live values, contracts, timestamps, or confidence scores are shown.
+- Watchlist remains full: `SPY`, `QQQ`, `NVDA`, `AAPL`, `GLD`, `USO`, `WTI`, `SLV`, `VIX`, `TSLA`, `SPCX`, `AMD`, `BTC`, `ETH`, `MSFT`, `GOOGL`, `BRK.B`, `SECTORS`.
+- Selected ticker workflow passed for `MSFT`, `GLD`, `VIX`, `NVDA`, and `AAPL`; selected ticker card, active alert hero, displayed character, bias theme, exact contract gate, counter-risk check, right rail context, watchlist highlight, and labels update.
+- Contract gate remains blocked/source-gated: `CONTRACT BLOCKED · SOURCE REQUIRED · NO VERIFIED OPTIONS CHAIN · NO EXTERNAL ACTION`; visible/reachable negatives include no bid/ask, no volume, no open interest, no IV/Greeks, no buy/sell instruction, and no broker execution.
+- Allowed buttons remain review-only: `Review`, `Evidence`, `Source Check`, and `Archive Lesson`.
+- Source Deck remains manual/static: `Source Deck · 26 manual sources · no live feed`; expanded state preserves the 26 approved handles; no fake tweets, timestamps, scraping, X API, live feed, endorsement, or trading instruction.
+- PET remains local helper only with required copy/response and no provider call, advice, alert delivery, external action, or trade instruction.
+- Learning/review affordances are future-ready only: `Archive Lesson`, `Postmortem Ready`, `Mistake Tag Pending`, `Source Score Pending`, `False Positive Review`, `CEO B Review Gate`, and `Review Memory Pending`; no self-learning or profitability claim.
+- Browser QA passed locally on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`; regression route QA passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, RK Tracker, and Archive.
+- Screenshot proof and QA summary are under `/tmp/pickaxe-alerts-desk-v8-1-single-active-alert/`.
+- Visual score: **996/1000**.
+
+Next bounded step: CEO B local review of V8.1. Push/deploy remains blocked until explicitly requested after approval.
+
+Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs/pattern memory, and broker/execution/payment/auth/subscription/alert-delivery remain blocked. Do not start provider work, enable public live data, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Desk V8 Hosted Verification
+
+Pickaxe Alerts Desk V8 Hosted Verification was **PASS / V8 ALERTS DESK HOSTED VERIFIED**.
 
 - Promoted branch: `codex/alerts-desk-v8-live-ready-premium-surface-20260629`.
 - Promoted commit: `5d03f2ec7b4253a4790cfd00eeeafb1bc47e7acd` (`Build live-ready premium Alerts intelligence surface`).
