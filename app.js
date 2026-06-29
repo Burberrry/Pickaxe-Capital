@@ -12169,13 +12169,15 @@ function renderPickaxeAlerts01ActiveAlertHero(item) {
 
       ${renderPickaxeAlerts01ExactContractGate(candidate, tone)}
 
-      <div class="pa-v81-actions" aria-label="Local review actions">
-        <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'review')">Review</button>
-        <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'evidence')">Evidence</button>
-        <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'source-check')">Source Check</button>
-        <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'archive')">Archive Lesson</button>
+      <div class="pa-v81-action-row">
+        <div class="pa-v81-actions" aria-label="Local review actions">
+          <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'review')">Review</button>
+          <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'evidence')">Evidence</button>
+          <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'source-check')">Source Check</button>
+          <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'archive')">Archive Lesson</button>
+        </div>
+        ${renderPickaxeAlerts01ActionPanel(scope)}
       </div>
-      ${renderPickaxeAlerts01ActionPanel(scope)}
     </article>
   `;
 }
@@ -12267,7 +12269,7 @@ function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
   const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   const selected = getPickaxeAlerts01WatchlistItem();
   return `
-    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v8-1-single-active-alert-hero" data-alerts-runtime="static-source-gated">
+    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple pa-v81-final" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v8-1-single-active-alert-hero" data-alerts-runtime="static-source-gated" data-alerts-surface="simple-working-final">
       <div class="pa-noise" aria-hidden="true"></div>
       ${renderPickaxeAlerts01AssetFilters()}
       ${renderPickaxeAlerts01PremiumHeader(selected, liveStatus)}

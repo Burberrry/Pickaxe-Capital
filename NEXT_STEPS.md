@@ -2,6 +2,23 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Desk V8.1 Simple Working Final local candidate is **PASS / READY FOR CEO B LOCAL REVIEW**.
+
+- Work branch: `codex/alerts-desk-v8-1-simple-working-final-20260629`.
+- Local base candidate: `fa4565bb9f4be31776cc85c7d13e4dc098a3734f`.
+- Hosted `origin/main` remains `927b92cb7ef0be02fe26753b696bca688f86113e`; this sprint did not push or deploy.
+- Runtime marker preserved: `data-alerts-cockpit-version="v8-1-single-active-alert-hero"`; cache key: `alerts-desk-v8-1-simple-working-final-20260629-r1`.
+- Final local UI is the recommended CEO B review candidate: one active alert card, compact watchlist, Bull/Bear character bias, blocked exact contract gate, inline local review actions, connected review panel, PET local helper, manual Source Deck, and source-gated safety language.
+- Proof path: `/tmp/pickaxe-alerts-desk-v8-1-simple-working-final/`.
+- Visual score: **992/1000 normalized**.
+
+Next bounded step: CEO B local visual review of the final V8.1 simple working Alerts Desk. If approved, use a separate safe promotion sprint that creates a forward branch from current `main` and ports this candidate cleanly; do not force-push or reset public `main`.
+
+Provider/live-data, verified options-chain display, source-library ingestion, scoring, broker/execution, alert delivery, auth, payment, and subscription remain blocked unless separately authorized.
+
+
+## Current Active Checkpoint
+
 Pickaxe Alerts Desk V8.1 Public Bundle Cleanup Hosted Verification is **PASS / V8.1 PUBLIC BUNDLE CLEANUP HOSTED VERIFIED**.
 
 - Cleanup commit promoted: `31358c019e1446a70c599f17c96a617870c98317`.

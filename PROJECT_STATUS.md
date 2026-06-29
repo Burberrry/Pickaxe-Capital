@@ -1,5 +1,24 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Alerts Desk V8.1 Simple Working Final Local Candidate
+
+- Date: 2026-06-29.
+- Result: **PASS / SIMPLE WORKING ALERTS DESK READY FOR CEO B LOCAL REVIEW**.
+- Work branch: `codex/alerts-desk-v8-1-simple-working-final-20260629`.
+- Base local candidate: `fa4565bb9f4be31776cc85c7d13e4dc098a3734f` (`Simplify Alerts desk V8.1 working alert surface`).
+- Current hosted `origin/main` remains `927b92cb7ef0be02fe26753b696bca688f86113e`; no push, deploy, force-push, reset, or hosted replacement was performed.
+- Mission: `Pickaxe Alerts Desk V8.1 — Simple Working Options Alert Surface`; still V8.1, not V8.2.
+- Runtime marker preserved: `data-alerts-cockpit-version="v8-1-single-active-alert-hero"`; local cache key updated to `alerts-desk-v8-1-simple-working-final-20260629-r1`.
+- Product finish: one active alert card, one connected review panel, compact watchlist, large Bull/Bear bias character, blocked exact contract gate, compact Counter-Risk Check, Source Deck manual only, PET local helper only, and inline local Review/Evidence/Source Check/Archive feedback.
+- Local action responses verified: Review opened / CEO B gate required; evidence required checklist; source check required / no live feed; archive lesson pending / no self-learning claim; PET note opened / local helper only.
+- Browser QA passed: 16 screenshots, 9 primary route/viewport checks, 13 regression routes, 5 ticker-selection checks, and 4 local action checks.
+- Visual score: **992/1000 normalized** (raw `1042/1050`; category caps sum to 1050).
+- Safety/source truth preserved: no live data, no provider calls, no fake prices/timestamps/contracts/confidence/X posts, no broker/order/payment/auth/subscription/alert-delivery behavior, no new routes, no exposed secrets, and no forbidden public-bundle artifacts.
+- Screenshot proof and QA records: `/tmp/pickaxe-alerts-desk-v8-1-simple-working-final/`.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, exact verified options-chain display, and broker/execution/payment/auth/subscription/alert-delivery remain blocked until a separate approved sprint.
+- Final recommendation: **READY FOR CEO B REVIEW**.
+
+
 ## Current Checkpoint - Pickaxe Alerts Desk V8.1 Public Bundle Cleanup Hosted Verification
 
 - Date: 2026-06-29.
