@@ -1,6 +1,43 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Desk V8.1 Single Active Alert Hero
+## Current Checkpoint - Pickaxe Alerts Desk V8.1 Hosted Verification
+
+- Date: 2026-06-29.
+- Result: **PASS / V8.1 SINGLE ACTIVE ALERT HERO HOSTED VERIFIED**.
+- Promoted branch: `codex/alerts-desk-v8-1-single-active-alert-20260629`.
+- Promoted commit: `818cdc9a34dc7d07b8caece01e9e426171e6ff19` (`Correct Alerts desk to single active alert hero`).
+- Previous hosted baseline: `a1f9b61d43e52410458d34ef9a4bd3baa4d1fe12` (`Record Alerts desk V8 hosted verification`).
+- Safety branch before promotion: `backup/pre-alerts-desk-v8-1-hosted-20260629`.
+- Promotion method: fast-forward merge into `main`; no merge commit.
+- GitHub Pages workflow `28370179393` (`Validate and Deploy GitHub Pages`) completed with conclusion `success` for commit `818cdc9a34dc7d07b8caece01e9e426171e6ff19`.
+- Validate and Build job `84045719735` completed `success`; Deploy job `84045774205` completed `success`.
+- Pages deployment `5238684035` for environment `github-pages` completed with deployment status `14905972633` state `success`.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted screenshots path: `/tmp/pickaxe-alerts-desk-v8-1-hosted/`; QA summary: `/tmp/pickaxe-alerts-desk-v8-1-hosted/hosted-v81-qa-summary.json`.
+- Hosted route QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`: correct Alerts view, nonblank V8.1 content, V8.1 marker present, `alerts-desk-v8-1-single-active-alert-hero-20260629-r1` cache key present during promoted-hosted QA, no relevant console errors, no document-level horizontal overflow, one visible Starlight canvas, no provider browser calls, no X API/browser X requests, and no exposed key-shaped secrets.
+- Hosted single active alert hero QA passed: one dominant active alert hero only, no two equal Bullish/Bearish full alert lanes, and compact `Counter-Risk Check` secondary module verified.
+- Hosted bias/character QA passed: bullish active states show Bull character, emerald/green theme, `BULLISH CALL RESEARCH CANDIDATE`, and `CALL` exact-contract gate; bearish/risk active state shows Bear character, crimson/red theme, `BEARISH PUT RESEARCH CANDIDATE`, and `PUT` exact-contract gate.
+- Hosted ticker QA passed for `MSFT`, `GLD`, `VIX`, `NVDA`, and `AAPL`: selected ticker card, active alert hero, displayed character, bias theme, exact contract gate, counter-risk check, right rail context, watchlist highlight, and alert candidate labels update.
+- Hosted watchlist QA passed: full 18-ticker watchlist is visible/reachable: `SPY`, `QQQ`, `NVDA`, `AAPL`, `GLD`, `USO`, `WTI`, `SLV`, `VIX`, `TSLA`, `SPCX`, `AMD`, `BTC`, `ETH`, `MSFT`, `GOOGL`, `BRK.B`, `SECTORS`.
+- Hosted contract gate QA passed: `CONTRACT BLOCKED · SOURCE REQUIRED · NO VERIFIED OPTIONS CHAIN · NO EXTERNAL ACTION` is present; no fake current contract, price, timestamp, bid/ask, volume, open interest, IV/Greeks, confidence score, trade-ticket appearance, or execution behavior was observed.
+- Hosted Source Deck QA passed: default/manual state is `Source Deck · 26 manual sources · no live feed`; expanded state contains all 26 approved handles; no fake tweets, timestamps, scraping, X API, browser X request, live feed, endorsement, or trading instruction.
+- Hosted PET QA passed: copy `Local helper only · source verification required.` and response `PET note opened · local research helper only · source verification required · no external action.` verified; no provider call, advice path, alert delivery, or external action.
+- Hosted learning/review QA passed: `Archive Lesson`, `Postmortem Ready`, `Mistake Tag Pending`, `Source Score Pending`, `False Positive Review`, `CEO B Review Gate`, and `Review Memory Pending` remain future-ready labels only; no self-learning, source-library, market-memory, or profitability claim.
+- Hosted regression route QA passed for `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, `/life-os`, `/#/rkTracker`, and `/#/archive`.
+- Hosted static-public boundary QA passed: `.env`, `.env.local`, `server.mjs`, provider-library paths, `/api/live/status`, `/api/live/alerts`, `data/signal-alerts.json`, source maps, private local paths, and provider response cache probes returned 404/fail-safe HTML or otherwise did not expose secrets, source maps, provider responses, server code, private local paths, signal data, or provider cache data.
+- Hidden legacy artifact QA passed: no visible/actionable/product-relevant `glint.trade` text or anchor and no replacement trading/execution link was observed on hosted Alerts/regression/Archive checks.
+- Safety/source truth remains visible or reachable: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+- Status/cache marker only: `public/index.html` and `index.html` cache keys updated from `alerts-desk-v8-1-single-active-alert-hero-20260629-r1` to `alerts-desk-v8-1-hosted-20260629-r1`; no product behavior changed during status recording.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs/pattern memory, exact verified options-chain display, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+- Next bounded recommendation: `CEO B hosted review of Pickaxe Alerts Desk V8.1`.
+
+### Pickaxe Alerts Desk V8.1 Hosted Verification Files Changed
+
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `public/index.html` and `index.html` cache/status marker only
+
+## Previous Checkpoint - Pickaxe Alerts Desk V8.1 Single Active Alert Hero
 
 - Date: 2026-06-29.
 - Result: **PASS / PICKAXE ALERTS DESK V8.1 SINGLE ACTIVE ALERT HERO READY FOR CEO B LOCAL REVIEW**.
