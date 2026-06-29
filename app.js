@@ -1333,7 +1333,7 @@ function openRequestedView() {
       view = "archive";
     } else if (hash === "#/staging") {
       view = "staging";
-    } else if (hash === "#/source-hub-staging" || hash === "#/source-hub-staging") {
+    } else if (hash === "#/source-hub-staging") {
       view = "aiHandoff";
     } else if (hash === "#/ai-habitat-os") {
       view = "aiHabitatOS";
