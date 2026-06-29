@@ -2,6 +2,24 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Desk V8.1 Desktop Finished Alerts Desk is **PASS / READY FOR CEO B DESKTOP REVIEW**.
+
+- Baseline: `main == origin/main == 1f08295725a978ff68dcb8511a0bc66fc77d10cc`.
+- Safety branch: `backup/pre-alerts-desk-v8-1-desktop-finish-20260629`.
+- Work branch: `codex/alerts-desk-v8-1-desktop-finish-20260629`.
+- Local-only desktop finish; no push or deploy performed.
+- Runtime marker remains `data-alerts-cockpit-version="v8-1-single-active-alert-hero"`.
+- Local cache key: `alerts-desk-v8-1-desktop-finish-20260629-r1`.
+- Desktop finish completed: active alert hero is the visual center, Bull/Bear character is larger and bias-clear, exact contract gate remains blocked and visible in the hero, Counter-Risk Check is compact/secondary, right rail is visually integrated, and lower desktop space uses subtle premium grid/glow rather than fake modules.
+- V8.1 logic remains preserved: one active alert hero, no dual full Bull/Bear lanes, full watchlist, selected ticker workflow, manual Source Deck/no live feed, PET local helper only, no fake data, and no execution behavior.
+- Character assets were protected and not modified.
+- Screenshots and QA records: `/tmp/pickaxe-alerts-desk-v8-1-desktop-finish/`.
+- Visual score: **958 / 1000**.
+
+Next bounded step: CEO B desktop review. Mobile polish can follow later only if requested. Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs/pattern memory, exact verified options-chain display, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+
+## Previous Active Checkpoint - Pickaxe Alerts Desk V8.1 Public Bundle Cleanup Hosted Verification
+
 Pickaxe Alerts Desk V8.1 Public Bundle Cleanup Hosted Verification is **PASS / V8.1 PUBLIC BUNDLE CLEANUP HOSTED VERIFIED**.
 
 - Cleanup commit promoted: `31358c019e1446a70c599f17c96a617870c98317`.

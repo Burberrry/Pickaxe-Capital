@@ -1,6 +1,31 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Desk V8.1 Public Bundle Cleanup Hosted Verification
+## Current Checkpoint - Pickaxe Alerts Desk V8.1 Desktop Finished Alerts Desk
+
+- Date: 2026-06-29.
+- Result: **PASS / V8.1 DESKTOP FINISHED ALERTS DESK READY FOR CEO B DESKTOP REVIEW**.
+- Baseline confirmed before work: `main == origin/main == 1f08295725a978ff68dcb8511a0bc66fc77d10cc` (`Record Alerts desk V8.1 public bundle cleanup`).
+- Safety branch: `backup/pre-alerts-desk-v8-1-desktop-finish-20260629`.
+- Work branch: `codex/alerts-desk-v8-1-desktop-finish-20260629`.
+- Sprint type: local-only desktop final finish. No push, deploy, V8.2 rename, provider activation, live data, fake prices, fake timestamps, fake contracts, fake confidence, fake X posts, broker/execution/order/payment/auth/subscription/alert-delivery behavior, new route, server/provider file, package script, data file, route bridge, or character asset edit was authorized or added.
+- Character asset protection completed first: canonical Bull, Bear, and PET assets existed, were not deleted, and did not require restoration.
+- Runtime marker preserved: `data-alerts-cockpit-version="v8-1-single-active-alert-hero"`; local cache key updated to `alerts-desk-v8-1-desktop-finish-20260629-r1`.
+- Desktop finish changes are version-scoped CSS and cache/status docs only: larger premium active hero, stronger glass/depth, cinematic grid/vignette, larger Bull/Bear character stage, clearer gate stack, exact contract gate visible in the hero at 1440 desktop review size, compact secondary Counter-Risk Check, and visually integrated right rail.
+- V8.1 product behavior preserved: one active alert hero, no two equal Bull/Bear full alert lanes, Bull for bullish/CALL research candidate, Bear for bearish/PUT or risk candidate, compact Counter-Risk Check, exact contract gate blocked/source-gated, full 18-ticker watchlist, selected ticker workflow, manual Source Deck/no live feed, PET local helper only, and honest learning/review labels.
+- Required safety/source truth preserved: static demo only, source required, no verified timestamp, no provider snapshot, no fake option details, no provider/browser market calls, no X API/scraping calls, and no execution behavior.
+- Desktop proof screenshots and QA summary are under `/tmp/pickaxe-alerts-desk-v8-1-desktop-finish/`.
+- Visual score: **958 / 1000**.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs/pattern memory, exact verified options-chain display, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+- Final recommendation: **READY FOR CEO B DESKTOP REVIEW**.
+
+### Pickaxe Alerts Desk V8.1 Desktop Finish Files Changed
+
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Desk V8.1 Public Bundle Cleanup Hosted Verification
 
 - Date: 2026-06-29.
 - Result: **PASS / V8.1 PUBLIC BUNDLE CLEANUP HOSTED VERIFIED**.
