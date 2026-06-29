@@ -2,6 +2,29 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Cockpit v7.2 Real Simplification is **PASS / ALERTS COCKPIT V7.2 SIMPLIFIED COMMAND DESK READY FOR CEO B LOCAL REVIEW**.
+
+- Protected hosted baseline preserved: `0eedb625bfcf5de7bb6fef00a92187a562b9a7bc` (`Align v7.1 hosted app cache key`).
+- Branch: `codex/alerts-cockpit-v7-2-real-simplification-20260628`.
+- Safety branch: `backup/pre-alerts-cockpit-v7-2-real-simplification-20260628`.
+- Work is local-only. No push or deploy was performed.
+- Real v7.2 implementation exists in app/style code, not just cache/status files: `public/app.js`, `app.js`, `public/styles.css`, and `styles.css` contain the simplified command desk changes and the runtime marker `data-alerts-cockpit-version="v7-2-simplified-command-desk"`.
+- Watchlist is compact: 18 source-gated ticker tiles remain visible/reachable while using less vertical space and less repeated copy than v7.1.
+- Selected ticker workflow is compact and still updates for `NVDA`, `AAPL`, `MSFT`, and `GLD` with ticker, asset/setup, Source/Timestamp/Options/Action badges, next-step line, CEO B standard, and no external action.
+- Research Readiness now functions as a compact blocked checklist: `PACKET BLOCKED`, readiness bar, Source/Timestamp/Options Chain/Risk/Evidence/CEO B Standard gates, and display-only/not-prediction/not-win-rate/not-expected-return/source-gated copy.
+- Bullish/Bearish lanes are shorter, side-by-side on desktop, stacked on mobile, and use small bull/bear anchors only.
+- Options Chain Gate remains compact and blocked: no verified chain, no bid/ask, no volume, no open interest, no IV/Greeks, no buy/sell instruction, and no external action.
+- X Source Deck is compact/collapsed by default and readable when expanded; PET is a compact local source steward with no blank PET state observed.
+- Browser QA passed for `/`, `/#/alerts`, and `/app/alerts` at `1440x900`, `1280x720`, `390x844`, and `390x900`; regression route QA passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, and RK Tracker.
+- Screenshot proof and QA summary are under `/tmp/pickaxe-alerts-cockpit-v7-2-real-simplification/`.
+- Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+
+Next bounded step: CEO B local review of v7.2. Push/deploy remains blocked until explicitly requested after approval.
+
+Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, and broker/execution/payment/auth/subscription/alert-delivery remain blocked. Do not start provider work, enable public live data, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Cockpit v7.1 Hosted Verification
+
 Pickaxe Alerts Cockpit v7.1 Hosted Verification is **PASS / ALERTS COCKPIT V7.1 HOSTED VERIFIED**.
 
 - Promoted branch: `codex/alerts-cockpit-v7-1-watchlist-product-repair-20260628`.

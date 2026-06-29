@@ -1,6 +1,39 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Cockpit v7.1 Hosted Verification
+## Current Checkpoint - Pickaxe Alerts Cockpit v7.2 Real Simplification
+
+- Date: 2026-06-29.
+- Result: **PASS / ALERTS COCKPIT V7.2 SIMPLIFIED COMMAND DESK READY FOR CEO B LOCAL REVIEW**.
+- Protected hosted baseline preserved: `0eedb625bfcf5de7bb6fef00a92187a562b9a7bc` (`Align v7.1 hosted app cache key`).
+- Branch: `codex/alerts-cockpit-v7-2-real-simplification-20260628`.
+- Safety branch: `backup/pre-alerts-cockpit-v7-2-real-simplification-20260628`.
+- Sprint type: local-only real v7.2 simplification implementation. No push, deploy, provider activation, public live data, fake live data, fake timestamps, fake contracts, fake X posts, broker/execution/payment/auth/subscription/alert-delivery behavior, new route, server/provider file, package script, `.env`, `.env.local`, `data/signal-alerts.json`, `habitat-data.js`, `public/habitat-data.js`, image asset, or route bridge change was authorized or added.
+- Runtime marker added: `data-alerts-cockpit-version="v7-2-simplified-command-desk"`; cache keys updated to `alerts-cockpit-v7-2-simplified-command-desk-20260628-r1` for local QA.
+- Real implementation proof exists in `public/app.js`, `app.js`, `public/styles.css`, and `styles.css`: watchlist, selected ticker card, readiness panel, lanes, options gate, X deck, PET, and Alerts rail were simplified in app/style code, not just HTML cache/status files.
+- Watchlist queue is now compact: 18 source-gated ticker tiles show ticker, asset type, and chain/blocked status only, with a stronger selected state and far less repeated copy.
+- Selected ticker workflow is now compact: ticker, asset label/setup mode, Source/Timestamp/Options/Action gate badges, next-step line, CEO B standard, and no external action.
+- Research Readiness is now useful and compact: `PACKET BLOCKED`, readiness bar, Source/Timestamp/Options Chain/Risk/Evidence/CEO B Standard checklist, and display-only/not-prediction/not-win-rate/not-expected-return/source-gated copy.
+- Bullish/Bearish lanes are shorter and cleaner: side-by-side desktop lanes with small bull/bear anchors, ticker-aware titles, compact gate rows, invalidation, risk, and no external action.
+- Options Chain Gate remains blocked and safer: `CONTRACT BLOCKED`, no verified chain, no bid/ask, no volume, no open interest, no IV/Greeks, no buy/sell instruction, and no external action; only Review Gate and Evidence Required actions are present.
+- X Source Deck is collapsed/compact by default and readable when expanded; all 26 approved handles remain present with no live feed, no scraping, no endorsement, and no trading instruction.
+- PET is reduced to a compact local source steward with copy `Local helper only · source verification required.` and the required local-only PET response. No blank PET state was observed.
+- Browser QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1440x900`, `1280x720`, `390x844`, and `390x900`: correct active view, nonblank content, no relevant console errors, no document-level horizontal overflow, one visible Starlight canvas, no provider browser calls, no exposed secret values, 18 visible/reachable watchlist tickers, and v7.2 marker present.
+- Interaction QA passed: `NVDA`, `AAPL`, `MSFT`, and `GLD` selections update the selected ticker command card, bullish lane, bearish lane, and Options Chain Gate.
+- Regression route QA passed for `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, `/life-os`, and `/#/rkTracker`.
+- Screenshot proof directory: `/tmp/pickaxe-alerts-cockpit-v7-2-real-simplification/`; QA summary: `/tmp/pickaxe-alerts-cockpit-v7-2-real-simplification/v72-local-qa-summary.json`.
+- Safety/source truth remains visible or reachable: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+- Next bounded recommendation: `CEO B local review of Pickaxe Alerts Cockpit v7.2 Simplified Command Desk`.
+
+### Pickaxe Alerts Cockpit v7.2 Real Simplification Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Cockpit v7.1 Hosted Verification
 
 - Date: 2026-06-29.
 - Result: **PASS / ALERTS COCKPIT V7.1 HOSTED VERIFIED**.
