@@ -41894,12 +41894,12 @@ body[data-active-view="alerts"] .alerts-v73-sections button:focus-visible {
 #alerts.active .pa-v74-x-details > div {
   position: static;
   width: min(100%, 760px);
-  max-height: 260px;
+  max-height: 360px;
   overflow: auto;
   display: grid;
-  gap: 7px;
+  gap: 5px;
   margin-top: 8px;
-  padding: 10px;
+  padding: 8px;
   border: 1px solid rgba(245, 200, 76, 0.28);
   border-radius: 12px;
   background: rgba(1, 8, 10, 0.96);
@@ -41908,8 +41908,8 @@ body[data-active-view="alerts"] .alerts-v73-sections button:focus-visible {
 
 #alerts.active .pa-v74-x-details section {
   display: grid;
-  gap: 6px;
-  padding: 8px;
+  gap: 5px;
+  padding: 7px;
   border: 1px solid rgba(245, 200, 76, 0.14);
   border-radius: 9px;
   background: rgba(0, 0, 0, 0.22);
@@ -42083,5 +42083,215 @@ body[data-active-view="alerts"] .alerts-v73-sections button:focus-visible {
   #alerts.active .pa-v74-character .pa-v6-character.is-bear {
     width: 78px !important;
     height: 92px !important;
+  }
+}
+
+/* Alerts Cockpit v7.4 density micro-polish — cinematic depth without new modules. */
+#alerts.active .pickaxe-alerts-01.pa-v74 {
+  gap: 9px !important;
+  background:
+    radial-gradient(circle at 24% 78%, rgba(81, 221, 119, 0.05), transparent 28%),
+    radial-gradient(circle at 68% 82%, rgba(255, 96, 77, 0.05), transparent 30%),
+    radial-gradient(circle at 84% -8%, rgba(245, 200, 76, 0.1), transparent 23%),
+    linear-gradient(180deg, rgba(10, 15, 13, 0.985), rgba(1, 5, 7, 0.995));
+}
+
+#alerts.active .pa-v74-desk {
+  position: relative;
+  align-items: stretch;
+  min-height: 388px;
+  isolation: isolate;
+}
+
+#alerts.active .pa-v74-desk::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 246px 238px -68px 0;
+  border-radius: 18px;
+  pointer-events: none;
+  opacity: 0.42;
+  background:
+    linear-gradient(rgba(245, 200, 76, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245, 200, 76, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 24% 35%, rgba(81, 221, 119, 0.12), transparent 32%),
+    radial-gradient(circle at 76% 35%, rgba(255, 96, 77, 0.12), transparent 32%);
+  background-size: 34px 34px, 34px 34px, auto, auto;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 74%, transparent 100%);
+}
+
+#alerts.active .pa-v74-desk::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: auto 260px -36px 10px;
+  height: 96px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0.46;
+  background:
+    radial-gradient(ellipse at 28% 50%, rgba(81, 221, 119, 0.18), transparent 44%),
+    radial-gradient(ellipse at 72% 50%, rgba(255, 96, 77, 0.17), transparent 46%),
+    radial-gradient(ellipse at 50% 50%, rgba(245, 200, 76, 0.11), transparent 58%);
+  filter: blur(20px);
+}
+
+#alerts.active .pa-v74-lanes,
+#alerts.active .pa-v74-right-rail {
+  position: relative;
+  z-index: 1;
+}
+
+#alerts.active .pa-v74-alert-card {
+  min-height: 372px !important;
+  grid-template-rows: auto auto auto 1fr auto;
+  padding: 13px !important;
+  border-width: 1px;
+  background:
+    radial-gradient(circle at 84% 16%, rgba(245, 200, 76, 0.12), transparent 26%),
+    linear-gradient(180deg, rgba(255, 241, 190, 0.066), rgba(255, 241, 190, 0.014) 42%, rgba(0, 0, 0, 0.06)),
+    rgba(1, 9, 10, 0.92);
+  box-shadow:
+    inset 0 1px rgba(255, 245, 209, 0.08),
+    inset 0 -22px 42px rgba(0, 0, 0, 0.16),
+    0 18px 42px rgba(0, 0, 0, 0.32);
+}
+
+#alerts.active .pa-v74-alert-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 18px 10px 18px;
+  height: 2px;
+  border-radius: 999px;
+  opacity: 0.46;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(245, 200, 76, 0.42), transparent);
+}
+
+#alerts.active .pa-v74-alert-card.is-bullish {
+  border-color: rgba(81, 221, 119, 0.43);
+  box-shadow:
+    inset 0 1px rgba(255, 245, 209, 0.08),
+    inset 0 -22px 42px rgba(0, 0, 0, 0.16),
+    0 18px 44px rgba(0, 0, 0, 0.32),
+    0 0 34px rgba(81, 221, 119, 0.055);
+}
+
+#alerts.active .pa-v74-alert-card.is-bearish {
+  border-color: rgba(255, 96, 77, 0.42);
+  box-shadow:
+    inset 0 1px rgba(255, 245, 209, 0.08),
+    inset 0 -22px 42px rgba(0, 0, 0, 0.16),
+    0 18px 44px rgba(0, 0, 0, 0.32),
+    0 0 34px rgba(255, 96, 77, 0.055);
+}
+
+#alerts.active .pa-v74-alert-card h2 {
+  font-size: clamp(19px, 1.7vw, 26px) !important;
+}
+
+#alerts.active .pa-v74-alert-card header p {
+  max-width: 360px;
+}
+
+#alerts.active .pa-v74-character {
+  flex-basis: 84px;
+  width: 84px;
+  height: 84px;
+  border-color: rgba(245, 200, 76, 0.2);
+  background:
+    radial-gradient(circle at 50% 24%, rgba(245, 200, 76, 0.2), transparent 58%),
+    linear-gradient(180deg, rgba(255, 241, 190, 0.055), rgba(0, 0, 0, 0.1)),
+    rgba(0, 0, 0, 0.25);
+}
+
+#alerts.active .pa-v74-character .pa-v6-character,
+#alerts.active .pa-v74-character .pa-v6-character.is-bull,
+#alerts.active .pa-v74-character .pa-v6-character.is-bear {
+  width: 106px !important;
+  height: 120px !important;
+  bottom: -18px !important;
+}
+
+#alerts.active .pa-v74-gates {
+  gap: 7px;
+}
+
+#alerts.active .pa-v74-gates span {
+  min-height: 50px;
+  padding: 9px 10px;
+  background: linear-gradient(180deg, rgba(255, 241, 190, 0.035), rgba(0, 0, 0, 0.18));
+}
+
+#alerts.active .pa-v74-evidence-line {
+  max-width: 92%;
+  font-size: 12px;
+}
+
+#alerts.active .pa-v74-contract-gate {
+  align-self: end;
+  min-height: 68px;
+  padding: 10px 11px;
+  border-color: rgba(255, 96, 77, 0.34);
+  background:
+    linear-gradient(135deg, rgba(255, 96, 77, 0.115), rgba(245, 200, 76, 0.055)),
+    rgba(0, 0, 0, 0.24);
+}
+
+#alerts.active .pa-v74-actions {
+  align-self: end;
+  padding-top: 1px;
+}
+
+#alerts.active .pa-v74-actions button {
+  min-height: 35px !important;
+  min-width: 58px;
+  background: linear-gradient(180deg, rgba(245, 200, 76, 0.115), rgba(245, 200, 76, 0.045)) !important;
+  box-shadow: inset 0 1px rgba(255, 245, 209, 0.07);
+}
+
+#alerts.active .pa-v74-right-rail {
+  align-self: stretch;
+  align-content: start;
+}
+
+#alerts.active .pa-v74-x-card {
+  margin-top: 4px;
+}
+
+@media (max-width: 1160px) {
+  #alerts.active .pa-v74-desk {
+    min-height: 0;
+  }
+
+  #alerts.active .pa-v74-desk::before,
+  #alerts.active .pa-v74-desk::after {
+    display: none;
+  }
+
+  #alerts.active .pa-v74-alert-card {
+    min-height: 332px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  #alerts.active .pa-v74-alert-card {
+    min-height: 0 !important;
+    grid-template-rows: none;
+    padding: 11px !important;
+  }
+
+  #alerts.active .pa-v74-character {
+    width: 64px;
+    height: 64px;
+    flex-basis: 64px;
+  }
+
+  #alerts.active .pa-v74-character .pa-v6-character,
+  #alerts.active .pa-v74-character .pa-v6-character.is-bull,
+  #alerts.active .pa-v74-character .pa-v6-character.is-bear {
+    width: 84px !important;
+    height: 98px !important;
+    bottom: -16px !important;
   }
 }

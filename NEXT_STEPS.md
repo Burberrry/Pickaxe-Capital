@@ -2,6 +2,30 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Cockpit v7.4 Tiny Density Micro-Polish is **PASS / ALERTS COCKPIT V7.4 DENSITY POLISH READY FOR CEO B FINAL LOCAL REVIEW**.
+
+- Official hosted baseline preserved: `main == origin/main == af44749fcc90f5c4e6e2a356a0ab3890fad2a2fe` (`Record Alerts cockpit v7.3 hosted verification`).
+- Local base commit: `e4a1a13aebb37bce5f6db0875a9812a67cb3fd82` (`Simplify Alerts cockpit premium desk`).
+- Safety branch: `backup/pre-alerts-cockpit-v7-4-density-polish-20260629`.
+- Work branch: `codex/alerts-cockpit-v7-4-density-polish-20260629`.
+- Work is local-only. No push or deploy was performed.
+- This remains v7.4, not v7.5: runtime marker stays `data-alerts-cockpit-version="v7-4-ultra-simple-premium-desk"`; local cache keys are `alerts-cockpit-v7-4-density-polish-20260629-r1`.
+- Micro-polish only: main alert cards are slightly taller/stronger, card gradients/glows/borders are deeper, bull/bear anchors are slightly larger, contract gate/buttons align better, and the lower center uses low-opacity terminal-grid/glow depth instead of new content.
+- What did not change: no redesign, no new modules, no v7.3 top-module clutter, no giant Bull vs Bear/Fear & Greed panels, no enlarged X Deck, no enlarged PET, no new routes, no new LocalStorage keys, no provider/live/execution behavior.
+- Watchlist remains compact and full; selected ticker workflow passed for `NVDA`, `AAPL`, `AMD`, `MSFT`, and `GLD`.
+- X Source Deck remains collapsed by default with `X Source Deck · 26 manual sources · no live feed`; expanded state preserves all 26 handles and remains manual/static only.
+- PET remains local helper only with required copy/response; no provider call or external action.
+- Hidden legacy `glint.trade` remains neutralized: QA found no visible/actionable/product-relevant link or replacement trading/execution link.
+- Browser QA passed for `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`; regression route QA passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, RK Tracker, and Archive.
+- Screenshot proof and QA summary are under `/tmp/pickaxe-alerts-cockpit-v7-4-density-polish/`.
+- Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+
+Next bounded step: CEO B final local review of v7.4 density polish. Push/deploy remains blocked until explicitly requested after approval.
+
+Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+
+## Previous Active Checkpoint - Pickaxe Alerts Cockpit v7.4 Ultra-Simplified Premium Desk
+
 Pickaxe Alerts Cockpit v7.4 Ultra-Simplified Premium Desk is **PASS / ALERTS COCKPIT V7.4 ULTRA-SIMPLIFIED PREMIUM DESK READY FOR CEO B LOCAL REVIEW**.
 
 - Official hosted baseline preserved: `main == origin/main == af44749fcc90f5c4e6e2a356a0ab3890fad2a2fe` (`Record Alerts cockpit v7.3 hosted verification`).
