@@ -1,6 +1,41 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Desk V8 Live-Ready Premium Options Intelligence Surface
+## Current Checkpoint - Pickaxe Alerts Desk V8 Hosted Verification
+
+- Date: 2026-06-29.
+- Result: **PASS / V8 ALERTS DESK HOSTED VERIFIED**.
+- Promoted branch: `codex/alerts-desk-v8-live-ready-premium-surface-20260629`.
+- Promoted commit: `5d03f2ec7b4253a4790cfd00eeeafb1bc47e7acd` (`Build live-ready premium Alerts intelligence surface`).
+- Previous hosted baseline: `610c3e87792999b1b9c1e6634c353df72391d5ed` (`Record Alerts cockpit v7.4 hosted verification`).
+- Safety branch before promotion: `backup/pre-alerts-desk-v8-hosted-20260629`.
+- Promotion method: fast-forward merge into `main`; no merge commit.
+- GitHub Pages workflow `28365766492` (`Validate and Deploy GitHub Pages`) completed with conclusion `success` for commit `5d03f2ec7b4253a4790cfd00eeeafb1bc47e7acd`.
+- Validate and Build job `84031131480` completed `success`; Deploy job `84031187176` completed `success`.
+- Pages deployment `5237755967` for environment `github-pages` completed with deployment status `14903337618` state `success`.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted screenshots path: `/tmp/pickaxe-alerts-desk-v8-hosted/`; QA summary: `/tmp/pickaxe-alerts-desk-v8-hosted/hosted-v8-qa-summary.json`.
+- Hosted route QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`: correct Alerts view, nonblank V8 content, V8 marker present, `alerts-desk-v8-live-ready-premium-surface-20260629-r1` cache key present during promoted-hosted QA, no relevant console errors, no document-level horizontal overflow, one visible Starlight canvas, no provider browser calls, no X API/browser X requests, and no exposed key-shaped secrets.
+- Hosted visual QA passed: V8 is visually stronger than hosted v7.4, first screen remains understandable in about five seconds, selected ticker is obvious, Bullish/Bearish Research Candidate lanes dominate, confidence remains locked/source-gated, exact contract gates are blocked, Source Deck remains manual/no live feed, PET remains local helper only, and learning/review affordances remain honest/future-ready.
+- Hosted watchlist/ticker QA passed: full 18-ticker watchlist is visible/reachable; `NVDA`, `AAPL`, `AMD`, `MSFT`, and `GLD` update selected ticker card, bullish lane, bearish lane, contract gate, right rail context, watchlist highlight, and alert candidate labels.
+- Hosted contract gate QA passed: `CONTRACT BLOCKED · SOURCE REQUIRED · NO VERIFIED OPTIONS CHAIN · NO EXTERNAL ACTION` is present; no fake current contract, price, timestamp, bid/ask, volume, open interest, IV/Greeks, or trade-ticket behavior was observed; allowed buttons remain review-only: `Review`, `Evidence`, `Source Check`, and `Archive Lesson`.
+- Hosted Source Deck QA passed: default/manual state is `Source Deck · 26 manual sources · no live feed`; expanded state contains all 26 approved handles; no fake tweets, timestamps, scraping, X API, browser X request, live feed, endorsement, or trading instruction.
+- Hosted PET QA passed: copy `Local helper only · source verification required.` and response `PET note opened · local research helper only · source verification required · no external action.` verified; no provider call, advice path, alert delivery, or external action.
+- Hosted learning/review QA passed: `Archive Lesson`, `Postmortem Ready`, `Mistake Tag Pending`, `Source Score Pending`, `False Positive Review`, `CEO B Review Gate`, and `Review Memory Pending` remain future-ready labels only; no self-learning, source-library, market-memory, or profitability claim.
+- Hosted regression route QA passed for `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, `/life-os`, `/#/rkTracker`, and `/#/archive`.
+- Hosted static-public boundary QA passed: `.env`, `.env.local`, `server.mjs`, provider-library paths, `/api/live/status`, `/api/live/alerts`, `data/signal-alerts.json`, source maps, private local paths, and provider response cache probes returned 404/fail-safe HTML or otherwise did not expose secrets, source maps, provider responses, server code, private local paths, signal data, or provider cache data.
+- Hidden legacy artifact QA passed: no visible/actionable/product-relevant `glint.trade` text or anchor and no replacement trading/execution link was observed on hosted Alerts/regression/Archive checks.
+- Safety/source truth remains visible or reachable: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+- Status/cache marker only: `public/index.html` and `index.html` cache keys updated from `alerts-desk-v8-live-ready-premium-surface-20260629-r1` to `alerts-desk-v8-hosted-20260629-r1`; no product behavior changed during status recording.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs/pattern memory, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+- Next bounded recommendation: `CEO B hosted review of Pickaxe Alerts Desk V8`.
+
+### Pickaxe Alerts Desk V8 Hosted Verification Files Changed
+
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `public/index.html` and `index.html` cache/status marker only
+
+## Previous Checkpoint - Pickaxe Alerts Desk V8 Local Build
 
 - Date: 2026-06-29.
 - Result: **PASS / PICKAXE ALERTS DESK V8 READY FOR CEO B LOCAL REVIEW**.

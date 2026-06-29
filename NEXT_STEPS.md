@@ -2,6 +2,34 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Desk V8 Hosted Verification is **PASS / V8 ALERTS DESK HOSTED VERIFIED**.
+
+- Promoted branch: `codex/alerts-desk-v8-live-ready-premium-surface-20260629`.
+- Promoted commit: `5d03f2ec7b4253a4790cfd00eeeafb1bc47e7acd` (`Build live-ready premium Alerts intelligence surface`).
+- Previous hosted baseline: `610c3e87792999b1b9c1e6634c353df72391d5ed` (`Record Alerts cockpit v7.4 hosted verification`).
+- Safety branch: `backup/pre-alerts-desk-v8-hosted-20260629`.
+- GitHub Pages workflow `28365766492` passed for V8. Validate and Build job `84031131480` passed; Deploy job `84031187176` passed. Pages deployment `5237755967` finished with deployment status `14903337618` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted visual QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`.
+- Runtime marker verified on hosted Alerts routes: `data-alerts-cockpit-version="v8-live-ready-premium-options-surface"`; promoted-hosted cache key verified: `alerts-desk-v8-live-ready-premium-surface-20260629-r1`.
+- Hosted screenshots and QA summary are under `/tmp/pickaxe-alerts-desk-v8-hosted/`.
+- Full 18-ticker watchlist is visible/reachable; `NVDA`, `AAPL`, `AMD`, `MSFT`, and `GLD` update selected ticker card, bullish lane, bearish lane, contract gate, right rail context, watchlist highlight, and alert candidate labels.
+- Contract gate remains blocked/source-gated with no fake current contract, fake price, fake timestamp, bid/ask, volume, open interest, IV/Greeks, or trade-ticket behavior; allowed buttons remain review-only: `Review`, `Evidence`, `Source Check`, and `Archive Lesson`.
+- Source Deck remains manual/static: default `Source Deck · 26 manual sources · no live feed`, all 26 approved handles present when expanded, no fake tweets, timestamps, live feed, scraping, X API/browser X requests, endorsement, or trading instruction.
+- PET remains local helper only with required copy and response; no provider call or external action.
+- Learning/review affordances remain future-ready only; no self-learning, source-library, market-memory, or profitability claim.
+- Hidden legacy `glint.trade` remains neutralized: no visible/actionable/product-relevant link and no replacement trading/execution link.
+- Regression route QA passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, RK Tracker, and Archive.
+- Static-public boundary QA passed: `.env`, `.env.local`, `server.mjs`, provider-library paths, `/api/live/status`, `/api/live/alerts`, `data/signal-alerts.json`, source maps, private local paths, and provider response cache probes did not expose secrets/server/provider/private data.
+- Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+- Status/cache marker only: `public/index.html` and `index.html` cache keys updated to `alerts-desk-v8-hosted-20260629-r1`; no product behavior changed during status recording.
+
+Next bounded step: CEO B hosted review of V8. Further product changes, provider work, public live data, broker/execution/payment/auth/subscription/alert-delivery, source-library ingestion, signal scoring, mistake logs/pattern memory, or new route work remain blocked unless explicitly requested.
+
+Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs/pattern memory, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+
+## Previous Active Checkpoint - Pickaxe Alerts Desk V8 Local Build
+
 Pickaxe Alerts Desk V8 Live-Ready Premium Options Intelligence Surface is **PASS / READY FOR CEO B LOCAL REVIEW**.
 
 - Official hosted baseline preserved locally: `main == origin/main == 610c3e87792999b1b9c1e6634c353df72391d5ed` (`Record Alerts cockpit v7.4 hosted verification`).
