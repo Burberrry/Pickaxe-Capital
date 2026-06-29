@@ -11886,15 +11886,23 @@ function renderPickaxeAlerts01XNotesCard() {
     ["Space / Founder / Special Watch", ["@SpaceX", "@Julianpetroulas", "@insiderwave_"]],
   ];
   const sourceAction = state.alertsLastAction?.action === "xdeck" ? state.alertsLastAction : null;
+  const chips = [
+    ["Signals", "Prediction/Event + Options Flow", "13 manual inputs"],
+    ["Macro", "Fast News + Geopolitics", "10 manual inputs"],
+    ["Special", "Space / Founder", "3 manual inputs"],
+  ].map(([label, detail, count]) => `<span><b>${escapeHtml(label)}</b><small>${escapeHtml(detail)} · ${escapeHtml(count)}</small></span>`).join("");
   return `
-    <article class="pa-card pa-v6-x-card pa-v72-x-card" data-source-deck-mode="manual-static">
+    <article class="pa-card pa-v73-x-card" data-source-deck-mode="manual-static">
       <header>
-        <div><small>Manual Inputs</small><h2>X Source Deck</h2></div>
+        <div><small>Manual / Static</small><h2>X Source Deck</h2></div>
         <em class="is-safe"><i></i>NO LIVE FEED</em>
       </header>
-      <p class="pa-v72-x-summary">26 approved watchlist inputs · collapsed by default · source check required.</p>
-      <details class="pa-v6-x-source-details pa-v72-x-details" ${state.alertsXDeckOpen ? "open" : ""}>
-        <summary onclick="window.pickaxeAlerts01ToggleXDeck(event)">Review full 26-account deck</summary>
+      <div class="pa-v73-x-notifications" aria-label="Compact X source groups">
+        ${chips}
+      </div>
+      <p class="pa-v73-muted">No fake tweets · no timestamps · no scraping · no X API · source verification required.</p>
+      <details class="pa-v73-x-details" ${state.alertsXDeckOpen ? "open" : ""}>
+        <summary onclick="window.pickaxeAlerts01ToggleXDeck(event)">Review 26 approved handles</summary>
         <div>
           ${groups.map(([label, handles]) => `
             <section>
@@ -11905,13 +11913,14 @@ function renderPickaxeAlerts01XNotesCard() {
         </div>
       </details>
       <strong>X sources are watchlist inputs only. Posts are unverified until cross-checked. No live feed, no scraping, no endorsement, no trading instruction.</strong>
-      <div class="pa-v72-support-actions">
+      <div class="pa-v73-actions">
         <button type="button" onclick="window.pickaxeAlerts01Action('x-source-deck', 'xdeck')">Source Check</button>
       </div>
       ${sourceAction ? `<p class="pa-v7-local-note">${escapeHtml(sourceAction.label)}</p>` : ""}
     </article>
   `;
 }
+
 function renderPickaxeAlerts01AssetFilters() {
   return `
     <svg class="pa-v6-asset-filters" aria-hidden="true" focusable="false">
@@ -12099,97 +12108,178 @@ function getPickaxeAlerts01ActionFor(scope) {
 }
 
 function getPickaxeAlerts01OptionBadge(item) {
-  return item.optionContext.includes("BLOCKED") ? "Options blocked" : "Chain required";
+  return item.optionContext.includes("BLOCKED") ? "OPTIONS BLOCKED" : "CHAIN REQUIRED";
 }
 
-function renderPickaxeAlerts01WatchlistQueue(selected) {
+function getPickaxeAlerts01LaneTone(lane) {
+  return lane === "bearish" ? {
+    word: "Bearish",
+    contract: "PUTS",
+    intent: "Downside / hedge research",
+    color: "red",
+    source: "bear pressure source required",
+  } : {
+    word: "Bullish",
+    contract: "CALLS",
+    intent: "Upside / continuation research",
+    color: "green",
+    source: "bull catalyst source required",
+  };
+}
+
+function renderPickaxeAlerts01PremiumHeader(selected, liveStatus) {
+  const marketStrip = [
+    ["SPY", "SOURCE GATED"],
+    ["QQQ", "DISPLAY ONLY"],
+    ["VIX", "NO SNAPSHOT"],
+    ["OPS", getAlertsCommandQueueBadge(liveStatus)],
+  ];
   return `
-    <section class="pa-v72-watchlist" aria-label="Pickaxe compact source-gated watchlist queue">
-      <div class="pa-v72-section-head">
-        <span>Compact Watchlist</span>
-        <strong>${PICKAXE_ALERTS_01_WATCHLIST.length} source-gated tickers</strong>
+    <header class="pa-v73-header">
+      <div class="pa-v73-heading">
+        <span class="pa-v73-led"><i></i>ACTIVE · SOURCE GATED</span>
+        <h1 id="pickaxeAlerts01Title">ALERTS</h1>
+        <p>Source-gated options research queue</p>
+        <nav class="pa-v7-status-strip pa-v73-safety-strip" aria-label="Alerts cockpit static safety state">
+          ${["STATIC DEMO", "BLOCKED", "SOURCE REQUIRED", "NO VERIFIED TIMESTAMP", "NO PROVIDER SNAPSHOT", "NO EXTERNAL ACTION"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+        </nav>
       </div>
-      <div class="pa-v72-watchlist-grid">
-        ${PICKAXE_ALERTS_01_WATCHLIST.map((item) => {
-          const active = item.ticker === selected.ticker;
-          return `
-            <button type="button" class="pa-v72-ticker ${active ? "is-active" : ""}" aria-pressed="${active}" onclick="window.pickaxeAlerts01Select(${pickaxeAlerts01JsArg(item.ticker)})">
-              <strong>${escapeHtml(item.ticker)}</strong>
-              <small>${escapeHtml(item.assetType)}</small>
-              <span>${escapeHtml(getPickaxeAlerts01OptionBadge(item))}</span>
-            </button>
-          `;
-        }).join("")}
-      </div>
-    </section>
+      <aside class="pa-v73-market-strip" aria-label="Display-only market status strip">
+        ${marketStrip.map(([label, state]) => `<span><b>${escapeHtml(label)}</b><small>${escapeHtml(state)}</small></span>`).join("")}
+        <strong>${escapeHtml(selected.ticker)} · ${escapeHtml(getPickaxeAlerts01OptionBadge(selected))}</strong>
+      </aside>
+    </header>
   `;
 }
 
-function renderPickaxeAlerts01SelectedTickerCard(item) {
-  const action = getPickaxeAlerts01ActionFor(item.ticker);
-  const gates = [
-    ["Source", "Required"],
-    ["Timestamp", "Missing"],
-    ["Options", getPickaxeAlerts01OptionBadge(item)],
-    ["Action", "Blocked"],
-  ];
+function renderPickaxeAlerts01RatioModule() {
   return `
-    <article class="pa-card pa-v72-command-card" aria-label="Selected ticker compact command card">
-      <header>
-        <div>
-          <small>Selected Ticker</small>
-          <h2>${escapeHtml(item.ticker)}</h2>
-          <p>${escapeHtml(item.assetLabel)} · ${escapeHtml(item.setupMode)}</p>
-        </div>
-        <em><i></i>STATIC / BLOCKED</em>
-      </header>
-      <div class="pa-v72-gate-badges" aria-label="Selected ticker gate badges">
-        ${gates.map(([label, value]) => `<span><small>${escapeHtml(label)}</small><strong>${escapeHtml(value)}</strong></span>`).join("")}
-      </div>
-      <p class="pa-v72-next-step"><b>Next:</b> ${escapeHtml(item.nextStep)}</p>
-      <div class="pa-v72-standard-line">
-        <span>CEO B Standard: Research. Discipline. Verification.</span>
-        <strong>NO EXTERNAL ACTION</strong>
-      </div>
-      <div class="pa-v72-command-actions">
-        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(item.ticker)}, 'review')">Review Gate</button>
-        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(item.ticker)}, 'evidence')">Evidence Required</button>
-      </div>
-      ${action ? `<p class="pa-v7-local-note">${escapeHtml(action.label)}</p>` : ""}
+    <article class="pa-card pa-v73-module pa-v73-ratio-card" aria-label="Bull vs Bear Ratio display-only source-gated module">
+      <header><div><small>Display Only</small><h2>Bull vs Bear Ratio</h2></div><em><i></i>SOURCE GATED</em></header>
+      <div class="pa-v73-donut" aria-hidden="true"><span></span></div>
+      <p>Bull / bear balance is blocked until verified sources are attached.</p>
+      <strong>No prediction · no win rate · no expected return.</strong>
     </article>
   `;
 }
 
+function renderPickaxeAlerts01FearGreedModule() {
+  return `
+    <article class="pa-card pa-v73-module pa-v73-gauge-card" aria-label="Fear and Greed display-only source-gated gauge">
+      <header><div><small>Market Health</small><h2>Fear &amp; Greed</h2></div><em><i></i>NO SNAPSHOT</em></header>
+      <div class="pa-v73-gauge" aria-hidden="true"><span></span><i></i></div>
+      <p>Gauge style only. No verified provider snapshot is connected.</p>
+      <strong>BLOCKED · SOURCE REQUIRED</strong>
+    </article>
+  `;
+}
+
+function renderPickaxeAlerts01PetCardV71(item) {
+  const petAction = state.alertsLastAction?.action === "pet" ? state.alertsLastAction : null;
+  return `
+    <article class="pa-card pa-v73-pet-card" aria-label="Pickaxe PET local helper only">
+      <header><div><small>Co-pilot</small><h2>Pickaxe PET</h2></div><em><i></i>LOCAL HELPER</em></header>
+      <div class="pa-v73-pet-stage">
+        ${renderPickaxeAlerts01PetFigure()}
+        <p>Local helper only · source verification required.</p>
+      </div>
+      <div class="pa-v73-actions">
+        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(`${item.ticker}-pet`)}, 'pet')">Review</button>
+      </div>
+      <small>No advice · no action · no provider call.</small>
+      ${petAction ? `<p class="pa-v7-local-note">${escapeHtml(petAction.label)}</p>` : ""}
+    </article>
+  `;
+}
+
+function renderPickaxeAlerts01TopModules(selected) {
+  return `
+    <section class="pa-v73-top-modules" aria-label="Premium source-gated top dashboard modules">
+      ${renderPickaxeAlerts01RatioModule()}
+      ${renderPickaxeAlerts01FearGreedModule()}
+      ${renderPickaxeAlerts01XNotesCard()}
+      ${renderPickaxeAlerts01PetCardV71(selected)}
+    </section>
+  `;
+}
+
+function renderPickaxeAlerts01WatchlistQueue(selected) {
+  return `
+    <section class="pa-v73-watchbar" aria-label="Premium ticker selector and selected ticker workflow">
+      <article class="pa-card pa-v73-selected-card" aria-label="Selected ticker command state">
+        <small>Selected Ticker</small>
+        <h2>${escapeHtml(selected.ticker)}</h2>
+        <p>${escapeHtml(selected.assetLabel)} · ${escapeHtml(selected.setupMode)}</p>
+        <div>
+          <span><b>Source</b><strong>Required</strong></span>
+          <span><b>Timestamp</b><strong>Missing</strong></span>
+          <span><b>Options</b><strong>${escapeHtml(getPickaxeAlerts01OptionBadge(selected))}</strong></span>
+          <span><b>Action</b><strong>Blocked</strong></span>
+        </div>
+      </article>
+      <article class="pa-card pa-v73-watchlist" aria-label="Full source-gated watchlist ticker selector">
+        <header><div><small>Watchlist</small><h2>Research Queue</h2></div><em><i></i>${PICKAXE_ALERTS_01_WATCHLIST.length} TICKERS</em></header>
+        <div class="pa-v73-ticker-rail">
+          ${PICKAXE_ALERTS_01_WATCHLIST.map((item) => {
+            const active = item.ticker === selected.ticker;
+            return `
+              <button type="button" class="pa-v73-ticker ${active ? "is-active" : ""}" aria-pressed="${active}" onclick="window.pickaxeAlerts01Select(${pickaxeAlerts01JsArg(item.ticker)})">
+                <strong>${escapeHtml(item.ticker)}</strong>
+                <small>${escapeHtml(item.assetType)}</small>
+                <span>${escapeHtml(getPickaxeAlerts01OptionBadge(item))}</span>
+              </button>
+            `;
+          }).join("")}
+        </div>
+      </article>
+    </section>
+  `;
+}
+
 function renderPickaxeAlerts01ResearchLane(item, lane) {
+  const tone = getPickaxeAlerts01LaneTone(lane);
   const isBearish = lane === "bearish";
   const scope = `${item.ticker}-${lane}`;
   const action = getPickaxeAlerts01ActionFor(scope);
-  const checks = [
-    ["Bias", isBearish ? "Bearish" : "Bullish"],
+  const reasons = [
+    ["Ticker", item.ticker],
+    ["Setup", tone.intent],
     ["Source", "Required"],
-    ["Options", "Chain required"],
-    ["Invalidation", "Source conflict / failed gate"],
+    ["Time", "No verified timestamp"],
     ["Risk", "Blocked"],
     ["Action", "No external action"],
   ];
   return `
-    <article class="pa-card pa-v72-lane ${isBearish ? "is-bearish" : "is-bullish"}" aria-label="${escapeHtml(item.ticker)} ${escapeHtml(lane)} compact research lane">
+    <article class="pa-card pa-v73-alert-lane ${isBearish ? "is-bearish" : "is-bullish"}" aria-label="${escapeHtml(item.ticker)} ${escapeHtml(tone.word)} premium alert lane">
       <header>
-        <div><small>${escapeHtml(item.ticker)} lane</small><h2>${escapeHtml(item.ticker)} ${isBearish ? "Bearish" : "Bullish"}</h2></div>
-        <button type="button" aria-pressed="${state.alertsSelectedLane === lane}" onclick="window.pickaxeAlerts01SelectLane(${pickaxeAlerts01JsArg(lane)})">Select</button>
+        <div>
+          <small>${escapeHtml(tone.contract)} · ${escapeHtml(item.ticker)}</small>
+          <h2>${escapeHtml(item.ticker)} ${escapeHtml(tone.word)} Alert Lane</h2>
+          <p>${escapeHtml(tone.intent)}</p>
+        </div>
+        <button type="button" aria-pressed="${state.alertsSelectedLane === lane}" onclick="window.pickaxeAlerts01SelectLane(${pickaxeAlerts01JsArg(lane)})">Review</button>
       </header>
-      <div class="pa-v72-lane-body">
-        <figure class="pa-v72-lane-anchor" aria-label="Canonical ${isBearish ? "bear" : "bull"} compact lane anchor">
+      <div class="pa-v73-lane-core">
+        <figure class="pa-v73-lane-character" aria-label="Canonical ${isBearish ? "bear" : "bull"} alert anchor">
           ${renderPickaxeAlerts01Character(isBearish)}
         </figure>
-        <ul>
-          ${checks.map(([label, value]) => `<li><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></li>`).join("")}
-        </ul>
+        <div class="pa-v73-lane-intel">
+          <div class="pa-v73-readiness-pill"><span></span><b>Confidence blocked</b><small>source/time/options required</small></div>
+          <ul>
+            ${reasons.map(([label, value]) => `<li><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></li>`).join("")}
+          </ul>
+          <p>${escapeHtml(item.evidenceFocus)}. ${escapeHtml(tone.source)}.</p>
+        </div>
       </div>
-      <p>${escapeHtml(item.evidenceFocus)}.</p>
-      <div class="pa-v72-command-actions">
-        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(scope)}, 'review')">Review Gate</button>
-        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(scope)}, 'evidence')">Evidence Required</button>
+      <aside class="pa-v73-lane-contract" aria-label="${escapeHtml(item.ticker)} ${escapeHtml(tone.contract)} contract gate">
+        <b>${escapeHtml(tone.contract)} CONTRACT GATE</b>
+        <span>CONTRACT BLOCKED · SOURCE REQUIRED · NO VERIFIED OPTIONS CHAIN</span>
+        <strong>NO BUY/SELL INSTRUCTION · NO EXTERNAL ACTION</strong>
+      </aside>
+      <div class="pa-v73-actions">
+        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(scope)}, 'review')">Review</button>
+        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(scope)}, 'evidence')">Evidence</button>
+        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(scope)}, 'timestamp')">Source Check</button>
       </div>
       ${action ? `<p class="pa-v7-local-note">${escapeHtml(action.label)}</p>` : ""}
     </article>
@@ -12198,14 +12288,22 @@ function renderPickaxeAlerts01ResearchLane(item, lane) {
 
 function renderPickaxeAlerts01OptionsGate(item) {
   const action = getPickaxeAlerts01ActionFor(`${item.ticker}-gate`);
-  const gateItems = ["NO VERIFIED OPTIONS CHAIN", "NO BID / ASK", "NO VOLUME", "NO OPEN INTEREST", "NO IV / GREEKS", "NO BUY/SELL INSTRUCTION", "NO EXTERNAL ACTION"];
+  const gateItems = ["SOURCE REQUIRED", "NO VERIFIED OPTIONS CHAIN", "NO BID / ASK", "NO VOLUME", "NO OPEN INTEREST", "NO IV / GREEKS", "NO BUY/SELL INSTRUCTION", "NO EXTERNAL ACTION"];
   return `
-    <article class="pa-card pa-v72-options-gate" aria-label="Options Chain Gate">
-      <header><div><small>${escapeHtml(item.ticker)}</small><h2>Options Chain Gate</h2></div><em><i></i>CONTRACT BLOCKED</em></header>
-      <div class="pa-v72-gate-grid">${gateItems.map((gate) => `<span>${escapeHtml(gate)}</span>`).join("")}</div>
-      <div class="pa-v72-command-actions">
+    <article class="pa-card pa-v73-contract-card" aria-label="Options Chain Gate">
+      <header><div><small>${escapeHtml(item.ticker)} exact contract</small><h2>Options Chain Gate</h2></div><em><i></i>CONTRACT BLOCKED</em></header>
+      <div class="pa-v73-contract-stage">
+        <div class="pa-v73-contract-ticket">
+          <span>CONTRACT BLOCKED</span>
+          <strong>${escapeHtml(item.ticker)} · ${escapeHtml(getPickaxeAlerts01OptionBadge(item))}</strong>
+          <small>No strike · no expiration · no premium · no bid/ask · no timestamp.</small>
+        </div>
+        <div class="pa-v73-contract-grid">${gateItems.map((gate) => `<span>${escapeHtml(gate)}</span>`).join("")}</div>
+      </div>
+      <div class="pa-v73-actions">
         <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(`${item.ticker}-gate`)}, 'review')">Review Gate</button>
         <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(`${item.ticker}-gate`)}, 'evidence')">Evidence Required</button>
+        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(`${item.ticker}-gate`)}, 'timestamp')">Source Check</button>
       </div>
       ${action ? `<p class="pa-v7-local-note">${escapeHtml(action.label)}</p>` : ""}
     </article>
@@ -12222,9 +12320,9 @@ function renderPickaxeAlerts01Readiness(item) {
     ["CEO B Standard", "Applied"],
   ];
   return `
-    <article class="pa-card pa-v72-readiness" aria-label="Research Readiness">
-      <header><div><small>Readiness</small><h2>PACKET BLOCKED</h2></div><em><i></i>SOURCE GATED</em></header>
-      <div class="pa-v72-readiness-meter" aria-hidden="true"><span></span></div>
+    <article class="pa-card pa-v73-readiness" aria-label="Research Confidence and Readiness">
+      <header><div><small>Research Confidence</small><h2>Readiness</h2></div><em><i></i>PACKET BLOCKED</em></header>
+      <div class="pa-v73-readiness-meter" aria-hidden="true"><span></span></div>
       <ul>
         ${gates.map(([label, value]) => `<li><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></li>`).join("")}
       </ul>
@@ -12236,16 +12334,16 @@ function renderPickaxeAlerts01Readiness(item) {
 function renderPickaxeAlerts01EvidenceState(item) {
   const action = state.alertsLastAction;
   return `
-    <article class="pa-card pa-v72-evidence" aria-label="Evidence and review state">
-      <header><div><small>Evidence</small><h2>Review State</h2></div><em><i></i>MANUAL ONLY</em></header>
+    <article class="pa-card pa-v73-evidence" aria-label="Evidence and review state">
+      <header><div><small>Review State</small><h2>Evidence Queue</h2></div><em><i></i>MANUAL ONLY</em></header>
       <ul>
+        <li><span>Selected</span><strong>${escapeHtml(item.ticker)}</strong></li>
         <li><span>Source</span><strong>Required</strong></li>
         <li><span>Timestamp</span><strong>Missing</strong></li>
-        <li><span>Options Chain</span><strong>Required</strong></li>
         <li><span>CEO B Review</span><strong>Required</strong></li>
       </ul>
       <p>No broker execution · no alert delivery · no external action.</p>
-      <div class="pa-v72-command-actions">
+      <div class="pa-v73-actions">
         <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(`${item.ticker}-review`)}, 'review')">Review Gate</button>
         <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(`${item.ticker}-evidence`)}, 'evidence')">Evidence Required</button>
       </div>
@@ -12254,18 +12352,50 @@ function renderPickaxeAlerts01EvidenceState(item) {
   `;
 }
 
-function renderPickaxeAlerts01PetCardV71(item) {
-  const petAction = state.alertsLastAction?.action === "pet" ? state.alertsLastAction : null;
+function renderPickaxeAlerts01MarketHealthWidget() {
   return `
-    <article class="pa-card pa-v72-pet-card">
-      <header><div><small>Local Steward</small><h2>Pickaxe PET</h2></div><em><i></i>LOCAL HELPER</em></header>
-      <div class="pa-v72-pet-row">
-        ${renderPickaxeAlerts01PetFigure()}
-        <p class="pa-v7-pet-copy">Local helper only · source verification required.</p>
+    <article class="pa-card pa-v73-market-health" aria-label="Market Health display-only widget">
+      <header><div><small>Support Widget</small><h2>Market Health</h2></div><em><i></i>DISPLAY ONLY</em></header>
+      <div>
+        <span><b>Volatility</b><strong>Source required</strong></span>
+        <span><b>Breadth</b><strong>No snapshot</strong></span>
+        <span><b>Liquidity</b><strong>Options chain blocked</strong></span>
       </div>
-      <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(`${item.ticker}-pet`)}, 'pet')">Ask PET</button>
-      ${petAction ? `<p class="pa-v7-local-note">${escapeHtml(petAction.label)}</p>` : ""}
+      <p>No live values · no provider timestamp · no probability-of-profit language.</p>
     </article>
+  `;
+}
+
+function renderPickaxeAlerts01WatchlistSupportWidget(selected) {
+  const nearby = PICKAXE_ALERTS_01_WATCHLIST.filter((item) => item.ticker !== selected.ticker).slice(0, 7);
+  return `
+    <article class="pa-card pa-v73-watch-support" aria-label="Compact watchlist support widget">
+      <header><div><small>Watchlist</small><h2>${escapeHtml(selected.ticker)} Context</h2></div><em><i></i>SOURCE GATED</em></header>
+      <p>${escapeHtml(selected.assetLabel)} · ${escapeHtml(selected.setupMode)}</p>
+      <div>${nearby.map((item) => `<button type="button" onclick="window.pickaxeAlerts01Select(${pickaxeAlerts01JsArg(item.ticker)})">${escapeHtml(item.ticker)}</button>`).join("")}</div>
+    </article>
+  `;
+}
+
+function renderPickaxeAlerts01PremiumWorkbench(selected) {
+  return `
+    <section class="pa-v73-workbench" aria-label="Premium Alerts desk workbench">
+      <div class="pa-v73-center-stage">
+        <section class="pa-v73-hero-lanes" aria-label="Premium bullish and bearish alert lanes">
+          ${renderPickaxeAlerts01ResearchLane(selected, "bullish")}
+          ${renderPickaxeAlerts01ResearchLane(selected, "bearish")}
+        </section>
+        <section class="pa-v73-gate-row" aria-label="Selected ticker options and evidence gates">
+          ${renderPickaxeAlerts01OptionsGate(selected)}
+          ${renderPickaxeAlerts01EvidenceState(selected)}
+        </section>
+      </div>
+      <aside class="pa-v73-side-widgets" aria-label="Right side source-gated support widgets">
+        ${renderPickaxeAlerts01WatchlistSupportWidget(selected)}
+        ${renderPickaxeAlerts01MarketHealthWidget()}
+        ${renderPickaxeAlerts01Readiness(selected)}
+      </aside>
+    </section>
   `;
 }
 
@@ -12273,54 +12403,21 @@ function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
   const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   const selected = getPickaxeAlerts01WatchlistItem();
   return `
-    <section class="pickaxe-alerts-01 pa-v72" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v7-2-simplified-command-desk" data-alerts-runtime="static-source-gated">
+    <section class="pickaxe-alerts-01 pa-v73" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v7-3-premium-reference-alerts-desk" data-alerts-runtime="static-source-gated">
       <div class="pa-noise" aria-hidden="true"></div>
       ${renderPickaxeAlerts01AssetFilters()}
-      <header class="pa-titlebar pa-v72-titlebar">
-        <div>
-          <span aria-hidden="true"></span>
-          <small class="pa-v7-product-label">Pickaxe Capital · v7.2 Simplified Command Desk</small>
-          <h1 id="pickaxeAlerts01Title">Alerts Cockpit</h1>
-          <p><i></i> Source-gated watchlist command desk · simpler, blocked, review-only.</p>
-          <nav class="pa-v7-status-strip" aria-label="Alerts cockpit static safety state">
-            ${["STATIC DEMO", "BLOCKED", "SOURCE REQUIRED", "NO VERIFIED TIMESTAMP", "NO PROVIDER SNAPSHOT", "NO EXTERNAL ACTION"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
-          </nav>
-        </div>
-        <aside>
-          <strong>WATCHLIST FIRST</strong>
-          <small>${escapeHtml(selected.ticker)} · ${escapeHtml(getPickaxeAlerts01OptionBadge(selected))} · ${escapeHtml(getAlertsCommandQueueBadge(liveStatus))} · NO BROKER EXECUTION</small>
-        </aside>
-      </header>
-
+      ${renderPickaxeAlerts01PremiumHeader(selected, liveStatus)}
+      ${renderPickaxeAlerts01TopModules(selected)}
       ${renderPickaxeAlerts01WatchlistQueue(selected)}
-
-      <section class="pa-v72-top-grid" aria-label="Selected ticker and readiness workflow">
-        ${renderPickaxeAlerts01SelectedTickerCard(selected)}
-        ${renderPickaxeAlerts01Readiness(selected)}
-      </section>
-
-      <section class="pa-v72-lanes" aria-label="Selected ticker compact bullish and bearish research lanes">
-        ${renderPickaxeAlerts01ResearchLane(selected, "bullish")}
-        ${renderPickaxeAlerts01ResearchLane(selected, "bearish")}
-      </section>
-
-      <section class="pa-v72-gates" aria-label="Selected ticker compact options and evidence gates">
-        ${renderPickaxeAlerts01OptionsGate(selected)}
-        ${renderPickaxeAlerts01EvidenceState(selected)}
-      </section>
-
-      <section class="pa-v72-support" aria-label="Secondary source and PET support">
-        ${renderPickaxeAlerts01XNotesCard()}
-        ${renderPickaxeAlerts01PetCardV71(selected)}
-      </section>
-
-      <footer class="pa-footer">
+      ${renderPickaxeAlerts01PremiumWorkbench(selected)}
+      <footer class="pa-footer pa-v73-footer">
         <strong>Research. Discipline. Verification.</strong>
         <span>Not financial advice. For educational purposes only. Static demo only. No buy/sell instruction. No verified options chain. No broker execution. ${escapeHtml(getAlertsCommandQueueBadge(liveStatus))} · NO PROVIDER SNAPSHOT · NO EXTERNAL ACTION.</span>
       </footer>
     </section>
   `;
 }
+
 function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
   const candidate = getSelectedAlertsCandidate();
   const score = scoreIntelligenceCandidate(candidate);

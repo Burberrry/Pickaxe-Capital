@@ -2,6 +2,32 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Cockpit v7.3 Premium Reference Alerts Desk is **PASS / ALERTS COCKPIT V7.3 PREMIUM REFERENCE ALERTS DESK READY FOR CEO B LOCAL REVIEW**.
+
+- Base branch: `codex/alerts-cockpit-v7-2-real-simplification-20260628`.
+- Base commit: `e1caf60c4e44a9a323de9a76586b4c80635a3904` (`Simplify Alerts cockpit command desk`).
+- Protected hosted baseline preserved: `0eedb625bfcf5de7bb6fef00a92187a562b9a7bc` (`Align v7.1 hosted app cache key`).
+- Branch: `codex/alerts-cockpit-v7-3-premium-reference-alerts-desk-20260629`.
+- Safety branch: `backup/pre-alerts-cockpit-v7-3-premium-reference-20260629`.
+- Work is local-only. No push or deploy was performed.
+- Real v7.3 implementation exists in app/style code, not just cache/status files: `public/app.js`, `app.js`, `public/styles.css`, and `styles.css` contain the premium reference Alerts Desk changes and runtime marker `data-alerts-cockpit-version="v7-3-premium-reference-alerts-desk"`.
+- Visual/product direction: premium black/obsidian/gold terminal, cleaner left rail, strong `ALERTS` header, compact source-gated market strip, four premium top modules, central bullish/bearish alert lanes, compact X Source Deck, premium PET co-pilot, right-side Watchlist/Market Health/Readiness widgets, and premium footer.
+- Watchlist remains full and source-gated: `SPY`, `QQQ`, `NVDA`, `AAPL`, `GLD`, `USO`, `WTI`, `SLV`, `VIX`, `TSLA`, `SPCX`, `AMD`, `BTC`, `ETH`, `MSFT`, `GOOGL`, `BRK.B`, `SECTORS`.
+- Selected ticker workflow passed for `NVDA`, `AAPL`, `AMD`, `MSFT`, and `GLD`: selected ticker card, bullish lane, bearish lane, options-chain gate, evidence/review state, and watchlist highlight update.
+- Top modules are source-gated/display-only: `Bull vs Bear Ratio`, `Fear & Greed`, `X Source Deck`, and `Pickaxe PET`; no fake live values or provider timestamps were added.
+- Options Chain Gate remains safe: `CONTRACT BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED OPTIONS CHAIN`, `NO BID / ASK`, `NO VOLUME`, `NO OPEN INTEREST`, `NO IV / GREEKS`, `NO BUY/SELL INSTRUCTION`, and `NO EXTERNAL ACTION`.
+- X Source Deck remains manual/static: collapsed premium notification groups by default; expanded/manual state includes all 26 approved handles; no fake tweets, timestamps, live feed, scraping, X API, endorsement, or trading instruction.
+- PET remains local helper only with required copy and response: `Local helper only · source verification required.` and `PET note opened · local research helper only · source verification required · no external action.`
+- Browser QA passed for `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`; regression route QA passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, and RK Tracker.
+- Screenshot proof and QA summary are under `/tmp/pickaxe-alerts-cockpit-v7-3-premium-reference-alerts-desk/`.
+- Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+
+Next bounded step: CEO B local review of v7.3. Push/deploy remains blocked until explicitly requested after approval.
+
+Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, and broker/execution/payment/auth/subscription/alert-delivery remain blocked. Do not start provider work, enable public live data, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Cockpit v7.2 Real Simplification
+
 Pickaxe Alerts Cockpit v7.2 Real Simplification is **PASS / ALERTS COCKPIT V7.2 SIMPLIFIED COMMAND DESK READY FOR CEO B LOCAL REVIEW**.
 
 - Protected hosted baseline preserved: `0eedb625bfcf5de7bb6fef00a92187a562b9a7bc` (`Align v7.1 hosted app cache key`).

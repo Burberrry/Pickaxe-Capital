@@ -1,6 +1,37 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Cockpit v7.2 Real Simplification
+## Current Checkpoint - Pickaxe Alerts Cockpit v7.3 Premium Reference Alerts Desk
+
+- Date: 2026-06-29.
+- Result: **PASS / ALERTS COCKPIT V7.3 PREMIUM REFERENCE ALERTS DESK READY FOR CEO B LOCAL REVIEW**.
+- Base branch: `codex/alerts-cockpit-v7-2-real-simplification-20260628`.
+- Base commit: `e1caf60c4e44a9a323de9a76586b4c80635a3904` (`Simplify Alerts cockpit command desk`).
+- Protected hosted baseline preserved: `0eedb625bfcf5de7bb6fef00a92187a562b9a7bc` (`Align v7.1 hosted app cache key`).
+- Branch: `codex/alerts-cockpit-v7-3-premium-reference-alerts-desk-20260629`.
+- Safety branch: `backup/pre-alerts-cockpit-v7-3-premium-reference-20260629`.
+- Sprint type: local-only v7.3 visual/product rebuild. No push, deploy, provider activation, public live data, fake live data, fake prices, fake timestamps, fake contracts, fake X posts, broker/execution/order/payment/auth/subscription/alert-delivery behavior, new route, server/provider file, package script, `.env`, `.env.local`, `data/signal-alerts.json`, `habitat-data.js`, `public/habitat-data.js`, image asset, or route bridge change was authorized or added.
+- Runtime marker added: `data-alerts-cockpit-version="v7-3-premium-reference-alerts-desk"`; cache keys updated to `alerts-cockpit-v7-3-premium-reference-alerts-desk-20260629-r1` for local QA.
+- Real implementation proof exists in `public/app.js`, `app.js`, `public/styles.css`, and `styles.css`: Alerts header, top modules, watchlist selector, selected ticker card, central bullish/bearish lanes, Options Chain Gate, X Source Deck, PET, right-side support widgets, footer, and Alerts rail were rebuilt in app/style code.
+- Visual direction: premium black/obsidian/gold terminal, cleaner left rail, strong `ALERTS` header, compact market/status strip, four top modules (`Bull vs Bear Ratio`, `Fear & Greed`, `X Source Deck`, `Pickaxe PET`), central premium bullish/bearish alert lanes, and right-side Watchlist/Market Health/Readiness widgets.
+- Product truth preserved: full 18-ticker watchlist; selected ticker workflow; source-gated blocked Options Chain Gate; manual/static X Source Deck; local-helper-only PET; no fake market data; no trade-ticket behavior; no external action.
+- Interaction QA passed: `NVDA`, `AAPL`, `AMD`, `MSFT`, and `GLD` update selected ticker card, bullish lane, bearish lane, options-chain gate, review/evidence state, and watchlist highlight.
+- Browser QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`: correct active view, nonblank content, no relevant console errors, no document-level horizontal overflow, one visible Starlight canvas, no provider browser calls, no exposed secret values, 18 watchlist tickers, four top modules, and v7.3 marker present.
+- X Source Deck expanded/manual state includes all 26 approved handles and remains safe: no fake tweets, no fake timestamps, no live feed, no scraping, no X API, no endorsement, and no trading instruction.
+- PET copy and action response verified: `Local helper only · source verification required.` and `PET note opened · local research helper only · source verification required · no external action.`
+- Safety/source truth remains visible or reachable: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+- Screenshot proof directory: `/tmp/pickaxe-alerts-cockpit-v7-3-premium-reference-alerts-desk/`; QA summary: `/tmp/pickaxe-alerts-cockpit-v7-3-premium-reference-alerts-desk/v73-local-qa-summary.json`.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+- Next bounded recommendation: `CEO B local review of Pickaxe Alerts Cockpit v7.3 Premium Reference Alerts Desk`.
+
+### Pickaxe Alerts Cockpit v7.3 Premium Reference Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Cockpit v7.2 Real Simplification
 
 - Date: 2026-06-29.
 - Result: **PASS / ALERTS COCKPIT V7.2 SIMPLIFIED COMMAND DESK READY FOR CEO B LOCAL REVIEW**.
