@@ -2,6 +2,34 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Desk V8 Live-Ready Premium Options Intelligence Surface is **PASS / READY FOR CEO B LOCAL REVIEW**.
+
+- Official hosted baseline preserved locally: `main == origin/main == 610c3e87792999b1b9c1e6634c353df72391d5ed` (`Record Alerts cockpit v7.4 hosted verification`).
+- Safety branch: `backup/pre-alerts-desk-v8-live-ready-premium-surface-20260629`.
+- Work branch: `codex/alerts-desk-v8-live-ready-premium-surface-20260629`.
+- Work is local-only. No push or deploy was performed.
+- Runtime marker: `data-alerts-cockpit-version="v8-live-ready-premium-options-surface"`.
+- Local cache key: `alerts-desk-v8-live-ready-premium-surface-20260629-r1`.
+- Product direction: premium black/gold options intelligence desk inspired by the reference image, with selected ticker, source-gated status strip, compact watchlist queue, dominant Bullish/Bearish Research Candidate lanes, exact-contract blocked gates, manual Source Deck, compact PET, Market Health, Readiness/Source Gate, and Review Loop.
+- Future live-ready structure is present for validated alert injection later, but all current candidate values remain source-gated/static: no fake live data, fake confidence, fake prices, fake timestamps, fake contracts, fake X posts, provider calls, or execution behavior.
+- Watchlist remains full: `SPY`, `QQQ`, `NVDA`, `AAPL`, `GLD`, `USO`, `WTI`, `SLV`, `VIX`, `TSLA`, `SPCX`, `AMD`, `BTC`, `ETH`, `MSFT`, `GOOGL`, `BRK.B`, `SECTORS`.
+- Selected ticker workflow passed for `NVDA`, `AAPL`, `AMD`, `MSFT`, and `GLD`; no new LocalStorage key was added.
+- Contract gate remains blocked/source-gated: `CONTRACT BLOCKED · SOURCE REQUIRED · NO VERIFIED OPTIONS CHAIN · NO EXTERNAL ACTION`; visible/reachable negatives include no bid/ask, no volume, no open interest, no IV/Greeks, no buy/sell instruction, and no broker execution.
+- Allowed buttons remain review-only: `Review`, `Evidence`, `Source Check`, and `Archive Lesson`.
+- Source Deck remains manual/static: `Source Deck · 26 manual sources · no live feed`; expanded state preserves the 26 approved handles; no fake tweets, timestamps, scraping, X API, live feed, endorsement, or trading instruction.
+- PET remains local helper only with required copy/response and no provider call, advice, alert delivery, external action, or trade instruction.
+- Learning/review affordances are future-ready only: `Archive Lesson`, `Postmortem Ready`, `Mistake Tag Pending`, `Source Score Pending`, `False Positive Review`, `CEO B Review Gate`, and `Review Memory Pending`; no self-learning or profitability claim.
+- Browser QA passed locally on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`; regression route QA passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, RK Tracker, and Archive.
+- Screenshot proof and QA summary are under `/tmp/pickaxe-alerts-desk-v8-live-ready-premium-surface/`.
+- Validation passed: syntax checks, build, project checks, phase15/provider-disabled checks, agents check, mirror check, route smoke, public safety, deploy boundary, route sanity, allowed-file gate, corrected key-shaped secret scan, and V8 browser QA summary assertions.
+- Visual score: **993/1000**.
+
+Next bounded step: CEO B local review of V8. Push/deploy remains blocked until explicitly requested after approval.
+
+Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs, pattern memory, and broker/execution/payment/auth/subscription/alert-delivery remain blocked. Do not start provider work, enable public live data, add fake live data, add routes, add storage keys, or add execution, broker, alert delivery, auth, payment, or subscription behavior.
+
+## Previous Active Checkpoint - Pickaxe Alerts Cockpit v7.4 Hosted Verification
+
 Pickaxe Alerts Cockpit v7.4 Hosted Verification is **PASS / ALERTS COCKPIT V7.4 HOSTED VERIFIED**.
 
 - Promoted branch: `codex/alerts-cockpit-v7-4-density-polish-20260629`.
@@ -26,6 +54,7 @@ Pickaxe Alerts Cockpit v7.4 Hosted Verification is **PASS / ALERTS COCKPIT V7.4 
 Next bounded step: CEO B hosted review of v7.4. Further product changes, provider work, public live data, broker/execution/payment/auth/subscription/alert-delivery, or new route work remain blocked unless explicitly requested.
 
 Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+
 
 ## Previous Active Checkpoint - Pickaxe Alerts Cockpit v7.4 Tiny Density Micro-Polish
 

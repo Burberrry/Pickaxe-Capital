@@ -1,6 +1,44 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Cockpit v7.4 Hosted Verification
+## Current Checkpoint - Pickaxe Alerts Desk V8 Live-Ready Premium Options Intelligence Surface
+
+- Date: 2026-06-29.
+- Result: **PASS / PICKAXE ALERTS DESK V8 READY FOR CEO B LOCAL REVIEW**.
+- Official hosted baseline preserved locally: `main == origin/main == 610c3e87792999b1b9c1e6634c353df72391d5ed` (`Record Alerts cockpit v7.4 hosted verification`).
+- Safety branch: `backup/pre-alerts-desk-v8-live-ready-premium-surface-20260629`.
+- Work branch: `codex/alerts-desk-v8-live-ready-premium-surface-20260629`.
+- Sprint type: local-only product-finishing build. No push, deploy, provider activation, public live data, fake market data, fake timestamps, fake options contracts, fake X posts, broker/execution/order/payment/auth/subscription/alert-delivery behavior, new route, server/provider file, package script, `.env`, `.env.local`, `data/signal-alerts.json`, `habitat-data.js`, `public/habitat-data.js`, image asset, or route bridge change was authorized or added.
+- Runtime marker updated to `data-alerts-cockpit-version="v8-live-ready-premium-options-surface"`; local cache keys updated to `alerts-desk-v8-live-ready-premium-surface-20260629-r1`.
+- V8 builds a live-ready but source-gated premium options intelligence surface: selected ticker card, source-gated status strip, compact 18-ticker watchlist queue, dominant Bullish/Bearish Research Candidate hero lanes, exact-contract blocked gates, compact premium right rail, PET, Market Health, Readiness/Source Gate, Review Loop, and manual Source Deck.
+- Future injection structure exists in allowed app code for alert candidates: ticker, asset class, bias, timeframe, thesis, source status, timestamp status, options-chain status, evidence status, risk gate, confidence gate, CEO B gate, contract gate, display mode, and review loop. Current values remain source-gated/static unless verified.
+- Hero lanes are materially stronger than v7.4: black/gold command-center treatment, green bullish lane, red bearish lane, cinematic bull/bear anchors, source-gated confidence display only, evidence summaries, blocked exact-contract gates, and review-only buttons.
+- No fake confidence score was added. Confidence remains `CONFIDENCE LOCKED` / display-only until verified; no live values, no win-rate, and no expected-return claim are shown.
+- Watchlist remains full and source-gated: `SPY`, `QQQ`, `NVDA`, `AAPL`, `GLD`, `USO`, `WTI`, `SLV`, `VIX`, `TSLA`, `SPCX`, `AMD`, `BTC`, `ETH`, `MSFT`, `GOOGL`, `BRK.B`, `SECTORS`.
+- Selected ticker workflow passed for `NVDA`, `AAPL`, `AMD`, `MSFT`, and `GLD`: selected ticker card, bullish lane, bearish lane, contract gate, right rail context, watchlist highlight, and displayed alert candidate labels update without adding new LocalStorage keys.
+- Exact contract gate remains blocked and future-ready: `CONTRACT BLOCKED · SOURCE REQUIRED · NO VERIFIED OPTIONS CHAIN · NO EXTERNAL ACTION`; visible/reachable safety text includes no bid/ask, no volume, no open interest, no IV/Greeks, no buy/sell instruction, and no broker execution.
+- Allowed buttons are review-only: `Review`, `Evidence`, `Source Check`, and `Archive Lesson`. No buy/sell/trade/execute/order/fill controls or trade-ticket visuals were added.
+- Source Deck remains manual/static: default `Source Deck · 26 manual sources · no live feed`; expanded state preserves all 26 approved handles grouped by source type. No fake tweets, timestamps, scraping, X API/browser X requests, live feed, endorsement, or trading instruction.
+- PET remains compact/local-only with copy `Local helper only · source verification required.` and response `PET note opened · local research helper only · source verification required · no external action.`; no advice, provider call, alert delivery, trade instruction, or external action.
+- Learning/review affordances are compact and future-ready only: `Archive Lesson`, `Postmortem Ready`, `Mistake Tag Pending`, `Source Score Pending`, `False Positive Review`, `CEO B Review Gate`, and `Review Memory Pending`; no self-learning, market-memory, source-library, or profitability claim was added.
+- Browser QA passed locally on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`: correct active view, nonblank V8 content, no relevant console errors, no document-level horizontal overflow, one visible Starlight canvas, no provider browser calls beyond the existing disabled local health boundary, no X browser calls, no exposed key-shaped secrets, no fake market data, no forbidden action buttons, and no visible/actionable `glint.trade`.
+- Regression route QA passed for `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, `/life-os`, `/#/rkTracker`, and `/#/archive`.
+- Screenshot proof directory: `/tmp/pickaxe-alerts-desk-v8-live-ready-premium-surface/`; QA summary: `/tmp/pickaxe-alerts-desk-v8-live-ready-premium-surface/v8-local-qa-summary.json`.
+- Required screenshots captured: `baseline-v7-4-hosted-desktop.png`, `after-desktop-default.png`, `after-desktop-nvda.png`, `after-desktop-aapl.png`, `after-desktop-amd.png`, `after-desktop-msft.png`, `after-desktop-gld.png`, `after-desktop-source-deck-expanded.png`, `after-desktop-pet-action.png`, `after-mobile-default.png`, `after-mobile-nvda.png`, and `after-mobile-pet.png`.
+- Safety/source truth remains visible or reachable: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+- Validation passed: syntax checks, build, project checks, phase15/provider-disabled checks, agents check, mirror check, route smoke, public safety, deploy boundary, route sanity, allowed-file gate, corrected key-shaped secret scan, and V8 browser QA summary assertions.
+- Visual score: **993/1000**. V8 is materially closer to the premium reference direction than v7.4 while remaining safer, source-gated, and understandable within five seconds.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs, pattern memory, and broker/execution/payment/auth/subscription/alert-delivery remain blocked until explicitly authorized.
+- Next bounded recommendation: `CEO B local review of Pickaxe Alerts Desk V8`. Do not push or deploy without explicit approval.
+
+### Pickaxe Alerts Desk V8 Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Cockpit v7.4 Hosted Verification
 
 - Date: 2026-06-29.
 - Result: **PASS / ALERTS COCKPIT V7.4 HOSTED VERIFIED**.
