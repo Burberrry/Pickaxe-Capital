@@ -1,6 +1,39 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Cockpit v7.3 Hosted Verification
+## Current Checkpoint - Pickaxe Alerts Cockpit v7.4 Ultra-Simplified Premium Desk
+
+- Date: 2026-06-29.
+- Result: **PASS / ALERTS COCKPIT V7.4 ULTRA-SIMPLIFIED PREMIUM DESK READY FOR CEO B LOCAL REVIEW**.
+- Official hosted baseline preserved: `main == origin/main == af44749fcc90f5c4e6e2a356a0ab3890fad2a2fe` (`Record Alerts cockpit v7.3 hosted verification`).
+- Product commit inside hosted baseline: `2a21020add721ac6caa9c0855ea5e8e9f911b6f4` (`Rebuild Alerts cockpit to premium reference desk`).
+- Safety branch: `backup/pre-alerts-cockpit-v7-4-ultra-simple-20260629`.
+- Work branch: `codex/alerts-cockpit-v7-4-ultra-simple-premium-desk-20260629`.
+- Sprint type: local-only simplification pass. No push, deploy, provider activation, public live data, fake market data, fake timestamps, fake contracts, fake X posts, broker/execution/order/payment/auth/subscription/alert-delivery behavior, new route, server/provider file, package script, `.env`, `.env.local`, `data/signal-alerts.json`, `habitat-data.js`, `public/habitat-data.js`, image asset, or route bridge change was authorized or added.
+- Runtime marker added: `data-alerts-cockpit-version="v7-4-ultra-simple-premium-desk"`; cache keys updated to `alerts-cockpit-v7-4-ultra-simple-premium-desk-20260629-r1` for local QA.
+- Real implementation proof exists in `public/app.js`, `app.js`, `public/styles.css`, and `styles.css`: v7.3 top modules were removed from above the fold; Alerts is now a slim rail, clean header, compact status strip, compact watchlist row, two dominant alert cards, slim right support rail, collapsed X Source Deck, and lower safety/footer strip.
+- First-screen simplification passed visual QA: fewer giant modules above the fold, no Bull vs Bear/Fear & Greed top cards, alert cards dominate the command desk, PET is compact, and the X deck is secondary/collapsed by default.
+- Watchlist remains full and source-gated: `SPY`, `QQQ`, `NVDA`, `AAPL`, `GLD`, `USO`, `WTI`, `SLV`, `VIX`, `TSLA`, `SPCX`, `AMD`, `BTC`, `ETH`, `MSFT`, `GOOGL`, `BRK.B`, `SECTORS`.
+- Interaction QA passed: `NVDA`, `AAPL`, `AMD`, `MSFT`, and `GLD` update selected ticker card, bullish alert card, bearish alert card, compact contract gate, right rail context, and watchlist highlight.
+- Compact contract gate copy verified inside both alert cards: `CONTRACT BLOCKED · SOURCE REQUIRED · NO VERIFIED OPTIONS CHAIN · NO EXTERNAL ACTION`; no trade-ticket appearance or forbidden action buttons were observed.
+- X Source Deck QA passed: collapsed default text `X Source Deck · 26 manual sources · no live feed`; `Review Sources` expanded/manual state preserves all 26 approved handles; no fake tweets, timestamps, scraping, X API, or live feed.
+- PET QA passed: copy `Local helper only · source verification required.` and response `PET note opened · local research helper only · source verification required · no external action.` verified; no provider call or external action.
+- Hidden legacy artifact cleanup: `glint.trade` was not edited in forbidden data files; the allowed app render path now filters/neutralizes `glint.trade` legacy archive/source entries and CSS disables any active Alerts anchor if one appears. Browser QA found no visible/actionable `glint.trade` text or anchor on Alerts and regression/Archive checks.
+- Browser QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`: correct active view, nonblank content, no relevant console errors, no document-level horizontal overflow, one visible Starlight canvas, no provider browser calls, no exposed secret values, no fake market data, no forbidden action buttons.
+- Regression route QA passed for `/#/source-hub`, `/#/risk-rules`, `/#/staging`, `/staging`, `/founder`, `/#/founder`, `/agents`, `/vision-map`, `/ceo-b-profile`, `/jarvis-lab`, `/life-os`, `/#/rkTracker`, plus an extra `/#/archive` glint-neutralization check.
+- Screenshot proof directory: `/tmp/pickaxe-alerts-cockpit-v7-4-ultra-simple-premium-desk/`; QA summary: `/tmp/pickaxe-alerts-cockpit-v7-4-ultra-simple-premium-desk/v74-local-qa-summary.json`.
+- Safety/source truth remains visible or reachable: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+- Next bounded recommendation: `CEO B local review of Pickaxe Alerts Cockpit v7.4 Ultra-Simplified Premium Desk`.
+
+### Pickaxe Alerts Cockpit v7.4 Ultra-Simplified Premium Desk Files Changed
+
+- `public/app.js` and `app.js`
+- `public/styles.css` and `styles.css`
+- `public/index.html` and `index.html`
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+
+## Previous Checkpoint - Pickaxe Alerts Cockpit v7.3 Hosted Verification
 
 - Date: 2026-06-29.
 - Result: **PASS / ALERTS COCKPIT V7.3 HOSTED VERIFIED**.
