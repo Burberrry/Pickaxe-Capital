@@ -1,6 +1,33 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Desk V8.1 Public Bundle Cleanup
+## Current Checkpoint - Pickaxe Alerts Desk V8.1 Public Bundle Cleanup Hosted Verification
+
+- Date: 2026-06-29.
+- Result: **PASS / V8.1 PUBLIC BUNDLE CLEANUP HOSTED VERIFIED**.
+- Cleanup commit promoted: `31358c019e1446a70c599f17c96a617870c98317` (`Clean V8.1 public bundle legacy artifacts`).
+- Previous hosted baseline: `09a8275248c2bb62a328d7165d4760419b75d3c9` (`Record Alerts desk V8.1 hosted verification`).
+- Branch promoted: `codex/alerts-desk-v8-1-public-bundle-cleanup-20260629`.
+- Safety branch: `backup/pre-alerts-desk-v8-1-cleanup-hosted-20260629`.
+- GitHub Pages workflow: `Validate and Deploy GitHub Pages` run `28374324434` — `success`.
+- Validate and Build job: `84059893519` — `success`.
+- Deploy job: `84059965327` — `success`.
+- Pages deployment: `5239587424`; deployment status `14908614652` — `success`; hosted URL `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted screenshots and QA records: `/tmp/pickaxe-alerts-desk-v8-1-cleanup-hosted/`.
+- Hosted artifact cleanup QA: public root/app/style assets had zero forbidden legacy artifact hits; no exact-contract generator remnants, no replacement trading/execution link, runtime marker preserved, and safety copy preserved.
+- Hosted route QA: `/`, `/#/alerts`, and `/app/alerts` passed across desktop/mobile viewports; `13` regression routes passed; `5` ticker-selection checks passed.
+- Static-public boundary QA: `18` sensitive/static boundary probes passed with no exposed secrets, private files, provider response cache, or legacy trading-domain artifact.
+- V8.1 behavior preserved: one active alert hero, no dual equal Bull/Bear hero lanes, Bull/CALL for bullish candidate, Bear/PUT for bearish/risk candidate, compact `Counter-Risk Check`, blocked exact contract gate, full 18-ticker watchlist, manual Source Deck/no live feed, PET local helper only, and honest learning/review labels.
+- Safety/source truth preserved: static demo only, source required, no verified timestamp, no provider snapshot, no fake price/contract/bid-ask/Greeks/volume/OI/confidence, no provider/browser market calls, no X API/scraping/browser X requests, and no broker/order/payment/auth/subscription/alert-delivery behavior.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs/pattern memory, exact verified options-chain display, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+- Final recommendation: **V8.1 CLEAN HOSTED BASELINE APPROVED FOR CEO B REVIEW**.
+
+### Pickaxe Alerts Desk V8.1 Public Bundle Cleanup Hosted Verification Files Changed
+
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `public/index.html` and `index.html` cache/status marker only
+
+## Previous Checkpoint - Pickaxe Alerts Desk V8.1 Public Bundle Cleanup
 
 - Date: 2026-06-29.
 - Result: **PASS / V8.1 PUBLIC BUNDLE LEGACY ARTIFACT CLEANUP READY FOR CODEX QA**.

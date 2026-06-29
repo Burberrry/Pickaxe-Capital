@@ -2,6 +2,22 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Desk V8.1 Public Bundle Cleanup Hosted Verification is **PASS / V8.1 PUBLIC BUNDLE CLEANUP HOSTED VERIFIED**.
+
+- Cleanup commit promoted: `31358c019e1446a70c599f17c96a617870c98317`.
+- Previous hosted baseline: `09a8275248c2bb62a328d7165d4760419b75d3c9`.
+- Branch promoted: `codex/alerts-desk-v8-1-public-bundle-cleanup-20260629`.
+- Safety branch: `backup/pre-alerts-desk-v8-1-cleanup-hosted-20260629`.
+- GitHub Pages workflow run `28374324434` passed; Validate and Build job `success`; Deploy job `success`; deployment `5239587424` status `success`.
+- Hosted proof path: `/tmp/pickaxe-alerts-desk-v8-1-cleanup-hosted/`.
+- Hosted artifact cleanup QA passed: public app/style/root assets contain no forbidden legacy public-bundle artifacts, no exact-contract generator remnants, and no replacement trading/execution link.
+- Hosted V8.1 UI QA passed: one active alert hero, bias-driven Bull/Bear character logic, compact `Counter-Risk Check`, blocked exact contract gate, full watchlist, manual Source Deck, local-only PET, and safety/source-gated copy preserved.
+- Static-public boundary QA passed: no private files, provider libraries, live API payloads, source maps, local paths, provider response cache, exposed secrets, browser provider calls, X API/scraping calls, or broker/order/payment/auth/subscription/alert-delivery calls.
+
+Next bounded step: CEO B review of the clean hosted V8.1 baseline. Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs/pattern memory, exact verified options-chain display, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+
+## Previous Active Checkpoint - Pickaxe Alerts Desk V8.1 Public Bundle Cleanup
+
 Pickaxe Alerts Desk V8.1 Public Bundle Cleanup is **PASS / READY FOR CODEX CLEANUP QA**.
 
 - Baseline confirmed before work: `main == origin/main == 09a8275248c2bb62a328d7165d4760419b75d3c9` (`Record Alerts desk V8.1 hosted verification`).
