@@ -1,6 +1,36 @@
 # Pickaxe Capital Project Status
 
-## Current Checkpoint - Pickaxe Alerts Desk V8.1 Desktop Finished Alerts Desk
+## Current Checkpoint - Pickaxe Alerts Desk V8.1 Desktop Finish Hosted Verification
+
+- Date: 2026-06-29.
+- Result: **PASS / V8.1 DESKTOP FINISH HOSTED VERIFIED**.
+- Promoted commit: `414cf57151c3d50f2e6bdd9f068855d81c67547c` (`Finish Alerts desk V8.1 desktop polish`).
+- Previous hosted baseline: `1f08295725a978ff68dcb8511a0bc66fc77d10cc` (`PICKAXE CAPITAL — ALERTS DESK V8.1 CLEAN HOSTED BASELINE`).
+- Branch promoted: `codex/alerts-desk-v8-1-desktop-finish-20260629`.
+- Safety branch: `backup/pre-alerts-desk-v8-1-desktop-finish-hosted-20260629`.
+- GitHub Pages workflow: `28380116383` (`Validate and Deploy GitHub Pages`).
+- Validate and Build job: `84080131738` — `success`.
+- Deploy job: `84080198562` — `success`.
+- Pages deployment: `5240854934` — `success`.
+- Hosted screenshots path: `/tmp/pickaxe-alerts-desk-v8-1-desktop-finish-hosted/`.
+- Hosted desktop QA: PASS — active hero visually dominant, larger Bull/Bear character, reduced lower-center dead space, compact secondary Counter-Risk Check, integrated right rail, no document-level horizontal overflow, and one visible Starlight canvas.
+- Hosted route QA: PASS — `/`, `/#/alerts`, and `/app/alerts` across desktop viewports; regression routes passed: 13; selected ticker workflow passed for MSFT, GLD, VIX, NVDA, and AAPL.
+- Mobile smoke QA: PASS — 390px smoke checks did not show severe breakage.
+- Public-bundle cleanliness: PASS — hosted root HTML plus hosted app/style product assets had no forbidden cleanup artifact hits and preserved V8.1 runtime marker/safety copy.
+- Static-public boundary QA: PASS — private/env/server/provider/live/cache/source-map paths were not publicly exposed or failed safely.
+- Runtime marker preserved: `data-alerts-cockpit-version="v8-1-single-active-alert-hero"`; hosted status cache key: `alerts-desk-v8-1-desktop-finish-hosted-20260629-r1`.
+- V8.1 safety/source truth preserved: no live data, no provider activation, no fake prices/timestamps/contracts/confidence/X posts, no X API/scraping, no broker/order/payment/auth/subscription/alert-delivery behavior, and no new routes.
+- Remaining blockers: provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs/pattern memory, exact verified options-chain display, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+- Final recommendation: **V8.1 DESKTOP FINISH HOSTED BASELINE APPROVED FOR CEO B REVIEW**.
+
+### Pickaxe Alerts Desk V8.1 Desktop Finish Hosted Verification Files Changed
+
+- `PROJECT_STATUS.md`
+- `NEXT_STEPS.md`
+- `public/index.html`
+- `index.html`
+
+## Previous Checkpoint - Pickaxe Alerts Desk V8.1 Desktop Finished Alerts Desk
 
 - Date: 2026-06-29.
 - Result: **PASS / V8.1 DESKTOP FINISHED ALERTS DESK READY FOR CEO B DESKTOP REVIEW**.

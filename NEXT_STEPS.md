@@ -2,6 +2,23 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Desk V8.1 Desktop Finish Hosted Verification is **PASS / V8.1 DESKTOP FINISH HOSTED VERIFIED**.
+
+- Promoted commit: `414cf57151c3d50f2e6bdd9f068855d81c67547c`.
+- Previous hosted baseline: `1f08295725a978ff68dcb8511a0bc66fc77d10cc`.
+- Branch promoted: `codex/alerts-desk-v8-1-desktop-finish-20260629`.
+- Safety branch: `backup/pre-alerts-desk-v8-1-desktop-finish-hosted-20260629`.
+- GitHub Pages workflow: `28380116383`; Validate and Build `84080131738` `success`; Deploy `84080198562` `success`; deployment `5240854934` `success`.
+- Hosted screenshots and QA records: `/tmp/pickaxe-alerts-desk-v8-1-desktop-finish-hosted/`.
+- Hosted status cache key: `alerts-desk-v8-1-desktop-finish-hosted-20260629-r1`.
+- Desktop QA passed: active hero dominant, Bull/Bear character larger, lower-center dead space reduced, Counter-Risk Check secondary, right rail integrated, watchlist/ticker workflow intact.
+- Mobile smoke, regression routes, static-public boundary, and public-bundle cleanliness passed.
+- No push/deploy remains pending for this checkpoint after the status-record deployment is verified.
+
+Next bounded step: CEO B hosted desktop review. Mobile polish remains deferred unless explicitly requested. Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, source-library ingestion, signal scoring, mistake logs/pattern memory, exact verified options-chain display, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+
+## Previous Active Checkpoint - Pickaxe Alerts Desk V8.1 Desktop Finished Alerts Desk
+
 Pickaxe Alerts Desk V8.1 Desktop Finished Alerts Desk is **PASS / READY FOR CEO B DESKTOP REVIEW**.
 
 - Baseline: `main == origin/main == 1f08295725a978ff68dcb8511a0bc66fc77d10cc`.
