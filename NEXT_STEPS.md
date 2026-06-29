@@ -2,6 +2,33 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Cockpit v7.4 Hosted Verification is **PASS / ALERTS COCKPIT V7.4 HOSTED VERIFIED**.
+
+- Promoted branch: `codex/alerts-cockpit-v7-4-density-polish-20260629`.
+- Promoted commit: `aae20819da4bad936a8a8ae7561a3461b4737604` (`Polish Alerts cockpit v7.4 layout density`).
+- Previous hosted baseline: `af44749fcc90f5c4e6e2a356a0ab3890fad2a2fe` (`Record Alerts cockpit v7.3 hosted verification`).
+- Safety branch: `backup/pre-alerts-cockpit-v7-4-hosted-20260629`.
+- GitHub Pages workflow `28358725104` passed for v7.4. Validate and Build job `84007905119` passed; Deploy job `84007947264` passed. Pages deployment `5236312738` finished with deployment status `14899221843` success.
+- Hosted URL verified: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted visual QA passed on `/`, `/#/alerts`, and `/app/alerts` at `1472x1104`, `1440x900`, `1280x720`, `390x900`, and `390x844`.
+- Runtime marker verified on hosted Alerts routes: `data-alerts-cockpit-version="v7-4-ultra-simple-premium-desk"`; promoted-hosted cache key verified: `alerts-cockpit-v7-4-density-polish-20260629-r1`.
+- Hosted screenshots and QA summary are under `/tmp/pickaxe-alerts-cockpit-v7-4-hosted/`.
+- Full 18-ticker watchlist is visible/reachable; `NVDA`, `AAPL`, `AMD`, `MSFT`, and `GLD` update selected ticker card, bullish alert card, bearish alert card, compact contract gate, right rail context, and watchlist highlight.
+- Compact contract gate remains blocked/source-gated with no fake current contract, fake price, fake timestamp, bid/ask, Greeks, or trade-ticket behavior; allowed buttons remain `Review`, `Evidence`, and `Source Check`.
+- X Source Deck remains manual/static: collapsed/secondary by default, all 26 approved handles present when expanded, no fake tweets, timestamps, live feed, scraping, X API/browser X requests, endorsement, or trading instruction.
+- PET remains local helper only with required copy and response; no provider call or external action.
+- Hidden legacy `glint.trade` remains neutralized: no visible/actionable/product-relevant link and no replacement trading/execution link.
+- Regression route QA passed for Source Hub, Risk Rules, Staging, Founder, Agents, Vision Map, CEO B Profile, Jarvis Lab, Life OS, RK Tracker, and Archive.
+- Static-public boundary QA passed: `.env`, `.env.local`, `server.mjs`, provider-library paths, `/api/live/status`, `/api/live/alerts`, `data/signal-alerts.json`, source maps, private local paths, and provider response cache probes did not expose secrets/server/provider/private data.
+- Safety/source truth remains intact: `BLOCKED`, `SOURCE REQUIRED`, `NO VERIFIED TIMESTAMP`, `NO PROVIDER SNAPSHOT`, `STATIC DEMO`, `NO EXTERNAL ACTION`, `Research. Discipline. Verification.`, `Not financial advice`, `For educational purposes only`, `Static demo only`, `No buy/sell instruction`, `No verified options chain`, and `No broker execution`.
+- Status/cache marker only: `public/index.html` and `index.html` cache keys updated to `alerts-cockpit-v7-4-hosted-20260629-r1`; no product behavior changed during status recording.
+
+Next bounded step: CEO B hosted review of v7.4. Further product changes, provider work, public live data, broker/execution/payment/auth/subscription/alert-delivery, or new route work remain blocked unless explicitly requested.
+
+Provider/legal/credential gates, OPRA/display/commercial rights, server-only provider proof, public live display authorization, and broker/execution/payment/auth/subscription/alert-delivery remain blocked.
+
+## Previous Active Checkpoint - Pickaxe Alerts Cockpit v7.4 Tiny Density Micro-Polish
+
 Pickaxe Alerts Cockpit v7.4 Tiny Density Micro-Polish is **PASS / ALERTS COCKPIT V7.4 DENSITY POLISH READY FOR CEO B FINAL LOCAL REVIEW**.
 
 - Official hosted baseline preserved: `main == origin/main == af44749fcc90f5c4e6e2a356a0ab3890fad2a2fe` (`Record Alerts cockpit v7.3 hosted verification`).
