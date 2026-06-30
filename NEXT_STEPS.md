@@ -2,6 +2,21 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Capital V9.2 Major Visual Product Transformation is **HOSTED VERIFIED / LOCKED**.
+
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted product commit: `bf03cf41a05eaf4cab2e2a6c131809c6a8d047f5`.
+- Hosted static cache key: `pickaxe-capital-v9-2-visual-transformation-hosted-verified-20260630-r1`.
+- Visual delta score: **94 / 100**; product score: **981 / 1000 normalized**.
+- Screenshot/contact-sheet evidence: `/tmp/pickaxe-capital-v9-2-visual-transformation/`.
+- V9.2 visible upgrades shipped: cinematic command-center hero, CEO B Command Launcher, `/` shortcut, guided System Tour, Module Drawer, visual operating map, upgraded route/navigation feel, premium locked states, visible local action console, and mobile first impression improvement.
+- Still blocked until separate CEO B authorization: real providers, credentials/API keys, live quotes, live options chains, exact contract unlock, public quote/options display, provider display rights, alert delivery, execution/broker behavior, auth/payment/subscription, persistence/scoring/postmortem automation.
+- Next safe step: CEO B visual review. Do **not** start V9.3 without explicit scope.
+
+
+
+## Current Active Checkpoint
+
 Pickaxe Capital V9.2 Major Visual Product Transformation is a **PASS / LOCAL RELEASE-PREP CANDIDATE** on branch `codex/pickaxe-capital-v9-2-visual-transformation-20260630`.
 
 - Baseline: `3cd7bae26afb145f1c40bfa9487dd5288cad9225` V9.1 Server Provider Proof Hosted Verified / Locked.
