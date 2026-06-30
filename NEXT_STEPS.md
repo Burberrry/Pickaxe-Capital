@@ -2,6 +2,22 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Capital V9.0 Founder-Ready Website Completion is **HOSTED VERIFIED** at `https://burberrry.github.io/Pickaxe-Capital/`.
+
+- Hosted product commit: `6017a63719cbc30c4aa437ce91c1af73cf113e3e`.
+- Baseline preserved: `e5d08f43a09d0d1bb177cf22944c6695d30e0502` V8.4 Provider Adapter Sandbox Hosted Verified.
+- Runtime marker: `v9-0-website-completion`.
+- Surface marker: `founder-ready-v9-0-website-completion`.
+- Hosted cache key: `pickaxe-capital-v9-0-website-completion-hosted-verified-20260630-r1`.
+- Hosted score: **991 / 1000 normalized**.
+- Evidence/screenshots: `/tmp/pickaxe-capital-v9-0-website-completion/`.
+- V9.0 completion scope: premium founder-ready shells and route polish across the 00-20 operating-system modules while preserving Alerts V8.4 safety gates.
+- Release boundary remains research-only: no live data activation, no provider calls, no credentials, no server/provider/package/data changes, no fake option/market/source values, no execution, no alert delivery, no auth/payment/subscription.
+- Next authorized product step should remain bounded: server-side provider proof / quote snapshot test harness, only after CEO B explicitly authorizes credentials, provider terms/display rights, and server-only implementation scope.
+
+
+## Current Active Checkpoint
+
 Pickaxe Capital V9.0 Founder-Ready Website Completion is a **PASS / LOCAL RELEASE-PREP CANDIDATE** on branch `codex/pickaxe-capital-v9-0-website-completion-20260630`.
 
 - Baseline: `e5d08f43a09d0d1bb177cf22944c6695d30e0502` V8.4 Provider Adapter Sandbox Hosted Verified.

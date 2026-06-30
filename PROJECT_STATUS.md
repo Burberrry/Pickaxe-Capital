@@ -1,5 +1,25 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Capital V9.0 Founder-Ready Website Completion Hosted Verified
+
+- Date: 2026-06-30T08:45:52Z.
+- Result: **PASS / V9.0 WEBSITE COMPLETION HOSTED VERIFIED**.
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted product commit: `6017a63719cbc30c4aa437ce91c1af73cf113e3e`.
+- Baseline confirmed: `e5d08f43a09d0d1bb177cf22944c6695d30e0502` (`PICKAXE CAPITAL — ALERTS DESK V8.4 PROVIDER ADAPTER SANDBOX`, hosted verified/locked).
+- Safety branch: `backup/pre-pickaxe-capital-v9-0-website-completion-20260630`.
+- Work branch: `codex/pickaxe-capital-v9-0-website-completion-20260630`.
+- Runtime marker: `data-alerts-cockpit-version="v9-0-website-completion"`; surface marker: `data-alerts-surface="founder-ready-v9-0-website-completion"`; hosted cache key: `pickaxe-capital-v9-0-website-completion-hosted-verified-20260630-r1`.
+- V8.4 Alerts Desk preserved: one active alert card, 18-ticker watchlist, Bull/Bear ticker switching, exact contract gate blocked/source-gated, Review/Evidence/Source Check/Archive actions, PET local helper, manual Source Deck, provider adapter sandbox, quote snapshot sandbox, options-chain sandbox, stale firewall, gate evaluator, and source receipt/data lineage.
+- V9.0 website completion delivered: premium founder-ready page shell/design system for Mission Control, Command Console, Vision Map, Agent Habitat, Signals Lab, Source Hub, Risk & Rules, Learning Ledger, Trend Radar, Archive Vault, Bookmarks Mine, Money Lab, Staging/QA, AI Habitat OS, Watchlists, Markets Matrix, Options Hub, Catalysts Calendar, Research Desk, Roadmap, and Founder route.
+- Hosted browser QA: 18 required screenshots captured, 9 primary route/viewport checks passed, 13 regression routes passed, 20 module-route checks passed, 2 MSFT/VIX interaction checks passed.
+- Hosted score: **991 / 1000 normalized** (`1138` raw; pass threshold 950/1000).
+- Safety verified: no fake values, no legacy forbidden artifacts, no live data activation, no provider/X browser calls, no exposed secrets, no exact options-contract unlock, no broker/order/execution/payment/auth/subscription/alert-delivery behavior, no disallowed file changes, character assets unchanged, `investor-assets/` untouched.
+- Hosted evidence/screenshots: `/tmp/pickaxe-capital-v9-0-website-completion/`.
+- Deploy note: GitHub API was rate-limited for workflow metadata during verification; hosted no-cache `index.html`, `app.js`, `styles.css`, and full browser QA confirmed the GitHub Pages deployment content.
+- Remaining blockers: real provider credentials, server-only provider proof, verified quote/options-chain ingestion, source library persistence, scoring engine, postmortem persistence, mobile polish, and any broker/execution/auth/payment/subscription/alert-delivery work require separate CEO B authorization.
+
+
 ## Current Checkpoint - Pickaxe Capital V9.0 Founder-Ready Website Completion Local Candidate
 
 - Date: 2026-06-30T07:40:34Z.
