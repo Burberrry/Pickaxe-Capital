@@ -2,6 +2,22 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Desk V8.3 Provider Gate / Server-Only Data Readiness is **HOSTED VERIFIED**.
+
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Product commit: `441be03a6ce988a13f6a51aa5e25a408116413fd`.
+- Pages workflow: `28419825264`.
+- Pages deployment: `5248840610` / `success`.
+- Runtime marker: `v8-3-provider-gate-readiness`.
+- Surface marker: `simple-working-v8-3-provider-gate`.
+- Hosted score: **993 / 1000 normalized**.
+- Evidence/screenshots: `/tmp/pickaxe-alerts-desk-v8-3-provider-gate-readiness/`.
+- Release boundary remains research-only: no live data activation, no provider calls, no credentials, no server/provider/package changes, no fake option/market values, no execution, no alert delivery, no auth/payment/subscription.
+- Next phase should remain separately authorized and source-gated: server-only provider adapter design, verified quote snapshot ingestion, options-chain validation ingestion, stale-firewall runtime, display-rights approval, scoring implementation, postmortem persistence, and CEO B gate workflow.
+
+
+## Current Active Checkpoint
+
 Pickaxe Alerts Desk V8.3 Provider Gate / Server-Only Data Readiness is a **PASS / LOCAL RELEASE-PREP CANDIDATE** on branch `codex/alerts-desk-v8-3-provider-gate-readiness-20260629`.
 
 - Baseline: `912e0da372af31fc1f8c16a3f9e8ed0c8917d29c` V8.2 Intelligence Architecture Hosted Baseline.
