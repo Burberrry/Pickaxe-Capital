@@ -2,6 +2,23 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Capital V9.2 Major Visual Product Transformation is a **PASS / LOCAL RELEASE-PREP CANDIDATE** on branch `codex/pickaxe-capital-v9-2-visual-transformation-20260630`.
+
+- Baseline: `3cd7bae26afb145f1c40bfa9487dd5288cad9225` V9.1 Server Provider Proof Hosted Verified / Locked.
+- Runtime marker: `v9-2-visual-transformation`.
+- Surface marker: `visual-product-transformation-v9-2`.
+- Local cache key: `pickaxe-capital-v9-2-visual-transformation-20260630-r1`.
+- Visual delta score: **94 / 100**. Product score: **981 / 1000 normalized**.
+- Evidence/screenshots: `/tmp/pickaxe-capital-v9-2-visual-transformation/`.
+- Contact sheet: `/tmp/pickaxe-capital-v9-2-visual-transformation/before-after-contact-sheet.png`.
+- V9.2 completed scope: cinematic command-center hero, CEO B command launcher, `/` keyboard shortcut, guided system tour, module drawer, visual operating map, premium locked states, visible local action console, mobile first-screen upgrade, and priority route visual upgrades.
+- Release boundary remains research-only: no live data activation, no provider calls, no credentials, no fake quote/option/source/timestamp/confidence values, no exact contract unlock, no execution, no alert delivery, no auth/payment/subscription.
+- Next bounded step: commit the local candidate; if release gates remain clean, forward-promote to hosted `main`, verify hosted interactions/screenshots, record hosted status, and verify the second deployment.
+
+
+
+## Current Active Checkpoint
+
 Pickaxe Capital V9.1 Server-Side Provider Proof is **HOSTED VERIFIED** at `https://burberrry.github.io/Pickaxe-Capital/`.
 
 - Hosted product commit: `6ecfc329cfaa3b34b15b0ff3d114376925a1d766`.

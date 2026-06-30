@@ -50,6 +50,12 @@ const state = {
   alertsXDeckOpen: false,
   alertsSelectedWatchlistTicker: "SPY",
   alertsSelectedLane: "bullish",
+  v92CommandOpen: false,
+  v92TourOpen: false,
+  v92TourStep: 0,
+  v92DrawerOpen: false,
+  v92DrawerKey: "alerts",
+  v92Impact: null,
   liveAlertsStatus: null,
   liveAlertsPayload: null,
   liveAlertsStatusFetchState: "idle",
@@ -2964,6 +2970,193 @@ window.routeResearchPacket = (packetId, routeAction) => {
 };
 
 
+const PICKAXE_V92_TOUR_STEPS = Object.freeze([
+  ["Alert", "One active research candidate stays visible; no dual hero confusion."],
+  ["Source Gate", "Manual source deck and timestamp proof must arrive first."],
+  ["Quote Gate", "Quote snapshot stays locked until server/provider proof exists."],
+  ["Options Chain Gate", "No strike, expiry, bid/ask, IV, Greeks, volume, or OI without a verified chain."],
+  ["Risk Gate", "Counter-thesis and invalidation stay mandatory before CEO B review."],
+  ["CEO B Gate", "Final discipline gate blocks public display and exact contract unlock."],
+  ["Archive Lesson", "Reviewed outcomes become manual lessons only after postmortem."],
+]);
+
+const PICKAXE_V92_MODULES = Object.freeze({
+  alerts: ["Alerts Desk", "Active candidate, watchlist, local review actions, exact contract lock."],
+  source: ["Source Hub", "Manual source deck, receipt proof, timestamp gate, hosted static guard."],
+  risk: ["Risk & Rules", "No financial advice, no execution, invalidation required."],
+  options: ["Options Hub", "Chain snapshot harness remains locked; exact contract blocked."],
+  habitat: ["AI Habitat OS", "Hermes operator, Codex auditor, CEO B gate, no autonomous external action."],
+  roadmap: ["Roadmap", "V9.2 visual transformation now; provider/live work remains blocked."],
+});
+
+function getPickaxeV92ImpactFallback() {
+  return state.v92Impact || {
+    title: "CEO B COMMAND CENTER READY",
+    label: "Select a ticker or run a local action to update this live command console.",
+    detail: "Local UI only · research only · no provider call · no broker execution · no external action.",
+    action: "standby",
+  };
+}
+
+function setPickaxeV92Impact(payload = {}) {
+  state.v92Impact = {
+    title: payload.title || "LOCAL ACTION UPDATED",
+    label: payload.label || "Local UI action completed safely.",
+    detail: payload.detail || "No external action. No provider call. No persistence.",
+    action: payload.action || "local",
+  };
+}
+
+function renderPickaxeV92GateRail() {
+  const steps = ["Watchlist", "Alert Candidate", "Source", "Quote", "Options Chain", "Risk", "CEO B", "Archive"];
+  return `
+    <ol class="v92-gate-rail" aria-label="Pickaxe source-gated operating rail">
+      ${steps.map((step, index) => `<li class="${index < 2 ? "is-lit" : "is-locked"}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(step)}</strong><em>${index < 2 ? "VISIBLE" : "LOCKED"}</em></li>`).join("")}
+    </ol>
+  `;
+}
+
+function renderPickaxeV92VisualSystemMap() {
+  const nodes = ["Watchlist", "Alert Candidate", "Source Verification", "Quote Snapshot", "Options Chain", "Risk / Inval", "CEO B Gate", "Archive Lesson"];
+  return `
+    <section class="v92-system-map" aria-label="Visual operating map">
+      <header><small>Operating Map</small><strong>Source-gated options research path</strong></header>
+      <div class="v92-map-track">
+        ${nodes.map((node, index) => `<button type="button" class="${index < 2 ? "is-active" : "is-locked"}" onclick="window.pickaxeV92OpenModuleDrawer('${index < 2 ? "alerts" : index < 4 ? "source" : index < 5 ? "options" : index < 6 ? "risk" : index < 7 ? "habitat" : "roadmap"}')"><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(node)}</strong><em>${index < 2 ? "current" : "locked"}</em></button>`).join("<i></i>")}
+      </div>
+    </section>
+  `;
+}
+
+function renderPickaxeV92CommandCenterHero(selected, liveStatus) {
+  const profile = getPickaxeAlerts01ActiveAlertProfile(selected);
+  const impact = getPickaxeV92ImpactFallback();
+  return `
+    <section class="v92-command-hero ${profile.isBearish ? "is-bearish" : "is-bullish"}" aria-label="V9.2 cinematic command-center hero">
+      <div class="v92-hero-glow" aria-hidden="true"></div>
+      <div class="v92-hero-main">
+        <div class="v92-hero-copy">
+          <p class="v92-kicker"><span></span>V9.2 Visual Product Transformation · Static Research OS</p>
+          <h1>Pickaxe Capital <em>Command Center</em></h1>
+          <p class="v92-hero-lede">Premium source-gated options intelligence. One active candidate, visible gate rail, CEO B discipline, no fake data, no external action.</p>
+          <div class="v92-hero-actions" aria-label="V9.2 command actions">
+            <button type="button" onclick="window.pickaxeV92OpenCommandLauncher()">CEO B Command Launcher <kbd>/</kbd></button>
+            <button type="button" onclick="window.pickaxeV92RunTour()">Run System Tour</button>
+            <button type="button" onclick="window.pickaxeV92OpenModuleDrawer('alerts')">Open Module Drawer</button>
+          </div>
+        </div>
+        <aside class="v92-active-asset" aria-label="Active ticker command capsule">
+          <div class="v92-character-ring">${renderPickaxeAlerts01Character(profile.isBearish)}</div>
+          <div>
+            <span>Active Candidate</span>
+            <strong>${escapeHtml(selected.ticker)}</strong>
+            <em>${escapeHtml(profile.tone.title)}</em>
+          </div>
+        </aside>
+      </div>
+      <div class="v92-status-grid" aria-label="Current system status">
+        ${[["SYSTEM", "STATIC RUNTIME"], ["QUOTE", "LOCKED"], ["OPTIONS", "CHAIN REQUIRED"], ["PUBLIC DISPLAY", "LOCKED"], ["CEO B", "GATE REQUIRED"], ["ACTION", "NO EXTERNAL ACTION"]].map(([k,v]) => `<div><span>${escapeHtml(k)}</span><strong>${escapeHtml(v)}</strong></div>`).join("")}
+      </div>
+      <div class="v92-war-room" aria-label="Founder war-room readout">
+        ${[["01", "Command", "One active candidate only"], ["02", "Verification", "Source → quote → chain locked"], ["03", "Discipline", "CEO B gate blocks public display"]].map(([num, title, body]) => `<article><span>${num}</span><strong>${escapeHtml(title)}</strong><p>${escapeHtml(body)}</p></article>`).join("")}
+      </div>
+      ${renderPickaxeV92GateRail()}
+      ${renderPickaxeV92ActionConsole(impact)}
+    </section>
+  `;
+}
+
+function renderPickaxeV92ActionConsole(impact = getPickaxeV92ImpactFallback()) {
+  return `
+    <section class="v92-action-console" aria-live="polite" aria-label="Visible local action result console">
+      <div><span>${escapeHtml(impact.title)}</span><strong>${escapeHtml(impact.label)}</strong><p>${escapeHtml(impact.detail)}</p></div>
+      <aside><b>${escapeHtml(String(impact.action || "local").toUpperCase())}</b><em>LOCAL UI ONLY</em></aside>
+    </section>
+  `;
+}
+
+function renderPickaxeV92ModuleShelf(activeKey = "alerts") {
+  return `
+    <section class="v92-module-shelf" aria-label="Interactive module drawer launcher">
+      ${Object.entries(PICKAXE_V92_MODULES).map(([key, [title, body]], index) => `<button type="button" class="${key === activeKey ? "is-active" : ""}" onclick="window.pickaxeV92OpenModuleDrawer('${key}')"><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(title)}</strong><small>${escapeHtml(body)}</small></button>`).join("")}
+    </section>
+  `;
+}
+
+function renderPickaxeV92CommandLauncher() {
+  if (!state.v92CommandOpen) return "";
+  const actions = [
+    ["Open Alerts Desk", "#/alerts", "alerts"], ["Open Source Hub", "#/source-hub", "source"], ["Open Options Hub", "#/options", "options"],
+    ["Open Risk & Rules", "#/risk-rules", "risk"], ["Open AI Habitat OS", "#/ai-habitat-os", "habitat"], ["Open Roadmap", "#/roadmap", "roadmap"],
+    ["Run Local Safety Check", "safety", "shield"], ["Show Current Locked Baseline", "baseline", "lock"],
+  ];
+  return `
+    <div class="v92-overlay" role="dialog" aria-modal="true" aria-label="CEO B Command Launcher">
+      <button class="v92-overlay-backdrop" type="button" onclick="window.pickaxeV92CloseOverlays()" aria-label="Close command launcher"></button>
+      <section class="v92-command-palette">
+        <header><small>CEO B Command Launcher</small><h2>Move through the OS</h2><button type="button" onclick="window.pickaxeV92CloseOverlays()">Close</button></header>
+        <div class="v92-command-search"><span>/</span><strong>Type-free local launcher · navigation and safety checks only</strong></div>
+        <div class="v92-command-list">
+          ${actions.map(([label, target, key]) => `<button type="button" onclick="window.pickaxeV92Command('${escapeHtml(target)}','${escapeHtml(key)}')"><span>${escapeHtml(key)}</span><strong>${escapeHtml(label)}</strong><em>local only</em></button>`).join("")}
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+function renderPickaxeV92TourOverlay() {
+  if (!state.v92TourOpen) return "";
+  const step = Math.max(0, Math.min(PICKAXE_V92_TOUR_STEPS.length - 1, state.v92TourStep || 0));
+  const [title, body] = PICKAXE_V92_TOUR_STEPS[step];
+  return `
+    <div class="v92-tour-overlay" role="dialog" aria-modal="true" aria-label="CEO B System Tour">
+      <button class="v92-overlay-backdrop" type="button" onclick="window.pickaxeV92CloseOverlays()" aria-label="Close system tour"></button>
+      <section class="v92-tour-card">
+        <header><small>CEO B System Tour</small><strong>${String(step + 1).padStart(2, "0")} / ${PICKAXE_V92_TOUR_STEPS.length}</strong></header>
+        <h2>${escapeHtml(title)}</h2>
+        <p>${escapeHtml(body)}</p>
+        <div class="v92-tour-steps">${PICKAXE_V92_TOUR_STEPS.map((s, i) => `<span class="${i === step ? "is-active" : i < step ? "is-done" : ""}">${escapeHtml(s[0])}</span>`).join("")}</div>
+        <footer><button type="button" onclick="window.pickaxeV92TourStep(-1)">Back</button><button type="button" onclick="window.pickaxeV92TourStep(1)">${step === PICKAXE_V92_TOUR_STEPS.length - 1 ? "Finish" : "Next Gate"}</button></footer>
+      </section>
+    </div>
+  `;
+}
+
+function renderPickaxeV92ModuleDrawer() {
+  if (!state.v92DrawerOpen) return "";
+  const key = state.v92DrawerKey || "alerts";
+  const [title, body] = PICKAXE_V92_MODULES[key] || PICKAXE_V92_MODULES.alerts;
+  const requirements = ["Source required", "Timestamp required", "Quote snapshot required", "Options chain required", "Stale firewall active", "CEO B gate required", "No external action"];
+  return `
+    <div class="v92-drawer-overlay" role="dialog" aria-modal="true" aria-label="V9.2 module drawer">
+      <button class="v92-overlay-backdrop" type="button" onclick="window.pickaxeV92CloseOverlays()" aria-label="Close module drawer"></button>
+      <aside class="v92-module-drawer">
+        <header><small>Interactive Module Drawer</small><h2>${escapeHtml(title)}</h2><button type="button" onclick="window.pickaxeV92CloseOverlays()">Close</button></header>
+        <p>${escapeHtml(body)}</p>
+        ${renderPickaxeV92VisualSystemMap()}
+        <ul>${requirements.map((item) => `<li><span>${escapeHtml(item)}</span><strong>${/No external/i.test(item) ? "LOCKED" : "REQUIRED"}</strong></li>`).join("")}</ul>
+      </aside>
+    </div>
+  `;
+}
+
+function renderPickaxeV92Overlays() {
+  return `${renderPickaxeV92CommandLauncher()}${renderPickaxeV92TourOverlay()}${renderPickaxeV92ModuleDrawer()}`;
+}
+
+function refreshPickaxeV92View() {
+  if (state.activeView === "alerts" && typeof renderAlertsPage === "function") { renderAlertsPage(); return; }
+  if (typeof renderStaticIntelligencePages === "function") { renderStaticIntelligencePages(); return; }
+  if (typeof renderAlertsPage === "function") renderAlertsPage();
+}
+window.pickaxeV92OpenCommandLauncher = () => { state.v92CommandOpen = true; state.v92TourOpen = false; state.v92DrawerOpen = false; setPickaxeV92Impact({ title: "COMMAND LAUNCHER", label: "CEO B launcher opened · local navigation only.", detail: "No external calls. No provider calls. Keyboard shortcut / is active.", action: "launcher" }); refreshPickaxeV92View(); };
+window.pickaxeV92RunTour = () => { state.v92TourOpen = true; state.v92CommandOpen = false; state.v92DrawerOpen = false; state.v92TourStep = 0; setPickaxeV92Impact({ title: "SYSTEM TOUR", label: "Guided gate tour started · visible overlay active.", detail: "Alert → Source → Quote → Chain → Risk → CEO B → Archive.", action: "tour" }); refreshPickaxeV92View(); };
+window.pickaxeV92TourStep = (delta) => { const next = (state.v92TourStep || 0) + Number(delta || 0); if (next >= PICKAXE_V92_TOUR_STEPS.length) { state.v92TourOpen = false; setPickaxeV92Impact({ title: "SYSTEM TOUR COMPLETE", label: "CEO B gate path reviewed locally.", detail: "Tour completed with no external action.", action: "tour-complete" }); } else { state.v92TourStep = Math.max(0, next); } refreshPickaxeV92View(); };
+window.pickaxeV92OpenModuleDrawer = (key = "alerts") => { state.v92DrawerKey = PICKAXE_V92_MODULES[key] ? key : "alerts"; state.v92DrawerOpen = true; state.v92CommandOpen = false; state.v92TourOpen = false; const mod = PICKAXE_V92_MODULES[state.v92DrawerKey]; setPickaxeV92Impact({ title: "MODULE DRAWER", label: `${mod[0]} drawer opened · local UI detail active.`, detail: mod[1], action: "drawer" }); refreshPickaxeV92View(); };
+window.pickaxeV92CloseOverlays = () => { state.v92CommandOpen = false; state.v92TourOpen = false; state.v92DrawerOpen = false; refreshPickaxeV92View(); };
+window.pickaxeV92Command = (target, key) => { if (target === "safety") { setPickaxeV92Impact({ title: "LOCAL SAFETY CHECK", label: "Safety check visible · provider/live/execution remain blocked.", detail: "Research only, no fake data, no broker execution, no external action.", action: "safety" }); state.v92CommandOpen = false; refreshPickaxeV92View(); return; } if (target === "baseline") { setPickaxeV92Impact({ title: "LOCKED BASELINE", label: "V9.1 hosted verified baseline preserved under V9.2 visual layer.", detail: "Baseline SHA 3cd7bae26afb145f1c40bfa9487dd5288cad9225.", action: "baseline" }); state.v92CommandOpen = false; refreshPickaxeV92View(); return; } state.v92CommandOpen = false; setPickaxeV92Impact({ title: "LOCAL NAVIGATION", label: `${key} route opened from command launcher.`, detail: "Navigation only · no provider call · no external action.", action: "nav" }); window.location.hash = target; };
+window.addEventListener("keydown", (event) => { if (event.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || "")) { event.preventDefault(); window.pickaxeV92OpenCommandLauncher(); } if (event.key === "Escape" && (state.v92CommandOpen || state.v92TourOpen || state.v92DrawerOpen)) window.pickaxeV92CloseOverlays(); });
+
 const PICKAXE_V91_HARNESS_ACTIONS = Object.freeze({
   quote: {
     label: "Quote Snapshot Test",
@@ -3328,6 +3521,7 @@ function renderV90PageShell(page) {
           </article>
         `).join("")}
       </section>
+      ${["Source Hub", "Options Hub", "Roadmap", "AI Habitat OS", "Risk & Rules", "Mission Control"].includes(page.title) ? `<div class="v92-page-upgrade">${renderPickaxeV92VisualSystemMap()}${renderPickaxeV92ModuleShelf(page.title === "Options Hub" ? "options" : page.title === "Source Hub" ? "source" : page.title === "Risk & Rules" ? "risk" : page.title === "AI Habitat OS" ? "habitat" : page.title === "Roadmap" ? "roadmap" : "alerts")}</div>` : ""}
       ${["Source Hub", "Options Hub", "Roadmap", "AI Habitat OS"].includes(page.title) ? renderPickaxeV91ProviderProofPanel(page.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")) : ""}
       <footer class="v90-footer-gate">
         <div>
@@ -3336,6 +3530,7 @@ function renderV90PageShell(page) {
         </div>
         <nav>${renderV90ActionLinks(page)}</nav>
       </footer>
+      ${renderPickaxeV92Overlays()}
     </div>
   `;
 }
@@ -12381,7 +12576,7 @@ function renderPickaxeAlerts01PremiumHeader(selected, liveStatus) {
   return `
     <header class="pa-v81-simple-header pa-v82-intelligence-header pa-v83-provider-header pa-v84-sandbox-header">
       <div class="pa-v81-simple-title">
-        <span><i></i>V9.1 · SERVER-SIDE PROVIDER PROOF · STATIC LOCKED</span>
+        <span><i></i>V9.2 · VISUAL COMMAND CENTER · STATIC LOCKED</span>
         <h1 id="pickaxeAlerts01Title">ALERTS <em>DESK</em></h1>
         <p>One active options research candidate · provider adapter, quote snapshot, chain snapshot, stale firewall, display, and CEO B gates before approval</p>
       </div>
@@ -12798,16 +12993,19 @@ function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
   const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   const selected = getPickaxeAlerts01WatchlistItem();
   return `
-    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple pa-v81-final pa-v82-intelligence pa-v83-provider-gate pa-v84-provider-sandbox" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v9-1-server-provider-proof" data-alerts-runtime="static-source-gated" data-alerts-surface="server-provider-proof-v9-1">
+    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple pa-v81-final pa-v82-intelligence pa-v83-provider-gate pa-v84-provider-sandbox" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v9-2-visual-transformation" data-alerts-runtime="static-source-gated" data-alerts-surface="visual-product-transformation-v9-2">
       <div class="pa-noise" aria-hidden="true"></div>
       ${renderPickaxeAlerts01AssetFilters()}
+      ${renderPickaxeV92CommandCenterHero(selected, liveStatus)}
       ${renderPickaxeAlerts01PremiumHeader(selected, liveStatus)}
+      ${renderPickaxeV92ModuleShelf("alerts")}
       ${renderPickaxeAlerts01WatchlistQueue(selected)}
       ${renderPickaxeAlerts01LiveReadyDesk(selected)}
       <footer class="pa-footer pa-v81-simple-footer">
         <strong>Research. Discipline. Verification.</strong>
         <span>BLOCKED · SOURCE REQUIRED · NO VERIFIED TIMESTAMP · NO PROVIDER SNAPSHOT · Not financial advice · For educational purposes only · Static demo only · No buy/sell instruction · No verified options chain · No broker execution · ${escapeHtml(getAlertsCommandQueueBadge(liveStatus))} · NO EXTERNAL ACTION.</span>
       </footer>
+      ${renderPickaxeV92Overlays()}
     </section>
   `;
 }
@@ -13633,6 +13831,7 @@ window.pickaxeAlerts01Select = (id) => {
       label: "Watchlist ticker selected · research state remains source-gated.",
       detail: "In-memory selection only. No persistence, provider call, alert delivery, or external action.",
     };
+    setPickaxeV92Impact({ title: "WATCHLIST SELECTED", label: `${watchlistItem.ticker} loaded into the command center.`, detail: "Selection is local UI state only. Exact contract remains blocked.", action: "select" });
     renderAlertsPage();
     window.setTimeout(() => document.querySelector(`.pa-v71-ticker[aria-pressed="true"]`)?.focus({ preventScroll: true }), 0);
     return;
@@ -13796,6 +13995,7 @@ window.pickaxeAlerts01Action = (id, action) => {
   const payload = actionMap[cleanAction] || fallback;
   state.alertsLocalActions[id] = { status: payload.title, action: cleanAction, ...payload };
   state.alertsLastAction = { id, action: cleanAction, ...payload };
+  setPickaxeV92Impact({ ...payload, action: cleanAction });
   showNotification(payload.label);
   renderAlertsPage();
 };
@@ -13821,7 +14021,7 @@ window.handleAlertsRailSection = (section) => {
   if (!route) return;
   window.setTimeout(() => {
     if (window.location.hash === route) {
-      renderApp();
+      refreshPickaxeV92View();
       return;
     }
     window.location.hash = route;
