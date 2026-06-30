@@ -1,5 +1,26 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Capital V9.1 Server-Side Provider Proof Hosted Verified
+
+- Date: 2026-06-30T10:47:43Z.
+- Result: **PASS / V9.1 SERVER PROVIDER PROOF HOSTED VERIFIED**.
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted product commit: `6ecfc329cfaa3b34b15b0ff3d114376925a1d766`.
+- Baseline confirmed: `05a0a567ef4c98d3b1cfb0236a2fe1a896868fd6` (`PICKAXE CAPITAL — V9.0 WEBSITE COMPLETION`, hosted verified/locked).
+- Safety branch: `backup/pre-pickaxe-capital-v9-1-server-provider-proof-20260630`.
+- Work branch: `codex/pickaxe-capital-v9-1-server-provider-proof-20260630`.
+- Runtime marker: `data-alerts-cockpit-version="v9-1-server-provider-proof"`; surface marker: `data-alerts-surface="server-provider-proof-v9-1"`; hosted cache key: `pickaxe-capital-v9-1-server-provider-proof-hosted-verified-20260630-r1`.
+- V9.1 local server proof harness delivered: `/api/sandbox/quote-snapshot`, `/api/sandbox/options-chain-snapshot`, `/api/sandbox/gate-evaluator`, and `/api/sandbox/source-receipt` return locked/null schemas locally only.
+- Hosted static guard verified: GitHub Pages rendered the public/static V9.1 shell and did not call `/api/sandbox/*` or `/api/live/*`; UI showed local server harness unavailable/provider proof not active.
+- V9.0 website preserved and Alerts V8.4 preserved: full nav/routes, one active alert card, 18-ticker watchlist, MSFT bullish/Bull workflow, VIX bearish/Bear workflow, exact contract blocked, manual source deck, stale firewall/gate/source receipt/public-display locks, no fake values, and no execution behavior.
+- Hosted browser QA: 14 required screenshots captured, 9 primary route/viewport checks passed, 22 regression routes passed, 5 hosted static-guard diagnostic checks passed, and MSFT/VIX interaction checks passed.
+- Hosted score: **990 / 1000 normalized** (pass threshold 950/1000).
+- Safety verified: no fake prices/contracts/timestamps/confidence, no live provider activation, no provider/X browser calls, no credentials/secrets, no exact contract unlock, no broker/order/execution/payment/auth/subscription/alert-delivery behavior, no disallowed file changes, `investor-assets/` untouched.
+- Evidence/screenshots: `/tmp/pickaxe-capital-v9-1-server-provider-proof/`.
+- Remaining blockers: real provider credentials, real provider/API calls, paid data accounts, provider terms/display-right approval, verified quote/options-chain ingestion, public live display, source library persistence, scoring engine, postmortem persistence, broker/order/execution, auth/payment/subscription, and alert delivery require separate CEO B authorization.
+
+
+
 ## Current Checkpoint - Pickaxe Capital V9.1 Server-Side Provider Proof Local Candidate
 
 - Date: 2026-06-30T10:34:13Z.
