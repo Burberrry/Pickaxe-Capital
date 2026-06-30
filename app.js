@@ -12048,14 +12048,14 @@ function getPickaxeAlerts01LiveReadyCandidate(item, lane = getPickaxeAlerts01Act
 
 function renderPickaxeAlerts01PremiumHeader(selected, liveStatus) {
   return `
-    <header class="pa-v81-simple-header pa-v82-intelligence-header pa-v83-provider-header">
+    <header class="pa-v81-simple-header pa-v82-intelligence-header pa-v83-provider-header pa-v84-sandbox-header">
       <div class="pa-v81-simple-title">
-        <span><i></i>V8.3 · PROVIDER GATE / SERVER-ONLY READINESS · STATIC LOCKED</span>
+        <span><i></i>V8.4 · PROVIDER ADAPTER / QUOTE SNAPSHOT SANDBOX · STATIC LOCKED</span>
         <h1 id="pickaxeAlerts01Title">ALERTS <em>DESK</em></h1>
-        <p>One active options research candidate · source, quote, chain, stale firewall, and CEO B gates before approval</p>
+        <p>One active options research candidate · provider adapter, quote snapshot, chain snapshot, stale firewall, display, and CEO B gates before approval</p>
       </div>
-      <nav class="pa-v81-simple-status" aria-label="Primary Alerts source and provider status">
-        ${["STATIC DEMO", "SERVER BOUNDARY REQUIRED", "PUBLIC KEYS BLOCKED", "NO PUBLIC LIVE DATA", "QUOTE LOCKED", "CHAIN REQUIRED", "DISPLAY LOCKED", "NO EXTERNAL ACTION"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+      <nav class="pa-v81-simple-status" aria-label="Primary Alerts sandbox and provider status">
+        ${["STATIC DEMO", "ADAPTER REGISTRY", "SERVER REQUIRED", "NO PUBLIC PROVIDER CALL", "QUOTE SANDBOX", "CHAIN SANDBOX", "GATE EVALUATOR BLOCKED", "NO EXTERNAL ACTION"].map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
       </nav>
     </header>
   `;
@@ -12177,11 +12177,13 @@ function renderPickaxeAlerts01ActiveAlertHero(item) {
           <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'evidence')">Evidence</button>
           <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'source-check')">Source Check</button>
           <button type="button" onclick="window.pickaxeAlerts01Action(${actionArg}, 'archive')">Archive Lesson</button>
-          <button type="button" class="pa-v82-action pa-v83-action" onclick="window.pickaxeAlerts01Action('v83-provider-map', 'provider-gate')">Provider Gate</button>
-          <button type="button" class="pa-v82-action pa-v83-action" onclick="window.pickaxeAlerts01Action('v83-provider-map', 'quote-contract')">Quote Contract</button>
-          <button type="button" class="pa-v82-action pa-v83-action" onclick="window.pickaxeAlerts01Action('v83-provider-map', 'chain-contract')">Chain Contract</button>
-          <button type="button" class="pa-v82-action pa-v83-action" onclick="window.pickaxeAlerts01Action('v83-provider-map', 'stale-firewall')">Stale Firewall</button>
-          <button type="button" class="pa-v82-action pa-v83-action" onclick="window.pickaxeAlerts01Action('v83-provider-map', 'ceo-b-gate')">CEO B Gate</button>
+          <button type="button" class="pa-v82-action pa-v83-action pa-v84-action" onclick="window.pickaxeAlerts01Action('v84-sandbox-map', 'provider-registry')">Provider Registry</button>
+          <button type="button" class="pa-v82-action pa-v83-action pa-v84-action" onclick="window.pickaxeAlerts01Action('v84-sandbox-map', 'quote-snapshot')">Quote Snapshot</button>
+          <button type="button" class="pa-v82-action pa-v83-action pa-v84-action" onclick="window.pickaxeAlerts01Action('v84-sandbox-map', 'chain-snapshot')">Chain Snapshot</button>
+          <button type="button" class="pa-v82-action pa-v83-action pa-v84-action" onclick="window.pickaxeAlerts01Action('v84-sandbox-map', 'stale-firewall')">Stale Firewall</button>
+          <button type="button" class="pa-v82-action pa-v83-action pa-v84-action" onclick="window.pickaxeAlerts01Action('v84-sandbox-map', 'gate-evaluator')">Gate Evaluator</button>
+          <button type="button" class="pa-v82-action pa-v83-action pa-v84-action" onclick="window.pickaxeAlerts01Action('v84-sandbox-map', 'source-receipt')">Source Receipt</button>
+          <button type="button" class="pa-v82-action pa-v83-action pa-v84-action" onclick="window.pickaxeAlerts01Action('v84-sandbox-map', 'display-modes')">Display Modes</button>
         </div>
         ${renderPickaxeAlerts01ActionPanel(scope)}
       </div>
@@ -12237,153 +12239,165 @@ function renderPickaxeAlertsV82ModeRail() {
 }
 
 function renderPickaxeAlertsV82IntelligenceLayer(selected, candidate, profile) {
-  const activeAction = getPickaxeAlerts01ActionFor("v83-provider-map") || getPickaxeAlerts01ActionFor("v82-intelligence-map");
-  const scopeArg = pickaxeAlerts01JsArg("v83-provider-map");
+  const activeAction = getPickaxeAlerts01ActionFor("v84-sandbox-map") || getPickaxeAlerts01ActionFor("v83-provider-map") || getPickaxeAlerts01ActionFor("v82-intelligence-map");
+  const scopeArg = pickaxeAlerts01JsArg("v84-sandbox-map");
   const side = getPickaxeAlerts01CandidateSide(selected, profile);
+  const modeChips = ["UNAVAILABLE", "MANUAL", "DELAYED", "LIVE_LOCKED", "LIVE_VERIFIED", "STALE", "ERROR"];
+  const providerSlots = ["Quote Provider Slot", "Options Chain Provider Slot", "News / Source Provider Slot", "Volatility Provider Slot", "Macro Provider Slot"];
+  const gateRows = [
+    ["Source Gate", "SOURCE REQUIRED"],
+    ["Quote Snapshot Gate", "NO PROVIDER SNAPSHOT"],
+    ["Options Chain Gate", "NO VERIFIED OPTIONS CHAIN"],
+    ["Stale Firewall Gate", "ACTIVE · BLOCKING"],
+    ["Risk / Invalidation Gate", "BLOCKED"],
+    ["CEO B Gate", "REQUIRED"],
+    ["Public Display Gate", "LOCKED"],
+  ];
   return `
-    <section class="pa-v82-intelligence-layer pa-v83-provider-layer" aria-label="Pickaxe Alerts Desk V8.3 provider gate and server-only data readiness">
-      <header class="pa-v82-layer-head pa-v83-layer-head">
+    <section class="pa-v82-intelligence-layer pa-v83-provider-layer pa-v84-sandbox-layer" aria-label="Pickaxe Alerts Desk V8.4 provider adapter and quote snapshot sandbox">
+      <header class="pa-v82-layer-head pa-v83-layer-head pa-v84-layer-head">
         <div>
-          <small>V8.3 Provider Gate / Server-Only Data Readiness · V8.2 source architecture preserved</small>
-          <h2>Provider boundary before ${escapeHtml(selected.ticker)} can qualify</h2>
-          <p>An alert cannot unlock exact options until quote snapshot, options chain, timestamp, stale firewall, source verification, public display authorization, and CEO B gates pass.</p>
+          <small>V8.4 Provider Adapter / Quote Snapshot Sandbox · V8.3 provider gate preserved</small>
+          <h2>Sandbox gates before ${escapeHtml(selected.ticker)} can qualify</h2>
+          <p>A future alert must pass adapter registry, normalized quote snapshot, normalized options-chain snapshot, stale firewall, source receipt, public display authorization, and CEO B final gate. Current state is blocked and static.</p>
         </div>
-        <div class="pa-v82-lock-badge pa-v83-lock-badge"><span>Current Mode</span><strong>STATIC / SOURCE-GATED</strong><em>SERVER BOUNDARY REQUIRED</em></div>
+        <div class="pa-v82-lock-badge pa-v83-lock-badge pa-v84-lock-badge"><span>Sandbox Decision</span><strong>ALERT QUALIFICATION: BLOCKED</strong><em>NO EXTERNAL ACTION</em></div>
       </header>
 
-      <div class="pa-v82-pipeline pa-v83-qualification-pipeline" aria-label="Alert candidate qualification pipeline">
-        ${["Watchlist Scan", "Source Gate", "Quote Snapshot", "Options Chain", "Indicator Stack", "Risk / Invalidation", "CEO B Gate", "Research Candidate", "Archive / Postmortem"].map((step, index) => `<span class="${index === 0 ? "is-ready" : ""}">${escapeHtml(step)}<b>${index === 0 ? "STATIC" : "LOCKED"}</b></span>`).join("")}
+      <div class="pa-v82-pipeline pa-v83-qualification-pipeline pa-v84-sandbox-pipeline" aria-label="Provider adapter sandbox qualification pipeline">
+        ${["Adapter Registry", "Source Receipt", "Quote Snapshot", "Options Chain", "Stale Firewall", "Gate Evaluator", "Public Display", "CEO B Gate", "Archive / Postmortem"].map((step, index) => `<span class="${index === 0 ? "is-ready" : ""}">${escapeHtml(step)}<b>${index === 0 ? "STATIC" : "LOCKED"}</b></span>`).join("")}
       </div>
 
-      <div class="pa-v82-architecture-grid pa-v83-provider-grid">
-        <article class="pa-v82-arch-card pa-v83-boundary-card">
-          <header><small>Server-Only Provider Boundary</small><em>Required</em></header>
-          <h3>PUBLIC KEYS BLOCKED</h3>
+      <div class="pa-v82-architecture-grid pa-v83-provider-grid pa-v84-sandbox-grid">
+        <article class="pa-v82-arch-card pa-v84-registry-card">
+          <header><small>Provider Adapter Registry</small><em>Server required</em></header>
+          <h3>PROVIDER ADAPTER REGISTRY</h3>
           <ul>${renderPickaxeAlertsV82MiniRows([
-            ["Server boundary", "REQUIRED"],
-            ["Provider active", "NO"],
-            ["Client-side calls", "BLOCKED"],
-            ["Public live data", "LOCKED"],
-            ["Browser keys", "NOT PERMITTED"],
-            ["Normalized snapshots", "FUTURE ONLY"],
+            ["Mode", "UNAVAILABLE / SERVER REQUIRED"],
+            ["Public keys", "BLOCKED"],
+            ["Browser provider calls", "BLOCKED"],
+            ["Live feed", "LOCKED"],
+            ["Quote slot", "SERVER REQUIRED"],
+            ["Chain slot", "SERVER REQUIRED"],
+            ["Source slot", "SERVER REQUIRED"],
+            ["Credentials", "NO CREDENTIALS LOADED"],
           ])}</ul>
-          <p>Future provider calls must happen server-side. NO CLIENT-SIDE PROVIDER CALLS. The public UI only receives verified normalized snapshots after authorization.</p>
-          <button type="button" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'provider-gate')">Provider Gate</button>
+          <div class="pa-v84-slot-cloud">${renderPickaxeAlertsV82TagCloud(providerSlots)}</div>
+          <p>Generic future slots only. No named provider is connected, no public provider call is made, and no API key is present.</p>
+          <button type="button" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'provider-registry')">Provider Registry</button>
         </article>
 
-        <article class="pa-v82-arch-card pa-v83-quote-card">
-          <header><small>Quote Snapshot Contract</small><em>Locked</em></header>
-          <h3>QUOTE SNAPSHOT LOCKED</h3>
+        <article class="pa-v82-arch-card pa-v83-quote-card pa-v84-quote-card">
+          <header><small>Quote Snapshot Sandbox</small><em>Locked</em></header>
+          <h3>QUOTE SNAPSHOT SANDBOX</h3>
           <ul>${renderPickaxeAlertsV82MiniRows([
-            ["Ticker", candidate.ticker],
-            ["Asset type", selected.assetType],
-            ["Last / bid / ask", "NO VERIFIED PROVIDER SNAPSHOT"],
-            ["Timestamp", "NO VERIFIED TIMESTAMP"],
-            ["Provider mode", "UNAVAILABLE"],
-            ["Display authorization", "NO PUBLIC DISPLAY AUTHORIZATION"],
-            ["Snapshot id", "NOT ISSUED"],
-            ["Stale flag", "BLOCKED"],
+            ["ticker", candidate.ticker],
+            ["assetType", selected.assetType],
+            ["last", "LOCKED"],
+            ["bid/ask", "LOCKED"],
+            ["provider", "SERVER REQUIRED"],
+            ["providerMode", "UNAVAILABLE"],
+            ["timestamp", "NO VERIFIED TIMESTAMP"],
+            ["delayStatus", "LOCKED"],
+            ["marketSession", "LOCKED"],
+            ["staleFlag", "FIREWALL ACTIVE"],
+            ["sourceConfidence", "NO CONFIDENCE SCORE"],
+            ["snapshotId", "NOT ISSUED"],
           ])}</ul>
-          <p>No quote numbers appear until provider, mode, timestamp, session, stale flag, source confidence, and display authorization are verified.</p>
-          <button type="button" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'quote-contract')">Quote Contract</button>
+          <p>NO VERIFIED PROVIDER SNAPSHOT · NO VERIFIED TIMESTAMP · PUBLIC DISPLAY LOCKED. No fake quote values.</p>
+          <button type="button" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'quote-snapshot')">Quote Snapshot</button>
         </article>
 
-        <article class="pa-v82-arch-card pa-v83-chain-card">
-          <header><small>Options Chain Validation Contract</small><em>Blocked</em></header>
-          <h3>OPTIONS CHAIN REQUIRED</h3>
+        <article class="pa-v82-arch-card pa-v83-chain-card pa-v84-chain-card">
+          <header><small>Options-Chain Snapshot Sandbox</small><em>Blocked</em></header>
+          <h3>OPTIONS CHAIN SNAPSHOT SANDBOX</h3>
           <ul>${renderPickaxeAlertsV82MiniRows([
-            ["Ticker", candidate.ticker],
-            ["Contract side", side],
-            ["Expiration", "REQUIRED"],
-            ["Strike", "REQUIRED"],
-            ["Bid / ask", "NO BID/ASK"],
-            ["Volume", "NO VOLUME"],
-            ["Open interest", "NO OPEN INTEREST"],
-            ["IV / Greeks", "NO IV/GREEKS"],
-            ["Liquidity", "BLOCKED"],
-            ["Stale status", "BLOCKED"],
+            ["ticker", candidate.ticker],
+            ["contractSide", side],
+            ["expiration", "LOCKED"],
+            ["strike", "LOCKED"],
+            ["bid", "NO BID/ASK"],
+            ["ask", "NO BID/ASK"],
+            ["spread", "LOCKED"],
+            ["volume", "NO VOLUME"],
+            ["openInterest", "NO OPEN INTEREST"],
+            ["iv", "NO IV/GREEKS"],
+            ["delta/gamma/theta/vega", "NO IV/GREEKS"],
+            ["timestamp", "NO VERIFIED TIMESTAMP"],
+            ["provider", "SERVER REQUIRED"],
+            ["liquidityStatus", "BLOCKED"],
+            ["staleStatus", "BLOCKED"],
           ])}</ul>
-          <p>EXACT CONTRACT BLOCKED until verified chain fields, provider, timestamp, liquidity status, and stale status pass.</p>
-          <button type="button" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'chain-contract')">Chain Contract</button>
+          <p>EXACT CONTRACT BLOCKED · NO VERIFIED OPTIONS CHAIN · no fake strikes, expirations, premiums, bid/ask, volume, OI, IV, or Greeks.</p>
+          <button type="button" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'chain-snapshot')">Chain Snapshot</button>
         </article>
 
-        <article class="pa-v82-arch-card pa-v82-wide-card pa-v83-stale-card">
-          <header><small>Stale Firewall + Display Modes</small><em>Active</em></header>
+        <article class="pa-v82-arch-card pa-v82-wide-card pa-v83-stale-card pa-v84-stale-card">
+          <header><small>Stale Firewall Validator</small><em>Active</em></header>
           <h3>DISPLAY MODE: STATIC / SOURCE-GATED</h3>
-          <strong class="pa-v83-inline-state">STALE FIREWALL: ACTIVE</strong>
-          ${renderPickaxeAlertsV82ModeRail()}
-          <p>Old data cannot become an alert. Missing timestamps, unlabeled delays, stale snapshots, and unknown freshness block public numbers, scoring, and exact-contract unlock.</p>
+          <strong class="pa-v83-inline-state pa-v84-inline-state">STALE FIREWALL: ACTIVE</strong>
+          <div class="pa-v82-mode-rail pa-v83-mode-rail pa-v84-mode-rail" aria-label="Local-only display mode controls">
+            ${modeChips.map((mode, index) => `<button type="button" class="${index === 0 ? "is-active" : ""}" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'display-modes')">${escapeHtml(mode)}</button>`).join("")}
+          </div>
+          <ul>${renderPickaxeAlertsV82MiniRows([
+            ["no timestamp", "BLOCKED"],
+            ["stale timestamp", "BLOCKED"],
+            ["provider unavailable", "BLOCKED"],
+            ["display rights missing", "BLOCKED"],
+            ["options chain missing", "EXACT CONTRACT BLOCKED"],
+            ["CEO B gate", "REQUIRED"],
+          ])}</ul>
+          <p>Mode chips are local diagnostics only. They do not switch live mode or fetch provider data.</p>
           <button type="button" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'stale-firewall')">Stale Firewall</button>
         </article>
 
-        <article class="pa-v82-arch-card pa-v83-readiness-card">
-          <header><small>Provider Readiness Checklist</small><em>Pending</em></header>
-          <h3>PUBLIC DISPLAY LOCKED</h3>
+        <article class="pa-v82-arch-card pa-v84-gate-card">
+          <header><small>Alert Gate Evaluator</small><em>Blocked</em></header>
+          <h3>ALERT QUALIFICATION: BLOCKED</h3>
+          <ul>${renderPickaxeAlertsV82MiniRows(gateRows)}</ul>
+          <p>Reason: source, quote snapshot, options chain, timestamp, risk, public display, and CEO B gate required. No external action.</p>
+          <button type="button" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'gate-evaluator')">Gate Evaluator</button>
+        </article>
+
+        <article class="pa-v82-arch-card pa-v84-receipt-card">
+          <header><small>Source Receipt / Data Lineage</small><em>Pending</em></header>
+          <h3>SOURCE RECEIPT NOT ISSUED</h3>
           <ul>${renderPickaxeAlertsV82MiniRows([
-            ["Server-only credentials", "PENDING"],
-            ["Provider terms / rights", "PENDING"],
-            ["Quote contract", "LOCKED"],
-            ["Options-chain contract", "LOCKED"],
-            ["Timestamp normalized", "PENDING"],
-            ["Stale firewall", "ACTIVE"],
-            ["Public display", "NOT AUTHORIZED"],
-            ["CEO B gate", "REQUIRED"],
+            ["source type", "MANUAL SOURCE DECK ONLY"],
+            ["source URL/provider", "NOT ISSUED"],
+            ["collected time", "NO VERIFIED TIMESTAMP"],
+            ["normalized time", "NO VERIFIED TIMESTAMP"],
+            ["verification status", "SOURCE REQUIRED"],
+            ["confidence", "NO CONFIDENCE SCORE"],
+            ["display authorization", "NO PUBLIC DISPLAY AUTHORIZATION"],
+            ["archive id", "NOT ISSUED"],
           ])}</ul>
-          <p>Provider readiness is architecture only. No server file, credential, API, or provider integration is active.</p>
+          <p>MANUAL SOURCE DECK ONLY · NO LIVE FEED · NO PUBLIC DISPLAY AUTHORIZATION. No fake receipt ID.</p>
+          <button type="button" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'source-receipt')">Source Receipt</button>
         </article>
 
-        <article class="pa-v82-arch-card pa-v82-wide-card pa-v83-indicator-card">
-          <header><small>Indicator Stack Architecture</small><em>Ready · inputs pending</em></header>
-          <h3>INDICATOR STACK READY</h3>
-          <div class="pa-v82-tag-cloud pa-v83-tag-cloud">${renderPickaxeAlertsV82TagCloud(["price action", "trend", "market structure", "volume", "volatility", "options flow", "gamma / IV", "catalysts", "macro", "news/source confluence", "sentiment", "memory/past patterns", "risk/invalidation"])}</div>
-          <p>Inputs pending · No live scan active · future scoring architecture only.</p>
-        </article>
-
-        <article class="pa-v82-arch-card pa-v83-score-card">
-          <header><small>Alert Candidate Scoring Skeleton</small><em>SCORE LOCKED</em></header>
-          <h3>NO CONFIDENCE SCORE</h3>
+        <article class="pa-v82-arch-card pa-v82-ceob-card pa-v83-ceob-card pa-v84-display-card">
+          <header><small>Public Display Authorization + CEO B Gate</small><em>Required</em></header>
+          <h3>CEO B GATE REQUIRED</h3>
           <ul>${renderPickaxeAlertsV82MiniRows([
-            ["Source score", "INPUTS REQUIRED"],
-            ["Quote validity", "LOCKED"],
-            ["Chain validity", "LOCKED"],
-            ["Technical confluence", "PENDING"],
-            ["Catalyst", "PENDING"],
-            ["Liquidity", "PENDING"],
-            ["Risk / invalidation", "BLOCKED"],
-            ["CEO B review", "REQUIRED"],
+            ["adapter registry", "LOCKED"],
+            ["quote snapshot valid?", "NO"],
+            ["options chain valid?", "NO"],
+            ["stale firewall passed?", "NO"],
+            ["risk / invalidation", "BLOCKED"],
+            ["public display allowed?", "NO"],
+            ["research only", "YES"],
+            ["external action", "NO EXTERNAL ACTION"],
           ])}</ul>
-          <button type="button" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'scoring-map')">Scoring Map</button>
-        </article>
-
-        <article class="pa-v82-arch-card pa-v83-postmortem-card">
-          <header><small>Postmortem / Mistake Ledger</small><em>Ready</em></header>
-          <h3>MEMORY INGESTION NOT ACTIVE</h3>
-          <div class="pa-v82-tag-cloud pa-v83-tag-cloud">${renderPickaxeAlertsV82TagCloud(["alert archived", "outcome reviewed", "mistake tag", "false positive review", "source score adjustment", "ticker playbook update", "CEO B lesson", "future filter improvement"])}</div>
-          <p>POSTMORTEM READY · NO SELF-LEARNING CLAIM · MEMORY INGESTION NOT ACTIVE.</p>
-          <button type="button" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'postmortem-path')">Postmortem Path</button>
-        </article>
-
-        <article class="pa-v82-arch-card pa-v82-ceob-card pa-v83-ceob-card">
-          <header><small>CEO B Final Source / Risk Gate</small><em>Required</em></header>
-          <h3>RESEARCH ONLY</h3>
-          <ul>${renderPickaxeAlertsV82MiniRows([
-            ["Source verified?", "NO"],
-            ["Timestamp verified?", "NO"],
-            ["Quote snapshot valid?", "NO"],
-            ["Options chain valid?", "NO"],
-            ["Risk defined?", "BLOCKED"],
-            ["Stale firewall passed?", "NO"],
-            ["Public display allowed?", "NO"],
-            ["External action?", "NO EXTERNAL ACTION"],
-          ])}</ul>
+          <p>CEO B cannot override missing provider rights, stale data, absent options-chain verification, or public display authorization.</p>
           <button type="button" onclick="window.pickaxeAlerts01Action(${scopeArg}, 'ceo-b-gate')">CEO B Gate</button>
         </article>
       </div>
 
-      <aside class="pa-v82-map-output pa-v83-map-output" aria-live="polite">
-        <span>${escapeHtml(activeAction?.title || "V8.3 PROVIDER MAP")}</span>
-        <strong>${escapeHtml(activeAction?.label || "Provider Gate, Quote Contract, Chain Contract, Stale Firewall, Scoring Map, Postmortem Path, and CEO B Gate are local-only views.")}</strong>
-        <p>${escapeHtml(activeAction?.detail || "No provider call, no public live data, no persistence, no confidence score, no alert delivery, and no external action.")}</p>
+      <aside class="pa-v82-map-output pa-v83-map-output pa-v84-map-output" aria-live="polite">
+        <span>${escapeHtml(activeAction?.title || "V8.4 SANDBOX DIAGNOSTICS")}</span>
+        <strong>${escapeHtml(activeAction?.label || "Provider Registry, Quote Snapshot, Chain Snapshot, Stale Firewall, Gate Evaluator, Source Receipt, and Display Modes are local-only views.")}</strong>
+        <p>${escapeHtml(activeAction?.detail || "No provider call, no quote fetch, no options-chain fetch, no public live data, no persistence, no confidence score, no alert delivery, and no external action.")}</p>
       </aside>
     </section>
   `;
@@ -12391,13 +12405,13 @@ function renderPickaxeAlertsV82IntelligenceLayer(selected, candidate, profile) {
 
 function renderPickaxeAlerts01SourceGatePanel() {
   return `
-    <section class="pa-v81-review-section pa-v82-rail-gates pa-v83-rail-gates" aria-label="Provider Gate compact checklist">
-      <header><small>V8.3 Provider Gate</small><em>Blocked</em></header>
+    <section class="pa-v81-review-section pa-v82-rail-gates pa-v83-rail-gates pa-v84-rail-sandbox" aria-label="Provider Adapter Sandbox compact checklist">
+      <header><small>V8.4 Sandbox</small><em>Blocked</em></header>
       <ul class="pa-v81-compact-list">
-        <li><span>SERVER BOUNDARY</span><strong>REQUIRED</strong></li>
-        <li><span>PUBLIC KEYS</span><strong>BLOCKED</strong></li>
-        <li><span>QUOTE</span><strong>SNAPSHOT LOCKED</strong></li>
-        <li><span>CHAIN</span><strong>VALIDATION REQUIRED</strong></li>
+        <li><span>ADAPTER REGISTRY</span><strong>SERVER REQUIRED</strong></li>
+        <li><span>QUOTE SNAPSHOT</span><strong>LOCKED</strong></li>
+        <li><span>CHAIN SNAPSHOT</span><strong>REQUIRED</strong></li>
+        <li><span>SOURCE RECEIPT</span><strong>NOT ISSUED</strong></li>
         <li><span>STALE FIREWALL</span><strong>ACTIVE</strong></li>
         <li><span>PUBLIC DISPLAY</span><strong>LOCKED</strong></li>
         <li><span>CEO B</span><strong>GATE REQUIRED</strong></li>
@@ -12439,7 +12453,7 @@ function renderPickaxeAlerts01LiveReadyDesk(selected) {
   const profile = getPickaxeAlerts01ActiveAlertProfile(selected);
   const candidate = getPickaxeAlerts01LiveReadyCandidate(selected, profile.lane);
   return `
-    <section class="pa-v81-workspace pa-v82-workspace pa-v83-workspace" aria-label="Simple working active options alert desk with V8.3 provider gate readiness">
+    <section class="pa-v81-workspace pa-v82-workspace pa-v83-workspace" aria-label="Simple working active options alert desk with V8.4 provider adapter sandbox">
       ${renderPickaxeAlerts01ActiveAlertHero(selected)}
       ${renderPickaxeAlerts01RightRail(selected)}
       ${renderPickaxeAlertsV82IntelligenceLayer(selected, candidate, profile)}
@@ -12452,7 +12466,7 @@ function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
   const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   const selected = getPickaxeAlerts01WatchlistItem();
   return `
-    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple pa-v81-final pa-v82-intelligence pa-v83-provider-gate" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v8-3-provider-gate-readiness" data-alerts-runtime="static-source-gated" data-alerts-surface="simple-working-v8-3-provider-gate">
+    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple pa-v81-final pa-v82-intelligence pa-v83-provider-gate pa-v84-provider-sandbox" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v8-4-provider-adapter-sandbox" data-alerts-runtime="static-source-gated" data-alerts-surface="simple-working-v8-4-provider-adapter-sandbox">
       <div class="pa-noise" aria-hidden="true"></div>
       ${renderPickaxeAlerts01AssetFilters()}
       ${renderPickaxeAlerts01PremiumHeader(selected, liveStatus)}
@@ -13382,8 +13396,8 @@ window.pickaxeAlerts01Action = (id, action) => {
     },
     "stale-firewall": {
       title: "STALE FIREWALL ACTIVE",
-      label: "Stale firewall active · timestamp required · stale data cannot unlock alert.",
-      detail: "Missing, stale, delayed-without-label, or unknown-freshness snapshots block display, scoring, and exact contract unlock.",
+      label: "Stale firewall active · missing timestamp and provider snapshot block display.",
+      detail: "Missing, stale, delayed-without-label, unknown-freshness, missing display rights, or missing options chain block display, scoring, and exact contract unlock.",
     },
     "ceo-b-gate": {
       title: "CEO B GATE REQUIRED",
@@ -13399,6 +13413,36 @@ window.pickaxeAlerts01Action = (id, action) => {
       title: "POSTMORTEM PATH READY",
       label: "Postmortem path ready · future review only · no self-learning claim.",
       detail: "Archive, outcome review, mistake tag, source adjustment, and playbook update are future manual review states only.",
+    },
+    "provider-registry": {
+      title: "PROVIDER REGISTRY LOCKED",
+      label: "Provider registry locked · server-only adapter required · no public keys.",
+      detail: "Generic provider slots are sandbox placeholders only. No provider call, credential, live feed, or public display is active.",
+    },
+    "quote-snapshot": {
+      title: "QUOTE SNAPSHOT LOCKED",
+      label: "Quote snapshot locked · no verified provider snapshot · no timestamp.",
+      detail: "Selected ticker is visible, but last, bid/ask, provider, timestamp, stale flag, and snapshot id remain locked.",
+    },
+    "chain-snapshot": {
+      title: "CHAIN SNAPSHOT LOCKED",
+      label: "Chain snapshot locked · no verified options chain · exact contract blocked.",
+      detail: "No strike, expiration, premium, bid/ask, spread, volume, open interest, IV, Greeks, provider, or timestamp is available.",
+    },
+    "gate-evaluator": {
+      title: "GATE EVALUATOR BLOCKED",
+      label: "Gate evaluator blocked · source, quote, chain, risk, and CEO B gates required.",
+      detail: "Alert qualification remains blocked. No public display, alert delivery, broker action, or external action.",
+    },
+    "source-receipt": {
+      title: "SOURCE RECEIPT PENDING",
+      label: "Source receipt pending · manual source deck only · no live feed.",
+      detail: "No source URL, provider, collected time, normalized time, confidence, display authorization, or archive id has been issued.",
+    },
+    "display-modes": {
+      title: "DISPLAY MODE LOCKED",
+      label: "Display mode locked · live display requires server proof and public authorization.",
+      detail: "Mode chips are local diagnostics only. No live mode switch, provider call, persistence, or public quote display occurs.",
     },
     "source-contract": {
       title: "SOURCE CONTRACT PENDING",

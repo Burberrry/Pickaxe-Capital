@@ -42910,3 +42910,72 @@ body[data-active-view="alerts"] .alerts-v81-sections>span{color:rgba(80,224,124,
   #alerts.active .pa-v83-provider-grid,
   #alerts.active .pa-v83-mode-rail { grid-template-columns:minmax(0,1fr); }
 }
+
+
+/* Pickaxe Alerts Desk V8.4 — provider adapter / quote snapshot sandbox. */
+#alerts.active .pickaxe-alerts-01.pa-v84-provider-sandbox {
+  --v84-gold:#f3c85a;
+  --v84-emerald:#42e681;
+  --v84-red:#ff604d;
+  --v84-ink:#050706;
+  --v84-glass:rgba(255,241,190,.045);
+}
+#alerts.active .pa-v84-sandbox-header .pa-v81-simple-title span { color:#fff0b8; }
+#alerts.active .pa-v84-sandbox-header .pa-v81-simple-title span i { background:var(--v84-gold); box-shadow:0 0 18px rgba(243,200,90,.72); }
+#alerts.active .pa-v84-provider-sandbox .pa-v81-simple-status span:nth-child(2),
+#alerts.active .pa-v84-provider-sandbox .pa-v81-simple-status span:nth-child(5),
+#alerts.active .pa-v84-provider-sandbox .pa-v81-simple-status span:nth-child(6) { border-color:rgba(243,200,90,.34); color:#fff0b8; }
+#alerts.active .pa-v84-provider-sandbox .pa-v81-simple-status span:nth-child(3),
+#alerts.active .pa-v84-provider-sandbox .pa-v81-simple-status span:nth-child(4),
+#alerts.active .pa-v84-provider-sandbox .pa-v81-simple-status span:nth-child(7) { border-color:rgba(255,96,77,.3); color:#ffb7ad; }
+#alerts.active .pa-v84-action { border-color:rgba(243,200,90,.4)!important; color:#fff0b8!important; background:linear-gradient(180deg,rgba(243,200,90,.15),rgba(243,200,90,.04))!important; }
+#alerts.active .pa-v84-sandbox-layer {
+  border-color:rgba(243,200,90,.28)!important;
+  background:
+    radial-gradient(circle at 7% 10%,rgba(243,200,90,.1),transparent 28%),
+    radial-gradient(circle at 91% 9%,rgba(66,230,129,.055),transparent 22%),
+    radial-gradient(circle at 78% 54%,rgba(255,96,77,.045),transparent 32%),
+    linear-gradient(180deg,rgba(255,241,190,.05),rgba(0,0,0,.30))!important;
+}
+#alerts.active .pa-v84-sandbox-layer:before { background:linear-gradient(90deg,transparent,rgba(243,200,90,.10),transparent)!important; }
+#alerts.active .pa-v84-layer-head small,
+#alerts.active .pa-v84-sandbox-layer .pa-v82-arch-card small,
+#alerts.active .pa-v84-map-output span { color:#fff0b8!important; }
+#alerts.active .pa-v84-lock-badge strong { color:#ffead0; }
+#alerts.active .pa-v84-lock-badge em { color:#ffb7ad!important; }
+#alerts.active .pa-v84-sandbox-pipeline { grid-template-columns:repeat(9,minmax(0,1fr)); }
+#alerts.active .pa-v84-sandbox-pipeline span { border-color:rgba(243,200,90,.18); background:linear-gradient(180deg,rgba(255,241,190,.04),rgba(0,0,0,.22)); }
+#alerts.active .pa-v84-sandbox-pipeline span:after { background:linear-gradient(90deg,rgba(243,200,90,.72),rgba(66,230,129,.32),rgba(255,96,77,.32)); box-shadow:0 0 14px rgba(243,200,90,.2); }
+#alerts.active .pa-v84-sandbox-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
+#alerts.active .pa-v84-registry-card,
+#alerts.active .pa-v84-gate-card { border-color:rgba(255,96,77,.26)!important; background:linear-gradient(180deg,rgba(255,96,77,.045),rgba(0,0,0,.18))!important; }
+#alerts.active .pa-v84-quote-card { border-color:rgba(158,215,255,.22)!important; }
+#alerts.active .pa-v84-chain-card { border-color:rgba(243,200,90,.32)!important; }
+#alerts.active .pa-v84-receipt-card { border-color:rgba(66,230,129,.19)!important; }
+#alerts.active .pa-v84-display-card { border-color:rgba(243,200,90,.34)!important; }
+#alerts.active .pa-v84-slot-cloud { display:flex; flex-wrap:wrap; gap:4px; }
+#alerts.active .pa-v84-slot-cloud span { padding:4px 6px; border:1px solid rgba(243,200,90,.16); border-radius:999px; color:rgba(247,239,224,.72); background:rgba(0,0,0,.16); font:850 7px/1 "IBM Plex Mono",monospace; text-transform:uppercase; }
+#alerts.active .pa-v84-mode-rail { grid-template-columns:repeat(7,minmax(0,1fr)); }
+#alerts.active .pa-v84-mode-rail button { min-height:28px!important; padding:0 6px!important; border:1px solid rgba(243,200,90,.14)!important; border-radius:9px!important; color:rgba(247,239,224,.58)!important; background:rgba(0,0,0,.22)!important; font:900 7px/1 "IBM Plex Mono",monospace!important; text-transform:uppercase; }
+#alerts.active .pa-v84-mode-rail button.is-active { color:#fff0b8!important; border-color:rgba(243,200,90,.42)!important; box-shadow:0 0 16px rgba(243,200,90,.10); }
+#alerts.active .pa-v84-mode-rail button:nth-child(n+4) { color:#ffb7ad!important; border-color:rgba(255,96,77,.2)!important; }
+#alerts.active .pa-v84-inline-state { display:block; margin-top:-2px; color:#fff0b8; font:900 10px/1.2 "IBM Plex Mono",monospace; text-transform:uppercase; }
+#alerts.active .pa-v84-map-output { border-color:rgba(243,200,90,.30)!important; background:rgba(18,14,3,.50)!important; }
+#alerts.active .pa-v84-rail-sandbox .pa-v81-compact-list li strong { color:#fff0b8; }
+@media (min-width:1181px) {
+  #alerts.active .pa-v84-sandbox-layer { padding:10px; gap:8px; }
+  #alerts.active .pa-v84-sandbox-pipeline span { min-height:34px; padding:7px; font-size:9.2px; }
+  #alerts.active .pa-v84-sandbox-grid .pa-v82-arch-card { padding:8px; gap:6px; }
+  #alerts.active .pa-v84-sandbox-grid .pa-v82-arch-card h3 { font-size:12.8px; }
+  #alerts.active .pa-v84-sandbox-grid .pa-v82-arch-card p { font-size:9.3px; line-height:1.2; }
+  #alerts.active .pa-v84-sandbox-grid .pa-v82-arch-card li strong { font-size:7px; }
+}
+@media (max-width:1320px) {
+  #alerts.active .pa-v84-sandbox-pipeline { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  #alerts.active .pa-v84-sandbox-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:900px) {
+  #alerts.active .pa-v84-sandbox-pipeline,
+  #alerts.active .pa-v84-sandbox-grid,
+  #alerts.active .pa-v84-mode-rail { grid-template-columns:minmax(0,1fr); }
+}
