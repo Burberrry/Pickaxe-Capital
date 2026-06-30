@@ -1,5 +1,26 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Alerts Desk V8.1 Simple Working Hosted Verification
+
+- Date: 2026-06-29 / 2026-06-30 UTC.
+- Result: **PASS / V8.1 SIMPLE WORKING ALERTS DESK HOSTED VERIFIED**.
+- Promoted commit: `403dfc3c5df5d7dee02c60e28ea3c33d6cc75ba2` (`Promote simple working Alerts desk`).
+- Previous hosted baseline: `927b92cb7ef0be02fe26753b696bca688f86113e`.
+- Promoted branch: `codex/alerts-desk-v8-1-simple-working-forward-20260629`.
+- Safety branch: `backup/pre-alerts-desk-v8-1-simple-working-hosted-20260629`.
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Workflow: `Validate and Deploy GitHub Pages` run `28412214435`; Validate and Build job `84187411047` success; Deploy job `84187450974` success.
+- GitHub Pages deployment: `5247326257`; deployment status `success`; environment URL verified.
+- Hosted QA: 16 required screenshots captured, 9 primary route/viewport checks executed, 13 regression routes passed, 5 ticker interaction checks passed, 4 local action checks passed, and 12 static-public boundary probes passed.
+- Hosted product verified: `ALERTS DESK`, one active alert card, compact 18-ticker watchlist, Bull/Bear bias character switching, exact contract gate blocked/source-gated, inline Review/Evidence/Source Check/Archive local actions, PET local action, connected Review Panel, compact Counter-Risk Check, manual Source Deck, and no broker/execution behavior.
+- Public-bundle cleanliness: source grep clean; hosted root/current product assets clean; scoped active Alerts DOM artifact check passed for SPY/MSFT/GLD/VIX/source-check states with no `$145`, `$530`, `$700`, `$420`, `$232`, `STATIC 17 JUL 26`, `17 JUL 26`, or `glint.trade` in the product surface.
+- Static-public boundary: `.env`, `.env.local`, `server.mjs`, provider paths, `/api/live/status`, `/api/live/alerts`, `data/signal-alerts.json`, source maps, private local paths, and provider response cache were not exposed as secrets/private content.
+- Hosted screenshot/evidence path: `/tmp/pickaxe-alerts-desk-v8-1-simple-working-hosted/`.
+- Status-record cache key: `alerts-desk-v8-1-simple-working-hosted-verified-20260629-r1`.
+- Remaining blockers: live provider credentials/legal rights, verified options-chain display, source-library ingestion, scoring, broker/execution, alert delivery, auth/payment/subscription, and V8.2 intelligence architecture remain blocked until separate approved sprints.
+- Final recommendation: **V8.1 SIMPLE WORKING ALERTS DESK HOSTED BASELINE APPROVED FOR CEO B REVIEW**.
+
+
 ## Current Checkpoint - V8.1 Simple Working Alerts Desk Forward Promotion Candidate
 
 - Date: 2026-06-29.

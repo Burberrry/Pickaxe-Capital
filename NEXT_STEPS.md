@@ -2,6 +2,21 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Desk V8.1 Simple Working hosted baseline is **PASS / HOSTED VERIFIED** and ready for CEO B review.
+
+- Hosted promoted commit: `403dfc3c5df5d7dee02c60e28ea3c33d6cc75ba2`.
+- Previous hosted baseline: `927b92cb7ef0be02fe26753b696bca688f86113e`.
+- Promoted branch: `codex/alerts-desk-v8-1-simple-working-forward-20260629`.
+- Safety branch: `backup/pre-alerts-desk-v8-1-simple-working-hosted-20260629`.
+- Workflow `28412214435` and Pages deployment `5247326257` succeeded.
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Evidence/screenshots: `/tmp/pickaxe-alerts-desk-v8-1-simple-working-hosted/`.
+- Product boundary remains research-only: no live data, no provider work, no fake options data, no broker/execution/order/payment/auth/subscription/alert-delivery behavior.
+- Next bounded step: CEO B hosted review. Future V8.2 intelligence/source/provider architecture requires separate approval and must not be mixed into this V8.1 hosted baseline.
+
+
+## Current Active Checkpoint
+
 V8.1 Simple Working Alerts Desk has been ported into a safe forward branch from current hosted `main` and is ready for local QA/validation.
 
 - Forward branch: `codex/alerts-desk-v8-1-simple-working-forward-20260629`.
