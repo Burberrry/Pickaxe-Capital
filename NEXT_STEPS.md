@@ -2,6 +2,22 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Desk V8.2 Intelligence / Source Architecture is **HOSTED VERIFIED**.
+
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Product commit: `3a400a325a2f0a56553ff4ccfc480d2a384bd6f5`.
+- Pages workflow: `28416544850`.
+- Pages deployment: `5248183317` / `success`.
+- Runtime marker: `v8-2-intelligence-source-architecture`.
+- Surface marker: `simple-working-v8-2-intelligence`.
+- Hosted score: **981 / 1000 normalized**.
+- Evidence/screenshots: `/tmp/pickaxe-alerts-desk-v8-2-intelligence-source-architecture/`.
+- Release boundary remains research-only: no live data, no provider activation, no fake option/market values, no execution, no alert delivery, no auth/payment/subscription.
+- Next phase should be separate and source-gated: provider/source contracts, quote snapshot contract, options-chain validation contract, stale firewall runtime, manual/delayed/live display modes, scoring model implementation, postmortem ledger, and CEO B source/risk gate.
+
+
+## Current Active Checkpoint
+
 Pickaxe Alerts Desk V8.2 Intelligence / Source Architecture is a **PASS / LOCAL RELEASE-PREP CANDIDATE** on branch `codex/alerts-desk-v8-2-intelligence-source-architecture-20260629`.
 
 - Baseline: `246a17bdb62039344c1a9410706ec72494e311c7` V8.1 Simple Working Hosted Baseline.

@@ -1,5 +1,28 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Alerts Desk V8.2 Intelligence / Source Architecture Hosted Verified
+
+- Date: 2026-06-30T02:53:03Z.
+- Result: **PASS / V8.2 INTELLIGENCE ARCHITECTURE HOSTED VERIFIED**.
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Baseline confirmed: `main == origin/main == 246a17bdb62039344c1a9410706ec72494e311c7` before sprint (`PICKAXE CAPITAL — ALERTS DESK V8.1 SIMPLE WORKING HOSTED BASELINE`).
+- Product commit: `3a400a325a2f0a56553ff4ccfc480d2a384bd6f5` (`Build Alerts desk V8.2 intelligence source architecture`).
+- Safety branch: `backup/pre-alerts-desk-v8-2-intelligence-source-architecture-20260629`.
+- Work branch: `codex/alerts-desk-v8-2-intelligence-source-architecture-20260629`.
+- Runtime marker: `data-alerts-cockpit-version="v8-2-intelligence-source-architecture"`; surface marker: `data-alerts-surface="simple-working-v8-2-intelligence"`; cache key: `alerts-desk-v8-2-intelligence-source-architecture-20260629-r1`.
+- Pages workflow: `28416544850`; Validate and Build `84200567826` success; Deploy `84200593998` success.
+- Pages deployment: `5248183317`; deployment status `success`; environment URL `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted QA: 19 screenshots captured, 9 primary route/viewport checks passed, 13 regression routes passed, 5 ticker interaction checks passed, 9 local action checks passed, mobile smoke passed.
+- Hosted score: **981 / 1000 normalized** (`1079 / 1100` raw category total; pass threshold 940/1000).
+- Product surface preserved: one active alert card, full 18-ticker watchlist, Bull/Bear bias character switching, exact contract gate blocked/source-gated, Review/Evidence/Source Check/Archive actions, PET local helper, connected Review Panel, compact Counter-Risk Check, and manual Source Deck.
+- V8.2 architecture added: source gate, quote snapshot contract, options-chain validation contract, stale firewall/display modes, indicator stack categories, source-gated scoring skeleton, postmortem/mistake-ledger path, CEO B source/risk gate, and source-library readiness language.
+- Safety truth preserved: static/source-gated only, no live data, no provider activation, no fake option/market/source values, no confidence score, no broker/order/payment/auth/subscription/alert-delivery behavior, and no new routes.
+- Hosted public-bundle cleanliness: root/current `app.js`/`styles.css` assets clean for forbidden legacy price/date/link artifacts; no provider/X browser calls; no exposed secrets; no execution behavior.
+- Evidence/screenshots: `/tmp/pickaxe-alerts-desk-v8-2-intelligence-source-architecture/`.
+- Status-record cache key: `alerts-desk-v8-2-intelligence-source-architecture-hosted-verified-20260629-r1`.
+- Remaining blockers: provider/legal/credential gates, licensed quote/options-chain data, stale-firewall runtime, live/delayed/manual data-mode implementation, source-library ingestion, alert scoring, broker/execution, alert delivery, auth/payment/subscription.
+
+
 ## Current Checkpoint - Pickaxe Alerts Desk V8.2 Intelligence / Source Architecture Local Candidate
 
 - Date: 2026-06-29 / 2026-06-30 UTC.
