@@ -2,6 +2,19 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Desk V8.2 Intelligence / Source Architecture is a **PASS / LOCAL RELEASE-PREP CANDIDATE** on branch `codex/alerts-desk-v8-2-intelligence-source-architecture-20260629`.
+
+- Baseline: `246a17bdb62039344c1a9410706ec72494e311c7` V8.1 Simple Working Hosted Baseline.
+- Runtime marker: `v8-2-intelligence-source-architecture`.
+- Surface marker: `simple-working-v8-2-intelligence`.
+- Local score: **981 / 1000 normalized**.
+- Evidence/screenshots: `/tmp/pickaxe-alerts-desk-v8-2-intelligence-source-architecture/`.
+- Release boundary remains research-only: no live data, no provider activation, no fake option/market values, no execution, no alert delivery, no auth/payment/subscription.
+- Next bounded step: commit the local candidate, then only if release gates remain clean, forward-promote to hosted `main`, verify GitHub Pages, and record hosted status.
+
+
+## Current Active Checkpoint
+
 Pickaxe Alerts Desk V8.1 Simple Working hosted baseline is **PASS / HOSTED VERIFIED** and ready for CEO B review.
 
 - Hosted promoted commit: `403dfc3c5df5d7dee02c60e28ea3c33d6cc75ba2`.

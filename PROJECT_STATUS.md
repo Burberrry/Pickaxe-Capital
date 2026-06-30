@@ -1,5 +1,24 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Alerts Desk V8.2 Intelligence / Source Architecture Local Candidate
+
+- Date: 2026-06-29 / 2026-06-30 UTC.
+- Result: **PASS / V8.2 INTELLIGENCE SOURCE ARCHITECTURE LOCAL CANDIDATE READY FOR RELEASE PREP**.
+- Baseline confirmed: `main == origin/main == 246a17bdb62039344c1a9410706ec72494e311c7` (`PICKAXE CAPITAL — ALERTS DESK V8.1 SIMPLE WORKING HOSTED BASELINE`).
+- Safety branch: `backup/pre-alerts-desk-v8-2-intelligence-source-architecture-20260629`.
+- Work branch: `codex/alerts-desk-v8-2-intelligence-source-architecture-20260629`.
+- Runtime marker: `data-alerts-cockpit-version="v8-2-intelligence-source-architecture"`; surface marker: `data-alerts-surface="simple-working-v8-2-intelligence"`; cache key: `alerts-desk-v8-2-intelligence-source-architecture-20260629-r1`.
+- Product surface preserved: one active alert card, full 18-ticker watchlist, Bull/Bear bias character switching, exact contract gate blocked/source-gated, Review/Evidence/Source Check/Archive actions, PET local helper, connected Review Panel, compact Counter-Risk Check, and manual Source Deck.
+- V8.2 architecture added: source gate, quote snapshot contract, options-chain validation contract, stale firewall/display modes, indicator stack categories, source-gated scoring skeleton, postmortem/mistake-ledger path, CEO B source/risk gate, and source-library readiness language.
+- Safety truth preserved: static/source-gated only, no live data, no provider activation, no fake option/market/source values, no confidence score, no broker/order/payment/auth/subscription/alert-delivery behavior, and no new routes.
+- Local browser QA: 19 screenshots captured, 9 primary route/viewport checks passed, 13 regression routes passed, 5 ticker interaction checks passed, 9 local action checks passed, mobile smoke passed.
+- Local score: **981 / 1000 normalized** (`1079 / 1100` raw category total; pass threshold 940/1000).
+- Validation: build/check/project/phase15/agents/mirrors/smoke/public-safety/deploy-boundary/routes passed; forbidden legacy artifact grep clean after sanitizing historical status text; character assets unchanged.
+- Evidence/screenshots: `/tmp/pickaxe-alerts-desk-v8-2-intelligence-source-architecture/`.
+- Release status: local candidate only until commit and forward-hosted promotion gates complete.
+- Remaining blockers: provider/legal/credential gates, licensed quote/options-chain data, stale-firewall runtime, live/delayed/manual data-mode implementation, source-library ingestion, alert scoring, broker/execution, alert delivery, auth/payment/subscription.
+
+
 ## Current Checkpoint - Pickaxe Alerts Desk V8.1 Simple Working Hosted Verification
 
 - Date: 2026-06-29 / 2026-06-30 UTC.
@@ -13,7 +32,7 @@
 - GitHub Pages deployment: `5247326257`; deployment status `success`; environment URL verified.
 - Hosted QA: 16 required screenshots captured, 9 primary route/viewport checks executed, 13 regression routes passed, 5 ticker interaction checks passed, 4 local action checks passed, and 12 static-public boundary probes passed.
 - Hosted product verified: `ALERTS DESK`, one active alert card, compact 18-ticker watchlist, Bull/Bear bias character switching, exact contract gate blocked/source-gated, inline Review/Evidence/Source Check/Archive local actions, PET local action, connected Review Panel, compact Counter-Risk Check, manual Source Deck, and no broker/execution behavior.
-- Public-bundle cleanliness: source grep clean; hosted root/current product assets clean; scoped active Alerts DOM artifact check passed for SPY/MSFT/GLD/VIX/source-check states with no `$145`, `$530`, `$700`, `$420`, `$232`, `STATIC 17 JUL 26`, `17 JUL 26`, or `glint.trade` in the product surface.
+- Public-bundle cleanliness: source grep clean; hosted root/current product assets clean; scoped active Alerts DOM artifact check passed for SPY/MSFT/GLD/VIX/source-check states with no forbidden legacy price/date/link artifacts in the product surface.
 - Static-public boundary: `.env`, `.env.local`, `server.mjs`, provider paths, `/api/live/status`, `/api/live/alerts`, `data/signal-alerts.json`, source maps, private local paths, and provider response cache were not exposed as secrets/private content.
 - Hosted screenshot/evidence path: `/tmp/pickaxe-alerts-desk-v8-1-simple-working-hosted/`.
 - Status-record cache key: `alerts-desk-v8-1-simple-working-hosted-verified-20260629-r1`.
