@@ -1,5 +1,24 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Capital V9.0 Founder-Ready Website Completion Local Candidate
+
+- Date: 2026-06-30T07:40:34Z.
+- Result: **PASS / V9.0 WEBSITE COMPLETION LOCAL RELEASE-PREP CANDIDATE**.
+- Baseline confirmed: `main == origin/main == e5d08f43a09d0d1bb177cf22944c6695d30e0502` (`PICKAXE CAPITAL — ALERTS DESK V8.4 PROVIDER ADAPTER SANDBOX`).
+- Safety branch: `backup/pre-pickaxe-capital-v9-0-website-completion-20260630`.
+- Work branch: `codex/pickaxe-capital-v9-0-website-completion-20260630`.
+- Runtime marker: `data-alerts-cockpit-version="v9-0-website-completion"`; surface marker: `data-alerts-surface="founder-ready-v9-0-website-completion"`; cache key: `pickaxe-capital-v9-0-website-completion-20260630-r1`.
+- V8.4 Alerts Desk preserved: one active alert card, 18-ticker watchlist, Bull/Bear ticker switching, exact contract gate blocked/source-gated, Review/Evidence/Source Check/Archive actions, PET local helper, manual Source Deck, provider adapter sandbox, quote snapshot sandbox, options-chain sandbox, stale firewall, gate evaluator, and source receipt/data lineage.
+- V9.0 website completion added: founder-ready page shell and design system for Mission Control, Source Hub, Risk & Rules, AI Habitat OS, Watchlists, Markets Matrix, Options Hub, Catalysts Calendar, Research Desk, Learning Ledger, Archive Vault, Roadmap, Staging/QA, and Founder route.
+- Safety truth preserved: research-only, source-gated, static demo unless verified gates pass, no fake values, no live data activation, no provider activation, no credentials, no server/provider/package/data/asset edits, no broker/order/payment/auth/subscription/alert-delivery behavior.
+- Local browser QA: 18 required screenshots captured, 9 primary route/viewport checks passed, 13 regression routes passed, 20 module-route checks passed, 2 MSFT/VIX interaction checks passed.
+- Local score: **991 / 1000 normalized** (`1138` raw; pass threshold 950/1000).
+- Validation: build/check/project/phase15/agents/mirrors/smoke/public-safety/deploy-boundary/routes passed; forbidden legacy artifact grep clean; character assets unchanged; `investor-assets/` untouched.
+- Evidence/screenshots: `/tmp/pickaxe-capital-v9-0-website-completion/`.
+- Release status: local candidate only until commit and forward-hosted promotion gates complete.
+- Remaining blockers: provider credentials, server-only provider proof, verified quote/options-chain ingestion, source library persistence, scoring engine, postmortem persistence, mobile polish, and any broker/execution/auth/payment/subscription/alert-delivery work.
+
+
 ## Current Checkpoint - Pickaxe Alerts Desk V8.4 Provider Adapter / Quote Snapshot Sandbox Hosted Verified
 
 - Date: 2026-06-30T05:22:16Z.

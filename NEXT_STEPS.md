@@ -2,6 +2,20 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Capital V9.0 Founder-Ready Website Completion is a **PASS / LOCAL RELEASE-PREP CANDIDATE** on branch `codex/pickaxe-capital-v9-0-website-completion-20260630`.
+
+- Baseline: `e5d08f43a09d0d1bb177cf22944c6695d30e0502` V8.4 Provider Adapter Sandbox Hosted Verified.
+- Runtime marker: `v9-0-website-completion`.
+- Surface marker: `founder-ready-v9-0-website-completion`.
+- Local score: **991 / 1000 normalized**.
+- Evidence/screenshots: `/tmp/pickaxe-capital-v9-0-website-completion/`.
+- V9.0 completion scope: premium founder-ready shells for Mission Control, Source Hub, Risk & Rules, AI Habitat OS, Watchlists, Markets Matrix, Options Hub, Catalysts Calendar, Research Desk, Learning Ledger, Archive Vault, Roadmap, Staging/QA, and Founder route while preserving Alerts V8.4.
+- Release boundary remains research-only: no live data activation, no provider calls, no credentials, no server/provider/package/data changes, no fake option/market/source values, no execution, no alert delivery, no auth/payment/subscription.
+- Next bounded step: commit the local candidate; if release gates remain clean, forward-promote to hosted `main`, verify GitHub Pages, and record hosted status.
+
+
+## Current Active Checkpoint
+
 Pickaxe Alerts Desk V8.4 Provider Adapter / Quote Snapshot Sandbox is **HOSTED VERIFIED**.
 
 - Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.

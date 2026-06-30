@@ -1297,7 +1297,10 @@ function setView(view) {
     if (view === "signals") loadSignals();
     if (view === "archive") loadArchive(state.archiveRoute);
     if (["vision", "sourceHub", "signals", "archive", "rkTracker", "berkshire", "bookmarks", "alerts", "lifeHabitat", "staging", "jarvisLab", "lifeOS", "aiHabitatOS", "agentBuilderFactory", "projectUpdate", "riskRules", "compliance", "aiHandoff", "learningLedger", "trendRadar", "moneyLab", "dashboard", "watchlists", "markets", "options", "catalysts", "research", "roadmap"].includes(view)) renderStaticIntelligencePages();
-    if (view === "founder") renderFounderProfile();
+    if (view === "founder") {
+      renderFounderProfile();
+      appendV90CompletionBanner(document.querySelector("#founder"), "founder");
+    }
     if (view === "agents") renderAgentsPage();
     if (view === "checklist") loadChecklist();
     if (view === "vision") loadVisionMap();
@@ -1873,6 +1876,7 @@ async function loadArchive(route = "overview") {
     else if (route === "imports") renderArchiveImports(payload);
     else if (route === "quarantine") renderArchiveQuarantine(payload);
     else renderArchiveOverview(payload);
+    appendV90CompletionBanner(els.archiveContent?.parentElement || els.archiveContent, "archive");
   } catch (renderError) {
     console.error("Archive rendering error:", renderError);
   }
@@ -1902,6 +1906,7 @@ function renderStaticIntelligencePages() {
   renderTrendRadarPage();
   renderMoneyLabPage();
   renderFutureConceptPages();
+  renderV90WebsiteCompletionPages();
 }
 
 function renderResearchPacketCard(packet, index = 0) {
@@ -2954,89 +2959,227 @@ window.routeResearchPacket = (packetId, routeAction) => {
   if (typeof renderWatchlistsPage === "function") renderWatchlistsPage();
 };
 
-function renderFutureConceptPages() {
-  const pages = [
-    {
-      el: els.watchlistsContent,
-      number: "15",
-      title: "Watchlists",
-      subtitle: "Future watchlist cockpit for equities, ETFs, indices, futures, crypto, FX/macro, CEO B focus list, and AI research candidates.",
-      modules: ["Equities and ETFs", "Indices and futures", "Crypto and FX/macro", "CEO B focus list", "AI research candidates"]
-    },
-    {
-      el: els.marketsContent,
-      number: "16",
-      title: "Markets Matrix",
-      subtitle: "Future market overview with index cards, breadth, sector rotation, risk-on/risk-off, and heatmap/bubble map concepts.",
-      modules: ["Index cards", "Breadth monitor", "Sector rotation", "Risk-on/risk-off", "Heatmap concept"]
-    },
-    {
-      el: els.optionsContent,
-      number: "17",
-      title: "Options Hub",
-      subtitle: "Future options research hub for overview, 0DTE center, chain concept, unusual activity, IV/Greeks, probability analysis, seller research, and AI options summary.",
-      modules: ["Options overview", "0DTE center", "Chain concept", "Unusual activity", "IV and Greeks", "Probability analysis", "Seller research", "AI options summary"]
-    },
-    {
-      el: els.catalystsContent,
-      number: "18",
-      title: "Catalysts Calendar",
-      subtitle: "Future catalyst board for earnings, IPOs, macro, Fed/CPI/jobs, geopolitical events, prediction markets, and AI event summaries.",
-      modules: ["Earnings", "IPOs", "Macro events", "Fed/CPI/jobs", "Geopolitical risk", "Prediction market context", "AI event summary"]
-    },
-    {
-      el: els.researchContent,
-      number: "19",
-      title: "Research Desk",
-      subtitle: "Future news and symbol-linked research desk with source confidence, sentiment, AI daily summary, Learning Ledger links, and Archive links.",
-      modules: ["News stream", "Symbol research", "Source confidence", "Sentiment", "AI daily summary", "Learning Ledger", "Archive links"]
-    },
-    {
-      el: els.roadmapContent,
-      number: "20",
-      title: "Build / Roadmap",
-      subtitle: "Future build cockpit for Phase 2 roadmap, GitHub Pages workflow status, Antigravity/Codex tasks, validation commands, and next prototype decisions.",
-      modules: ["Phase 2 roadmap", "GitHub Pages workflow", "Antigravity/Codex tasks", "Validation commands", "Next prototype decision"]
-    }
-  ];
 
-  pages.forEach(page => {
-    if (!page.el) return;
-    if (page.el === els.researchContent) {
-      renderResearchDeskPage();
-      return;
-    }
-    page.el.innerHTML = `
-      <div class="p-4 sm:p-6 bg-[#08090b] text-xs font-mono text-[#c0c4cc] overflow-x-hidden">
-        <section class="p-5 bg-[#11141a] border border-[#1d242e] border-l-2 border-l-amber/60 rounded-sm">
-          <p class="text-[10px] text-amber uppercase tracking-[0.24em]">Future Concept — Not Implemented Yet</p>
-          <div class="mt-2 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-            <div>
-              <h2 class="text-2xl text-white font-bold uppercase tracking-tight font-sans">${page.number} ${page.title}</h2>
-              <p class="mt-2 max-w-3xl text-[#909399] font-sans leading-relaxed">${page.subtitle}</p>
-            </div>
-            <span class="px-3 py-2 bg-[#0c0d0e] border border-green/30 text-green rounded-sm uppercase">Static Prototype</span>
-          </div>
-          <div class="mt-5 flex flex-wrap gap-2">
-            <span class="pc-status-chip research">Research Only</span>
-            <span class="pc-status-chip manual-review">Manual Review Required</span>
-            <span class="pc-status-chip no-broker">No Broker Execution</span>
-            <span class="pc-status-chip no-live-data">No Fake Live Data</span>
-            <span class="pc-status-chip static">Future Backend Required</span>
-          </div>
-        </section>
-        <section class="mt-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          ${page.modules.map(module => `
-            <div class="p-4 bg-[#11141a] border border-[#1d242e] rounded-sm">
-              <p class="text-[9px] text-teal uppercase tracking-widest">Planned Module</p>
-              <h3 class="mt-2 text-white text-sm font-sans font-bold">${escapeHtml(module)}</h3>
-              <p class="mt-2 text-[#909399] font-sans leading-relaxed">Placeholder only. This module waits for CEO B approval and a safe read-only backend plan.</p>
-            </div>
-          `).join("")}
-        </section>
-      </div>
-    `;
+const PICKAXE_V90_PAGE_BLUEPRINTS = Object.freeze({
+  dashboard: {
+    number: "01", title: "Mission Control", kicker: "Founder-ready operating loop", status: "Static / Source-Gated",
+    purpose: "Explains how Alerts, Sources, Risk, CEO B review, Archive lessons, and the improvement loop work together.",
+    route: "#/dashboard",
+    lead: "Alerts → Sources → Risk → CEO B Gate → Archive Lesson → Improvement Loop",
+    modules: [
+      ["Alerts Desk", "One active candidate. Exact contract blocked until source, quote, chain, stale, public display, and CEO B gates pass."],
+      ["Source Hub", "Manual source receipts and provider-proof readiness without live feed activation."],
+      ["Risk & Rules", "No verified chain, no exact contract. Invalidation and counter-thesis required before review."],
+      ["Archive Loop", "Every accepted or rejected packet becomes a future lesson only after manual review."]
+    ],
+    gates: ["Research only", "No external action", "CEO B gate required", "Provider proof not active"],
+    actions: [["Open Alerts", "#/alerts"], ["Open Source Hub", "#/source-hub"], ["Open Risk Rules", "#/risk-rules"]]
+  },
+  sourceHub: {
+    number: "06", title: "Source Hub", kicker: "Verification command center", status: "Manual Deck / Provider Locked",
+    purpose: "Organizes source receipts, timestamp requirements, manual source deck policy, and provider/live status boundaries.",
+    route: "#/source-hub",
+    lead: "Source required before signal. No live feed. No public display authorization without receipt, timestamp, attribution, stale firewall, and CEO B review.",
+    modules: [
+      ["Manual Source Deck", "Manual source review remains the current accepted input path; no scraping or auto-feed."],
+      ["Source Receipt", "Receipt ID is not issued until a source URL/provider, captured time, normalized time, and verification state exist."],
+      ["Timestamp Gate", "No verified timestamp means no public display and no exact contract unlock."],
+      ["Provider Boundary", "Future providers require server-only credentials, display rights, attribution, and separate CEO B authorization."]
+    ],
+    gates: ["SOURCE REQUIRED", "NO VERIFIED TIMESTAMP", "NO PROVIDER SNAPSHOT", "NO LIVE FEED"],
+    actions: [["Open Alerts Gate", "#/alerts"], ["Open Roadmap", "#/roadmap"]]
+  },
+  riskRules: {
+    number: "07", title: "Risk & Rules", kicker: "Discipline engine", status: "Active Safety Gates",
+    purpose: "Defines the non-negotiable rules that block research packets before they can become public-facing alerts.",
+    route: "#/risk-rules",
+    lead: "No verified chain, no exact contract. No financial advice. No broker execution. Options involve substantial risk.",
+    modules: [
+      ["Research-Only Boundary", "All site outputs are educational/internal research and are not buy/sell instructions."],
+      ["Invalidation Required", "Every candidate needs a counter-thesis and defined failure condition."],
+      ["Options Chain Lock", "Bid/ask, volume, OI, IV, Greeks, strike, and expiration stay locked until verified."],
+      ["Execution Firewall", "No broker connection, order ticket, alert delivery, payment, subscription, or auth behavior."]
+    ],
+    gates: ["Not financial advice", "No buy/sell instruction", "No broker execution", "No verified options chain"],
+    actions: [["Review Alerts", "#/alerts"], ["Open Source Hub", "#/source-hub"]]
+  },
+  aiHabitatOS: {
+    number: "14", title: "AI Habitat OS", kicker: "Internal command center", status: "Local / Manual",
+    purpose: "Shows Hermes as builder/operator, Codex as read-only auditor, and CEO B as final approval gate.",
+    route: "#/ai-habitat-os",
+    lead: "Hermes builds. Codex audits high-risk claims. CEO B approves. Memory vault and agent habitat remain future-gated.",
+    modules: [
+      ["Hermes Operator", "Primary builder, QA runner, release-prep agent, and status recorder under CEO B scope."],
+      ["Codex Auditor", "Read-only observer/high-risk reviewer; stale WAITING output is not a release blocker."],
+      ["CEO B Final Gate", "Discipline before signal. Final source/risk/display approval required."],
+      ["Memory Vault Future", "Persistence and self-learning require a future explicit storage design; no hidden learning claim here."]
+    ],
+    gates: ["Local OS", "Manual review", "No autonomous external action", "No hidden persistence"],
+    actions: [["Open Agents", "#/agents"], ["Open Vision Map", "#/vision-map"], ["Open Roadmap", "#/roadmap"]]
+  },
+  watchlists: {
+    number: "15", title: "Watchlists", kicker: "Ticker universe", status: "Static / Source-Gated",
+    purpose: "A ready watchlist shell for equities, ETFs, indices, crypto, commodities, and sector groups without fake prices.",
+    route: "#/watchlists",
+    lead: "Watchlists define research lanes only. Price, quote, and options-chain snapshots are locked until verified.",
+    modules: [["Core 18", "SPY, QQQ, NVDA, AAPL, GLD, USO, WTI, SLV, VIX, TSLA, SPCX, AMD, BTC, ETH, MSFT, GOOGL, BRK.B, SECTORS."], ["Bias Lanes", "Bullish, bearish, and watch-only lanes remain labels until evidence passes gates."], ["Asset Classes", "Equities, ETFs, indices, volatility, crypto, commodities, macro sectors."], ["Snapshot Requirement", "No live prices, no fake marks, no exact contracts."]],
+    gates: ["No fake prices", "Quote snapshot required", "Options chain locked", "CEO B review"],
+    actions: [["Open Alerts", "#/alerts"], ["Open Markets Matrix", "#/markets"], ["Open Options Hub", "#/options"]]
+  },
+  markets: {
+    number: "16", title: "Markets Matrix", kicker: "Market structure shell", status: "Provider Snapshot Required",
+    purpose: "Presents the future market matrix as a locked command board: breadth, regime, sectors, macro, and volatility without live values.",
+    route: "#/markets",
+    lead: "Market context is a gate, not a claim. No live prices or breadth numbers are displayed in V9.0.",
+    modules: [["Index Cards", "Static cards ready for future server-only quote snapshots."], ["Breadth Monitor", "Future breadth inputs require timestamped source receipts."], ["Sector Rotation", "Manual sector notes only until provider proof exists."], ["Risk-On / Risk-Off", "Regime label blocked until source, timestamp, and stale firewall pass."]],
+    gates: ["No live data", "Provider mode locked", "Timestamp required", "Public display locked"],
+    actions: [["Open Watchlists", "#/watchlists"], ["Open Source Hub", "#/source-hub"]]
+  },
+  options: {
+    number: "17", title: "Options Hub", kicker: "Options research shell", status: "Exact Contract Blocked",
+    purpose: "A locked options hub for future chain snapshots, liquidity checks, IV/Greeks, spreads, and exact-contract review.",
+    route: "#/options",
+    lead: "No verified options chain means no exact contract. Bid/ask, volume, OI, IV, Greeks, strikes, and expirations remain locked.",
+    modules: [["Chain Snapshot", "Normalized options-chain schema exists in Alerts V8.4 sandbox; provider ingestion is not active."], ["Liquidity Gate", "Spread, volume, OI, and open-interest gates are future verified inputs only."], ["Risk Lens", "Theta, IV, Greeks, and event risk require verified chain/source context."], ["Contract Decision", "CEO B cannot approve around missing provider rights, stale data, or source receipt gaps."]],
+    gates: ["NO VERIFIED OPTIONS CHAIN", "NO BID/ASK", "NO VOLUME", "NO IV/GREEKS"],
+    actions: [["Open Alerts", "#/alerts"], ["Open Risk Rules", "#/risk-rules"]]
+  },
+  catalysts: {
+    number: "18", title: "Catalysts Calendar", kicker: "Event context", status: "Manual / Source Required",
+    purpose: "A source-gated event calendar shell for earnings, macro, Fed/CPI/jobs, geopolitical events, and catalysts.",
+    route: "#/catalysts",
+    lead: "Catalysts inform research only after source identity, timestamp, relevance, and risk impact are reviewed.",
+    modules: [["Earnings", "Manual event notes only."], ["Macro Events", "CPI, Fed, jobs, and rates context require source receipts."], ["Geopolitical Risk", "No viral trend becomes a signal without verification."], ["Catalyst Impact", "Impact language stays qualitative until verified data exists."]],
+    gates: ["Source required", "Timestamp required", "No live feed", "CEO B review"],
+    actions: [["Open Source Hub", "#/source-hub"], ["Open Research Desk", "#/research"]]
+  },
+  research: {
+    number: "19", title: "Research Desk", kicker: "Evidence to packet", status: "Manual Drafts",
+    purpose: "Turns source notes into research packets, evidence stacks, missing-item lists, and CEO B routing decisions.",
+    route: "#/research",
+    lead: "Research packets are drafts until source, risk, quote, chain, stale, display, and CEO B gates pass.",
+    modules: [["Evidence Stack", "Manual evidence items, no fake source confidence."], ["Missing Items", "Explicit gaps are more valuable than false completeness."], ["Route Decision", "Alerts, Watchlists, Archive, or Return for Evidence."], ["CEO B Standard", "Source verified. Risk gated. No external action."]],
+    gates: ["Research only", "Manual review", "No confidence score", "No alert delivery"],
+    actions: [["Open Alerts", "#/alerts"], ["Open Learning Ledger", "#/learning-ledger"], ["Open Archive", "#/archive"]]
+  },
+  learningLedger: {
+    number: "08", title: "Learning Ledger", kicker: "Postmortem memory", status: "Local Lessons",
+    purpose: "Shows how alerts become reviewed lessons, mistake tags, and future playbook rules after manual postmortem.",
+    route: "#/learning-ledger",
+    lead: "No self-learning claim. Lessons are local/manual until persistence and review policy are explicitly authorized.",
+    modules: [["Postmortem Loop", "Outcome reviewed after the fact, never as a live prediction."], ["Mistake Tags", "False positive, timing, source quality, stale data, liquidity, risk breach."], ["Ticker Playbooks", "Ticker personality and memory are future manual-review concepts."], ["Rule Approval", "CEO B confirms which lessons become standing rules."]],
+    gates: ["Manual lesson", "No self-learning claim", "Archive first", "CEO B approval"],
+    actions: [["Open Archive", "#/archive"], ["Open Research Desk", "#/research"]]
+  },
+  archive: {
+    number: "10", title: "Archive Vault", kicker: "Memory and evidence vault", status: "Manual / Local",
+    purpose: "Stores reviewed source notes, packets, lessons, and future evidence receipts without pretending live ingestion exists.",
+    route: "#/archive",
+    lead: "Archive is the compound-memory destination: what was checked, why it mattered, what failed, and what CEO B decided.",
+    modules: [["Source Receipts", "Future receipt IDs wait for verified source URL/provider and timestamp."], ["Alert Outcomes", "Closed-loop review after research candidates expire."], ["Mistake Ledger", "Bad timing, stale source, weak liquidity, missing invalidation."], ["Retrieval", "Searchable public shell without exposing private vault paths."]],
+    gates: ["No private path leakage", "No live ingestion", "Manual archive", "No external action"],
+    actions: [["Open Learning Ledger", "#/learning-ledger"], ["Open Source Hub", "#/source-hub"]]
+  },
+  roadmap: {
+    number: "20", title: "Roadmap", kicker: "Build sequence", status: "V8.4 Locked / V9.0 Shell",
+    purpose: "Shows what is locked, what comes next, and which future phases require hard safety gates.",
+    route: "#/roadmap",
+    lead: "Locked: V8.4 Provider Adapter Sandbox. Next: server-side provider proof / quote snapshot test harness. Later: options-chain ingestion, source library, scoring, postmortem persistence, mobile polish.",
+    modules: [["Locked", "V8.4 provider adapter sandbox hosted verified; V9.0 website shell preserves it."], ["Next", "Server-side provider proof and quote snapshot test harness require separate authorization."], ["Later", "Options-chain ingestion, source library, scoring, postmortem persistence, mobile polish."], ["Never Without Approval", "Credentials, provider calls, server changes, execution, payment, auth, broker, alert delivery."]],
+    gates: ["Forward-only releases", "No force push", "Safety branch first", "CEO B command required"],
+    actions: [["Open Alerts", "#/alerts"], ["Open AI Habitat OS", "#/ai-habitat-os"]]
+  },
+  staging: {
+    number: "13", title: "Staging / QA", kicker: "Release discipline", status: "Static Checks",
+    purpose: "Tracks route safety, browser screenshots, validation commands, deployment boundary, and release-readiness evidence.",
+    route: "#/staging",
+    lead: "QA is evidence, not vibes: screenshots, routes, no overflow, no fake data, no provider calls, no disallowed files.",
+    modules: [["Route Matrix", "Primary and regression routes must remain stable."], ["Screenshot Proof", "Desktop-first and mobile smoke evidence saved per release."], ["Artifact Search", "Forbidden legacy price/date/link artifacts remain blocked."], ["Deployment Boundary", "GitHub Pages publishes public/ only; server/provider files are not deployed."]],
+    gates: ["Validation required", "Artifact grep clean", "Allowed files only", "Hosted verification"],
+    actions: [["Open Roadmap", "#/roadmap"], ["Open Alerts", "#/alerts"]]
+  },
+  founder: {
+    number: "00", title: "Founder Page", kicker: "Public standard", status: "CEO B Governed",
+    purpose: "Introduces the Founder vision and the CEO B operating standard without implying financial advice, live signals, or execution.",
+    route: "#/founder",
+    lead: "Founder vision defines why Pickaxe exists. CEO B enforces discipline before signal.",
+    modules: [["Founder Identity", "Vision builder and product owner for the Pickaxe Capital operating system."], ["CEO B Standard", "Final review gate for source, risk, public display, and release discipline."], ["Public Boundary", "Research-only website; no brokerage, no order routing, no live data claims."], ["Operating Doctrine", "Research first. Source verified. Risk gated. No external action."]],
+    gates: ["Research only", "No external action", "Not financial advice", "CEO B gate required"],
+    actions: [["Open Alerts", "#/alerts"], ["Open Roadmap", "#/roadmap"]]
+  }
+});
+
+function renderV90StatusChips(page) {
+  const chips = [page.status, ...(page.gates || [])].slice(0, 7);
+  return chips.map((chip, index) => `<span class="v90-chip ${index === 0 ? "primary" : ""}">${escapeHtml(chip)}</span>`).join("");
+}
+
+function renderV90ActionLinks(page) {
+  return (page.actions || []).map(([label, href]) => `<a class="v90-action" href="${escapeHtml(href)}">${escapeHtml(label)}</a>`).join("");
+}
+
+function renderV90PageShell(page) {
+  return `
+    <div class="v90-shell" data-v90-page="${escapeHtml(page.title)}">
+      <header class="v90-hero">
+        <div>
+          <p class="v90-kicker">${escapeHtml(page.number)} · ${escapeHtml(page.kicker)}</p>
+          <h2>${escapeHtml(page.title)}</h2>
+          <p>${escapeHtml(page.purpose)}</p>
+        </div>
+        <div class="v90-chip-row">${renderV90StatusChips(page)}</div>
+      </header>
+      <section class="v90-command-band">
+        <strong>Research. Discipline. Verification.</strong>
+        <span>${escapeHtml(page.lead)}</span>
+      </section>
+      <section class="v90-card-grid">
+        ${(page.modules || []).map(([title, body], idx) => `
+          <article class="v90-card ${idx === 0 ? "featured" : ""}">
+            <span>${String(idx + 1).padStart(2, "0")}</span>
+            <h3>${escapeHtml(title)}</h3>
+            <p>${escapeHtml(body)}</p>
+          </article>
+        `).join("")}
+      </section>
+      <footer class="v90-footer-gate">
+        <div>
+          <strong>Safety Contract</strong>
+          <span>Research only. Not financial advice. For educational purposes only. No buy/sell instruction. No broker execution. No verified options chain. No external action. Static demo only unless verified source/provider gates pass.</span>
+        </div>
+        <nav>${renderV90ActionLinks(page)}</nav>
+      </footer>
+    </div>
+  `;
+}
+
+function appendV90CompletionBanner(container, pageKey) {
+  const page = PICKAXE_V90_PAGE_BLUEPRINTS[pageKey];
+  if (!container || !page) return;
+  if (container.querySelector?.(".v90-shell")) return;
+  container.insertAdjacentHTML("afterbegin", renderV90PageShell(page));
+}
+
+function renderV90WebsiteCompletionPages() {
+  const pairs = [
+    [els.dashboardContent, "dashboard"], [els.sourceHubContent, "sourceHub"], [els.riskRulesContent, "riskRules"],
+    [els.aiHabitatOSContent || document.querySelector("#aiHabitatOS .page-shell"), "aiHabitatOS"], [els.watchlistsContent, "watchlists"],
+    [els.marketsContent, "markets"], [els.optionsContent, "options"], [els.catalystsContent, "catalysts"],
+    [els.researchContent, "research"], [els.learningLedgerContent, "learningLedger"], [els.archiveContent?.parentElement || els.archiveContent, "archive"],
+    [els.roadmapContent, "roadmap"], [els.stagingContent || document.querySelector("#staging"), "staging"]
+  ];
+  pairs.forEach(([container, pageKey]) => appendV90CompletionBanner(container, pageKey));
+}
+
+function renderFutureConceptPages() {
+  const futureTargets = [
+    [els.watchlistsContent, "watchlists"], [els.marketsContent, "markets"], [els.optionsContent, "options"],
+    [els.catalystsContent, "catalysts"], [els.roadmapContent, "roadmap"]
+  ];
+  futureTargets.forEach(([el, key]) => {
+    if (el && PICKAXE_V90_PAGE_BLUEPRINTS[key]) el.innerHTML = renderV90PageShell(PICKAXE_V90_PAGE_BLUEPRINTS[key]);
   });
+  if (els.researchContent) renderResearchDeskPage();
 }
 
 function renderRiskRulesPage() {
@@ -6490,6 +6633,7 @@ function renderArchiveVaultExperience() {
 
 function renderArchiveIntelligence() {
   renderArchiveVaultExperience();
+  appendV90CompletionBanner(els.archiveIntelligence, "archive");
 }
 
 window.filterArchiveIntel = () => {
@@ -12466,7 +12610,7 @@ function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
   const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   const selected = getPickaxeAlerts01WatchlistItem();
   return `
-    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple pa-v81-final pa-v82-intelligence pa-v83-provider-gate pa-v84-provider-sandbox" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v8-4-provider-adapter-sandbox" data-alerts-runtime="static-source-gated" data-alerts-surface="simple-working-v8-4-provider-adapter-sandbox">
+    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple pa-v81-final pa-v82-intelligence pa-v83-provider-gate pa-v84-provider-sandbox" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v9-0-website-completion" data-alerts-runtime="static-source-gated" data-alerts-surface="founder-ready-v9-0-website-completion">
       <div class="pa-noise" aria-hidden="true"></div>
       ${renderPickaxeAlerts01AssetFilters()}
       ${renderPickaxeAlerts01PremiumHeader(selected, liveStatus)}
@@ -21732,6 +21876,7 @@ renderSignalsIntelligence = function () {
 // Final active renderer: #/archive.
 renderArchiveIntelligence = function () {
   renderArchiveVaultExperience();
+  appendV90CompletionBanner(els.archiveIntelligence, "archive");
 }
 
 renderBookmarksPage = function () {
