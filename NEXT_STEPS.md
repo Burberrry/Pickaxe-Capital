@@ -2,6 +2,22 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Alerts Desk V8.4 Provider Adapter / Quote Snapshot Sandbox is **HOSTED VERIFIED**.
+
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Product commit: `e0bf18373a98196e6c1aecd4649097a4a57ff486`.
+- Pages workflow: `28421987787`.
+- Pages deployment: `5249275614` / `success`.
+- Runtime marker: `v8-4-provider-adapter-sandbox`.
+- Surface marker: `simple-working-v8-4-provider-adapter-sandbox`.
+- Hosted score: **993 / 1000 normalized**.
+- Evidence/screenshots: `/tmp/pickaxe-alerts-desk-v8-4-provider-adapter-sandbox/`.
+- Release boundary remains research-only: no live data activation, no provider calls, no credentials, no server/provider/package/data changes, no fake option/market/source values, no execution, no alert delivery, no auth/payment/subscription.
+- Next phase must remain separately authorized and source-gated: real server-only provider adapter implementation, verified quote snapshot ingestion, verified options-chain snapshot ingestion, source receipt persistence, public display authorization, and CEO B workflow.
+
+
+## Current Active Checkpoint
+
 Pickaxe Alerts Desk V8.4 Provider Adapter / Quote Snapshot Sandbox is a **PASS / LOCAL RELEASE-PREP CANDIDATE** on branch `codex/alerts-desk-v8-4-provider-adapter-sandbox-20260629`.
 
 - Baseline: `c6cc1e1e33c967e55098b7c51adba8a5f5e1ac3e` V8.3 Provider Gate Readiness Hosted Baseline.

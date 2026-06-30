@@ -1,5 +1,28 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Alerts Desk V8.4 Provider Adapter / Quote Snapshot Sandbox Hosted Verified
+
+- Date: 2026-06-30T05:22:16Z.
+- Result: **PASS / V8.4 PROVIDER ADAPTER SANDBOX HOSTED VERIFIED**.
+- Hosted URL: `https://burberrry.github.io/Pickaxe-Capital/`.
+- Baseline confirmed: `main == origin/main == c6cc1e1e33c967e55098b7c51adba8a5f5e1ac3e` before sprint (`PICKAXE CAPITAL — ALERTS DESK V8.3 PROVIDER GATE READINESS`).
+- Product commit: `e0bf18373a98196e6c1aecd4649097a4a57ff486` (`Build Alerts desk V8.4 provider adapter sandbox`).
+- Safety branch: `backup/pre-alerts-desk-v8-4-provider-adapter-sandbox-20260629`.
+- Work branch: `codex/alerts-desk-v8-4-provider-adapter-sandbox-20260629`.
+- Runtime marker: `data-alerts-cockpit-version="v8-4-provider-adapter-sandbox"`; surface marker: `data-alerts-surface="simple-working-v8-4-provider-adapter-sandbox"`; cache key: `alerts-desk-v8-4-provider-adapter-sandbox-20260629-r1`.
+- Pages workflow: `28421987787`; Validate and Build `84216803547` success; Deploy `84216840334` success.
+- Pages deployment: `5249275614`; deployment status `success`; environment URL `https://burberrry.github.io/Pickaxe-Capital/`.
+- Hosted QA: 16 screenshots captured, 9 primary route/viewport checks passed, 13 regression routes passed, 5 ticker interaction checks passed, 12 local action checks passed, mobile smoke passed.
+- Hosted score: **993 / 1000 normalized** (`1191 / 1200` raw category total; pass threshold 940/1000).
+- V8.1/V8.2/V8.3 surface preserved: one active alert card, full 18-ticker watchlist, Bull/Bear bias character switching, exact contract gate blocked/source-gated, local review actions, PET local helper, Review Panel, Counter-Risk Check, manual Source Deck, V8.2 intelligence concepts, and V8.3 provider-gate readiness.
+- V8.4 sandbox added: provider adapter registry, normalized quote snapshot sandbox, normalized options-chain snapshot sandbox, stale firewall validator, provider mode state machine chips, quote/chain validation fields, source receipt/data lineage card, alert gate evaluator, public display authorization gate, CEO B final source/risk gate, and local-only diagnostics.
+- Safety truth preserved: static/source-gated only, no live data activation, no provider activation, no server/provider/package/data/asset changes, no credentials, no fake quote/option/source values, no confidence score, no broker/order/payment/auth/subscription/alert-delivery behavior, and no new routes.
+- Hosted public-bundle cleanliness: root/current `app.js`/`styles.css` assets clean for forbidden legacy price/date/link artifacts; no external provider/X browser calls; no exposed secrets; no execution behavior.
+- Evidence/screenshots: `/tmp/pickaxe-alerts-desk-v8-4-provider-adapter-sandbox/`.
+- Status-record cache key: `alerts-desk-v8-4-provider-adapter-sandbox-hosted-verified-20260629-r1`.
+- Remaining blockers: real provider credentials, provider terms/display rights, server-only adapter implementation, verified quote/options-chain ingestion, public display authorization, persistent postmortem/source receipt storage, and any broker/execution/auth/payment/subscription/alert-delivery work.
+
+
 ## Current Checkpoint - Pickaxe Alerts Desk V8.4 Provider Adapter / Quote Snapshot Sandbox Local Candidate
 
 - Date: 2026-06-30T05:11:48Z.
