@@ -2,6 +2,18 @@
 
 ## Current Active Checkpoint
 
+V8.1 Simple Working Alerts Desk has been ported into a safe forward branch from current hosted `main` and is ready for local QA/validation.
+
+- Forward branch: `codex/alerts-desk-v8-1-simple-working-forward-20260629`.
+- Current hosted baseline preserved as branch base: `927b92cb7ef0be02fe26753b696bca688f86113e`.
+- Approved source candidate: `9b05ccab4ced1251f5562786d0ac069d2c504d5e`.
+- Do not push/deploy from this sprint until local QA, validation, and CEO B promotion approval pass.
+- Safe promotion rule remains: no force push, no reset of public `main`, and no direct push of the old divergent candidate branch.
+- Provider/live-data, exact verified options-chain display, source-library ingestion, scoring, broker/execution, alert delivery, auth, payment, and subscription remain blocked unless separately authorized.
+
+
+## Current Active Checkpoint
+
 Pickaxe Alerts Desk V8.1 Desktop Finish Hosted Verification is **PASS / V8.1 DESKTOP FINISH HOSTED VERIFIED**.
 
 - Promoted commit: `414cf57151c3d50f2e6bdd9f068855d81c67547c`.

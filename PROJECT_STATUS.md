@@ -1,5 +1,20 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - V8.1 Simple Working Alerts Desk Forward Promotion Candidate
+
+- Date: 2026-06-29.
+- Result: **LOCAL SAFE-FORWARD PROMOTION CANDIDATE PREPARED FOR QA**.
+- Forward branch: `codex/alerts-desk-v8-1-simple-working-forward-20260629`.
+- Started from current hosted `main` / `origin/main`: `927b92cb7ef0be02fe26753b696bca688f86113e`.
+- Approved local source candidate ported: `9b05ccab4ced1251f5562786d0ac069d2c504d5e` (`Finish simple working Alerts desk`).
+- Safe path: created a new forward branch from current `main`; did not push the divergent candidate branch, did not force-push, did not reset `main`, and did not rewrite public history.
+- Product surface: `Pickaxe Alerts Desk V8.1 — Simple Working Options Alert Surface`; still V8.1, not V8.2.
+- Runtime marker preserved: `data-alerts-cockpit-version="v8-1-single-active-alert-hero"`; surface marker: `data-alerts-surface="simple-working-final"`; cache key: `alerts-desk-v8-1-simple-working-final-20260629-r1`.
+- Expected surface: one active alert card, compact watchlist, Bull/Bear bias character, blocked exact contract gate, inline local Review/Evidence/Source Check/Archive actions, connected Review Panel, compact Counter-Risk Check, PET local helper, and manual Source Deck.
+- Safety/source truth boundaries preserved: no live data, no provider work, no fake prices/timestamps/contracts/confidence/X posts, no broker/order/payment/auth/subscription/alert-delivery behavior, and no new routes.
+- Promotion status: local forward branch only; hosted promotion requires separate explicit push/deploy instruction after QA.
+
+
 ## Current Checkpoint - Pickaxe Alerts Desk V8.1 Desktop Finish Hosted Verification
 
 - Date: 2026-06-29.

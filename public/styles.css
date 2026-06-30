@@ -42339,805 +42339,415 @@ body[data-active-view="alerts"] .alerts-v81-sections>span{color:rgba(80,224,124,
 @media (max-width:1180px){#alerts.active .pa-v81-active-stack{grid-template-columns:minmax(0,1fr)}#alerts.active .pa-v81-counter-risk{min-height:0!important}}
 @media (max-width:900px){#alerts.active .pa-v81-gates,#alerts.active .pa-v81-hero-body{grid-template-columns:minmax(0,1fr)!important}#alerts.active .pa-v81-active-character{width:76px!important;height:76px!important;flex-basis:76px!important}#alerts.active .pa-v81-active-character .pa-v6-character,#alerts.active .pa-v81-active-character .pa-v6-character.is-bull,#alerts.active .pa-v81-active-character .pa-v6-character.is-bear{width:96px!important;height:110px!important;bottom:-18px!important}}
 
-/* Pickaxe Alerts Desk V8.1 desktop final finish — local-only premium product polish. */
-@media (min-width: 1181px) {
-  body[data-active-view="alerts"] {
-    background:
-      radial-gradient(circle at 49% 29%, rgba(245, 200, 76, 0.055), transparent 30%),
-      radial-gradient(circle at 59% 64%, rgba(80, 224, 124, 0.04), transparent 30%),
-      #010406 !important;
-  }
 
-  body[data-active-view="alerts"] .main {
-    background:
-      linear-gradient(90deg, rgba(0, 0, 0, 0.42), transparent 14%, transparent 84%, rgba(0, 0, 0, 0.38)),
-      radial-gradient(circle at 55% 23%, rgba(245, 200, 76, 0.04), transparent 27%) !important;
-  }
-
-  #alerts.active .pickaxe-alerts-01.pa-v81 {
-    --finish-gold: #f5c84c;
-    --finish-ink: #030908;
-    --finish-glass: rgba(2, 12, 12, 0.91);
-    gap: 10px !important;
-    padding: 14px !important;
-    border-color: rgba(245, 200, 76, 0.56) !important;
-    border-radius: 18px !important;
-    background:
-      radial-gradient(circle at 48% 40%, rgba(245, 200, 76, 0.07), transparent 34%),
-      radial-gradient(circle at 18% 50%, rgba(80, 224, 124, 0.055), transparent 32%),
-      radial-gradient(circle at 82% 54%, rgba(255, 96, 77, 0.045), transparent 33%),
-      linear-gradient(180deg, rgba(255, 245, 210, 0.045), rgba(255, 245, 210, 0.012)),
-      #010608 !important;
-    box-shadow:
-      inset 0 1px rgba(255, 245, 210, 0.12),
-      inset 0 0 0 1px rgba(255, 245, 210, 0.025),
-      0 30px 90px rgba(0, 0, 0, 0.48),
-      0 0 0 1px rgba(245, 200, 76, 0.08) !important;
-  }
-
-  #alerts.active .pickaxe-alerts-01.pa-v81::before {
-    content: "";
-    position: absolute;
-    inset: 126px 18px 18px 220px;
-    pointer-events: none;
-    border-radius: 26px;
-    background:
-      linear-gradient(rgba(245, 200, 76, 0.038) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(245, 200, 76, 0.032) 1px, transparent 1px),
-      radial-gradient(circle at 44% 56%, rgba(80, 224, 124, 0.07), transparent 32%);
-    background-size: 46px 46px, 46px 46px, auto;
-    mask-image: linear-gradient(180deg, transparent 0, #000 18%, #000 78%, transparent 100%);
-    opacity: 0.42;
-  }
-
-  #alerts.active .pa-v8-header {
-    min-height: 116px !important;
-    padding: 4px 0 0 !important;
-  }
-
-  #alerts.active .pa-v8-heading h1 {
-    font-size: clamp(64px, 5.4vw, 86px) !important;
-    letter-spacing: -0.07em !important;
-    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.5), 0 0 34px rgba(245, 200, 76, 0.11) !important;
-  }
-
-  #alerts.active .pa-v8-heading p {
-    font-size: 14px !important;
-    color: rgba(246, 239, 225, 0.76) !important;
-  }
-
-  #alerts.active .pa-v8-status-strip {
-    gap: 8px !important;
-    align-self: start !important;
-    padding-top: 4px !important;
-  }
-
-  #alerts.active .pa-v8-status-strip span {
-    min-height: 27px !important;
-    padding: 0 13px !important;
-    border-color: rgba(245, 200, 76, 0.36) !important;
-    background: linear-gradient(180deg, rgba(245, 200, 76, 0.11), rgba(0, 0, 0, 0.16)) !important;
-    box-shadow: inset 0 1px rgba(255, 245, 210, 0.07), 0 8px 18px rgba(0, 0, 0, 0.20) !important;
-  }
-
-  #alerts.active .pa-v8-watch-row {
-    grid-template-columns: minmax(206px, 0.22fr) minmax(0, 1fr) !important;
-    gap: 10px !important;
-  }
-
-  #alerts.active .pa-v8-selected-card,
-  #alerts.active .pa-v8-watchlist {
-    min-height: 190px !important;
-    padding: 13px !important;
-    border-color: rgba(245, 200, 76, 0.34) !important;
-    background:
-      radial-gradient(circle at 16% 12%, rgba(245, 200, 76, 0.065), transparent 42%),
-      linear-gradient(180deg, rgba(255, 245, 210, 0.055), rgba(255, 245, 210, 0.012)),
-      rgba(1, 10, 11, 0.92) !important;
-  }
-
-  #alerts.active .pa-v8-selected-card strong {
-    font-size: clamp(34px, 3.2vw, 46px) !important;
-    letter-spacing: -0.055em !important;
-  }
-
-  #alerts.active .pa-v8-watchlist {
-    align-content: center !important;
-  }
-
-  #alerts.active .pa-v8-ticker {
-    min-height: 98px !important;
-    border-color: rgba(245, 200, 76, 0.30) !important;
-    background: linear-gradient(180deg, rgba(255, 245, 210, 0.055), rgba(255, 245, 210, 0.014)), rgba(1, 8, 9, 0.92) !important;
-  }
-
-  #alerts.active .pa-v8-ticker.is-active {
-    border-color: rgba(80, 224, 124, 0.72) !important;
-    box-shadow: inset 0 1px rgba(255, 245, 210, 0.08), 0 0 24px rgba(80, 224, 124, 0.10) !important;
-  }
-
-  #alerts.active .pa-v8-desk {
-    grid-template-columns: minmax(0, 1fr) minmax(230px, 0.205fr) !important;
-    gap: 10px !important;
-    align-items: start !important;
-  }
-
-  #alerts.active .pa-v8-main-stage {
-    position: relative !important;
-    gap: 10px !important;
-    padding: 0 !important;
-  }
-
-  #alerts.active .pa-v8-main-stage::after {
-    content: "";
-    position: absolute;
-    inset: 16px 10px 60px 10px;
-    pointer-events: none;
-    border-radius: 28px;
-    background:
-      radial-gradient(circle at 36% 34%, rgba(245, 200, 76, 0.055), transparent 32%),
-      linear-gradient(135deg, transparent 0 48%, rgba(245, 200, 76, 0.055) 49%, transparent 50% 100%);
-    opacity: 0.76;
-    filter: blur(0.2px);
-  }
-
-  #alerts.active .pa-v81-active-stack {
-    position: relative !important;
-    z-index: 1 !important;
-    grid-template-columns: minmax(0, 1fr) minmax(160px, 0.17fr) !important;
-    gap: 10px !important;
-    align-items: start !important;
-  }
-
-  #alerts.active .pa-v81-active-hero {
-    min-height: clamp(535px, 58vh, 640px) !important;
-    padding: clamp(18px, 1.6vw, 24px) !important;
-    gap: 13px !important;
-    border-width: 1px !important;
-    border-radius: 20px !important;
-    isolation: isolate !important;
-    overflow: hidden !important;
-    background:
-      linear-gradient(115deg, rgba(255, 245, 210, 0.075), rgba(255, 245, 210, 0.018) 34%, rgba(0, 0, 0, 0.18) 100%),
-      radial-gradient(circle at 76% 18%, rgba(245, 200, 76, 0.14), transparent 25%),
-      radial-gradient(circle at 42% 63%, rgba(245, 200, 76, 0.055), transparent 35%),
-      rgba(1, 11, 11, 0.96) !important;
-  }
-
-  #alerts.active .pa-v81-active-hero::before,
-  #alerts.active .pa-v81-active-hero::after {
-    content: "";
-    position: absolute;
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  #alerts.active .pa-v81-active-hero::before {
-    inset: 0;
-    background:
-      linear-gradient(rgba(255, 245, 210, 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 245, 210, 0.026) 1px, transparent 1px);
-    background-size: 38px 38px;
-    mask-image: radial-gradient(circle at 72% 27%, #000 0 28%, transparent 62%);
-    opacity: 0.55;
-  }
-
-  #alerts.active .pa-v81-active-hero::after {
-    inset: auto -12% -28% 18%;
-    height: 58%;
-    border-radius: 999px;
-    filter: blur(34px);
-    opacity: 0.33;
-  }
-
-  #alerts.active .pa-v81-active-hero.is-bullish {
-    border-color: rgba(80, 224, 124, 0.78) !important;
-    box-shadow:
-      inset 0 1px rgba(255, 245, 210, 0.13),
-      inset 0 0 0 1px rgba(80, 224, 124, 0.08),
-      0 28px 70px rgba(0, 0, 0, 0.50),
-      0 0 55px rgba(80, 224, 124, 0.15) !important;
-  }
-
-  #alerts.active .pa-v81-active-hero.is-bullish::after {
-    background: radial-gradient(circle, rgba(80, 224, 124, 0.60), transparent 68%);
-  }
-
-  #alerts.active .pa-v81-active-hero.is-bearish {
-    border-color: rgba(255, 96, 77, 0.78) !important;
-    box-shadow:
-      inset 0 1px rgba(255, 245, 210, 0.12),
-      inset 0 0 0 1px rgba(255, 96, 77, 0.08),
-      0 28px 70px rgba(0, 0, 0, 0.50),
-      0 0 55px rgba(255, 96, 77, 0.15) !important;
-  }
-
-  #alerts.active .pa-v81-active-hero.is-bearish::after {
-    background: radial-gradient(circle, rgba(255, 96, 77, 0.58), transparent 68%);
-  }
-
-  #alerts.active .pa-v81-active-hero > header {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) clamp(174px, 17vw, 220px) !important;
-    align-items: start !important;
-    gap: 18px !important;
-    min-height: 166px !important;
-  }
-
-  #alerts.active .pa-v81-active-hero header small {
-    display: inline-flex !important;
-    width: fit-content !important;
-    min-height: 25px !important;
-    align-items: center !important;
-    padding: 0 10px !important;
-    border: 1px solid rgba(245, 200, 76, 0.24) !important;
-    border-radius: 999px !important;
-    background: rgba(0, 0, 0, 0.24) !important;
-    color: #f5c84c !important;
-  }
-
-  #alerts.active .pa-v81-active-hero h2 {
-    margin-top: 8px !important;
-    max-width: 12ch !important;
-    color: #fff6dd !important;
-    font-size: clamp(30px, 3.35vw, 48px) !important;
-    line-height: 0.88 !important;
-    letter-spacing: -0.07em !important;
-    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.46), 0 0 24px rgba(245, 200, 76, 0.14) !important;
-  }
-
-  #alerts.active .pa-v81-active-hero header p {
-    max-width: 48ch !important;
-    margin-top: 8px !important;
-    color: rgba(246, 239, 225, 0.76) !important;
-    font-size: 14px !important;
-  }
-
-  #alerts.active .pa-v81-active-character {
-    width: clamp(174px, 17vw, 220px) !important;
-    height: clamp(174px, 17vw, 220px) !important;
-    flex-basis: auto !important;
-    justify-self: end !important;
-    border-radius: 24px !important;
-    border-color: rgba(245, 200, 76, 0.42) !important;
-    background:
-      radial-gradient(circle at 50% 22%, rgba(245, 200, 76, 0.28), transparent 60%),
-      radial-gradient(circle at 50% 74%, rgba(0, 0, 0, 0.70), transparent 72%),
-      rgba(0, 0, 0, 0.38) !important;
-    box-shadow: inset 0 1px rgba(255, 245, 210, 0.12), 0 22px 45px rgba(0, 0, 0, 0.36) !important;
-  }
-
-  #alerts.active .pa-v81-active-hero.is-bullish .pa-v81-active-character {
-    box-shadow: inset 0 1px rgba(255, 245, 210, 0.12), 0 20px 42px rgba(0, 0, 0, 0.36), 0 0 34px rgba(80, 224, 124, 0.15) !important;
-  }
-
-  #alerts.active .pa-v81-active-hero.is-bearish .pa-v81-active-character {
-    box-shadow: inset 0 1px rgba(255, 245, 210, 0.12), 0 20px 42px rgba(0, 0, 0, 0.36), 0 0 34px rgba(255, 96, 77, 0.15) !important;
-  }
-
-  #alerts.active .pa-v81-active-character .pa-v6-character,
-  #alerts.active .pa-v81-active-character .pa-v6-character.is-bull,
-  #alerts.active .pa-v81-active-character .pa-v6-character.is-bear {
-    width: clamp(224px, 22vw, 286px) !important;
-    height: clamp(248px, 24vw, 318px) !important;
-    left: 50% !important;
-    bottom: -54px !important;
-    transform: translateX(-50%) !important;
-    filter: saturate(1.08) contrast(1.06) drop-shadow(0 20px 26px rgba(0, 0, 0, 0.45)) !important;
-  }
-
-  #alerts.active .pa-v81-hero-body {
-    grid-template-columns: minmax(0, 1fr) minmax(128px, 0.16fr) !important;
-    align-items: stretch !important;
-    gap: 10px !important;
-  }
-
-  #alerts.active .pa-v81-gates {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 9px !important;
-  }
-
-  #alerts.active .pa-v81-gates span {
-    min-height: 58px !important;
-    padding: 10px !important;
-    border-color: rgba(245, 200, 76, 0.21) !important;
-    border-radius: 12px !important;
-    background: linear-gradient(180deg, rgba(255, 245, 210, 0.060), rgba(255, 245, 210, 0.016)), rgba(0, 0, 0, 0.22) !important;
-  }
-
-  #alerts.active .pa-v81-gates span strong {
-    font-size: 13px !important;
-    line-height: 1.04 !important;
-  }
-
-  #alerts.active .pa-v81-active-hero .pa-v8-thesis {
-    max-width: 74ch !important;
-    color: rgba(246, 239, 225, 0.75) !important;
-    font-size: 13px !important;
-    line-height: 1.35 !important;
-  }
-
-  #alerts.active .pa-v81-risk-note {
-    padding: 11px 12px !important;
-    border-left: 3px solid rgba(245, 200, 76, 0.58) !important;
-    border-radius: 0 12px 12px 0 !important;
-    background: linear-gradient(90deg, rgba(245, 200, 76, 0.075), transparent) !important;
-  }
-
-  #alerts.active .pa-v81-active-hero .pa-v8-contract-gate,
-  #alerts.active .pa-v81-active-hero [class*="contract-gate"] {
-    margin-top: auto !important;
-  }
-
-  #alerts.active .pa-v8-contract-gate {
-    border-color: rgba(245, 200, 76, 0.36) !important;
-    border-radius: 14px !important;
-    background: linear-gradient(180deg, rgba(120, 54, 33, 0.20), rgba(0, 0, 0, 0.26)), rgba(0, 0, 0, 0.22) !important;
-    box-shadow: inset 0 1px rgba(255, 245, 210, 0.07), 0 14px 26px rgba(0, 0, 0, 0.22) !important;
-  }
-
-  #alerts.active .pa-v81-active-hero .pa-v8-actions {
-    margin-top: 2px !important;
-  }
-
-  #alerts.active .pa-v81-counter-risk {
-    min-height: auto !important;
-    align-self: start !important;
-    gap: 7px !important;
-    padding: 10px !important;
-    border-radius: 17px !important;
-    opacity: 0.88 !important;
-    transform: translateY(2px) !important;
-    background:
-      linear-gradient(180deg, rgba(255, 245, 210, 0.035), rgba(255, 245, 210, 0.006)),
-      rgba(1, 9, 10, 0.84) !important;
-  }
-
-  #alerts.active .pa-v81-counter-risk h2 {
-    font-size: 15px !important;
-    line-height: 0.98 !important;
-  }
-
-  #alerts.active .pa-v81-counter-risk p,
-  #alerts.active .pa-v81-counter-note span {
-    font-size: 10.5px !important;
-    line-height: 1.25 !important;
-  }
-
-  #alerts.active .pa-v81-counter-risk li {
-    min-height: 34px !important;
-    padding: 6px 8px !important;
-    border-radius: 9px !important;
-  }
-
-  #alerts.active .pa-v81-counter-note {
-    padding: 7px !important;
-  }
-
-  #alerts.active .pa-v8-source-deck {
-    position: relative !important;
-    z-index: 1 !important;
-    min-height: 78px !important;
-    padding: 14px !important;
-    border-color: rgba(245, 200, 76, 0.30) !important;
-    background:
-      linear-gradient(90deg, rgba(245, 200, 76, 0.05), transparent 48%, rgba(80, 224, 124, 0.035)),
-      rgba(1, 9, 10, 0.90) !important;
-  }
-
-  #alerts.active .pa-v8-right-rail {
-    display: grid !important;
-    gap: 10px !important;
-    padding: 0 !important;
-    position: relative !important;
-  }
-
-  #alerts.active .pa-v8-right-rail::before {
-    content: "";
-    position: absolute;
-    inset: -8px -7px -8px -7px;
-    pointer-events: none;
-    border: 1px solid rgba(245, 200, 76, 0.09);
-    border-radius: 20px;
-    background: linear-gradient(180deg, rgba(245, 200, 76, 0.025), transparent 42%, rgba(80, 224, 124, 0.018));
-  }
-
-  #alerts.active .pa-v8-right-rail > * {
-    position: relative !important;
-    border-radius: 15px !important;
-    border-color: rgba(245, 200, 76, 0.26) !important;
-    background: linear-gradient(180deg, rgba(255, 245, 210, 0.052), rgba(255, 245, 210, 0.012)), rgba(1, 9, 10, 0.90) !important;
-  }
-
-  #alerts.active .pa-v8-pet-card .pa-v8-pet-row {
-    align-items: center !important;
-  }
-
-  #alerts.active .pa-v8-pet-card figure,
-  #alerts.active .pa-v8-pet-card .pa-v8-pet-figure {
-    transform: scale(1.03) !important;
-    transform-origin: center !important;
-  }
+/* Pickaxe Alerts Desk V8.1 — simple working options alert rebuild. */
+#alerts.active .pickaxe-alerts-01.pa-v81-simple {
+  --simple-gold: #f3c85a;
+  --simple-cream: #f7efe0;
+  --simple-muted: rgba(247, 239, 224, 0.68);
+  --simple-green: #42e681;
+  --simple-red: #ff604d;
+  display: grid;
+  gap: 12px !important;
+  min-height: calc(100vh - 10px);
+  padding: 14px !important;
+  border-radius: 18px;
+  border: 1px solid rgba(243, 200, 90, 0.42);
+  background:
+    radial-gradient(circle at 32% 16%, rgba(66, 230, 129, 0.09), transparent 26%),
+    radial-gradient(circle at 84% 4%, rgba(243, 200, 90, 0.12), transparent 24%),
+    linear-gradient(rgba(243, 200, 90, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243, 200, 90, 0.028) 1px, transparent 1px),
+    linear-gradient(180deg, #07100f 0%, #020606 100%);
+  background-size: auto, auto, 40px 40px, 40px 40px, auto;
+  box-shadow: inset 0 1px rgba(255,255,255,0.06), 0 28px 60px rgba(0,0,0,0.36);
 }
 
-@media (min-width: 1181px) and (max-width: 1320px) {
-  #alerts.active .pickaxe-alerts-01.pa-v81 {
-    padding: 11px !important;
-    gap: 8px !important;
-  }
-  #alerts.active .pa-v8-header {
-    min-height: 102px !important;
-  }
-  #alerts.active .pa-v8-heading h1 {
-    font-size: clamp(55px, 5vw, 68px) !important;
-  }
-  #alerts.active .pa-v8-watch-row {
-    grid-template-columns: minmax(188px, 0.21fr) minmax(0, 1fr) !important;
-  }
-  #alerts.active .pa-v8-desk {
-    grid-template-columns: minmax(0, 1fr) 218px !important;
-  }
-  #alerts.active .pa-v81-active-stack {
-    grid-template-columns: minmax(0, 1fr) 146px !important;
-    gap: 8px !important;
-  }
-  #alerts.active .pa-v81-active-hero {
-    min-height: 500px !important;
-    padding: 15px !important;
-  }
-  #alerts.active .pa-v81-active-hero > header {
-    grid-template-columns: minmax(0, 1fr) 160px !important;
-    min-height: 144px !important;
-    gap: 12px !important;
-  }
-  #alerts.active .pa-v81-active-hero h2 {
-    font-size: clamp(25px, 3vw, 36px) !important;
-  }
-  #alerts.active .pa-v81-active-character {
-    width: 160px !important;
-    height: 160px !important;
-  }
-  #alerts.active .pa-v81-active-character .pa-v6-character,
-  #alerts.active .pa-v81-active-character .pa-v6-character.is-bull,
-  #alerts.active .pa-v81-active-character .pa-v6-character.is-bear {
-    width: 212px !important;
-    height: 240px !important;
-    bottom: -46px !important;
-  }
-  #alerts.active .pa-v81-gates {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-  #alerts.active .pa-v81-counter-risk li {
-    min-height: 30px !important;
-    padding: 5px 7px !important;
-  }
+#alerts.active .pa-v81-simple :is(.pa-v81-simple-header,.pa-v81-watch-strip,.pa-v81-alert-card,.pa-v81-review-panel,.pa-v8-source-deck,.pa-v81-simple-footer) {
+  border: 1px solid rgba(243, 200, 90, 0.24);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 241, 190, 0.055), rgba(255, 241, 190, 0.014)), rgba(1, 8, 9, 0.91);
+  box-shadow: inset 0 1px rgba(255,255,255,0.055), 0 16px 34px rgba(0,0,0,0.22);
 }
 
-/* V8.1 desktop finish loop 2 — tighter fold fit and less wireframe void. */
+#alerts.active .pa-v81-simple-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 16px 18px;
+}
+
+#alerts.active .pa-v81-simple-title span,
+#alerts.active .pa-v81-watch-head span,
+#alerts.active .pa-v81-alert-title small,
+#alerts.active .pa-v81-gate-list h3,
+#alerts.active .pa-v81-contract-lock b,
+#alerts.active .pa-v81-review-section small {
+  color: var(--simple-gold);
+  font: 900 9px/1.1 "IBM Plex Mono", monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+#alerts.active .pa-v81-simple-title span { display:inline-flex; align-items:center; gap:7px; }
+#alerts.active .pa-v81-simple-title span i { width:8px; height:8px; border-radius:999px; background:var(--simple-green); box-shadow:0 0 14px rgba(66,230,129,.72); }
+#alerts.active .pa-v81-simple-title h1 { margin:4px 0 0; color:var(--simple-cream); font:950 clamp(48px,5.1vw,78px)/.86 "DM Serif Display",serif; letter-spacing:.015em; }
+#alerts.active .pa-v81-simple-title h1 em { font-style:normal; margin-left:.16em; color:#fff7df; }
+#alerts.active .pa-v81-simple-title p { margin:7px 0 0; color:var(--simple-muted); font:850 15px/1.2 "Inter",sans-serif; }
+#alerts.active .pa-v81-simple-status { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:7px; max-width:560px; }
+#alerts.active .pa-v81-simple-status span { min-height:28px; display:inline-grid; place-items:center; padding:0 12px; border:1px solid rgba(243,200,90,.3); border-radius:999px; color:#ffe8a8; background:rgba(0,0,0,.28); font:900 8px/1 "IBM Plex Mono",monospace; text-transform:uppercase; white-space:nowrap; }
+
+#alerts.active .pa-v81-watch-strip { padding: 12px; display:grid; gap:10px; }
+#alerts.active .pa-v81-watch-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+#alerts.active .pa-v81-watch-head strong { color:var(--simple-cream); font:950 20px/1 "Inter",sans-serif; }
+#alerts.active .pa-v81-watch-grid { display:grid; grid-template-columns:repeat(18, minmax(74px, 1fr)); gap:7px; overflow-x:auto; padding-bottom:2px; }
+#alerts.active .pa-v81-watch-tile { min-height:58px!important; display:grid!important; align-content:center; gap:2px; padding:7px 8px!important; border:1px solid rgba(243,200,90,.22)!important; border-radius:10px!important; background:rgba(0,0,0,.28)!important; text-align:left!important; color:var(--simple-cream)!important; }
+#alerts.active .pa-v81-watch-tile strong { font:950 16px/.95 "Inter",sans-serif; }
+#alerts.active .pa-v81-watch-tile small { color:rgba(247,239,224,.62); font:800 7px/1 "IBM Plex Mono",monospace; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+#alerts.active .pa-v81-watch-tile span { color:var(--simple-green); font:900 7px/1 "IBM Plex Mono",monospace; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+#alerts.active .pa-v81-watch-tile.is-bearish span { color:#ff806f; }
+#alerts.active .pa-v81-watch-tile.is-active { border-color:rgba(243,200,90,.76)!important; background:linear-gradient(180deg, rgba(243,200,90,.16), rgba(0,0,0,.26))!important; box-shadow:0 0 0 1px rgba(243,200,90,.18), 0 0 22px rgba(243,200,90,.08); }
+
+#alerts.active .pa-v81-workspace { display:grid; grid-template-columns:minmax(0, 1fr) minmax(310px, 360px); gap:14px; align-items:start; }
+#alerts.active .pa-v81-alert-card { position:relative; display:grid; gap:13px; padding:18px; overflow:hidden; min-height:0; }
+#alerts.active .pa-v81-alert-card.is-bullish { border-color:rgba(66,230,129,.58); background:radial-gradient(circle at 74% 14%, rgba(66,230,129,.18), transparent 28%), linear-gradient(180deg, rgba(255,241,190,.052), rgba(4,14,12,.92)); }
+#alerts.active .pa-v81-alert-card.is-bearish { border-color:rgba(255,96,77,.58); background:radial-gradient(circle at 74% 14%, rgba(255,96,77,.18), transparent 28%), linear-gradient(180deg, rgba(255,241,190,.052), rgba(14,6,7,.92)); }
+#alerts.active .pa-v81-alert-top { display:grid; grid-template-columns:minmax(0, 1fr) 210px; gap:18px; align-items:center; }
+#alerts.active .pa-v81-alert-title h2 { margin:4px 0 0; color:#fff8e8; font:950 clamp(52px, 5.2vw, 86px)/.82 "Inter", sans-serif; letter-spacing:-.06em; }
+#alerts.active .pa-v81-alert-title strong { display:block; margin-top:7px; color:var(--simple-cream); font:950 clamp(23px, 2.15vw, 35px)/.95 "Inter",sans-serif; letter-spacing:-.04em; text-transform:uppercase; max-width:13ch; }
+#alerts.active .pa-v81-alert-title p { margin:8px 0 0; color:var(--simple-muted); font:850 14px/1.25 "Inter",sans-serif; }
+#alerts.active .pa-v81-bias-character { position:relative; width:210px; height:210px; margin:0; overflow:hidden; border:1px solid rgba(243,200,90,.28); border-radius:22px; background:radial-gradient(circle at 50% 18%, rgba(243,200,90,.25), transparent 62%), rgba(0,0,0,.22); }
+#alerts.active .pa-v81-bias-character .pa-v6-character,
+#alerts.active .pa-v81-bias-character .pa-v6-character.is-bull,
+#alerts.active .pa-v81-bias-character .pa-v6-character.is-bear { position:absolute!important; left:50%!important; bottom:-48px!important; width:270px!important; height:302px!important; transform:translateX(-50%)!important; filter:drop-shadow(0 20px 20px rgba(0,0,0,.55)); }
+#alerts.active .pa-v81-bias-character .pa-v6-character img { width:100%; height:100%; object-fit:contain; }
+
+#alerts.active .pa-v81-alert-middle { display:grid; grid-template-columns:minmax(310px,.9fr) minmax(260px,.7fr); gap:12px; align-items:stretch; }
+#alerts.active .pa-v81-gate-list { display:grid; grid-template-columns:1fr; gap:7px; padding:12px; border:1px solid rgba(243,200,90,.18); border-radius:14px; background:rgba(0,0,0,.18); }
+#alerts.active .pa-v81-gate-list h3 { margin:0 0 2px; }
+#alerts.active .pa-v81-gate-list div { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:34px; padding:7px 9px; border:1px solid rgba(243,200,90,.12); border-radius:10px; background:rgba(255,255,255,.025); }
+#alerts.active .pa-v81-gate-list span { color:rgba(247,239,224,.66); font:850 10px/1 "IBM Plex Mono",monospace; letter-spacing:.08em; }
+#alerts.active .pa-v81-gate-list strong { color:var(--simple-cream); font:900 12px/1.1 "Inter",sans-serif; text-align:right; }
+#alerts.active .pa-v81-thesis-box { display:grid; align-content:start; gap:9px; padding:14px; border:1px solid rgba(243,200,90,.16); border-radius:14px; background:rgba(0,0,0,.16); }
+#alerts.active .pa-v81-thesis-box h3 { margin:0; color:var(--simple-cream); font:950 18px/1 "Inter",sans-serif; }
+#alerts.active .pa-v81-thesis-box p { margin:0; color:rgba(247,239,224,.72); font:760 12px/1.34 "Inter",sans-serif; }
+#alerts.active .pa-v81-contract-lock { display:grid; gap:5px; padding:13px 14px; border:1px solid rgba(243,200,90,.34); border-radius:14px; background:linear-gradient(90deg, rgba(243,200,90,.105), rgba(0,0,0,.2)); }
+#alerts.active .pa-v81-contract-lock strong { color:var(--simple-cream); font:900 12px/1.2 "IBM Plex Mono",monospace; text-transform:uppercase; }
+#alerts.active .pa-v81-contract-lock p { margin:0; color:rgba(247,239,224,.72); font:800 12px/1.25 "Inter",sans-serif; }
+#alerts.active .pa-v81-actions { display:flex; flex-wrap:wrap; gap:8px; }
+#alerts.active .pa-v81-actions button,
+#alerts.active .pa-v81-pet-simple button,
+#alerts.active .pa-v8-source-details summary { min-height:36px!important; padding:0 12px!important; border:1px solid rgba(243,200,90,.34)!important; border-radius:10px!important; background:linear-gradient(180deg, rgba(243,200,90,.16), rgba(243,200,90,.055))!important; color:#ffe7a6!important; font:900 9px/1 "IBM Plex Mono",monospace!important; text-transform:uppercase; }
+#alerts.active .pa-v81-action-panel,
+#alerts.active .pa-v81-local-note { display:grid; gap:4px; padding:12px; border:1px solid rgba(66,230,129,.26); border-radius:13px; background:rgba(4,20,14,.5); }
+#alerts.active .pa-v81-action-panel span { color:var(--simple-green); font:900 9px/1 "IBM Plex Mono",monospace; text-transform:uppercase; letter-spacing:.1em; }
+#alerts.active .pa-v81-action-panel strong { color:var(--simple-cream); font:900 13px/1.25 "Inter",sans-serif; }
+#alerts.active .pa-v81-action-panel p,
+#alerts.active .pa-v81-local-note { margin:0; color:rgba(247,239,224,.7); font:780 11px/1.3 "Inter",sans-serif; }
+
+#alerts.active .pa-v81-review-panel { display:grid; gap:10px; padding:14px; }
+#alerts.active .pa-v81-review-panel > h2 { margin:0; color:var(--simple-cream); font:950 24px/1 "Inter",sans-serif; letter-spacing:-.04em; }
+#alerts.active .pa-v81-review-section { display:grid; gap:8px; padding:11px; border:1px solid rgba(243,200,90,.16); border-radius:13px; background:rgba(0,0,0,.18); }
+#alerts.active .pa-v81-review-section header { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+#alerts.active .pa-v81-review-section em { color:#ffe7a6; border:1px solid rgba(243,200,90,.23); border-radius:999px; padding:4px 7px; background:rgba(0,0,0,.22); font:900 8px/1 "IBM Plex Mono",monospace; text-transform:uppercase; }
+#alerts.active .pa-v81-review-section h3 { margin:0; color:var(--simple-cream); font:950 17px/1.02 "Inter",sans-serif; letter-spacing:-.035em; }
+#alerts.active .pa-v81-review-section p { margin:0; color:rgba(247,239,224,.68); font:760 11px/1.32 "Inter",sans-serif; }
+#alerts.active .pa-v81-pet-simple > div { display:grid; grid-template-columns:70px minmax(0,1fr); gap:10px; align-items:center; }
+#alerts.active .pa-v81-pet-simple .pa-v6-pet-figure { width:70px!important; height:70px!important; margin:0!important; }
+#alerts.active .pa-v81-counter-risk ul,
+#alerts.active .pa-v81-compact-list { display:grid; gap:6px; margin:0; padding:0; list-style:none; }
+#alerts.active .pa-v81-counter-risk li,
+#alerts.active .pa-v81-compact-list li { display:flex; justify-content:space-between; gap:8px; padding:7px 8px; border:1px solid rgba(243,200,90,.12); border-radius:9px; background:rgba(255,255,255,.025); color:var(--simple-cream); font:850 10px/1.15 "Inter",sans-serif; text-transform:uppercase; }
+#alerts.active .pa-v81-counter-risk li strong { color:var(--simple-gold); font:900 8px/1 "IBM Plex Mono",monospace; }
+#alerts.active .pa-v81-muted { color:rgba(247,239,224,.55)!important; }
+#alerts.active .pa-v81-review-tags { display:flex; flex-wrap:wrap; gap:6px; }
+#alerts.active .pa-v81-review-tags span { padding:6px 8px; border:1px solid rgba(243,200,90,.13); border-radius:999px; color:rgba(247,239,224,.75); font:850 8px/1 "IBM Plex Mono",monospace; text-transform:uppercase; }
+
+#alerts.active .pa-v81-simple .pa-v8-source-deck { grid-column:1/-1; display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; padding:12px!important; }
+#alerts.active .pa-v81-simple-footer { display:flex; justify-content:space-between; gap:16px; padding:12px 14px; }
+#alerts.active .pa-v81-simple-footer strong { color:var(--simple-cream); font:900 12px/1 "Inter",sans-serif; }
+#alerts.active .pa-v81-simple-footer span { color:rgba(247,239,224,.56); font:800 10px/1.2 "Inter",sans-serif; text-align:right; }
+
+@media (max-width: 1180px) {
+  #alerts.active .pa-v81-simple-header,
+  #alerts.active .pa-v81-workspace,
+  #alerts.active .pa-v81-alert-middle { grid-template-columns: minmax(0,1fr); }
+  #alerts.active .pa-v81-simple-status { justify-content:flex-start; }
+  #alerts.active .pa-v81-watch-grid { grid-template-columns:repeat(18, 78px); }
+  #alerts.active .pa-v81-review-panel { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  #alerts.active .pa-v81-review-panel > h2 { grid-column:1/-1; }
+}
+@media (max-width: 900px) {
+  #alerts.active .pickaxe-alerts-01.pa-v81-simple { margin:4px!important; padding:10px!important; overflow:hidden; }
+  #alerts.active .pa-v81-simple-title h1 { font-size:42px; }
+  #alerts.active .pa-v81-alert-top { grid-template-columns:minmax(0,1fr) 86px; }
+  #alerts.active .pa-v81-alert-title h2 { font-size:40px; }
+  #alerts.active .pa-v81-alert-title strong { font-size:18px; }
+  #alerts.active .pa-v81-bias-character { width:86px; height:86px; border-radius:15px; }
+  #alerts.active .pa-v81-bias-character .pa-v6-character,
+  #alerts.active .pa-v81-bias-character .pa-v6-character.is-bull,
+  #alerts.active .pa-v81-bias-character .pa-v6-character.is-bear { width:116px!important; height:132px!important; bottom:-24px!important; }
+  #alerts.active .pa-v81-review-panel { grid-template-columns:minmax(0,1fr); }
+  #alerts.active .pa-v81-simple .pa-v8-source-deck,
+  #alerts.active .pa-v81-simple-footer { grid-template-columns:minmax(0,1fr); flex-direction:column; }
+  #alerts.active .pa-v81-simple-footer span { text-align:left; }
+}
+
+
+/* Pickaxe Alerts Desk V8.1 simple rebuild — loop 2 fold-fit and header clarity. */
+#alerts.active .pa-v81-simple-title h1 em {
+  font: inherit !important;
+  letter-spacing: inherit !important;
+  text-transform: none !important;
+  color: #fff7df !important;
+  margin-left: .18em !important;
+}
+
 @media (min-width: 1181px) {
-  #alerts.active .pickaxe-alerts-01.pa-v81 {
-    gap: 8px !important;
+  #alerts.active .pickaxe-alerts-01.pa-v81-simple {
+    gap: 10px !important;
     padding: 12px 14px !important;
   }
-
-  #alerts.active .pa-v8-header {
-    min-height: 100px !important;
+  #alerts.active .pa-v81-simple-header {
+    padding: 13px 16px;
   }
-
-  #alerts.active .pa-v8-heading h1 {
-    font-size: clamp(58px, 5.05vw, 78px) !important;
+  #alerts.active .pa-v81-simple-title h1 {
+    font-size: clamp(46px, 4.45vw, 66px);
   }
-
-  #alerts.active .pa-v8-heading p {
-    margin-top: -4px !important;
+  #alerts.active .pa-v81-simple-title p {
+    margin-top: 4px;
   }
-
-  #alerts.active .pa-v8-watch-row {
-    gap: 9px !important;
+  #alerts.active .pa-v81-watch-strip {
+    padding: 10px 12px;
+    gap: 8px;
   }
-
-  #alerts.active .pa-v8-selected-card,
-  #alerts.active .pa-v8-watchlist {
-    min-height: 158px !important;
-    padding: 12px !important;
+  #alerts.active .pa-v81-watch-grid {
+    gap: 6px;
   }
-
-  #alerts.active .pa-v8-selected-card strong {
-    font-size: clamp(32px, 2.9vw, 42px) !important;
-  }
-
-  #alerts.active .pa-v8-watch-head {
-    margin-bottom: 2px !important;
-  }
-
-  #alerts.active .pa-v8-ticker {
-    min-height: 78px !important;
-    padding: 8px !important;
-  }
-
-  #alerts.active .pa-v8-desk {
-    gap: 9px !important;
-  }
-
-  #alerts.active .pa-v81-active-stack {
-    grid-template-columns: minmax(0, 1fr) minmax(156px, 0.165fr) !important;
-    gap: 9px !important;
-  }
-
-  #alerts.active .pa-v81-active-hero {
-    min-height: clamp(520px, 50vh, 570px) !important;
-    align-content: start !important;
-    align-items: start !important;
-    grid-template-rows: max-content max-content max-content max-content max-content max-content !important;
-    padding: clamp(16px, 1.35vw, 21px) !important;
-    gap: 10px !important;
-  }
-
-  #alerts.active .pa-v81-active-hero > header {
-    min-height: 148px !important;
-    grid-template-columns: minmax(0, 1fr) clamp(168px, 15.5vw, 204px) !important;
-    gap: 15px !important;
-  }
-
-  #alerts.active .pa-v81-active-hero h2 {
-    max-width: 13ch !important;
-    font-size: clamp(27px, 2.85vw, 42px) !important;
-  }
-
-  #alerts.active .pa-v81-active-hero header p {
-    font-size: 13px !important;
-    margin-top: 6px !important;
-  }
-
-  #alerts.active .pa-v81-active-character {
-    width: clamp(168px, 15.5vw, 204px) !important;
-    height: clamp(168px, 15.5vw, 204px) !important;
-  }
-
-  #alerts.active .pa-v81-active-character .pa-v6-character,
-  #alerts.active .pa-v81-active-character .pa-v6-character.is-bull,
-  #alerts.active .pa-v81-active-character .pa-v6-character.is-bear {
-    width: clamp(214px, 20.4vw, 266px) !important;
-    height: clamp(236px, 22vw, 298px) !important;
-    bottom: -50px !important;
-  }
-
-  #alerts.active .pa-v81-gates {
-    gap: 8px !important;
-  }
-
-  #alerts.active .pa-v81-gates span {
+  #alerts.active .pa-v81-watch-tile {
     min-height: 52px !important;
-    padding: 8px 9px !important;
+    padding: 6px 7px !important;
   }
-
-  #alerts.active .pa-v81-gates span strong {
-    font-size: 12.3px !important;
+  #alerts.active .pa-v81-alert-card {
+    gap: 10px;
+    padding: 16px 18px;
   }
-
-  #alerts.active .pa-v81-active-hero .pa-v8-thesis {
-    font-size: 12.4px !important;
-    line-height: 1.26 !important;
+  #alerts.active .pa-v81-alert-top {
+    grid-template-columns: minmax(0, 1fr) 176px;
+    gap: 16px;
   }
-
-  #alerts.active .pa-v81-risk-note {
-    padding: 8px 10px !important;
+  #alerts.active .pa-v81-alert-title h2 {
+    font-size: clamp(48px, 4.7vw, 72px);
   }
-
-  #alerts.active .pa-v8-contract-gate {
-    padding: 11px 12px !important;
+  #alerts.active .pa-v81-alert-title strong {
+    font-size: clamp(21px, 1.9vw, 30px);
+    max-width: 14ch;
   }
-
-  #alerts.active .pa-v8-contract-gate p,
-  #alerts.active .pa-v8-contract-gate small,
-  #alerts.active .pa-v8-contract-gate span {
-    line-height: 1.22 !important;
+  #alerts.active .pa-v81-alert-title p {
+    font-size: 13px;
   }
-
-  #alerts.active .pa-v81-counter-risk {
-    width: 100% !important;
-    max-width: 168px !important;
-    padding: 9px !important;
-    gap: 6px !important;
+  #alerts.active .pa-v81-bias-character {
+    width: 176px;
+    height: 176px;
   }
-
-  #alerts.active .pa-v81-counter-risk h2 {
-    font-size: 14px !important;
+  #alerts.active .pa-v81-bias-character .pa-v6-character,
+  #alerts.active .pa-v81-bias-character .pa-v6-character.is-bull,
+  #alerts.active .pa-v81-bias-character .pa-v6-character.is-bear {
+    width: 230px !important;
+    height: 260px !important;
+    bottom: -42px !important;
   }
-
-  #alerts.active .pa-v81-counter-risk li {
-    min-height: 30px !important;
-    padding: 5px 7px !important;
+  #alerts.active .pa-v81-alert-middle {
+    grid-template-columns: minmax(0, 1.1fr) minmax(250px, .82fr);
+    gap: 10px;
   }
-
-  #alerts.active .pa-v81-counter-risk li span {
-    font-size: 9.4px !important;
+  #alerts.active .pa-v81-gate-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    padding: 10px;
   }
-
-  #alerts.active .pa-v81-counter-risk li strong {
-    font-size: 7.4px !important;
+  #alerts.active .pa-v81-gate-list h3 {
+    grid-column: 1 / -1;
   }
-
-  #alerts.active .pa-v8-right-rail {
-    gap: 9px !important;
+  #alerts.active .pa-v81-gate-list div {
+    display: grid;
+    min-height: 40px;
+    padding: 7px 8px;
   }
-
-  #alerts.active .pa-v8-right-rail > * {
-    padding: 10px !important;
+  #alerts.active .pa-v81-gate-list span {
+    font-size: 8px;
   }
-
-  #alerts.active .pa-v8-source-deck {
-    min-height: 66px !important;
-    padding: 12px !important;
+  #alerts.active .pa-v81-gate-list strong {
+    font-size: 11px;
+    text-align: left;
   }
-}
-
-@media (min-width: 1181px) and (max-width: 1320px) {
-  #alerts.active .pa-v8-header { min-height: 88px !important; }
-  #alerts.active .pa-v8-heading h1 { font-size: clamp(50px, 4.55vw, 62px) !important; }
-  #alerts.active .pa-v8-selected-card,
-  #alerts.active .pa-v8-watchlist { min-height: 142px !important; }
-  #alerts.active .pa-v8-ticker { min-height: 68px !important; }
-  #alerts.active .pa-v81-active-hero {
-    min-height: 492px !important;
-    padding: 14px !important;
-    gap: 8px !important;
+  #alerts.active .pa-v81-thesis-box {
+    padding: 11px 12px;
+    gap: 7px;
   }
-  #alerts.active .pa-v81-active-hero > header {
-    min-height: 132px !important;
-    grid-template-columns: minmax(0, 1fr) 150px !important;
+  #alerts.active .pa-v81-thesis-box h3 {
+    font-size: 17px;
   }
-  #alerts.active .pa-v81-active-character { width: 150px !important; height: 150px !important; }
-  #alerts.active .pa-v81-active-character .pa-v6-character,
-  #alerts.active .pa-v81-active-character .pa-v6-character.is-bull,
-  #alerts.active .pa-v81-active-character .pa-v6-character.is-bear {
-    width: 198px !important;
-    height: 224px !important;
-    bottom: -44px !important;
+  #alerts.active .pa-v81-thesis-box p {
+    font-size: 11.2px;
+    line-height: 1.25;
   }
-  #alerts.active .pa-v81-gates span { min-height: 48px !important; padding: 7px 8px !important; }
-  #alerts.active .pa-v81-active-hero .pa-v8-thesis { font-size: 11.8px !important; }
-}
-
-/* V8.1 desktop finish loop 3 — 1440x900 final fold balance. */
-@media (min-width: 1181px) {
-  #alerts.active .pickaxe-alerts-01.pa-v81 {
-    gap: 7px !important;
-    padding-top: 10px !important;
-    padding-bottom: 12px !important;
+  #alerts.active .pa-v81-contract-lock {
+    padding: 10px 12px;
   }
-
-  #alerts.active .pa-v8-header {
-    min-height: 88px !important;
+  #alerts.active .pa-v81-contract-lock strong,
+  #alerts.active .pa-v81-contract-lock p {
+    font-size: 10.8px;
+    line-height: 1.22;
   }
-
-  #alerts.active .pa-v8-heading h1 {
-    font-size: clamp(55px, 4.85vw, 72px) !important;
+  #alerts.active .pa-v81-actions button,
+  #alerts.active .pa-v81-pet-simple button,
+  #alerts.active .pa-v8-source-details summary {
+    min-height: 32px !important;
   }
-
-  #alerts.active .pa-v8-heading p {
-    font-size: 13px !important;
-    margin-top: -7px !important;
+  #alerts.active .pa-v81-action-panel {
+    padding: 9px 10px;
   }
-
-  #alerts.active .pa-v8-status-strip span {
-    min-height: 24px !important;
-    padding: 0 11px !important;
-    font-size: 8px !important;
+  #alerts.active .pa-v81-action-panel strong {
+    font-size: 12px;
   }
-
-  #alerts.active .pa-v8-selected-card,
-  #alerts.active .pa-v8-watchlist {
-    min-height: 132px !important;
-    padding: 10px 12px !important;
+  #alerts.active .pa-v81-review-panel {
+    padding: 12px;
+    gap: 8px;
   }
-
-  #alerts.active .pa-v8-selected-card strong {
-    font-size: clamp(30px, 2.7vw, 39px) !important;
+  #alerts.active .pa-v81-review-panel > h2 {
+    font-size: 22px;
   }
-
-  #alerts.active .pa-v8-selected-card p,
-  #alerts.active .pa-v8-selected-card span {
-    line-height: 1.18 !important;
+  #alerts.active .pa-v81-review-section {
+    padding: 9px;
+    gap: 7px;
   }
-
-  #alerts.active .pa-v8-ticker {
-    min-height: 63px !important;
-    padding: 7px 8px !important;
+  #alerts.active .pa-v81-review-section h3 {
+    font-size: 16px;
   }
-
-  #alerts.active .pa-v8-ticker strong {
-    font-size: 15px !important;
-  }
-
-  #alerts.active .pa-v8-ticker small,
-  #alerts.active .pa-v8-ticker span {
-    font-size: 6.6px !important;
-  }
-
-  #alerts.active .pa-v81-active-hero {
-    min-height: clamp(500px, 48vh, 540px) !important;
-    padding: 15px 18px !important;
-    gap: 8px !important;
-  }
-
-  #alerts.active .pa-v81-active-hero > header {
-    min-height: 130px !important;
-    grid-template-columns: minmax(0, 1fr) clamp(178px, 14.5vw, 196px) !important;
-    gap: 13px !important;
-  }
-
-  #alerts.active .pa-v81-active-hero h2 {
-    font-size: clamp(25px, 2.55vw, 38px) !important;
-    line-height: 0.9 !important;
-  }
-
-  #alerts.active .pa-v81-active-character {
-    width: clamp(178px, 14.5vw, 196px) !important;
-    height: clamp(178px, 14.5vw, 196px) !important;
-  }
-
-  #alerts.active .pa-v81-active-character .pa-v6-character,
-  #alerts.active .pa-v81-active-character .pa-v6-character.is-bull,
-  #alerts.active .pa-v81-active-character .pa-v6-character.is-bear {
-    width: clamp(224px, 19.3vw, 258px) !important;
-    height: clamp(246px, 21vw, 288px) !important;
-    bottom: -48px !important;
-  }
-
-  #alerts.active .pa-v81-gates {
-    gap: 7px !important;
-  }
-
-  #alerts.active .pa-v81-gates span {
-    min-height: 46px !important;
-    padding: 7px 8px !important;
-  }
-
-  #alerts.active .pa-v81-gates span strong {
-    font-size: 11.7px !important;
-  }
-
-  #alerts.active .pa-v81-active-hero .pa-v8-thesis {
-    font-size: 11.8px !important;
-    line-height: 1.22 !important;
-  }
-
-  #alerts.active .pa-v81-risk-note {
-    padding: 7px 9px !important;
-  }
-
-  #alerts.active .pa-v8-contract-gate {
-    padding: 9px 11px !important;
-    border-radius: 13px !important;
-  }
-
-  #alerts.active .pa-v8-actions button,
-  #alerts.active .pa-v8-source-details summary,
-  #alerts.active .pa-v8-watch-support button {
-    min-height: 30px !important;
-  }
-
-  #alerts.active .pa-v81-counter-risk {
-    max-width: 156px !important;
-  }
-
-  #alerts.active .pa-v8-source-deck {
-    min-height: 58px !important;
+  #alerts.active .pa-v81-counter-risk li,
+  #alerts.active .pa-v81-compact-list li {
+    padding: 6px 7px;
   }
 }
 
 @media (min-width: 1181px) and (max-width: 1320px) {
-  #alerts.active .pa-v8-header { min-height: 78px !important; }
-  #alerts.active .pa-v8-heading h1 { font-size: clamp(47px, 4.35vw, 58px) !important; }
-  #alerts.active .pa-v8-heading p { font-size: 12px !important; }
-  #alerts.active .pa-v8-selected-card,
-  #alerts.active .pa-v8-watchlist { min-height: 124px !important; }
-  #alerts.active .pa-v8-ticker { min-height: 58px !important; }
-  #alerts.active .pa-v81-active-hero { min-height: 486px !important; padding: 13px !important; }
-  #alerts.active .pa-v81-active-hero > header { min-height: 120px !important; grid-template-columns:minmax(0,1fr) 146px!important; }
-  #alerts.active .pa-v81-active-character { width: 146px !important; height: 146px !important; }
-  #alerts.active .pa-v81-active-character .pa-v6-character,
-  #alerts.active .pa-v81-active-character .pa-v6-character.is-bull,
-  #alerts.active .pa-v81-active-character .pa-v6-character.is-bear { width: 192px !important; height: 216px !important; bottom: -42px !important; }
+  #alerts.active .pa-v81-workspace {
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: 12px;
+  }
+  #alerts.active .pa-v81-alert-top {
+    grid-template-columns: minmax(0, 1fr) 150px;
+  }
+  #alerts.active .pa-v81-bias-character { width: 150px; height: 150px; }
+  #alerts.active .pa-v81-bias-character .pa-v6-character,
+  #alerts.active .pa-v81-bias-character .pa-v6-character.is-bull,
+  #alerts.active .pa-v81-bias-character .pa-v6-character.is-bear { width: 204px!important; height:232px!important; bottom:-40px!important; }
+  #alerts.active .pa-v81-alert-middle { grid-template-columns: minmax(0, 1fr); }
 }
+
+
+/* Pickaxe Alerts Desk V8.1 — simple working final finish. */
+#alerts.active .pickaxe-alerts-01.pa-v81-final {
+  gap: 9px !important;
+  background:
+    radial-gradient(circle at 27% 13%, rgba(66,230,129,.105), transparent 24%),
+    radial-gradient(circle at 75% 24%, rgba(243,200,90,.12), transparent 26%),
+    radial-gradient(circle at 68% 58%, rgba(66,230,129,.055), transparent 30%),
+    linear-gradient(rgba(243,200,90,.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243,200,90,.026) 1px, transparent 1px),
+    linear-gradient(180deg,#060c0d 0%,#010404 100%);
+  background-size: auto, auto, auto, 42px 42px, 42px 42px, auto;
+}
+#alerts.active .pickaxe-alerts-01.pa-v81-final:after {
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:118px 16px 42px;
+  border-radius:24px;
+  pointer-events:none;
+  opacity:.33;
+  background:linear-gradient(115deg, transparent 0 42%, rgba(243,200,90,.09) 48%, transparent 55% 100%);
+  transform:translateX(-18%);
+  animation:paV81FinalSweep 7.2s ease-in-out infinite;
+}
+#alerts.active .pa-v81-final > *:not(.pa-noise) { position:relative; z-index:1; }
+#alerts.active .pa-v81-final .pa-v81-simple-header,
+#alerts.active .pa-v81-final .pa-v81-watch-strip,
+#alerts.active .pa-v81-final .pa-v81-alert-card,
+#alerts.active .pa-v81-final .pa-v81-review-panel,
+#alerts.active .pa-v81-final .pa-v8-source-deck,
+#alerts.active .pa-v81-final .pa-v81-simple-footer {
+  box-shadow: inset 0 1px rgba(255,255,255,.07), 0 18px 42px rgba(0,0,0,.28), 0 0 0 1px rgba(243,200,90,.035);
+}
+@media (min-width:1181px) {
+  #alerts.active .pa-v81-final .pa-v81-simple-header { padding:11px 16px; min-height:96px; }
+  #alerts.active .pa-v81-final .pa-v81-simple-title h1 { font-size:clamp(44px,4.05vw,60px); line-height:.86; }
+  #alerts.active .pa-v81-final .pa-v81-simple-title p { font-size:14px; }
+  #alerts.active .pa-v81-final .pa-v81-simple-status span { min-height:26px; padding:0 10px; }
+  #alerts.active .pa-v81-final .pa-v81-watch-strip { padding:9px 11px; }
+  #alerts.active .pa-v81-final .pa-v81-watch-head strong { font-size:19px; }
+  #alerts.active .pa-v81-final .pa-v81-watch-tile { min-height:49px !important; }
+  #alerts.active .pa-v81-final .pa-v81-workspace { grid-template-columns:minmax(0,1fr) minmax(316px,350px); gap:12px; }
+  #alerts.active .pa-v81-final .pa-v81-alert-card { gap:9px; padding:15px 18px 14px; }
+  #alerts.active .pa-v81-final .pa-v81-alert-card:before {
+    content:"";
+    position:absolute;
+    inset:0 auto 0 0;
+    width:3px;
+    background:linear-gradient(180deg, transparent, rgba(66,230,129,.88), rgba(243,200,90,.42), transparent);
+    box-shadow:0 0 24px rgba(66,230,129,.38);
+  }
+  #alerts.active .pa-v81-final .pa-v81-alert-card.is-bearish:before {
+    background:linear-gradient(180deg, transparent, rgba(255,96,77,.9), rgba(243,200,90,.38), transparent);
+    box-shadow:0 0 24px rgba(255,96,77,.32);
+  }
+  #alerts.active .pa-v81-final .pa-v81-alert-title h2 { font-size:clamp(48px,4.8vw,70px); }
+  #alerts.active .pa-v81-final .pa-v81-alert-title strong { font-size:clamp(20px,1.82vw,28px); line-height:.94; max-width:15ch; }
+  #alerts.active .pa-v81-final .pa-v81-alert-title p { font-size:12.5px; }
+  #alerts.active .pa-v81-final .pa-v81-alert-top { grid-template-columns:minmax(0,1fr) 168px; gap:14px; }
+  #alerts.active .pa-v81-final .pa-v81-bias-character { width:168px; height:168px; border-radius:20px; box-shadow:inset 0 1px rgba(255,255,255,.08), 0 16px 34px rgba(0,0,0,.3), 0 0 26px rgba(66,230,129,.11); }
+  #alerts.active .pa-v81-final .pa-v81-alert-card.is-bearish .pa-v81-bias-character { box-shadow:inset 0 1px rgba(255,255,255,.08), 0 16px 34px rgba(0,0,0,.3), 0 0 26px rgba(255,96,77,.1); }
+  #alerts.active .pa-v81-final .pa-v81-bias-character .pa-v6-character,
+  #alerts.active .pa-v81-final .pa-v81-bias-character .pa-v6-character.is-bull,
+  #alerts.active .pa-v81-final .pa-v81-bias-character .pa-v6-character.is-bear { width:224px!important; height:252px!important; bottom:-41px!important; }
+  #alerts.active .pa-v81-final .pa-v81-alert-middle { grid-template-columns:minmax(0,1.05fr) minmax(238px,.74fr); gap:9px; }
+  #alerts.active .pa-v81-final .pa-v81-gate-list { padding:9px; gap:5px; }
+  #alerts.active .pa-v81-final .pa-v81-gate-list div { min-height:36px; padding:6px 8px; }
+  #alerts.active .pa-v81-final .pa-v81-gate-list strong { font-size:10.6px; }
+  #alerts.active .pa-v81-final .pa-v81-thesis-box { padding:10px 11px; gap:6px; }
+  #alerts.active .pa-v81-final .pa-v81-thesis-box h3 { font-size:16px; }
+  #alerts.active .pa-v81-final .pa-v81-thesis-box p { font-size:10.6px; line-height:1.22; }
+  #alerts.active .pa-v81-final .pa-v81-contract-lock { padding:9px 11px; gap:4px; }
+  #alerts.active .pa-v81-final .pa-v81-contract-lock strong,
+  #alerts.active .pa-v81-final .pa-v81-contract-lock p { font-size:10.2px; line-height:1.18; }
+  #alerts.active .pa-v81-final .pa-v81-action-row { display:grid; grid-template-columns:max-content minmax(240px,1fr); gap:8px; align-items:stretch; }
+  #alerts.active .pa-v81-final .pa-v81-actions { align-content:start; }
+  #alerts.active .pa-v81-final .pa-v81-actions button { min-height:31px!important; padding:0 10px!important; }
+  #alerts.active .pa-v81-final .pa-v81-action-panel { min-height:31px; padding:8px 10px; align-content:center; }
+  #alerts.active .pa-v81-final .pa-v81-action-panel strong { font-size:11.4px; }
+  #alerts.active .pa-v81-final .pa-v81-action-panel p { font-size:10px; }
+  #alerts.active .pa-v81-final .pa-v81-review-panel { padding:11px; gap:7px; }
+  #alerts.active .pa-v81-final .pa-v81-review-panel > h2 { font-size:21px; }
+  #alerts.active .pa-v81-final .pa-v81-review-section { padding:8px; gap:6px; }
+  #alerts.active .pa-v81-final .pa-v81-pet-simple > div { grid-template-columns:56px minmax(0,1fr); gap:8px; }
+  #alerts.active .pa-v81-final .pa-v81-pet-simple .pa-v6-pet-figure { width:56px!important; height:56px!important; }
+  #alerts.active .pa-v81-final .pa-v81-pet-simple button { min-height:29px!important; }
+  #alerts.active .pa-v81-final .pa-v81-review-section h3 { font-size:15px; }
+  #alerts.active .pa-v81-final .pa-v81-review-section p { font-size:10.4px; line-height:1.23; }
+  #alerts.active .pa-v81-final .pa-v81-counter-risk li,
+  #alerts.active .pa-v81-final .pa-v81-compact-list li { padding:5px 7px; min-height:28px; align-items:center; }
+  #alerts.active .pa-v81-final .pa-v81-review-tags { gap:4px; }
+  #alerts.active .pa-v81-final .pa-v81-review-tags span { padding:5px 7px; font-size:7.5px; }
+}
+@media (min-width:1181px) and (max-width:1320px) {
+  #alerts.active .pa-v81-final .pa-v81-workspace { grid-template-columns:minmax(0,1fr) 320px; }
+  #alerts.active .pa-v81-final .pa-v81-alert-top { grid-template-columns:minmax(0,1fr) 144px; }
+  #alerts.active .pa-v81-final .pa-v81-bias-character { width:144px; height:144px; }
+  #alerts.active .pa-v81-final .pa-v81-bias-character .pa-v6-character,
+  #alerts.active .pa-v81-final .pa-v81-bias-character .pa-v6-character.is-bull,
+  #alerts.active .pa-v81-final .pa-v81-bias-character .pa-v6-character.is-bear { width:198px!important; height:224px!important; bottom:-38px!important; }
+}
+@keyframes paV81FinalSweep { 0%,100% { opacity:.18; transform:translateX(-24%); } 50% { opacity:.42; transform:translateX(24%); } }
+@media (prefers-reduced-motion:reduce) { #alerts.active .pickaxe-alerts-01.pa-v81-final:after { animation:none!important; } }
