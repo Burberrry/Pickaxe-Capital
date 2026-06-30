@@ -1305,6 +1305,10 @@ function setView(view) {
     if (view === "checklist") loadChecklist();
     if (view === "vision") loadVisionMap();
     if (view === "log") loadBuildLog();
+    if (view === "signals") {
+      const signalsRoute = document.querySelector("#signals");
+      if (signalsRoute) signalsRoute.innerHTML = renderV90PageShell(PICKAXE_V90_PAGE_BLUEPRINTS.signals);
+    }
   } catch (error) {
     console.error(`Route render error for view "${view}":`, error);
     const viewContainer = document.getElementById(view);
