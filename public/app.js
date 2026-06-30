@@ -2975,6 +2975,24 @@ const PICKAXE_V90_PAGE_BLUEPRINTS = Object.freeze({
     gates: ["Research only", "No external action", "CEO B gate required", "Provider proof not active"],
     actions: [["Open Alerts", "#/alerts"], ["Open Source Hub", "#/source-hub"], ["Open Risk Rules", "#/risk-rules"]]
   },
+  command: {
+    number: "02", title: "Command Console", kicker: "Mission routing", status: "Manual / Local",
+    purpose: "Routes research packets from intake to source review, risk review, CEO B decision, archive memory, and build validation.",
+    route: "#/mission-control",
+    lead: "Command Console is an operating map only. No live command, order, broker, or provider action is available.",
+    modules: [["Review Queue", "Open the highest-priority research packet and verify source evidence before any promotion."], ["Source Intake", "Candidates remain manual/source-gated; provider adapters are not connected."], ["Agent Ownership", "Each packet needs one owner and one risk reviewer before CEO B review."], ["Build Truth", "Staging records release evidence, route QA, and artifact checks." ]],
+    gates: ["Local only", "Manual review", "No order routing", "No live provider"],
+    actions: [["Open Alerts", "#/alerts"], ["Open Source Hub", "#/source-hub"], ["Open Staging", "#/staging"]]
+  },
+  signals: {
+    number: "05", title: "Signals Lab", kicker: "Research packet workbench", status: "Static / Source-Gated",
+    purpose: "Frames signal ideas as research packets with source evidence, risk flags, missing-data lists, and CEO B routing.",
+    route: "#/signals",
+    lead: "No live signal. No fake price, timestamp, flow, option contract, confidence score, or execution instruction.",
+    modules: [["Research Packet Cards", "Candidates carry source requirements, missing proof, and manual review state."], ["Source Confidence", "Evidence quality matters more than loud scores or fake real-time movement."], ["Risk Flag", "Risk Sentinel must explain why a packet should be watched, studied, or rejected."], ["Promotion Boundary", "A packet can move to Alerts only after source, quote, chain, stale, display, and CEO B gates pass."]],
+    gates: ["No live signal", "No fake market data", "No exact contract", "CEO B review"],
+    actions: [["Open Alerts", "#/alerts"], ["Open Research Desk", "#/research"], ["Open Risk Rules", "#/risk-rules"]]
+  },
   sourceHub: {
     number: "06", title: "Source Hub", kicker: "Verification command center", status: "Manual Deck / Provider Locked",
     purpose: "Organizes source receipts, timestamp requirements, manual source deck policy, and provider/live status boundaries.",
@@ -20898,35 +20916,7 @@ var renderWatchlistsPage = function () {
 
 renderHomeCommandCenter = function () {
   if (!els.commandOS) return;
-  els.commandOS.innerHTML = `
-    <div class="page-shell">
-      ${pcPageHero(
-        "02 CMD / Mission Routing",
-        "Mission Control",
-        "Command priorities for moving research from intake to CEO B review, archive memory, and build validation.",
-        ["Research Only", "Manual Review Required", "Local First", "Backend Not Connected"]
-      )}
-      <section class="section-grid">
-        ${[
-          ["Review Queue", "Open the highest-priority research packet and verify source confidence before promoting it.", "#/alerts"],
-          ["Source Intake", "Keep Source Hub honest: candidates only, provider adapters not connected.", "#/source-hub"],
-          ["Agent Ownership", "Assign each packet to one owner and one risk reviewer to avoid duplicate work.", "#/agents"],
-          ["Build Truth", "Update Staging after every session so the tracker reflects what changed.", "#/staging"]
-        ].map(([title, body, href]) => `
-          <article class="command-card">
-            <span class="meta-label">Priority</span>
-            <h3>${escapeHtml(title)}</h3>
-            <p>${escapeHtml(body)}</p>
-            <a class="secondary-action" href="${escapeHtml(href)}">Open</a>
-          </article>
-        `).join("")}
-      </section>
-      <section class="truth-panel" style="margin-top:16px;">
-        <span class="meta-label">Next Manual Action</span>
-        <h3>Keep Phase 1.5 focused on visual clarity and safe research workflows. Phase 2 Dashboard waits for CEO B visual approval.</h3>
-      </section>
-    </div>
-  `;
+  els.commandOS.innerHTML = renderV90PageShell(PICKAXE_V90_PAGE_BLUEPRINTS.command);
 }
 
 function renderLivingAgentNetwork() {
@@ -21861,16 +21851,7 @@ renderSourceHubPage = function () {
 // Final active renderer: #/signals supporting intelligence panel.
 renderSignalsIntelligence = function () {
   if (!els.signalsIntelligence) return;
-  const cards = [
-    ["Research Packet Cards", "Candidates include source confidence, risk flag, watch criteria, and manual review status."],
-    ["Source Confidence", "Evidence quality matters more than a loud score or fake real-time movement."],
-    ["Risk Flag", "Risk Sentinel must be able to explain why a packet should be watched, studied, or rejected."]
-  ];
-  els.signalsIntelligence.innerHTML = `
-    <div class="page-shell" style="padding-left:0;padding-right:0;">
-      <section class="section-grid">${cards.map(([title, body]) => pcInfoCard(title, body, "Signals Lab")).join("")}</section>
-    </div>
-  `;
+  els.signalsIntelligence.innerHTML = renderV90PageShell(PICKAXE_V90_PAGE_BLUEPRINTS.signals);
 }
 
 // Final active renderer: #/archive.
