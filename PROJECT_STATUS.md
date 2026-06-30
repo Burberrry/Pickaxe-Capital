@@ -1,5 +1,24 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Alerts Desk V8.3 Provider Gate / Server-Only Data Readiness Local Candidate
+
+- Date: 2026-06-30T04:11:42Z.
+- Result: **PASS / V8.3 PROVIDER GATE READINESS LOCAL RELEASE-PREP CANDIDATE**.
+- Baseline confirmed: `main == origin/main == 912e0da372af31fc1f8c16a3f9e8ed0c8917d29c` (`PICKAXE CAPITAL — ALERTS DESK V8.2 INTELLIGENCE ARCHITECTURE`).
+- Safety branch: `backup/pre-alerts-desk-v8-3-provider-gate-readiness-20260629`.
+- Work branch: `codex/alerts-desk-v8-3-provider-gate-readiness-20260629`.
+- Runtime marker: `data-alerts-cockpit-version="v8-3-provider-gate-readiness"`; surface marker: `data-alerts-surface="simple-working-v8-3-provider-gate"`; cache key: `alerts-desk-v8-3-provider-gate-readiness-20260629-r1`.
+- V8.1/V8.2 surface preserved: one active alert card, full 18-ticker watchlist, Bull/Bear bias character switching, exact contract gate blocked/source-gated, local Review/Evidence/Source Check/Archive actions, PET local helper, connected Review Panel, compact Counter-Risk Check, manual Source Deck, and V8.2 source/quote/chain/scoring/postmortem/CEO B architecture concepts.
+- V8.3 architecture added: server-only provider boundary, public-key/client-provider-call/live-display locks, quote snapshot contract, options-chain validation contract, stale firewall modes, provider readiness checklist, alert qualification pipeline, scoring skeleton, postmortem readiness, and CEO B final source/risk/display gate.
+- Safety truth preserved: static/source-gated only, no live data activation, no server/provider/package changes, no credentials, no fake market/option/source values, no confidence score, no broker/order/payment/auth/subscription/alert-delivery behavior, and no new routes.
+- Local browser QA: 16 required screenshots captured, 9 primary route/viewport checks passed, 13 regression routes passed, 5 ticker interaction checks passed, 11 local action checks passed, mobile smoke passed.
+- Local score: **993 / 1000 normalized** (`1191 / 1200` raw category total; pass threshold 940/1000).
+- Validation: build/check/project/phase15/agents/mirrors/smoke/public-safety/deploy-boundary/routes passed; forbidden legacy artifact grep clean; character assets unchanged; `investor-assets/` untouched.
+- Evidence/screenshots: `/tmp/pickaxe-alerts-desk-v8-3-provider-gate-readiness/`.
+- Release status: local candidate only until commit and forward-hosted promotion gates complete.
+- Remaining blockers: provider credentials, provider terms/display rights, server-only provider adapters, quote/options-chain data licenses, stale-firewall runtime, manual/delayed/live display implementation, source-library ingestion, scoring implementation, postmortem persistence, and any broker/execution/auth/payment/subscription/alert-delivery work.
+
+
 ## Current Checkpoint - Pickaxe Alerts Desk V8.2 Intelligence / Source Architecture Hosted Verified
 
 - Date: 2026-06-30T02:53:03Z.
