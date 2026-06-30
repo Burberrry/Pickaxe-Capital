@@ -43102,3 +43102,66 @@ body:not([data-active-view="alerts"]) .topbar .eyebrow::after {
 @media (max-width: 1180px) { .v90-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .v90-hero { grid-template-columns: 1fr; } .v90-chip-row { justify-content:flex-start; } }
 @media (max-width: 760px) { .v90-shell { padding: 14px; border-radius: 18px; } .v90-card-grid, .v90-command-band, .v90-footer-gate { grid-template-columns: 1fr; } .v90-hero h2 { font-size: 32px; } .v90-footer-gate nav { justify-content:flex-start; } }
 @media (prefers-reduced-motion: reduce) { .v90-card, .v90-action { transition: none !important; } }
+
+
+/* Pickaxe Capital V9.1 — server-side provider proof / locked snapshot harness. */
+.v91-proof-panel {
+  position: relative;
+  z-index: 1;
+  margin: 16px 0;
+  padding: 16px;
+  border: 1px solid rgba(201,168,106,.24);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(201,168,106,.12), transparent 34%),
+    radial-gradient(circle at 94% 8%, rgba(209,74,78,.10), transparent 30%),
+    linear-gradient(145deg, rgba(6,8,10,.90), rgba(15,17,18,.88));
+  box-shadow: inset 0 1px rgba(255,255,255,.035), 0 22px 54px rgba(0,0,0,.24);
+  overflow: hidden;
+}
+.v91-proof-panel::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(120deg, transparent 0%, rgba(243,200,90,.08) 45%, transparent 62%);
+  transform:translateX(-80%);
+  animation:v91LineSweep 8s ease-in-out infinite;
+}
+.v91-proof-panel header,
+.v91-proof-grid,
+.v91-proof-actions,
+.v91-requirements,
+.v91-output-card { position:relative; z-index:1; }
+.v91-proof-panel header { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:14px; align-items:start; margin-bottom:12px; }
+.v91-proof-panel small { display:block; color:#f3d58d; font:900 10px/1 "IBM Plex Mono",monospace; letter-spacing:.16em; text-transform:uppercase; margin-bottom:7px; }
+.v91-proof-panel h3 { margin:0; color:#fff9eb; font:900 clamp(18px,2.2vw,28px)/1 "DM Sans",sans-serif; text-transform:uppercase; letter-spacing:-.02em; }
+.v91-proof-panel p { margin:7px 0 0; color:rgba(244,239,228,.68); font:700 12px/1.35 "DM Sans",sans-serif; }
+.v91-proof-panel em { align-self:start; border:1px solid rgba(20,150,106,.36); color:#aef3cf; background:rgba(20,150,106,.08); border-radius:999px; padding:7px 10px; font:900 9px/1 "IBM Plex Mono",monospace; text-transform:uppercase; letter-spacing:.08em; font-style:normal; }
+.v91-proof-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; margin:12px 0; }
+.v91-proof-grid article { min-height:58px; border:1px solid rgba(201,168,106,.16); border-radius:13px; padding:9px; background:rgba(0,0,0,.24); }
+.v91-proof-grid span { display:block; color:rgba(244,239,228,.48); font:900 8px/1.2 "IBM Plex Mono",monospace; text-transform:uppercase; letter-spacing:.08em; }
+.v91-proof-grid strong { display:block; margin-top:7px; color:#ffe09a; font:900 10px/1.15 "IBM Plex Mono",monospace; text-transform:uppercase; }
+.v91-proof-grid article:nth-child(n+2) strong { color:#ffb3b8; }
+.v91-proof-actions { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+.v91-proof-actions button { border:1px solid rgba(201,168,106,.36); background:rgba(0,0,0,.30); color:#f5d78e; border-radius:999px; padding:9px 11px; font:900 9px/1 "IBM Plex Mono",monospace; text-transform:uppercase; letter-spacing:.08em; cursor:pointer; }
+.v91-proof-actions button:hover { border-color:rgba(201,168,106,.74); background:rgba(201,168,106,.10); box-shadow:0 0 20px rgba(201,168,106,.10); }
+.v91-requirements { display:grid; grid-template-columns:190px minmax(0,1fr); gap:12px; align-items:start; margin:10px 0; padding:10px; border:1px solid rgba(201,168,106,.14); border-radius:14px; background:rgba(255,255,255,.025); }
+.v91-requirements strong { color:#ffb3b8; font:900 10px/1.2 "IBM Plex Mono",monospace; text-transform:uppercase; letter-spacing:.14em; }
+.v91-requirements ul { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; margin:0; padding:0; list-style:none; }
+.v91-requirements li { color:rgba(244,239,228,.66); font:800 10px/1.25 "DM Sans",sans-serif; }
+.v91-requirements li span { color:#c9a86a; margin-right:5px; font-family:"IBM Plex Mono",monospace; }
+.v91-output-card { border:1px solid rgba(20,150,106,.28); border-radius:15px; padding:11px; background:linear-gradient(135deg, rgba(20,150,106,.08), rgba(0,0,0,.20)); }
+.v91-output-card span { display:block; color:#aef3cf; font:900 9px/1 "IBM Plex Mono",monospace; letter-spacing:.12em; text-transform:uppercase; }
+.v91-output-card strong { display:block; margin-top:5px; color:#fff9eb; font:900 13px/1.1 "DM Sans",sans-serif; text-transform:uppercase; }
+.v91-output-card p { margin-top:6px; }
+.v91-output-card ul { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; list-style:none; margin:10px 0 0; padding:0; }
+.v91-output-card li { border:1px solid rgba(201,168,106,.12); border-radius:10px; padding:7px; background:rgba(0,0,0,.20); min-width:0; }
+.v91-output-card li span { color:rgba(244,239,228,.46); font-size:8px; }
+.v91-output-card li strong { color:#ffe09a; font:900 9px/1.25 "IBM Plex Mono",monospace; overflow-wrap:anywhere; }
+#alerts.active .pa-v91-proof-panel { grid-column:1 / -1; margin-top:2px; }
+@keyframes v91LineSweep { 0%, 78% { transform:translateX(-86%); opacity:0; } 84% { opacity:1; } 100% { transform:translateX(86%); opacity:0; } }
+body:not([data-active-view="alerts"]) .topbar .eyebrow::after { content: " · V9.1 Server Provider Proof"; color: rgba(201,168,106,.78); }
+@media (max-width:1180px) { .v91-proof-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .v91-requirements, .v91-proof-panel header { grid-template-columns:1fr; } .v91-requirements ul { grid-template-columns:repeat(2,minmax(0,1fr)); } .v91-output-card ul { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:720px) { .v91-proof-grid, .v91-requirements ul, .v91-output-card ul { grid-template-columns:1fr; } .v91-proof-actions button { width:100%; } }
+@media (prefers-reduced-motion: reduce) { .v91-proof-panel::before { animation:none!important; display:none; } }

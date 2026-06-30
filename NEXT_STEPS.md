@@ -2,6 +2,24 @@
 
 ## Current Active Checkpoint
 
+Pickaxe Capital V9.1 Server-Side Provider Proof is a **PASS / LOCAL RELEASE-PREP CANDIDATE** on branch `codex/pickaxe-capital-v9-1-server-provider-proof-20260630`.
+
+- Baseline: `05a0a567ef4c98d3b1cfb0236a2fe1a896868fd6` V9.0 Website Completion Hosted Verified / Locked.
+- Runtime marker: `v9-1-server-provider-proof`.
+- Surface marker: `server-provider-proof-v9-1`.
+- Local cache key: `pickaxe-capital-v9-1-server-provider-proof-20260630-r1`.
+- Local score: **989 / 1000 normalized**.
+- Evidence/screenshots: `/tmp/pickaxe-capital-v9-1-server-provider-proof/`.
+- V9.1 scope: local/server-only proof harness endpoints for locked quote snapshot, locked options-chain snapshot, gate evaluator, source receipt/data lineage, stale firewall proof, public display authorization lock, and hosted static runtime guard.
+- Public/hosted boundary remains static: hosted pages must not call `/api/sandbox/*` or `/api/live/*`; provider proof not active on GitHub Pages.
+- Release boundary remains research-only: no live data activation, no provider calls, no credentials, no fake quote/option/source/timestamp/confidence values, no exact contract unlock, no execution, no alert delivery, no auth/payment/subscription.
+- Next bounded step: commit the local candidate; if release gates remain clean, forward-promote to hosted `main`, verify GitHub Pages static guard, record hosted status, and verify the second deployment.
+- Blocked until separate CEO B authorization: real provider credentials/calls, provider legal/display rights, paid data accounts, verified quote/options ingestion, public live display, broker/order/execution, auth/payment/subscription, and alert delivery.
+
+
+
+## Current Active Checkpoint
+
 Pickaxe Capital V9.0 Founder-Ready Website Completion is **HOSTED VERIFIED** at `https://burberrry.github.io/Pickaxe-Capital/`.
 
 - Hosted product commit: `6017a63719cbc30c4aa437ce91c1af73cf113e3e`.

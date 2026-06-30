@@ -2964,6 +2964,170 @@ window.routeResearchPacket = (packetId, routeAction) => {
 };
 
 
+const PICKAXE_V91_HARNESS_ACTIONS = Object.freeze({
+  quote: {
+    label: "Quote Snapshot Test",
+    path: (ticker) => `/api/sandbox/quote-snapshot?ticker=${encodeURIComponent(ticker)}`,
+    hosted: "Hosted static runtime · local server harness unavailable · provider proof not active.",
+    local: "Quote snapshot sandbox returned locked schema · no provider active · no verified timestamp.",
+  },
+  options: {
+    label: "Options Chain Test",
+    path: (ticker) => `/api/sandbox/options-chain-snapshot?ticker=${encodeURIComponent(ticker)}&side=CALL`,
+    hosted: "Hosted static runtime · local server harness unavailable · exact contract proof not active.",
+    local: "Options-chain sandbox returned locked schema · exact contract blocked.",
+  },
+  gate: {
+    label: "Gate Evaluator Test",
+    path: (ticker) => `/api/sandbox/gate-evaluator?ticker=${encodeURIComponent(ticker)}`,
+    hosted: "Hosted static runtime · gate evaluator endpoint unavailable · provider proof not active.",
+    local: "Gate evaluator returned BLOCKED · CEO B gate required.",
+  },
+  receipt: {
+    label: "Source Receipt Test",
+    path: (ticker) => `/api/sandbox/source-receipt?ticker=${encodeURIComponent(ticker)}`,
+    hosted: "Hosted static runtime · source receipt endpoint unavailable · manual source deck only.",
+    local: "Source receipt not issued · manual source deck only.",
+  },
+  guard: {
+    label: "Static Host Guard",
+    path: () => "",
+    hosted: "Hosted static runtime · local server harness unavailable · provider proof not active.",
+    local: "Static host guard active · public provider calls blocked.",
+  },
+});
+
+function getPickaxeV91RuntimeState() {
+  const hosted = isHostedStaticPagesRuntime();
+  const local = !hosted && typeof window !== "undefined" && /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/i.test(window.location.hostname || "");
+  return hosted ? "HOSTED_STATIC" : local ? "LOCAL_SERVER" : "STATIC_UNKNOWN";
+}
+
+function getPickaxeV91DefaultResult() {
+  const runtime = getPickaxeV91RuntimeState();
+  return runtime === "HOSTED_STATIC"
+    ? { title: "HOSTED STATIC RUNTIME", status: "PROVIDER PROOF NOT ACTIVE", detail: "Hosted static runtime · local server harness unavailable · provider proof not active.", payload: null }
+    : { title: "LOCAL HARNESS READY / LOCKED", status: "SANDBOX LOCKED", detail: "Local diagnostics may call /api/sandbox/* only. Responses must remain locked, null, source-gated, and non-provider.", payload: null };
+}
+
+function renderPickaxeV91PayloadSummary(payload) {
+  if (!payload) return "";
+  const rows = [
+    ["ok", String(payload.ok)],
+    ["mode", payload.mode || "SANDBOX_LOCKED"],
+    ["ticker", payload.ticker || "MSFT"],
+    ["timestamp", payload.timestamp || payload.collectedAt || "NULL"],
+    ["provider", payload.provider || payload.sourceProvider || "SERVER_REQUIRED"],
+    ["publicDisplayAuthorized", String(payload.publicDisplayAuthorized === true)],
+    ["externalAction", String(payload.externalAction === true)],
+    ["reason", payload.reason || "Blocked by V9.1 proof gates."],
+  ];
+  return `<ul>${rows.map(([key, value]) => `<li><span>${escapeHtml(key)}</span><strong>${escapeHtml(value)}</strong></li>`).join("")}</ul>`;
+}
+
+function renderPickaxeV91Output(result = getPickaxeV91DefaultResult()) {
+  return `
+    <div class="v91-output-card">
+      <span>${escapeHtml(result.title)}</span>
+      <strong>${escapeHtml(result.status)}</strong>
+      <p>${escapeHtml(result.detail)}</p>
+      ${renderPickaxeV91PayloadSummary(result.payload)}
+    </div>
+  `;
+}
+
+function updatePickaxeV91Output(result) {
+  state.pickaxeV91HarnessResult = result;
+  document.querySelectorAll("[data-v91-output]").forEach((node) => { node.innerHTML = renderPickaxeV91Output(result); });
+}
+
+window.pickaxeV91HarnessAction = async (actionKey, ticker = "MSFT") => {
+  const action = PICKAXE_V91_HARNESS_ACTIONS[actionKey] || PICKAXE_V91_HARNESS_ACTIONS.guard;
+  const runtime = getPickaxeV91RuntimeState();
+  if (runtime === "HOSTED_STATIC" || actionKey === "guard") {
+    return updatePickaxeV91Output({
+      title: action.label,
+      status: runtime === "HOSTED_STATIC" ? "HOSTED STATIC GUARD" : "STATIC HOST GUARD",
+      detail: runtime === "HOSTED_STATIC" ? action.hosted : action.local,
+      payload: {
+        ok: false,
+        mode: runtime === "HOSTED_STATIC" ? "HOSTED_STATIC_GUARD" : "LOCAL_STATIC_GUARD",
+        ticker,
+        provider: "SERVER_REQUIRED",
+        timestamp: null,
+        publicDisplayAuthorized: false,
+        externalAction: false,
+        reason: runtime === "HOSTED_STATIC" ? action.hosted : action.local,
+      },
+    });
+  }
+  if (typeof fetch !== "function") {
+    return updatePickaxeV91Output({ title: action.label, status: "FETCH UNAVAILABLE", detail: "Local diagnostic fetch unavailable · provider proof remains blocked.", payload: null });
+  }
+  try {
+    const response = await fetch(action.path(ticker), { cache: "no-store", headers: { Accept: "application/json" } });
+    const payload = await response.json();
+    const safe = payload && payload.ok === false && payload.publicDisplayAuthorized === false && payload.externalAction === false;
+    updatePickaxeV91Output({
+      title: action.label,
+      status: safe ? "LOCKED SCHEMA RETURNED" : "UNSAFE RESPONSE BLOCKED",
+      detail: safe ? action.local : "Endpoint response did not satisfy V9.1 locked proof contract.",
+      payload,
+    });
+  } catch (error) {
+    updatePickaxeV91Output({ title: action.label, status: "SANDBOX UNAVAILABLE", detail: "Local diagnostic failed safely · provider proof remains blocked.", payload: { ok: false, mode: "SANDBOX_UNAVAILABLE", ticker, publicDisplayAuthorized: false, externalAction: false, reason: String(error?.message || error) } });
+  }
+};
+
+function renderPickaxeV91ProviderProofPanel(context = "site") {
+  const runtime = getPickaxeV91RuntimeState();
+  const isHosted = runtime === "HOSTED_STATIC";
+  const result = state.pickaxeV91HarnessResult || getPickaxeV91DefaultResult();
+  const states = [
+    ["LOCAL HARNESS", isHosted ? "UNAVAILABLE" : "READY / LOCKED"],
+    ["HOSTED LIVE DATA", "BLOCKED"],
+    ["PROVIDER CREDENTIALS", "NOT LOADED"],
+    ["PUBLIC DISPLAY", "LOCKED"],
+    ["EXACT CONTRACT", "BLOCKED"],
+  ];
+  const requirements = [
+    "server-only provider proof",
+    "legal/display-right approval",
+    "verified quote snapshot",
+    "verified options-chain snapshot",
+    "timestamp normalization",
+    "stale firewall pass",
+    "CEO B gate",
+  ];
+  return `
+    <section class="v91-proof-panel ${context === "alerts" ? "pa-v91-proof-panel" : ""}" data-v91-proof-panel="${escapeHtml(context)}" aria-label="V9.1 Server-Side Provider Proof">
+      <header>
+        <div>
+          <small>V9.1 · SERVER-ONLY PROOF HARNESS</small>
+          <h3>V9.1 Server-Side Provider Proof</h3>
+          <p>${isHosted ? "HOSTED STATIC RUNTIME · LOCAL SERVER HARNESS UNAVAILABLE · PROVIDER PROOF NOT ACTIVE" : "LOCAL HARNESS: READY / LOCKED · NULL SNAPSHOTS ONLY · PROVIDER PROOF NOT ACTIVE"}</p>
+        </div>
+        <em>${isHosted ? "STATIC GUARD" : "LOCAL LOCKED"}</em>
+      </header>
+      <div class="v91-proof-grid">
+        ${states.map(([label, value]) => `<article><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`).join("")}
+      </div>
+      <div class="v91-proof-actions" aria-label="V9.1 local-only diagnostic actions">
+        <button type="button" onclick="window.pickaxeV91HarnessAction('quote','MSFT')">Quote Snapshot Test</button>
+        <button type="button" onclick="window.pickaxeV91HarnessAction('options','MSFT')">Options Chain Test</button>
+        <button type="button" onclick="window.pickaxeV91HarnessAction('gate','MSFT')">Gate Evaluator Test</button>
+        <button type="button" onclick="window.pickaxeV91HarnessAction('receipt','MSFT')">Source Receipt Test</button>
+        <button type="button" onclick="window.pickaxeV91HarnessAction('guard','MSFT')">Static Host Guard</button>
+      </div>
+      <div class="v91-requirements">
+        <strong>Public display requires</strong>
+        <ul>${requirements.map((item, index) => `<li><span>${String(index + 1).padStart(2, "0")}</span>${escapeHtml(item)}</li>`).join("")}</ul>
+      </div>
+      <div data-v91-output>${renderPickaxeV91Output(result)}</div>
+    </section>
+  `;
+}
+
 const PICKAXE_V90_PAGE_BLUEPRINTS = Object.freeze({
   dashboard: {
     number: "01", title: "Mission Control", kicker: "Founder-ready operating loop", status: "Static / Source-Gated",
@@ -2998,7 +3162,7 @@ const PICKAXE_V90_PAGE_BLUEPRINTS = Object.freeze({
     actions: [["Open Alerts", "#/alerts"], ["Open Research Desk", "#/research"], ["Open Risk Rules", "#/risk-rules"]]
   },
   sourceHub: {
-    number: "06", title: "Source Hub", kicker: "Verification command center", status: "Manual Deck / Provider Locked",
+    number: "06", title: "Source Hub", kicker: "Verification command center", status: "V9.1 Harness / Locked",
     purpose: "Organizes source receipts, timestamp requirements, manual source deck policy, and provider/live status boundaries.",
     route: "#/source-hub",
     lead: "Source required before signal. No live feed. No public display authorization without receipt, timestamp, attribution, stale firewall, and CEO B review.",
@@ -3026,7 +3190,7 @@ const PICKAXE_V90_PAGE_BLUEPRINTS = Object.freeze({
     actions: [["Review Alerts", "#/alerts"], ["Open Source Hub", "#/source-hub"]]
   },
   aiHabitatOS: {
-    number: "14", title: "AI Habitat OS", kicker: "Internal command center", status: "Local / Manual",
+    number: "14", title: "AI Habitat OS", kicker: "Internal command center", status: "Hermes / V9.1 Local Proof",
     purpose: "Shows Hermes as builder/operator, Codex as read-only auditor, and CEO B as final approval gate.",
     route: "#/ai-habitat-os",
     lead: "Hermes builds. Codex audits high-risk claims. CEO B approves. Memory vault and agent habitat remain future-gated.",
@@ -3058,7 +3222,7 @@ const PICKAXE_V90_PAGE_BLUEPRINTS = Object.freeze({
     actions: [["Open Watchlists", "#/watchlists"], ["Open Source Hub", "#/source-hub"]]
   },
   options: {
-    number: "17", title: "Options Hub", kicker: "Options research shell", status: "Exact Contract Blocked",
+    number: "17", title: "Options Hub", kicker: "Options research shell", status: "V9.1 Chain Harness / Blocked",
     purpose: "A locked options hub for future chain snapshots, liquidity checks, IV/Greeks, spreads, and exact-contract review.",
     route: "#/options",
     lead: "No verified options chain means no exact contract. Bid/ask, volume, OI, IV, Greeks, strikes, and expirations remain locked.",
@@ -3103,10 +3267,10 @@ const PICKAXE_V90_PAGE_BLUEPRINTS = Object.freeze({
     actions: [["Open Learning Ledger", "#/learning-ledger"], ["Open Source Hub", "#/source-hub"]]
   },
   roadmap: {
-    number: "20", title: "Roadmap", kicker: "Build sequence", status: "V8.4 Locked / V9.0 Shell",
+    number: "20", title: "Roadmap", kicker: "Build sequence", status: "V9.1 Provider Proof / Static Guard",
     purpose: "Shows what is locked, what comes next, and which future phases require hard safety gates.",
     route: "#/roadmap",
-    lead: "Locked: V8.4 Provider Adapter Sandbox. Next: server-side provider proof / quote snapshot test harness. Later: options-chain ingestion, source library, scoring, postmortem persistence, mobile polish.",
+    lead: "Locked: V9.0 Website Completion. V9.1 adds local server-only provider proof endpoints with locked quote/options/source/gate schemas; hosted runtime remains static and blocked.",
     modules: [["Locked", "V8.4 provider adapter sandbox hosted verified; V9.0 website shell preserves it."], ["Next", "Server-side provider proof and quote snapshot test harness require separate authorization."], ["Later", "Options-chain ingestion, source library, scoring, postmortem persistence, mobile polish."], ["Never Without Approval", "Credentials, provider calls, server changes, execution, payment, auth, broker, alert delivery."]],
     gates: ["Forward-only releases", "No force push", "Safety branch first", "CEO B command required"],
     actions: [["Open Alerts", "#/alerts"], ["Open AI Habitat OS", "#/ai-habitat-os"]]
@@ -3164,6 +3328,7 @@ function renderV90PageShell(page) {
           </article>
         `).join("")}
       </section>
+      ${["Source Hub", "Options Hub", "Roadmap", "AI Habitat OS"].includes(page.title) ? renderPickaxeV91ProviderProofPanel(page.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")) : ""}
       <footer class="v90-footer-gate">
         <div>
           <strong>Safety Contract</strong>
@@ -12216,7 +12381,7 @@ function renderPickaxeAlerts01PremiumHeader(selected, liveStatus) {
   return `
     <header class="pa-v81-simple-header pa-v82-intelligence-header pa-v83-provider-header pa-v84-sandbox-header">
       <div class="pa-v81-simple-title">
-        <span><i></i>V8.4 · PROVIDER ADAPTER / QUOTE SNAPSHOT SANDBOX · STATIC LOCKED</span>
+        <span><i></i>V9.1 · SERVER-SIDE PROVIDER PROOF · STATIC LOCKED</span>
         <h1 id="pickaxeAlerts01Title">ALERTS <em>DESK</em></h1>
         <p>One active options research candidate · provider adapter, quote snapshot, chain snapshot, stale firewall, display, and CEO B gates before approval</p>
       </div>
@@ -12565,6 +12730,7 @@ function renderPickaxeAlertsV82IntelligenceLayer(selected, candidate, profile) {
         <strong>${escapeHtml(activeAction?.label || "Provider Registry, Quote Snapshot, Chain Snapshot, Stale Firewall, Gate Evaluator, Source Receipt, and Display Modes are local-only views.")}</strong>
         <p>${escapeHtml(activeAction?.detail || "No provider call, no quote fetch, no options-chain fetch, no public live data, no persistence, no confidence score, no alert delivery, and no external action.")}</p>
       </aside>
+      ${renderPickaxeV91ProviderProofPanel("alerts")}
     </section>
   `;
 }
@@ -12632,7 +12798,7 @@ function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
   const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   const selected = getPickaxeAlerts01WatchlistItem();
   return `
-    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple pa-v81-final pa-v82-intelligence pa-v83-provider-gate pa-v84-provider-sandbox" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v9-0-website-completion" data-alerts-runtime="static-source-gated" data-alerts-surface="founder-ready-v9-0-website-completion">
+    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple pa-v81-final pa-v82-intelligence pa-v83-provider-gate pa-v84-provider-sandbox" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v9-1-server-provider-proof" data-alerts-runtime="static-source-gated" data-alerts-surface="server-provider-proof-v9-1">
       <div class="pa-noise" aria-hidden="true"></div>
       ${renderPickaxeAlerts01AssetFilters()}
       ${renderPickaxeAlerts01PremiumHeader(selected, liveStatus)}

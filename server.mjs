@@ -122,6 +122,22 @@ createServer(async (req, res) => {
       });
     }
 
+    if (url.pathname === "/api/sandbox/quote-snapshot") {
+      return json(res, buildSandboxQuoteSnapshot(url.searchParams));
+    }
+
+    if (url.pathname === "/api/sandbox/options-chain-snapshot") {
+      return json(res, buildSandboxOptionsChainSnapshot(url.searchParams));
+    }
+
+    if (url.pathname === "/api/sandbox/gate-evaluator") {
+      return json(res, buildSandboxGateEvaluator(url.searchParams));
+    }
+
+    if (url.pathname === "/api/sandbox/source-receipt") {
+      return json(res, buildSandboxSourceReceipt(url.searchParams));
+    }
+
     if (url.pathname === "/api/live/status") {
       return json(res, getLiveAlertsStatusPayload());
     }
@@ -314,6 +330,159 @@ createServer(async (req, res) => {
   const mode = LIVE_SERVICES_ENABLED ? "DEV LIVE SERVICES ENABLED" : "STATIC/DEMO";
   console.log(`Pickaxe Capital is running at http://localhost:${port} (${mode})`);
 });
+
+const SANDBOX_ALLOWED_TICKERS = new Set([
+  "SPY", "QQQ", "NVDA", "AAPL", "GLD", "USO", "WTI", "SLV", "VIX", "TSLA", "SPCX", "AMD", "BTC", "ETH", "MSFT", "GOOGL", "BRK.B", "SECTORS",
+]);
+
+function cleanSandboxTicker(value) {
+  const ticker = String(value || "MSFT").trim().toUpperCase().replace(/[^A-Z0-9.\-]/g, "").slice(0, 12);
+  return SANDBOX_ALLOWED_TICKERS.has(ticker) ? ticker : "MSFT";
+}
+
+function cleanSandboxSide(value) {
+  const side = String(value || "CALL").trim().toUpperCase();
+  return side === "PUT" ? "PUT" : "CALL";
+}
+
+function getSandboxAssetType(ticker) {
+  if (["BTC", "ETH"].includes(ticker)) return "crypto";
+  if (["VIX"].includes(ticker)) return "volatility-index";
+  if (["GLD", "USO", "SLV", "WTI"].includes(ticker)) return "commodity-watch";
+  if (["SPY", "QQQ", "SPCX"].includes(ticker)) return "etf";
+  if (["SECTORS"].includes(ticker)) return "basket";
+  return "equity";
+}
+
+function buildSandboxStaleFirewallProof() {
+  return {
+    status: "BLOCKED",
+    displayAllowed: false,
+    staleFlag: true,
+    reasons: [
+      "NO VERIFIED TIMESTAMP",
+      "NO PROVIDER SNAPSHOT",
+      "NO PUBLIC DISPLAY AUTHORIZATION",
+    ],
+    requiredFields: [
+      "provider",
+      "providerMode",
+      "timestamp",
+      "publicDisplayAuthorized",
+      "quoteSnapshotValid",
+      "optionsChainValid",
+      "staleStatusClear",
+    ],
+  };
+}
+
+function buildSandboxQuoteSnapshot(searchParams) {
+  const ticker = cleanSandboxTicker(searchParams.get("ticker"));
+  return {
+    ok: false,
+    mode: "SANDBOX_LOCKED",
+    runtime: "LOCAL_SERVER_ONLY_PROOF",
+    ticker,
+    assetType: getSandboxAssetType(ticker),
+    last: null,
+    bid: null,
+    ask: null,
+    provider: "SERVER_REQUIRED",
+    providerMode: "NO_PROVIDER_ACTIVE",
+    timestamp: null,
+    delayStatus: "NO_VERIFIED_TIMESTAMP",
+    marketSession: "UNAVAILABLE",
+    staleFlag: true,
+    staleFirewall: buildSandboxStaleFirewallProof(),
+    sourceConfidence: null,
+    snapshotId: null,
+    publicDisplayAuthorized: false,
+    externalAction: false,
+    reason: "No verified provider snapshot. No public display authorization. No external action.",
+  };
+}
+
+function buildSandboxOptionsChainSnapshot(searchParams) {
+  const ticker = cleanSandboxTicker(searchParams.get("ticker"));
+  const contractSide = cleanSandboxSide(searchParams.get("side") || searchParams.get("contractSide"));
+  return {
+    ok: false,
+    mode: "SANDBOX_LOCKED",
+    runtime: "LOCAL_SERVER_ONLY_PROOF",
+    ticker,
+    contractSide,
+    expiration: null,
+    strike: null,
+    bid: null,
+    ask: null,
+    spread: null,
+    volume: null,
+    openInterest: null,
+    iv: null,
+    delta: null,
+    gamma: null,
+    theta: null,
+    vega: null,
+    timestamp: null,
+    provider: "SERVER_REQUIRED",
+    providerMode: "NO_PROVIDER_ACTIVE",
+    liquidityStatus: "UNVERIFIED",
+    staleStatus: "BLOCKED",
+    staleFirewall: buildSandboxStaleFirewallProof(),
+    exactContractAuthorized: false,
+    publicDisplayAuthorized: false,
+    externalAction: false,
+    reason: "No verified options chain. Exact contract remains blocked.",
+  };
+}
+
+function buildSandboxGateEvaluator(searchParams) {
+  const ticker = cleanSandboxTicker(searchParams.get("ticker"));
+  return {
+    ok: false,
+    mode: "SANDBOX_LOCKED",
+    runtime: "LOCAL_SERVER_ONLY_PROOF",
+    ticker,
+    qualification: "BLOCKED",
+    gates: {
+      sourceGate: "REQUIRED",
+      quoteSnapshotGate: "LOCKED",
+      optionsChainGate: "LOCKED",
+      staleFirewall: "ACTIVE",
+      riskGate: "REQUIRED",
+      ceoBGate: "REQUIRED",
+      publicDisplayGate: "LOCKED",
+    },
+    staleFirewall: buildSandboxStaleFirewallProof(),
+    publicDisplayAuthorized: false,
+    exactContractAuthorized: false,
+    externalAction: false,
+    reason: "Source, quote, chain, timestamp, stale firewall, risk, and CEO B gates required.",
+  };
+}
+
+function buildSandboxSourceReceipt(searchParams) {
+  const ticker = cleanSandboxTicker(searchParams.get("ticker"));
+  return {
+    ok: false,
+    mode: "SANDBOX_LOCKED",
+    runtime: "LOCAL_SERVER_ONLY_PROOF",
+    ticker,
+    sourceReceipt: "SOURCE RECEIPT NOT ISSUED",
+    sourceType: "MANUAL_SOURCE_DECK_ONLY",
+    sourceProvider: "NOT_ISSUED",
+    collectedAt: null,
+    normalizedAt: null,
+    verificationStatus: "SOURCE_REQUIRED",
+    confidence: null,
+    displayAuthorization: "NO_PUBLIC_DISPLAY_AUTHORIZATION",
+    archiveId: null,
+    liveFeed: false,
+    publicDisplayAuthorized: false,
+    externalAction: false,
+    reason: "Source receipt not issued. Manual source deck only. No live feed. No public display authorization.",
+  };
+}
 
 function getLiveAlertsStatusPayload() {
   return buildLiveAlertsStatus({ env: process.env });

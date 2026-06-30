@@ -1,5 +1,28 @@
 # Pickaxe Capital Project Status
 
+## Current Checkpoint - Pickaxe Capital V9.1 Server-Side Provider Proof Local Candidate
+
+- Date: 2026-06-30T10:34:13Z.
+- Result: **PASS / V9.1 SERVER PROVIDER PROOF LOCAL RELEASE-PREP CANDIDATE**.
+- Baseline confirmed: `main == origin/main == 05a0a567ef4c98d3b1cfb0236a2fe1a896868fd6` (`PICKAXE CAPITAL — V9.0 WEBSITE COMPLETION`, hosted verified/locked).
+- Safety branch: `backup/pre-pickaxe-capital-v9-1-server-provider-proof-20260630`.
+- Work branch: `codex/pickaxe-capital-v9-1-server-provider-proof-20260630`.
+- Runtime marker: `data-alerts-cockpit-version="v9-1-server-provider-proof"`; surface marker: `data-alerts-surface="server-provider-proof-v9-1"`; cache key: `pickaxe-capital-v9-1-server-provider-proof-20260630-r1`.
+- V9.1 added local/server-only locked proof endpoints: `/api/sandbox/quote-snapshot`, `/api/sandbox/options-chain-snapshot`, `/api/sandbox/gate-evaluator`, and `/api/sandbox/source-receipt`.
+- Endpoint proof state: `SANDBOX_LOCKED`; quote/chain fields are `null`/`LOCKED`/`UNAVAILABLE`; no provider active; no verified timestamp; no public display authorization; no exact contract authorization; no external action.
+- Hosted static guard added: GitHub Pages/static runtime must not call `/api/sandbox/*` or `/api/live/*`; public UI shows local server harness unavailable/provider proof not active.
+- V9.0 website preserved: Alerts Desk, Mission Control, Command Console, Vision Map, Agent Habitat, Signals Lab, Source Hub, Risk & Rules, Learning Ledger, Trend Radar, Archive Vault, Bookmarks Mine, Money Lab, Staging/QA, AI Habitat OS, Watchlists, Markets Matrix, Options Hub, Catalysts Calendar, Research Desk, Roadmap, and Founder routes.
+- V8.4 Alerts Desk preserved: one active alert card, 18-ticker watchlist, Bull/Bear ticker switching, exact contract gate blocked/source-gated, local review actions, PET helper, manual Source Deck, provider/quote/chain/stale/gate/source-receipt sandbox concepts, and no fake values or execution behavior.
+- Local endpoint QA: quote/options/gate/source receipt endpoints returned locked/null schemas and passed no-fake-data assertions.
+- Local browser QA: 14 required screenshots captured, 9 primary route/viewport checks passed, 22 regression routes passed, 5 V9.1 diagnostic action checks passed, and MSFT/VIX interaction checks passed.
+- Local score: **989 / 1000 normalized** (pass threshold 950/1000).
+- Validation: build/check/project/phase15/agents/mirrors/smoke/public-safety/deploy-boundary/routes passed; forbidden legacy artifact search clean; allowed-file gate clean; `investor-assets/` untouched.
+- Evidence/screenshots: `/tmp/pickaxe-capital-v9-1-server-provider-proof/`.
+- Release status: local candidate only until product commit, forward-only hosted promotion, hosted static guard verification, hosted status record, and second deployment verification complete.
+- Remaining blockers: real provider credentials, real provider/API calls, paid data account access, provider terms/display-right approval, verified quote/options-chain ingestion, public live display, source library persistence, scoring engine, postmortem persistence, broker/order/execution, auth/payment/subscription, and alert delivery require separate CEO B authorization.
+
+
+
 ## Current Checkpoint - Pickaxe Capital V9.0 Founder-Ready Website Completion Hosted Verified
 
 - Date: 2026-06-30T08:45:52Z.
