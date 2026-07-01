@@ -1,3 +1,30 @@
+# Pickaxe Capital — V10 Clean Alerts Cockpit Hosted Verified
+
+Updated: 2026-07-01T11:47:00Z
+
+Status: V10 CLEAN ALERTS COCKPIT HOSTED VERIFIED
+
+Product commit: `5c106662445e81c74f9e6343dca5622858e325ff`
+Hosted URL: https://burberrry.github.io/Pickaxe-Capital/
+
+Hosted verification:
+- Hosted root cache key live: `pickaxe-capital-v10-alerts-cockpit-rebuild-20260630-r1`.
+- Hosted app bundle marker live: `v10-alerts-cockpit-rebuild`.
+- Hosted surface marker live: `clean-alerts-cockpit-v10`.
+- Hosted CSS V10 clean cockpit layer live.
+- Hosted Browser Use verified `/app/alerts` / `/#/alerts` render to the V10 clean Alerts cockpit.
+- Hosted action QA passed for MSFT, VIX, Source Gate, Quote Snapshot, Options Chain, Risk Check, CEO B Gate, Exact Contract Locked, Static Host Guard, PET Note, Archive Lesson, Current Baseline, and Local Safety Check.
+- Hosted resource QA showed zero `/api/sandbox/*`, zero `/api/live/*`, and zero external provider/X calls during V10 action QA.
+- Hosted visual inspection confirms cleaner cockpit, reduced animation/noise, readable watchlist, gate rail, exact lock, and action console.
+
+Screenshot limitation:
+- Screenshot automation availability check remains blocked by terminal safety rule.
+- No retry performed. No workaround performed.
+- Browser Use/vision visual inspection was used; no contact sheet was generated.
+
+Final score:
+- Product score: 982 / 1000
+
 # Pickaxe Capital — V10 Clean Alerts Cockpit Local Candidate
 
 Updated: 2026-07-01T11:42:40Z

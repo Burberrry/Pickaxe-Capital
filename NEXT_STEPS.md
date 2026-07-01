@@ -1,3 +1,11 @@
+# Next Steps — V10 Hosted Baseline
+
+Updated: 2026-07-01T11:47:00Z
+
+V10 Clean Alerts Cockpit is hosted verified from product commit `5c106662445e81c74f9e6343dca5622858e325ff` with screenshot/contact-sheet limitation recorded.
+
+Next bounded action is CEO B V10 visual review. Do not start V10.1, activate providers/live data, touch `investor-assets/`, or add broker/execution/auth/payment/subscription/alert-delivery behavior without a separate explicit command.
+
 # Next Steps — Pickaxe Capital V10 Alerts Cockpit
 
 Updated: 2026-07-01T11:42:40Z
