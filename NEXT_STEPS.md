@@ -1,3 +1,13 @@
+# Next Steps — Pickaxe Capital V10 Alerts Cockpit
+
+Updated: 2026-07-01T11:42:40Z
+
+Current checkpoint: V10 Clean Alerts Cockpit local candidate validated. Hosted promotion is allowed only if forward-promotion, hosted cache/runtime checks, hosted Alerts action QA, hosted no-provider-call checks, and second deployment status record pass.
+
+Screenshot limitation remains active: screenshot automation check was blocked; no retry/no workaround. Do not fake screenshot/contact-sheet proof.
+
+Do not start V10.1. Do not activate providers/live data. Do not touch `investor-assets/`.
+
 # Next Steps — V9.3 Hosted Baseline
 
 Updated: 2026-07-01T08:45:48Z

@@ -13106,25 +13106,216 @@ function renderPickaxeAlerts01LiveReadyDesk(selected) {
   `;
 }
 
-function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
+
+function renderPickaxeV10Icon(kind, label = "") {
+  const names = {
+    ticker: "Ticker / watchlist", call: "Bullish CALL research", put: "Bearish PUT research", source: "Source Gate",
+    quote: "Quote Snapshot", chain: "Options Chain", firewall: "Stale Firewall", risk: "Risk / Invalidation",
+    ceob: "CEO B Gate", lock: "Exact Contract Locked", deck: "Manual Source Deck", pet: "PET Helper",
+    archive: "Archive Lesson", noaction: "No External Action", review: "Review", evidence: "Evidence",
+  };
+  const safeKind = String(kind || "ticker").replace(/[^a-z0-9-]/gi, "").toLowerCase();
+  return `<span class="v10-icon v10-icon-${escapeHtml(safeKind)}" aria-label="${escapeHtml(label || names[safeKind] || safeKind)}"><i></i></span>`;
+}
+
+function getPickaxeV10ActionScope(item, profile = getPickaxeAlerts01ActiveAlertProfile(item)) {
+  return `${item.ticker}-${profile.lane}-v10`;
+}
+
+function renderPickaxeV10TopCommandBar(selected, profile, candidate) {
+  const sideIcon = profile.isBearish ? "put" : "call";
+  return `
+    <header class="v10-topbar">
+      <div class="v10-titleblock">
+        <span class="v10-kicker">${renderPickaxeV10Icon("ticker")} Static Research OS · No External Action</span>
+        <h1 id="pickaxeV10Title">Pickaxe Capital Alerts Cockpit</h1>
+        <p>Clean source-gated options research surface. No live data, no fake contract, no execution.</p>
+      </div>
+      <div class="v10-selected-summary ${profile.isBearish ? "is-bearish" : "is-bullish"}" aria-label="Selected ticker summary">
+        <span>${renderPickaxeV10Icon(sideIcon)} Selected</span>
+        <strong>${escapeHtml(selected.ticker)}</strong>
+        <em>${escapeHtml(profile.tone.word)} · ${escapeHtml(profile.contractSide)} research</em>
+        <small>${escapeHtml(candidate.timeframe)}</small>
+      </div>
+      <nav class="v10-command-actions" aria-label="Core Alerts actions">
+        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(getPickaxeV10ActionScope(selected, profile))}, 'review')">${renderPickaxeV10Icon("review")} Review</button>
+        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(getPickaxeV10ActionScope(selected, profile))}, 'evidence')">${renderPickaxeV10Icon("evidence")} Evidence</button>
+        <button type="button" onclick="window.pickaxeAlerts01Action('v10-source-gate', 'source-gate')">${renderPickaxeV10Icon("source")} Source Check</button>
+        <button type="button" onclick="window.pickaxeAlerts01Action('v10-static-host', 'static-host-guard')">${renderPickaxeV10Icon("noaction")} Static Guard</button>
+      </nav>
+    </header>
+  `;
+}
+
+function renderPickaxeV10Watchlist(selected) {
+  const priority = ["SPY", "MSFT", "VIX", "QQQ", "NVDA", "AAPL", "TSLA", "AMD", "GLD", "USO", "SLV", "GOOGL"];
+  const ordered = [
+    ...priority.map((ticker) => PICKAXE_ALERTS_01_WATCHLIST.find((item) => item.ticker === ticker)).filter(Boolean),
+    ...PICKAXE_ALERTS_01_WATCHLIST.filter((item) => !priority.includes(item.ticker)),
+  ];
+  return `
+    <section class="v10-watchlist" aria-label="V10 clean watchlist ticker selector">
+      <header><strong>${renderPickaxeV10Icon("ticker")} Watchlist</strong><span>${PICKAXE_ALERTS_01_WATCHLIST.length} static candidates · local selection only</span></header>
+      <div class="v10-watchlist-grid">
+        ${ordered.map((item) => {
+          const profile = getPickaxeAlerts01ActiveAlertProfile(item);
+          const side = getPickaxeAlerts01CandidateSide(item, profile);
+          const active = item.ticker === selected.ticker;
+          return `<button type="button" class="v10-watch-tile ${active ? "is-active" : ""} ${profile.isBearish ? "is-bearish" : "is-bullish"}" aria-pressed="${active}" onclick="window.pickaxeAlerts01Select(${pickaxeAlerts01JsArg(item.ticker)})">
+            <span>${renderPickaxeV10Icon(profile.isBearish ? "put" : "call")}</span><strong>${escapeHtml(item.ticker)}</strong><em>${escapeHtml(side)}</em><small>${escapeHtml(profile.tone.word)}</small>
+          </button>`;
+        }).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderPickaxeV10GateRail(selected, candidate, profile) {
+  const gates = [
+    ["source", "Source", "Required", "source-gate"],
+    ["quote", "Quote", "Locked", "quote-snapshot"],
+    ["chain", "Options", candidate.optionsChainStatus.includes("BLOCKED") ? "Blocked" : "Required", "chain-snapshot"],
+    ["firewall", "Stale", "Active", "stale-firewall"],
+    ["risk", "Risk", "Blocked", "risk-check"],
+    ["ceob", "CEO B", "Required", "ceo-b-gate"],
+  ];
+  return `
+    <section class="v10-gate-rail" aria-label="Clear gate status rail">
+      <header><strong>Gate Status</strong><span>Only watchlist and candidate state are current. Everything market-derived is locked.</span></header>
+      <div>
+        ${gates.map(([icon, label, status, action], index) => `<button type="button" class="${index < 1 ? "is-required" : "is-locked"}" onclick="window.pickaxeAlerts01Action('v10-${escapeHtml(action)}', '${escapeHtml(action)}')">
+          ${renderPickaxeV10Icon(icon)}<span>${escapeHtml(label)}</span><strong>${escapeHtml(status)}</strong>
+        </button>`).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderPickaxeV10ActiveAlert(selected, candidate, profile) {
+  const sideIcon = profile.isBearish ? "put" : "call";
+  return `
+    <article class="v10-active-alert ${profile.isBearish ? "is-bearish" : "is-bullish"}" aria-label="${escapeHtml(selected.ticker)} V10 active alert">
+      <div class="v10-bias-mark">${renderPickaxeV10Icon(sideIcon)}<span>${escapeHtml(profile.tone.word)}</span></div>
+      <div class="v10-main-ticker">
+        <small>${escapeHtml(selected.assetType)} · ${escapeHtml(selected.setupMode)}</small>
+        <h2>${escapeHtml(selected.ticker)}</h2>
+        <strong>${escapeHtml(profile.tone.title)}</strong>
+        <p>${escapeHtml(selected.evidenceFocus)}.</p>
+      </div>
+      <figure class="v10-character" aria-label="Canonical ${profile.isBearish ? "bear" : "bull"} state">
+        ${renderPickaxeAlerts01Character(profile.isBearish)}
+      </figure>
+      <div class="v10-fast-facts">
+        <span><em>Timeframe</em><strong>${escapeHtml(candidate.timeframe)}</strong></span>
+        <span><em>Candidate</em><strong>${escapeHtml(profile.contractSide)} research</strong></span>
+        <span><em>Bias</em><strong>${escapeHtml(profile.tone.bias)}</strong></span>
+      </div>
+    </article>
+  `;
+}
+
+function renderPickaxeV10Checklist(selected, candidate, profile) {
+  const items = [
+    ["source", "Manual source", "Required", "source-gate"],
+    ["quote", "Quote snapshot", "Locked", "quote-snapshot"],
+    ["chain", "Options chain", "Not verified", "chain-snapshot"],
+    ["risk", "Invalidation", "Required", "risk-check"],
+    ["ceob", "CEO B review", "Required", "ceo-b-gate"],
+  ];
+  return `
+    <section class="v10-checklist" aria-label="Source risk and options checklist">
+      <header><strong>Source / Risk / Options Checklist</strong><span>Local controls only</span></header>
+      ${items.map(([icon, label, status, action]) => `<button type="button" onclick="window.pickaxeAlerts01Action('v10-check-${escapeHtml(action)}', '${escapeHtml(action)}')">
+        ${renderPickaxeV10Icon(icon)}<span>${escapeHtml(label)}</span><strong>${escapeHtml(status)}</strong>
+      </button>`).join("")}
+    </section>
+  `;
+}
+
+function renderPickaxeV10ContractLock(selected, candidate, profile) {
+  return `
+    <section class="v10-contract-lock" aria-label="Exact contract locked panel">
+      <header>${renderPickaxeV10Icon("lock")}<div><span>Exact Contract Locked</span><strong>${escapeHtml(selected.ticker)} ${escapeHtml(profile.contractSide)} contract blocked</strong></div></header>
+      <p>No verified quote snapshot, no verified options chain, no verified timestamp, no display authorization, no fake bid/ask, no IV/Greeks, no volume, no open interest.</p>
+      <button type="button" onclick="window.pickaxeAlerts01Action('v10-contract-lock', 'exact-contract-locked')">Inspect Lock</button>
+    </section>
+  `;
+}
+
+function renderPickaxeV10Console(selected) {
+  const latest = state.v93CommandLog?.[0] || state.alertsLastAction || getPickaxeV92ImpactFallback();
+  const log = state.v93CommandLog?.length ? state.v93CommandLog.slice(0, 5) : [latest];
+  return `
+    <section class="v10-console" data-action-result-dock="v10" aria-live="polite" aria-label="CEO B Action Console">
+      <header><span>CEO B Action Console</span><strong>${escapeHtml(latest.title || "STANDBY")}</strong></header>
+      <div class="v10-console-result">
+        <b>${escapeHtml(latest.label || `${selected.ticker} ready for local review.`)}</b>
+        <p>${escapeHtml(latest.detail || "Select a ticker or gate. Local UI only · no provider call · no external action.")}</p>
+      </div>
+      <ol>
+        ${log.map((entry, index) => `<li><span>${String(index + 1).padStart(2,"0")}</span><div><strong>${escapeHtml(entry.title || "LOCAL ACTION")}</strong><small>${escapeHtml(entry.action || "local")}</small></div></li>`).join("")}
+      </ol>
+    </section>
+  `;
+}
+
+function renderPickaxeV10PetArchive(selected) {
+  return `
+    <section class="v10-pet-archive" aria-label="PET helper and archive lesson local controls">
+      <article>
+        <header>${renderPickaxeV10Icon("pet")}<strong>PET Helper</strong></header>
+        <p>Local verification companion. Checks source/risk gaps only.</p>
+        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(`${selected.ticker}-pet`)}, 'pet')">PET Note</button>
+      </article>
+      <article>
+        <header>${renderPickaxeV10Icon("archive")}<strong>Archive Lesson</strong></header>
+        <p>Manual future lesson draft. No self-learning or persistence claim.</p>
+        <button type="button" onclick="window.pickaxeAlerts01Action(${pickaxeAlerts01JsArg(`${selected.ticker}-archive`)}, 'archive')">Archive Lesson</button>
+      </article>
+    </section>
+  `;
+}
+
+function renderPickaxeV10SafetyFooter(liveStatus) {
+  return `
+    <footer class="v10-safety-footer">
+      <strong>Research only. Not financial advice. For educational purposes only.</strong>
+      <span>No buy/sell instruction · No broker execution · No verified options chain · No external action · Static demo only unless verified source/provider gates pass.</span>
+      <button type="button" onclick="window.pickaxeAlerts01Action('v10-baseline', 'current-baseline')">Show Current Baseline</button>
+      <button type="button" onclick="window.pickaxeAlerts01Action('v10-safety', 'local-safety')">Run Local Safety Check</button>
+    </footer>
+  `;
+}
+
+function renderPickaxeV10AlertsCockpit(rows, sourceStatus) {
   const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   const selected = getPickaxeAlerts01WatchlistItem();
+  const profile = getPickaxeAlerts01ActiveAlertProfile(selected);
+  const candidate = getPickaxeAlerts01LiveReadyCandidate(selected, profile.lane);
   return `
-    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple pa-v81-final pa-v82-intelligence pa-v83-provider-gate pa-v84-provider-sandbox" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v9-3-billionaire-functional-ui" data-alerts-runtime="static-source-gated" data-alerts-surface="billionaire-functional-ui-v9-3">
-      <div class="pa-noise" aria-hidden="true"></div>
-      ${renderPickaxeAlerts01AssetFilters()}
-      ${renderPickaxeV92CommandCenterHero(selected, liveStatus)}
-      ${renderPickaxeAlerts01PremiumHeader(selected, liveStatus)}
-      ${renderPickaxeV92ModuleShelf("alerts")}
-      ${renderPickaxeAlerts01WatchlistQueue(selected)}
-      ${renderPickaxeAlerts01LiveReadyDesk(selected)}
-      <footer class="pa-footer pa-v81-simple-footer">
-        <strong>Research. Discipline. Verification.</strong>
-        <span>BLOCKED · SOURCE REQUIRED · NO VERIFIED TIMESTAMP · NO PROVIDER SNAPSHOT · Not financial advice · For educational purposes only · Static demo only · No buy/sell instruction · No verified options chain · No broker execution · ${escapeHtml(getAlertsCommandQueueBadge(liveStatus))} · NO EXTERNAL ACTION.</span>
-      </footer>
+    <section class="pickaxe-alerts-01 pa-v10-clean" aria-labelledby="pickaxeV10Title" data-alerts-cockpit-version="v10-alerts-cockpit-rebuild" data-alerts-runtime="static-source-gated" data-alerts-surface="clean-alerts-cockpit-v10">
+      ${renderPickaxeV10TopCommandBar(selected, profile, candidate)}
+      <main class="v10-cockpit-grid">
+        <div class="v10-left-stack">
+          ${renderPickaxeV10ActiveAlert(selected, candidate, profile)}
+          ${renderPickaxeV10Watchlist(selected)}
+          ${renderPickaxeV10GateRail(selected, candidate, profile)}
+        </div>
+        <aside class="v10-right-stack">
+          ${renderPickaxeV10Checklist(selected, candidate, profile)}
+          ${renderPickaxeV10ContractLock(selected, candidate, profile)}
+          ${renderPickaxeV10Console(selected)}
+          ${renderPickaxeV10PetArchive(selected)}
+        </aside>
+      </main>
+      ${renderPickaxeV10SafetyFooter(liveStatus)}
       ${renderPickaxeV92Overlays()}
     </section>
   `;
+}
+
+function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
+  return renderPickaxeV10AlertsCockpit(rows, sourceStatus);
 }
 
 function renderAlertsOperatorWorkspace(advancedResearchMarkup = "") {
@@ -14096,6 +14287,36 @@ window.pickaxeAlerts01Action = (id, action) => {
       title: "SOURCE CONTRACT PENDING",
       label: "Source contract pending · manual sources only · no live feed.",
       detail: "Source type, timestamp, provider proof, and confidence remain locked until verified by CEO B process.",
+    },
+    "source-gate": {
+      title: "SOURCE CHECK",
+      label: "Blocked · manual source required · no verified timestamp · no external action.",
+      detail: "Manual source deck required before quote, chain, risk, CEO B, or public display can advance.",
+    },
+    "risk-check": {
+      title: "RISK CHECK",
+      label: "Blocked · invalidation required · options risk warning remains active.",
+      detail: "Risk and invalidation must be written before CEO B review. Research only; no trade or execution behavior.",
+    },
+    "exact-contract-locked": {
+      title: "EXACT CONTRACT LOCKED",
+      label: "Blocked · no verified quote snapshot · no verified options chain · no fake contract.",
+      detail: "No strike, expiry, premium, bid/ask, IV/Greeks, volume, open interest, or timestamp is displayed.",
+    },
+    "static-host-guard": {
+      title: "STATIC HOST GUARD",
+      label: "Hosted-safe · no browser provider call · no live quote or options-chain fetch.",
+      detail: "Static public bundle must not request /api/sandbox/*, /api/live/*, provider APIs, brokers, payments, auth, or alert delivery.",
+    },
+    "current-baseline": {
+      title: "CURRENT BASELINE",
+      label: "V10 candidate is active; V9.3 hosted verified remains fallback until final hosted status passes.",
+      detail: "Local UI marker: v10-alerts-cockpit-rebuild. No live/provider activation.",
+    },
+    "local-safety": {
+      title: "LOCAL SAFETY CHECK",
+      label: "Pass · research only · no fake data · no execution · no external action.",
+      detail: "All visible controls update local UI state only. Provider/live data remains blocked.",
     },
     rail: {
       title: "LOCAL NAVIGATION",

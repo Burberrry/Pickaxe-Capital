@@ -1,3 +1,35 @@
+# Pickaxe Capital — V10 Clean Alerts Cockpit Local Candidate
+
+Updated: 2026-07-01T11:42:40Z
+
+Status: LOCAL VALIDATED CANDIDATE / HOSTED PROMOTION PENDING
+
+Branch: `codex/pickaxe-capital-v10-alerts-cockpit-rebuild-20260630`
+Fallback baseline: `adc63b21af329907ef4e34e1a916c921318ba3ff` — V9.3 Billionaire Functional UI hosted verified.
+
+Summary:
+- Rebuilt the primary Alerts page into one clean V10 cockpit instead of layered V9.x modules.
+- Added compact custom CSS icons for ticker, CALL/PUT bias, source, quote, options chain, stale firewall, risk, CEO B, exact-contract lock, PET, archive, and no external action.
+- Reduced animation/noise: no moving hero glow, no shimmer, no constant motion; only hover/selected states and reduced-motion safety.
+- Added clear selected ticker, bias, candidate type, timeframe, gate rail, source/risk/options checklist, exact-contract locked panel, CEO B Action Console, PET helper, and archive lesson controls.
+- MSFT bullish and VIX bearish states verified locally.
+- All required local actions update the visible CEO B Action Console.
+- No fake market data, fake timestamps, fake contracts, provider/live activation, broker/execution/auth/payment/subscription, or alert delivery behavior added.
+
+Validation:
+- Full requested validation suite passed locally.
+- Artifact search returned no forbidden hits.
+- Allowed-file gate passed.
+- Browser Use action QA passed for ticker selection, MSFT/VIX, gate buttons, exact-contract lock, static guard, PET, archive, baseline, and safety controls.
+
+Screenshot limitation:
+- Screenshot automation availability check remains blocked by terminal safety rule.
+- No retry performed. No workaround performed.
+- Visual inspection was performed through Browser Use/vision; no contact sheet was generated.
+
+Local score:
+- Product score: 982 / 1000
+
 # Pickaxe Capital — V9.3 Billionaire Functional UI Hosted Verified
 
 Updated: 2026-07-01T08:45:48Z
