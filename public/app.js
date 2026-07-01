@@ -56,6 +56,9 @@ const state = {
   v92DrawerOpen: false,
   v92DrawerKey: "alerts",
   v92Impact: null,
+  v93ChecklistState: {},
+  v93CommandLog: [],
+  v93ActivePanel: "command",
   liveAlertsStatus: null,
   liveAlertsPayload: null,
   liveAlertsStatusFetchState: "idle",
@@ -1508,7 +1511,7 @@ async function checkHealth() {
     const health = await getJson("/api/health");
     if (health && health.ok) {
       els.healthDot.className = "dot ok";
-      els.healthText.textContent = "Routes verified • static prototype";
+      els.healthText.textContent = "V9.3 functional UI • static/source-gated";
     } else {
       els.healthDot.className = "dot";
       els.healthText.textContent = "Static Prototype • Demo Data";
@@ -2971,60 +2974,93 @@ window.routeResearchPacket = (packetId, routeAction) => {
 
 
 const PICKAXE_V92_TOUR_STEPS = Object.freeze([
-  ["Alert", "One active research candidate stays visible; no dual hero confusion."],
-  ["Source Gate", "Manual source deck and timestamp proof must arrive first."],
-  ["Quote Gate", "Quote snapshot stays locked until server/provider proof exists."],
+  ["Active Alert", "One active research candidate stays visually dominant with character, bias, and gate status."],
+  ["Source Gate", "Manual source checklist and timestamp requirement must be satisfied before any public research."],
+  ["Quote Snapshot Gate", "Quote snapshot remains locked until server/provider proof and timestamp validation exist."],
   ["Options Chain Gate", "No strike, expiry, bid/ask, IV, Greeks, volume, or OI without a verified chain."],
-  ["Risk Gate", "Counter-thesis and invalidation stay mandatory before CEO B review."],
-  ["CEO B Gate", "Final discipline gate blocks public display and exact contract unlock."],
-  ["Archive Lesson", "Reviewed outcomes become manual lessons only after postmortem."],
+  ["Risk / Invalidation", "Counter-thesis, invalidation, options-risk warning, and research-only rules remain mandatory."],
+  ["CEO B Gate", "CEO B remains final manual gate before exact contract, public display, or any release."],
+  ["Archive Lesson", "Archive drafts stay local/manual lessons until postmortem evidence exists."],
+  ["Provider Boundary", "Hosted static runtime blocks provider/live calls; local diagnostics stay locked and source-gated."],
 ]);
 
 const PICKAXE_V92_MODULES = Object.freeze({
-  alerts: ["Alerts Desk", "Active candidate, watchlist, local review actions, exact contract lock."],
-  source: ["Source Hub", "Manual source deck, receipt proof, timestamp gate, hosted static guard."],
-  risk: ["Risk & Rules", "No financial advice, no execution, invalidation required."],
-  options: ["Options Hub", "Chain snapshot harness remains locked; exact contract blocked."],
-  habitat: ["AI Habitat OS", "Hermes operator, Codex auditor, CEO B gate, no autonomous external action."],
-  roadmap: ["Roadmap", "V9.2 visual transformation now; provider/live work remains blocked."],
+  alerts: ["Alerts Desk", "Billionaire command cockpit: active candidate, watchlist, visible console, exact contract lock."],
+  mission: ["Mission Control", "Route-level operating map, source/risk/CEO B sequence, archive discipline."],
+  source: ["Source Hub", "Manual source checklist, source type selector, locked receipt, timestamp gate."],
+  risk: ["Risk & Rules", "Discipline checklist, invalidation requirement, research-only and CEO B rules."],
+  options: ["Options Hub", "Locked chain lab, contract gate checklist, liquidity/spread/IV/OI placeholders."],
+  habitat: ["AI Habitat OS", "Hermes builder, Codex auditor, CEO B final gate, memory/source/alerts model."],
+  roadmap: ["Roadmap", "V9.3 current baseline, next provider-boundary checklist, later verified ingestion."],
 });
 
 function getPickaxeV92ImpactFallback() {
-  return state.v92Impact || {
+  const latest = state.v93CommandLog?.[0];
+  return latest || state.v92Impact || {
     title: "CEO B COMMAND CENTER READY",
-    label: "Select a ticker or run a local action to update this live command console.",
+    label: "Run a command, select a ticker, or complete a local checklist to update the live-feeling console.",
     detail: "Local UI only · research only · no provider call · no broker execution · no external action.",
     action: "standby",
   };
 }
 
 function setPickaxeV92Impact(payload = {}) {
-  state.v92Impact = {
+  const item = {
     title: payload.title || "LOCAL ACTION UPDATED",
     label: payload.label || "Local UI action completed safely.",
     detail: payload.detail || "No external action. No provider call. No persistence.",
     action: payload.action || "local",
+    scope: payload.scope || "CEO B Console",
   };
+  state.v92Impact = item;
+  state.v93CommandLog = [item, ...(state.v93CommandLog || [])].slice(0, 8);
 }
 
 function renderPickaxeV92GateRail() {
-  const steps = ["Watchlist", "Alert Candidate", "Source", "Quote", "Options Chain", "Risk", "CEO B", "Archive"];
+  const steps = ["Watchlist", "Signal Candidate", "Source Verification", "Quote Snapshot", "Options Chain", "Stale Firewall", "Risk Gate", "CEO B Gate", "Archive Lesson"];
   return `
-    <ol class="v92-gate-rail" aria-label="Pickaxe source-gated operating rail">
-      ${steps.map((step, index) => `<li class="${index < 2 ? "is-lit" : "is-locked"}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(step)}</strong><em>${index < 2 ? "VISIBLE" : "LOCKED"}</em></li>`).join("")}
+    <ol class="v93-gate-rail v92-gate-rail" aria-label="Pickaxe source-gated operating rail">
+      ${steps.map((step, index) => `<li class="${index < 2 ? "is-lit" : "is-locked"}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(step)}</strong><em>${index < 2 ? "ACTIVE" : "LOCKED"}</em></li>`).join("")}
     </ol>
   `;
 }
 
 function renderPickaxeV92VisualSystemMap() {
-  const nodes = ["Watchlist", "Alert Candidate", "Source Verification", "Quote Snapshot", "Options Chain", "Risk / Inval", "CEO B Gate", "Archive Lesson"];
+  const nodes = ["Watchlist", "Signal Candidate", "Source Verification", "Quote Snapshot", "Options Chain", "Stale Firewall", "Risk Gate", "CEO B Gate", "Archive Lesson"];
   return `
-    <section class="v92-system-map" aria-label="Visual operating map">
-      <header><small>Operating Map</small><strong>Source-gated options research path</strong></header>
-      <div class="v92-map-track">
-        ${nodes.map((node, index) => `<button type="button" class="${index < 2 ? "is-active" : "is-locked"}" onclick="window.pickaxeV92OpenModuleDrawer('${index < 2 ? "alerts" : index < 4 ? "source" : index < 5 ? "options" : index < 6 ? "risk" : index < 7 ? "habitat" : "roadmap"}')"><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(node)}</strong><em>${index < 2 ? "current" : "locked"}</em></button>`).join("<i></i>")}
+    <section class="v93-system-map v92-system-map" aria-label="Visual operating map">
+      <header><small>Pickaxe Operating Map</small><strong>Source-gated options research OS</strong><button type="button" onclick="window.pickaxeV93LogAction('Operating Map', 'System map inspected', 'Watchlist → Source → Quote → Chain → Risk → CEO B → Archive remains locked and visible.', 'map')">Mark Reviewed</button></header>
+      <div class="v92-map-track v93-map-track">
+        ${nodes.map((node, index) => `<button type="button" class="${index < 2 ? "is-active" : "is-locked"}" onclick="window.pickaxeV92OpenModuleDrawer('${index < 2 ? "alerts" : index < 4 ? "source" : index < 5 ? "options" : index < 7 ? "risk" : index < 8 ? "habitat" : "roadmap"}')"><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(node)}</strong><em>${index < 2 ? "current" : "locked"}</em></button>`).join("<i></i>")}
       </div>
     </section>
+  `;
+}
+
+function renderPickaxeV93WatchTape(selected) {
+  return `
+    <section class="v93-watch-tape" aria-label="Premium watchlist command rail">
+      <header><strong>Watchlist Command Rail</strong><span>${PICKAXE_ALERTS_01_WATCHLIST.length} static candidates · no fake market data</span></header>
+      <div>
+        ${PICKAXE_ALERTS_01_WATCHLIST.map((item) => {
+          const profile = getPickaxeAlerts01ActiveAlertProfile(item);
+          const active = item.ticker === selected.ticker;
+          return `<button type="button" class="${active ? "is-active" : ""} ${profile.isBearish ? "is-bearish" : "is-bullish"}" onclick="window.pickaxeAlerts01Select(${pickaxeAlerts01JsArg(item.ticker)})"><strong>${escapeHtml(item.ticker)}</strong><small>${escapeHtml(profile.isBearish ? "Bearish gate" : "Bullish gate")}</small><span>${escapeHtml(getPickaxeAlerts01CandidateSide(item, profile))}</span></button>`;
+        }).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderPickaxeV93GateVault(selected) {
+  const rows = [["Source", "manual required"], ["Timestamp", "NULL / required"], ["Quote", "locked"], ["Options Chain", "locked"], ["Exact Contract", "blocked"], ["CEO B", "required"]];
+  return `
+    <aside class="v93-gate-vault" aria-label="Exact contract gate vault">
+      <span>Exact Contract Vault</span>
+      <strong>${escapeHtml(selected.ticker)} CONTRACT BLOCKED</strong>
+      <p>No verified quote snapshot, no verified options chain, no fake strike/expiry/bid/ask/IV/Greeks/volume/OI.</p>
+      <div>${rows.map(([k,v]) => `<button type="button" onclick="window.pickaxeV93LogAction('Gate Vault', '${escapeHtml(k)} checked', '${escapeHtml(v)} · source/provider boundary preserved.', 'gate')"><span>${escapeHtml(k)}</span><em>${escapeHtml(v)}</em></button>`).join("")}</div>
+    </aside>
   `;
 }
 
@@ -3032,52 +3068,51 @@ function renderPickaxeV92CommandCenterHero(selected, liveStatus) {
   const profile = getPickaxeAlerts01ActiveAlertProfile(selected);
   const impact = getPickaxeV92ImpactFallback();
   return `
-    <section class="v92-command-hero ${profile.isBearish ? "is-bearish" : "is-bullish"}" aria-label="V9.2 cinematic command-center hero">
+    <section class="v93-command-hero v92-command-hero ${profile.isBearish ? "is-bearish" : "is-bullish"}" aria-label="V9.3 billionaire functional command center">
       <div class="v92-hero-glow" aria-hidden="true"></div>
-      <div class="v92-hero-main">
-        <div class="v92-hero-copy">
-          <p class="v92-kicker"><span></span>V9.2 Visual Product Transformation · Static Research OS</p>
-          <h1>Pickaxe Capital <em>Command Center</em></h1>
-          <p class="v92-hero-lede">Premium source-gated options intelligence. One active candidate, visible gate rail, CEO B discipline, no fake data, no external action.</p>
-          <div class="v92-hero-actions" aria-label="V9.2 command actions">
-            <button type="button" onclick="window.pickaxeV92OpenCommandLauncher()">CEO B Command Launcher <kbd>/</kbd></button>
-            <button type="button" onclick="window.pickaxeV92RunTour()">Run System Tour</button>
-            <button type="button" onclick="window.pickaxeV92OpenModuleDrawer('alerts')">Open Module Drawer</button>
+      <div class="v93-hero-shell">
+        <div class="v93-hero-copy">
+          <p class="v92-kicker"><span></span>V9.3 Billionaire Functional UI · Static Research OS</p>
+          <h1>Pickaxe Capital <em>War Room</em></h1>
+          <p class="v92-hero-lede">Premium hedge-fund intelligence terminal. Live-feeling local controls, source-gated options research, CEO B discipline, no fake data, no external action.</p>
+          <div class="v92-hero-actions" aria-label="V9.3 command actions">
+            <button type="button" onclick="window.pickaxeV92OpenCommandLauncher()">CEO B Launcher <kbd>/</kbd></button>
+            <button type="button" onclick="window.pickaxeV92RunTour()">Guided System Tour</button>
+            <button type="button" onclick="window.pickaxeV92OpenModuleDrawer('alerts')">Module Drawer</button>
+            <button type="button" onclick="window.pickaxeV92Command('safety','shield')">Run Local Safety Check</button>
           </div>
         </div>
-        <aside class="v92-active-asset" aria-label="Active ticker command capsule">
-          <div class="v92-character-ring">${renderPickaxeAlerts01Character(profile.isBearish)}</div>
-          <div>
-            <span>Active Candidate</span>
-            <strong>${escapeHtml(selected.ticker)}</strong>
-            <em>${escapeHtml(profile.tone.title)}</em>
-          </div>
-        </aside>
+        <article class="v93-active-card" aria-label="Active alert command card">
+          <div class="v93-character-stage">${renderPickaxeAlerts01Character(profile.isBearish)}</div>
+          <div class="v93-active-copy"><span>Active Candidate</span><strong>${escapeHtml(selected.ticker)}</strong><em>${escapeHtml(profile.tone.title)}</em><p>${escapeHtml(selected.setupMode)} · exact contract blocked until source/quote/chain/risk/CEO B gates pass.</p></div>
+        </article>
+        ${renderPickaxeV93GateVault(selected)}
       </div>
-      <div class="v92-status-grid" aria-label="Current system status">
-        ${[["SYSTEM", "STATIC RUNTIME"], ["QUOTE", "LOCKED"], ["OPTIONS", "CHAIN REQUIRED"], ["PUBLIC DISPLAY", "LOCKED"], ["CEO B", "GATE REQUIRED"], ["ACTION", "NO EXTERNAL ACTION"]].map(([k,v]) => `<div><span>${escapeHtml(k)}</span><strong>${escapeHtml(v)}</strong></div>`).join("")}
+      <div class="v92-status-grid v93-status-grid" aria-label="Current system status">
+        ${[["SYSTEM", "STATIC RUNTIME"], ["UI", "LIVE-FEELING"], ["QUOTE", "LOCKED"], ["OPTIONS", "CHAIN REQUIRED"], ["PUBLIC DISPLAY", "LOCKED"], ["CEO B", "FINAL GATE"], ["ACTION", "NO EXTERNAL ACTION"], ["BASELINE", "V9.3 WORKING"]].map(([k,v]) => `<button type="button" onclick="window.pickaxeV93LogAction('Status Strip', '${escapeHtml(k)}', '${escapeHtml(v)} · visible local status only.', 'status')"><span>${escapeHtml(k)}</span><strong>${escapeHtml(v)}</strong></button>`).join("")}
       </div>
-      <div class="v92-war-room" aria-label="Founder war-room readout">
-        ${[["01", "Command", "One active candidate only"], ["02", "Verification", "Source → quote → chain locked"], ["03", "Discipline", "CEO B gate blocks public display"]].map(([num, title, body]) => `<article><span>${num}</span><strong>${escapeHtml(title)}</strong><p>${escapeHtml(body)}</p></article>`).join("")}
-      </div>
-      ${renderPickaxeV92GateRail()}
+      ${renderPickaxeV93WatchTape(selected)}
+      ${renderPickaxeV92VisualSystemMap()}
       ${renderPickaxeV92ActionConsole(impact)}
     </section>
   `;
 }
 
 function renderPickaxeV92ActionConsole(impact = getPickaxeV92ImpactFallback()) {
+  const log = state.v93CommandLog?.length ? state.v93CommandLog : [impact];
   return `
-    <section class="v92-action-console" aria-live="polite" aria-label="Visible local action result console">
-      <div><span>${escapeHtml(impact.title)}</span><strong>${escapeHtml(impact.label)}</strong><p>${escapeHtml(impact.detail)}</p></div>
-      <aside><b>${escapeHtml(String(impact.action || "local").toUpperCase())}</b><em>LOCAL UI ONLY</em></aside>
+    <section class="v93-action-console v92-action-console" aria-live="polite" aria-label="Persistent CEO B command log and visible action result console" data-action-result-dock="v93">
+      <header><div><span>${escapeHtml(impact.title)}</span><strong>${escapeHtml(impact.label)}</strong><p>${escapeHtml(impact.detail)}</p></div><aside><b>${escapeHtml(String(impact.action || "local").toUpperCase())}</b><em>LOCAL UI ONLY</em></aside></header>
+      <div class="v93-command-log" aria-label="Recent local command log">
+        ${log.slice(0,6).map((entry, index) => `<article class="${index === 0 ? "is-latest" : ""}"><span>${String(index + 1).padStart(2,"0")}</span><div><strong>${escapeHtml(entry.title)}</strong><p>${escapeHtml(entry.label)}</p><small>${escapeHtml(entry.detail)}</small></div><em>${escapeHtml(entry.action || "local")}</em></article>`).join("")}
+      </div>
     </section>
   `;
 }
 
 function renderPickaxeV92ModuleShelf(activeKey = "alerts") {
   return `
-    <section class="v92-module-shelf" aria-label="Interactive module drawer launcher">
+    <section class="v93-module-shelf v92-module-shelf" aria-label="Interactive module drawer launcher">
       ${Object.entries(PICKAXE_V92_MODULES).map(([key, [title, body]], index) => `<button type="button" class="${key === activeKey ? "is-active" : ""}" onclick="window.pickaxeV92OpenModuleDrawer('${key}')"><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(title)}</strong><small>${escapeHtml(body)}</small></button>`).join("")}
     </section>
   `;
@@ -3086,9 +3121,10 @@ function renderPickaxeV92ModuleShelf(activeKey = "alerts") {
 function renderPickaxeV92CommandLauncher() {
   if (!state.v92CommandOpen) return "";
   const actions = [
-    ["Open Alerts Desk", "#/alerts", "alerts"], ["Open Source Hub", "#/source-hub", "source"], ["Open Options Hub", "#/options", "options"],
-    ["Open Risk & Rules", "#/risk-rules", "risk"], ["Open AI Habitat OS", "#/ai-habitat-os", "habitat"], ["Open Roadmap", "#/roadmap", "roadmap"],
-    ["Run Local Safety Check", "safety", "shield"], ["Show Current Locked Baseline", "baseline", "lock"],
+    ["Open Alerts Desk", "#/alerts", "alerts"], ["Open Mission Control", "#/mission-control", "mission"], ["Open Source Hub", "#/source-hub", "source"],
+    ["Open Options Hub", "#/options", "options"], ["Open Risk & Rules", "#/risk-rules", "risk"], ["Open AI Habitat OS", "#/ai-habitat-os", "habitat"],
+    ["Open Roadmap", "#/roadmap", "roadmap"], ["Run Local Safety Check", "safety", "shield"], ["Show Current Baseline", "baseline", "lock"],
+    ["Show Provider Boundary", "provider-boundary", "boundary"],
   ];
   return `
     <div class="v92-overlay" role="dialog" aria-modal="true" aria-label="CEO B Command Launcher">
@@ -3154,7 +3190,9 @@ window.pickaxeV92RunTour = () => { state.v92TourOpen = true; state.v92CommandOpe
 window.pickaxeV92TourStep = (delta) => { const next = (state.v92TourStep || 0) + Number(delta || 0); if (next >= PICKAXE_V92_TOUR_STEPS.length) { state.v92TourOpen = false; setPickaxeV92Impact({ title: "SYSTEM TOUR COMPLETE", label: "CEO B gate path reviewed locally.", detail: "Tour completed with no external action.", action: "tour-complete" }); } else { state.v92TourStep = Math.max(0, next); } refreshPickaxeV92View(); };
 window.pickaxeV92OpenModuleDrawer = (key = "alerts") => { state.v92DrawerKey = PICKAXE_V92_MODULES[key] ? key : "alerts"; state.v92DrawerOpen = true; state.v92CommandOpen = false; state.v92TourOpen = false; const mod = PICKAXE_V92_MODULES[state.v92DrawerKey]; setPickaxeV92Impact({ title: "MODULE DRAWER", label: `${mod[0]} drawer opened · local UI detail active.`, detail: mod[1], action: "drawer" }); refreshPickaxeV92View(); };
 window.pickaxeV92CloseOverlays = () => { state.v92CommandOpen = false; state.v92TourOpen = false; state.v92DrawerOpen = false; refreshPickaxeV92View(); };
-window.pickaxeV92Command = (target, key) => { if (target === "safety") { setPickaxeV92Impact({ title: "LOCAL SAFETY CHECK", label: "Safety check visible · provider/live/execution remain blocked.", detail: "Research only, no fake data, no broker execution, no external action.", action: "safety" }); state.v92CommandOpen = false; refreshPickaxeV92View(); return; } if (target === "baseline") { setPickaxeV92Impact({ title: "LOCKED BASELINE", label: "V9.1 hosted verified baseline preserved under V9.2 visual layer.", detail: "Baseline SHA 3cd7bae26afb145f1c40bfa9487dd5288cad9225.", action: "baseline" }); state.v92CommandOpen = false; refreshPickaxeV92View(); return; } state.v92CommandOpen = false; setPickaxeV92Impact({ title: "LOCAL NAVIGATION", label: `${key} route opened from command launcher.`, detail: "Navigation only · no provider call · no external action.", action: "nav" }); window.location.hash = target; };
+window.pickaxeV93LogAction = (title, label, detail, action = "local") => { setPickaxeV92Impact({ title, label, detail, action }); refreshPickaxeV92View(); };
+window.pickaxeV93ToggleChecklist = (scope, key, label) => { state.v93ChecklistState = state.v93ChecklistState || {}; state.v93ChecklistState[scope] = { ...(state.v93ChecklistState[scope] || {}), [key]: !state.v93ChecklistState[scope]?.[key] }; const done = Boolean(state.v93ChecklistState[scope][key]); setPickaxeV92Impact({ title: `${String(scope).toUpperCase()} CHECKLIST`, label: `${label}: ${done ? "checked" : "unchecked"}.`, detail: "Local checklist state only · no provider call · no persistence requirement · no external action.", action: "checklist" }); refreshPickaxeV92View(); };
+window.pickaxeV92Command = (target, key) => { if (target === "safety") { setPickaxeV92Impact({ title: "LOCAL SAFETY CHECK", label: "Safety check visible · provider/live/execution remain blocked.", detail: "Research only, no fake data, no broker execution, no external action, no alert delivery.", action: "safety" }); state.v92CommandOpen = false; refreshPickaxeV92View(); return; } if (target === "baseline") { setPickaxeV92Impact({ title: "CURRENT BASELINE", label: "V9.3 working branch from official V9.2 hosted baseline.", detail: "V9.2 final main/origin-main f48b205ed71a682bb85eee6694f1d2a0a3046b59; product commit bf03cf41a05eaf4cab2e2a6c131809c6a8d047f5.", action: "baseline" }); state.v92CommandOpen = false; refreshPickaxeV92View(); return; } if (target === "provider-boundary") { setPickaxeV92Impact({ title: "PROVIDER BOUNDARY", label: "Server-only credential boundary required before live data.", detail: "Hosted static runtime must not call provider/live APIs. Display rights, timestamp, stale firewall, and CEO B approval remain blockers.", action: "boundary" }); state.v92CommandOpen = false; refreshPickaxeV92View(); return; } state.v92CommandOpen = false; setPickaxeV92Impact({ title: "LOCAL NAVIGATION", label: `${key} route opened from command launcher.`, detail: "Route navigation only · no provider call · no external action.", action: "nav" }); window.location.hash = target; };
 window.addEventListener("keydown", (event) => { if (event.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || "")) { event.preventDefault(); window.pickaxeV92OpenCommandLauncher(); } if (event.key === "Escape" && (state.v92CommandOpen || state.v92TourOpen || state.v92DrawerOpen)) window.pickaxeV92CloseOverlays(); });
 
 const PICKAXE_V91_HARNESS_ACTIONS = Object.freeze({
@@ -3231,6 +3269,7 @@ function renderPickaxeV91Output(result = getPickaxeV91DefaultResult()) {
 
 function updatePickaxeV91Output(result) {
   state.pickaxeV91HarnessResult = result;
+  setPickaxeV92Impact({ title: result.title || "V9.1 DIAGNOSTIC", label: result.status || "Diagnostic updated", detail: result.detail || "Locked diagnostic output updated visibly.", action: "diagnostic" });
   document.querySelectorAll("[data-v91-output]").forEach((node) => { node.innerHTML = renderPickaxeV91Output(result); });
 }
 
@@ -3355,7 +3394,7 @@ const PICKAXE_V90_PAGE_BLUEPRINTS = Object.freeze({
     actions: [["Open Alerts", "#/alerts"], ["Open Research Desk", "#/research"], ["Open Risk Rules", "#/risk-rules"]]
   },
   sourceHub: {
-    number: "06", title: "Source Hub", kicker: "Verification command center", status: "V9.1 Harness / Locked",
+    number: "06", title: "Source Hub", kicker: "Verification command center", status: "V9.3 Source Console / Locked",
     purpose: "Organizes source receipts, timestamp requirements, manual source deck policy, and provider/live status boundaries.",
     route: "#/source-hub",
     lead: "Source required before signal. No live feed. No public display authorization without receipt, timestamp, attribution, stale firewall, and CEO B review.",
@@ -3383,7 +3422,7 @@ const PICKAXE_V90_PAGE_BLUEPRINTS = Object.freeze({
     actions: [["Review Alerts", "#/alerts"], ["Open Source Hub", "#/source-hub"]]
   },
   aiHabitatOS: {
-    number: "14", title: "AI Habitat OS", kicker: "Internal command center", status: "Hermes / V9.1 Local Proof",
+    number: "14", title: "AI Habitat OS", kicker: "Internal command center", status: "V9.3 Habitat Console / Locked",
     purpose: "Shows Hermes as builder/operator, Codex as read-only auditor, and CEO B as final approval gate.",
     route: "#/ai-habitat-os",
     lead: "Hermes builds. Codex audits high-risk claims. CEO B approves. Memory vault and agent habitat remain future-gated.",
@@ -3415,7 +3454,7 @@ const PICKAXE_V90_PAGE_BLUEPRINTS = Object.freeze({
     actions: [["Open Watchlists", "#/watchlists"], ["Open Source Hub", "#/source-hub"]]
   },
   options: {
-    number: "17", title: "Options Hub", kicker: "Options research shell", status: "V9.1 Chain Harness / Blocked",
+    number: "17", title: "Options Hub", kicker: "Options research shell", status: "V9.3 Options Lockbox / Blocked",
     purpose: "A locked options hub for future chain snapshots, liquidity checks, IV/Greeks, spreads, and exact-contract review.",
     route: "#/options",
     lead: "No verified options chain means no exact contract. Bid/ask, volume, OI, IV, Greeks, strikes, and expirations remain locked.",
@@ -3460,10 +3499,10 @@ const PICKAXE_V90_PAGE_BLUEPRINTS = Object.freeze({
     actions: [["Open Learning Ledger", "#/learning-ledger"], ["Open Source Hub", "#/source-hub"]]
   },
   roadmap: {
-    number: "20", title: "Roadmap", kicker: "Build sequence", status: "V9.1 Provider Proof / Static Guard",
+    number: "20", title: "Roadmap", kicker: "Build sequence", status: "V9.3 Functional UI / Static Guard",
     purpose: "Shows what is locked, what comes next, and which future phases require hard safety gates.",
     route: "#/roadmap",
-    lead: "Locked: V9.0 Website Completion. V9.1 adds local server-only provider proof endpoints with locked quote/options/source/gate schemas; hosted runtime remains static and blocked.",
+    lead: "Locked: V9.2 visual hosted baseline. Current: V9.3 functional UI redesign. Next: provider credential boundary and display-right checklist. Later: verified quote/options ingestion, scoring, and postmortem persistence.",
     modules: [["Locked", "V8.4 provider adapter sandbox hosted verified; V9.0 website shell preserves it."], ["Next", "Server-side provider proof and quote snapshot test harness require separate authorization."], ["Later", "Options-chain ingestion, source library, scoring, postmortem persistence, mobile polish."], ["Never Without Approval", "Credentials, provider calls, server changes, execution, payment, auth, broker, alert delivery."]],
     gates: ["Forward-only releases", "No force push", "Safety branch first", "CEO B command required"],
     actions: [["Open Alerts", "#/alerts"], ["Open AI Habitat OS", "#/ai-habitat-os"]]
@@ -3487,6 +3526,83 @@ const PICKAXE_V90_PAGE_BLUEPRINTS = Object.freeze({
     actions: [["Open Alerts", "#/alerts"], ["Open Roadmap", "#/roadmap"]]
   }
 });
+
+function getPickaxeV93Checklist(scope) {
+  state.v93ChecklistState = state.v93ChecklistState || {};
+  return state.v93ChecklistState[scope] || {};
+}
+
+function renderPickaxeV93Checklist(scope, rows) {
+  const current = getPickaxeV93Checklist(scope);
+  return `<div class="v93-checklist" data-v93-checklist="${escapeHtml(scope)}">${rows.map(([key, label, detail]) => {
+    const on = Boolean(current[key]);
+    return `<button type="button" class="${on ? "is-on" : ""}" onclick="window.pickaxeV93ToggleChecklist('${escapeHtml(scope)}','${escapeHtml(key)}','${escapeHtml(label)}')"><span>${on ? "✓" : "○"}</span><strong>${escapeHtml(label)}</strong><small>${escapeHtml(detail)}</small></button>`;
+  }).join("")}</div>`;
+}
+
+function renderPickaxeV93RouteUtility(page) {
+  if (!page) return "";
+  const title = page.title;
+  if (title === "Source Hub") {
+    return `
+      <section class="v93-route-lab v93-source-lab" aria-label="Source Hub usability controls">
+        <header><small>V9.3 Source Evidence Vault</small><h3>Manual source readiness console</h3><p>No fake sources. No fake timestamp. Receipt preview remains locked until source identity, timestamp, display rights, and CEO B review exist.</p></header>
+        <div class="v93-lab-grid">
+          <article><span>Source Type Selector</span><div class="v93-pill-row">${["Company filing", "News wire", "Exchange data", "Manual note"].map((item) => `<button type="button" onclick="window.pickaxeV93LogAction('Source Type', '${escapeHtml(item)} selected', 'Local selector only · no feed, scrape, or provider call.', 'source')">${escapeHtml(item)}</button>`).join("")}</div></article>
+          <article><span>Manual Source Checklist</span>${renderPickaxeV93Checklist("source", [["identity","Source identity required","Who/what published it"],["timestamp","Timestamp required","No verified timestamp yet"],["rights","Display rights required","Public display locked"],["crosscheck","Cross-check required","CEO B needs evidence"],["receipt","Receipt not issued","Preview remains locked"]])}</article>
+          <article class="v93-locked-preview"><span>Receipt Preview</span><strong>RECEIPT ID: NOT ISSUED</strong><p>Timestamp: NULL · Provider/live status: LOCKED · Source confidence: LOCKED · Public display: BLOCKED.</p><button type="button" onclick="window.pickaxeV93LogAction('Source Receipt Preview', 'Receipt remains locked', 'No fake source, no fake timestamp, no public display authorization.', 'receipt')">Inspect Locked Receipt</button></article>
+        </div>
+      </section>`;
+  }
+  if (title === "Risk & Rules") {
+    return `
+      <section class="v93-route-lab v93-risk-lab" aria-label="Risk and rules usability controls">
+        <header><small>V9.3 Discipline Console</small><h3>Risk gate checklist</h3><p>Risk is the product. Invalidation, options risk, research-only language, and CEO B approval are visible local gates.</p></header>
+        <div class="v93-lab-grid">
+          <article><span>Risk Checklist</span>${renderPickaxeV93Checklist("risk", [["invalidation","Invalidation required","No setup proceeds without a failure line"],["contract","Exact contract locked","No verified chain, no exact contract"],["optionsRisk","Options risk warning","Options involve substantial risk"],["researchOnly","Research-only rule","No buy/sell instruction"],["ceob","CEO B approval rule","Final manual gate required"]])}</article>
+          <article class="v93-locked-preview"><span>Rule Outcome</span><strong>PUBLIC OUTPUT BLOCKED</strong><p>Any missing source/risk/options/CEO B item blocks public display and exact contract unlock.</p><button type="button" onclick="window.pickaxeV93LogAction('Risk Rules', 'Risk discipline inspected', 'Research only · not financial advice · no broker execution · no external action.', 'risk')">Run Local Risk Check</button></article>
+        </div>
+      </section>`;
+  }
+  if (title === "Options Hub") {
+    return `
+      <section class="v93-route-lab v93-options-lab" aria-label="Options Hub locked research lab controls">
+        <header><small>V9.3 Options Chain Lockbox</small><h3>Contract gate and chain requirements</h3><p>No verified options chain means no exact contract. Every market field remains LOCKED / NULL / SOURCE REQUIRED.</p></header>
+        <div class="v93-chain-skeleton" aria-label="Locked options chain skeleton">
+          ${["Strike", "Expiration", "Bid", "Ask", "Spread", "Volume", "OI", "IV", "Greeks"].map((item) => `<button type="button" onclick="window.pickaxeV93LogAction('Options Lockbox', '${escapeHtml(item)} remains locked', 'No verified chain · no fake option field displayed.', 'options')"><span>${escapeHtml(item)}</span><strong>LOCKED</strong></button>`).join("")}
+        </div>
+        <div class="v93-lab-grid">
+          <article><span>Chain Requirements</span>${renderPickaxeV93Checklist("options", [["quote","Quote snapshot dependency","No verified quote snapshot"],["chain","Options chain required","No provider chain active"],["liquidity","Liquidity requirements","Spread/volume/OI locked"],["risk","Risk dependency","IV/Greeks/event risk locked"],["ceob","CEO B contract gate","Exact contract blocked"]])}</article>
+          <article class="v93-locked-preview"><span>Contract Decision Gate</span><strong>NO EXACT CONTRACT</strong><p>Requires quote snapshot, options-chain snapshot, stale firewall pass, display rights, and CEO B source/risk approval.</p><button type="button" onclick="window.pickaxeV91HarnessAction('options','MSFT')">Options Chain Test</button><button type="button" onclick="window.pickaxeV91HarnessAction('quote','MSFT')">Quote Snapshot Test</button><button type="button" onclick="window.pickaxeV91HarnessAction('gate','MSFT')">Gate Evaluator Test</button></article>
+        </div>
+      </section>`;
+  }
+  if (title === "AI Habitat OS") {
+    const agents = [["Hermes", "Builder / operator", "ACTIVE LOCAL BUILDER"], ["Codex", "Read-only auditor", "AUDIT MODE"], ["CEO B", "Final review gate", "FINAL APPROVAL"], ["Memory Vault", "Future persistence", "LOCKED"], ["Source Hub", "Verification", "MANUAL"], ["Alerts Desk", "Product surface", "LIVE-FEELING UI"]];
+    return `
+      <section class="v93-route-lab v93-habitat-lab" aria-label="AI Habitat OS agent status controls">
+        <header><small>V9.3 AI Habitat OS</small><h3>Agent operating model</h3><p>Hermes builds, Codex audits, CEO B gates. No autonomous external action, no hidden persistence, no live provider behavior.</p></header>
+        <div class="v93-agent-grid">${agents.map(([name, role, status]) => `<button type="button" onclick="window.pickaxeV93LogAction('AI Habitat OS', '${escapeHtml(name)} inspected', '${escapeHtml(role)} · ${escapeHtml(status)} · local status only.', 'agent')"><strong>${escapeHtml(name)}</strong><span>${escapeHtml(role)}</span><em>${escapeHtml(status)}</em></button>`).join("")}</div>
+        ${renderPickaxeV93Checklist("habitat", [["scope","Hermes scope checked","Builder/operator stays inside allowed files"],["audit","Codex audit checked","Read-only review, no release authority"],["ceob","CEO B gate checked","Final command identity remains required"],["memory","Memory vault locked","No hidden persistence added"],["external","External action blocked","No autonomous publishing or provider activation"]])}
+      </section>`;
+  }
+  if (title === "Roadmap") {
+    const phases = [["Locked", "V9.2 / V9.3 visual baseline", "Hosted baseline and current functional UI redesign are source-gated."], ["Current", "Billionaire functional UI", "Make routes usable, controls visible, mobile premium, no fake data."], ["Next", "Provider credential boundary", "Separate CEO B approval, server-only credentials, display rights, timestamp/stale firewall."], ["Later", "Verified ingestion", "Quote ingestion, options-chain ingestion, scoring engine, postmortem persistence."], ["Never", "Forbidden without approval", "Broker/execution/auth/payment/subscription/alert delivery remain blocked."]];
+    return `
+      <section class="v93-route-lab v93-roadmap-lab" aria-label="V9.3 roadmap phase lanes">
+        <header><small>Founder Build Runway</small><h3>V9.3 release rail</h3><p>The roadmap now shows current baseline, next boundary work, later verified ingestion, and hard blocked behaviors.</p></header>
+        <div class="v93-phase-lanes">${phases.map(([lane,title,body], i) => `<button type="button" class="${i < 2 ? "is-current" : i === phases.length - 1 ? "is-blocked" : ""}" onclick="window.pickaxeV93LogAction('Roadmap', '${escapeHtml(title)}', '${escapeHtml(body)}', 'roadmap')"><span>${escapeHtml(lane)}</span><strong>${escapeHtml(title)}</strong><p>${escapeHtml(body)}</p></button>`).join("")}</div>
+      </section>`;
+  }
+  if (title === "Mission Control") {
+    return `
+      <section class="v93-route-lab v93-mission-lab" aria-label="Mission Control flight deck">
+        <header><small>Mission Control Flight Deck</small><h3>Intake → Source → Risk → CEO B → Archive</h3><p>The old demo route is now framed as a disciplined operating runway, with no external action and no fake live data.</p></header>
+        <div class="v93-phase-lanes">${["Intake", "Source", "Risk", "CEO B", "Archive", "Learning"].map((step, i) => `<button type="button" onclick="window.pickaxeV93LogAction('Mission Control', '${escapeHtml(step)} gate inspected', 'Static route gate ${i+1} reviewed locally. No external action.', 'mission')"><span>${String(i+1).padStart(2,'0')}</span><strong>${escapeHtml(step)}</strong><p>${i < 1 ? 'Active route frame' : 'Gate required'}</p></button>`).join("")}</div>
+      </section>`;
+  }
+  return "";
+}
 
 function renderV90StatusChips(page) {
   const chips = [page.status, ...(page.gates || [])].slice(0, 7);
@@ -3521,7 +3637,8 @@ function renderV90PageShell(page) {
           </article>
         `).join("")}
       </section>
-      ${["Source Hub", "Options Hub", "Roadmap", "AI Habitat OS", "Risk & Rules", "Mission Control"].includes(page.title) ? `<div class="v92-page-upgrade">${renderPickaxeV92VisualSystemMap()}${renderPickaxeV92ModuleShelf(page.title === "Options Hub" ? "options" : page.title === "Source Hub" ? "source" : page.title === "Risk & Rules" ? "risk" : page.title === "AI Habitat OS" ? "habitat" : page.title === "Roadmap" ? "roadmap" : "alerts")}</div>` : ""}
+      ${["Source Hub", "Options Hub", "Roadmap", "AI Habitat OS", "Risk & Rules", "Mission Control"].includes(page.title) ? `<div class="v92-page-upgrade">${renderPickaxeV92VisualSystemMap()}${renderPickaxeV92ModuleShelf(page.title === "Options Hub" ? "options" : page.title === "Source Hub" ? "source" : page.title === "Risk & Rules" ? "risk" : page.title === "AI Habitat OS" ? "habitat" : page.title === "Roadmap" ? "roadmap" : page.title === "Mission Control" ? "mission" : "alerts")}${renderPickaxeV92ActionConsole()}</div>` : ""}
+      ${renderPickaxeV93RouteUtility(page)}
       ${["Source Hub", "Options Hub", "Roadmap", "AI Habitat OS"].includes(page.title) ? renderPickaxeV91ProviderProofPanel(page.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")) : ""}
       <footer class="v90-footer-gate">
         <div>
@@ -12576,7 +12693,7 @@ function renderPickaxeAlerts01PremiumHeader(selected, liveStatus) {
   return `
     <header class="pa-v81-simple-header pa-v82-intelligence-header pa-v83-provider-header pa-v84-sandbox-header">
       <div class="pa-v81-simple-title">
-        <span><i></i>V9.2 · VISUAL COMMAND CENTER · STATIC LOCKED</span>
+        <span><i></i>V9.3 · BILLIONAIRE FUNCTIONAL UI · STATIC LOCKED</span>
         <h1 id="pickaxeAlerts01Title">ALERTS <em>DESK</em></h1>
         <p>One active options research candidate · provider adapter, quote snapshot, chain snapshot, stale firewall, display, and CEO B gates before approval</p>
       </div>
@@ -12993,7 +13110,7 @@ function renderPickaxeAlerts01Cockpit(rows, sourceStatus) {
   const liveStatus = sourceStatus.liveAlertsStatus || getAlertsLiveStatus();
   const selected = getPickaxeAlerts01WatchlistItem();
   return `
-    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple pa-v81-final pa-v82-intelligence pa-v83-provider-gate pa-v84-provider-sandbox" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v9-2-visual-transformation" data-alerts-runtime="static-source-gated" data-alerts-surface="visual-product-transformation-v9-2">
+    <section class="pickaxe-alerts-01 pa-v8 pa-v81 pa-v81-simple pa-v81-final pa-v82-intelligence pa-v83-provider-gate pa-v84-provider-sandbox" aria-labelledby="pickaxeAlerts01Title" data-alerts-cockpit-version="v9-3-billionaire-functional-ui" data-alerts-runtime="static-source-gated" data-alerts-surface="billionaire-functional-ui-v9-3">
       <div class="pa-noise" aria-hidden="true"></div>
       ${renderPickaxeAlerts01AssetFilters()}
       ${renderPickaxeV92CommandCenterHero(selected, liveStatus)}

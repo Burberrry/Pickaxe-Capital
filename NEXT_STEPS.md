@@ -1,3 +1,13 @@
+# Next Steps — Pickaxe Capital V9.3
+
+Updated: 2026-07-01T08:40:27Z
+
+Current checkpoint: V9.3 Billionaire Functional UI local candidate validated; hosted promotion allowed only if forward-promotion, hosted cache/runtime checks, hosted route QA, hosted no-provider-call checks, and second deployment status record pass.
+
+Screenshot limitation is active: screenshot automation check was blocked; no retry/no workaround. If CEO B requires screenshot/contact-sheet proof, perform manual visual review or provide a separately approved safe screenshot workflow.
+
+Do not start V9.4. Do not activate providers/live data. Do not touch `investor-assets/`.
+
 # Pickaxe Capital Next Steps
 
 ## Current Active Checkpoint
